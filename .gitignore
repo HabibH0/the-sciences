@@ -1,0 +1,7 @@
+node_modules/
+*.log
+save-data.json
+save-data.backup.json
+dist/
+.module-gen/
+.claude/

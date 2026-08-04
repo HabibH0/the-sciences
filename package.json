@@ -1,0 +1,20 @@
+{
+  "name": "nahw-trainer",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "main": "main.cjs",
+  "description": "Classical Arabic grammar (نحو) trainer — lessons, quizzes, and drills generated from an Anki deck.",
+  "scripts": {
+    "start": "electron .",
+    "validate": "node scripts/validate-content.mjs",
+    "package": "electron-packager . \"An-Nahw\" --platform=win32 --arch=x64 --out=dist --overwrite --ignore=\"^/dist($|/)\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^43.2.0",
+    "electron-packager": "^17.1.2"
+  }
+}

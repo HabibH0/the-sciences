@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-26001dcf-1117-41df-b3e0-87e93c0c7507/styles.css">
+<script src="_ds/classical-26001dcf-1117-41df-b3e0-87e93c0c7507/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: var(--color-accent); text-decoration: none; }
+  a:hover { color: var(--color-accent-600); text-decoration: underline; }
+  input[type=range] { accent-color: var(--color-accent); }
+</style>
+</helmet>
+
+<div style="{{ shellStyle }}">
+
+  <header style="position: relative; z-index: 2; display: flex; align-items: baseline; justify-content: space-between; gap: 32px; padding: 22px 56px 18px; border-bottom: 1px solid var(--color-divider);">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <span style="font-family: 'Reem Kufi', serif; font-size: 26px; color: var(--color-accent); line-height: 1;">نحو</span>
+      <span style="width: 1px; height: 22px; background: var(--color-divider);"></span>
+      <span style="font-family: var(--font-heading); font-size: 21px; letter-spacing: 0.01em;">Nahw Trainer</span>
+    </div>
+    <nav style="display: flex; align-items: baseline; gap: 26px; font-family: var(--font-heading); font-size: 14.5px;">
+      <span onClick="{{ goHome }}" style="{{ homeTabStyle }}">Home</span>
+      <span style="color: color-mix(in srgb, var(--color-text) 48%, transparent); cursor: default;">Lessons</span>
+      <span style="color: color-mix(in srgb, var(--color-text) 48%, transparent); cursor: default;">Iʿrāb</span>
+      <span style="color: color-mix(in srgb, var(--color-text) 48%, transparent); cursor: default;">Ṣarf</span>
+      <span style="color: color-mix(in srgb, var(--color-text) 48%, transparent); cursor: default;">Reader</span>
+      <span style="color: color-mix(in srgb, var(--color-text) 48%, transparent); cursor: default;">Review</span>
+      <span onClick="{{ goSettings }}" style="{{ settingsTabStyle }}">Settings</span>
+    </nav>
+  </header>
+
+  <sc-if value="{{ onHome }}" hint-placeholder-val="{{ true }}">
+  <main style="position: relative; z-index: 2; padding: 0 56px 72px;">
+
+    <section style="position: relative; overflow: hidden; border: 1px solid var(--color-divider); border-top: 0; padding: 54px 48px 46px;">
+      <span aria-hidden="true" style="{{ watermarkStyle }}">وَالْعِلْمُ نُورٌ</span>
+      <div style="position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; flex-wrap: wrap;">
+        <div style="max-width: 620px;">
+          <div style="display: inline-flex; align-items: center; gap: 12px; padding: 7px 18px 8px; border: 1px solid var(--color-accent); border-radius: 2px; margin-bottom: 26px;">
+            <span style="width: 5px; height: 5px; background: var(--color-accent); transform: rotate(45deg);"></span>
+            <span style="{{ dropPanelArabicStyle }}">بابُ المرفوعات</span>
+            <span style="width: 5px; height: 5px; background: var(--color-accent); transform: rotate(45deg);"></span>
+          </div>
+          <h1 style="font-family: var(--font-heading); font-weight: 400; font-size: 52px; line-height: 1.06; margin: 0 0 16px;">The chapter of the nominatives</h1>
+          <p style="font-size: 16px; line-height: 1.7; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0 0 28px; max-width: 54ch; color: color-mix(in srgb, var(--color-text) 82%, transparent);">You left off in the third section: the governors of the mubtadaʾ, and why the khabar follows it in raise. Six lessons remain in this chapter before the manṣūbāt open.</p>
+          <div style="display: flex; gap: 12px;">
+            <span class="btn btn-primary" style="cursor: pointer;">Continue lesson 7</span>
+            <span class="btn btn-secondary" style="cursor: pointer;">Review 42 cards</span>
+          </div>
+        </div>
+        <dl style="margin: 0; min-width: 232px; font-variant-numeric: tabular-nums;">
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--color-divider);">
+            <dt style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Lessons done</dt>
+            <dd style="margin: 0; font-family: var(--font-heading); font-size: 17px;">16 / 56</dd>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--color-divider);">
+            <dt style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Iʿrāb drills</dt>
+            <dd style="margin: 0; font-family: var(--font-heading); font-size: 17px;">96</dd>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--color-divider);">
+            <dt style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Cards due</dt>
+            <dd style="margin: 0; font-family: var(--font-heading); font-size: 17px;">42</dd>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding: 10px 0;">
+            <dt style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Parse accuracy</dt>
+            <dd style="margin: 0; font-family: var(--font-heading); font-size: 17px;">87%</dd>
+          </div>
+        </dl>
+      </div>
+      <span aria-hidden="true" style="position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; border-top: 1px solid var(--color-accent); border-left: 1px solid var(--color-accent);"></span>
+      <span aria-hidden="true" style="position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; border-top: 1px solid var(--color-accent); border-right: 1px solid var(--color-accent);"></span>
+      <span aria-hidden="true" style="position: absolute; bottom: 10px; left: 10px; width: 14px; height: 14px; border-bottom: 1px solid var(--color-accent); border-left: 1px solid var(--color-accent);"></span>
+      <span aria-hidden="true" style="position: absolute; bottom: 10px; right: 10px; width: 14px; height: 14px; border-bottom: 1px solid var(--color-accent); border-right: 1px solid var(--color-accent);"></span>
+    </section>
+
+    <div style="display: flex; align-items: center; gap: 20px; padding: 40px 0 34px;">
+      <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+      <svg width="188" height="26" viewBox="0 0 188 26" fill="none" stroke="var(--color-accent)" stroke-width="1" aria-hidden="true">
+        <path d="M94 13 L102 5 L110 13 L102 21 Z"></path>
+        <path d="M86 13 C 74 13, 74 3, 62 3 C 50 3, 50 13, 38 13"></path>
+        <path d="M86 13 C 74 13, 74 23, 62 23 C 50 23, 50 13, 38 13"></path>
+        <path d="M118 13 C 130 13, 130 3, 142 3 C 154 3, 154 13, 166 13"></path>
+        <path d="M118 13 C 130 13, 130 23, 142 23 C 154 23, 154 13, 166 13"></path>
+        <path d="M38 13 L4 13 M166 13 L184 13"></path>
+        <circle cx="4" cy="13" r="2"></circle>
+        <circle cx="184" cy="13" r="2"></circle>
+      </svg>
+      <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+    </div>
+
+    <section>
+      <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: 30px; margin: 0 0 20px;">Chapters</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 1px; background: var(--color-divider); border: 1px solid var(--color-divider);">
+        <sc-for list="{{ topics }}" as="t" hint-placeholder-count="4">
+          <article style="background: var(--color-bg); padding: 28px 26px 24px; display: flex; flex-direction: column; gap: 10px; min-height: 210px;" style-hover="background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
+              <span style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 52%, transparent); font-variant-numeric: tabular-nums;">{{ t.kicker }}</span>
+              <span style="{{ t.arabicStyle }}">{{ t.arabic }}</span>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: 23px; margin: 4px 0 0;">{{ t.title }}</h3>
+            <p style="font-size: 14.5px; line-height: 1.65; text-align: justify; hyphens: auto; margin: 0; flex: 1; color: color-mix(in srgb, var(--color-text) 78%, transparent);">{{ t.body }}</p>
+            <div style="display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--color-divider); font-variant-numeric: tabular-nums;">
+              <span style="flex: 1; height: 2px; background: color-mix(in srgb, var(--color-text) 14%, transparent);">
+                <span style="{{ t.barStyle }}"></span>
+              </span>
+              <span style="font-size: 12.5px; color: color-mix(in srgb, var(--color-text) 58%, transparent);">{{ t.meta }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ onSettings }}" hint-placeholder-val="{{ false }}">
+  <main style="position: relative; z-index: 2; padding: 0 56px 80px; display: grid; grid-template-columns: minmax(0, 1fr) 384px; gap: 1px; background: var(--color-divider);">
+
+    <div style="background: var(--color-bg); padding: 46px 44px 56px;">
+      <span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 52%, transparent);">Preferences</span>
+      <h1 style="font-family: var(--font-heading); font-weight: 400; font-size: 46px; line-height: 1.08; margin: 10px 0 0;">The page, set to your hand</h1>
+      <p style="font-size: 16px; line-height: 1.7; text-align: justify; max-width: 56ch; margin: 14px 0 0; color: color-mix(in srgb, var(--color-text) 78%, transparent);">Everything here changes only how the text is set. Nothing changes what is taught.</p>
+
+      <hr class="hr" style="margin: 38px 0 30px;">
+
+      <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: 22px; margin: 0 0 4px;">Paper &amp; ink</h2>
+      <p style="font-size: 14px; margin: 0 0 22px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Five grounds. The structure of the page does not change with them.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 14px;">
+        <sc-for list="{{ themeCards }}" as="th" hint-placeholder-count="5">
+          <div onClick="{{ th.pick }}" style="{{ th.cardStyle }}">
+            <div style="{{ th.swatchStyle }}">
+              <span style="{{ th.rule1 }}"></span>
+              <span style="{{ th.rule2 }}"></span>
+              <span style="{{ th.rule3 }}"></span>
+              <span style="{{ th.mark }}"></span>
+            </div>
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 12px 14px 13px;">
+              <span style="font-family: var(--font-heading); font-size: 17px;">{{ th.name }}</span>
+              <span style="font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 52%, transparent);">{{ th.note }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <hr class="hr" style="margin: 38px 0 30px;">
+
+      <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: 22px; margin: 0 0 4px;">Arabic typeface</h2>
+      <p style="font-size: 14px; margin: 0 0 22px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Each specimen is set in the face it names.</p>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <sc-for list="{{ faceCards }}" as="f" hint-placeholder-count="3">
+          <div onClick="{{ f.pick }}" style="{{ f.rowStyle }}">
+            <span style="{{ f.radio }}"><span style="{{ f.dot }}"></span></span>
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: baseline; gap: 10px;">
+                <span style="font-family: var(--font-heading); font-size: 17px;">{{ f.name }}</span>
+                <span style="font-size: 12.5px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ f.note }}</span>
+              </div>
+              <div dir="rtl" style="{{ f.sampleStyle }}">وَالصَّابِرِينَ عَلَى مَا أَصَابَهُم</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+    </div>
+
+    <aside style="background: var(--color-bg); padding: 46px 34px 56px; position: relative; overflow: hidden;">
+      <span aria-hidden="true" style="{{ asideWatermarkStyle }}">خَطٌّ وَقَلَمٌ</span>
+      <div style="position: relative;">
+        <span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 52%, transparent);">Specimen</span>
+        <p style="font-size: 14px; line-height: 1.65; margin: 12px 0 26px; color: color-mix(in srgb, var(--color-text) 68%, transparent);">A parsed line, set with your current choices.</p>
+        <div dir="rtl" style="border: 1px solid var(--color-divider); padding: 30px 24px 24px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 18px 22px; justify-content: center;">
+            <sc-for list="{{ words }}" as="w" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 8px 4px; border-bottom: 1px solid var(--color-accent);">
+                <span style="{{ w.specimenStyle }}">{{ w.text }}</span>
+                <span style="font-family: var(--font-heading); font-size: 12.5px; letter-spacing: 0.04em; color: color-mix(in srgb, var(--color-text) 60%, transparent); white-space: nowrap;">{{ w.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div dir="ltr" style="display: flex; align-items: center; gap: 12px;">
+            <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+            <span style="width: 5px; height: 5px; border: 1px solid var(--color-accent); transform: rotate(45deg);"></span>
+            <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+          </div>
+          <div dir="ltr" style="font-size: 13.5px; line-height: 1.7; text-align: justify; color: color-mix(in srgb, var(--color-text) 72%, transparent);">Indeed Allah is with the patient. The ḥarf inna governs naṣb in the noun that follows it.</div>
+        </div>
+        <div style="margin-top: 26px; display: flex; gap: 10px;">
+          <span class="btn btn-primary" style="cursor: pointer;">Save</span>
+          <span onClick="{{ resetAll }}" class="btn btn-ghost" style="cursor: pointer;">Reset to Manuscript</span>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+  </sc-if>
+
+  <footer style="position: relative; z-index: 2; padding: 22px 56px 30px; border-top: 1px solid var(--color-divider); display: flex; justify-content: space-between; gap: 24px; font-size: 12.5px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">
+    <span>Nahw Trainer — a private study desk</span>
+    <span style="font-variant-numeric: tabular-nums;">{{ footerNote }}</span>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;theme&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;manuscript&quot;, &quot;mushaf&quot;, &quot;lamp&quot;, &quot;ink&quot;, &quot;sepia&quot;], &quot;default&quot;: &quot;manuscript&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Appearance&quot; },
+  &quot;arabicFace&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;naskh&quot;, &quot;uthmani&quot;, &quot;kufi&quot;], &quot;default&quot;: &quot;naskh&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Appearance&quot; }
+}">
+const THEMES = {
+  manuscript: { name: 'Manuscript', note: 'default', bg: '#f3f2f2', surface: '#eae9e9', text: '#201f1d', accent: '#b68235', accent600: '#a06f24' },
+  mushaf:     { name: 'Mushaf',     note: 'ivory',   bg: '#f7f1e1', surface: '#efe7d2', text: '#22271f', accent: '#2f6b4f', accent600: '#24573f' },
+  lamp:       { name: 'Lamp',       note: 'night',   bg: '#16130f', surface: '#211d16', text: '#ece3d1', accent: '#cba martin', accent600: '#d8b25c' },
+  ink:        { name: 'Ink',        note: 'sober',   bg: '#eceef1', surface: '#e0e4ea', text: '#1b2028', accent: '#3d4d80', accent600: '#2f3d68' },
+  sepia:      { name: 'Sepia',      note: 'aged',    bg: '#ece0ca', surface: '#e2d4b9', text: '#2d2115', accent: '#7d5029', accent600: '#653f1e' }
+};
+THEMES.lamp.accent = '#c9a04a';
+
+const FACES = {
+  naskh:   { name: 'Naskh', note: 'textbook', body: '"Noto Naskh Arabic", serif', head: '"Noto Naskh Arabic", serif' },
+  uthmani: { name: 'Uthmani', note: 'mushaf', body: 'Amiri, serif', head: 'Amiri, serif' },
+  kufi:    { name: 'Kufi headings', note: 'Naskh body', body: '"Noto Naskh Arabic", serif', head: '"Reem Kufi", serif' }
+};
+
+const ORN = { restrained: { girih: 0, wm: 0.03 }, balanced: { girih: 0.055, wm: 0.06 }, generous: { girih: 0.1, wm: 0.11 } };
+
+const WORDS = [
+  { voweled: 'إِنَّ', bare: 'إن', ar: 'حرف توكيد ونصب', en: 'Particle of emphasis' },
+  { voweled: 'اللهَ', bare: 'الله', ar: 'اسم إنّ منصوب', en: 'Accusative — ism of inna' },
+  { voweled: 'مَعَ', bare: 'مع', ar: 'ظرف مكان منصوب', en: 'Accusative adverb' },
+  { voweled: 'الصَّابِرِينَ', bare: 'الصابرين', ar: 'مضاف إليه مجرور', en: 'Genitive — second of iḍāfa' }
+];
+
+const TOPICS = [
+  { kicker: 'Bāb I', arabic: 'المرفوعات', title: 'Al-Marfūʿāt', body: 'The nominatives: fāʿil, mubtadaʾ and khabar, and the governors that raise them.', done: 8, of: 12 },
+  { kicker: 'Bāb II', arabic: 'المنصوبات', title: 'Al-Manṣūbāt', body: 'The accusatives: mafʿūl bihi, the ẓurūf of time and place, ḥāl and tamyīz.', done: 3, of: 15 },
+  { kicker: 'Bāb III', arabic: 'المجرورات', title: 'Al-Majrūrāt', body: 'Genitive by preposition and by iḍāfa, and the ḥarf standing as governor.', done: 0, of: 9 },
+  { kicker: 'Bāb IV', arabic: 'الصرف', title: 'Al-Ṣarf', body: 'The ten forms, the sound and defective root, and the awzān of the maṣdar.', done: 5, of: 20 }
+];
+
+class Component extends DCLogic {
+  state = {
+    page: 'home',
+    theme: this.props.theme ?? 'manuscript',
+    face: this.props.arabicFace ?? 'naskh',
+    orn: 'restrained',
+    term: 'arabic',
+    harakat: true,
+    scale: 1
+  };
+
+  t() { return THEMES[this.state.theme] || THEMES.manuscript; }
+  f() { return FACES[this.state.face] || FACES.naskh; }
+
+  tabStyle(active) {
+    return {
+      cursor: 'pointer',
+      color: active ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 48%, transparent)',
+      paddingBottom: '3px',
+      borderBottom: active ? '1px solid var(--color-accent)' : '1px solid transparent'
+    };
+  }
+
+  segStyle(active) {
+    return {
+      cursor: 'pointer', padding: '7px 14px 8px', fontSize: '13.5px',
+      fontFamily: 'var(--font-heading)',
+      background: active ? 'color-mix(in srgb, var(--color-accent) 14%, transparent)' : 'transparent',
+      color: active ? 'var(--color-accent-600, var(--color-accent))' : 'color-mix(in srgb, var(--color-text) 62%, transparent)'
+    };
+  }
+
+  renderVals() {
+    const t = this.t(), f = this.f(), orn = ORN[this.state.orn] || ORN.balanced;
+    const s = this.state.scale;
+    const arWord = { fontFamily: f.body, fontSize: (34 * s) + 'px', lineHeight: 1.9, direction: 'rtl' };
+
+    return {
+      shellStyle: {
+        '--color-bg': t.bg, '--color-surface': t.surface, '--color-text': t.text,
+        '--color-accent': t.accent, '--color-accent-600': t.accent600,
+        '--color-divider': 'color-mix(in srgb, ' + t.text + ' 18%, transparent)',
+        background: t.bg, color: t.text, minHeight: '100vh', position: 'relative',
+        fontFamily: 'var(--font-body)', overflow: 'hidden'
+      },
+      watermarkStyle: { position: 'absolute', right: '20px', bottom: '-6px', direction: 'rtl', whiteSpace: 'nowrap', fontFamily: 'Amiri, serif', fontWeight: 400, fontSize: '132px', lineHeight: 1.5, color: t.accent, opacity: Math.min(1, orn.wm * 2.4), pointerEvents: 'none' },
+      asideWatermarkStyle: { position: 'absolute', left: '-30px', bottom: '18px', direction: 'rtl', whiteSpace: 'nowrap', fontFamily: 'Amiri, serif', fontWeight: 400, fontSize: '92px', lineHeight: 1.5, color: t.accent, opacity: Math.min(1, orn.wm * 2.4), pointerEvents: 'none' },
+      dropPanelArabicStyle: { fontFamily: f.head, fontSize: (19 * s) + 'px', color: 'var(--color-accent)', lineHeight: 1.6 },
+
+      onHome: this.state.page === 'home',
+      onSettings: this.state.page === 'settings',
+      goHome: () => this.setState({ page: 'home' }),
+      goSettings: () => this.setState({ page: 'settings' }),
+      homeTabStyle: this.tabStyle(this.state.page === 'home'),
+      settingsTabStyle: this.tabStyle(this.state.page === 'settings'),
+
+      words: WORDS.map((w, i) => ({
+        text: this.state.harakat ? w.voweled : w.bare,
+        label: this.state.term === 'arabic' ? w.ar : w.en,
+        style: arWord,
+        specimenStyle: { ...arWord, fontSize: (26 * s) + 'px' }
+      })),
+
+      topics: TOPICS.map(tp => ({
+        kicker: tp.kicker, arabic: tp.arabic, title: tp.title, body: tp.body,
+        meta: tp.done + ' of ' + tp.of,
+        arabicStyle: { fontFamily: f.head, fontSize: (20 * s) + 'px', color: 'var(--color-accent)', lineHeight: 1.6 },
+        barStyle: { display: 'block', height: '2px', width: Math.round((tp.done / tp.of) * 100) + '%', background: t.accent }
+      })),
+
+      themeCards: Object.keys(THEMES).map(key => {
+        const th = THEMES[key], active = key === this.state.theme;
+        return {
+          name: th.name, note: th.note,
+          pick: () => this.setState({ theme: key }),
+          cardStyle: { cursor: 'pointer', border: active ? '1px solid ' + t.accent : '1px solid var(--color-divider)', borderRadius: '2px', overflow: 'hidden', boxShadow: active ? 'var(--shadow-sm)' : 'none' },
+          swatchStyle: { position: 'relative', height: '84px', background: th.bg, borderBottom: '1px solid var(--color-divider)', padding: '16px 16px 0' },
+          rule1: { display: 'block', height: '1px', background: th.text, opacity: 0.75, width: '70%', marginBottom: '9px' },
+          rule2: { display: 'block', height: '1px', background: th.text, opacity: 0.4, width: '86%', marginBottom: '9px' },
+          rule3: { display: 'block', height: '1px', background: th.text, opacity: 0.4, width: '52%' },
+          mark: { position: 'absolute', right: '14px', top: '16px', width: '16px', height: '16px', border: '1px solid ' + th.accent, transform: 'rotate(45deg)' }
+        };
+      }),
+
+      faceCards: Object.keys(FACES).map(key => {
+        const fc = FACES[key], active = key === this.state.face;
+        return {
+          name: fc.name, note: fc.note,
+          pick: () => this.setState({ face: key }),
+          rowStyle: { cursor: 'pointer', display: 'flex', gap: '16px', alignItems: 'flex-start', padding: '16px 18px', border: active ? '1px solid ' + t.accent : '1px solid var(--color-divider)', borderRadius: '2px' },
+          radio: { flex: '0 0 auto', width: '15px', height: '15px', marginTop: '4px', borderRadius: '50%', border: '1px solid ' + (active ? t.accent : 'var(--color-divider)'), display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
+          dot: { width: '7px', height: '7px', borderRadius: '50%', background: active ? t.accent : 'transparent' },
+          sampleStyle: { fontFamily: fc.body, fontSize: (23 * s) + 'px', lineHeight: 1.9, marginTop: '6px', color: 'color-mix(in srgb, var(--color-text) 88%, transparent)' }
+        };
+      }),
+
+      scale: s,
+      scaleLabel: Math.round(s * 100) + '%',
+      setScale: e => this.setState({ scale: parseFloat(e.target.value) }),
+
+      termArabic: () => this.setState({ term: 'arabic' }),
+      termEnglish: () => this.setState({ term: 'english' }),
+      termArabicStyle: { ...this.segStyle(this.state.term === 'arabic'), fontFamily: f.body },
+      termEnglishStyle: this.segStyle(this.state.term === 'english'),
+
+      toggleHarakat: () => this.setState(st => ({ harakat: !st.harakat })),
+      harakatTrack: { cursor: 'pointer', width: '46px', height: '22px', borderRadius: '11px', border: '1px solid ' + (this.state.harakat ? t.accent : 'var(--color-divider)'), background: this.state.harakat ? 'color-mix(in srgb, ' + t.accent + ' 16%, transparent)' : 'transparent', display: 'inline-flex', alignItems: 'center', padding: '0 3px', justifyContent: this.state.harakat ? 'flex-end' : 'flex-start' },
+      harakatKnob: { width: '14px', height: '14px', borderRadius: '50%', background: this.state.harakat ? t.accent : 'color-mix(in srgb, var(--color-text) 35%, transparent)' },
+
+      ornRestrained: () => this.setState({ orn: 'restrained' }),
+      ornBalanced: () => this.setState({ orn: 'balanced' }),
+      ornGenerous: () => this.setState({ orn: 'generous' }),
+      ornRestrainedStyle: this.segStyle(this.state.orn === 'restrained'),
+      ornBalancedStyle: this.segStyle(this.state.orn === 'balanced'),
+      ornGenerousStyle: this.segStyle(this.state.orn === 'generous'),
+
+      resetAll: () => this.setState({ theme: 'manuscript', face: 'naskh', orn: 'balanced', term: 'arabic', harakat: true, scale: 1 }),
+
+      footerNote: t.name + ' · ' + f.name + ' · ' + Math.round(s * 100) + '%'
+    };
+  }
+}
+</script>
+</body>
+</html>
