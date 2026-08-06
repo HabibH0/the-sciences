@@ -725,12 +725,33 @@ function syncAdvancedUnlocks() {
   }
 }
 
+// A module skip-ahead test jumps within a single course, so unlike course/
+// track unlocks it has no "OR fully complete" fallback of its own to fall
+// back on for the modules in between (isModuleUnlocked only special-cases
+// the target moduleId -- see its own comment in content/index.js). Without
+// this, the earlier modules of the course would sit permanently locked even
+// though the learner just proved they know the material up through here.
+// Backfills every lesson of every module BEFORE the target as complete;
+// the target module itself is left untouched -- unlocked, not completed --
+// since passing it is the whole point of the test.
+function completePreviousModulesInCourse(targetModuleId) {
+  const course = COURSES.find((c) => c.modules.some((m) => m.id === targetModuleId));
+  if (!course) return;
+  const targetIdx = course.modules.findIndex((m) => m.id === targetModuleId);
+  for (const mod of course.modules.slice(0, targetIdx)) {
+    for (const lesson of mod.lessons) markLessonComplete(mod.id, lesson.id);
+  }
+}
+
 // Skip-ahead unlock test: passes at UNLOCK_TEST_PASS_RATIO, writing to
-// unlockedCourses/unlockedTracks/unlockedModules -- deliberately NEVER
-// touches state.completed (req: unlocking the advanced version of a course
-// "shouldn't auto complete the introductory version so that every module
-// gets unlocked" -- the intro course stays exactly as unfinished as it was;
-// only the advanced side's own gate opens).
+// unlockedCourses/unlockedTracks/unlockedModules. Course/track unlocks
+// deliberately NEVER touch state.completed (req: unlocking the advanced
+// version of a course "shouldn't auto complete the introductory version so
+// that every module gets unlocked" -- the intro course/path stays exactly as
+// unfinished as it was; only the advanced side's own gate opens). A module
+// unlock is different: it's a skip within one course, not a jump to another
+// course/path, so it backfills that course's earlier lessons as complete
+// (see completePreviousModulesInCourse) rather than leaving a gap.
 function finalizeUnlockTest() {
   const p = state.practice;
   const total = p.log.length;
@@ -739,7 +760,10 @@ function finalizeUnlockTest() {
   if (!passed) return;
   if (p.unlockKind === 'course') state.unlockedCourses[p.targetId] = true;
   else if (p.unlockKind === 'track') state.unlockedTracks[p.targetId] = true;
-  else if (p.unlockKind === 'module') state.unlockedModules[p.targetId] = true;
+  else if (p.unlockKind === 'module') {
+    state.unlockedModules[p.targetId] = true;
+    completePreviousModulesInCourse(p.targetId);
+  }
   syncAdvancedUnlocks();
 }
 
