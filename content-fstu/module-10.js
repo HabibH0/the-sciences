@@ -2042,11 +2042,11 @@ export default {
           "options": [
             "Because it follows a حَرْفُ جَرٍّ",
             "Because it is the فاعل of the verb",
-            "Because it is a second مَفْعُوْلٌ بِهِ of تَسْأَلُ",
+            "Because it is a مَفْعُوْلٌ بِهِ of تَسْأَلُ",
             "Because مَا makes everything after it مَنْصُوْب"
           ],
           "correct": 2,
-          "explanation": "سَأَلَ takes two objects; مَا fills one fronted object slot and اللّٰهَ the other."
+          "explanation": "سَأَلَ takes two objects: the person asked (هنا اللّٰهَ) and the thing asked for (هنا مَا, fronted since it is an interrogative)."
         },
         {
           "title": "Book Exercise 14 (Section 2, Part 1)",
@@ -2450,7 +2450,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -8210,7 +8210,7 @@ export default {
           "explanation": "A مَفْعُوْلٌ مُطْلَقٌ describes the verb's own occurrence — here, how many times it happened."
         },
         {
-          "q": "In the book's diagrams, what label is given to كَمْ itself?",
+          "q": "What label is given to كَمْ itself in this construction?",
           "options": [
             "تَمْيِيْزٌ",
             "مُضَافٌ",
@@ -13166,7 +13166,7 @@ export default {
             "It turns the question into a polar one"
           ],
           "correct": 1,
-          "explanation": "The book lists مَنْ and مَنْ ذَا together, both translated as 'who'."
+          "explanation": "مَنْ and مَنْ ذَا are both translated as 'who'."
         },
         {
           "title": "Book Exercise 27 (Section 2, Part 1)",
@@ -14539,7 +14539,7 @@ export default {
             "Because the rhetorical question carries a negative meaning, and إِلَّا adds emphasis after a negation"
           ],
           "correct": 3,
-          "explanation": "This is the same pattern as a negative particle followed by إِلَّا, which the book covered on page 116."
+          "explanation": "This is the same pattern as a negative particle followed by إِلَّا: the rhetorical question functions as a negation, so إِلَّا adds emphasis exactly as it would after لَا or مَا."
         },
         {
           "q": "In هَلْ يَعْبُدُ الْمُسْلِمُوْنَ إِلَّا اللّٰهَ, how is إِلَّا labelled?",

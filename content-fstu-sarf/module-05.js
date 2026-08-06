@@ -776,7 +776,7 @@ export default {
           "options": [
             "The ي changes into و because of the ضَمَّةٌ before it",
             "The ن changes into و",
-            "The book made the verb doubly transitive",
+            "The verb became doubly transitive",
             "The و is the passive prefix"
           ],
           "correct": 0,
@@ -791,7 +791,7 @@ export default {
             "The نَهْيٌ forms"
           ],
           "correct": 1,
-          "explanation": "The book notes: 'The اِسْمُ الْفَاعِلِ and its plural are irregular' — يَتِيْمٌ instead of the يَانِعٌ pattern, with the plural يَتَامَى."
+          "explanation": "The اِسْمُ الْفَاعِلِ and its plural are irregular: يَتِيْمٌ instead of the يَانِعٌ pattern, with the plural يَتَامَى."
         },
         {
           "q": "Which columns are left blank in the tables of يَتَمَ؟",
@@ -802,7 +802,7 @@ export default {
             "الْمُضَارِعُ الْمَعْلُوْمُ and الْمَصْدَرُ"
           ],
           "correct": 2,
-          "explanation": "يَتَمَ is intransitive, so it has no passive forms and no اسْمُ الْمَفْعُوْلِ — those columns are blank in the book."
+          "explanation": "يَتَمَ is intransitive, so it has no passive forms and no اسْمُ الْمَفْعُوْلِ — those columns are blank."
         },
         {
           "q": "What is the أَمْرُ (You m/s) of يَبِسَ يَيْبَسُ؟",
@@ -867,7 +867,7 @@ export default {
             "يُتُمٌ"
           ],
           "correct": 0,
-          "explanation": "The اسم الفاعل of يَتَمَ and its plural are irregular: يَتِيْمٌ ج يَتَامَى (the book's table shows يَتَامَى in the plural row)."
+          "explanation": "The اسم الفاعل of يَتَمَ and its plural are irregular: يَتِيْمٌ ج يَتَامَى (the conjugation table shows يَتَامَى in the plural row)."
         },
         {
           "title": "Lesson content",
@@ -4039,7 +4039,7 @@ export default {
             "None — every بَاب has an example"
           ],
           "correct": 0,
-          "explanation": "In the summary table (p. 160), the rows for بَاب نَصَرَ and بَاب حَسِبَ are printed with \"—\" in every column: the book has no الْمِثَالُ الْيَائِيُّ example from those two أَبْوَاب."
+          "explanation": "In the summary table, the rows for بَاب نَصَرَ and بَاب حَسِبَ are printed with \"—\" in every column: there is no الْمِثَالُ الْيَائِيُّ example from those two أَبْوَاب."
         }
       ],
       "bank": [

@@ -416,7 +416,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "In the derivation of اِتَّخَذَ, what change does the book note?",
+          "prompt": "In the derivation of اِتَّخَذَ, what change takes place?",
           "options": [
             "The يَاءٌ changes to a تَاءٌ: إِأْتَخَذَ ← اِيْتَخَذَ ← اِتَّخَذَ",
             "The hamzah changes to a وَاوٌ",
@@ -1571,7 +1571,7 @@ export default {
             "إِبْقَانًا"
           ],
           "correct": 0,
-          "explanation": "The vocab table gives أَبَقَ يَأْبِقُ إِبَاقًا (بَاب ضَرَبَ)."
+          "explanation": "أَبَقَ يَأْبِقُ إِبَاقًا is بَاب ضَرَبَ."
         },
         {
           "title": "Lesson content",
@@ -4238,7 +4238,7 @@ export default {
             "آسَفَ (III) and آنَسَ (IV)"
           ],
           "correct": 0,
-          "explanation": "The p. 118 vocab gives آثَرَ يُؤَاثِرُ مُؤَاثَرَةً 'to give preference' (بَاب مُفَاعَلَة) and p. 119 gives آثَرَ يُؤْثِرُ إِيْثَارًا 'to prefer, to favour' (بَاب إِفْعَال). The مُضَارِعٌ and مَصْدَرٌ tell them apart."
+          "explanation": "آثَرَ يُؤَاثِرُ مُؤَاثَرَةً means 'to give preference' (بَاب مُفَاعَلَة), while آثَرَ يُؤْثِرُ إِيْثَارًا means 'to prefer, to favour' (بَاب إِفْعَال). The مُضَارِعٌ and مَصْدَرٌ tell them apart."
         },
         {
           "title": "Lesson content",
@@ -4277,7 +4277,7 @@ export default {
             "اِسْتِفْعَال (X)"
           ],
           "correct": 0,
-          "explanation": "The book gives no مَهْمُوْزٌ example from بَاب اِنْفِعَال (VII); its row in the Summary table on p. 124 is left empty."
+          "explanation": "بَاب اِنْفِعَال (VII) has no مَهْمُوْزٌ verb example in this unit."
         },
         {
           "title": "Lesson content",

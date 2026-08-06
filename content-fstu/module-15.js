@@ -2576,7 +2576,7 @@ export default {
           "explanation": "The عَائِدٌ هُنَّ is feminine plural, so the feminine plural اَللَّاتِيْ is used — not the masculine وَقْتٌ."
         },
         {
-          "q": "Both English renderings of اَلَّذِيْ عَلَيْهِ دَيْنٌ given by the book are…",
+          "q": "Both correct English renderings of اَلَّذِيْ عَلَيْهِ دَيْنٌ are…",
           "options": [
             "'who has a loan on him' and 'on whom there is a loan'",
             "'whose loan' and 'the loan which'",
@@ -4089,7 +4089,7 @@ export default {
           "explanation": "It separates the مُبْتَدَأٌ from the مَوْصُوْلٌ خَبَرٌ and holds no slot of its own."
         },
         {
-          "q": "The فَ in اَلَّذِيْ آمَنَ فَلَهُ أَجْرٌ عَظِيْمٌ is described in the book's tarkeeb as…",
+          "q": "The فَ in اَلَّذِيْ آمَنَ فَلَهُ أَجْرٌ عَظِيْمٌ is labelled in the tarkeeb as…",
           "options": [
             "حَرْفُ عَطْفٍ",
             "حَرْفُ جَرٍّ",
@@ -4100,7 +4100,7 @@ export default {
           "explanation": "It is additional — it introduces the خَبَرٌ but is not translated and holds no slot."
         },
         {
-          "q": "Which slots does the book list for a مَوْصُوْلٌ unit in a جُمْلَةٌ فِعْلِيَّةٌ?",
+          "q": "Which slots can a مَوْصُوْلٌ unit fill in a جُمْلَةٌ فِعْلِيَّةٌ?",
           "options": [
             "فَاعِلٌ, مَفْعُوْلٌ بِهِ, مَفْعُوْلٌ بِهِ ثَانٍ, مُسْتَثْنًى",
             "فَاعِلٌ, حَالٌ, تَمْيِيْزٌ, بَدَلٌ",
@@ -4122,7 +4122,7 @@ export default {
           "explanation": "Arabic verbs agree in gender but not number with a following فَاعِلٌ."
         },
         {
-          "q": "The book gives two English renderings of لَمْ يَفْهَمِ الدَّرْسَ الَّذِيْنَ غَابُوْا أَمْسِ. They differ in…",
+          "q": "Two English renderings of لَمْ يَفْهَمِ الدَّرْسَ الَّذِيْنَ غَابُوْا أَمْسِ are possible. They differ in…",
           "options": [
             "the tense of the verb",
             "which word is the object",
@@ -5532,7 +5532,7 @@ export default {
           "explanation": "These are the phrase-level slots a definite noun can fill."
         },
         {
-          "q": "What exception does the book make about the مُشَارٌ إِلَيْهِ?",
+          "q": "What exception applies to the مُشَارٌ إِلَيْهِ?",
           "options": [
             "It may be indefinite in general",
             "It must always be dual",
@@ -6932,10 +6932,10 @@ export default {
             "اَللَّاتِيْ"
           ],
           "correct": 0,
-          "explanation": "The book states that مَنْ and مَا cannot form part of the نَعْتٌ — only اَلَّذِيْ and its sisters can."
+          "explanation": "مَنْ and مَا cannot form part of the نَعْتٌ — only اَلَّذِيْ and its sisters can."
         },
         {
-          "q": "In the book's tarkeeb of اَلرَّجُلُ الَّذِيْ جَاءَ مِنَ الْقَرْيَةِ, مِنَ الْقَرْيَةِ is labelled…",
+          "q": "In the tarkeeb of اَلرَّجُلُ الَّذِيْ جَاءَ مِنَ الْقَرْيَةِ, مِنَ الْقَرْيَةِ is labelled…",
           "options": [
             "مَفْعُوْلٌ بِهِ",
             "حَالٌ",
@@ -6943,7 +6943,7 @@ export default {
             "مَفْعُوْلٌ فِيْهِ"
           ],
           "correct": 3,
-          "explanation": "The جَارٌّ وَمَجْرُوْرٌ answers 'from where', so the book treats it as a مَفْعُوْلٌ فِيْهِ within the صِلَةٌ."
+          "explanation": "The جَارٌّ وَمَجْرُوْرٌ answers 'from where', so it is treated as a مَفْعُوْلٌ فِيْهِ within the صِلَةٌ."
         },
         {
           "q": "Why is اَلَّتِيْ used in اَلدُّمُوْعُ الَّتِيْ تَسِيْلُ?",
@@ -8561,10 +8561,10 @@ export default {
           }
         },
         {
-          "heading": "The book's comparison table",
+          "heading": "Comparing the Two Kinds of نَعْتٌ",
           "lines": [
             {
-              "html": "The book now sets the whole subject of the نَعْتٌ out in one table, comparing the single-word نَعْتٌ studied long ago with the sentence نَعْتٌ studied here.",
+              "html": "This table sets the whole subject of the نَعْتٌ out at once, comparing the single-word نَعْتٌ studied long ago with the sentence نَعْتٌ studied here.",
               "list": false
             },
             {
@@ -8617,7 +8617,7 @@ export default {
               }
             },
             {
-              "html": "DING is the book's shorthand for the four things a single-word نَعْتٌ must match: Definiteness, Iʿrāb, Number and Gender. A sentence نَعْتٌ cannot 'agree' in that way — it is a sentence, not a noun — so its link to the مَنْعُوْتٌ is carried instead by the عَائِدٌ hidden or stated inside it.",
+              "html": "DING is a shorthand for the four things a single-word نَعْتٌ must match: Definiteness, Iʿrāb, Number and Gender. A sentence نَعْتٌ cannot 'agree' in that way — it is a sentence, not a noun — so its link to the مَنْعُوْتٌ is carried instead by the عَائِدٌ hidden or stated inside it.",
               "list": false
             },
             {
@@ -8626,7 +8626,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "According to the book's DING framework, what does a sentence نَعْتٌ use instead of agreement to link to its مَنْعُوْتٌ؟",
+            "prompt": "According to the DING framework above, what does a sentence نَعْتٌ use instead of agreement to link to its مَنْعُوْتٌ؟",
             "kind": "mcq",
             "options": [
               "An عَائِدٌ hidden or stated inside the sentence",
@@ -8697,7 +8697,7 @@ export default {
           "explanation": "The اِسْمٌ مَوْصُوْلٌ is itself definite, so it makes the describing unit definite too."
         },
         {
-          "q": "What does the book's shorthand 'DING' stand for?",
+          "q": "What does the shorthand 'DING' stand for?",
           "options": [
             "Definiteness, Iʿrāb, Number, Gender",
             "Dual, Indefinite, Noun, Genitive",
@@ -9544,7 +9544,7 @@ export default {
         {
           "title": "Book Exercise 4 (Section 2, Part 2)",
           "kind": "mcq",
-          "prompt": "Which pair correctly matches the book's table?",
+          "prompt": "Which pair correctly matches the comparison table?",
           "options": [
             "Single-word نَعْتٌ → translated after the مَنْعُوْتٌ",
             "Sentence نَعْتٌ after a نَكِرَةٌ → attached via a مَوْصُوْلٌ",
@@ -10310,7 +10310,7 @@ export default {
           "explanation": "It clarifies the vague مَوْصُوْلٌ; اَلَّذِيْ already has a stated مَنْعُوْتٌ."
         },
         {
-          "q": "In the book's tarkeeb of مَا رَزَقَكَ اللهُ مِنْ مَالٍ, what is مِنْ مَالٍ?",
+          "q": "In the tarkeeb of مَا رَزَقَكَ اللهُ مِنْ مَالٍ, what is مِنْ مَالٍ?",
           "options": [
             "نَعْتٌ",
             "بَدَلٌ",
@@ -12038,7 +12038,7 @@ export default {
             "a مَوْصُوْلٌ with no عَائِدٌ"
           ],
           "correct": 1,
-          "explanation": "The book defines it as 'a noun which is followed by a نَعْتٌ' — the indefinite reading of مَنْ or مَا."
+          "explanation": "It is defined as 'a noun which is followed by a نَعْتٌ' — the indefinite reading of مَنْ or مَا."
         },
         {
           "q": "Which words can be read as a نَكِرَةٌ مَوْصُوْفَةٌ?",
@@ -12074,7 +12074,7 @@ export default {
           "explanation": "'The one who works hard' is definite; 'one who works hard' is general and therefore indefinite."
         },
         {
-          "q": "Which part of the book's tarkeeb changes between the two readings?",
+          "q": "Which part of the tarkeeb changes between the two readings?",
           "options": [
             "The middle labels only — مَوْصُوْلٌ/صِلَةٌ become مَنْعُوْتٌ/نَعْتٌ",
             "The top row of sentence slots",
@@ -13543,7 +13543,7 @@ export default {
             "a مَوْصُوْلٌ as نَعْتٌ, and a plural مَجْرُوْرٌ"
           ],
           "correct": 0,
-          "explanation": "The book lists exactly these two, and both must hold together."
+          "explanation": "These are exactly the two conditions, and both must hold together."
         },
         {
           "q": "﴿مِنْكُمْ مَنْ يُّرِيْدُ الدُّنْيَا﴾ can be rendered as…",
@@ -13554,7 +13554,7 @@ export default {
             "'the world is desired by you'"
           ],
           "correct": 1,
-          "explanation": "The book gives both 'from amongst you there are those who desire the world' and this idiomatic version."
+          "explanation": "Both 'from amongst you there are those who desire the world' and this idiomatic version are correct."
         },
         {
           "q": "In مِنَ التُّجَّارِ مَنْ يَّصْدُقُ النَّاسَ, what does اَلتُّجَّارِ represent?",
@@ -13568,7 +13568,7 @@ export default {
           "explanation": "The مَجْرُوْرٌ names the group; the مَنْ unit names the portion of it being described."
         },
         {
-          "q": "What is the grammatical slot of مِنْكُمْ in the book's example?",
+          "q": "What is the grammatical slot of مِنْكُمْ in ﴿مِنْكُمْ مَنْ يُّرِيْدُ الدُّنْيَا﴾?",
           "options": [
             "مُبْتَدَأٌ",
             "خَبَرٌ مُقَدَّمٌ",
@@ -13579,7 +13579,7 @@ export default {
           "explanation": "It is a fronted شِبْهُ جُمْلَةٍ predicate, with the مَنْ unit as the delayed subject."
         },
         {
-          "q": "Why does مِنْكُمْ رِجَالٌ not carry the 'some' meaning the book describes?",
+          "q": "Why does مِنْكُمْ رِجَالٌ not carry the 'some' meaning?",
           "options": [
             "Because رِجَالٌ is plural",
             "Because مِنْ here means 'from'",
@@ -14370,7 +14370,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَوْصُوْلٌ ثَانٍ"
+                  "role": "مَوْصُوْلٌ"
                 },
                 {
                   "start": 5,
@@ -15939,7 +15939,7 @@ export default {
         {
           "title": "Book Exercise 3 (Section 2, Supplement)",
           "kind": "mcq",
-          "prompt": "What is the only difference between مَا كَتَبْتَ and مَا كَتَبْتَ؟ in the book's exercise?",
+          "prompt": "What is the only difference between مَا كَتَبْتَ and مَا كَتَبْتَ؟",
           "options": [
             "The vowelling of the verb",
             "The punctuation — one is a statement of negation, the other a question",
@@ -15999,7 +15999,7 @@ export default {
             "Count the words after مَا"
           ],
           "correct": 1,
-          "explanation": "The book notes the first three types always begin the sentence."
+          "explanation": "The first three types always begin the sentence."
         },
         {
           "title": "to lie",

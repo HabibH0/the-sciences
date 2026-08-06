@@ -1241,7 +1241,7 @@ export default {
             "نَوَى"
           ],
           "correct": 0,
-          "explanation": "The book gives وَقَى as the example of مَفْرُوْقٌ (فَاءٌ and لَامٌ weak) and رَوَى as the example of مَقْرُوْنٌ."
+          "explanation": "وَقَى is the example of مَفْرُوْقٌ (فَاءٌ and لَامٌ weak) and رَوَى is the example of مَقْرُوْنٌ."
         },
         {
           "q": "The أَمْرُ (m/s) of وَفَى يَفِيْ is…",
@@ -1367,7 +1367,7 @@ export default {
             "الْغَائِبُوْنَ and الْمُخَاطَبُوْنَ"
           ],
           "correct": 0,
-          "explanation": "After تَسْكِيْنٌ and حَذْفٌ the feminine singular addressee coincides with the (unchanged) feminine plural: both are تَقْوَيْنَ — bolded in the book."
+          "explanation": "After تَسْكِيْنٌ and حَذْفٌ the feminine singular addressee coincides with the (unchanged) feminine plural: both are تَقْوَيْنَ."
         },
         {
           "title": "Lesson content",
@@ -3960,7 +3960,7 @@ export default {
             "بَاب اِسْتِفْعَال (X)"
           ],
           "correct": 0,
-          "explanation": "بَاب اِنْفِعَال verbs (here اِنْزَوَى) are لَازِمٌ, so the book leaves the passive columns and the اِسْمُ الْمَفْعُوْلِ blank."
+          "explanation": "بَاب اِنْفِعَال verbs (here اِنْزَوَى) are لَازِمٌ, so they have no مَجْهُوْلٌ forms and no اِسْمُ الْمَفْعُوْلِ."
         },
         {
           "q": "The الْمُضَارِعُ الْمَعْلُوْمُ of أَوْحَى is…",
@@ -5515,7 +5515,7 @@ export default {
           "correct": 0
         },
         {
-          "q": "According to the master summary table (p. 235), which بَاب of the eight مَزِيْدٌ فِيْهِ أَبْوَاب has every مَجْهُوْلٌ cell and its اِسْمُ الْمَفْعُوْلِ cell left blank?",
+          "q": "According to the master summary table, which بَاب of the eight مَزِيْدٌ فِيْهِ أَبْوَاب has every مَجْهُوْلٌ cell and its اِسْمُ الْمَفْعُوْلِ cell left blank?",
           "options": [
             "اِنْفِعَالًا (VII) — اِنْزَوَى",
             "اِفْتِعَالًا (VIII) — اِسْتَوَى",
@@ -5523,7 +5523,7 @@ export default {
             "اِسْتِفْعَالًا (X) — اِسْتَوْلَى"
           ],
           "correct": 0,
-          "explanation": "اِنْزَوَى (بَاب اِنْفِعَال) is لَازِمٌ (intransitive), so the summary table (p. 235) leaves its الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ cells as —."
+          "explanation": "اِنْزَوَى (بَاب اِنْفِعَال) is لَازِمٌ (intransitive), so the summary table leaves its الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ cells as —."
         },
         {
           "q": "Among the four ثُلَاثِيٌّ مُجَرَّدٌ models of اللَّفِيْفُ, which two share the same بَاب (ضَرَبَ)?",
@@ -5548,7 +5548,7 @@ export default {
           "explanation": "وَلِيَ يَلِيْ وَلْيًا (بَاب حَسِبَ) is the model لَفِيْفٌ مَفْرُوْقٌ meaning 'to be near'; its أَمْرُ الْمُخَاطَبِ is the single letter لِ."
         },
         {
-          "q": "In the two-types table (Introduction, p. 222), which root letters are weak in لَفِيْفٌ مَقْرُوْنٌ?",
+          "q": "In the two-types table (Introduction), which root letters are weak in لَفِيْفٌ مَقْرُوْنٌ?",
           "options": [
             "عَيْنُ الْكَلِمَةِ and لَامُ الْكَلِمَةِ",
             "فَاءُ الْكَلِمَةِ and لَامُ الْكَلِمَةِ",

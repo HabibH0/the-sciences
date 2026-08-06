@@ -323,7 +323,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -553,7 +553,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -2907,7 +2907,7 @@ export default {
           "explanation": "It marks the second sentence as the consequence of the first."
         },
         {
-          "q": "Which English words does the book give for it?",
+          "q": "Which English words translate a فَاءُ السَّبَبِ?",
           "options": [
             "'and', 'then'",
             "'lest', 'otherwise', 'or'",
@@ -2915,7 +2915,7 @@ export default {
             "'because', 'since'"
           ],
           "correct": 1,
-          "explanation": "All three renderings appear under the example."
+          "explanation": "All three are correct renderings."
         },
         {
           "q": "How does the فَاءُ السَّبَبِ differ from the فَاءُ الرَّابِطَةِ of Part 3?",
@@ -3603,7 +3603,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "اِسْمٌ مُؤَوَّلٌ — مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "اِسْمٌ مُؤَوَّلٌ — مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -5033,7 +5033,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "اِسْمٌ مُؤَوَّلٌ — مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "اِسْمٌ مُؤَوَّلٌ — مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -5053,7 +5053,7 @@ export default {
             "Because one is longer",
             "Because one has a passive verb",
             "Because blessing appearing follows from obeying, while being deprived follows from disobeying",
-            "The book is inconsistent"
+            "There is no rule — it varies at random"
           ],
           "correct": 2,
           "explanation": "The meaning of the second sentence decides the shape."
@@ -5747,7 +5747,7 @@ export default {
             "It swears an oath"
           ],
           "correct": 0,
-          "explanation": "The book compares it to a مَفْعُوْلٌ لَهُ."
+          "explanation": "It is comparable to a مَفْعُوْلٌ لَهُ, but as a whole sentence rather than a single word."
         },
         {
           "q": "Which construction from an earlier unit does it resemble?",
@@ -5761,7 +5761,7 @@ export default {
           "explanation": "Both give the reason; one is a word, the other a whole sentence."
         },
         {
-          "q": "Which English words does the book give for translating it?",
+          "q": "Which English words can translate a جُمْلَةٌ تَعْلِيْلِيَّةٌ?",
           "options": [
             "'when', 'while', 'as'",
             "'for', 'because', 'so that', 'perhaps'",
@@ -5791,7 +5791,7 @@ export default {
             "Reason only"
           ],
           "correct": 1,
-          "explanation": "The book's diagram shows the arrow running from Action back to Reason."
+          "explanation": "The Reason sentence explains the Action sentence that precedes it, so Action comes first."
         },
         {
           "q": "In أَحْسِنُوْا إِنَّ اللهَ يُحِبُّ الْمُحْسِنِيْنَ, what joins the two sentences?",
@@ -11344,7 +11344,7 @@ export default {
             "it removes the اِسْتِدْرَاك sense"
           ],
           "correct": 0,
-          "explanation": "The book translates both versions identically."
+          "explanation": "Both versions are translated identically."
         }
       ],
       "bank": [
@@ -12746,7 +12746,7 @@ export default {
             "three"
           ],
           "correct": 2,
-          "explanation": "Exactly the six listed in the Introduction on p. 562."
+          "explanation": "Vocative expressions, oaths, conditions and results, sentences after an أَمْر or نَهْي, the جُمْلَةٌ تَعْلِيْلِيَّةٌ and the جُمْلَةٌ اسْتِدْرَاكِيَّةٌ — exactly six."
         }
       ],
       "bank": [

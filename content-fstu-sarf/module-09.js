@@ -5623,7 +5623,7 @@ export default {
             "بَاب اِفْعِلَّال only"
           ],
           "correct": 0,
-          "explanation": "اِشْتَدَّ (VIII) and اِسْتَحَبَّ (X) are the only two that are مُتَعَدٍّ-capable; the book fills in their مَجْهُوْلٌ columns (اُشْتُدَّ يُشْتَدُّ، اُسْتُحِبَّ يُسْتَحَبُّ). Bābs VII, IX, XI and اِفْعِلَّال are لَازِمٌ, so those boxes are left empty."
+          "explanation": "اِشْتَدَّ (VIII) and اِسْتَحَبَّ (X) are the only two that are مُتَعَدٍّ-capable; their مَجْهُوْلٌ columns are filled in (اُشْتُدَّ يُشْتَدُّ، اُسْتُحِبَّ يُسْتَحَبُّ). Bābs VII, IX, XI and اِفْعِلَّال are لَازِمٌ, so those boxes are left empty."
         },
         {
           "q": "The الْمُضَارِعُ الْمَعْلُوْمُ of اِسْتَحَبَّ is…",
@@ -5645,7 +5645,7 @@ export default {
             "The إِدْغَامٌ makes the form impossible to pronounce"
           ],
           "correct": 0,
-          "explanation": "بَاب اِفْعِلَال expresses colours and physical defects and is always intransitive; the book therefore leaves the مَجْهُوْلٌ and اِسْمُ الْمَفْعُوْلِ boxes empty."
+          "explanation": "بَاب اِفْعِلَال expresses colours and physical defects and is always intransitive, so it has no مَجْهُوْلٌ and no اِسْمُ الْمَفْعُوْلِ."
         },
         {
           "q": "اِحْمَرَّ and اِحْمَارَّ both mean 'to be red'. What distinguishes them?",
@@ -7040,7 +7040,7 @@ export default {
           "correct": 0
         },
         {
-          "q": "According to the master summary table (p. 257), which four أَبْوَابٌ have every مَجْهُوْلٌ cell and the اِسْمُ الْمَفْعُوْلِ cell left blank?",
+          "q": "According to the master summary table, which four أَبْوَابٌ have every مَجْهُوْلٌ cell and the اِسْمُ الْمَفْعُوْلِ cell left blank?",
           "options": [
             "اِنْفِعَالًا (VII)، اِفْعِلَالًا (IX)، اِفْعِيْلَالًا (XI)، and اِفْعِلَّالًا",
             "تَفْعِيْلًا (II) and تَفَعُّلًا (V)",

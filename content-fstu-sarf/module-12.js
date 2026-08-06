@@ -406,7 +406,7 @@ export default {
             "فَعَّالٌ"
           ],
           "correct": 1,
-          "explanation": "صَبُوْرٌ is on فَعُوْلٌ. The book's other common patterns are فَعِيْلٌ (كَثِيْرٌ) and فَعْلَانُ (غَضْبَانُ)."
+          "explanation": "صَبُوْرٌ is on فَعُوْلٌ. The other common patterns are فَعِيْلٌ (كَثِيْرٌ) and فَعْلَانُ (غَضْبَانُ)."
         },
         {
           "title": "Lesson content",
@@ -445,12 +445,12 @@ export default {
             "عَابِدَاتٌ"
           ],
           "correct": 0,
-          "explanation": "The book gives عَابِدٌ ج عَبَدَةٌ on the pattern فَعَلَةٌ (alongside كَافِرٌ ج كُفَّارٌ on فُعَّالٌ and عَاقِلٌ ج عُقَلَاءُ on فُعَلَاءُ)."
+          "explanation": "عَابِدٌ ج عَبَدَةٌ is on the pattern فَعَلَةٌ (alongside كَافِرٌ ج كُفَّارٌ on فُعَّالٌ and عَاقِلٌ ج عُقَلَاءُ on فُعَلَاءُ)."
         },
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "In the usage table, which meaning does غَنِيٌّ NOT have (marked * in the book)?",
+          "prompt": "In the usage table, which meaning does غَنِيٌّ NOT have?",
           "options": [
             "The adjective meaning 'rich'",
             "The noun meaning 'rich person'",
@@ -463,7 +463,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "When an Arabic noun like مُجْتَهِدٌ or غَنِيٌّ has no exact English equivalent, the book says to translate it by…",
+          "prompt": "When an Arabic noun like مُجْتَهِدٌ or غَنِيٌّ has no exact English equivalent, it should be translated by…",
           "options": [
             "leaving it untranslated",
             "adding 'one who' or 'person'",
@@ -674,7 +674,7 @@ export default {
             "مِفْعَالٌ"
           ],
           "correct": 2,
-          "explanation": "The book gives فَعَّال as one of the most common patterns, e.g. غَفَّارٌ."
+          "explanation": "فَعَّال is one of the most common patterns, e.g. غَفَّارٌ."
         },
         {
           "q": "What does the اِسْمُ التَّفْضِيْلِ depict?",
@@ -800,7 +800,7 @@ export default {
             "أَفْعَلُ"
           ],
           "correct": 0,
-          "explanation": "The book gives both أَكْثَرُ and أَشَدُّ as the words placed before the مَصْدَرٌ for non-ثُلَاثِيٌّ مُجَرَّدٌ verbs."
+          "explanation": "أَكْثَرُ and أَشَدُّ are both used as the words placed before the مَصْدَرٌ for non-ثُلَاثِيٌّ مُجَرَّدٌ verbs."
         }
       ]
     },
@@ -1250,7 +1250,7 @@ export default {
             "Because عِبَادَةٌ has no plural"
           ],
           "correct": 1,
-          "explanation": "Theoretically any مَصْدَرٌ can have an اِسْمُ الْآلَةِ, but not all of them have one used in standard Arabic — مِعْبَدٌ is the book's example of one that does not exist."
+          "explanation": "Theoretically any مَصْدَرٌ can have an اِسْمُ الْآلَةِ, but not all of them have one used in standard Arabic — مِعْبَدٌ is an example of one that does not exist."
         },
         {
           "title": "Lesson content",
@@ -1328,7 +1328,7 @@ export default {
             "an اِسْمُ فَاعِلٍ of بَابُ إِفْعَال"
           ],
           "correct": 0,
-          "explanation": "The اِسْمُ الظَّرْفِ of the ثُلَاثِيٌّ مَزِيْدٌ فِيْهِ comes on the pattern of the اِسْمُ الْمَفْعُوْلِ; مُدْخَلًا (from بَابُ إِفْعَال) is the book's example for place of entry."
+          "explanation": "The اِسْمُ الظَّرْفِ of the ثُلَاثِيٌّ مَزِيْدٌ فِيْهِ comes on the pattern of the اِسْمُ الْمَفْعُوْلِ; مُدْخَلًا (from بَابُ إِفْعَال) is the Quranic example for place of entry."
         },
         {
           "title": "Book Exercise 1 (p. 321)",

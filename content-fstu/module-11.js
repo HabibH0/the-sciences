@@ -1790,7 +1790,7 @@ export default {
             "كَمْ، أَيُّ، مَنْ"
           ],
           "correct": 1,
-          "explanation": "The book cross-references these from page 112 as verb-emphasis devices."
+          "explanation": "لَامُ الْاِبْتِدَاءِ، قَدْ، لَقَدْ، and لَنْ were previously studied as other ways to emphasise a verb."
         }
       ],
       "bank": [
@@ -3332,7 +3332,7 @@ export default {
             "They have opposite meanings"
           ],
           "correct": 0,
-          "explanation": "The Note on p. 390 makes exactly this comparison between the two structures."
+          "explanation": "Both structures serve the same emphatic purpose — نَفْسُهُ makes it تَأْكِيْدٌ مَعْنَوِيّ, repeating الْمَلِكُ makes it تَأْكِيْدٌ لَفْظِيّ."
         }
       ],
       "bank": [
@@ -3399,7 +3399,7 @@ export default {
             "Because two princes count as many"
           ],
           "correct": 0,
-          "explanation": "The Note on p. 391 states that dual and plural مُؤَكَّد both take أَنْفُس / أَعْيُن."
+          "explanation": "Dual and plural مُؤَكَّد both take أَنْفُس / أَعْيُن."
         },
         {
           "title": "Book Exercise 8 (Section 2, Part 2)",
@@ -12097,7 +12097,7 @@ export default {
             "It comes before the noun, takes tanween, and cannot be used in the Quran"
           ],
           "correct": 2,
-          "explanation": "These are exactly the three differences listed on page 397."
+          "explanation": "These are exactly the three differences shown in the comparison table above."
         }
       ],
       "bank": [
@@ -12190,7 +12190,7 @@ export default {
             "أَجْمَعُ"
           ],
           "correct": 2,
-          "explanation": "جُمَعُ is the feminine plural form given in the table on p. 397."
+          "explanation": "جُمَعُ is the feminine plural form given in the table above."
         },
         {
           "title": "Book Exercise 14 (Section 2, Part 2)",
@@ -12203,7 +12203,7 @@ export default {
             "Every single one of them"
           ],
           "correct": 3,
-          "explanation": "The book renders it as 'Every single one of the angels prostrated.'"
+          "explanation": "This phrase is rendered 'Every single one of the angels prostrated.'"
         },
         {
           "title": "أَهْلَكَ اللّٰهُ فِرْعَوْنَ وَجُنُوْدَهُ أَجْمَعِيْنَ",
@@ -13687,7 +13687,7 @@ export default {
             "نَفْسٌ and أَجْمَعُ"
           ],
           "correct": 3,
-          "explanation": "بِنَفْسِهِ and بِأَجْمَعِهَا are the two patterns the book gives."
+          "explanation": "بِنَفْسِهِ and بِأَجْمَعِهَا are the two patterns for the حَرْفُ صِلَةٍ بِ."
         },
         {
           "q": "How is the بِ labelled in the tarkib of ذَبَحَ رَسُوْلُ اللّٰهِ كَبْشًا بِنَفْسِهِ?",
@@ -18545,7 +18545,7 @@ export default {
             "As a تَمْيِيْز, a بَدَل, and a حَال"
           ],
           "correct": 0,
-          "explanation": "The table on p. 402 sets these three side by side with the same meaning."
+          "explanation": "The table above sets these three side by side with the same meaning."
         },
         {
           "q": "How can you tell at a glance which of the three uses is present?",
@@ -19993,7 +19993,7 @@ export default {
             "كِلَا"
           ],
           "correct": 2,
-          "explanation": "This was the second of the three differences listed for أَجْمَع on page 397."
+          "explanation": "Unlike the other quantifiers, أَجْمَعُ does not usually become مُضَافٌ to a pronoun — it simply follows the مُؤَكَّد on its own."
         },
         {
           "q": "Which quantifier can appear as a تَأْكِيْد, a direct slot, and a حَال?",
@@ -21623,7 +21623,7 @@ export default {
             "Because وَ cannot join two subjects"
           ],
           "correct": 2,
-          "explanation": "The book explicitly marks this form as incorrect on page 405."
+          "explanation": "An attached pronoun cannot carry a coordination on its own — the detached form must be inserted first, giving ذَهَبْتُ أَنَا وَزَيْدٌ."
         },
         {
           "q": "In the tarkib of ذَهَبْتُ أَنَا وَزَيْدٌ, what are the labels on the two lower rows?",
@@ -26582,7 +26582,7 @@ export default {
             "Fronting and restriction"
           ],
           "correct": 1,
-          "explanation": "The chart on p. 411 divides the noun column into an Emphasis half and a Quantity half."
+          "explanation": "The table above divides the noun's emphasis devices into an Emphasis half and a Quantity half."
         },
         {
           "q": "Which four devices belong to the 'emphasis' half of the noun chart?",
@@ -26637,7 +26637,7 @@ export default {
             "نُوْنُ التَّأْكِيْدِ"
           ],
           "correct": 2,
-          "explanation": "The repetition row runs the full width of the verb table on p. 412."
+          "explanation": "تَأْكِيْدٌ لَفْظِيٌّ runs across the whole bottom row of the verb table above, applying in any tense."
         }
       ],
       "bank": [

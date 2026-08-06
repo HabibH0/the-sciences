@@ -360,7 +360,7 @@ export default {
           "explanation": "'who he fell' becomes 'who fell' — the English relative pronoun already carries the subject."
         },
         {
-          "q": "Which relative pronoun does the book use when the عَائِد refers to a thing?",
+          "q": "Which English relative pronoun is used when the عَائِد refers to a thing?",
           "options": [
             "'who' or 'one who'",
             "'which' or 'that'",
@@ -1213,7 +1213,7 @@ export default {
             "Because أَصْنَام is feminine",
             "Because a non-human plural is treated as feminine singular",
             "Because the verb is مَجْهُوْل",
-            "It is an error in the book"
+            "There is no rule behind it — it is simply irregular"
           ],
           "correct": 1,
           "explanation": "This is the ordinary rule for broken plurals of things."
@@ -2104,7 +2104,7 @@ export default {
           "explanation": "هُ, هَا, هُمْ and هُنَّ attached to the verb sit in the object position."
         },
         {
-          "q": "Which English relative pronoun does the book use when the عَائِد is an object referring to a person?",
+          "q": "Which English relative pronoun is used when the عَائِد is an object referring to a person?",
           "options": [
             "'whose'",
             "'which'",
@@ -3871,7 +3871,7 @@ export default {
           "explanation": "يَدُ is the مُضَاف and هُ its مُضَافٌ إِلَيْهِ; the pair together are the مُبْتَدَأ, and وَسِخَةٌ the خَبَر."
         },
         {
-          "q": "How does the book adjust 'a house whose door is open'?",
+          "q": "How is 'a house whose door is open' naturally adjusted?",
           "options": [
             "'the house of the open door'",
             "'a house with an open door'",
@@ -3882,7 +3882,7 @@ export default {
           "explanation": "The adjustment produces natural English without changing the analysis."
         },
         {
-          "q": "Why does the book recommend doing the four steps before adjusting?",
+          "q": "Why is it recommended to do the four steps before adjusting?",
           "options": [
             "Because the adjustment is optional",
             "Because the literal version keeps the مُبْتَدَأ and خَبَر visible",
@@ -5800,7 +5800,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "Which two عَائِد slots does the book group together as behaving alike in English?",
+          "q": "Which two عَائِد slots behave alike in English?",
           "options": [
             "The فَاعِل and the مَفْعُوْلٌ بِهِ",
             "The مَجْرُوْر of a حَرْفُ جَرٍّ and the مُضَافٌ إِلَيْهِ of a ظَرْف",
@@ -7992,7 +7992,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "نَعْتٌ ثَانٍ"
+                  "role": "نَعْتٌ"
                 }
               ]
             },
@@ -8473,7 +8473,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "نَعْتٌ ثَانٍ"
+                  "role": "نَعْتٌ"
                 }
               ]
             },
@@ -9563,7 +9563,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "نَعْتٌ ثَانٍ"
+                  "role": "نَعْتٌ"
                 }
               ]
             },
@@ -11182,7 +11182,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "فَاعِلٌ ثَانٍ"
+                  "role": "فَاعِلٌ"
                 }
               ]
             }
@@ -11310,7 +11310,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "فَاعِلٌ ثَانٍ"
+                  "role": "فَاعِلٌ"
                 }
               ]
             }
@@ -11377,7 +11377,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "فَاعِلٌ ثَانٍ"
+                  "role": "فَاعِلٌ"
                 }
               ]
             }
@@ -11451,7 +11451,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "نَعْتٌ ثَانٍ"
+                  "role": "نَعْتٌ"
                 }
               ]
             },
@@ -11546,7 +11546,7 @@ export default {
                 {
                   "start": 6,
                   "end": 6,
-                  "role": "نَعْتٌ ثَانٍ"
+                  "role": "نَعْتٌ"
                 }
               ]
             },

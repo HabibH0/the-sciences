@@ -3388,10 +3388,10 @@ export default {
       "subtitle": "Part 1: Vocative Expressions",
       "concepts": [
         {
-          "heading": "The book's summary table",
+          "heading": "Summary Table — the Vocative Expression",
           "lines": [
             {
-              "html": "The book closes Part 1 with a single table gathering everything about the vocative expression. It is worth reading top to bottom: a vocative expression is a نِدَاءٌ followed by a جَوَابُ النِّدَاءِ, and the نِدَاءٌ itself splits into a حَرْفُ النِّدَاءِ and a مُنَادَى.",
+              "html": "This table gathers everything about the vocative expression into one place. It is worth reading top to bottom: a vocative expression is a نِدَاءٌ followed by a جَوَابُ النِّدَاءِ, and the نِدَاءٌ itself splits into a حَرْفُ النِّدَاءِ and a مُنَادَى.",
               "list": false
             },
             {
@@ -3441,7 +3441,7 @@ export default {
             "kind": "mcq",
             "options": [
               "Because its final مِيْم is doing the particle's job in place of a written يَا",
-              "Because it is a typo in the book",
+              "Because it is simply a typo",
               "Because اللّٰهم always needs a separate حرف نداء anyway",
               "Because it belongs to the مُنَادَى row instead"
             ],
@@ -7522,20 +7522,20 @@ export default {
             "Because the verse is a question"
           ],
           "correct": 2,
-          "explanation": "Note 2 states this expressly."
+          "explanation": "لَا standing directly before the verb of the oath (أُقْسِمُ), explicit or elided, is emphatic rather than negative — so the verse means 'I do swear,' not 'I do not swear.'"
         },
         {
           "title": "Book Exercise 1 (Unit 6, Part 2), item 9",
           "kind": "mcq",
           "prompt": "In تَاللهِ، لَا يُرِيْدُ الشَّيْطَانُ إِلَّا أَنْ يُضِلَّ النَّاسَ, is the لَا emphatic or negative?",
           "options": [
-            "Emphatic, as in Note 2",
+            "Emphatic — لَا directly before the verb of the oath is always emphatic",
             "Negative — it precedes an ordinary verb, not the verb of the oath",
             "Neither; it is extra",
             "It makes the sentence a command"
           ],
           "correct": 1,
-          "explanation": "Note 2 applies only to لَا standing before أُقْسِمُ itself."
+          "explanation": "The rule that لَا before the oath's own verb (أُقْسِمُ) is emphatic doesn't apply here — this لَا precedes يُرِيْدُ, an ordinary verb, so it's a plain negative."
         },
         {
           "title": "Book Summary table (Unit 6, Part 2, p. 570)",
@@ -7548,12 +7548,12 @@ export default {
             "يَا، أَيُّهَا، اَللّٰهُمَّ"
           ],
           "correct": 0,
-          "explanation": "One for each of the three particles taught on p. 568."
+          "explanation": "One for each of the three particles used to open an oath."
         },
         {
           "title": "Book Exercise 1 (Unit 6, Part 2), item 5",
           "kind": "mcq",
-          "prompt": "In وَاللهِ، لَقَدْ أَعْجَبَنِيْ احْتِرَامُكَ, which cell of the p. 569 table applies?",
+          "prompt": "In وَاللهِ، لَقَدْ أَعْجَبَنِيْ احْتِرَامُكَ, which cell of the emphasis table applies?",
           "options": [
             "مُثْبَتٌ nominal",
             "مَنْفِيٌّ past",

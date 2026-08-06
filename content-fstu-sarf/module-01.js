@@ -467,7 +467,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "In the abbreviations used by the book, what does (f/d) mean?",
+          "prompt": "In these grammar abbreviations (m/f, s/d/p), what does (f/d) mean?",
           "options": [
             "Feminine dual",
             "Feminine definite",
@@ -2067,7 +2067,7 @@ export default {
             "نَبْعَثُ"
           ],
           "correct": 0,
-          "explanation": "بَعَثُوْا is الْغَائِبُوْنَ ('They m/p sent'); its مُضَارِعٌ is يَبْعَثُوْنَ ('They m/p send'). The book's model: فَعَلْتُنَّ ⇦ تَفْعَلْنَ."
+          "explanation": "بَعَثُوْا is الْغَائِبُوْنَ ('They m/p sent'); its مُضَارِعٌ is يَبْعَثُوْنَ ('They m/p send')."
         },
         {
           "title": "Book Exercise 6 (p. 27)",
@@ -2707,7 +2707,7 @@ export default {
             "بَاب حَسِبَ يَحْسِبُ"
           ],
           "correct": 0,
-          "explanation": "The book notes after the فَتَحَ conjugation table: all verbs discussed until now were from بَاب فَتَحَ يَفْتَحُ."
+          "explanation": "All verbs discussed until now were from بَاب فَتَحَ يَفْتَحُ."
         },
         {
           "title": "Book Exercise 2 (p. 33)",
@@ -5149,7 +5149,7 @@ export default {
             "فَعُلَ يَفْعُلُ — fairly common"
           ],
           "correct": 0,
-          "explanation": "حَسِبَ يَحْسِبُ is فَعِلَ يَفْعِلُ (kasrah in both tenses). The book notes this pattern is very rare."
+          "explanation": "حَسِبَ يَحْسِبُ is فَعِلَ يَفْعِلُ (kasrah in both tenses) — a very rare pattern."
         },
         {
           "q": "A مَاضِيْ verb with a ضَمَّةٌ on its عَيْنُ الْكَلِمَةِ can only be from which بَابٌ?",
@@ -5329,7 +5329,7 @@ export default {
             "ف، س"
           ],
           "correct": 0,
-          "explanation": "A مَاضِيْ on فَعَلَ pairs with يَفْعَلُ، يَفْعِلُ or يَفْعُلُ — i.e. بَاب فَتَحَ، ضَرَبَ or نَصَرَ. (This is the book's worked example.)"
+          "explanation": "A مَاضِيْ on فَعَلَ pairs with يَفْعَلُ، يَفْعِلُ or يَفْعُلُ — i.e. بَاب فَتَحَ، ضَرَبَ or نَصَرَ."
         },
         {
           "title": "Revision Exercise 1 (p. 41)",
@@ -8389,7 +8389,7 @@ export default {
             "All passive verbs"
           ],
           "correct": 0,
-          "explanation": "The book notes that the اِسْمُ الْفَاعِلِ of words from بَاب كَرُمَ يَكْرُمُ do not come on this pattern: كَرُمَ يَكْرُمُ كَرَامَةً ⟵ كَرِيْمٌ ('noble')."
+          "explanation": "The اِسْمُ الْفَاعِلِ of words from بَاب كَرُمَ يَكْرُمُ do not come on this pattern: كَرُمَ يَكْرُمُ كَرَامَةً ⟵ كَرِيْمٌ ('noble')."
         },
         {
           "q": "الْبَابُ مَفْتُوْحٌ illustrates which usage of the اِسْمُ الْمَفْعُوْلِ?",
@@ -8467,7 +8467,7 @@ export default {
             "لَعْنٌ — a مَصْدَرٌ"
           ],
           "correct": 0,
-          "explanation": "لَعَنَ ⟵ مَلْعُوْنٌ on the مَفْعُوْلٌ pattern; the book lists it as the adjectival usage of the اِسْمُ الْمَفْعُوْلِ."
+          "explanation": "لَعَنَ ⟵ مَلْعُوْنٌ on the مَفْعُوْلٌ pattern, used adjectivally as the اِسْمُ الْمَفْعُوْلِ."
         },
         {
           "title": "Book Exercise 2 (p. 67)",
@@ -9046,7 +9046,7 @@ export default {
             "To learn the plural forms of nouns"
           ],
           "correct": 0,
-          "explanation": "This is the reason the book gives on p. 70."
+          "explanation": "التَّصْرِيْفُ الصَّغِيْرُ helps a student quickly identify and conjugate the various forms of the verb."
         },
         {
           "q": "What is التَّصْرِيْفُ الْكَبِيْرُ?",
@@ -9074,12 +9074,12 @@ export default {
           "q": "Why are cells left blank in the كَرُمَ يَكْرُمُ row of the تَصْرِيْف صَغِيْر table?",
           "options": [
             "This بَابٌ has no مَجْهُوْلٌ forms and no اِسْمُ الْمَفْعُوْلِ",
-            "The book ran out of space",
+            "There wasn't enough room to fit them in",
             "Its forms are identical to نَصَرَ",
             "It has no الْأَمْرُ"
           ],
           "correct": 0,
-          "explanation": "The book leaves the مَاضِيْ مَجْهُوْل، مُضَارِع مَجْهُوْل، its مَصْدَر and the اِسْمُ الْمَفْعُوْلِ blank; the اِسْمُ الْفَاعِلِ is the irregular كَرِيْمٌ."
+          "explanation": "مَاضِيْ مَجْهُوْل، مُضَارِع مَجْهُوْل، its مَصْدَر and the اِسْمُ الْمَفْعُوْلِ are blank; the اِسْمُ الْفَاعِلِ is the irregular كَرِيْمٌ."
         },
         {
           "q": "In التَّصْرِيْفُ الْكَبِيْرُ of فَتَحَ, which columns are filled only for the مُخَاطَبٌ rows?",

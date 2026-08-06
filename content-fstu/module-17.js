@@ -335,7 +335,7 @@ export default {
             "'whenever'"
           ],
           "correct": 1,
-          "explanation": "The book gives both 'as long as … not' and 'until'."
+          "explanation": "Both 'as long as … not' and 'until' are correct renderings."
         },
         {
           "q": "Why is كَانَ needed in لَا آكُلُ مَا كُنْتَ صَائِمًا?",
@@ -3904,7 +3904,7 @@ export default {
             "It is usually omitted, though it still governs"
           ],
           "correct": 3,
-          "explanation": "The book writes it in brackets in the tarkeeb to show it is understood."
+          "explanation": "It is written in brackets in the tarkeeb to show it is understood."
         },
         {
           "q": "What proves the hidden أَنْ is present in حَتَّى تَغْرُبَ الشَّمْسُ?",
@@ -3926,7 +3926,7 @@ export default {
             "'while'"
           ],
           "correct": 0,
-          "explanation": "The book's summary table pairs both under 'Until'."
+          "explanation": "The summary table pairs both under 'Until'."
         },
         {
           "q": "According to the Part 5 summary, which forms fill the adverb slot directly?",
@@ -7277,7 +7277,7 @@ export default {
           "explanation": "The three are written as one word; the أَنْ cannot be dropped when the purpose is negative."
         },
         {
-          "q": "How does the book translate لِئَلَّا?",
+          "q": "How is لِئَلَّا translated?",
           "options": [
             "'as long as'",
             "'until'",
@@ -8811,7 +8811,7 @@ export default {
           "explanation": "لِأَنَّهُ خَلَقَنِيْ gives the reason the worship happens, not its aim."
         },
         {
-          "q": "In the book's contrast pair, why is the subjunctive used in أَتْلُو الْقُرْآنَ لِأَحْصُلَ عَلَى الْأَجْرِ?",
+          "q": "In this contrast pair, why is the subjunctive used in أَتْلُو الْقُرْآنَ لِأَحْصُلَ عَلَى الْأَجْرِ?",
           "options": [
             "Because the main verb is a مُضَارِعٌ",
             "Because acquiring the reward occurs after the reciting",
@@ -10469,7 +10469,7 @@ export default {
             "'so that'"
           ],
           "correct": 2,
-          "explanation": "All three English renderings are given by the book."
+          "explanation": "All three are correct English renderings."
         },
         {
           "q": "How do you know the مَا in كَمَا يَقْرَأُ الْقُرَّاءُ is مَوْصُوْلَة?",
@@ -12022,7 +12022,7 @@ export default {
           "explanation": "The set of states is understood rather than stated — hence '(in all conditions)'."
         },
         {
-          "q": "What label does the book give the مُؤَوَّل unit in its tarkeeb?",
+          "q": "What label is given to the مُؤَوَّل unit in its tarkeeb?",
           "options": [
             "مُسْتَثْنًى مِنَ الْحَالِ الْمَحْذُوْفِ",
             "مَفْعُوْلٌ لَهُ",
@@ -15066,7 +15066,7 @@ export default {
             "'because'"
           ],
           "correct": 2,
-          "explanation": "It is the last of the six adverbs the book lists."
+          "explanation": "It is the last of the six adverbs listed."
         },
         {
           "q": "What form does the صِلَةٌ after أَنْ usually take?",
@@ -15091,7 +15091,7 @@ export default {
           "explanation": "رَجَعَ الْحُجَّاجُ بَعْدَ أَنْ أَدَّوْا مَنَاسِكَهُمْ."
         },
         {
-          "q": "In the book's tarkeeb, what slot does قَبْلَ with its clause occupy?",
+          "q": "What slot does قَبْلَ with its clause occupy in the tarkeeb?",
           "options": [
             "مَفْعُوْلٌ بِهِ",
             "مَفْعُوْلٌ لَهُ",
@@ -16664,7 +16664,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "Which slots does the book note are NOT filled by an اِسْمٌ مُؤَوَّلٌ, because they belong to a different construction entirely؟",
+            "prompt": "Which slots are NOT filled by an اِسْمٌ مُؤَوَّلٌ, because they belong to a different construction entirely؟",
             "kind": "mcq",
             "options": [
               "حَالٌ, تَمْيِيْزٌ, نَعْتٌ and بَدَلٌ — filled instead by ordinary nouns or by the نَعْت sentence / مَوْصُوْل unit of earlier sections",
@@ -16718,7 +16718,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "How many slots does the book's summary table list?",
+          "q": "How many slots does the summary table list?",
           "options": [
             "five",
             "seven",

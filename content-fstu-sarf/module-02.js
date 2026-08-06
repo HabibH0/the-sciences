@@ -5912,7 +5912,7 @@ export default {
             "to translate"
           ],
           "correct": 0,
-          "explanation": "From the Vocab table on p. 99: تَلَأْلَأَ 'to shine' (بَاب تَفَعْلُل). تَمَضْمَضَ is 'to gargle'."
+          "explanation": "تَلَأْلَأَ 'to shine' is بَاب تَفَعْلُل. تَمَضْمَضَ is 'to gargle'."
         },
         {
           "title": "Lesson content",
@@ -7099,7 +7099,7 @@ export default {
             "ق ب ل — بَاب تَفَعُّل (V), الْمَاضِي الْمَعْلُوْمُ"
           ],
           "correct": 0,
-          "explanation": "تَقَبَّلَ ← مَاضِيْ مَجْهُوْلٌ تُفُعِّلَ = تُقُبِّلَ (see the Summary table on p. 100)."
+          "explanation": "تَقَبَّلَ ← مَاضِيْ مَجْهُوْلٌ تُفُعِّلَ = تُقُبِّلَ."
         },
         {
           "title": "Book Exercise 1 (p. 106)",

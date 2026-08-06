@@ -2970,7 +2970,7 @@ export default {
         {
           "title": "Part 1 (p. 250)",
           "kind": "mcq",
-          "prompt": "The book says عِنْدَ التَّاجِرِ مَالٌ كَثِيْرٌ but لِزَيْنَبَ ثَلَاثُ أَخَوَاتٍ. Why عِنْدَ for wealth and لِ for sisters?",
+          "prompt": "Compare عِنْدَ التَّاجِرِ مَالٌ كَثِيْرٌ and لِزَيْنَبَ ثَلَاثُ أَخَوَاتٍ. Why عِنْدَ for wealth and لِ for sisters?",
           "options": [
             "عِنْدَ is only used for people",
             "لِ literally means 'by'",

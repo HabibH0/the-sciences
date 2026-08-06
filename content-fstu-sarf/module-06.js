@@ -3892,7 +3892,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "Why does the book leave the الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ columns blank for اِنْقَادَ (بَاب اِنْفِعَال)؟",
+            "prompt": "Why are the الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ columns left blank above for اِنْقَادَ (بَاب اِنْفِعَال)؟",
             "kind": "mcq",
             "options": [
               "Because بَاب اِنْفِعَال verbs are intransitive",
@@ -4396,7 +4396,7 @@ export default {
           "explanation": "بَاب إِفْعَال: يُرْوِدُ undergoes نَقْلٌ (and قَلْبٌ of the وَاوٌ to يَاءٌ) giving يُرِيْدُ. يُرَادُ is the passive."
         },
         {
-          "q": "What is distinctive about بَاب اِنْفِعَال (Part 9) in the book's tables?",
+          "q": "What is distinctive about بَاب اِنْفِعَال (Part 9)'s conjugation?",
           "options": [
             "It has no أَمْر or نَهْي",
             "The مجهول columns and اِسْمُ الْمَفْعُوْلِ are left blank",
@@ -4404,7 +4404,7 @@ export default {
             "It has two مَصْدَر forms"
           ],
           "correct": 1,
-          "explanation": "اِنْقَادَ has no passive forms and no اِسْمُ الْمَفْعُوْلِ in the book's tables — بَاب اِنْفِعَال verbs are intransitive."
+          "explanation": "اِنْقَادَ has no passive forms and no اِسْمُ الْمَفْعُوْلِ — بَاب اِنْفِعَال verbs are intransitive."
         },
         {
           "q": "For اِحْتَاجَ (بَاب اِفْتِعَال), the اِسْمُ الْفَاعِلِ and اِسْمُ الْمَفْعُوْلِ are…",
@@ -6100,7 +6100,7 @@ export default {
           "correct": 0
         },
         {
-          "q": "According to the master summary table (p. 184), which two أَبْوَاب of الثُّلَاثِيُّ الْمُجَرَّدُ have no أَجْوَفُ example given (every cell left blank)?",
+          "q": "According to the master summary table, which two أَبْوَاب of الثُّلَاثِيُّ الْمُجَرَّدُ have no أَجْوَفُ example given (every cell left blank)?",
           "options": [
             "بَاب فَتَحَ and بَاب حَسِبَ",
             "بَاب سَمِعَ and بَاب ضَرَبَ",
@@ -6108,14 +6108,14 @@ export default {
             "None — every بَاب has an example"
           ],
           "correct": 0,
-          "explanation": "The summary table (p. 184) prints \"—\" in every column for بَاب فَتَحَ and بَاب حَسِبَ: the book gives no أَجْوَفُ example from those two أَبْوَاب."
+          "explanation": "The summary table prints \"—\" in every column for بَاب فَتَحَ and بَاب حَسِبَ: there is no أَجْوَفُ example from those two أَبْوَاب."
         },
         {
           "q": "In the summary table, why does اِنْقَادَ (بَاب اِنْفِعَال) have blank مَجْهُوْلٌ and اِسْمُ الْمَفْعُوْلِ columns?",
           "options": [
             "Because اِنْقَادَ is لَازِمٌ (intransitive), so it has no passive forms",
             "Because بَاب اِنْفِعَال never has an اِسْمُ الْمَفْعُوْلِ in Arabic",
-            "Because the book ran out of space",
+            "Because اِنْقَادَ forgot its مَجْهُوْلٌ forms",
             "Because اِنْقَادَ has no اِسْمُ الْفَاعِلِ either"
           ],
           "correct": 0,

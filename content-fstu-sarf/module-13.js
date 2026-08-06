@@ -200,7 +200,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "According to the Note on p. 324, when does إِدْغَامٌ take place with لَنْ?",
+            "prompt": "When does إِدْغَامٌ take place with لَنْ?",
             "kind": "mcq",
             "options": [
               "Between the نُوْنٌ of لَنْ and a حَرْفُ الْمُضَارِعِ of ت or أ",
@@ -3203,7 +3203,7 @@ export default {
             "It cannot take a لَامٌ before the verb"
           ],
           "correct": 0,
-          "explanation": "The خَفِيْفَةُ follows the same rules as the ثَقِيْلَةُ, but it cannot be attached to the ending of dual or feminine plural صِيَغٌ (marked * in the book's table)."
+          "explanation": "The خَفِيْفَةُ follows the same rules as the ثَقِيْلَةُ, but it cannot be attached to the ending of dual or feminine plural صِيَغٌ (marked * in the table)."
         },
         {
           "q": "Why is the نَاقِصٌ form لَيُرْمَوُنَّ different from لَيَرْمُنَّ?",
@@ -3281,7 +3281,7 @@ export default {
             "وَلِيَ يَلِيْ — to be near"
           ],
           "correct": 1,
-          "explanation": "The table on p. 339 conjugates وَفَى يَفِيْ (مَعْلُوْمٌ) / يُوْفَى (مَجْهُوْلٌ): لَيَفِيَنَّ، لَيُوْفَيَنَّ."
+          "explanation": "The table conjugates وَفَى يَفِيْ (مَعْلُوْمٌ) / يُوْفَى (مَجْهُوْلٌ): لَيَفِيَنَّ، لَيُوْفَيَنَّ."
         },
         {
           "title": "Lesson content",
@@ -3981,7 +3981,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "How many permissible أَمْرٌ forms does the الْغَائِبُ of مَدَّ يَمُدُّ have, per the book's table?",
+          "prompt": "How many permissible أَمْرٌ forms does the الْغَائِبُ of مَدَّ يَمُدُّ have?",
           "options": [
             "One",
             "Two",
@@ -4020,7 +4020,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "The النَّهْيُ of صَيْطَرَ (as printed on p. 345) is…",
+          "prompt": "The النَّهْيُ of صَيْطَرَ is…",
           "options": [
             "لَا تُصَيْطِرْ",
             "لَا تَصَيْطِرْ",
@@ -5181,7 +5181,7 @@ export default {
             "تَسْكِيْنٌ of the ت"
           ],
           "correct": 0,
-          "explanation": "ظَلِلْتَ ← ظَلْتَ — 'which you have remained devoted to'. Compare ﴿فَظَلْتُمْ﴾ on p. 346."
+          "explanation": "ظَلِلْتَ ← ظَلْتَ — 'which you have remained devoted to'. Compare ﴿فَظَلْتُمْ﴾."
         },
         {
           "title": "Book Exercise 1 (p. 350)",
@@ -5194,7 +5194,7 @@ export default {
             "A مُضَاعَفٌ verb of بَابِ الْإِفْعَالِ"
           ],
           "correct": 0,
-          "explanation": "هَيْمَنَ follows the pattern فَيْعَلَ يُفَيْعِلُ فَيْعَلَةً (see p. 345); its اسْمُ الْفَاعِلِ is مُهَيْمِنٌ — 'a guardian over it'."
+          "explanation": "هَيْمَنَ follows the pattern فَيْعَلَ يُفَيْعِلُ فَيْعَلَةً; its اسْمُ الْفَاعِلِ is مُهَيْمِنٌ — 'a guardian over it'."
         },
         {
           "title": "Book Exercise 1 (p. 350)",
@@ -5259,7 +5259,7 @@ export default {
             "نَقْلٌ of the حَرَكَةٌ"
           ],
           "correct": 0,
-          "explanation": "يَتَذَكَّرُ ← يَذَذَكَّرُ ← يَذْذَكَّرُ ← يَذَّكَّرُ — exactly the chain given on p. 349."
+          "explanation": "يَتَذَكَّرُ ← يَذَذَكَّرُ ← يَذْذَكَّرُ ← يَذَّكَّرُ — exactly the same chain."
         },
         {
           "title": "Book Exercise 1 (p. 350)",
@@ -5285,7 +5285,7 @@ export default {
             "بَابُ الْإِفْعَالِ"
           ],
           "correct": 0,
-          "explanation": "The ضَمَّةٌ indicates بَابُ نَصَرَ. The book gives مِتُّ (سَمِعَ) and مُتُّ / أَمُوْتُ (نَصَرَ) as its example of تَدَاخُلُ اللُّغَاتِ."
+          "explanation": "The ضَمَّةٌ indicates بَابُ نَصَرَ. مِتُّ (سَمِعَ) and مُتُّ / أَمُوْتُ (نَصَرَ) are the example given of تَدَاخُلُ اللُّغَاتِ."
         },
         {
           "title": "Book Exercise 1 (p. 350)",
@@ -5415,7 +5415,7 @@ export default {
             "الْمُزْتَمِلُ — بَابُ الْاِفْتِعَالِ"
           ],
           "correct": 0,
-          "explanation": "الْمُتَزَمِّلُ ← الْمُزَزَمِّلُ ← الْمُزْزَمِّلُ ← الْمُزَّمِّلُ — 'the one wrapped in garments'. Compare الْمُتَدَثِّرُ ← الْمُدَّثِّرُ on p. 349."
+          "explanation": "الْمُتَزَمِّلُ ← الْمُزَزَمِّلُ ← الْمُزْزَمِّلُ ← الْمُزَّمِّلُ — 'the one wrapped in garments'. Compare الْمُتَدَثِّرُ ← الْمُدَّثِّرُ."
         },
         {
           "title": "Book Exercise 1 (p. 350)",

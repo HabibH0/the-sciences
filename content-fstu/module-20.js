@@ -463,7 +463,7 @@ export default {
           "q": "Why is إِنْ left unlabelled in tarkeeb?",
           "options": [
             "Because it is optional",
-            "Because it is a mistake in the book",
+            "Because it is simply irregular, with no rule behind it",
             "Because it is a حَرْفٌ and so fills no slot",
             "Because it is مَجْزُوْمٌ"
           ],
@@ -1858,7 +1858,7 @@ export default {
             "The zero uses the مَاضِي"
           ],
           "correct": 0,
-          "explanation": "The book says explicitly: 'The context will help determine the meaning of the Arabic sentence.'"
+          "explanation": "The context will help determine the meaning of the Arabic sentence."
         },
         {
           "q": "When is a comma placed between the two clauses?",
@@ -2070,7 +2070,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -2217,7 +2217,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -3440,7 +3440,7 @@ export default {
             "it is left out entirely and the sentence is nominal"
           ],
           "correct": 1,
-          "explanation": "The book states this explicitly."
+          "explanation": "إِنْ كُنْتَ صَادِقًا is a present real-conditional sense, not a past 'was/were'."
         },
         {
           "q": "Which additions on the verb of the جَوَاب force a فَ?",
@@ -4240,7 +4240,7 @@ export default {
             "Because مَنْ never takes one",
             "Because the sentence is a proverb",
             "Because the جَوَاب is a مَاضٍ carrying a مُضَارِع meaning — an allowed form",
-            "The book has omitted it by mistake"
+            "It is simply irregular, with no rule behind it"
           ],
           "correct": 2,
           "explanation": "حَزَنَهُ is past in form but present in meaning."
@@ -8990,7 +8990,7 @@ export default {
               "list": false
             },
             {
-              "html": "The book's illustration is in English: \"If you worked hard, you would be successful.\" This can also be translated by placing 'were' at the beginning of the sentence, followed by the infinitive: \"Were you to work hard, you would be successful.\"",
+              "html": "For example, in English: \"If you worked hard, you would be successful.\" This can also be translated by placing 'were' at the beginning of the sentence, followed by the infinitive: \"Were you to work hard, you would be successful.\"",
               "list": false
             },
             {
@@ -9004,7 +9004,7 @@ export default {
             "options": [
               "Because the past tense here signals distance from reality (unlikelihood), not an actual past event",
               "Because Arabic literally means the event already happened",
-              "It is simply a translation error the book acknowledges",
+              "It is simply an inconsistency, with no underlying reason",
               "Because the شَرْط always refers to yesterday"
             ],
             "correct": 0
@@ -9648,7 +9648,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -11003,7 +11003,7 @@ export default {
             "It is the لَام"
           ],
           "correct": 1,
-          "explanation": "The book draws it as an empty box in the diagram."
+          "explanation": "It is drawn as an empty box in the tarkeeb diagram."
         },
         {
           "q": "In the deeper tarkeeb analysis of لَوْ أَنَّكَ اجْتَهَدتَّ لَنَجَحْتَ, what is أَنَّ called?",
@@ -11853,7 +11853,7 @@ export default {
         {
           "title": "Book Exercise 7 (Unit 6, Part 3), item 7",
           "kind": "mcq",
-          "prompt": "In لَوْ أَنَّهُمْ عَرَفُوا اللهَ مَا عَبَدُوا الْأَصْنَامَ, what is missing that the book's model sentence has?",
+          "prompt": "In لَوْ أَنَّهُمْ عَرَفُوا اللهَ مَا عَبَدُوا الْأَصْنَامَ, what is missing compared with the usual لَوْ pattern?",
           "options": [
             "the شَرْط",
             "the لَامُ الْجَوَابِ — the negative جَوَاب here begins with a bare مَا",
@@ -11861,7 +11861,7 @@ export default {
             "the جَوَاب"
           ],
           "correct": 1,
-          "explanation": "The book calls the لَام 'often', not always; a negated جَوَاب may drop it."
+          "explanation": "The لَام is 'often' present, not always; a negated جَوَاب may drop it."
         },
         {
           "title": "Book Exercise 7 (Unit 6, Part 3), item 9",
@@ -12557,7 +12557,7 @@ export default {
             "'were it not for' / 'had it not been for'"
           ],
           "correct": 3,
-          "explanation": "Both renderings are given by the book."
+          "explanation": "Both renderings are correct."
         },
         {
           "q": "Which conditional type does لَوْلَا express?",
@@ -12582,7 +12582,7 @@ export default {
           "explanation": "اَلْأَنْبِيَاءُ، اَلْمَصَائِبُ، اَلْكَعْبَةُ — all مَرْفُوْع."
         },
         {
-          "q": "What is drawn as an empty box in the book's diagram?",
+          "q": "What is understood but left unstated after لَوْلَا, marked مَحْذُوْفٌ?",
           "options": [
             "the أَدَاةُ الشَّرْطِ",
             "the خَبَر of the مُبْتَدَأ, marked مَحْذُوْفٌ",
@@ -13455,7 +13455,7 @@ export default {
             "the جَوَاب"
           ],
           "correct": 1,
-          "explanation": "The book says the لَام is 'often' present, not always."
+          "explanation": "The لَام is 'often' present, not always."
         },
         {
           "title": "prophet",

@@ -3881,7 +3881,7 @@ export default {
           "explanation": "The حَرْفٌ مَوْصُوْلٌ with its صِلَةٌ forms the اِسْمٌ مُؤَوَّلٌ which does the action of يَجِبُ."
         },
         {
-          "q": "In يَجِبُ عَلَيْكَ أَنْ تَصْدُقَ, what does the book call عَلَيْكَ?",
+          "q": "In يَجِبُ عَلَيْكَ أَنْ تَصْدُقَ, what is عَلَيْكَ called?",
           "options": [
             "حَالٌ",
             "مَفْعُوْلٌ فِيْهِ",
@@ -3914,7 +3914,7 @@ export default {
           "explanation": "There is nothing to trigger the feminine, so the default masculine form is used."
         },
         {
-          "q": "How does the book suggest translating يَنْبَغِيْ?",
+          "q": "How is يَنْبَغِيْ best translated?",
           "options": [
             "as 'must'",
             "as 'is possible'",
@@ -5557,7 +5557,7 @@ export default {
           "explanation": "The whole اِسْمٌ مُؤَوَّلٌ receives the action of أَرْجُوْ."
         },
         {
-          "q": "In أَرْجُوْ أَنْ يَغْفِرَ اللهُ لِيْ, what does the book label لِيْ?",
+          "q": "In أَرْجُوْ أَنْ يَغْفِرَ اللهُ لِيْ, what is لِيْ labelled?",
           "options": [
             "حَالٌ",
             "نَعْتٌ",
@@ -5579,7 +5579,7 @@ export default {
           "explanation": "يَأْمُرُكُمْ بِالصِّدْقِ becomes يَأْمُرُكُمْ أَنْ تَصْدُقُوْا, with بِ dropped."
         },
         {
-          "q": "Which verb does the book use to illustrate the omitted preposition?",
+          "q": "Which verb illustrates the omitted preposition?",
           "options": [
             "أَمَرَ",
             "رَجَا",
@@ -7268,7 +7268,7 @@ export default {
           "explanation": "اللهَ is the اِسْم in the مَنْصُوْب state and رَبُّهُمْ the مَرْفُوْع خَبَر."
         },
         {
-          "q": "What does the book call أَنَّ in the tarkeeb?",
+          "q": "What is أَنَّ called in the tarkeeb?",
           "options": [
             "حَرْفٌ مَوْصُوْلٌ",
             "حَرْفُ نَصْبٍ",
@@ -7276,7 +7276,7 @@ export default {
             "حَرْفٌ مُشَبَّهٌ بِالْفِعْلِ"
           ],
           "correct": 3,
-          "explanation": "أَنَّ belongs to the إِنَّ family, which the book labels حُرُوْفٌ مُشَبَّهَةٌ بِالْفِعْلِ."
+          "explanation": "أَنَّ belongs to the إِنَّ family, labelled حُرُوْفٌ مُشَبَّهَةٌ بِالْفِعْلِ."
         },
         {
           "q": "In a narration with رَوَى, what does عَنْ introduce?",
@@ -8824,7 +8824,7 @@ export default {
           "explanation": "It disappears in English, usually behind a colon introducing the quoted words."
         },
         {
-          "q": "What other name does the book give أَنْ الْمَوْصُوْلَةُ?",
+          "q": "What other name is given to أَنْ الْمَوْصُوْلَةُ?",
           "options": [
             "أَنْ الشَّرْطِيَّةُ",
             "أَنْ الْمَصْدَرِيَّةُ",
@@ -9438,7 +9438,7 @@ export default {
         {
           "title": "Book Exercise 3 (Section 3, Part 4)",
           "kind": "mcq",
-          "prompt": "According to the book's table, what may follow أَنْ التَّفْسِيْرِيَّةُ?",
+          "prompt": "What may follow أَنْ التَّفْسِيْرِيَّةُ?",
           "options": [
             "only a مُضَارِعٌ verb",
             "only a مَاضٍ verb",

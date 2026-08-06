@@ -471,7 +471,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "How is the standing أَلِفٌ written at the end of نَاقِصٌ words in this book?",
+          "prompt": "How is the standing أَلِفٌ written at the end of نَاقِصٌ words in this course?",
           "options": [
             "Without a standing فَتْحَةٌ, e.g. طَغَى",
             "Always with a standing فَتْحَةٌ, e.g. طَغٰى",
@@ -479,7 +479,7 @@ export default {
             "As a يَاءٌ with dots, e.g. طَغَي"
           ],
           "correct": 0,
-          "explanation": "Scripts differ: some write a standing فَتْحَةٌ (طَغٰى), others omit it (طَغَى). The book writes it without the standing فَتْحَةٌ, and the ى has no dots."
+          "explanation": "Scripts differ: some write a standing فَتْحَةٌ (طَغٰى), others omit it (طَغَى). This course writes it without the standing فَتْحَةٌ, and the ى has no dots."
         },
         {
           "title": "Lesson content",
@@ -2328,7 +2328,7 @@ export default {
             "الْغَائِبُوْنَ and الْمُخَاطَبُوْنَ"
           ],
           "correct": 0,
-          "explanation": "الْمُخَاطَبَةُ تَسْعَيْنَ comes from تَسْعَيِيْنَ (تَسْكِيْنٌ + حَذْفٌ), while الْمُخَاطَبَاتُ تَسْعَيْنَ is unchanged; the book bolds such identical forms."
+          "explanation": "الْمُخَاطَبَةُ تَسْعَيْنَ comes from تَسْعَيِيْنَ (تَسْكِيْنٌ + حَذْفٌ), while الْمُخَاطَبَاتُ تَسْعَيْنَ is unchanged — the two coincide in form."
         }
       ],
       "bank": [
@@ -5413,7 +5413,7 @@ export default {
             "It is unique to the feminine singular"
           ],
           "correct": 0,
-          "explanation": "As with تَسْعَيْنَ, the الْمُخَاطَبَةُ form (via تَسْكِيْنٌ + حَذْفٌ) coincides with الْمُخَاطَبَاتُ (unchanged): both are تَتَلَاقَيْنَ — bolded in the book."
+          "explanation": "As with تَسْعَيْنَ, the الْمُخَاطَبَةُ form (via تَسْكِيْنٌ + حَذْفٌ) coincides with الْمُخَاطَبَاتُ (unchanged): both are تَتَلَاقَيْنَ."
         },
         {
           "title": "to perform salah",
@@ -6678,7 +6678,7 @@ export default {
               "list": false
             },
             {
-              "html": "<bdi>اِنْقَضَى</bdi> is from <bdi>بَاب اِنْفِعَال</bdi>, whose verbs are <bdi>لَازِمٌ</bdi> (intransitive). Its <bdi>مَجْهُوْلٌ</bdi> columns and its <bdi>اِسْمُ الْمَفْعُوْلِ</bdi> are therefore left blank in the book — shown here as —.",
+              "html": "<bdi>اِنْقَضَى</bdi> is from <bdi>بَاب اِنْفِعَال</bdi>, whose verbs are <bdi>لَازِمٌ</bdi> (intransitive). Its <bdi>مَجْهُوْلٌ</bdi> columns and its <bdi>اِسْمُ الْمَفْعُوْلِ</bdi> are therefore left blank below, shown as —.",
               "list": false
             },
             {
@@ -6687,7 +6687,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "Which column of the review is left completely blank in the book?",
+            "prompt": "Which column of the review below is left completely blank?",
             "kind": "mcq",
             "options": [
               "الْمَاضِيْ الْمَجْهُوْلُ and الْمُضَارِعُ الْمَجْهُوْلُ of اِنْقَضَى",
@@ -6879,7 +6879,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "صَلَّوْا and صُلُّوْا (p. 210 / p. 212) differ how?",
+            "prompt": "صَلَّوْا and صُلُّوْا differ how?",
             "kind": "mcq",
             "options": [
               "صَلَّوْا is الْغَائِبُوْنَ of the ماضي معلوم; صُلُّوْا is the same صِيْغَةٌ of the ماضي مجهول",
@@ -7279,19 +7279,19 @@ export default {
           }
         },
         {
-          "heading": "الْمُضَارِعُ الْمَجْهُوْلُ (p. 213)",
+          "heading": "الْمُضَارِعُ الْمَجْهُوْلُ",
           "lines": [
             {
               "html": "In the passive <bdi>مُضَارِعٌ</bdi> every verb ends in an <bdi>أَلِفٌ</bdi>, because the <bdi>لَامُ الْكَلِمَةِ</bdi> always carries a <bdi>فَتْحَةٌ</bdi> before it: <bdi>يُصَلَّى، يُنَادَى، يُبْقَى، يُتَلَقَّى، يُتَلَاقَى، يُبْتَلَى، يُسْتَعْلَى</bdi>. The eight columns are therefore completely parallel.",
               "list": false
             },
             {
-              "html": "As in the active, <bdi>الْمُخَاطَبَةُ</bdi> and <bdi>الْمُخَاطَبَاتُ</bdi> coincide (<bdi>تُصَلَّيْنَ</bdi> = <bdi>تُصَلَّيْنَ</bdi>) and are printed in bold in the book.",
+              "html": "As in the active, <bdi>الْمُخَاطَبَةُ</bdi> and <bdi>الْمُخَاطَبَاتُ</bdi> coincide (<bdi>تُصَلَّيْنَ</bdi> = <bdi>تُصَلَّيْنَ</bdi>) — the two forms are identical.",
               "list": false
             },
             {
               "table": {
-                "title": "الْمُضَارِعُ الْمَجْهُوْلُ — the eight مَزِيْدٌ فِيْهِ نَاقِصٌ verbs (p. 213)",
+                "title": "الْمُضَارِعُ الْمَجْهُوْلُ — the eight مَزِيْدٌ فِيْهِ نَاقِصٌ verbs",
                 "headers": [
                   "صِيْغَةٌ",
                   "صَلَّى (II)",
@@ -7463,7 +7463,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "In the الْمُضَارِعُ الْمَجْهُوْلُ table (p. 213), every verb ends in…",
+            "prompt": "In the table above, every الْمُضَارِعُ الْمَجْهُوْلُ verb ends in…",
             "kind": "mcq",
             "options": [
               "an أَلِفٌ, because the لَامُ الْكَلِمَةِ always carries a فَتْحَةٌ",
@@ -7567,7 +7567,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "The أَمْرُ (m/s) forms on p. 214 all share which feature?",
+            "prompt": "The أَمْرُ (m/s) forms of these verbs all share which feature?",
             "kind": "mcq",
             "options": [
               "The final weak letter is dropped, leaving the حَرَكَةٌ that shows which letter it was",
@@ -7683,7 +7683,7 @@ export default {
           }
         },
         {
-          "heading": "اِسْمُ الْفَاعِلِ (p. 215)",
+          "heading": "اِسْمُ الْفَاعِلِ",
           "lines": [
             {
               "html": "In the masculine singular the <bdi>يَاءٌ</bdi> of the <bdi>اِسْمُ الْفَاعِلِ</bdi> drops and the word takes <bdi>تَنْوِيْنُ كَسْرٍ</bdi>: <bdi>مُصَلٍّ، مُنَادٍ، مُبْقٍ، مُتَلَقٍّ، مُتَلَاقٍ، مُنْقَضٍ، مُبْتَلٍ، مُسْتَعْلٍ</bdi>. The <bdi>يَاءٌ</bdi> reappears in the dual and in all the feminine forms.",
@@ -7691,7 +7691,7 @@ export default {
             },
             {
               "table": {
-                "title": "اِسْمُ الْفَاعِلِ — the eight مَزِيْدٌ فِيْهِ نَاقِصٌ verbs (p. 215)",
+                "title": "اِسْمُ الْفَاعِلِ — the eight مَزِيْدٌ فِيْهِ نَاقِصٌ verbs",
                 "headers": [
                   "صِيْغَةٌ",
                   "صَلَّى (II)",
@@ -7775,7 +7775,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "The masculine singular اِسْمُ الْفَاعِلِ of these verbs (p. 215)…",
+            "prompt": "The masculine singular اِسْمُ الْفَاعِلِ of these verbs, shown above…",
             "kind": "mcq",
             "options": [
               "drops its يَاءٌ and takes تَنْوِيْنُ كَسْرٍ — مُصَلٍّ، مُنَادٍ، مُبْقٍ",
@@ -7957,7 +7957,7 @@ export default {
           "explanation": "يَتَلَقَّى and يَتَلَاقَى end in an أَلِفٌ. All six other verbs end in a يَاءٌ: يُصَلِّيْ، يُنَادِيْ، يُبْقِيْ، يَنْقَضِيْ، يَبْتَلِيْ، يَسْتَعْلِيْ."
         },
         {
-          "q": "Which column of the review is left completely blank in the book?",
+          "q": "Which column of the review is left completely blank?",
           "options": [
             "الْمَاضِيْ الْمَجْهُوْلُ and الْمُضَارِعُ الْمَجْهُوْلُ of اِنْقَضَى",
             "اَلْأَمْرُ of اِنْقَضَى",
@@ -7968,7 +7968,7 @@ export default {
           "explanation": "اِنْقَضَى (بَاب اِنْفِعَال) is لَازِمٌ, so it has no مَجْهُوْلٌ at all and no اِسْمُ الْمَفْعُوْلِ. It does have an أَمْرٌ (اِنْقَضِ) and an اِسْمُ الْفَاعِلِ (مُنْقَضٍ)."
         },
         {
-          "q": "In the الْمُضَارِعُ الْمَجْهُوْلُ table (p. 213), every verb ends in…",
+          "q": "In the الْمُضَارِعُ الْمَجْهُوْلُ table, every verb ends in…",
           "options": [
             "an أَلِفٌ, because the لَامُ الْكَلِمَةِ always carries a فَتْحَةٌ",
             "a يَاءٌ, as in the active",
@@ -7990,7 +7990,7 @@ export default {
           "explanation": "The وَاوٌ in تُلُوْقِيْـ is the tell-tale of بَاب تَفَاعُل in the passive (تُفُوْعِلَ). تَلَقَّى (V) would give تُلُقِّيْتُمْ, and the active is تَلَاقَيْتُمْ."
         },
         {
-          "q": "Why are تُصَلِّيْنَ (الْمُخَاطَبَةُ) and تُصَلِّيْنَ (الْمُخَاطَبَاتُ) printed in bold on p. 211?",
+          "q": "Why are تُصَلِّيْنَ (الْمُخَاطَبَةُ) and تُصَلِّيْنَ (الْمُخَاطَبَاتُ) printed in bold?",
           "options": [
             "Because the two صِيْغَتَانِ end up identical after تَسْكِيْنٌ and حَذْفٌ",
             "Because both are irregular exceptions to the بَابٌ",
@@ -8001,7 +8001,7 @@ export default {
           "explanation": "تُصَلِّيِيْنَ → تُصَلِّيْيْنَ → تُصَلِّيْنَ for the feminine singular, which then matches the unchanged feminine plural تُصَلِّيْنَ. Only context distinguishes them."
         },
         {
-          "q": "The masculine singular اِسْمُ الْفَاعِلِ of these verbs (p. 215)…",
+          "q": "The masculine singular اِسْمُ الْفَاعِلِ of these verbs…",
           "options": [
             "drops its يَاءٌ and takes تَنْوِيْنُ كَسْرٍ — مُصَلٍّ، مُنَادٍ، مُبْقٍ",
             "keeps its يَاءٌ — مُصَلِّيٌ، مُنَادِيٌ، مُبْقِيٌ",
@@ -8016,7 +8016,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "صَلَّوْا and صُلُّوْا (p. 210 / p. 212) differ how?",
+          "prompt": "صَلَّوْا and صُلُّوْا differ how?",
           "options": [
             "صَلَّوْا is الْغَائِبُوْنَ of the ماضي معلوم; صُلُّوْا is the same صِيْغَةٌ of the ماضي مجهول",
             "صَلَّوْا is the أمر; صُلُّوْا is the ماضي",
@@ -8029,7 +8029,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "Which of these is the الْمُتَكَلِّمُ of the الْمُضَارِعُ الْمَعْلُوْمُ of اِبْتَلَى (p. 211)?",
+          "prompt": "Which of these is the الْمُتَكَلِّمُ of the الْمُضَارِعُ الْمَعْلُوْمُ of اِبْتَلَى?",
           "options": [
             "أَبْتَلِيْ",
             "أُبْتَلَى",
@@ -8042,7 +8042,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "The أَمْرُ (m/s) forms on p. 214 all share which feature?",
+          "prompt": "The أَمْرُ (m/s) forms of these verbs all share which feature?",
           "options": [
             "The final weak letter is dropped, leaving the حَرَكَةٌ that shows which letter it was",
             "They all end in a يَاءٌ",
@@ -8055,7 +8055,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "مُتَلَاقَاةٌ and مُتَلَاقِيَةٌ (p. 215) are, respectively…",
+          "prompt": "مُتَلَاقَاةٌ and مُتَلَاقِيَةٌ are, respectively…",
           "options": [
             "the feminine singular اِسْمُ الْمَفْعُوْلِ and the feminine singular اِسْمُ الْفَاعِلِ of تَلَاقَى",
             "the feminine singular اِسْمُ الْفَاعِلِ and the feminine singular اِسْمُ الْمَفْعُوْلِ of تَلَاقَى",
@@ -8081,7 +8081,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "How many of the eight verbs in this review have an اِسْمُ الْمَفْعُوْلِ (p. 215)?",
+          "prompt": "How many of the eight verbs in this review have an اِسْمُ الْمَفْعُوْلِ?",
           "options": [
             "Seven",
             "Eight",
@@ -8089,7 +8089,7 @@ export default {
             "Five"
           ],
           "correct": 0,
-          "explanation": "All except اِنْقَضَى, which is لَازِمٌ; its اِسْمُ الْمَفْعُوْلِ cell is blank in the book."
+          "explanation": "All except اِنْقَضَى, which is لَازِمٌ; its اِسْمُ الْمَفْعُوْلِ cell is blank."
         },
         {
           "title": "Lesson content",
@@ -8102,12 +8102,12 @@ export default {
             "Only الْمُخَاطَبَاتُ"
           ],
           "correct": 0,
-          "explanation": "After تَسْكِيْنٌ and حَذْفٌ the feminine singular becomes identical to the unchanged feminine plural — one of the bolded pairs on p. 211."
+          "explanation": "After تَسْكِيْنٌ and حَذْفٌ the feminine singular becomes identical to the unchanged feminine plural — one of the bolded pairs in that table."
         },
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "اُسْتُعْلِيَتَا (p. 212) is…",
+          "prompt": "اُسْتُعْلِيَتَا is…",
           "options": [
             "الْغَائِبَتَانِ مِنَ الْمَاضِيْ الْمَجْهُوْلِ of اِسْتَعْلَى",
             "الْغَائِبَتَانِ مِنَ الْمَاضِيْ الْمَعْلُوْمِ of اِسْتَعْلَى",
@@ -8771,7 +8771,7 @@ export default {
           "correct": 0
         },
         {
-          "q": "According to the master summary table (p. 216), which بَاب of the eight مَزِيْدٌ فِيْهِ أَبْوَاب has every مَجْهُوْلٌ cell and its اِسْمُ الْمَفْعُوْلِ cell left blank?",
+          "q": "According to the master summary table, which بَاب of the eight مَزِيْدٌ فِيْهِ أَبْوَاب has every مَجْهُوْلٌ cell and its اِسْمُ الْمَفْعُوْلِ cell left blank?",
           "options": [
             "اِنْفِعَالًا (VII) — اِنْقَضَى",
             "اِفْتِعَالًا (VIII) — اِبْتَلَى",
@@ -8779,7 +8779,7 @@ export default {
             "اِسْتِفْعَالًا (X) — اِسْتَعْلَى"
           ],
           "correct": 0,
-          "explanation": "اِنْقَضَى (بَاب اِنْفِعَال) is لَازِمٌ (intransitive), so the summary table (p. 216) leaves its الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ cells as —."
+          "explanation": "اِنْقَضَى (بَاب اِنْفِعَال) is لَازِمٌ (intransitive), so the summary table leaves its الْمَاضِي الْمَجْهُوْلُ, الْمُضَارِعُ الْمَجْهُوْلُ, and اِسْمُ الْمَفْعُوْلِ cells as —."
         },
         {
           "q": "Among the four الثُّلَاثِيُّ الْمُجَرَّدُ model verbs (فَتَحَ، سَمِعَ، ضَرَبَ، نَصَرَ), which one writes its لَامُ الْكَلِمَةِ as an upright أَلِفٌ (ا) rather than the ى shape?",

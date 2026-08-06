@@ -983,7 +983,7 @@ export default {
           "explanation": "The whole nominal sentence ولده قائم becomes the خبر of زيد."
         },
         {
-          "q": "How are the slots of the جُمْلَةٌ صُغْرَى written in the book's tarkib diagrams?",
+          "q": "How are the slots of the جُمْلَةٌ صُغْرَى written in tarkib diagrams?",
           "options": [
             "Above the main slots in red",
             "At the very bottom in blue ink, with the عائد underlined",
@@ -2121,7 +2121,7 @@ export default {
             "Because the sentence is Quranic"
           ],
           "correct": 0,
-          "explanation": "The book flags this as an exception to the habitual reading."
+          "explanation": "عَلِمَ describes a state rather than a repeated act, so كَانَ + مُضَارِع here means simple past ('They knew') rather than 'used to'."
         },
         {
           "q": "In إِنَّ زَيْدًا كَانَ يَذْهَبُ إِلَى الْمَسْجِدِ, how many levels of nesting are there?",
@@ -3789,7 +3789,7 @@ export default {
             "Because a مُقَدَّم must be مَجْرُوْر"
           ],
           "correct": 1,
-          "explanation": "This is the Note at the foot of page 428."
+          "explanation": "The فَاعِل never occurs as a مُقَدَّم, so a fronted مَرْفُوْع noun at the start of a sentence must be labelled a مُبْتَدَأ instead."
         }
       ],
       "bank": [

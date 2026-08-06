@@ -2789,7 +2789,7 @@ export default {
             "Because a nested sentence may be of any kind, affirmative or negative",
             "Because لَمْ turns it into a noun",
             "Because أُسْبُوْع requires a negative",
-            "It cannot — the book makes an exception here"
+            "It cannot — a negated sentence can never fill this slot"
           ],
           "correct": 0,
           "explanation": "What matters is that a complete sentence occupies the slot, not its polarity."
@@ -3638,7 +3638,7 @@ export default {
           "explanation": "An adverbial of time answers 'when?'; an object answers 'what?'."
         },
         {
-          "q": "When an adverb is مُضَافٌ to a sentence, which two إِعْرَاب treatments does the book allow?",
+          "q": "When an adverb is مُضَافٌ to a sentence, which two إِعْرَاب treatments are allowed?",
           "options": [
             "مُعْرَبٌ or مَنْصُوْبٌ",
             "مَرْفُوْعٌ or مَجْرُوْرٌ only",
@@ -4358,7 +4358,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 4,
@@ -4446,7 +4446,7 @@ export default {
                 {
                   "start": 3,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             },
@@ -6589,7 +6589,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -7867,7 +7867,7 @@ export default {
                 {
                   "start": 2,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             },
@@ -7955,7 +7955,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -8193,7 +8193,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 3,
@@ -8375,7 +8375,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 3,
@@ -8390,7 +8390,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "مَفْعُوْلٌ بِهِ ثَالِثٌ"
+                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
                 }
               ]
             },
@@ -11384,7 +11384,7 @@ export default {
                       {
                         "start": 5,
                         "end": 5,
-                        "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                        "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                       }
                     ]
                   }
@@ -11781,7 +11781,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -12054,7 +12054,7 @@ export default {
                 {
                   "start": 7,
                   "end": 7,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -12172,12 +12172,12 @@ export default {
                 {
                   "start": 8,
                   "end": 8,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 9,
                   "end": 9,
-                  "role": "مَفْعُوْلٌ بِهِ ثَالِثٌ"
+                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
                 }
               ]
             }
@@ -12281,7 +12281,7 @@ export default {
                 {
                   "start": 7,
                   "end": 7,
-                  "role": "مَفْعُوْلٌ بِهِ ثَالِثٌ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 8,
@@ -12407,7 +12407,7 @@ export default {
                 {
                   "start": 7,
                   "end": 7,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -12500,7 +12500,7 @@ export default {
                 {
                   "start": 5,
                   "end": 5,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 6,
@@ -12540,7 +12540,7 @@ export default {
                 {
                   "start": 9,
                   "end": 9,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 }
               ]
             }
@@ -16652,7 +16652,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ فِيْهِ ثَالِثٌ"
+                  "role": "مَفْعُوْلٌ فِيْهِ"
                 }
               ]
             },
@@ -18402,7 +18402,7 @@ export default {
                 {
                   "start": 8,
                   "end": 8,
-                  "role": "مَفْعُوْلٌ فِيْهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ فِيْهِ"
                 }
               ]
             },
@@ -18452,7 +18452,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -18539,7 +18539,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 },
                 {
                   "start": 3,
@@ -18559,7 +18559,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ ثَالِثٌ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -18651,7 +18651,7 @@ export default {
                 {
                   "start": 2,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             },
@@ -20662,7 +20662,7 @@ export default {
                 {
                   "start": 9,
                   "end": 9,
-                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ"
                 },
                 {
                   "start": 10,
@@ -21869,7 +21869,7 @@ export default {
                       {
                         "start": 3,
                         "end": 3,
-                        "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                        "role": "مَفْعُوْلٌ بِهِ"
                       }
                     ]
                   },
@@ -22141,7 +22141,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             },
@@ -22566,7 +22566,7 @@ export default {
                 {
                   "start": 3,
                   "end": 3,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -22702,7 +22702,7 @@ export default {
                 {
                   "start": 4,
                   "end": 4,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             }
@@ -23916,7 +23916,7 @@ export default {
             "Only a sentence"
           ],
           "correct": 1,
-          "explanation": "The book divides the discussion into these two cases."
+          "explanation": "مُذْ and مُنْذُ can be followed by either a جُمْلَةٌ فِعْلِيَّةٌ or an اِسْم."
         },
         {
           "q": "When a جُمْلَةٌ فِعْلِيَّةٌ follows them, what do مُذْ and مُنْذُ become?",
@@ -24739,7 +24739,7 @@ export default {
                 {
                   "start": 6,
                   "end": 7,
-                  "role": "مَفْعُوْلٌ بِهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ بِهِ"
                 }
               ]
             },
@@ -25151,7 +25151,7 @@ export default {
                 {
                   "start": 6,
                   "end": 8,
-                  "role": "مَفْعُوْلٌ فِيْهِ ثَانٍ"
+                  "role": "مَفْعُوْلٌ فِيْهِ"
                 }
               ]
             },
@@ -27189,7 +27189,7 @@ export default {
             "Because the spelling changes",
             "Because its category changes with what follows it",
             "Because the main verb changes",
-            "It does not — the book is inconsistent"
+            "It does not — مُذْ is labelled the same way every time"
           ],
           "correct": 1,
           "explanation": "A sentence after it makes it an adverb and مُضَاف; a noun after it makes it a حَرْفٌ جَارٌّ."

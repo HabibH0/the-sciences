@@ -33,7 +33,7 @@ export default {
               "list": false
             },
             {
-              "html": "Work through each table row by row, covering the cells and deriving every form yourself before checking. The irregular cells (highlighted in the book) are the ones most worth drilling.",
+              "html": "Work through each table row by row, covering the cells and deriving every form yourself before checking. The irregular cells are the ones most worth drilling.",
               "list": false
             }
           ],
@@ -2936,7 +2936,7 @@ export default {
           "explanation": "رَوَى (ر و ي) is مَقْرُوْنٌ — the weak letters are adjacent; وَفَى (و ف ي) is مَفْرُوْقٌ — they are separated by a sound letter."
         },
         {
-          "q": "In the p. 312 chart, وَدَّ is classified as…",
+          "q": "In the classification chart, وَدَّ is classified as…",
           "options": [
             "مُضَاعَفٌ only",
             "مِثَالٌ وَمُضَاعَفٌ",

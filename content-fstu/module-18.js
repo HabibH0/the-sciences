@@ -458,7 +458,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "What makes a phrase a 'verbal phrase' in the book's sense?",
+          "q": "What makes a phrase a 'verbal phrase'?",
           "options": [
             "It contains a verb",
             "A مَصْدَر or مُشْتَقّ conveys a verbal meaning and takes verbal slots",
@@ -480,7 +480,7 @@ export default {
           "explanation": "It carries the meaning of 'returning' and takes its own adverbial slots."
         },
         {
-          "q": "How many types of verbal phrase does the book list?",
+          "q": "How many types of verbal phrase are there?",
           "options": [
             "five",
             "three",
@@ -852,7 +852,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مُضَافٌ إِلَيْهِ ثَانٍ"
+                  "role": "مُضَافٌ إِلَيْهِ"
                 }
               ]
             }
@@ -1068,7 +1068,7 @@ export default {
                 {
                   "start": 2,
                   "end": 2,
-                  "role": "مُضَافٌ إِلَيْهِ ثَانٍ"
+                  "role": "مُضَافٌ إِلَيْهِ"
                 }
               ]
             }
@@ -7134,7 +7134,7 @@ export default {
           "explanation": "The fatḥah on كَاذِبًا marks it as a governed خَبَرٌ; in the other sentence both words carry ḍammah."
         },
         {
-          "q": "What does the book's Exercise 4 set out to show?",
+          "q": "What do paired sentences with an اِسْمُ فَاعِلٍ and a فِعْلٌ مُضَارِعٌ set out to show?",
           "options": [
             "That اِسْمُ فَاعِلٍ and فِعْلٌ مُضَارِعٌ are closely similar in meaning and slots",
             "That the اِسْمُ فَاعِلٍ cannot take an object",
@@ -8520,7 +8520,7 @@ export default {
             "جَالِسٌ"
           ],
           "correct": 1,
-          "explanation": "The book pairs رَأَيْتُ الَّذِيْ يَجْلِسُ with رَأَيْتُ الْجَالِسَ."
+          "explanation": "رَأَيْتُ الَّذِيْ يَجْلِسُ and رَأَيْتُ الْجَالِسَ are equivalent."
         },
         {
           "q": "What can the ال form show that اَلَّذِيْ cannot?",
@@ -9912,7 +9912,7 @@ export default {
               "Because the إِضَافَة here is only a lighter way of attaching what is really an object, not a possession — so it doesn't force the ال off",
               "Because الصلاة is مَعْرِفَةٌ",
               "Because all plural مُضَافٌ words keep their ال",
-              "This is simply an error in the book"
+              "This is simply an unexplained exception, with no underlying reason"
             ],
             "correct": 0
           }
@@ -11559,7 +11559,7 @@ export default {
             "the same as a نَعْتٌ"
           ],
           "correct": 2,
-          "explanation": "The book states explicitly that no meaning of ownership is intended."
+          "explanation": "No meaning of ownership is intended — the إِضَافَة is only for ease of pronunciation."
         }
       ],
       "bank": [
@@ -12233,7 +12233,7 @@ export default {
         {
           "title": "Book Exercise 8 (Section 3, Supplement), item 3",
           "kind": "mcq",
-          "prompt": "Which translation of اَللهُ سَرِيْعُ الْحِسَابِ does the book give?",
+          "prompt": "What is the correct translation of اَللهُ سَرِيْعُ الْحِسَابِ?",
           "options": [
             "Allah owns the reckoning",
             "Allah's reckoning is swift / Allah is swift in reckoning",
@@ -12777,7 +12777,7 @@ export default {
             "a مُبْتَدَأٌ only"
           ],
           "correct": 1,
-          "explanation": "The book gives exactly these two positions."
+          "explanation": "These are exactly the two usual positions."
         },
         {
           "q": "How many slots does كَثِيْرُ الْبَرَكَةِ occupy in رَمَضَانُ شَهْرٌ كَثِيْرُ الْبَرَكَةِ?",
@@ -13520,7 +13520,7 @@ export default {
           "options": [
             "Because اَلرَّحْمَة is feminine",
             "Because every صِفَةٌ مُشَبَّهَةٌ is feminine",
-            "It is a mistake in the book",
+            "It is simply irregular, with no rule behind it",
             "Because it describes جَدَّتِيْ, which is feminine"
           ],
           "correct": 3,
@@ -14755,7 +14755,7 @@ export default {
           "kind": "mcq",
           "prompt": "In اَلْمُخْلِصُوْنَ مَقْبُوْلٌ عَمَلُهُمْ, why is مَقْبُوْلٌ singular although اَلْمُخْلِصُوْنَ is plural?",
           "options": [
-            "It should be plural; the book has erred",
+            "It is simply irregular, with no rule behind it",
             "Because اَلْمُخْلِصُوْنَ is definite",
             "Because it agrees with عَمَلُهُمْ, its نَائِبُ الْفَاعِلِ",
             "Because مَقْبُوْلٌ has no plural form"
@@ -15260,7 +15260,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "What three things does the book's treatment of the اِسْمُ التَّفْضِيْلِ verbal phrase cover across these two lessons؟",
+            "prompt": "What three things does the study of the اِسْمُ التَّفْضِيْلِ verbal phrase cover across these two lessons؟",
             "kind": "mcq",
             "options": [
               "Its conjugation, the construction of the verbal phrase, and its usage in a sentence",
@@ -17060,7 +17060,7 @@ export default {
           "explanation": "The جَارٌّ وَمَجْرُوْرٌ fills the object slot of the phrase."
         },
         {
-          "q": "Which is the second translation the book gives for اَلصَّلَاةُ أَفْضَلُ عَمَلٍ?",
+          "q": "Which is a second correct translation of اَلصَّلَاةُ أَفْضَلُ عَمَلٍ?",
           "options": [
             "Ṣalāh is a virtuous deed",
             "Ṣalāh is the most virtuous of deeds",
@@ -18456,7 +18456,7 @@ export default {
             "only when there is no مَفْعُوْلٌ بِهِ"
           ],
           "correct": 2,
-          "explanation": "The book's own example fills it twice — بِأُمِّهَا and عِنْدَ كِبَرِهَا."
+          "explanation": "فَاطِمَةُ أَبَرُّ الْبَنَاتِ بِأُمِّهَا عِنْدَ كِبَرِهَا fills it twice — بِأُمِّهَا and عِنْدَ كِبَرِهَا."
         },
         {
           "q": "In فَاطِمَةُ أَبَرُّ الْبَنَاتِ بِأُمِّهَا, what is بِأُمِّهَا?",
@@ -19213,7 +19213,7 @@ export default {
           "prompt": "Why does اَلْبَنَاتِ carry two labels in the diagram?",
           "options": [
             "Because it is both مُضَافٌ إِلَيْهِ by form and مَفْعُوْلٌ بِهِ by function",
-            "Because the book gives two possible parsings",
+            "Because there are two possible parsings",
             "Because it is plural",
             "Because it could also be the فَاعِلٌ"
           ],
@@ -19842,7 +19842,7 @@ export default {
             "It is a printing error"
           ],
           "correct": 2,
-          "explanation": "The book makes the point explicitly: اَلصَّلَاة is feminine, yet أَفْضَلُ does not change."
+          "explanation": "اَلصَّلَاة is feminine, yet أَفْضَلُ does not change."
         },
         {
           "q": "In اَلصَّلَاةُ أَفْضَلُ عَمَلٍ بَعْدَ الْإِيْمَانِ, what is بَعْدَ الْإِيْمَانِ?",
@@ -19864,7 +19864,7 @@ export default {
             "Nothing in meaning — the second simply agrees in number"
           ],
           "correct": 3,
-          "explanation": "The book translates both sentences identically."
+          "explanation": "Both sentences are translated identically."
         },
         {
           "q": "أَحَاسِنُ is the plural of which word?",
@@ -20599,7 +20599,7 @@ export default {
         {
           "title": "Book example (Section 3, Supplement, p. 556)",
           "kind": "mcq",
-          "prompt": "Which of these pairs shows the optional agreement the book describes?",
+          "prompt": "Which of these pairs shows the optional agreement in number?",
           "options": [
             "أَفْضَلُ عَمَلٍ / أَفْضَلُ الْأَعْمَالِ",
             "أَطْوَلُ مِنْ خَدِيْجَةَ / أَطْوَلُ بَنَاتِ أَحْمَدَ",

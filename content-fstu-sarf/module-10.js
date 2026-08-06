@@ -280,7 +280,7 @@ export default {
             "Twelve"
           ],
           "correct": 2,
-          "explanation": "The book lists nine types of مُرَكَّبٌ — the combinations that actually occur, such as مِثَالٌ وَمَهْمُوْزُ الْعَيْنِ and لَفِيْفٌ مَفْرُوْقٌ وَمَهْمُوْزُ الْعَيْنِ."
+          "explanation": "There are nine types of مُرَكَّبٌ — the combinations that actually occur, such as مِثَالٌ وَمَهْمُوْزُ الْعَيْنِ and لَفِيْفٌ مَفْرُوْقٌ وَمَهْمُوْزُ الْعَيْنِ."
         },
         {
           "q": "Which change takes place in most مُرَكَّبٌ verbs?",
@@ -316,7 +316,7 @@ export default {
           "explanation": "The introduction table marks أَجْوَفُ وَمَهْمُوْزُ الْعَيْنِ (like مِثَالٌ وَمَهْمُوْزُ الْفَاءِ and نَاقِصٌ وَمَهْمُوْزُ اللَّامِ) as having no example."
         },
         {
-          "q": "Why are the conjugations of verbs like تَوَكَّأَ not discussed in the book?",
+          "q": "Why aren't further conjugation rules given for verbs like تَوَكَّأَ?",
           "options": [
             "Because they are too difficult",
             "Because such مُرَكَّبٌ verbs remain unchanged — no additional rules apply to them",
@@ -3851,7 +3851,7 @@ export default {
             "It is identical to the اِسْمُ الْمَفْعُوْلِ"
           ],
           "correct": 1,
-          "explanation": "The book writes the singular as شَاءٍ، جَاءٍ، بَاءٍ; the two hamzahs re-appear in the other forms (شَائِئَانِ، جَائِئُوْنَ…)."
+          "explanation": "The singular is written as شَاءٍ، جَاءٍ، بَاءٍ; the two hamzahs re-appear in the other forms (شَائِئَانِ، جَائِئُوْنَ…)."
         }
       ],
       "bank": [
@@ -9998,7 +9998,7 @@ export default {
             "الْمُخَاطَبُ مِنَ النَّهْيِ، بَاب نَصَرَ، أَجْوَفُ وَمَهْمُوْزُ الْفَاءِ، أ و ل"
           ],
           "correct": 0,
-          "explanation": "The same spelling serves both وَأَدَ (مثال ومهموز العين، و أ د) and آدَ (أجوف ومهموز الفاء، أ ي د); the book's Exercise 3 places it with وَأَدَ يَئِدُ of بَاب ضَرَبَ."
+          "explanation": "The same spelling serves both وَأَدَ (مثال ومهموز العين، و أ د) and آدَ (أجوف ومهموز الفاء، أ ي د); here it is taken as وَأَدَ يَئِدُ of بَاب ضَرَبَ."
         },
         {
           "title": "Book Exercise 3 (p. 295)",

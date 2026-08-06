@@ -11022,7 +11022,7 @@ export default {
             "Because it is مَبْنِيّ"
           ],
           "correct": 2,
-          "explanation": "The book notes that نَفْسٌ on its own means 'soul', but when it is مُضَافٌ to a pronoun referring to the subject it carries the reflexive meaning instead."
+          "explanation": "نَفْسٌ on its own means 'soul', but when it is مُضَافٌ to a pronoun referring to the subject it carries the reflexive meaning instead."
         },
         {
           "q": "In نَصَرَ بَعْضُ الْأَوْلَادِ بَعْضًا, what is the role of the second بَعْضًا?",
@@ -11058,7 +11058,7 @@ export default {
           "explanation": "رَفَعَ اللّٰهُ بَعْضَكُمْ فَوْقَ بَعْضٍ is translated 'Allah elevated some of you over others', not 'each other'."
         },
         {
-          "q": "Which translation of اِبْتَلَى إِبْرَاهِيْمَ رَبُّهُ does the book accept?",
+          "q": "Which is the correct translation of اِبْتَلَى إِبْرَاهِيْمَ رَبُّهُ?",
           "options": [
             "Ibrahim tested his Lord.",
             "Ibrahim's Lord tested him.",
