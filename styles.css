@@ -3697,6 +3697,18 @@ button.path-node:not(.locked):hover {
 .path-node.locked {
   cursor: not-allowed;
 }
+/* A locked section/group test row stays clickable -- "Jump ahead" (see
+   pathSectionTestRowHtml in js/render.js) -- unlike every other locked
+   node type, which stays truly inert. Same pattern as
+   .path-group-card.locked.unlockable just above. */
+.path-node.locked.unlockable {
+  cursor: pointer;
+}
+.path-node.locked.unlockable:hover,
+.path-node.locked.unlockable:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+}
 .path-node.mastered {
   background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
   border-color: var(--color-accent);

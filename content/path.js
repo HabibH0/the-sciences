@@ -395,16 +395,49 @@ export function pathFullPool(node) {
   return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.vocabPool || []), ...(p.tarkeebPool || [])];
 }
 
+// The whole-path node list strictly BEFORE a given node, in path order --
+// used only by the skip-ahead "jump ahead" path test (see
+// completePriorPathNodes in js/main.js) to know exactly what a passing
+// attempt needs to backfill as done. Deliberately spans every group, not
+// just the target's own -- a jump-ahead test can reach into an otherwise
+// still-locked future group (see js/main.js's startPathSkipAheadTest), and
+// everything between here and there needs backfilling too.
+export function nodesBefore(nodeId) {
+  const idx = ALL_NODES.findIndex((n) => n.id === nodeId);
+  return idx === -1 ? [] : ALL_NODES.slice(0, idx);
+}
+
+// The skip-ahead ("jump ahead") variant of a section/group test's own pool
+// -- same test, same target lengths, but drawn from EVERY lesson since the
+// very start of the path through this node instead of just this
+// section/group's own window (contrast pathPoolForNode's sectionTest/
+// groupTest branch, which stays scoped to node.windowStart..windowEnd).
+// Passing this version is meant to genuinely stand in for having walked
+// the whole path up to here, so it draws on everything that implies. Other
+// node types have no jump-ahead concept of their own -- falls back to the
+// ordinary pool.
+export function pathSkipAheadPoolForNode(node) {
+  if (node.type !== 'sectionTest' && node.type !== 'groupTest') return pathPoolForNode(node);
+  return {
+    quizPool: lessonContentQuizPool(node.windowEnd),
+    bookPool: bookExerciseMcqPool(node.windowEnd),
+    vocabPool: vocabPoolWindow(node.windowEnd),
+    tarkeebPool: tarkeebPoolWindow(node.windowEnd),
+  };
+}
+
 // Display-only: the section test's node fields (mcqLength/tarkeebLength/
 // vocabLength) are TARGETS, not guarantees -- this caps each against what's
 // actually available in-window, so the path map's subtitle never promises a
 // count the test can't deliver (grouping 1 has 0 تركيب content, for
 // instance -- see GROUPING_1's own comment). `mastery` doubles every target
 // before capping, matching buildPathSectionTestQueue's own mastery branch
-// in js/state.js.
-export function sectionTestCounts(node, mastery = false) {
+// in js/state.js. `skipAhead` switches to the cumulative jump-ahead pool
+// above, so a locked node's "Jump ahead" prompt can show what it'll
+// actually draw from rather than the narrow in-window count.
+export function sectionTestCounts(node, mastery = false, skipAhead = false) {
   const mult = mastery ? 2 : 1;
-  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = pathPoolForNode(node);
+  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = skipAhead ? pathSkipAheadPoolForNode(node) : pathPoolForNode(node);
   return {
     mcq: Math.min(node.mcqLength * mult, quizPool.length + bookPool.length),
     tarkeeb: Math.min(node.tarkeebLength * mult, tarkeebPool.length),

@@ -33,7 +33,7 @@ import {
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool, trackUnlockTestSubPools } from '../content/paths.js';
+import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool, trackUnlockTestSubPools } from '../content/paths.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
   buildModuleRevisionQueue, moduleRevisionPool,
@@ -679,6 +679,39 @@ function finalizeMasteryV2() {
   state.view = 'masteryV2Complete';
 }
 
+// Duolingo-style "jump ahead": passing a section/group test reached early
+// (see startPathSkipAheadTest) backfills every node strictly before it on
+// the WHOLE path -- not just its own group -- as done, both in the path
+// skeleton (pathNodeStatus) and in the underlying courses' own
+// state.completed, mirroring what actually walking the path there would
+// have left behind. Lesson/section/group badges fire the same way normal
+// completion earns them (re-derived from state.completed, same functions
+// finishLesson calls) -- XP deliberately does not, same "don't farm
+// rewards for content never done" reasoning as completePreviousModulesInCourse.
+function completePriorPathNodes(node) {
+  const priorNodes = nodesBeforePathNode(node.id);
+  const wasFirstEver = totalLessonsCleared(state.completed) === 0;
+  let anyLesson = false;
+  for (const n of priorNodes) {
+    if (n.type === 'lesson') {
+      markLessonComplete(n.moduleId, n.lessonId);
+      anyLesson = true;
+    } else if (n.type === 'sectionHeader') {
+      // Nothing to complete -- a plain label.
+    } else if (!(state.pathNodeStatus[n.id] && state.pathNodeStatus[n.id].done)) {
+      state.pathNodeStatus[n.id] = { done: true, at: todayISO() };
+      if ((n.type === 'sectionTest' || n.type === 'groupTest' || n.type === 'milestone') && n.badgeId) awardBadge(state, n.badgeId);
+    }
+  }
+  if (anyLesson) {
+    if (wasFirstEver) awardBadge(state, 'first-steps');
+    checkModuleCompletionBadges(state);
+    checkLessonsClearedBadges(state);
+    checkCourseCompletionBadges(state);
+  }
+  checkPathMilestones();
+}
+
 // Only ever called for source === 'path' sessions. A section test's badge
 // only fires on its NORMAL pass, never a Mastery attempt -- a checkpoint's
 // Mastery variant is a bonus layer that never touches pathNodeStatus or
@@ -698,6 +731,7 @@ function finalizePathSession() {
     } else {
       state.pathNodeStatus[node.id] = { done: true, at: todayISO(), score: { correct, total } };
       if ((node.type === 'sectionTest' || node.type === 'groupTest') && node.badgeId) awardBadge(state, node.badgeId);
+      if (p.skipAhead) completePriorPathNodes(node);
     }
   }
   checkPathMilestones();
@@ -1139,17 +1173,49 @@ const actions = {
     else if (node.type === 'vocabCheckpoint') queue = buildPathVocabCheckpointQueue(node, ctx);
     else if (node.type === 'tarkeebCheckpoint') queue = buildPathTarkeebCheckpointQueue(node, ctx);
     else if (node.type === 'revision') queue = buildPathRevisionQueue(node, ctx);
-    else if (node.type === 'sectionTest') queue = buildPathSectionTestQueue(node, ctx);
+    else if (node.type === 'sectionTest' || node.type === 'groupTest') queue = buildPathSectionTestQueue(node, ctx);
     else return false;
     if (!queue.length) return false;
     state.pathCheckpointSetupNodeId = null;
     state.practice = {
-      source: 'path', kind: node.type, nodeId: node.id, moduleId: null, lessonId: null, mastery,
+      source: 'path', kind: node.type, nodeId: node.id, moduleId: null, lessonId: null, mastery, skipAhead: false,
       queue, index: 0, log: [], startedAt: Date.now(),
       selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
     };
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
+  },
+  // A LOCKED section/group test's "Jump ahead" prompt (see
+  // pathSkipAheadPromptHtml) -- passing it is graded exactly like the
+  // normal test (finalizePathSession), but draws from the wider cumulative
+  // pool (ctx.skipAhead, see buildPathSectionTestQueue) and, on a pass,
+  // backfills everything before it too (see completePriorPathNodes). Never
+  // offered for an already-unlocked node -- that's startPathCheckpoint's
+  // job, via the ordinary setup popout.
+  startPathSkipAheadTest(el) {
+    const node = findPathNode(el.dataset.nodeId);
+    if (!node || (node.type !== 'sectionTest' && node.type !== 'groupTest')) return false;
+    const ctx = {
+      practiceHistory: state.practiceHistory, pathReps: state.pathReps, vocabExposure: state.vocabExposure,
+      vocabDirection: state.pathVocabDirection || 'en-ar', mastery: false, skipAhead: true,
+    };
+    const queue = buildPathSectionTestQueue(node, ctx);
+    if (!queue.length) return false;
+    state.pathSkipAheadPromptNodeId = null;
+    state.practice = {
+      source: 'path', kind: node.type, nodeId: node.id, moduleId: null, lessonId: null, mastery: false, skipAhead: true,
+      queue, index: 0, log: [], startedAt: Date.now(),
+      selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
+    };
+    state.view = 'practice';
+    prepPracticeQuestion(queue[0]);
+  },
+  openPathSkipAheadPrompt(el) {
+    state.pathSkipAheadPromptNodeId = el.dataset.nodeId;
+  },
+  closePathSkipAheadPrompt(el, e) {
+    if (e && e.target !== el) return false;
+    state.pathSkipAheadPromptNodeId = null;
   },
   openPathCheckpointSetup(el) {
     state.pathCheckpointSetupNodeId = el.dataset.nodeId;

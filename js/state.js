@@ -1,6 +1,6 @@
 import { bootProgress } from './persistence.js';
 import { getLesson, getModule, getBankPool, bankKey, quizKey, isLessonComplete } from '../content/index.js';
-import { pathPoolForNode, pathFullPool } from '../content/paths.js';
+import { pathPoolForNode, pathFullPool, pathSkipAheadPoolForNode } from '../content/paths.js';
 
 export function createInitialState() {
   const boot = bootProgress();
@@ -66,6 +66,11 @@ export function createInitialState() {
     // been passed once, a choice between redoing it normally or attempting
     // its Mastery variant. Null when closed.
     pathCheckpointSetupNodeId: null,
+    // Transient: which LOCKED section/group-test node's "Jump ahead"
+    // confirmation prompt is open (see pathSkipAheadPromptHtml in
+    // js/render.js) -- distinct from pathCheckpointSetupNodeId above, which
+    // is only ever for already-unlocked nodes. Null when closed.
+    pathSkipAheadPromptNodeId: null,
     // Transient: 'en-ar' | 'ar-en', the direction chosen in that popout.
     // Not persisted -- same treatment as practiceVocabType, defaults to
     // 'en-ar' when unset.
@@ -673,9 +678,12 @@ export function buildPathRevisionQueue(node, ctx) {
 // portion is naturally capped by weightedSample never exceeding pool size
 // (see sectionTestCounts in content/path.js for the matching display-side
 // cap). ctx.mastery doubles every target (req: the section test's own
-// Mastery variant is double length, 100% required).
+// Mastery variant is double length, 100% required). ctx.skipAhead draws
+// from the cumulative jump-ahead pool instead of the normal in-window one
+// (see startPathSkipAheadTest in js/main.js) -- same node, same target
+// lengths, just a wider source pool to sample from.
 export function buildPathSectionTestQueue(node, ctx) {
-  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = pathPoolForNode(node);
+  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = ctx.skipAhead ? pathSkipAheadPoolForNode(node) : pathPoolForNode(node);
   const mult = ctx.mastery ? 2 : 1;
   const mcqPool = quizPool.concat(bookPool);
   const mcqKeys = weightedSample(mcqPool, node.mcqLength * mult, (e) => pathItemWeight(e, ctx.practiceHistory, ctx.pathReps));

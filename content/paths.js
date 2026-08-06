@@ -80,8 +80,23 @@ export function pathPoolForNode(node) {
   return trackModuleFor(node).pathPoolForNode(node);
 }
 
-export function sectionTestCounts(node, mastery = false) {
-  return trackModuleFor(node).sectionTestCounts(node, mastery);
+export function pathSkipAheadPoolForNode(node) {
+  return trackModuleFor(node).pathSkipAheadPoolForNode(node);
+}
+
+// Every node before `nodeId` in ITS OWN track's path order -- see
+// nodesBefore's own comment in content/path.js. Looks the node up first
+// (rather than trying both tracks' nodesBefore and taking whichever is
+// non-empty) since node id 0 in a track is a legitimate empty result, not
+// a "wrong track" signal.
+export function nodesBeforePathNode(nodeId) {
+  const node = findPathNode(nodeId);
+  if (!node) return [];
+  return trackModuleFor(node).nodesBefore(nodeId);
+}
+
+export function sectionTestCounts(node, mastery = false, skipAhead = false) {
+  return trackModuleFor(node).sectionTestCounts(node, mastery, skipAhead);
 }
 
 const EMPTY_SUB_POOLS = { quizPool: [], bookPool: [], tarkeebPool: [] };

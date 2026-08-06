@@ -329,9 +329,26 @@ export function pathFullPool(node) {
   return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.tarkeebPool || [])];
 }
 
-export function sectionTestCounts(node, mastery = false) {
+// See content/path.js's own nodesBefore/pathSkipAheadPoolForNode for the
+// full rationale -- this course pair mirrors those exactly, just without a
+// vocab pool (no vocab content in the advanced courses).
+export function nodesBefore(nodeId) {
+  const idx = ALL_NODES.findIndex((n) => n.id === nodeId);
+  return idx === -1 ? [] : ALL_NODES.slice(0, idx);
+}
+
+export function pathSkipAheadPoolForNode(node) {
+  if (node.type !== 'sectionTest' && node.type !== 'groupTest') return pathPoolForNode(node);
+  return {
+    quizPool: lessonContentQuizPool(node.windowEnd),
+    bookPool: bookExerciseMcqPool(node.windowEnd),
+    tarkeebPool: tarkeebPoolWindow(node.windowEnd),
+  };
+}
+
+export function sectionTestCounts(node, mastery = false, skipAhead = false) {
   const mult = mastery ? 2 : 1;
-  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = pathPoolForNode(node);
+  const { quizPool = [], bookPool = [], tarkeebPool = [], vocabPool = [] } = skipAhead ? pathSkipAheadPoolForNode(node) : pathPoolForNode(node);
   return {
     mcq: Math.min(node.mcqLength * mult, quizPool.length + bookPool.length),
     tarkeeb: Math.min(node.tarkeebLength * mult, tarkeebPool.length),

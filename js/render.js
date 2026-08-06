@@ -40,7 +40,7 @@ import {
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, sectionTestCounts, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
+import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
   ACHIEVEMENT_CATEGORIES, LEVEL_TIERS, STREAK_TIERS, PERFECT_QUIZ_TIERS, PRACTICE_TIERS,
@@ -2400,6 +2400,40 @@ function pathCheckpointSetupHtml(state) {
     </div>`;
 }
 
+// A LOCKED section/group test's own confirmation popout (see
+// openPathSkipAheadPrompt/startPathSkipAheadTest in js/main.js) -- distinct
+// from pathCheckpointSetupHtml above, which is only ever reached from an
+// already-unlocked node. Spells out the consequence up front (everything
+// before it, across both courses, gets backfilled as complete on a pass)
+// rather than letting a learner stumble into it expecting an ordinary test.
+function pathSkipAheadPromptHtml(state) {
+  const nodeId = state.pathSkipAheadPromptNodeId;
+  if (!nodeId) return '';
+  const node = findPathNode(nodeId);
+  if (!node) return '';
+  const lessonCount = nodesBeforePathNode(nodeId).filter((n) => n.type === 'lesson').length;
+  const counts = sectionTestCounts(node, false, true);
+  const composition = [
+    counts.mcq ? `${counts.mcq} MCQ` : null,
+    counts.tarkeeb ? `${counts.tarkeeb} تركيب` : null,
+    counts.vocab ? `${counts.vocab} Vocab` : null,
+  ].filter(Boolean).join(' · ');
+  const scopeWord = node.type === 'groupTest' ? 'group' : 'section';
+  return `
+    <div class="modal-backdrop" data-anim-key="pathskipaheadmodalbd" data-action="closePathSkipAheadPrompt">
+      <div class="modal" data-anim-key="pathskipaheadmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" aria-label="Jump ahead">
+        <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(node.label)}</div>
+        <h3>Jump ahead to this ${scopeWord}?</h3>
+        <p class="modal-sub">A placement test covering everything up through this ${scopeWord}. Pass it at ${Math.round(node.passRatio * 100)}% and every lesson and checkpoint before it &mdash; ${lessonCount} lesson${lessonCount === 1 ? '' : 's'} in all, across both courses &mdash; gets marked complete, same as if you'd walked the path there normally.</p>
+        <p class="modal-sub">${esc(composition)}</p>
+        <div class="modal-buttons">
+          <button class="btn btn-ghost" data-action="closePathSkipAheadPrompt">Cancel</button>
+          <button class="btn btn-primary" data-action="startPathSkipAheadTest" data-node-id="${escAttr(node.id)}">Start Test</button>
+        </div>
+      </div>
+    </div>`;
+}
+
 // A pure celebratory marker -- auto-completed the instant every node
 // before it is done (see checkPathMilestones in js/main.js), nothing to
 // click or score. Its heading names the ACHIEVEMENT (only true once
@@ -2427,19 +2461,27 @@ function pathMilestoneRowHtml(node, index, unlocked, done, revealedKeys) {
 // composition to what's actually available in-window (grouping 1 has no
 // تركيب content yet, for instance), so the subtitle never promises a count
 // the test can't deliver.
+// A locked section/group test is still selectable -- Duolingo-style
+// "jump ahead" (see openPathSkipAheadPrompt/startPathSkipAheadTest in
+// js/main.js): passing it backfills everything before it on the whole
+// path as done, so it's never truly inert like a locked lesson/checkpoint
+// row. `unlockable` mirrors path-group-card.locked.unlockable's own
+// styling (see styles.css) -- locked, but clickable, with its own cursor.
 function pathSectionTestRowHtml(node, index, unlocked, done, mastered, revealedKeys) {
   const counts = sectionTestCounts(node);
   const nodeKey = `path_node_${node.id}`;
-  const rowCls = revealCls(nodeKey, ['path-node', 'path-node-sectiontest', unlocked ? '' : 'locked', done ? 'done' : '', mastered ? 'mastered' : ''].filter(Boolean).join(' '), revealedKeys);
+  const rowCls = revealCls(nodeKey, ['path-node', 'path-node-sectiontest', unlocked ? '' : 'locked unlockable', done ? 'done' : '', mastered ? 'mastered' : ''].filter(Boolean).join(' '), revealedKeys);
   const indicator = !unlocked ? icon('lock', 17, 2) : mastered ? icon('award', 19, 2) : done ? icon('check', 19, 2.4) : icon('award', 18, 2);
   const tag = !unlocked
-    ? `<span class="tag tag-neutral">Locked</span>`
+    ? `<span class="tag tag-neutral">${icon('lock', 11, 2.6)} Jump ahead</span>`
     : mastered
       ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
       : done
         ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Passed</span>`
         : `<span class="tag tag-accent">Start</span>`;
-  const dataAttrs = unlocked ? `data-action="openPathCheckpointSetup" data-node-id="${escAttr(node.id)}"` : 'disabled';
+  const dataAttrs = unlocked
+    ? `data-action="openPathCheckpointSetup" data-node-id="${escAttr(node.id)}"`
+    : `data-action="openPathSkipAheadPrompt" data-node-id="${escAttr(node.id)}"`;
   const parts = [
     counts.mcq ? `${counts.mcq} MCQ` : null,
     counts.tarkeeb ? `${counts.tarkeeb} تركيب` : null,
@@ -2470,6 +2512,16 @@ function pathMapHtml(state, revealedKeys = new Set()) {
   const track = trackForGroup(group);
   const skeleton = groupSkeleton(group);
   const pathNodeStatus = state.pathNodeStatus;
+  // A still-locked GROUP (see pathGroupCardHtml -- these are now enterable
+  // so a section/group test inside can be jumped to) must not let its
+  // ordinary lesson/checkpoint rows read as unlocked just because they'd
+  // be first-in-sequence -- isPathNodeUnlocked has no notion of "the whole
+  // group isn't earned yet," it only ever checks node-to-node sequencing
+  // within the skeleton. Force every non-test row locked here instead;
+  // section/group test rows are untouched, since THEY are exactly what
+  // "jump ahead" is for (pathSectionTestRowHtml already renders a locked
+  // one as a clickable Jump-ahead row, not a dead end).
+  const groupLocked = !isGroupUnlocked(track.groups, track.groups.indexOf(group), pathNodeStatus, state.completed);
   const rows = skeleton.map((node, i) => {
     if (node.type === 'sectionHeader') {
       // Section 1's header carries a hand-authored arabicTitle; sections
@@ -2481,12 +2533,13 @@ function pathMapHtml(state, revealedKeys = new Set()) {
           ${node.arabicTitle ? `<bdi lang="ar" dir="rtl">${esc(node.arabicTitle)}</bdi>` : ''}
         </div>`;
     }
-    const unlocked = isPathNodeUnlocked(skeleton, pathNodeStatus, state.completed, i);
+    const isTest = node.type === 'sectionTest' || node.type === 'groupTest';
+    const unlocked = groupLocked && !isTest ? false : isPathNodeUnlocked(skeleton, pathNodeStatus, state.completed, i);
     const done = isPathNodeDone(node, pathNodeStatus, state.completed);
     const mastered = !!(state.pathCheckpointMastery[node.id] && state.pathCheckpointMastery[node.id].passed);
     if (node.type === 'lesson') return pathLessonRowHtml(state, node, i, unlocked, done, revealedKeys);
     if (node.type === 'milestone') return pathMilestoneRowHtml(node, i, unlocked, done, revealedKeys);
-    if (node.type === 'sectionTest' || node.type === 'groupTest') return pathSectionTestRowHtml(node, i, unlocked, done, mastered, revealedKeys);
+    if (isTest) return pathSectionTestRowHtml(node, i, unlocked, done, mastered, revealedKeys);
     return pathCheckpointRowHtml(node, i, unlocked, done, mastered, revealedKeys);
   }).join('');
 
@@ -2571,8 +2624,14 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
       : doneCount > 0
         ? `<span class="tag tag-accent">In progress</span>`
         : `<span class="tag tag-accent">Start</span>`;
-  const dataAttrs = unlocked ? `data-action="openPathGroup" data-group-id="${escAttr(group.id)}"` : 'disabled';
-  const rowCls = ['path-group-card', unlocked ? '' : 'locked', complete ? 'mastered' : ''].join(' ').trim();
+  // A locked group still opens -- its own lesson/checkpoint rows stay
+  // locked as normal, but its section/group test rows offer the same
+  // "Jump ahead" early-completion path as an unlocked group's future tests
+  // do (see pathSectionTestRowHtml). openPathGroup itself only ever checks
+  // the TRACK's own lock (see js/main.js), so this was already safe to
+  // enter -- just previously blocked at the card's own click gate.
+  const dataAttrs = `data-action="openPathGroup" data-group-id="${escAttr(group.id)}"`;
+  const rowCls = ['path-group-card', unlocked ? '' : 'locked unlockable', complete ? 'mastered' : ''].join(' ').trim();
 
   return `
     <button class="${revealCls(cardKey, rowCls, revealedKeys)}" data-reveal-key="${cardKey}" ${dataAttrs}>
@@ -2910,5 +2969,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
     default:
       body = dashboardHtml(state, MODULES, revealedKeys);
   }
-  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${unlockPromptHtml(state)}`;
+  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${unlockPromptHtml(state)}`;
 }
