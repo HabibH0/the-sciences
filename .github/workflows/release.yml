@@ -61,4 +61,12 @@ jobs:
             artifacts/*/* \
             --repo HabibH0/the-sciences-releases \
             --title "${{ github.ref_name }}" \
-            --notes "See the commit history in the source repo for details on this release."
+            --notes "$(cat <<'NOTES'
+          See the README for install instructions per platform.
+
+          These builds are unsigned, so your OS will warn about an
+          unrecognized publisher on first run -- that's expected, not a
+          sign anything is wrong. See the README for how to proceed on
+          each platform.
+          NOTES
+          )"
