@@ -1932,7 +1932,7 @@ export default {
           kind: 'tarkeeb',
           instruction: 'مُنْذُ الْجُمُعَةِ has a معرفة مجرور — how does it read in English?',
           sentence: 'لَمْ أَرَهُ مُنْذُ الْجُمُعَةِ',
-          translation: 'I have not seen him since Friday.',
+          translation: 'I have not seen him ___ Friday.',
           cells: ['لَمْ', 'أَرَهُ', 'مُنْذُ', 'الْجُمُعَةِ'],
           rows: [
             { position: 'above', labels: [
@@ -1946,7 +1946,7 @@ export default {
           kind: 'tarkeeb',
           instruction: 'مُنْذُ يَوْمَيْنِ has a نكرة مجرور — how does it read in English?',
           sentence: 'غِبْتُ مُنْذُ يَوْمَيْنِ',
-          translation: 'I have been absent for two days.',
+          translation: 'I have been absent ___ two days.',
           cells: ['غِبْتُ', 'مُنْذُ', 'يَوْمَيْنِ'],
           rows: [
             { position: 'above', labels: [
@@ -2039,7 +2039,12 @@ export default {
           exercise: {
             prompt: `Where does الباء الزائدة occur by regular rule (قياسا)? (5 places)`,
             kind: 'mcq',
-            options: ['خبر نفي (ليس/ما)، خبر استفهام (هل)، تأكيد معنوي (نفس)، فاعل أفعِل به، مبتدأ بعد إذا الفجائية', 'Only in the خبر of نفي', 'Only in poetry, never in prose', 'Only with أفعال القلوب'],
+            options: [
+              'خبر نفي (ليس/ما)، خبر استفهام (هل)، تأكيد معنوي (نفس)، فاعل أفعِل به، مبتدأ بعد إذا الفجائية',
+              'خبر نفي (ليس/ما)، خبر استفهام (هل)، تأكيد معنوي (نفس)، مفعول به، مبتدأ بعد إذا الفجائية',
+              'خبر إثبات، خبر استفهام (هل)، تأكيد معنوي (نفس)، فاعل أفعِل به، مبتدأ بعد إذا الفجائية',
+              'خبر نفي (ليس/ما)، خبر استفهام (هل)، توكيد لفظي، فاعل أفعِل به، خبر بعد إذا الفجائية',
+            ],
             correct: 0,
           },
         },
@@ -2119,7 +2124,12 @@ export default {
         },
         {
           q: 'Where does اللام الزائدة occur? (4 places)',
-          options: ['خبر كان المنفية، الفاعل، معمول الفعل المقدَّم، معمول شبه الفعل', 'Only on the فاعل', 'Only in الاستثناء', 'Only with أفعال القلوب'],
+          options: [
+            'خبر كان المنفية، الفاعل، معمول الفعل المقدَّم، معمول شبه الفعل',
+            'خبر كان المثبتة، الفاعل، معمول الفعل المقدَّم، معمول شبه الفعل',
+            'خبر كان المنفية، المفعول به، معمول الفعل المؤخَّر، معمول شبه الفعل',
+            'خبر كان المنفية، الفاعل، معمول الفعل المقدَّم، معمول الفعل التام',
+          ],
           correct: 0,
         },
         {

@@ -1158,10 +1158,10 @@ export default {
           instruction: 'Is يَكَادُ here مثبت or منفي؟',
           sentence: 'وَلَا يَكَادُ يُسِيغُهُ',
           translation: 'And he can hardly swallow it.',
-          cells: ['يَكَادُ', 'يُسِيغُهُ'],
+          cells: ['لَا', 'يَكَادُ', 'يُسِيغُهُ'],
           rows: [
             { position: 'above', labels: [
-              { start: 0, end: 0, role: 'منفي' },
+              { start: 1, end: 1, role: 'منفي' },
             ] },
           ],
           distractors: ['مثبت'],
