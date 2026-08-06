@@ -27,6 +27,7 @@
   "build": {
     "appId": "com.habibh0.thesciences",
     "productName": "The Sciences",
+    "publish": null,
     "directories": {
       "output": "dist"
     },
