@@ -5,3 +5,6 @@ save-data.backup.json
 dist/
 .module-gen/
 .claude/
+/CLAUDE.md
+/AUDIT.md
+/PATH_GENERATION_GUIDE.md
