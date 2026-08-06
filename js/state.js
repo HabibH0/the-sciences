@@ -45,6 +45,15 @@ export function createInitialState() {
     // page already uses, so completing a lesson via its course page or via
     // the path stay the same fact everywhere -- see isPathNodeDone below.)
     pathActive: false,
+    // Transient: true whenever the learner's current top-level context is
+    // My Path -- set on entering it (openMyPath/openPathGroup/
+    // backToPathGroups) and only cleared by explicitly entering a course
+    // (activateCourse/openModule/openDashboard/...). Unlike state.view,
+    // this survives a Settings/Schedule/Achievements detour (those don't
+    // touch it), so the header can still offer a way back into My Path
+    // afterward instead of stranding the learner on whichever course
+    // state.courseId happens to hold (see headerHtml in js/render.js).
+    pathHome: nav.view === 'path' || nav.view === 'pathGroups',
     // Which group's own path map is currently open (see openPathGroup in
     // js/main.js) -- null while on the group-selection screen (pathGroupsHtml
     // in js/render.js). Persisted via nav (like moduleId/lessonId) so a

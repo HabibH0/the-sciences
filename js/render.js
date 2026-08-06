@@ -133,6 +133,12 @@ function headerHtml(state, MODULES) {
   // both read as one specific course's own dashboard/planner, which is
   // exactly what My Path deliberately isn't (it spans fstu+sarf at once).
   const onPath = state.view === 'path' || state.view === 'pathGroups';
+  // A live practice/mastery session (quiz-like: graded, has its own
+  // in-page "End session"/continue controls) -- same treatment as
+  // module/lesson/quiz below, no top-bar tabs, so leaving it always goes
+  // through exitPracticeSession (js/main.js) instead of a tab silently
+  // orphaning state.practice/pathActive.
+  const inSession = state.view === 'practice' || state.view === 'practiceReview' || state.view === 'masteryV2Complete';
 
   // Back button + breadcrumb live on the left, next to the brand -- "where
   // you are / how to get back" reads as one group there, distinct from the
@@ -194,6 +200,17 @@ function headerHtml(state, MODULES) {
         <button class="app-header-back" data-action="${backAction}" ${backExtra} aria-label="Back">${icon('arrowLeft', 16, 2)}</button>
         <div class="app-header-crumbs">${crumbsHtml}</div>
       </div>`;
+  } else if (inSession) {
+    // No tabs at all while a session is live -- same reasoning as the
+    // crumbs branch above (module/lesson/quiz): the only sanctioned way
+    // out is the session's own in-page "End session"/continue controls,
+    // which route through exitPracticeSession (js/main.js) and know how
+    // to get back to wherever the session actually started (My Path,
+    // Schedule, a module, ...). A top-bar tab here would skip that and
+    // strand state.practice/pathActive as orphaned data (see openSettings/
+    // openSchedule/openAchievements in js/main.js for the defensive
+    // cleanup that covers it if this is ever bypassed).
+    rightInner = '';
   } else {
     // Highlights Schedule for the whole time a Revision session it launched
     // is running too, not just on the Schedule screen itself -- that
@@ -209,8 +226,15 @@ function headerHtml(state, MODULES) {
     // own map (state.view === 'path') gets "All groups" where Home was
     // (its own back-navigation, one level up); the group-selection hub
     // itself has nothing further to go back to, so that slot is just empty.
+    // Off of My Path but still in state.pathHome (a Settings/Schedule/
+    // Achievements detour -- see state.pathHome in js/state.js), the slot
+    // instead offers a direct way back in, since state.view alone can't
+    // tell "detoured off My Path" from "detoured off a course dashboard"
+    // once it's changed to 'settings'/'schedule'/'achievements'.
     const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
-      : onPath ? '' : tab('Home', 'openDashboard', state.view === 'dashboard');
+      : onPath ? ''
+        : state.pathHome ? tab('My Path', 'returnToPath', false)
+          : tab('Home', 'openDashboard', state.view === 'dashboard');
 
     rightInner = `
       <nav class="app-header-nav" aria-label="Primary">
@@ -225,15 +249,17 @@ function headerHtml(state, MODULES) {
   // Home. Names the active course and, rather than switching in place (the
   // old inline pill row), sends the learner back to the launch screen's
   // course picker (see openLaunch in js/main.js) to choose from there.
-  // While browsing My Path this reads "My Path" instead of a single
-  // course's name -- state.courseId still holds whichever course a path
-  // lesson last activated (see enterPathLesson), which would otherwise
-  // show a misleading single-course label while actually spanning both.
+  // While browsing My Path (or detoured off it into Settings/Schedule/
+  // Achievements -- state.pathHome, same reasoning as homeSlot above) this
+  // reads "My Path" instead of a single course's name -- state.courseId
+  // still holds whichever course a path lesson last activated (see
+  // enterPathLesson), which would otherwise show a misleading
+  // single-course label while actually spanning both.
   const activeCourse = COURSES.find((c) => c.id === state.courseId);
   const courseSwitchHtml = `
     <button class="app-header-course-btn" data-action="openLaunch" title="Switch course">
       ${icon('book', 14, 1.7)}
-      <span>${onPath ? 'My Path' : esc(activeCourse ? activeCourse.name : '')}</span>
+      <span>${onPath || state.pathHome ? 'My Path' : esc(activeCourse ? activeCourse.name : '')}</span>
     </button>`;
 
   return `
@@ -1809,6 +1835,7 @@ function practiceHtml(state, MODULES) {
           <span class="quiz-gamify-stat">${icon('star', 14, 1.8)} ${p.xpGained || 0} XP</span>
         </div>
         <div class="card-kicker" style="text-align:center;">Question ${p.index + 1} of ${p.queue.length}</div>
+        ${entry.item.kind === 'mcq' && entry.title ? `<div class="card-kicker" style="text-align:center;">${escBidi(entry.title)}</div>` : ''}
         <h2>${escBidi(entry.item.prompt)}</h2>
         ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', animScope: scope, order: state.optionOrder[key] })}
         ${feedback}

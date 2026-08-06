@@ -909,6 +909,7 @@ function activateCourse(id) {
   state.practiceSetupOpen = false;
   state.lessonPreviewId = null;
   state.pathActive = false;
+  state.pathHome = false;
 }
 
 const actions = {
@@ -916,6 +917,9 @@ const actions = {
     state.view = 'dashboard';
     state.moduleId = null;
     state.lessonId = null;
+    state.practice = null;
+    state.pathActive = false;
+    state.pathHome = false;
   },
   // Header's course button (see courseSwitchHtml in js/render.js) -- sends
   // the learner back to the launch screen's course picker rather than
@@ -944,7 +948,12 @@ const actions = {
     // state.completed/unlockedCourses changes out from under a stale render.
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses)) return false;
     state.launchScreen = false;
-    const resumingFromPath = state.view === 'path' || state.view === 'pathGroups';
+    // state.pathHome (not state.view) is the durable "was the learner in My
+    // Path" signal -- state.view alone would miss a Settings/Schedule/
+    // Achievements detour in between (see state.pathHome's definition in
+    // js/state.js), which used to let a leftover state.courseId from a path
+    // lesson silently no-op this click instead of activating the course.
+    const resumingFromPath = state.pathHome;
     if (id !== state.courseId || resumingFromPath) activateCourse(id);
   },
   openModule(el) {
@@ -958,6 +967,7 @@ const actions = {
     state.lessonId = null;
     state.practiceSetupOpen = false;
     state.pathActive = false;
+    state.pathHome = false;
   },
   // --- My Path ---
   // The launch screen's "My Path" banner always lands on the group list
@@ -969,6 +979,7 @@ const actions = {
     state.view = 'pathGroups';
     state.pathGroupId = null;
     state.pathActive = false;
+    state.pathHome = true;
     state.practice = null;
   },
   openPathGroup(el) {
@@ -982,7 +993,17 @@ const actions = {
     state.pathGroupId = group.id;
     state.view = 'path';
     state.pathActive = false;
+    state.pathHome = true;
     state.practice = null;
+  },
+  // Header's "My Path" slot when Settings/Schedule/Achievements is a detour
+  // off of My Path (state.pathHome) rather than off of a course -- resumes
+  // exactly where the learner left off (their group's map if they'd opened
+  // one, otherwise the group list), unlike openMyPath which always resets
+  // to the group list.
+  returnToPath() {
+    state.launchScreen = false;
+    state.view = state.pathGroupId ? 'path' : 'pathGroups';
   },
   // --- Advanced-course/path/module unlock (see content/index.js's
   // isCourseUnlocked/isModuleUnlocked, content/paths.js's isTrackUnlocked) ---
@@ -1279,14 +1300,30 @@ const actions = {
   },
 
   // --- Schedule tab: Deadline / Revision / Mastery ---
+  // These three are always reachable detours off of whatever the learner
+  // was doing (a course dashboard or My Path -- see state.pathHome), so
+  // unlike openDashboard/activateCourse they deliberately leave view-
+  // adjacent context (courseId, pathGroupId, pathHome) untouched. They do
+  // still clear a live practice/mastery session, though: nothing here ever
+  // routes back INTO one (only exitPracticeSession, reached from the
+  // session's own in-page controls, knows how), so leaving one via these
+  // tabs would otherwise strand state.practice/pathActive as stale data a
+  // later, unrelated action could misread (e.g. openPractice picking up an
+  // abandoned session's moduleId -- see openPractice below).
   openSchedule() {
     state.view = 'schedule';
+    state.practice = null;
+    state.pathActive = false;
   },
   openSettings() {
     state.view = 'settings';
+    state.practice = null;
+    state.pathActive = false;
   },
   openAchievements() {
     state.view = 'achievements';
+    state.practice = null;
+    state.pathActive = false;
   },
   pickTheme(el) {
     state.theme = el.dataset.theme;
@@ -1314,6 +1351,7 @@ const actions = {
     state.moduleId = el.dataset.moduleId;
     state.lessonPreviewId = el.dataset.lessonId;
     state.pathActive = false;
+    state.pathHome = false;
   },
   // Home hero's "Review N cards" -- same moduleId problem as continueLesson
   // above, for openPractice's own reliance on state.moduleId already being
@@ -1440,6 +1478,7 @@ const actions = {
   openLessonPreview(el) {
     state.lessonPreviewId = el.dataset.lessonId;
     state.pathActive = false;
+    state.pathHome = false;
   },
   // Fires from the backdrop; a click that landed inside the dialog is not a
   // click-outside, so it changes nothing.
