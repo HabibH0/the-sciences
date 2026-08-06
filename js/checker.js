@@ -21,6 +21,21 @@ export function checkTarkeeb(item, placements) {
   return { feedback, allPass: feedback.every((f) => f.pass) };
 }
 
+// New تركيب schema (content-fstu units 2+): `slots` is
+// flattenTarkeebSlots(item, { fillBlanks: true }).slots (content/index.js),
+// `given` is the same length, each entry the chip text dropped on that slot
+// or null. A slot with role === null is a blank slot (see flattenTarkeebSlots)
+// -- its "correct" answer is staying empty, so it passes exactly when
+// nothing was dropped there, the opposite of a normal slot's pass condition.
+export function checkTarkeebDiagram(slots, given) {
+  const feedback = slots.map((slot, i) => {
+    const value = given[i] ?? null;
+    const pass = slot.role === null ? value === null : (value !== null && value === slot.role);
+    return { role: slot.role, given: value, pass };
+  });
+  return { feedback, allPass: feedback.every((f) => f.pass) };
+}
+
 export function checkExercise(item, answer) {
   if (item.kind === 'tarkeeb') return checkTarkeeb(item, answer);
   return checkMcq(item, answer);

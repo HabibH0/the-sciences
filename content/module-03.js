@@ -18,7 +18,7 @@ export default {
   title: 'الفعل السماعي',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
-  blurb: 'The سماعي فعل: كان وأخواتها and its meanings, أفعال الرجاء والمقاربة والشروع, أفعال المدح والذم, and صيغ التعجب.',
+  blurb: 'The سماعي فعل: كان وأخواتها, the verbs of hope, praise, blame, and exclamation.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -28,8 +28,14 @@ export default {
       concepts: [
         {
           heading: 'السماعي، والفعل الناقص',
-          body: `<bdi>عَامِلُ الْفِعْل</bdi> السَّمَاعِيّ is the branch that follows no consistent rule (<bdi>لَا قَاعِدَة</bdi>) and depends purely on <bdi>السَّمَاع</bdi> — what has been transmitted. It has three <bdi>أَقْسَام</bdi>: (1) <bdi>الْأَفْعَالُ النَّاقِصَة</bdi> (2) <bdi>أَفْعَالُ الْمَدْحِ وَالذَّمّ</bdi> (3) <bdi>صِيَغُ التَّعَجُّب</bdi>. This lesson opens the first: الأفعال الناقصة enter upon a <bdi>مُبْتَدَأ</bdi> and <bdi>خَبَر</bdi>, making the first <bdi>مَرْفُوع</bdi> (called <bdi>اِسْمُهَا</bdi>) and the second <bdi>مَنْصُوب</bdi> (called <bdi>خَبَرُهَا</bdi>). A فعل is called <bdi>نَاقِص</bdi> because its meaning stays incomplete without that خبر — unlike a <bdi>فِعْلٌ تَامّ</bdi>, whose فاعل alone is enough to complete the meaning.`,
-          sample: `السماعي — لا قاعدة، أقسامه الثلاثة: الأفعال الناقصة، أفعال المدح والذم، صيغ التعجب<br>الفعل الناقص — يرفع اسمه وينصب خبره<br>الفعل التام — يكتفي بفاعله عن الخبر`,
+          lines: [
+            { html: `<bdi>عَامِلُ الْفِعْل</bdi> السَّمَاعِيّ is the branch that follows no consistent rule (<bdi>لَا قَاعِدَة</bdi>) and depends purely on <bdi>السَّمَاع</bdi> — what has been transmitted. It has three <bdi>أَقْسَام</bdi>:`, list: false },
+            { html: `<bdi>الْأَفْعَالُ النَّاقِصَة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>أَفْعَالُ الْمَدْحِ وَالذَّمّ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>صِيَغُ التَّعَجُّب</bdi>`, list: true, bullet: true },
+            { html: `This lesson opens the first: الأفعال الناقصة enter upon a <bdi>مُبْتَدَأ</bdi> and <bdi>خَبَر</bdi>, making the first <bdi>مَرْفُوع</bdi> (called <bdi>اِسْمُهَا</bdi>) and the second <bdi>مَنْصُوب</bdi> (called <bdi>خَبَرُهَا</bdi>).`, list: false },
+            { html: `A فعل is called <bdi>نَاقِص</bdi> because its meaning stays incomplete without that خبر — unlike a <bdi>فِعْلٌ تَامّ</bdi>, whose فاعل alone is enough to complete the meaning.`, list: false },
+          ],
           exercise: {
             prompt: `Which of these is NOT one of the three أقسام of السماعي?`,
             kind: 'mcq',
@@ -39,8 +45,11 @@ export default {
         },
         {
           heading: 'أضرب الأفعال الناقصة، وكان وأخواتها',
-          body: `الأفعال الناقصة fall into four <bdi>أَضْرُب</bdi>: (1) <bdi>كَانَ وَأَخَوَاتُهَا</bdi> (2) <bdi>أَفْعَالُ الرَّجَاء</bdi> (3) <bdi>أَفْعَالُ الْمُقَارَبَة</bdi> (4) <bdi>أَفْعَالُ الشُّرُوع</bdi>. This lesson and the next cover the first: thirteen verbs sharing كان's government — <bdi>كَانَ، أَصْبَحَ، أَضْحَى، أَمْسَى، ظَلَّ، بَاتَ، صَارَ، مَا بَرِحَ، مَا انْفَكَّ، مَا زَالَ، مَا فَتِئَ، مَا دَامَ، لَيْسَ</bdi>.`,
-          sample: `أضرب الناقصة (٤) — كان وأخواتها، أفعال الرجاء، أفعال المقاربة، أفعال الشروع<br>كان وأخواتها (١٣) — كان، أصبح، أضحى، أمسى، ظل، بات، صار، ما برح، ما انفك، ما زال، ما فتئ، ما دام، ليس`,
+          lines: [
+            { html: `الأفعال الناقصة fall into four <bdi>أَضْرُب</bdi>: <bdi>كَانَ وَأَخَوَاتُهَا</bdi>, <bdi>أَفْعَالُ الرَّجَاء</bdi>, <bdi>أَفْعَالُ الْمُقَارَبَة</bdi>, and <bdi>أَفْعَالُ الشُّرُوع</bdi>.`, list: false },
+            { html: `This lesson and the next cover the first: thirteen verbs sharing كان's government —`, list: false },
+            { html: `<bdi>كَانَ، أَصْبَحَ، أَضْحَى، أَمْسَى، ظَلَّ، بَاتَ، صَارَ، مَا بَرِحَ، مَا انْفَكَّ، مَا زَالَ، مَا فَتِئَ، مَا دَامَ، لَيْسَ</bdi>.`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `How many أضرب does الأفعال الناقصة split into?`,
             kind: 'mcq',
@@ -50,8 +59,20 @@ export default {
         },
         {
           heading: 'معاني كان الستة',
-          body: `<bdi>كَانَ</bdi> itself carries a wide range of time-meanings. Linked to the past, it can indicate: (1) <bdi>الْمَاضِي الْمُنْقَطِع</bdi>, a fixed fact or a finished event, as in <bdi>﴿وَكَانُوا عَلَيْهِ شُهَدَاءَ﴾</bdi> (2) <bdi>الْمَاضِي الْمُتَجَدِّد</bdi>, continuous or habitual, as in <bdi>كَانَا يَأْكُلَانِ الطَّعَامَ</bdi> (3) <bdi>الْحَال بِمَعْنَى مَا زَالَ</bdi>, as in <bdi>﴿وَكَانَ الْإِنْسَانُ عَجُولًا﴾</bdi> (4) <bdi>الِاسْتِقْبَال</bdi>, as in <bdi>﴿كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا﴾</bdi>. Two further senses go beyond time altogether: (5) <bdi>الِانْبِغَاء</bdi>, what is fitting, as in <bdi>﴿مَا كَانَ لَنَا أَنْ نُشْرِكَ بِاللَّهِ مِنْ شَيْءٍ﴾</bdi> (6) <bdi>الْقُدْرَة</bdi>, as in <bdi>﴿وَمَا كَانَ لِنَفْسٍ أَنْ تَمُوتَ إِلَّا بِإِذْنِ اللَّهِ﴾</bdi>.`,
-          sample: `الماضي المنقطع — ﴿وكانوا عليه شهداء﴾<br>الماضي المتجدد — كانا يأكلان الطعام<br>الحال بمعنى ما زال — ﴿وكان الإنسان عجولا﴾<br>الاستقبال — ﴿كانت لهم جنات الفردوس نزلا﴾<br>الانبغاء — ﴿ما كان لنا أن نشرك بالله من شيء﴾<br>القدرة — ﴿وما كان لنفس أن تموت إلا بإذن الله﴾`,
+          lines: [
+            { html: `<bdi>كَانَ</bdi> itself carries a wide range of time-meanings. Linked to the past, it can indicate:`, list: false },
+            { table: { headers: ['Meaning', 'Example'], rows: [
+              ['الْمَاضِي الْمُنْقَطِع — a fixed fact or a finished event', '﴿وَكَانُوا عَلَيْهِ شُهَدَاءَ﴾'],
+              ['الْمَاضِي الْمُتَجَدِّد — continuous or habitual', 'كَانَا يَأْكُلَانِ الطَّعَامَ'],
+              ['الْحَال بِمَعْنَى مَا زَالَ', '﴿وَكَانَ الْإِنْسَانُ عَجُولًا﴾'],
+              ['الِاسْتِقْبَال', '﴿كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا﴾'],
+            ] } },
+            { html: `Two further senses go beyond time altogether:`, list: false },
+            { table: { headers: ['Meaning', 'Example'], rows: [
+              ['الِانْبِغَاء — what is fitting', '﴿مَا كَانَ لَنَا أَنْ نُشْرِكَ بِاللَّهِ مِنْ شَيْءٍ﴾'],
+              ['الْقُدْرَة', '﴿وَمَا كَانَ لِنَفْسٍ أَنْ تَمُوتَ إِلَّا بِإِذْنِ اللَّهِ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿وَمَا كَانَ لِنَفْسٍ أَنْ تَمُوتَ إِلَّا بِإِذْنِ اللَّهِ﴾ — كان here carries which of the six meanings?`,
             kind: 'mcq',
@@ -61,8 +82,12 @@ export default {
         },
         {
           heading: 'أحكام الحذف: نون يكن، وكان مع اسمها',
-          body: `Two deletions are permitted around كان. The <bdi>نُون</bdi> of <bdi>يَكُن</bdi> may drop when it is <bdi>مَجْزُوم</bdi>, not followed by a <bdi>سَاكِن</bdi>, and carries no attached <bdi>ضَمِيرُ نَصْبٍ</bdi>, as in <bdi>﴿لَمْ نَكُ مِنَ الْمُصَلِّينَ﴾</bdi> — but not <bdi>﴿لَمْ يَكُنِ الَّذِينَ كَفَرُوا﴾</bdi> (followed by a ساكن) nor <bdi>لَمْ أَكُنْهُ</bdi> (an attached ضمير). Dropping it adds a nuance of <bdi>تَقْلِيل</bdi> (diminution), as in <bdi>﴿وَلَمْ يَكُ شَيْئًا﴾</bdi>. Separately, <bdi>كَانَ</bdi> together with its whole <bdi>اسْم</bdi> may be deleted after the <bdi>شَرْط إِنْ</bdi> and <bdi>لَوْ</bdi>, as in <bdi>الْتَمِسْ وَلَوْ خَاتَمًا مِنْ حَدِيدٍ</bdi> and <bdi>إِنْ خَيْرًا فَخَيْرٌ وَإِنْ شَرًّا فَشَرٌّ</bdi>, and occasionally elsewhere, as in <bdi>﴿فَآمَنُوا خَيْرًا لَكُمْ﴾</bdi>.`,
-          sample: `حذف نون يكن — ﴿لم نكُ من المصلين﴾ (مجزوم، لا ساكن بعده، لا ضمير متصل)<br>عدم الحذف — ﴿لم يكن الذين كفروا﴾ (ساكن بعده)<br>حذف كان واسمها بعد الشرط — التمس ولو خاتماً من حديد`,
+          lines: [
+            { html: `Two deletions are permitted around كان.`, list: false },
+            { html: `The <bdi>نُون</bdi> of <bdi>يَكُن</bdi> may drop when it is <bdi>مَجْزُوم</bdi>, not followed by a <bdi>سَاكِن</bdi>, and carries no attached <bdi>ضَمِيرُ نَصْبٍ</bdi>, as in ﴿لَمْ نَكُ مِنَ الْمُصَلِّينَ﴾ — but not ﴿لَمْ يَكُنِ الَّذِينَ كَفَرُوا﴾ (followed by a ساكن) nor لَمْ أَكُنْهُ (an attached ضمير).`, list: false },
+            { html: `Dropping it adds a nuance of <bdi>تَقْلِيل</bdi> (diminution), as in ﴿وَلَمْ يَكُ شَيْئًا﴾.`, list: false },
+            { html: `Separately, <bdi>كَانَ</bdi> together with its whole <bdi>اسْم</bdi> may be deleted after the <bdi>شَرْط إِنْ</bdi> and <bdi>لَوْ</bdi>, as in الْتَمِسْ وَلَوْ خَاتَمًا مِنْ حَدِيدٍ and إِنْ خَيْرًا فَخَيْرٌ وَإِنْ شَرًّا فَشَرٌّ, and occasionally elsewhere, as in ﴿فَآمَنُوا خَيْرًا لَكُمْ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `Why is the نون of يكن kept in ﴿لَمْ يَكُنِ الَّذِينَ كَفَرُوا﴾ but dropped in ﴿لَمْ نَكُ مِنَ الْمُصَلِّينَ﴾?`,
             kind: 'mcq',
@@ -231,58 +256,146 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: اسم كان وخبرها',
+          title: 'تركيب: كَانَ الْجَوُّ صَحْوًا',
           kind: 'tarkeeb',
-          instruction: 'Identify the اسم and خبر of the ناقص فعل.',
-          source: 'كَانَ الْجَوُّ صَحْوًا',
-          words: ['الْجَوُّ', 'صَحْوًا'],
-          labels: ['اسم كان مرفوع', 'خبر كان منصوب'],
-          distractors: ['فاعل'],
+          instruction: 'Identify اسم كان and خبرها.',
+          sentence: 'كَانَ الْجَوُّ صَحْوًا',
+          translation: 'The weather was clear.',
+          cells: ['كَانَ', 'الْجَوُّ', 'صَحْوًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم كان' },
+              { start: 2, end: 2, role: 'خبر كان' },
+            ] },
+          ],
+          distractors: ['فاعل', 'مفعول به'],
         },
         {
-          title: 'تركيب: معاني كان',
+          title: 'تركيب: كَانَتْ حَرْبٌ',
           kind: 'tarkeeb',
-          instruction: 'Classify the meaning of كان in each example.',
-          source: '﴿وكانوا عليه شهداء﴾ / كانا يأكلان الطعام / ﴿كانت لهم جنات الفردوس نزلا﴾ / ﴿ما كان لنا أن نشرك بالله من شيء﴾',
-          words: ['كانوا', 'كانا', 'كانت', 'كان'],
-          labels: ['الماضي المنقطع', 'الماضي المتجدد', 'الاستقبال', 'الانبغاء'],
-          distractors: ['القدرة'],
+          instruction: 'Is كَانَتْ تام or ناقص here? Then identify حَرْبٌ.',
+          sentence: 'كَانَتْ حَرْبٌ',
+          translation: 'There was a war.',
+          cells: ['كَانَتْ', 'حَرْبٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تام' },
+              { start: 1, end: 1, role: 'فاعل' },
+            ] },
+          ],
+          distractors: ['ناقص', 'خبر'],
         },
         {
-          title: 'تركيب: حذف النون',
+          title: 'تركيب: ﴿وَكَانُوا عَلَيْهِ شُهَدَاءَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is dropping the نون of يكن allowed here or not?',
-          source: '﴿لم نكُ من المصلين﴾ / ﴿لم يكن الذين كفروا﴾',
-          words: ['نكُ', 'يكن'],
-          labels: ['يجوز الحذف', 'لا يجوز الحذف'],
-          distractors: ['واجب الحذف'],
+          instruction: 'Which of the six meanings of كان does كَانُوا carry here؟',
+          sentence: 'وَكَانُوا عَلَيْهِ شُهَدَاءَ',
+          translation: 'And they were witnesses to it.',
+          cells: ['كَانُوا', 'عَلَيْهِ', 'شُهَدَاءَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الماضي المنقطع' },
+            ] },
+          ],
+          distractors: ['الماضي المتجدد', 'الاستقبال'],
         },
         {
-          title: 'تركيب: أقسام السماعي',
+          title: 'تركيب: كَانَا يَأْكُلَانِ الطَّعَامَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each: is it one of أقسام السماعي or not?',
-          source: 'الأفعال الناقصة / صيغ التعجب / اللازم والمتعدي',
-          words: ['الأفعال الناقصة', 'صيغ التعجب', 'اللازم والمتعدي'],
-          labels: ['من أقسام السماعي', 'من أقسام السماعي', 'ليس من أقسام السماعي'],
-          distractors: ['أفعال القلوب'],
+          instruction: 'Which of the six meanings of كان does كَانَا carry here؟',
+          sentence: 'كَانَا يَأْكُلَانِ الطَّعَامَ',
+          translation: 'The two of them used to eat the food.',
+          cells: ['كَانَا', 'يَأْكُلَانِ', 'الطَّعَامَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الماضي المتجدد' },
+            ] },
+          ],
+          distractors: ['الماضي المنقطع', 'الاستقبال'],
         },
         {
-          title: 'تركيب: أضرب الأفعال الناقصة',
+          title: 'تركيب: ﴿وَكَانَ الْإِنْسَانُ عَجُولًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is it one of the four أضرب of الأفعال الناقصة or not?',
-          source: 'كان وأخواتها / أفعال الرجاء / أفعال القلوب',
-          words: ['كان وأخواتها', 'أفعال الرجاء', 'أفعال القلوب'],
-          labels: ['من الأضرب الأربعة', 'من الأضرب الأربعة', 'ليس من الأضرب الأربعة'],
-          distractors: ['أفعال الشروع'],
+          instruction: 'Which of the six meanings of كان does كَانَ carry here؟',
+          sentence: 'وَكَانَ الْإِنْسَانُ عَجُولًا',
+          translation: 'And man was ever hasty.',
+          cells: ['كَانَ', 'الْإِنْسَانُ', 'عَجُولًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الحال بمعنى ما زال' },
+            ] },
+          ],
+          distractors: ['الماضي المنقطع', 'الاستقبال'],
         },
         {
-          title: 'تركيب: ناقص أم تام؟',
+          title: 'تركيب: ﴿كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the فعل: ناقص (needs a خبر) or تام here?',
-          source: 'كَانَ الْجَوُّ صَحْوًا / كَانَتْ حَرْبٌ',
-          words: ['كَانَ', 'كَانَتْ'],
-          labels: ['ناقص', 'تام'],
-          distractors: ['لازم'],
+          instruction: 'Which of the six meanings of كان does كَانَتْ carry here؟',
+          sentence: 'كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا',
+          translation: 'The Gardens of Paradise will be [their] lodging.',
+          cells: ['كَانَتْ', 'لَهُمْ', 'جَنَّاتُ', 'الْفِرْدَوْسِ', 'نُزُلًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الاستقبال' },
+            ] },
+          ],
+          distractors: ['الماضي المنقطع', 'القدرة'],
+        },
+        {
+          title: 'تركيب: ﴿مَا كَانَ لَنَا أَنْ نُشْرِكَ بِاللَّهِ مِنْ شَيْءٍ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which of the six meanings of كان does كَانَ carry here؟',
+          sentence: 'مَا كَانَ لَنَا أَنْ نُشْرِكَ بِاللَّهِ مِنْ شَيْءٍ',
+          translation: 'It was not for us to associate anything with Allah.',
+          cells: ['كَانَ', 'لَنَا', 'أَنْ', 'نُشْرِكَ', 'بِاللَّهِ', 'مِنْ', 'شَيْءٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الانبغاء' },
+            ] },
+          ],
+          distractors: ['القدرة', 'الاستقبال'],
+        },
+        {
+          title: 'تركيب: ﴿مَا كَانَ لِنَفْسٍ أَنْ تَمُوتَ إِلَّا بِإِذْنِ اللَّهِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which of the six meanings of كان does كَانَ carry here؟',
+          sentence: 'مَا كَانَ لِنَفْسٍ أَنْ تَمُوتَ إِلَّا بِإِذْنِ اللَّهِ',
+          translation: 'It is not for a soul to die except by permission of Allah.',
+          cells: ['كَانَ', 'لِنَفْسٍ', 'أَنْ', 'تَمُوتَ', 'إِلَّا', 'بِإِذْنِ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'القدرة' },
+            ] },
+          ],
+          distractors: ['الانبغاء', 'الاستقبال'],
+        },
+        {
+          title: 'تركيب: حذف النون (١)',
+          kind: 'tarkeeb',
+          instruction: 'Is dropping the نون of يكن allowed here or not?',
+          sentence: 'لَمْ نَكُ مِنَ الْمُصَلِّينَ',
+          translation: 'We were not of those who prayed.',
+          cells: ['لَمْ', 'نَكُ', 'مِنَ', 'الْمُصَلِّينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'يجوز الحذف' },
+            ] },
+          ],
+          distractors: ['لا يجوز الحذف', 'واجب الحذف'],
+        },
+        {
+          title: 'تركيب: حذف النون (٢)',
+          kind: 'tarkeeb',
+          instruction: 'Is dropping the نون of يكن allowed here or not?',
+          sentence: 'لَمْ يَكُنِ الَّذِينَ كَفَرُوا',
+          translation: 'Those who disbelieved were not...',
+          cells: ['لَمْ', 'يَكُنِ', 'الَّذِينَ', 'كَفَرُوا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'لا يجوز الحذف' },
+            ] },
+          ],
+          distractors: ['يجوز الحذف', 'واجب الحذف'],
         },
       ],
     },
@@ -295,8 +408,18 @@ export default {
       concepts: [
         {
           heading: 'أصبح وأضحى وأمسى وظل وبات: أخوات الوقت',
-          body: `Five of كان's sisters attribute the خبر to the اسم at a specific time of day. <bdi>أَصْبَحَ</bdi> — morning, as in <bdi>﴿فَأَصْبَحَ فِي الْمَدِينَةِ خَائِفًا يَتَرَقَّبُ﴾</bdi> (<bdi>غَدَا</bdi> can carry the same sense: <bdi>﴿وَغَدَوْا عَلَىٰ حَرْدٍ قَادِرِينَ﴾</bdi>); <bdi>أَضْحَى</bdi> — mid-morning (<bdi>الضُّحَى</bdi>); <bdi>أَمْسَى</bdi> — evening; <bdi>ظَلَّ</bdi> — daytime; <bdi>بَاتَ</bdi> — night, as in <bdi>﴿وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا﴾</bdi>. ظَلَّ can also contract, dropping one of its two <bdi>لَام</bdi>s, as in <bdi>﴿ظَلْتَ عَلَيْهِ عَاكِفًا﴾</bdi> from <bdi>ظَلِلْتَ</bdi>.`,
-          sample: `أصبح — الصباح، ﴿فأصبح في المدينة خائفا يترقب﴾<br>أضحى — الضحى<br>أمسى — المساء<br>ظل — النهار<br>بات — الليل، ﴿والذين يبيتون لربهم سجدا وقياما﴾<br>ظلت (تخفيف ظللت) — ﴿ظلت عليه عاكفا﴾`,
+          lines: [
+            { html: `Five of كان's sisters attribute the خبر to the اسم at a specific time of day:`, list: false },
+            { table: { headers: ['Verb', 'Time', 'Example'], rows: [
+              ['أَصْبَحَ', 'الصباح (morning)', '﴿فَأَصْبَحَ فِي الْمَدِينَةِ خَائِفًا يَتَرَقَّبُ﴾'],
+              ['أَضْحَى', 'الضُّحَى (mid-morning)', '—'],
+              ['أَمْسَى', 'المساء (evening)', '—'],
+              ['ظَلَّ', 'النهار (daytime)', '—'],
+              ['بَاتَ', 'الليل (night)', '﴿وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا﴾'],
+            ] } },
+            { html: `<bdi>غَدَا</bdi> can carry the same sense as أَصْبَحَ, as in ﴿وَغَدَوْا عَلَىٰ حَرْدٍ قَادِرِينَ﴾.`, list: false },
+            { html: `ظَلَّ can also contract, dropping one of its two <bdi>لَام</bdi>s, as in ﴿ظَلْتَ عَلَيْهِ عَاكِفًا﴾ from <bdi>ظَلِلْتَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Which of the five time-sisters can drop one of its two لامات, as in ﴿ظَلْتَ عَلَيْهِ عَاكِفًا﴾?`,
             kind: 'mcq',
@@ -306,8 +429,18 @@ export default {
         },
         {
           heading: 'صار وما يشاركها معنى التحول',
-          body: `<bdi>صَارَ</bdi> indicates transformation, of two kinds: (1) <bdi>تَحَوُّلُ الذَّات</bdi> itself, as in <bdi>صَارَ الْخَمْرُ خَلًّا</bdi> (2) <bdi>تَحَوُّلُ الصِّفَات</bdi> alone, as in <bdi>صَارَ الْمُذْنِبُ مُتَّقِيًا</bdi>. كَانَ and the time-sisters can also carry this same بمعنى صار sense: <bdi>﴿وَكَانَ مِنَ الْكَافِرِينَ﴾</bdi>, <bdi>﴿فَأَصْبَحْتُمْ بِنِعْمَتِهِ إِخْوَانًا﴾</bdi>, <bdi>ظَلَّ وَجْهُهُ مُسْوَدًّا وَهُوَ كَظِيمٌ</bdi>. A few أفعال outside كان's family carry it too: <bdi>ارْتَدَّ</bdi> (<bdi>﴿فَارْتَدَّ بَصِيرًا﴾</bdi>), <bdi>عَادَ</bdi> (<bdi>﴿أَوْ لَتَعُودُنَّ فِي مِلَّتِنَا﴾</bdi>), and <bdi>اسْتَحَالَ</bdi>.`,
-          sample: `تحول الذات — صار الخمرُ خلاً<br>تحول الصفات — صار المذنبُ متقياً<br>كان بمعنى صار — ﴿وكان من الكافرين﴾<br>أصبح بمعنى صار — ﴿فأصبحتم بنعمته إخوانا﴾<br>ارتد بمعنى صار — ﴿فارتد بصيرا﴾`,
+          lines: [
+            { html: `<bdi>صَارَ</bdi> indicates transformation, of two kinds:`, list: false },
+            { table: { headers: ['Kind', 'Example'], rows: [
+              ['تَحَوُّلُ الذَّات itself', 'صَارَ الْخَمْرُ خَلًّا'],
+              ['تَحَوُّلُ الصِّفَات alone', 'صَارَ الْمُذْنِبُ مُتَّقِيًا'],
+            ] } },
+            { html: `كَانَ and the time-sisters can also carry this same بمعنى صار sense:`, list: false },
+            { html: `﴿وَكَانَ مِنَ الْكَافِرِينَ﴾`, list: true, bullet: true },
+            { html: `﴿فَأَصْبَحْتُمْ بِنِعْمَتِهِ إِخْوَانًا﴾`, list: true, bullet: true },
+            { html: `ظَلَّ وَجْهُهُ مُسْوَدًّا وَهُوَ كَظِيمٌ`, list: true, bullet: true },
+            { html: `A few أفعال outside كان's family carry it too: <bdi>ارْتَدَّ</bdi> (﴿فَارْتَدَّ بَصِيرًا﴾), <bdi>عَادَ</bdi> (﴿أَوْ لَتَعُودُنَّ فِي مِلَّتِنَا﴾), and <bdi>اسْتَحَالَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `صَارَ الْمُذْنِبُ مُتَّقِيًا shows تحول الصفات, not تحول الذات. What is the difference between the two?`,
             kind: 'mcq',
@@ -317,8 +450,14 @@ export default {
         },
         {
           heading: 'ما زال وأخواتها: الاستمرار',
-          body: `<bdi>مَا بَرِحَ، مَا انْفَكَّ، مَا زَالَ، مَا فَتِئَ</bdi> indicate <bdi>الِاسْتِمْرَار</bdi>, as in <bdi>﴿لَنْ نَبْرَحَ عَلَيْهِ عَاكِفِينَ﴾</bdi> and <bdi>﴿فَمَا زِلْتُمْ فِي شَكٍّ﴾</bdi>. Two restrictions apply to this group: (1) they are <bdi>نَاقِصُ التَّصَرُّف</bdi> — only a <bdi>مَاضٍ</bdi> and <bdi>مُضَارِع</bdi> occur, no أمر (2) they operate as ناقص only when preceded by <bdi>نَهْي</bdi>, <bdi>نَفْي</bdi>, or <bdi>دُعَاء</bdi> — hence the <bdi>مَا</bdi> in each of their names. That نفي can itself drop after a <bdi>قَسَم</bdi>, when the فعل is a مضارع negated by <bdi>لَا</bdi>, as in <bdi>يَمِينُ اللَّهِ أَبْرَحُ قَاعِدًا</bdi> (i.e. <bdi>لَا أَبْرَحُ</bdi>). Note the difference between <bdi>زَالَ يَزَالُ</bdi> — this ناقص فعل — and <bdi>زَالَ يَزُولُ</bdi>, an ordinary <bdi>فِعْلٌ تَامّ</bdi> meaning <bdi>زَوَال</bdi>, as in <bdi>﴿أَنْ تَزُولَا﴾</bdi>.`,
-          sample: `الاستمرار — ﴿لن نبرح عليه عاكفين﴾، ﴿فما زلتم في شك﴾<br>حذف النفي بعد القسم — يمين الله أبرح قاعداً (= لا أبرح)<br>زال يزال (ناقص) مقابل زال يزول (تام، بمعنى زوال) — ﴿أن تزولا﴾`,
+          lines: [
+            { html: `<bdi>مَا بَرِحَ، مَا انْفَكَّ، مَا زَالَ، مَا فَتِئَ</bdi> indicate <bdi>الِاسْتِمْرَار</bdi>, as in ﴿لَنْ نَبْرَحَ عَلَيْهِ عَاكِفِينَ﴾ and ﴿فَمَا زِلْتُمْ فِي شَكٍّ﴾.`, list: false },
+            { html: `Two restrictions apply to this group:`, list: false },
+            { html: `they are <bdi>نَاقِصُ التَّصَرُّف</bdi> — only a <bdi>مَاضٍ</bdi> and <bdi>مُضَارِع</bdi> occur, no أمر`, list: true, bullet: true },
+            { html: `they operate as ناقص only when preceded by <bdi>نَهْي</bdi>, <bdi>نَفْي</bdi>, or <bdi>دُعَاء</bdi> — hence the <bdi>مَا</bdi> in each of their names`, list: true, bullet: true },
+            { html: `That نفي can itself drop after a <bdi>قَسَم</bdi>, when the فعل is a مضارع negated by <bdi>لَا</bdi>, as in يَمِينُ اللَّهِ أَبْرَحُ قَاعِدًا (i.e. لَا أَبْرَحُ).`, list: false },
+            { html: `Note the difference between <bdi>زَالَ يَزَالُ</bdi> — this ناقص فعل — and <bdi>زَالَ يَزُولُ</bdi>, an ordinary <bdi>فِعْلٌ تَامّ</bdi> meaning <bdi>زَوَال</bdi>, as in ﴿أَنْ تَزُولَا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `Why does مَا زَالَ and its three sisters carry a مَا in their very names?`,
             kind: 'mcq',
@@ -328,8 +467,12 @@ export default {
         },
         {
           heading: 'ما دام وليس',
-          body: `<bdi>مَا دَامَ</bdi> delimits what precedes it by the duration of the اسم's being described by the خبر, as in <bdi>﴿وَأَوْصَانِي بِالصَّلَاةِ وَالزَّكَاةِ مَا دُمْتُ حَيًّا﴾</bdi>. <bdi>مَا</bdi> alone can sometimes stand in its place, as in <bdi>وَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ</bdi>, frequently before <bdi>لَمْ</bdi>: <bdi>يُسْتَجَابُ لِأَحَدِكُمْ مَا لَمْ يَعْجَلْ</bdi>. <bdi>لَيْسَ</bdi> indicates <bdi>نَفْيُ الْحَال</bdi>, as in <bdi>﴿لَيْسَ عَلَيْكَ هُدَاهُمْ﴾</bdi>. Both مَا دَامَ and لَيْسَ are completely <bdi>غَيْرُ مُتَصَرِّف</bdi> — only the ماضي form of either ever occurs.`,
-          sample: `ما دام — ﴿وأوصاني بالصلاة والزكاة ما دمت حيا﴾<br>ما وحدها بمعنى ما دام — والله في عون العبد ما كان العبد في عون أخيه<br>ليس — نفي الحال، ﴿ليس عليك هداهم﴾`,
+          lines: [
+            { html: `<bdi>مَا دَامَ</bdi> delimits what precedes it by the duration of the اسم's being described by the خبر, as in ﴿وَأَوْصَانِي بِالصَّلَاةِ وَالزَّكَاةِ مَا دُمْتُ حَيًّا﴾.`, list: false },
+            { html: `<bdi>مَا</bdi> alone can sometimes stand in its place, as in وَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ, frequently before <bdi>لَمْ</bdi>: يُسْتَجَابُ لِأَحَدِكُمْ مَا لَمْ يَعْجَلْ.`, list: false },
+            { html: `<bdi>لَيْسَ</bdi> indicates <bdi>نَفْيُ الْحَال</bdi>, as in ﴿لَيْسَ عَلَيْكَ هُدَاهُمْ﴾.`, list: false },
+            { html: `Both مَا دَامَ and لَيْسَ are completely <bdi>غَيْرُ مُتَصَرِّف</bdi> — only the ماضي form of either ever occurs.`, list: false },
+          ],
           exercise: {
             prompt: `What do مَا دَامَ and لَيْسَ share, unlike ما زال and its sisters?`,
             kind: 'mcq',
@@ -339,8 +482,11 @@ export default {
         },
         {
           heading: 'التام والناقص، وتقديم الخبر ومعموله',
-          body: `Almost every one of the thirteen sisters can also work as a <bdi>فِعْلٌ تَامّ</bdi>, sufficing with its فاعل alone and needing no خبر — all except <bdi>مَا زَالَ، مَا فَتِئَ، لَيْسَ</bdi>, as in <bdi>﴿وَإِنْ كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾</bdi> and <bdi>﴿خَالِدِينَ فِيهَا مَا دَامَتِ السَّمَاوَاتُ وَالْأَرْضُ﴾</bdi>. Word order is also flexible: the خبر of a ناقص فعل may come between the فعل and its اسم, as in <bdi>﴿كَانَ حَقًّا عَلَيْنَا نَصْرُ الْمُؤْمِنِينَ﴾</bdi>, and the <bdi>مَعْمُول</bdi> of the خبر may even precede the فعل itself, as in <bdi>﴿أَهَٰؤُلَاءِ إِيَّاكُمْ كَانُوا يَعْبُدُونَ﴾</bdi>. A few more أفعال — <bdi>آضَ، عَادَ، غَدَا، رَاحَ</bdi> — are counted among الأفعال الناقصة by some grammarians as well.`,
-          sample: `كانت حرب — كان تامة (فاعل فقط)<br>كان حقاً علينا نصرُ المؤمنين — الخبر بين الفعل والاسم<br>أهؤلاء إياكم كانوا يعبدون — معمول الخبر تقدّم على الفعل`,
+          lines: [
+            { html: `Almost every one of the thirteen sisters can also work as a <bdi>فِعْلٌ تَامّ</bdi>, sufficing with its فاعل alone and needing no خبر — all except <bdi>مَا زَالَ، مَا فَتِئَ، لَيْسَ</bdi>, as in ﴿وَإِنْ كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ﴾ and ﴿خَالِدِينَ فِيهَا مَا دَامَتِ السَّمَاوَاتُ وَالْأَرْضُ﴾.`, list: false },
+            { html: `Word order is also flexible: the خبر of a ناقص فعل may come between the فعل and its اسم, as in ﴿كَانَ حَقًّا عَلَيْنَا نَصْرُ الْمُؤْمِنِينَ﴾, and the <bdi>مَعْمُول</bdi> of the خبر may even precede the فعل itself, as in ﴿أَهَٰؤُلَاءِ إِيَّاكُمْ كَانُوا يَعْبُدُونَ﴾.`, list: false },
+            { html: `A few more أفعال — <bdi>آضَ، عَادَ، غَدَا، رَاحَ</bdi> — are counted among الأفعال الناقصة by some grammarians as well.`, list: false },
+          ],
           exercise: {
             prompt: `Which three sisters can NEVER work as فعل تام, always needing a خبر?`,
             kind: 'mcq',
@@ -456,7 +602,7 @@ export default {
           title: 'تصرف ما زال',
           kind: 'mcq',
           prompt: 'ما زال and its three sisters (ما برح، ما انفك، ما فتئ), in terms of تصرف, are:',
-          options: ['ناقصة التصرف: ماضٍ ومضارع فقط', 'تامة التصرف: كل الصيغ ترد', 'جامدة: الماضي فقط', 'لا تتصرف إطلاقا'],
+          options: ['ناقصة التصرف: only ماضٍ and مضارع occur', 'تامة التصرف: every form occurs', 'جامدة: ماضٍ only', 'Does not inflect at all'],
           correct: 0,
         },
         {
@@ -509,58 +655,179 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: أخوات الوقت',
+          title: 'تركيب: ﴿فَأَصْبَحَ فِي الْمَدِينَةِ خَائِفًا يَتَرَقَّبُ﴾',
           kind: 'tarkeeb',
-          instruction: "Classify each of كان's sisters by its time of day.",
-          source: 'أصبح / أضحى / أمسى / بات',
-          words: ['أصبح', 'أضحى', 'أمسى', 'بات'],
-          labels: ['الصباح', 'الضحى', 'المساء', 'الليل'],
-          distractors: ['النهار'],
+          instruction: 'Which time of day does أَصْبَحَ attribute the خبر to؟',
+          sentence: 'فَأَصْبَحَ فِي الْمَدِينَةِ خَائِفًا يَتَرَقَّبُ',
+          translation: 'And he became fearful in the city, watchful.',
+          cells: ['أَصْبَحَ', 'فِي', 'الْمَدِينَةِ', 'خَائِفًا', 'يَتَرَقَّبُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الصباح' },
+            ] },
+          ],
+          distractors: ['الضحى', 'المساء'],
         },
         {
-          title: 'تركيب: تحول الذات أم الصفات؟',
+          title: 'تركيب: أَضْحَى الطَّالِبُ مُجْتَهِدًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each example of صار.',
-          source: 'صار الخمرُ خلاً / صار المذنبُ متقياً',
-          words: ['الخمرُ خلاً', 'المذنبُ متقياً'],
-          labels: ['تحول الذات', 'تحول الصفات'],
-          distractors: ['لا تحول'],
+          instruction: 'Identify اسم أضحى and خبرها.',
+          sentence: 'أَضْحَى الطَّالِبُ مُجْتَهِدًا',
+          translation: 'The student became diligent by mid-morning.',
+          cells: ['أَضْحَى', 'الطَّالِبُ', 'مُجْتَهِدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم أضحى' },
+              { start: 2, end: 2, role: 'خبر أضحى' },
+            ] },
+          ],
+          distractors: ['فاعل', 'مفعول به'],
         },
         {
-          title: 'تركيب: بمعنى صار',
+          title: 'تركيب: أَمْسَى الرَّجُلُ مَرِيضًا',
           kind: 'tarkeeb',
-          instruction: 'Classify: is the فعل here بمعنى صار, or its original meaning?',
-          source: '﴿وكان من الكافرين﴾ / ﴿وكانوا عليه شهداء﴾',
-          words: ['كان (من الكافرين)', 'كانوا (شهداء)'],
-          labels: ['بمعنى صار', 'على معناه الأصلي'],
-          distractors: ['بمعنى ليس'],
+          instruction: 'Identify اسم أمسى and خبرها.',
+          sentence: 'أَمْسَى الرَّجُلُ مَرِيضًا',
+          translation: 'The man became sick by evening.',
+          cells: ['أَمْسَى', 'الرَّجُلُ', 'مَرِيضًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم أمسى' },
+              { start: 2, end: 2, role: 'خبر أمسى' },
+            ] },
+          ],
+          distractors: ['فاعل', 'مفعول به'],
         },
         {
-          title: 'تركيب: ما زال وأخواتها',
+          title: 'تركيب: ظَلَّ الْوَلَدُ صَائِمًا',
           kind: 'tarkeeb',
-          instruction: 'Classify: is it one of أخوات ما زال or not?',
-          source: 'ما برح / ما انفك / ما دام',
-          words: ['ما برح', 'ما انفك', 'ما دام'],
-          labels: ['من أخوات ما زال', 'من أخوات ما زال', 'ليس من أخوات ما زال'],
-          distractors: ['ما فتئ'],
+          instruction: 'Identify اسم ظل and خبرها.',
+          sentence: 'ظَلَّ الْوَلَدُ صَائِمًا',
+          translation: 'The boy remained fasting throughout the day.',
+          cells: ['ظَلَّ', 'الْوَلَدُ', 'صَائِمًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم ظل' },
+              { start: 2, end: 2, role: 'خبر ظل' },
+            ] },
+          ],
+          distractors: ['فاعل', 'مفعول به'],
         },
         {
-          title: 'تركيب: زال يزال أم زال يزول؟',
+          title: 'تركيب: ﴿وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: ناقص (زال يزال) or تام (زال يزول)?',
-          source: 'ما زلتم في شك / أن تزولا',
-          words: ['زلتم', 'تزولا'],
-          labels: ['ناقص (زال يزال)', 'تام (زال يزول)'],
-          distractors: ['فعل قلب'],
+          instruction: 'Which time of day does يَبِيتُونَ attribute the خبر to؟',
+          sentence: 'وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا',
+          translation: 'And those who spend the night prostrating and standing [in prayer] to their Lord.',
+          cells: ['يَبِيتُونَ', 'لِرَبِّهِمْ', 'سُجَّدًا', 'وَقِيَامًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الليل' },
+            ] },
+          ],
+          distractors: ['الصباح', 'النهار'],
         },
         {
-          title: 'تركيب: تام أم ناقص؟',
+          title: 'تركيب: صَارَ الْخَمْرُ خَلًّا',
           kind: 'tarkeeb',
-          instruction: 'Classify the فعل: تام or ناقص here?',
-          source: 'كانت حربٌ / كان حقاً علينا نصرُ المؤمنين',
-          words: ['كانت', 'كان'],
-          labels: ['تام', 'ناقص'],
-          distractors: ['محذوف'],
+          instruction: 'Classify this تحول.',
+          sentence: 'صَارَ الْخَمْرُ خَلًّا',
+          translation: 'The wine turned into vinegar.',
+          cells: ['صَارَ', 'الْخَمْرُ', 'خَلًّا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'تحول الذات' },
+            ] },
+          ],
+          distractors: ['تحول الصفات'],
+        },
+        {
+          title: 'تركيب: صَارَ الْمُذْنِبُ مُتَّقِيًا',
+          kind: 'tarkeeb',
+          instruction: 'Classify this تحول.',
+          sentence: 'صَارَ الْمُذْنِبُ مُتَّقِيًا',
+          translation: 'The sinner became righteous.',
+          cells: ['صَارَ', 'الْمُذْنِبُ', 'مُتَّقِيًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'تحول الصفات' },
+            ] },
+          ],
+          distractors: ['تحول الذات'],
+        },
+        {
+          title: 'تركيب: ﴿وَكَانَ مِنَ الْكَافِرِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is كَانَ used here بمعنى صار, or on its original meaning؟',
+          sentence: 'وَكَانَ مِنَ الْكَافِرِينَ',
+          translation: 'And he became one of the disbelievers.',
+          cells: ['كَانَ', 'مِنَ', 'الْكَافِرِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'بمعنى صار' },
+            ] },
+          ],
+          distractors: ['على معناه الأصلي'],
+        },
+        {
+          title: 'تركيب: ﴿فَأَصْبَحْتُمْ بِنِعْمَتِهِ إِخْوَانًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is أَصْبَحْتُمْ used here بمعنى صار, or on its original meaning؟',
+          sentence: 'فَأَصْبَحْتُمْ بِنِعْمَتِهِ إِخْوَانًا',
+          translation: 'And you became, by His favor, brothers.',
+          cells: ['أَصْبَحْتُمْ', 'بِنِعْمَتِهِ', 'إِخْوَانًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'بمعنى صار' },
+            ] },
+          ],
+          distractors: ['على معناه الأصلي'],
+        },
+        {
+          title: 'تركيب: ﴿فَمَا زِلْتُمْ فِي شَكٍّ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify زِلْتُمْ: ناقص (زال يزال) or تام (زال يزول)؟',
+          sentence: 'فَمَا زِلْتُمْ فِي شَكٍّ',
+          translation: 'You continued to be in doubt.',
+          cells: ['مَا', 'زِلْتُمْ', 'فِي', 'شَكٍّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'ناقص (زال يزال)' },
+            ] },
+          ],
+          distractors: ['تام (زال يزول)'],
+        },
+        {
+          title: 'تركيب: ﴿أَنْ تَزُولَا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify تَزُولَا: ناقص (زال يزال) or تام (زال يزول)؟',
+          sentence: 'أَنْ تَزُولَا',
+          translation: '...lest they cease [to exist].',
+          cells: ['أَنْ', 'تَزُولَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'تام (زال يزول)' },
+            ] },
+          ],
+          distractors: ['ناقص (زال يزال)'],
+        },
+        {
+          title: 'تركيب: ﴿كَانَ حَقًّا عَلَيْنَا نَصْرُ الْمُؤْمِنِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify كَانَ: ناقص or تام؟ Then identify its fronted خبر and its اسم.',
+          sentence: 'كَانَ حَقًّا عَلَيْنَا نَصْرُ الْمُؤْمِنِينَ',
+          translation: 'It was an obligation upon Us to aid the believers.',
+          cells: ['كَانَ', 'حَقًّا', 'عَلَيْنَا', 'نَصْرُ', 'الْمُؤْمِنِينَ'],
+          rows: [
+            { position: 'above', label: 'تام or ناقص', labels: [
+              { start: 0, end: 0, role: 'ناقص' },
+            ] },
+            { position: 'below', label: 'اسم / خبر', labels: [
+              { start: 1, end: 1, role: 'خبر كان مقدّم' },
+              { start: 3, end: 4, role: 'اسم كان مؤخر' },
+            ] },
+          ],
+          distractors: ['تام', 'فاعل'],
         },
       ],
     },
@@ -573,8 +840,15 @@ export default {
       concepts: [
         {
           heading: 'أفعال الرجاء: عسى وأخواتها',
-          body: `<bdi>عَسَى، اخْلَوْلَقَ، حَرَى</bdi> are established to indicate <bdi>الرَّجَاء</bdi> (hope), as in <bdi>﴿عَسَىٰ أَنْ يَنْفَعَنَا أَوْ نَتَّخِذَهُ وَلَدًا﴾</bdi>. عَسَى itself carries three senses: (1) <bdi>التَّرَجِّي</bdi> in something loved, as in <bdi>﴿عَسَى اللَّهُ أَنْ يَعْفُوَ عَنْهُمْ﴾</bdi> (2) <bdi>الْإِشْفَاق</bdi>, apprehension of something disliked, as in <bdi>﴿فَهَلْ عَسَيْتُمْ إِنْ تَوَلَّيْتُمْ أَنْ تُفْسِدُوا فِي الْأَرْضِ﴾</bdi> (3) <bdi>التَّعْلِيل</bdi>, as in <bdi>﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾</bdi>.`,
-          sample: `أفعال الرجاء (٣) — عسى، اخلولق، حرى<br>الترجي — ﴿عسى الله أن يعفو عنهم﴾<br>الإشفاق — ﴿فهل عسيتم إن توليتم أن تفسدوا في الأرض﴾<br>التعليل — ﴿عسى أن يبعثك ربك مقاما محمودا﴾`,
+          lines: [
+            { html: `<bdi>عَسَى، اخْلَوْلَقَ، حَرَى</bdi> are established to indicate <bdi>الرَّجَاء</bdi> (hope), as in ﴿عَسَىٰ أَنْ يَنْفَعَنَا أَوْ نَتَّخِذَهُ وَلَدًا﴾.`, list: false },
+            { html: `عَسَى itself carries three senses:`, list: false },
+            { table: { headers: ['Sense', 'Example'], rows: [
+              ['التَّرَجِّي — in something loved', '﴿عَسَى اللَّهُ أَنْ يَعْفُوَ عَنْهُمْ﴾'],
+              ['الْإِشْفَاق — apprehension of something disliked', '﴿فَهَلْ عَسَيْتُمْ إِنْ تَوَلَّيْتُمْ أَنْ تُفْسِدُوا فِي الْأَرْضِ﴾'],
+              ['التَّعْلِيل', '﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿فَهَلْ عَسَيْتُمْ إِنْ تَوَلَّيْتُمْ أَنْ تُفْسِدُوا فِي الْأَرْضِ﴾ warns of something disliked. Which of عسى's three senses is this?`,
             kind: 'mcq',
@@ -584,8 +858,12 @@ export default {
         },
         {
           heading: 'عسى مقابل لعل، ومعنى اخلولق وحرى',
-          body: `عَسَى carries <bdi>الْمُقَارَبَة</bdi> (nearness of occurrence) — <bdi>لَعَلَّ</bdi> does not, which is what separates the two. When عسى is attributed to Allah, its predominant sense flips to certainty (<bdi>الْيَقِين</bdi>) rather than hope, since الرجاء properly belongs to the addressee, not to Allah: <bdi>﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾</bdi>. <bdi>اخْلَوْلَقَ</bdi> means <bdi>صَارَ خَلِيقًا</bdi> (became apt), as in <bdi>اخْلَوْلَقَ الْمُسْلِمُونَ أَنْ يُحَافِظُوا عَلَى الصَّلَاةِ</bdi>; <bdi>حَرَى</bdi> means <bdi>صَارَ حَرِيًّا</bdi> (became worthy), as in <bdi>حَرَى الْمُذْنِبُ أَنْ يَتُوبَ</bdi>.`,
-          sample: `عسى تفيد المقاربة، لعل لا تفيدها<br>عسى منسوبة إلى الله — الغالب اليقين<br>اخلولق = صار خليقا<br>حرى = صار حريا`,
+          lines: [
+            { html: `عَسَى carries <bdi>الْمُقَارَبَة</bdi> (nearness of occurrence) — <bdi>لَعَلَّ</bdi> does not, which is what separates the two.`, list: false },
+            { html: `When عسى is attributed to Allah, its predominant sense flips to certainty (<bdi>الْيَقِين</bdi>) rather than hope, since الرجاء properly belongs to the addressee, not to Allah: ﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾.`, list: false },
+            { html: `<bdi>اخْلَوْلَقَ</bdi> means <bdi>صَارَ خَلِيقًا</bdi> (became apt), as in اخْلَوْلَقَ الْمُسْلِمُونَ أَنْ يُحَافِظُوا عَلَى الصَّلَاةِ.`, list: false },
+            { html: `<bdi>حَرَى</bdi> means <bdi>صَارَ حَرِيًّا</bdi> (became worthy), as in حَرَى الْمُذْنِبُ أَنْ يَتُوبَ.`, list: false },
+          ],
           exercise: {
             prompt: `What distinguishes عسى from لعل, even though both can express hope?`,
             kind: 'mcq',
@@ -595,8 +873,10 @@ export default {
         },
         {
           heading: 'أن في خبر أفعال الرجاء، وكونها تامة',
-          body: `<bdi>أَنْ</bdi> is common (<bdi>يَكْثُرُ</bdi>) in the خبر of عسى, and obligatory (<bdi>يَجِبُ</bdi>) in the خبر of اخلولق and حرى. Like الأفعال الناقصة generally, أفعال الرجاء can also work as <bdi>تَامَّة</bdi> — sufficing with an <bdi>اسْمٌ مُؤَوَّل</bdi> standing as their فاعل, as in <bdi>﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾</bdi>, where <bdi>أَنْ يَبْعَثَكَ</bdi> is itself the فاعل of عسى.`,
-          sample: `أن يكثر في خبر عسى، ويجب في خبر اخلولق وحرى<br>عسى تامة — ﴿عسى أن يبعثك ربك مقاما محمودا﴾ (أن يبعثك: فاعل عسى)`,
+          lines: [
+            { html: `<bdi>أَنْ</bdi> is common (<bdi>يَكْثُرُ</bdi>) in the خبر of عسى, and obligatory (<bdi>يَجِبُ</bdi>) in the خبر of اخلولق and حرى.`, list: false },
+            { html: `Like الأفعال الناقصة generally, أفعال الرجاء can also work as <bdi>تَامَّة</bdi> — sufficing with an <bdi>اسْمٌ مُؤَوَّل</bdi> standing as their فاعل, as in ﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾, where <bdi>أَنْ يَبْعَثَكَ</bdi> is itself the فاعل of عسى.`, list: false },
+          ],
           exercise: {
             prompt: `In ﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾ read as عسى تامة, what is أَنْ يَبْعَثَكَ?`,
             kind: 'mcq',
@@ -606,8 +886,14 @@ export default {
         },
         {
           heading: 'أفعال المقاربة: كاد وكرب وأوشك',
-          body: `<bdi>كَادَ، كَرَبَ، أَوْشَكَ</bdi> indicate the nearness of the خبر's occurrence, as in <bdi>﴿وَكَادُوا يَقْتُلُونَنِي﴾</bdi>. عسى and كاد both carry مقاربة, but differently: عسى by way of hope (<bdi>عَلَى سَبِيلِ الرَّجَاء</bdi>), كاد and its sisters by way of actual closeness to occurrence (<bdi>عَلَى سَبِيلِ الْحُصُول</bdi>). Affirmed كاد (<bdi>الْمُثْبَت</bdi>) indicates the act did NOT happen, but came close, as in <bdi>﴿وَكَادُوا يَقْتُلُونَنِي﴾</bdi>; negated كاد (<bdi>الْمَنْفِيّ</bdi>) is a stronger نفي, denying even the nearness itself, as in <bdi>﴿وَلَا يَكَادُ يُسِيغُهُ﴾</bdi>.`,
-          sample: `أفعال المقاربة (٣) — كاد، كرب، أوشك<br>عسى: مقاربة بالرجاء / كاد: مقاربة بالحصول<br>كاد مثبتا — ﴿وكادوا يقتلونني﴾ (لم يقع الفعل، لكن قارب)<br>كاد منفيا — ﴿ولا يكاد يسيغه﴾ (نفي أقوى، نفي القرب نفسه)`,
+          lines: [
+            { html: `<bdi>كَادَ، كَرَبَ، أَوْشَكَ</bdi> indicate the nearness of the خبر's occurrence, as in ﴿وَكَادُوا يَقْتُلُونَنِي﴾.`, list: false },
+            { html: `عسى and كاد both carry مقاربة, but differently: عسى by way of hope (<bdi>عَلَى سَبِيلِ الرَّجَاء</bdi>), كاد and its sisters by way of actual closeness to occurrence (<bdi>عَلَى سَبِيلِ الْحُصُول</bdi>).`, list: false },
+            { table: { headers: ['كاد', 'What it indicates', 'Example'], rows: [
+              ['الْمُثْبَت (affirmed)', 'the act did NOT happen, but came close', '﴿وَكَادُوا يَقْتُلُونَنِي﴾'],
+              ['الْمَنْفِيّ (negated)', 'a stronger نفي, denying even the nearness itself', '﴿وَلَا يَكَادُ يُسِيغُهُ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿وَلَا يَكَادُ يُسِيغُهُ﴾ negates كاد. Does this negate only the ACT, or the nearness of the act too?`,
             kind: 'mcq',
@@ -617,8 +903,11 @@ export default {
         },
         {
           heading: 'أن في خبر المقاربة، وحذف الخبر، وتصرف المجموعتين',
-          body: `<bdi>أَنْ</bdi> is common in the خبر of <bdi>أَوْشَكَ</bdi> but rare (<bdi>يَقِلّ</bdi>) in the خبر of كاد وكرب — because أن indicates <bdi>الِاسْتِقْبَال</bdi> (the future), and أفعال الرجاء and أوشك sit far from actual occurrence, while كاد وكرب sit close to it, so أن does not suit them as well. The خبر of أفعال المقاربة may also be deleted when known from context, as in <bdi>مَنْ عَجِلَ أَخْطَأَ أَوْ كَادَ</bdi> (i.e. <bdi>أَوْ كَادَ يُخْطِئُ</bdi>). Both أفعال الرجاء والمقاربة are <bdi>نَاقِصُ التَّصَرُّف</bdi>, restricted to the ماضي — except <bdi>كَادَ</bdi> (<bdi>﴿يَكَادُ الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ﴾</bdi>) and <bdi>أَوْشَكَ</bdi> (<bdi>يُوشِكُ أَنْ يَعُمَّهُمُ اللَّهُ بِعِقَابٍ</bdi>), which also have a مضارع.`,
-          sample: `أن يكثر في خبر أوشك، ويقل في خبر كاد وكرب<br>حذف الخبر — من عجل أخطأ أو كاد (= أو كاد يخطئ)<br>كاد وأوشك — لهما مضارع؛ الباقي ماضٍ فقط`,
+          lines: [
+            { html: `<bdi>أَنْ</bdi> is common in the خبر of <bdi>أَوْشَكَ</bdi> but rare (<bdi>يَقِلّ</bdi>) in the خبر of كاد وكرب — because أن indicates <bdi>الِاسْتِقْبَال</bdi> (the future), and أفعال الرجاء and أوشك sit far from actual occurrence, while كاد وكرب sit close to it, so أن does not suit them as well.`, list: false },
+            { html: `The خبر of أفعال المقاربة may also be deleted when known from context, as in مَنْ عَجِلَ أَخْطَأَ أَوْ كَادَ (i.e. أَوْ كَادَ يُخْطِئُ).`, list: false },
+            { html: `Both أفعال الرجاء والمقاربة are <bdi>نَاقِصُ التَّصَرُّف</bdi>, restricted to the ماضي — except <bdi>كَادَ</bdi> (﴿يَكَادُ الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ﴾) and <bdi>أَوْشَكَ</bdi> (يُوشِكُ أَنْ يَعُمَّهُمُ اللَّهُ بِعِقَابٍ), which also have a مضارع.`, list: false },
+          ],
           exercise: {
             prompt: `Why does أن suit the خبر of أوشك more than it suits كاد?`,
             kind: 'mcq',
@@ -628,8 +917,14 @@ export default {
         },
         {
           heading: 'أفعال الشروع',
-          body: `<bdi>جَعَلَ، أَخَذَ، طَفِقَ، عَلِقَ، أَنْشَأَ</bdi> indicate commencement of the act, as in <bdi>﴿وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِنْ وَرَقِ الْجَنَّةِ﴾</bdi>. Despite being grouped with السماعي here, they are actually <bdi>قِيَاسِيَّة</bdi> — mentioned alongside الأفعال الناقصة only because they resemble them in government. Two restrictions apply: (1) they occur only in the ماضي (2) their خبر must be a <bdi>جُمْلَةٌ فِعْلِيَّة</bdi> built on a مضارع, stripped of أن. An umbrella name, <bdi>أَفْعَالُ الْمُقَارَبَة</bdi>, is sometimes applied loosely to all three groups of this lesson together — عسى وأخواتها, كاد وأخواتها, and طفق وأخواتها.`,
-          sample: `أفعال الشروع — جعل، أخذ، طفق، علق، أنشأ<br>﴿وطفقا يخصفان عليهما من ورق الجنة﴾<br>أفعال الشروع قياسية، لا سماعية حقيقة<br>خبرها: جملة فعلية مضارعة بلا أن`,
+          lines: [
+            { html: `<bdi>جَعَلَ، أَخَذَ، طَفِقَ، عَلِقَ، أَنْشَأَ</bdi> indicate commencement of the act, as in ﴿وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِنْ وَرَقِ الْجَنَّةِ﴾.`, list: false },
+            { html: `Despite being grouped with السماعي here, they are actually <bdi>قِيَاسِيَّة</bdi> — mentioned alongside الأفعال الناقصة only because they resemble them in government.`, list: false },
+            { html: `Two restrictions apply:`, list: false },
+            { html: `they occur only in the ماضي`, list: true, bullet: true },
+            { html: `their خبر must be a <bdi>جُمْلَةٌ فِعْلِيَّة</bdi> built on a مضارع, stripped of أن`, list: true, bullet: true },
+            { html: `An umbrella name, <bdi>أَفْعَالُ الْمُقَارَبَة</bdi>, is sometimes applied loosely to all three groups of this lesson together — عسى وأخواتها, كاد وأخواتها, and طفق وأخواتها.`, list: false },
+          ],
           exercise: {
             prompt: `Why are أفعال الشروع covered in this السماعي lesson if they are actually قياسية, not سماعية?`,
             kind: 'mcq',
@@ -780,7 +1075,7 @@ export default {
           title: 'تصرف الرجاء والمقاربة',
           kind: 'mcq',
           prompt: 'أفعال الرجاء والمقاربة, in terms of تصرف and excepting كاد وأوشك, are:',
-          options: ['ناقصة التصرف، تلزم الماضي', 'تامة التصرف', 'جامدة بالكلية', 'تلزم المضارع فقط'],
+          options: ['ناقصة التصرف: restricted to الماضي', 'تامة التصرف', 'جامدة, entirely invariant', 'Restricted to المضارع only'],
           correct: 0,
         },
         {
@@ -798,58 +1093,78 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: معاني عسى',
+          title: 'تركيب: ﴿عَسَى اللَّهُ أَنْ يَعْفُوَ عَنْهُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the meaning of عسى in each example.',
-          source: '﴿عسى الله أن يعفو عنهم﴾ / ﴿فهل عسيتم إن توليتم أن تفسدوا في الأرض﴾ / ﴿عسى أن يبعثك ربك مقاما محمودا﴾',
-          words: ['عسى (يعفو)', 'عسيتم', 'عسى (يبعثك)'],
-          labels: ['الترجي', 'الإشفاق', 'التعليل'],
-          distractors: ['اليقين المحض'],
+          instruction: 'Identify اسم عسى and خبرها; then classify which sense of عسى this is.',
+          sentence: 'عَسَى اللَّهُ أَنْ يَعْفُوَ عَنْهُمْ',
+          translation: 'Perhaps Allah will pardon them.',
+          cells: ['عَسَى', 'اللَّهُ', 'أَنْ', 'يَعْفُوَ', 'عَنْهُمْ'],
+          rows: [
+            { position: 'above', label: 'اسم / خبر عسى', labels: [
+              { start: 1, end: 1, role: 'اسم عسى' },
+              { start: 2, end: 4, role: 'خبر عسى' },
+            ] },
+            { position: 'below', label: 'معنى عسى', labels: [
+              { start: 0, end: 0, role: 'الترجي' },
+            ] },
+          ],
+          distractors: ['الإشفاق', 'التعليل'],
         },
         {
-          title: 'تركيب: أفعال الرجاء والمقاربة والشروع',
+          title: 'تركيب: ﴿فَهَلْ عَسَيْتُمْ إِنْ تَوَلَّيْتُمْ أَنْ تُفْسِدُوا فِي الْأَرْضِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: which group does it belong to?',
-          source: 'عسى / كاد / طفق',
-          words: ['عسى', 'كاد', 'طفق'],
-          labels: ['أفعال الرجاء', 'أفعال المقاربة', 'أفعال الشروع'],
-          distractors: ['أفعال المدح'],
+          instruction: 'Which sense of عسى does عَسَيْتُمْ carry here؟',
+          sentence: 'فَهَلْ عَسَيْتُمْ إِنْ تَوَلَّيْتُمْ أَنْ تُفْسِدُوا فِي الْأَرْضِ',
+          translation: 'Would you perhaps, if you turned away, cause corruption in the land?',
+          cells: ['هَلْ', 'عَسَيْتُمْ', 'إِنْ', 'تَوَلَّيْتُمْ', 'أَنْ', 'تُفْسِدُوا', 'فِي', 'الْأَرْضِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'الإشفاق' },
+            ] },
+          ],
+          distractors: ['الترجي', 'التعليل'],
         },
         {
-          title: 'تركيب: كاد مثبتا أم منفيا؟',
+          title: 'تركيب: ﴿عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify كاد in each example: مثبت or منفي?',
-          source: '﴿وكادوا يقتلونني﴾ / ﴿ولا يكاد يسيغه﴾',
-          words: ['كادوا', 'يكاد'],
-          labels: ['مثبت', 'منفي'],
-          distractors: ['مجزوم'],
+          instruction: 'Which sense of عسى does عَسَىٰ carry here؟',
+          sentence: 'عَسَىٰ أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَحْمُودًا',
+          translation: 'Perhaps your Lord will raise you to a praised station.',
+          cells: ['عَسَىٰ', 'أَنْ', 'يَبْعَثَكَ', 'رَبُّكَ', 'مَقَامًا', 'مَحْمُودًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'التعليل' },
+            ] },
+          ],
+          distractors: ['الترجي', 'الإشفاق'],
         },
         {
-          title: 'تركيب: أن يكثر أم يقل أم يجب؟',
+          title: 'تركيب: ﴿وَكَادُوا يَقْتُلُونَنِي﴾',
           kind: 'tarkeeb',
-          instruction: "Classify the ruling on أن in each verb's خبر.",
-          source: 'عسى / اخلولق / أوشك / كاد',
-          words: ['عسى', 'اخلولق', 'أوشك', 'كاد'],
-          labels: ['يكثر', 'يجب', 'يكثر', 'يقل'],
-          distractors: ['يمتنع'],
+          instruction: 'Is كَادُوا here مثبت or منفي؟',
+          sentence: 'وَكَادُوا يَقْتُلُونَنِي',
+          translation: 'And they were about to kill me.',
+          cells: ['كَادُوا', 'يَقْتُلُونَنِي'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مثبت' },
+            ] },
+          ],
+          distractors: ['منفي'],
         },
         {
-          title: 'تركيب: لها مضارع أم تلزم الماضي؟',
+          title: 'تركيب: ﴿وَلَا يَكَادُ يُسِيغُهُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل by its تصرف.',
-          source: 'كاد / أوشك / عسى / طفق',
-          words: ['كاد', 'أوشك', 'عسى', 'طفق'],
-          labels: ['لها مضارع', 'لها مضارع', 'تلزم الماضي', 'تلزم الماضي'],
-          distractors: ['لها أمر'],
-        },
-        {
-          title: 'تركيب: مراجعة عامة',
-          kind: 'tarkeeb',
-          instruction: 'Classify each فعل: رجاء, مقاربة, or شروع?',
-          source: 'حرى / كرب / أخذ / اخلولق',
-          words: ['حرى', 'كرب', 'أخذ', 'اخلولق'],
-          labels: ['رجاء', 'مقاربة', 'شروع', 'رجاء'],
-          distractors: ['ناقصة زمنية'],
+          instruction: 'Is يَكَادُ here مثبت or منفي؟',
+          sentence: 'وَلَا يَكَادُ يُسِيغُهُ',
+          translation: 'And he can hardly swallow it.',
+          cells: ['يَكَادُ', 'يُسِيغُهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'منفي' },
+            ] },
+          ],
+          distractors: ['مثبت'],
         },
       ],
     },
@@ -862,8 +1177,16 @@ export default {
       concepts: [
         {
           heading: 'تعريف أفعال المدح والذم، والقائمة الخمسة',
-          body: `<bdi>أَفْعَالُ الْمَدْحِ وَالذَّمّ</bdi> — the second قسم of السماعي — indicate praise or blame, and put both their <bdi>فَاعِل</bdi> and their <bdi>مَخْصُوص</bdi> (the specified subject actually being praised or blamed) in the <bdi>مَرْفُوع</bdi>. There are five: (1) <bdi>نِعْمَ</bdi>, as in <bdi>﴿وَلَنِعْمَ دَارُ الْمُتَّقِينَ﴾</bdi> (2) <bdi>حَبَّذَا</bdi>, as in <bdi>حَبَّذَا خَالِدٌ</bdi> (3) <bdi>بِئْسَ</bdi>, as in <bdi>﴿بِئْسَ الشَّرَابُ﴾</bdi> (4) <bdi>سَاءَ</bdi>, as in <bdi>﴿وَسَاءَتْ مُرْتَفَقًا﴾</bdi> (5) <bdi>لَا حَبَّذَا</bdi>, as in <bdi>لَا حَبَّذَا الْكِبْرُ</bdi>.`,
-          sample: `أفعال المدح والذم (٥) — نعم، حبذا، بئس، ساء، لا حبذا<br>﴿ولنعم دار المتقين﴾<br>﴿بئس الشراب﴾<br>﴿وساءت مرتفقا﴾`,
+          lines: [
+            { html: `<bdi>أَفْعَالُ الْمَدْحِ وَالذَّمّ</bdi> — the second قسم of السماعي — indicate praise or blame, and put both their <bdi>فَاعِل</bdi> and their <bdi>مَخْصُوص</bdi> (the specified subject actually being praised or blamed) in the <bdi>مَرْفُوع</bdi>. There are five:`, list: false },
+            { table: { headers: ['Verb', 'Sense', 'Example'], rows: [
+              ['نِعْمَ', 'praise', '﴿وَلَنِعْمَ دَارُ الْمُتَّقِينَ﴾'],
+              ['حَبَّذَا', 'praise', 'حَبَّذَا خَالِدٌ'],
+              ['بِئْسَ', 'blame', '﴿بِئْسَ الشَّرَابُ﴾'],
+              ['سَاءَ', 'blame', '﴿وَسَاءَتْ مُرْتَفَقًا﴾'],
+              ['لَا حَبَّذَا', 'blame', 'لَا حَبَّذَا الْكِبْرُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `Which of these five أفعال is for المدح (praise), not الذم (blame)?`,
             kind: 'mcq',
@@ -873,8 +1196,13 @@ export default {
         },
         {
           heading: 'التصرف، والإلحاق، والتأنيث',
-          body: `أفعال المدح والذم are <bdi>غَيْرُ مُتَصَرِّفَة</bdi> — only the <bdi>تَاء</bdi> (of تأنيث) may attach to them, as in <bdi>نِعِمَتْ، سَاءَتْ</bdi>. Any فعل on the pattern <bdi>فَعُلَ</bdi> is <bdi>مُلْحَق</bdi> (annexed) to this class, whether the pattern is original, as in <bdi>﴿وَحَسُنَتْ مُرْتَفَقًا﴾</bdi>, or converted to it, as in <bdi>كَتُبَ زَيْدٌ</bdi> ("what a writer Zayd is!"). The <bdi>تَأْنِيث</bdi> of these أفعال is permitted when either the فاعل is feminine — <bdi>نِعْمَ الْمَرْأَةُ فَاطِمَةُ</bdi> / <bdi>نِعِمَتِ الْمَرْأَةُ فَاطِمَةُ</bdi> — or when the مخصوص is feminine — <bdi>نِعِمَتْ جَزَاءَ الْمُتَّقِينَ الْجَنَّةُ</bdi>.`,
-          sample: `غير متصرفة — لا يلحقها إلا تاء التأنيث: نِعِمَتْ، سَاءَتْ<br>الملحق بها — فعُل، أصلا أو تحويلا: ﴿وحسنت مرتفقا﴾، كتُب زيدٌ<br>تأنيث لتأنيث الفاعل — نعمت المرأة فاطمة<br>تأنيث لتأنيث المخصوص — نعمت جزاء المتقين الجنه`,
+          lines: [
+            { html: `أفعال المدح والذم are <bdi>غَيْرُ مُتَصَرِّفَة</bdi> — only the <bdi>تَاء</bdi> (of تأنيث) may attach to them, as in <bdi>نِعِمَتْ، سَاءَتْ</bdi>.`, list: false },
+            { html: `Any فعل on the pattern <bdi>فَعُلَ</bdi> is <bdi>مُلْحَق</bdi> (annexed) to this class, whether the pattern is original, as in ﴿وَحَسُنَتْ مُرْتَفَقًا﴾, or converted to it, as in كَتُبَ زَيْدٌ ("what a writer Zayd is!").`, list: false },
+            { html: `The <bdi>تَأْنِيث</bdi> of these أفعال is permitted when either:`, list: false },
+            { html: `the فاعل is feminine — نِعْمَ الْمَرْأَةُ فَاطِمَةُ / نِعِمَتِ الْمَرْأَةُ فَاطِمَةُ`, list: true, bullet: true },
+            { html: `the مخصوص is feminine — نِعِمَتْ جَزَاءَ الْمُتَّقِينَ الْجَنَّةُ`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `كَتُبَ زَيْدٌ ("what a writer Zayd is!") uses a فعل converted to the فَعُلَ pattern. What is this called relative to أفعال المدح والذم?`,
             kind: 'mcq',
@@ -884,8 +1212,15 @@ export default {
         },
         {
           heading: 'صور فاعل نعم وبئس، ونعما',
-          body: `The فاعل of نعم and بئس takes one of three permitted forms: (1) an اسم carrying <bdi>لَامُ الْجِنْس</bdi>, as in <bdi>﴿نِعْمَ الْعَبْدُ﴾</bdi> (2) an اسم <bdi>مُضَاف</bdi> to such a noun, as in <bdi>﴿نِعْمَ أَجْرُ الْعَامِلِينَ﴾</bdi> (3) a <bdi>ضَمِيرٌ مُسْتَتِر</bdi>, explained by a <bdi>تَمْيِيز</bdi> converted from the فاعل, as in <bdi>﴿وَسَاءَتْ مَصِيرًا﴾</bdi>. The word <bdi>مَا</bdi> can also occur immediately after نعم and بئس in place of the usual فاعل, as in <bdi>﴿فَنِعِمَّا هِيَ﴾</bdi>.`,
-          sample: `لام الجنس — ﴿نعم العبد﴾<br>مضاف إلى ما فيه لام الجنس — ﴿نعم أجر العاملين﴾<br>ضمير مستتر + تمييز — ﴿وساءت مصيرا﴾<br>ما مكان الفاعل — ﴿فنعما هي﴾`,
+          lines: [
+            { html: `The فاعل of نعم and بئس takes one of three permitted forms:`, list: false },
+            { table: { headers: ['Form', 'Example'], rows: [
+              ['an اسم carrying لَامُ الْجِنْس', '﴿نِعْمَ الْعَبْدُ﴾'],
+              ['an اسم مُضَاف to such a noun', '﴿نِعْمَ أَجْرُ الْعَامِلِينَ﴾'],
+              ['a ضَمِيرٌ مُسْتَتِر, explained by a تَمْيِيز converted from the فاعل', '﴿وَسَاءَتْ مَصِيرًا﴾'],
+            ] } },
+            { html: `The word <bdi>مَا</bdi> can also occur immediately after نعم and بئس in place of the usual فاعل, as in ﴿فَنِعِمَّا هِيَ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `In ﴿وَسَاءَتْ مَصِيرًا﴾, what is the فاعل of سَاءَتْ, and what is مَصِيرًا?`,
             kind: 'mcq',
@@ -895,8 +1230,9 @@ export default {
         },
         {
           heading: 'حذف المخصوص',
-          body: `The <bdi>مَخْصُوص</bdi> — the noun actually being praised or blamed — may be deleted when context makes it clear, as in <bdi>﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾</bdi>, meaning <bdi>هُوَ</bdi> in both places.`,
-          sample: `حذف المخصوص — ﴿نعم المولى ونعم النصير﴾ (أي: هو)`,
+          lines: [
+            { html: `The <bdi>مَخْصُوص</bdi> — the noun actually being praised or blamed — may be deleted when context makes it clear, as in ﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾, meaning <bdi>هُوَ</bdi> in both places.`, list: false },
+          ],
           exercise: {
             prompt: `﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾ has no مخصوص written out. What licenses that omission?`,
             kind: 'mcq',
@@ -906,8 +1242,16 @@ export default {
         },
         {
           heading: 'أحكام حبذا: الحال والتمييز، ومن، ويا، وثبات ذا',
-          body: `A <bdi>مَنْصُوب</bdi> may appear before or after the مخصوص of حبذا / لا حبذا, parsed two ways: as <bdi>حَال</bdi> if it is <bdi>مُشْتَقّ</bdi> — <bdi>حَبَّذَا رَاكِبًا زَيْدٌ</bdi> / <bdi>حَبَّذَا زَيْدٌ رَاكِبًا</bdi> — or as <bdi>تَمْيِيز</bdi> if it is <bdi>جَامِد</bdi> — <bdi>حَبَّذَا رَجُلًا زَيْدٌ</bdi> / <bdi>حَبَّذَا زَيْدٌ رَجُلًا</bdi>. That تمييز can also be expressed with <bdi>حَرْفُ الْجَرِّ مِنْ</bdi>, as in <bdi>حَبَّذَا زَيْنَبُ مِنْ مُعَلِّمَةٍ</bdi>. <bdi>يَا</bdi> may enter on the <bdi>حَبّ</bdi> part, as in <bdi>يَا حَبَّذَا مُحَمَّدٌ مِنْ جَارٍ</bdi>. Finally, <bdi>ذَا</bdi> after حَبّ stays fixed in the singular masculine (<bdi>الْإِفْرَاد وَالتَّذْكِير</bdi>) no matter what the مخصوص is, as in <bdi>حَبَّذَا رِجَالًا الْأَنْصَارُ</bdi> and <bdi>حَبَّذَا بِنْتًا فَاطِمَةُ</bdi>.`,
-          sample: `حال (مشتق) — حبذا راكباً زيدٌ<br>تمييز (جامد) — حبذا رجلاً زيدٌ<br>تمييز بـمن — حبذا زينب من معلمة<br>يا على حبّ — يا حبذا محمد من جار<br>ذا ثابتة الإفراد والتذكير — حبذا رجالاً الأنصار، حبذا بنتاً فاطمة`,
+          lines: [
+            { html: `A <bdi>مَنْصُوب</bdi> may appear before or after the مخصوص of حبذا / لا حبذا, parsed two ways:`, list: false },
+            { table: { headers: ['Parsed as', 'Condition', 'Example'], rows: [
+              ['حَال', 'if it is مُشْتَقّ', 'حَبَّذَا رَاكِبًا زَيْدٌ / حَبَّذَا زَيْدٌ رَاكِبًا'],
+              ['تَمْيِيز', 'if it is جَامِد', 'حَبَّذَا رَجُلًا زَيْدٌ / حَبَّذَا زَيْدٌ رَجُلًا'],
+            ] } },
+            { html: `That تمييز can also be expressed with <bdi>حَرْفُ الْجَرِّ مِنْ</bdi>, as in حَبَّذَا زَيْنَبُ مِنْ مُعَلِّمَةٍ.`, list: false },
+            { html: `<bdi>يَا</bdi> may enter on the <bdi>حَبّ</bdi> part, as in يَا حَبَّذَا مُحَمَّدٌ مِنْ جَارٍ.`, list: false },
+            { html: `Finally, <bdi>ذَا</bdi> after حَبّ stays fixed in the singular masculine (<bdi>الْإِفْرَاد وَالتَّذْكِير</bdi>) no matter what the مخصوص is, as in حَبَّذَا رِجَالًا الْأَنْصَارُ and حَبَّذَا بِنْتًا فَاطِمَةُ.`, list: false },
+          ],
           exercise: {
             prompt: `حَبَّذَا رِجَالًا الْأَنْصَارُ keeps ذَا singular masculine even though المخصوص (الأنصار) is plural. What rule explains that?`,
             kind: 'mcq',
@@ -924,7 +1268,7 @@ export default {
         },
         {
           q: 'أفعال المدح والذم, in terms of تصرف, are:',
-          options: ['غير متصرفة، يلحقها تاء التأنيث فقط', 'تامة التصرف', 'ناقصة التصرف: ماضٍ ومضارع', 'تلزم المضارع فقط'],
+          options: ['غير متصرفة: only تاء التأنيث may attach', 'تامة التصرف', 'ناقصة التصرف: ماضٍ ومضارع', 'Restricted to المضارع only'],
           correct: 0,
         },
         {
@@ -944,7 +1288,7 @@ export default {
         },
         {
           q: 'ذَا after حَبّ:',
-          options: ['تلزم الإفراد والتذكير دائما', 'تطابق المخصوص عددا ونوعا', 'تُحذف دائما', 'تصير مؤنثة إذا كان المخصوص مؤنثا'],
+          options: ['Always stays مفرد مذكر', 'Agrees with the مخصوص in number and gender', 'Is always deleted', 'Becomes feminine when the مخصوص is feminine'],
           correct: 0,
         },
       ],
@@ -1076,58 +1420,187 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مدح أم ذم؟',
+          title: 'تركيب: ﴿وَلَنِعْمَ دَارُ الْمُتَّقِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: مدح or ذم?',
-          source: 'نعم / حبذا / بئس / ساء',
-          words: ['نعم', 'حبذا', 'بئس', 'ساء'],
-          labels: ['مدح', 'مدح', 'ذم', 'ذم'],
-          distractors: ['تعجب'],
+          instruction: 'Classify نِعْمَ: مدح or ذم؟ Then identify its فاعل.',
+          sentence: 'وَلَنِعْمَ دَارُ الْمُتَّقِينَ',
+          translation: 'And excellent is the home of the righteous.',
+          cells: ['نِعْمَ', 'دَارُ', 'الْمُتَّقِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مدح' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 2, role: 'فاعل نعم (مضاف إلى ما فيه لام الجنس)' },
+            ] },
+          ],
+          distractors: ['ذم', 'مخصوص'],
         },
         {
-          title: 'تركيب: صور فاعل نعم وبئس',
+          title: 'تركيب: ﴿نِعْمَ الْعَبْدُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the form of the فاعل in each example.',
-          source: '﴿نعم العبد﴾ / ﴿نعم أجر العاملين﴾ / ﴿وساءت مصيرا﴾',
-          words: ['العبد', 'أجر العاملين', 'ضمير في ساءت'],
-          labels: ['اسم بلام الجنس', 'مضاف إلى ما فيه لام الجنس', 'ضمير مستتر يفسره تمييز'],
-          distractors: ['مصدر مؤول'],
+          instruction: 'What form does the فاعل of نِعْمَ take here؟',
+          sentence: 'نِعْمَ الْعَبْدُ',
+          translation: 'Excellent is the servant.',
+          cells: ['نِعْمَ', 'الْعَبْدُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم بلام الجنس' },
+            ] },
+          ],
+          distractors: ['مضاف إلى ما فيه لام الجنس', 'ضمير مستتر'],
         },
         {
-          title: 'تركيب: حال أم تمييز في حبذا؟',
+          title: 'تركيب: ﴿بِئْسَ الشَّرَابُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the منصوب after حبذا: حال or تمييز?',
-          source: 'حبذا راكباً زيدٌ / حبذا رجلاً زيدٌ',
-          words: ['راكباً', 'رجلاً'],
-          labels: ['حال', 'تمييز'],
-          distractors: ['مخصوص'],
+          instruction: 'Classify بِئْسَ: مدح or ذم؟ Then identify الشَّرَابُ.',
+          sentence: 'بِئْسَ الشَّرَابُ',
+          translation: 'Wretched is the drink.',
+          cells: ['بِئْسَ', 'الشَّرَابُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'ذم' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'مخصوص مذكور' },
+            ] },
+          ],
+          distractors: ['مدح', 'مخصوص محذوف'],
         },
         {
-          title: 'تركيب: سبب التاء في التأنيث',
+          title: 'تركيب: ﴿وَسَاءَتْ مُرْتَفَقًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the reason for the تاء التأنيث in each example.',
-          source: 'نعمت المرأة فاطمة / نعمت جزاء المتقين الجنه',
-          words: ['نعمت (المرأة)', 'نعمت (جزاء)'],
-          labels: ['تأنيث الفاعل', 'تأنيث المخصوص'],
-          distractors: ['تأنيث التمييز'],
+          instruction: 'Classify سَاءَتْ: مدح or ذم؟ Then identify what مُرْتَفَقًا is.',
+          sentence: 'وَسَاءَتْ مُرْتَفَقًا',
+          translation: 'And evil it is as a resting place.',
+          cells: ['سَاءَتْ', 'مُرْتَفَقًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'ذم' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'تمييز يفسر الفاعل المستتر' },
+            ] },
+          ],
+          distractors: ['مدح', 'فاعل ظاهر'],
         },
         {
-          title: 'تركيب: مذكور أم محذوف؟',
+          title: 'تركيب: حَبَّذَا خَالِدٌ',
           kind: 'tarkeeb',
-          instruction: 'Classify the مخصوص: مذكور or محذوف?',
-          source: '﴿بئس الشراب﴾ / ﴿نعم المولى ونعم النصير﴾',
-          words: ['الشراب', '(بعد نعم المولى)'],
-          labels: ['مذكور', 'محذوف'],
-          distractors: ['ممتنع الحذف'],
+          instruction: 'Classify حَبَّذَا: مدح or ذم؟ Then identify خَالِدٌ.',
+          sentence: 'حَبَّذَا خَالِدٌ',
+          translation: 'How excellent is Khalid!',
+          cells: ['حَبَّذَا', 'خَالِدٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مدح' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'مخصوص' },
+            ] },
+          ],
+          distractors: ['ذم', 'فاعل'],
         },
         {
-          title: 'تركيب: أحكام حبذا',
+          title: 'تركيب: ﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾',
           kind: 'tarkeeb',
-          instruction: "Classify each of حبذا's rulings.",
-          source: 'يا حبذا محمد من جار / حبذا زينب من معلمة / حبذا بنتاً فاطمة',
-          words: ['يا', 'من معلمة', 'بنتاً'],
-          labels: ['دخول يا على حبّ', 'تمييز بحرف الجر من', 'ثبات الإفراد والتذكير في ذا'],
-          distractors: ['حذف المخصوص'],
+          instruction: 'Is the مخصوص مذكور or محذوف here؟',
+          sentence: 'نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ',
+          translation: 'Excellent is the Protector, and excellent is the Helper.',
+          cells: ['نِعْمَ', 'الْمَوْلَىٰ', 'وَ', 'نِعْمَ', 'النَّصِيرُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 4, role: 'مخصوص محذوف' },
+            ] },
+          ],
+          distractors: ['مخصوص مذكور'],
+        },
+        {
+          title: 'تركيب: حَبَّذَا رَاكِبًا زَيْدٌ',
+          kind: 'tarkeeb',
+          instruction: 'Is رَاكِبًا here حال or تمييز؟',
+          sentence: 'حَبَّذَا رَاكِبًا زَيْدٌ',
+          translation: 'How excellent is Zayd, riding!',
+          cells: ['حَبَّذَا', 'رَاكِبًا', 'زَيْدٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'حال' },
+            ] },
+          ],
+          distractors: ['تمييز'],
+        },
+        {
+          title: 'تركيب: حَبَّذَا رَجُلًا زَيْدٌ',
+          kind: 'tarkeeb',
+          instruction: 'Is رَجُلًا here حال or تمييز؟',
+          sentence: 'حَبَّذَا رَجُلًا زَيْدٌ',
+          translation: 'What an excellent man Zayd is!',
+          cells: ['حَبَّذَا', 'رَجُلًا', 'زَيْدٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'تمييز' },
+            ] },
+          ],
+          distractors: ['حال'],
+        },
+        {
+          title: 'تركيب: يَا حَبَّذَا مُحَمَّدٌ مِنْ جَارٍ',
+          kind: 'tarkeeb',
+          instruction: 'Identify where يا enters; then identify the تمييز construction.',
+          sentence: 'يَا حَبَّذَا مُحَمَّدٌ مِنْ جَارٍ',
+          translation: 'Oh, what an excellent neighbor Muhammad is!',
+          cells: ['يَا', 'حَبَّذَا', 'مُحَمَّدٌ', 'مِنْ', 'جَارٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'دخول يا على حبّ' },
+            ] },
+            { position: 'below', labels: [
+              { start: 3, end: 4, role: 'تمييز بحرف الجر من' },
+            ] },
+          ],
+          distractors: ['مخصوص', 'حال'],
+        },
+        {
+          title: 'تركيب: حَبَّذَا بِنْتًا فَاطِمَةُ',
+          kind: 'tarkeeb',
+          instruction: 'ذَا in حَبَّذَا stays fixed how, despite فَاطِمَةُ being feminine؟',
+          sentence: 'حَبَّذَا بِنْتًا فَاطِمَةُ',
+          translation: 'What an excellent girl Fatimah is!',
+          cells: ['حَبَّذَا', 'بِنْتًا', 'فَاطِمَةُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'ذا: مفرد مذكر رغم تأنيث المخصوص' },
+            ] },
+          ],
+          distractors: ['ذا: تطابق المخصوص'],
+        },
+        {
+          title: 'تركيب: نِعِمَتِ الْمَرْأَةُ فَاطِمَةُ',
+          kind: 'tarkeeb',
+          instruction: 'Why does نِعِمَتِ carry a تاء التأنيث here؟',
+          sentence: 'نِعِمَتِ الْمَرْأَةُ فَاطِمَةُ',
+          translation: 'Excellent is the woman, Fatimah!',
+          cells: ['نِعِمَتِ', 'الْمَرْأَةُ', 'فَاطِمَةُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تأنيث الفاعل' },
+            ] },
+          ],
+          distractors: ['تأنيث المخصوص'],
+        },
+        {
+          title: 'تركيب: نِعِمَتْ جَزَاءَ الْمُتَّقِينَ الْجَنَّةُ',
+          kind: 'tarkeeb',
+          instruction: 'Why does نِعِمَتْ carry a تاء التأنيث here؟',
+          sentence: 'نِعِمَتْ جَزَاءَ الْمُتَّقِينَ الْجَنَّةُ',
+          translation: 'Excellent is the reward of the righteous, Paradise!',
+          cells: ['نِعِمَتْ', 'جَزَاءَ', 'الْمُتَّقِينَ', 'الْجَنَّةُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تأنيث المخصوص' },
+            ] },
+          ],
+          distractors: ['تأنيث الفاعل'],
         },
       ],
     },
@@ -1140,8 +1613,15 @@ export default {
       concepts: [
         {
           heading: 'صيغ التعجب: ضرباها والصيغ القياسية الثلاث',
-          body: `<bdi>صِيَغُ التَّعَجُّب</bdi> — the third قسم of السماعي — are forms established to indicate wonder (<bdi>التَّعَجُّب</bdi>), and split into two أضرب: (1) <bdi>قِيَاسِيّ</bdi> (2) <bdi>سَمَاعِيّ</bdi>. The قياسي forms are three: (1) <bdi>مَا أَفْعَلَهُ</bdi>, as in <bdi>﴿فَمَا أَصْبَرَهُمْ عَلَى النَّارِ﴾</bdi> (2) <bdi>أَفْعِلْ بِهِ</bdi>, as in <bdi>﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾</bdi> (3) the <bdi>فَعُلَ</bdi> pattern, original or converted, as in <bdi>﴿كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَاهِهِمْ﴾</bdi>.`,
-          sample: `صيغ التعجب — قياسي وسماعي<br>ما أفعله — ﴿فما أصبرهم على النار﴾<br>أفعل به — ﴿أسمع بهم وأبصر﴾<br>فعُل — ﴿كبرت كلمة تخرج من أفواههم﴾`,
+          lines: [
+            { html: `<bdi>صِيَغُ التَّعَجُّب</bdi> — the third قسم of السماعي — are forms established to indicate wonder (<bdi>التَّعَجُّب</bdi>), and split into two أضرب: <bdi>قِيَاسِيّ</bdi> and <bdi>سَمَاعِيّ</bdi>.`, list: false },
+            { html: `The قياسي forms are three:`, list: false },
+            { table: { headers: ['Form', 'Example'], rows: [
+              ['مَا أَفْعَلَهُ', '﴿فَمَا أَصْبَرَهُمْ عَلَى النَّارِ﴾'],
+              ['أَفْعِلْ بِهِ', '﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾'],
+              ['فَعُلَ pattern, original or converted', '﴿كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَاهِهِمْ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿فَمَا أَصْبَرَهُمْ عَلَى النَّارِ﴾ uses which of the three قياسي forms of التعجب?`,
             kind: 'mcq',
@@ -1151,8 +1631,12 @@ export default {
         },
         {
           heading: 'الخلاف في ما، واشتقاق أفعِل به',
-          body: `Grammarians differ on <bdi>مَا</bdi> in <bdi>مَا أَفْعَلَهُ</bdi>: (1) it is <bdi>اسْتِفْهَام</bdi> (2) it is a <bdi>نَكِرَةٌ مَوْصُوفَة</bdi> meaning <bdi>شَيْءٌ عَظِيم</bdi> ("something tremendous [made him patient]..."). The form <bdi>أَفْعِلْ بِهِ</bdi> is itself derived: its origin is the <bdi>مَاضِي أَفْعَلَ</bdi>, changed into the <bdi>أَمْر</bdi> form; a <bdi>بَاء</bdi> is then added to the فاعل, because attaching a فعل أمر directly to an <bdi>اسْمٌ ظَاهِر</bdi> فاعل would be unseemly (<bdi>قَبِيح</bdi>).`,
-          sample: `ما استفهامية أو نكرة موصوفة بمعنى شيء عظيم<br>أفعل به — أصله ماضي أفعَلَ، حُوّل إلى الأمر، وزيدت الباء على الفاعل لقبح اتصال الأمر باسم ظاهر مباشرة`,
+          lines: [
+            { html: `Grammarians differ on <bdi>مَا</bdi> in <bdi>مَا أَفْعَلَهُ</bdi>:`, list: false },
+            { html: `it is <bdi>اسْتِفْهَام</bdi>`, list: true, bullet: true },
+            { html: `it is a <bdi>نَكِرَةٌ مَوْصُوفَة</bdi> meaning <bdi>شَيْءٌ عَظِيم</bdi> ("something tremendous [made him patient]…")`, list: true, bullet: true },
+            { html: `The form <bdi>أَفْعِلْ بِهِ</bdi> is itself derived: its origin is the <bdi>مَاضِي أَفْعَلَ</bdi>, changed into the <bdi>أَمْر</bdi> form; a <bdi>بَاء</bdi> is then added to the فاعل, because attaching a فعل أمر directly to an <bdi>اسْمٌ ظَاهِر</bdi> فاعل would be unseemly (<bdi>قَبِيح</bdi>).`, list: false },
+          ],
           exercise: {
             prompt: `Why is a زائدة باء added to the فاعل in أَفْعِلْ بِهِ, rather than the فاعل standing bare?`,
             kind: 'mcq',
@@ -1162,8 +1646,10 @@ export default {
         },
         {
           heading: 'تشرب معنى التعجب، والباء مع فعُل',
-          body: `When a فعل's فاعل carries a زائدة باء like the one in أفعل به, the meaning of التعجب can seep into (<bdi>يَتَشَرَّب</bdi>) أفعال outside the three forms too, as in <bdi>﴿وَكَفَىٰ بِنَا حَاسِبِينَ﴾</bdi> and <bdi>بِحَسْبِكَ زَيْدٌ</bdi>. The same باء may also enter the فاعل of the فعُل pattern of wonder, as in <bdi>حَسُنَ بِزَيْدٍ</bdi>.`,
-          sample: `تشرب معنى التعجب — ﴿وكفى بنا حاسبين﴾، بحسبك زيد<br>الباء مع فعُل — حسُن بزيد`,
+          lines: [
+            { html: `When a فعل's فاعل carries a زائدة باء like the one in أفعل به, the meaning of التعجب can seep into (<bdi>يَتَشَرَّب</bdi>) أفعال outside the three forms too, as in ﴿وَكَفَىٰ بِنَا حَاسِبِينَ﴾ and بِحَسْبِكَ زَيْدٌ.`, list: false },
+            { html: `The same باء may also enter the فاعل of the فعُل pattern of wonder, as in حَسُنَ بِزَيْدٍ.`, list: false },
+          ],
           exercise: {
             prompt: `﴿وَكَفَىٰ بِنَا حَاسِبِينَ﴾ is not one of the three قياسي forms of التعجب, yet carries a sense of it. Why?`,
             kind: 'mcq',
@@ -1173,8 +1659,14 @@ export default {
         },
         {
           heading: 'شروط صياغة التعجب القياسي',
-          body: `صيغ التعجب القياسي — ما أفعله and أفعل به — can only be formed from the <bdi>فِعْلٌ ثُلَاثِيٌّ مُجَرَّد</bdi> (an unaugmented three-letter فعل). Two further restrictions govern their shape: (1) <bdi>الْإِعْلَال</bdi> of the <bdi>عَيْن</bdi> is not permitted — <bdi>مَا أَطْوَلَهُ وَأَطْوِلْ بِهِ</bdi>, not <bdi>مَا أَطَالَهُ وَلَا أَطِلْ بِهِ</bdi> (2) <bdi>الْإِدْغَام</bdi> does not occur in أفعل به — <bdi>أَبْرِرْ بِهِ</bdi>, unlike ما أفعله, which does allow it: <bdi>مَا أَبَرَّهُ</bdi>.`,
-          sample: `يُشتق التعجب القياسي من الثلاثي المجرد فقط<br>منع إعلال العين — ما أطوله وأطول به، لا ما أطاله<br>منع الإدغام في أفعل به — أبرِرْ به (لا يُدغم)، بخلاف ما أفعله — ما أبرّه (يُدغم)`,
+          lines: [
+            { html: `صيغ التعجب القياسي — ما أفعله and أفعل به — can only be formed from the <bdi>فِعْلٌ ثُلَاثِيٌّ مُجَرَّد</bdi> (an unaugmented three-letter فعل).`, list: false },
+            { html: `Two further restrictions govern their shape:`, list: false },
+            { table: { headers: ['Restriction', 'Example'], rows: [
+              ['الْإِعْلَال of the عَيْن is not permitted', 'مَا أَطْوَلَهُ وَأَطْوِلْ بِهِ, not مَا أَطَالَهُ وَلَا أَطِلْ بِهِ'],
+              ['الْإِدْغَام does not occur in أفعل به (unlike ما أفعله, which allows it)', 'أَبْرِرْ بِهِ vs. مَا أَبَرَّهُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `ما أطوله avoids إعلال of its عين — the form is أَطْوَلَ, not أَطَالَ. What does this show about the two قياسي forms of التعجب?`,
             kind: 'mcq',
@@ -1184,8 +1676,14 @@ export default {
         },
         {
           heading: 'صيغ التعجب السماعية',
-          body: `Alongside the قياسي forms, a handful of expressions have been transmitted (<bdi>سُمِعَ</bdi>) as صيغ سماعية of التعجب, without following the قياسي pattern: (1) <bdi>سُبْحَانَ اللَّهِ</bdi>, as in <bdi>﴿قَالَ سُبْحَانَكَ مَا يَكُونُ لِي أَنْ أَقُولَ مَا لَيْسَ لِي بِحَقٍّ﴾</bdi> (2) <bdi>الِاسْتِفْهَام</bdi>, as in <bdi>﴿كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنْتُمْ أَمْوَاتًا فَأَحْيَاكُمْ﴾</bdi> (3) <bdi>النِّدَاء</bdi>, as in <bdi>﴿يَا بُشْرَىٰ هَٰذَا غُلَامٌ﴾</bdi>.`,
-          sample: `سبحان الله — ﴿قال سبحانك ما يكون لي أن أقول ما ليس لي بحق﴾<br>الاستفهام — ﴿كيف تكفرون بالله وكنتم أمواتا فأحياكم﴾<br>النداء — ﴿يا بشرى هذا غلام﴾`,
+          lines: [
+            { html: `Alongside the قياسي forms, a handful of expressions have been transmitted (<bdi>سُمِعَ</bdi>) as صيغ سماعية of التعجب, without following the قياسي pattern:`, list: false },
+            { table: { headers: ['Device', 'Example'], rows: [
+              ['سُبْحَانَ اللَّهِ', '﴿قَالَ سُبْحَانَكَ مَا يَكُونُ لِي أَنْ أَقُولَ مَا لَيْسَ لِي بِحَقٍّ﴾'],
+              ['الِاسْتِفْهَام', '﴿كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنْتُمْ أَمْوَاتًا فَأَحْيَاكُمْ﴾'],
+              ['النِّدَاء', '﴿يَا بُشْرَىٰ هَٰذَا غُلَامٌ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿يَا بُشْرَىٰ هَٰذَا غُلَامٌ﴾ expresses wonder through which grammatical device, used here as a سماعي form of التعجب?`,
             kind: 'mcq',
@@ -1354,58 +1852,130 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: الصيغ القياسية الثلاث',
+          title: 'تركيب: ﴿فَمَا أَصْبَرَهُمْ عَلَى النَّارِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example by its قياسي صيغة.',
-          source: '﴿فما أصبرهم على النار﴾ / ﴿أسمع بهم وأبصر﴾ / ﴿كبرت كلمة تخرج من أفواههم﴾',
-          words: ['أصبرهم', 'أسمع', 'كبرت'],
-          labels: ['ما أفعله', 'أفعل به', 'فعُل'],
-          distractors: ['سماعي'],
+          instruction: 'Which قياسي صيغة of التعجب is this؟',
+          sentence: 'فَمَا أَصْبَرَهُمْ عَلَى النَّارِ',
+          translation: 'How much they can endure of the Fire!',
+          cells: ['مَا', 'أَصْبَرَهُمْ', 'عَلَى', 'النَّارِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'ما أفعله' },
+            ] },
+          ],
+          distractors: ['أفعل به', 'فعُل'],
         },
         {
-          title: 'تركيب: قياسي أم سماعي؟',
+          title: 'تركيب: ﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each صيغة: قياسي or سماعي?',
-          source: 'ما أفعله / سبحان الله / أفعل به / الاستفهام',
-          words: ['ما أفعله', 'سبحان الله', 'أفعل به', 'الاستفهام'],
-          labels: ['قياسي', 'سماعي', 'قياسي', 'سماعي'],
-          distractors: ['ملحق'],
+          instruction: 'Which قياسي صيغة of التعجب is this؟',
+          sentence: 'أَسْمِعْ بِهِمْ وَأَبْصِرْ',
+          translation: 'How well they hear and how well they see!',
+          cells: ['أَسْمِعْ', 'بِهِمْ', 'وَأَبْصِرْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'أفعل به' },
+            ] },
+          ],
+          distractors: ['ما أفعله', 'فعُل'],
         },
         {
-          title: 'تركيب: صيغ التعجب السماعية',
+          title: 'تركيب: ﴿كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَاهِهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the device of التعجب in each example.',
-          source: '﴿قال سبحانك ما يكون لي...﴾ / ﴿كيف تكفرون بالله...﴾ / ﴿يا بشرى هذا غلام﴾',
-          words: ['سبحانك', 'كيف', 'يا بشرى'],
-          labels: ['سبحان الله', 'الاستفهام', 'النداء'],
-          distractors: ['فعُل'],
+          instruction: 'Which قياسي صيغة of التعجب is this؟',
+          sentence: 'كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَاهِهِمْ',
+          translation: 'Grave is the word that comes out of their mouths.',
+          cells: ['كَبُرَتْ', 'كَلِمَةً', 'تَخْرُجُ', 'مِنْ', 'أَفْوَاهِهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'فعُل' },
+            ] },
+          ],
+          distractors: ['ما أفعله', 'أفعل به'],
         },
         {
-          title: 'تركيب: أحكام الاشتقاق',
+          title: 'تركيب: ﴿قَالَ سُبْحَانَكَ مَا يَكُونُ لِي أَنْ أَقُولَ مَا لَيْسَ لِي بِحَقٍّ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is this restriction true or false for صيغ التعجب القياسي?',
-          source: 'يُشتق من الثلاثي المجرد / يُشتق من أي فعل مهما كثرت أحرفه',
-          words: ['الثلاثي المجرد', 'أي فعل'],
-          labels: ['صحيح', 'خاطئ'],
-          distractors: ['مختلف فيه'],
+          instruction: 'Which سماعي device of التعجب does سُبْحَانَكَ represent؟',
+          sentence: 'قَالَ سُبْحَانَكَ مَا يَكُونُ لِي أَنْ أَقُولَ مَا لَيْسَ لِي بِحَقٍّ',
+          translation: 'He said, "Exalted are You! It is not for me to say what is not true."',
+          cells: ['قَالَ', 'سُبْحَانَكَ', 'مَا', 'يَكُونُ', 'لِي', 'أَنْ', 'أَقُولَ', 'مَا', 'لَيْسَ', 'لِي', 'بِحَقٍّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'سبحان الله' },
+            ] },
+          ],
+          distractors: ['الاستفهام', 'النداء'],
         },
         {
-          title: 'تركيب: الإعلال والإدغام',
+          title: 'تركيب: ﴿كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنْتُمْ أَمْوَاتًا فَأَحْيَاكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: does this occur in صيغ التعجب, or is it forbidden?',
-          source: 'إعلال العين (ما أطاله) / الإدغام في ما أفعله (ما أبرّه)',
-          words: ['إعلال العين', 'الإدغام في ما أفعله'],
-          labels: ['يمتنع', 'يقع'],
-          distractors: ['واجب دائما'],
+          instruction: 'Which سماعي device of التعجب does كَيْفَ represent؟',
+          sentence: 'كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنْتُمْ أَمْوَاتًا فَأَحْيَاكُمْ',
+          translation: 'How can you disbelieve in Allah when you were dead and He gave you life?',
+          cells: ['كَيْفَ', 'تَكْفُرُونَ', 'بِاللَّهِ', 'وَكُنْتُمْ', 'أَمْوَاتًا', 'فَأَحْيَاكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الاستفهام' },
+            ] },
+          ],
+          distractors: ['سبحان الله', 'النداء'],
         },
         {
-          title: 'تركيب: تشرب معنى التعجب',
+          title: 'تركيب: ﴿يَا بُشْرَىٰ هَٰذَا غُلَامٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is this فعل directly one of the three صيغ, or from تشرب?',
-          source: '﴿فما أصبرهم على النار﴾ / ﴿وكفى بنا حاسبين﴾',
-          words: ['أصبرهم', 'كفى'],
-          labels: ['من الصيغ الثلاث مباشرة', 'من التشرب'],
-          distractors: ['سماعي محض'],
+          instruction: 'Which سماعي device of التعجب does يَا بُشْرَىٰ represent؟',
+          sentence: 'يَا بُشْرَىٰ هَٰذَا غُلَامٌ',
+          translation: 'Good news! Here is a boy.',
+          cells: ['يَا', 'بُشْرَىٰ', 'هَٰذَا', 'غُلَامٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'النداء' },
+            ] },
+          ],
+          distractors: ['الاستفهام', 'سبحان الله'],
+        },
+        {
+          title: 'تركيب: مَا أَطْوَلَهُ',
+          kind: 'tarkeeb',
+          instruction: 'Does أَطْوَلَهُ (not أَطَالَهُ) show إعلال العين here, or does it block it؟',
+          sentence: 'مَا أَطْوَلَهُ',
+          translation: 'How tall he is!',
+          cells: ['مَا', 'أَطْوَلَهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'يمتنع فيه الإعلال' },
+            ] },
+          ],
+          distractors: ['يقع فيه الإعلال'],
+        },
+        {
+          title: 'تركيب: مَا أَبَرَّهُ',
+          kind: 'tarkeeb',
+          instruction: 'Does الإدغام occur in أَبَرَّهُ here؟',
+          sentence: 'مَا أَبَرَّهُ',
+          translation: 'How devoted he is!',
+          cells: ['مَا', 'أَبَرَّهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'يقع فيه الإدغام' },
+            ] },
+          ],
+          distractors: ['يمتنع فيه الإدغام'],
+        },
+        {
+          title: 'تركيب: ﴿وَكَفَىٰ بِنَا حَاسِبِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is كَفَىٰ here one of the three قياسي forms directly, or is this تشرب معنى التعجب؟',
+          sentence: 'وَكَفَىٰ بِنَا حَاسِبِينَ',
+          translation: 'And sufficient are We as reckoners.',
+          cells: ['كَفَىٰ', 'بِنَا', 'حَاسِبِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'تشرب معنى التعجب' },
+            ] },
+          ],
+          distractors: ['من الصيغ الثلاث مباشرة'],
         },
       ],
     },

@@ -16,7 +16,7 @@ export default {
   title: 'حذف العامل',
   heading: 'العامل وغير العامل',
   subheading: 'خاتم',
-  blurb: 'التنازع بين عاملين على معمول واحد, الحذف الجائز والواجب للعامل, حذف عامل المفعول المطلق (السماعي والقياسي), التحذير والإغراء والاختصاص والاشتغال, أركان النداء وحروفه وإعرابه وياء المتكلم والترخيم, and الاستغاثة والندبة وحذف عامل الحال.',
+  blurb: 'حذف العامل: when a governor is dropped, plus النداء and its extensions like الاستغاثة and الندبة.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -26,8 +26,10 @@ export default {
       concepts: [
         {
           heading: 'التنازع: تعريفه ومن يتولى العمل',
-          body: `<bdi>التَّنَازُع</bdi> is when two <bdi>عَامِلَانِ</bdi> (governors) both compete to govern a single <bdi>مَعْمُول</bdi> that comes after both of them — its other name is <bdi>الْإِعْمَال</bdi>. Either governor may be the one that actually governs the معمول: it is permissible for the first or the second عامل to take the credit, so the choice is not fixed to one side.`,
-          sample: `التنازع — عاملان يتنازعان معمولا واحدا يأتي بعدهما؛ يسمى أيضا الإعمال<br>من يتولى العمل؟ — يجوز أن يُعمَل الأول أو الثاني`,
+          lines: [
+            { html: `<bdi>التَّنَازُع</bdi> is when two <bdi>عَامِلَانِ</bdi> (governors) both compete to govern a single <bdi>مَعْمُول</bdi> that comes after both of them — its other name is <bdi>الْإِعْمَال</bdi>.`, list: false },
+            { html: `Either governor may be the one that actually governs the معمول: it is permissible for the first or the second عامل to take the credit, so the choice is not fixed to one side.`, list: false },
+          ],
           exercise: {
             prompt: `What is التنازع, and which of the two contending عاملان is allowed to govern the معمول؟`,
             kind: 'mcq',
@@ -37,8 +39,10 @@ export default {
         },
         {
           heading: 'أمثلة التنازع: فعلان، اسمان، وأكثر من عاملين',
-          body: `التنازع happens between two <bdi>أَفْعَال</bdi>, as in <bdi>﴿كُلُوا وَاشْرَبُوا مِنْ رِزْقِ اللَّهِ﴾</bdi>, or between two <bdi>أَسْمَاء</bdi>, as in <bdi>﴿وَإِنْ أَدْرِي أَقَرِيبٌ أَمْ بَعِيدٌ مَا تُوعَدُونَ﴾</bdi>. More than two عوامل can even contend over the same معمول — a hadith has three verbs contending over <bdi>ثَلَاثًا وَثَلَاثِينَ</bdi>: <bdi>«تُسَبِّحُونَ وَتَحْمَدُونَ وَتُكَبِّرُونَ دُبُرَ كُلِّ صَلَاةٍ ثَلَاثًا وَثَلَاثِينَ مَرَّةً»</bdi>.`,
-          sample: `تنازع فعلين — ﴿كلوا واشربوا من رزق الله﴾<br>تنازع اسمين — ﴿وإن أدري أقريب أم بعيد ما توعدون﴾<br>أكثر من عاملين — «تسبحون وتحمدون وتكبرون... ثلاثا وثلاثين»`,
+          lines: [
+            { html: `التنازع happens between two <bdi>أَفْعَال</bdi>, as in ﴿كُلُوا وَاشْرَبُوا مِنْ رِزْقِ اللَّهِ﴾, or between two <bdi>أَسْمَاء</bdi>, as in ﴿وَإِنْ أَدْرِي أَقَرِيبٌ أَمْ بَعِيدٌ مَا تُوعَدُونَ﴾.`, list: false },
+            { html: `More than two عوامل can even contend over the same معمول — a hadith has three verbs contending over <bdi>ثَلَاثًا وَثَلَاثِينَ</bdi>: «تُسَبِّحُونَ وَتَحْمَدُونَ وَتُكَبِّرُونَ دُبُرَ كُلِّ صَلَاةٍ ثَلَاثًا وَثَلَاثِينَ مَرَّةً».`, list: false },
+          ],
           exercise: {
             prompt: `Can more than two عوامل contend over a single معمول? Which example shows this؟`,
             kind: 'mcq',
@@ -48,8 +52,10 @@ export default {
         },
         {
           heading: 'حذف العامل: الجائز',
-          body: `<bdi>حَذْفُ الْعَامِل</bdi> (deleting the governor while keeping its معمول) falls into two categories: <bdi>الْحَذْفُ الْجَائِز</bdi> and <bdi>الْحَذْفُ الْوَاجِب</bdi>. Deletion is permissible when a <bdi>قَرِينَةُ السِّيَاق</bdi> (contextual clue) makes the deleted عامل recoverable, as in <bdi>﴿مَاذَا أَنْزَلَ رَبُّكُمْ قَالُوا خَيْرًا﴾</bdi> — the answer implies <bdi>أَنْزَلَ خَيْرًا</bdi>, so <bdi>خَيْرًا</bdi> is منصوب as the مفعول به of that understood, deleted verb.`,
-          sample: `الحذف الجائز — بقرينة السياق: ﴿ماذا أنزل ربكم قالوا خيرا﴾، أي أنزل خيرا<br>إعراب خيرا — مفعول به لفعل محذوف جوازا (أنزل)`,
+          lines: [
+            { html: `<bdi>حَذْفُ الْعَامِل</bdi> (deleting the governor while keeping its معمول) falls into two categories: <bdi>الْحَذْفُ الْجَائِز</bdi> and <bdi>الْحَذْفُ الْوَاجِب</bdi>.`, list: false },
+            { html: `Deletion is permissible when a <bdi>قَرِينَةُ السِّيَاق</bdi> (contextual clue) makes the deleted عامل recoverable, as in ﴿مَاذَا أَنْزَلَ رَبُّكُمْ قَالُوا خَيْرًا﴾ — the answer implies <bdi>أَنْزَلَ خَيْرًا</bdi>, so <bdi>خَيْرًا</bdi> is منصوب as the مفعول به of that understood, deleted verb.`, list: false },
+          ],
           exercise: {
             prompt: `In ﴿قَالُوا خَيْرًا﴾, why is خيرا منصوب, and what kind of deletion does this illustrate؟`,
             kind: 'mcq',
@@ -59,8 +65,12 @@ export default {
         },
         {
           heading: 'الحذف الواجب: أضربه الثلاثة',
-          body: `<bdi>الْحَذْفُ الْوَاجِب</bdi> (obligatory deletion) of the عامل occurs in three <bdi>أَضْرُب</bdi> (types): the عامل of <bdi>الْمَفْعُول الْمُطْلَق</bdi>, of <bdi>الْمَفْعُول بِهِ</bdi>, and of <bdi>الْحَال</bdi>. Deletion of عامل المفعول به specifically is obligatory in five places: (1) <bdi>التَّحْذِير</bdi> (2) <bdi>الْإِغْرَاء</bdi> (3) <bdi>الِاخْتِصَاص</bdi> (4) <bdi>الِاشْتِغَال</bdi> (5) <bdi>النِّدَاء</bdi> — the rest of this module works through each of these three أضرب in turn.`,
-          sample: `الحذف الواجب: ثلاثة أضرب — عامل المفعول المطلق، عامل المفعول به، عامل الحال<br>مواضع وجوب حذف عامل المفعول به الخمسة — التحذير، الإغراء، الاختصاص، الاشتغال، النداء`,
+          lines: [
+            { html: `<bdi>الْحَذْفُ الْوَاجِب</bdi> (obligatory deletion) of the عامل occurs in three <bdi>أَضْرُب</bdi> (types): the عامل of <bdi>الْمَفْعُول الْمُطْلَق</bdi>, of <bdi>الْمَفْعُول بِهِ</bdi>, and of <bdi>الْحَال</bdi>.`, list: false },
+            { html: `Deletion of عامل المفعول به specifically is obligatory in five places:`, list: false },
+            { html: `<bdi>التَّحْذِير</bdi>، <bdi>الْإِغْرَاء</bdi>، <bdi>الِاخْتِصَاص</bdi>، <bdi>الِاشْتِغَال</bdi>، <bdi>النِّدَاء</bdi>`, list: true, bullet: true },
+            { html: `The rest of this module works through each of these three أضرب in turn.`, list: false },
+          ],
           exercise: {
             prompt: `الحذف الواجب of the عامل occurs in three أضرب. What are they؟`,
             kind: 'mcq',
@@ -89,31 +99,76 @@ export default {
         { title: 'مواضع المفعول به الخمسة', kind: 'mcq', prompt: 'Deletion of عامل المفعول به is obligatory in how many places, and what are they؟', options: ['Five: التحذير، الإغراء، الاختصاص، الاشتغال، النداء', 'Three: التحذير، الإغراء، النداء', 'Five, but النداء is not one of them', 'Two: الاختصاص والاشتغال only'], correct: 0 },
         { title: 'الفرق بين الجائز والواجب', kind: 'mcq', prompt: 'What distinguishes الحذف الواجب from الحذف الجائز؟', options: ['الواجب must be deleted in its fixed places; الجائز is only optionally deleted when context allows it', 'الجائز only ever applies to أفعال, الواجب only to أسماء', 'الواجب applies only to حروف الجر', 'There is no real difference between them'], correct: 0 },
         {
-          title: 'تركيب: جائز أم واجب؟',
+          title: 'تركيب: ﴿مَاذَا أَنْزَلَ رَبُّكُمْ قَالُوا خَيْرًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each case of حذف العامل: الجائز or الواجب؟',
-          source: '﴿ماذا أنزل ربكم قالوا خيرا﴾ / عامل المفعول المطلق في مواضعه الأربعة',
-          words: ['قالوا خيرا', 'عامل المفعول المطلق'],
-          labels: ['الحذف الجائز', 'الحذف الواجب'],
-          distractors: ['التنازع'],
+          instruction: 'Classify this حذف العامل: الجائز or الواجب؟',
+          sentence: 'مَاذَا أَنْزَلَ رَبُّكُمْ قَالُوا خَيْرًا',
+          translation: '"What has your Lord sent down?" They said, "Good."',
+          cells: ['مَاذَا', 'أَنْزَلَ', 'رَبُّكُمْ', 'قَالُوا', 'خَيْرًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 4, end: 4, role: 'الحذف الجائز' }] },
+          ],
+          distractors: ['الحذف الواجب'],
         },
         {
-          title: 'تركيب: أضرب الحذف الواجب',
+          title: 'تركيب: صَبْرًا لَا جَزَعًا',
           kind: 'tarkeeb',
-          instruction: 'Match each عامل to the ضرب of الحذف الواجب it belongs to.',
-          source: 'عامل صبرا في صبرا لا جزعا / عامل خيرا في التحذير / عامل مستيقنا في دعائي ربي مستيقنا',
-          words: ['عامل مصدر النهي', 'عامل التحذير', 'عامل الحال'],
-          labels: ['عامل المفعول المطلق', 'عامل المفعول به', 'عامل الحال'],
-          distractors: ['عامل الفاعل'],
+          instruction: 'Which ضرب of الحذف الواجب does this عامل المحذوف belong to؟',
+          sentence: 'صَبْرًا لَا جَزَعًا',
+          translation: 'Be patient, not distressed! (lit. patience, not distress)',
+          cells: ['صَبْرًا', 'لَا', 'جَزَعًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 2, role: 'عامل المفعول المطلق' }] },
+          ],
+          distractors: ['عامل المفعول به', 'عامل الحال'],
         },
         {
-          title: 'تركيب: تنازع فعلين أم اسمين؟',
+          title: 'تركيب: إِيَّاكَ وَالْحَسَدَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال of التنازع.',
-          source: '﴿كلوا واشربوا من رزق الله﴾ / ﴿وإن أدري أقريب أم بعيد ما توعدون﴾',
-          words: ['كلوا واشربوا', 'أقريب أم بعيد'],
-          labels: ['تنازع فعلين', 'تنازع اسمين'],
-          distractors: ['تنازع حرفين'],
+          instruction: 'Which ضرب of الحذف الواجب does this عامل المحذوف belong to؟',
+          sentence: 'إِيَّاكَ وَالْحَسَدَ',
+          translation: 'Beware of envy!',
+          cells: ['إِيَّاكَ', 'وَالْحَسَدَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'عامل المفعول به' }] },
+          ],
+          distractors: ['عامل المفعول المطلق', 'عامل الحال'],
+        },
+        {
+          title: 'تركيب: دُعَائِي رَبِّي مُسْتَيْقِنًا',
+          kind: 'tarkeeb',
+          instruction: 'Which ضرب of الحذف الواجب does this عامل المحذوف belong to؟',
+          sentence: 'دُعَائِي رَبِّي مُسْتَيْقِنًا',
+          translation: 'My prayer to my Lord, [being] certain.',
+          cells: ['دُعَائِي', 'رَبِّي', 'مُسْتَيْقِنًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'عامل الحال' }] },
+          ],
+          distractors: ['عامل المفعول المطلق', 'عامل المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿كُلُوا وَاشْرَبُوا مِنْ رِزْقِ اللَّهِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify this مثال of التنازع.',
+          sentence: 'كُلُوا وَاشْرَبُوا مِنْ رِزْقِ اللَّهِ',
+          translation: "Eat and drink from Allah's provision.",
+          cells: ['كُلُوا', 'وَاشْرَبُوا', 'مِنْ', 'رِزْقِ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'تنازع فعلين' }] },
+          ],
+          distractors: ['تنازع اسمين'],
+        },
+        {
+          title: 'تركيب: ﴿وَإِنْ أَدْرِي أَقَرِيبٌ أَمْ بَعِيدٌ مَا تُوعَدُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify this مثال of التنازع.',
+          sentence: 'وَإِنْ أَدْرِي أَقَرِيبٌ أَمْ بَعِيدٌ مَا تُوعَدُونَ',
+          translation: 'And I do not know whether what you are promised is near or far.',
+          cells: ['وَإِنْ', 'أَدْرِي', 'أَقَرِيبٌ', 'أَمْ', 'بَعِيدٌ', 'مَا', 'تُوعَدُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 4, role: 'تنازع اسمين' }] },
+          ],
+          distractors: ['تنازع فعلين'],
         },
       ],
     },
@@ -125,8 +180,11 @@ export default {
       concepts: [
         {
           heading: 'نوعا حذف عامل المفعول المطلق: سماعي وقياسي',
-          body: `Obligatory deletion of عامل المفعول المطلق comes in two kinds: <bdi>سَمَاعِيّ</bdi> (attested by hearing — memorized as fixed expressions, not extendable by rule to new cases) and <bdi>قِيَاسِيّ</bdi> (extendable by analogy to any case matching one of its defined places).`,
-          sample: `نوعا حذف عامل المفعول المطلق — سماعي (يُسمع ولا يُقاس عليه) وقياسي (يُقاس عليه في مواضعه)`,
+          lines: [
+            { html: `Obligatory deletion of عامل المفعول المطلق comes in two kinds:`, list: false },
+            { html: `<bdi>سَمَاعِيّ</bdi> — attested by hearing, memorized as fixed expressions, not extendable by rule to new cases`, list: true, bullet: true },
+            { html: `<bdi>قِيَاسِيّ</bdi> — extendable by analogy to any case matching one of its defined places`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Obligatory deletion of عامل المفعول المطلق comes in which two kinds؟`,
             kind: 'mcq',
@@ -136,8 +194,13 @@ export default {
         },
         {
           heading: 'القياسي: أربعة مواضع',
-          body: `The قياسي obligatory deletion occurs in four places: (1) a <bdi>مَصْدَر</bdi> functioning as a <bdi>نَهْي</bdi> following a مصدر intended as an <bdi>أَمْر</bdi> (2) after an <bdi>اسْتِفْهَام</bdi> intended as <bdi>تَوْبِيخ</bdi> (rebuke) (3) after <bdi>إِمَّا</bdi> giving <bdi>تَفْصِيل</bdi> of a preceding <bdi>مُجْمَل</bdi> (4) a مصدر confirming the content of the sentence (<bdi>مُؤَكِّدٌ لِمَضْمُونِ الْجُمْلَة</bdi>).`,
-          sample: `المواضع القياسية الأربعة — (1) مصدر نهي بعد مصدر أمر (2) بعد استفهام التوبيخ (3) بعد إما تفصيلا لمجمل (4) مصدر مؤكد لمضمون الجملة`,
+          lines: [
+            { html: `The قياسي obligatory deletion occurs in four places:`, list: false },
+            { html: `a مَصْدَر functioning as a نَهْي following a مصدر intended as an أَمْر`, list: true, bullet: true },
+            { html: `after an اسْتِفْهَام intended as تَوْبِيخ (rebuke)`, list: true, bullet: true },
+            { html: `after إِمَّا giving تَفْصِيل of a preceding مُجْمَل`, list: true, bullet: true },
+            { html: `a مصدر confirming the content of the sentence (مُؤَكِّدٌ لِمَضْمُونِ الْجُمْلَة)`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `List the four قياسي places where عامل المفعول المطلق is obligatorily deleted.`,
             kind: 'mcq',
@@ -147,8 +210,10 @@ export default {
         },
         {
           heading: 'مثالا الأمر والنهي، والتوبيخ',
-          body: `<bdi>صَبْرًا لَا جَزَعًا</bdi> means <bdi>اِصْبِرْ صَبْرًا وَلَا تَجْزَعْ جَزَعًا</bdi> — a نهي مصدر paired with the preceding أمر مصدر it echoes. For استفهام التوبيخ: <bdi>أَجُرْأَةً عَلَى الْمَعَاصِي؟</bdi> ("Such audacity toward sins?!") — the استفهام here is not a real question, it is rebuke.`,
-          sample: `أمر ونهي — صبرا لا جزعا، أي اصبر صبرا ولا تجزع جزعا<br>توبيخ — أجرأة على المعاصي؟`,
+          lines: [
+            { html: `<bdi>صَبْرًا لَا جَزَعًا</bdi> means اِصْبِرْ صَبْرًا وَلَا تَجْزَعْ جَزَعًا — a نهي مصدر paired with the preceding أمر مصدر it echoes.`, list: false },
+            { html: `For استفهام التوبيخ: أَجُرْأَةً عَلَى الْمَعَاصِي؟ ("Such audacity toward sins?!") — the استفهام here is not a real question, it is rebuke.`, list: false },
+          ],
           exercise: {
             prompt: `صَبْرًا لَا جَزَعًا illustrates which قياسي موضع؟`,
             kind: 'mcq',
@@ -158,8 +223,10 @@ export default {
         },
         {
           heading: 'إما تفصيلا لمجمل، والمؤكد لمضمون الجملة',
-          body: `<bdi>﴿فَشُدُّوا الْوَثَاقَ فَإِمَّا مَنًّا بَعْدُ وَإِمَّا فِدَاءً﴾</bdi> — <bdi>مَنًّا</bdi> and <bdi>فِدَاءً</bdi> detail the preceding مجمل. And <bdi>حَقًّا</bdi> in <bdi>﴿أُولَٰئِكَ هُمُ الْمُؤْمِنُونَ حَقًّا﴾</bdi> is a مصدر مؤكد لمضمون الجملة, whose عامل is obligatorily (قياسا) deleted.`,
-          sample: `إما تفصيلا لمجمل — ﴿فشدوا الوثاق فإما منا بعد وإما فداء﴾<br>مؤكد لمضمون الجملة — ﴿أولئك هم المؤمنون حقا﴾`,
+          lines: [
+            { html: `﴿فَشُدُّوا الْوَثَاقَ فَإِمَّا مَنًّا بَعْدُ وَإِمَّا فِدَاءً﴾ — <bdi>مَنًّا</bdi> and <bdi>فِدَاءً</bdi> detail the preceding مجمل.`, list: false },
+            { html: `And <bdi>حَقًّا</bdi> in ﴿أُولَٰئِكَ هُمُ الْمُؤْمِنُونَ حَقًّا﴾ is a مصدر مؤكد لمضمون الجملة, whose عامل is obligatorily (قياسا) deleted.`, list: false },
+          ],
           exercise: {
             prompt: `Why is حقا منصوب in ﴿أُولَٰئِكَ هُمُ الْمُؤْمِنُونَ حَقًّا﴾؟`,
             kind: 'mcq',
@@ -169,8 +236,10 @@ export default {
         },
         {
           heading: 'أمثلة سماعية لحذف عامل المفعول المطلق',
-          body: `Examples of the سماعي deletion include <bdi>سُبْحَانَ اللَّهِ</bdi>, <bdi>مَعَاذَ اللَّهِ</bdi>, <bdi>عَجَبًا لَكَ</bdi>, <bdi>حَمْدًا وَشُكْرًا لَا كُفْرًا</bdi>, and <bdi>لَبَّيْكَ</bdi> and its sisters. Because these are سماعي rather than قياسي, they are memorized as fixed expressions rather than extended to new, unattested cases.`,
-          sample: `سماعي — سبحان الله، معاذ الله، عجبا لك، حمدا وشكرا لا كفرا، لبيك وأخواتها`,
+          lines: [
+            { html: `Examples of the سماعي deletion include <bdi>سُبْحَانَ اللَّهِ</bdi>, <bdi>مَعَاذَ اللَّهِ</bdi>, <bdi>عَجَبًا لَكَ</bdi>, <bdi>حَمْدًا وَشُكْرًا لَا كُفْرًا</bdi>, and <bdi>لَبَّيْكَ</bdi> and its sisters.`, list: false },
+            { html: `Because these are سماعي rather than قياسي, they are memorized as fixed expressions rather than extended to new, unattested cases.`, list: false },
+          ],
           exercise: {
             prompt: `سُبْحَانَ اللَّهِ and مَعَاذَ اللَّهِ are examples of which kind of عامل deletion؟`,
             kind: 'mcq',
@@ -199,22 +268,78 @@ export default {
         { title: 'الفرق العملي بين السماعي والقياسي', kind: 'mcq', prompt: 'Unlike السماعي, the قياسي deletion can be:', options: ['extended by rule to any new case matching its defined مواضع', 'only memorized, never extended', 'applied to الفاعل rather than المفعول المطلق', 'applied only within Qur’anic Arabic'], correct: 0 },
         { title: 'التمييز بين مواضع القياسي', kind: 'mcq', prompt: 'Which of these is NOT one of the four قياسي مواضع of عامل المفعول المطلق؟', options: ['التحذير', 'نهي بعد أمر', 'استفهام التوبيخ', 'إما تفصيلا لمجمل'], correct: 0 },
         {
-          title: 'تركيب: سماعي أم قياسي؟',
+          title: 'تركيب: سُبْحَانَ اللَّهِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: السماعي or القياسي؟',
-          source: 'سبحان الله / صبرا لا جزعا / عجبا لك / أجرأة على المعاصي',
-          words: ['سبحان الله', 'صبرا لا جزعا', 'عجبا لك', 'أجرأة على المعاصي'],
-          labels: ['السماعي', 'القياسي', 'السماعي', 'القياسي'],
-          distractors: ['الحذف الجائز'],
+          instruction: 'Classify this حذف: السماعي or القياسي؟',
+          sentence: 'سُبْحَانَ اللَّهِ',
+          translation: 'Glory be to Allah.',
+          cells: ['سُبْحَانَ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'السماعي' }] },
+          ],
+          distractors: ['القياسي'],
         },
         {
-          title: 'تركيب: المواضع القياسية الأربعة',
+          title: 'تركيب: حَمْدًا وَشُكْرًا لَا كُفْرًا',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the قياسي موضع it illustrates.',
-          source: 'صبرا لا جزعا / أجرأة على المعاصي؟ / ﴿فإما منا وإما فداء﴾ / المؤمنون حقا',
-          words: ['صبرا لا جزعا', 'أجرأة على المعاصي؟', 'فإما منا وإما فداء', 'المؤمنون حقا'],
-          labels: ['نهي بعد أمر', 'استفهام توبيخ', 'إما تفصيلا لمجمل', 'مؤكد لمضمون الجملة'],
-          distractors: ['تحذير'],
+          instruction: 'Classify this حذف: السماعي or القياسي؟',
+          sentence: 'حَمْدًا وَشُكْرًا لَا كُفْرًا',
+          translation: 'Praise and thanks, not ingratitude.',
+          cells: ['حَمْدًا', 'وَشُكْرًا', 'لَا', 'كُفْرًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 3, role: 'السماعي' }] },
+          ],
+          distractors: ['القياسي'],
+        },
+        {
+          title: 'تركيب: صَبْرًا لَا جَزَعًا (القياسي)',
+          kind: 'tarkeeb',
+          instruction: 'Classify this حذف, then its قياسي موضع.',
+          sentence: 'صَبْرًا لَا جَزَعًا',
+          translation: 'Be patient, not distressed!',
+          cells: ['صَبْرًا', 'لَا', 'جَزَعًا'],
+          rows: [
+            { position: 'above', label: 'النوع', labels: [{ start: 0, end: 2, role: 'القياسي' }] },
+            { position: 'below', label: 'الموضع', labels: [{ start: 0, end: 2, role: 'نهي بعد أمر' }] },
+          ],
+          distractors: ['السماعي', 'استفهام توبيخ'],
+        },
+        {
+          title: 'تركيب: أَجُرْأَةً عَلَى الْمَعَاصِي؟',
+          kind: 'tarkeeb',
+          instruction: 'Classify this حذف, then its قياسي موضع.',
+          sentence: 'أَجُرْأَةً عَلَى الْمَعَاصِي؟',
+          translation: 'Such audacity toward sins?!',
+          cells: ['أَجُرْأَةً', 'عَلَى', 'الْمَعَاصِي'],
+          rows: [
+            { position: 'above', label: 'النوع', labels: [{ start: 0, end: 2, role: 'القياسي' }] },
+            { position: 'below', label: 'الموضع', labels: [{ start: 0, end: 2, role: 'استفهام توبيخ' }] },
+          ],
+          distractors: ['السماعي', 'نهي بعد أمر'],
+        },
+        {
+          title: 'تركيب: ﴿فَإِمَّا مَنًّا بَعْدُ وَإِمَّا فِدَاءً﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع does this illustrate؟',
+          sentence: 'فَإِمَّا مَنًّا بَعْدُ وَإِمَّا فِدَاءً',
+          translation: 'Then either [confer] favor afterwards, or ransom.',
+          cells: ['فَإِمَّا', 'مَنًّا', 'بَعْدُ', 'وَإِمَّا', 'فِدَاءً'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 4, role: 'إما تفصيلا لمجمل' }] },
+          ],
+          distractors: ['نهي بعد أمر', 'استفهام توبيخ', 'مؤكد لمضمون الجملة'],
+        },
+        {
+          title: 'تركيب: ﴿أُولَٰئِكَ هُمُ الْمُؤْمِنُونَ حَقًّا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع does this illustrate؟',
+          sentence: 'أُولَٰئِكَ هُمُ الْمُؤْمِنُونَ حَقًّا',
+          translation: 'Those are the believers, truly.',
+          cells: ['أُولَٰئِكَ', 'هُمُ', 'الْمُؤْمِنُونَ', 'حَقًّا'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 3, role: 'مؤكد لمضمون الجملة' }] },
+          ],
+          distractors: ['نهي بعد أمر', 'استفهام توبيخ', 'إما تفصيلا لمجمل'],
         },
       ],
     },
@@ -226,8 +351,14 @@ export default {
       concepts: [
         {
           heading: 'التحذير: تعريفه وأركانه',
-          body: `<bdi>التَّحْذِير</bdi> is the نصب of a noun by a deleted verb conveying a warning against something disliked, so that the addressee avoids it. It has four <bdi>أَرْكَان</bdi>: (1) the implied verb of warning — <bdi>اِحْذَرْ، بَاعِدْ، تَجَنَّبْ، قِ، تَوَقَّ</bdi> or similar (2) <bdi>الْمُحَذِّر</bdi> — the warner, the speaker (3) <bdi>الْمُحَذَّر</bdi> — the one warned, the addressee (4) <bdi>الْمُحَذَّرُ مِنْهُ</bdi> — the thing warned against.`,
-          sample: `تعريف التحذير — نصب اسم بفعل محذوف فيه تحذير من مكروه ليتجنبه المخاطب<br>أركانه الأربعة — الفعل المحذوف (احذر...)، المحذِّر، المحذَّر، المحذَّر منه`,
+          lines: [
+            { html: `<bdi>التَّحْذِير</bdi> is the نصب of a noun by a deleted verb conveying a warning against something disliked, so that the addressee avoids it.`, list: false },
+            { html: `It has four أَرْكَان:`, list: false },
+            { html: `the implied verb of warning — اِحْذَرْ، بَاعِدْ، تَجَنَّبْ، قِ، تَوَقَّ or similar`, list: true, bullet: true },
+            { html: `<bdi>الْمُحَذِّر</bdi> — the warner, the speaker`, list: true, bullet: true },
+            { html: `<bdi>الْمُحَذَّر</bdi> — the one warned, the addressee`, list: true, bullet: true },
+            { html: `<bdi>الْمُحَذَّرُ مِنْهُ</bdi> — the thing warned against`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Define التحذير and name its four أركان.`,
             kind: 'mcq',
@@ -237,8 +368,12 @@ export default {
         },
         {
           heading: 'وجوه التحذير: بالضمير المنفصل إياك',
-          body: `التحذير has three <bdi>وُجُوه</bdi> (forms). One mentions المحذَّر with the detached منصوب pronoun <bdi>إِيَّاكَ</bdi>, in three ways: with عطف of المحذَّر منه, as in <bdi>إِيَّاكَ وَالْحَسَدَ</bdi>; without عطف, repeating the pronoun, as in <bdi>إِيَّاكَ إِيَّاكَ الْمِرَاءَ</bdi>; or with جر by <bdi>مِنْ</bdi>, overt as in <bdi>إِيَّاكَ مِنَ الْحَسَدِ</bdi> or implied as in <bdi>إِيَّاكَ أَنْ تَحْسُدَ</bdi>.`,
-          sample: `الوجه الأول — إياك (ضمير منفصل منصوب)<br>بالعطف — إياك والحسد<br>بالتكرار دون عطف — إياك إياك المراء<br>بالجر بمن — إياك من الحسد / إياك أن تحسد`,
+          lines: [
+            { html: `التحذير has three <bdi>وُجُوه</bdi> (forms). One mentions المحذَّر with the detached منصوب pronoun <bdi>إِيَّاكَ</bdi>, in three ways:`, list: false },
+            { html: `with عطف of المحذَّر منه, as in إِيَّاكَ وَالْحَسَدَ`, list: true, bullet: true },
+            { html: `without عطف, repeating the pronoun, as in إِيَّاكَ إِيَّاكَ الْمِرَاءَ`, list: true, bullet: true },
+            { html: `with جر by مِنْ, overt as in إِيَّاكَ مِنَ الْحَسَدِ or implied as in إِيَّاكَ أَنْ تَحْسُدَ`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Parse إِيَّاكَ وَالْحَسَدَ.`,
             kind: 'mcq',
@@ -248,8 +383,11 @@ export default {
         },
         {
           heading: 'وجوه التحذير: بالاسم الظاهر، وبذكر المحذَّر منه وحده',
-          body: `The second وجه mentions المحذَّر with an overt noun (<bdi>اسْمٌ ظَاهِر</bdi>): alone, as in <bdi>نَفْسَكَ</bdi>; repeated, as in <bdi>نَفْسَكَ نَفْسَكَ</bdi>; or with المحذَّر منه conjoined, as in <bdi>نَفْسَكَ وَالْحَسَدَ</bdi>. The third وجه mentions only المحذَّر منه, either repeated — <bdi>اللَّهَ اللَّهَ</bdi> — or with a second item conjoined, as in <bdi>﴿نَاقَةَ اللَّهِ وَسُقْيَاهَا﴾</bdi>. التحذير can also occur without deleting the verb of warning at all: <bdi>﴿قُوا أَنْفُسَكُمْ وَأَهْلِيكُمْ نَارًا﴾</bdi> states قوا outright.`,
-          sample: `الوجه الثاني (اسم ظاهر) — وحده: نفسَك؛ مكررا: نفسَك نفسَك؛ معطوفا عليه المحذر منه: نفسَك والحسد<br>الوجه الثالث (المحذر منه وحده) — مكررا: اللهَ اللهَ؛ بمعطوف: ﴿ناقة الله وسقياها﴾<br>بلا حذف الفعل — ﴿قوا أنفسكم وأهليكم نارا﴾`,
+          lines: [
+            { html: `The second وجه mentions المحذَّر with an overt noun (اسْمٌ ظَاهِر): alone (نَفْسَكَ), repeated (نَفْسَكَ نَفْسَكَ), or with المحذَّر منه conjoined (نَفْسَكَ وَالْحَسَدَ).`, list: false },
+            { html: `The third وجه mentions only المحذَّر منه, either repeated (اللَّهَ اللَّهَ) or with a second item conjoined, as in ﴿نَاقَةَ اللَّهِ وَسُقْيَاهَا﴾.`, list: false },
+            { html: `التحذير can also occur without deleting the verb of warning at all: ﴿قُوا أَنْفُسَكُمْ وَأَهْلِيكُمْ نَارًا﴾ states قوا outright.`, list: false },
+          ],
           exercise: {
             prompt: `Can التحذير occur without deletion of the verb of warning? Give the Qur’anic example.`,
             kind: 'mcq',
@@ -259,8 +397,14 @@ export default {
         },
         {
           heading: 'الإغراء: تعريفه وأركانه',
-          body: `<bdi>الْإِغْرَاء</bdi> is the نصب of a noun by a deleted verb conveying encouragement and enticement (<bdi>التَّرْغِيبُ وَالتَّشْوِيق</bdi>) toward something desirable, so that the addressee does it. Its four أركان: (1) the implied verb of urging — <bdi>الْزَمْ، اطْلُبْ، خُذْ، افْعَلْ</bdi> or similar (2) <bdi>الْمُغْرِي</bdi> — the urger, the speaker (3) <bdi>الْمُغْرَى</bdi> — the one urged, the addressee (4) <bdi>الْمُغْرَى بِهِ</bdi> — the thing urged toward.`,
-          sample: `تعريف الإغراء — نصب اسم بفعل محذوف فيه ترغيب وتشويق ليفعله المخاطب<br>أركانه الأربعة — الفعل المحذوف (الزم...)، المغري، المغرَى، المغرَى به`,
+          lines: [
+            { html: `<bdi>الْإِغْرَاء</bdi> is the نصب of a noun by a deleted verb conveying encouragement and enticement (التَّرْغِيبُ وَالتَّشْوِيق) toward something desirable, so that the addressee does it.`, list: false },
+            { html: `Its four أركان:`, list: false },
+            { html: `the implied verb of urging — الْزَمْ، اطْلُبْ، خُذْ، افْعَلْ or similar`, list: true, bullet: true },
+            { html: `<bdi>الْمُغْرِي</bdi> — the urger, the speaker`, list: true, bullet: true },
+            { html: `<bdi>الْمُغْرَى</bdi> — the one urged, the addressee`, list: true, bullet: true },
+            { html: `<bdi>الْمُغْرَى بِهِ</bdi> — the thing urged toward`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Define الإغراء and name its four أركان.`,
             kind: 'mcq',
@@ -270,8 +414,10 @@ export default {
         },
         {
           heading: 'مواضع وجوب الحذف في الإغراء، وعدم الحذف',
-          body: `Deletion of the عامل is obligatory in الإغراء in two cases: when المغرى به is repeated, as in <bdi>الصَّبْرَ الصَّبْرَ</bdi>, or when something is conjoined to it, as in <bdi>الْعِلْمَ وَالْحِلْمَ</bdi>. Like التحذير, الإغراء can also occur without deleting the verb: <bdi>﴿يَا يَحْيَىٰ خُذِ الْكِتَابَ بِقُوَّةٍ﴾</bdi> states خذ.`,
-          sample: `وجوب الحذف في الإغراء — بتكرار المغرى به: الصبرَ الصبرَ؛ أو بعطف عليه: العلمَ والحلمَ<br>بلا حذف الفعل — ﴿يا يحيى خذ الكتاب بقوة﴾`,
+          lines: [
+            { html: `Deletion of the عامل is obligatory in الإغراء in two cases: when المغرى به is repeated, as in الصَّبْرَ الصَّبْرَ, or when something is conjoined to it, as in الْعِلْمَ وَالْحِلْمَ.`, list: false },
+            { html: `Like التحذير, الإغراء can also occur without deleting the verb: ﴿يَا يَحْيَىٰ خُذِ الْكِتَابَ بِقُوَّةٍ﴾ states خذ.`, list: false },
+          ],
           exercise: {
             prompt: `When is deletion of the عامل obligatory in الإغراء؟`,
             kind: 'mcq',
@@ -281,8 +427,9 @@ export default {
         },
         {
           heading: 'الملحقات بالتحذير والإغراء',
-          body: `Two expressions are attached (<bdi>يُلْحَقُ</bdi>) to التحذير والإغراء with their own implied verbs: <bdi>مَرْحَبًا</bdi> and <bdi>أَهْلًا وَسَهْلًا</bdi> — with the implied verb <bdi>أَصَبْتَ</bdi> — and <bdi>امْرَأً وَنَفْسَهُ</bdi> — with the implied verb <bdi>دَعْ</bdi>.`,
-          sample: `الملحقات — مرحبا، أهلا وسهلا (والفعل المقدر: أصبتَ)<br>امرأً ونفسه (والفعل المقدر: دعْ)`,
+          lines: [
+            { html: `Two expressions are attached (<bdi>يُلْحَقُ</bdi>) to التحذير والإغراء with their own implied verbs: <bdi>مَرْحَبًا</bdi> and <bdi>أَهْلًا وَسَهْلًا</bdi> — with the implied verb <bdi>أَصَبْتَ</bdi> — and <bdi>امْرَأً وَنَفْسَهُ</bdi> — with the implied verb <bdi>دَعْ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `مَرْحَبًا and أَهْلًا وَسَهْلًا are attached to التحذير والإغراء with which implied verb؟`,
             kind: 'mcq',
@@ -312,40 +459,71 @@ export default {
         { title: 'الإغراء بلا حذف', kind: 'mcq', prompt: '﴿يَا يَحْيَىٰ خُذِ الْكِتَابَ بِقُوَّةٍ﴾ shows that الإغراء:', options: ['can occur with the verb خذ stated, not deleted', 'always requires the verb to be deleted', 'is only ever expressed by تكرار المغرى به', 'never occurs in Qur’anic Arabic'], correct: 0 },
         { title: 'ملحق امرأ ونفسه', kind: 'mcq', prompt: 'امْرَأً وَنَفْسَهُ is a ملحق attached with the implied verb:', options: ['دعْ', 'أصبتَ', 'احذر', 'الزم'], correct: 0 },
         {
-          title: 'تركيب: أركان التحذير',
+          title: 'تركيب: إِيَّاكَ وَالْحَسَدَ',
           kind: 'tarkeeb',
-          instruction: 'Match each term to its role among أركان التحذير.',
-          source: 'إياك (في إياك والحسد) / والحسد (في إياك والحسد) / احذر (المقدر)',
-          words: ['إياك', 'والحسد', 'احذر (المقدر)'],
-          labels: ['المحذَّر', 'المحذَّر منه', 'الفعل المحذوف'],
-          distractors: ['المحذِّر'],
+          instruction: 'Identify each ركن, then classify the whole example.',
+          sentence: 'إِيَّاكَ وَالْحَسَدَ',
+          translation: 'Beware of envy!',
+          cells: ['إِيَّاكَ', 'وَالْحَسَدَ'],
+          rows: [
+            { position: 'above', label: 'الأركان', labels: [
+              { start: 0, end: 0, role: 'المحذَّر' },
+              { start: 1, end: 1, role: 'المحذَّر منه' },
+            ] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 1, role: 'التحذير' }] },
+          ],
+          distractors: ['المحذِّر', 'الإغراء'],
         },
         {
-          title: 'تركيب: أركان الإغراء',
+          title: 'تركيب: نَفْسَكَ نَفْسَكَ',
           kind: 'tarkeeb',
-          instruction: 'Match each term to its role among أركان الإغراء.',
-          source: 'الصبرَ (في الصبرَ الصبرَ) / الزم (المقدر) / المخاطب',
-          words: ['الصبرَ', 'الزم (المقدر)', 'المخاطب'],
-          labels: ['المغرَى به', 'الفعل المحذوف', 'المغرَى'],
-          distractors: ['المغري'],
+          instruction: 'Identify the وجه of التحذير here, then classify the whole example.',
+          sentence: 'نَفْسَكَ نَفْسَكَ',
+          translation: 'Yourself, yourself! (watch out)',
+          cells: ['نَفْسَكَ', 'نَفْسَكَ'],
+          rows: [
+            { position: 'above', label: 'الوجه', labels: [{ start: 0, end: 1, role: 'بالاسم الظاهر مكررا' }] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 1, role: 'التحذير' }] },
+          ],
+          distractors: ['بالضمير المنفصل', 'الإغراء'],
         },
         {
-          title: 'تركيب: تحذير أم إغراء؟',
+          title: 'تركيب: اللَّهَ اللَّهَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: التحذير (warning against) or الإغراء (urging toward)؟',
-          source: 'إياك والحسد / الصبر الصبر / اللهَ اللهَ / العلمَ والحلمَ',
-          words: ['إياك والحسد', 'الصبر الصبر', 'اللهَ اللهَ', 'العلمَ والحلمَ'],
-          labels: ['التحذير', 'الإغراء', 'التحذير', 'الإغراء'],
-          distractors: ['الاختصاص'],
+          instruction: 'Identify the وجه of التحذير here, then classify the whole example.',
+          sentence: 'اللَّهَ اللَّهَ',
+          translation: 'Fear Allah, fear Allah!',
+          cells: ['اللَّهَ', 'اللَّهَ'],
+          rows: [
+            { position: 'above', label: 'الوجه', labels: [{ start: 0, end: 1, role: 'بذكر المحذر منه وحده' }] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 1, role: 'التحذير' }] },
+          ],
+          distractors: ['بالضمير المنفصل', 'الإغراء'],
         },
         {
-          title: 'تركيب: وجوه التحذير الثلاثة',
+          title: 'تركيب: الصَّبْرَ الصَّبْرَ',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the وجه of التحذير it illustrates.',
-          source: 'إياك والحسد / نفسَك نفسَك / اللهَ اللهَ',
-          words: ['إياك والحسد', 'نفسَك نفسَك', 'اللهَ اللهَ'],
-          labels: ['بالضمير المنفصل', 'بالاسم الظاهر', 'بذكر المحذر منه وحده'],
-          distractors: ['بفعل مذكور'],
+          instruction: 'Identify each ركن, then classify the whole example.',
+          sentence: 'الصَّبْرَ الصَّبْرَ',
+          translation: 'Patience, patience!',
+          cells: ['الصَّبْرَ', 'الصَّبْرَ'],
+          rows: [
+            { position: 'above', label: 'الأركان', labels: [{ start: 0, end: 1, role: 'المغرَى به مكرر' }] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 1, role: 'الإغراء' }] },
+          ],
+          distractors: ['المغري', 'التحذير'],
+        },
+        {
+          title: 'تركيب: الْعِلْمَ وَالْحِلْمَ',
+          kind: 'tarkeeb',
+          instruction: 'Classify this example: التحذير or الإغراء؟',
+          sentence: 'الْعِلْمَ وَالْحِلْمَ',
+          translation: 'Knowledge and forbearance! (pursue them)',
+          cells: ['الْعِلْمَ', 'وَالْحِلْمَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'الإغراء' }] },
+          ],
+          distractors: ['التحذير'],
         },
       ],
     },
@@ -357,8 +535,10 @@ export default {
       concepts: [
         {
           heading: 'الاختصاص: تعريفه ومثاله',
-          body: `<bdi>الِاخْتِصَاص</bdi> is the نصب of a noun by a deleted verb — such as <bdi>أَخُصُّ</bdi> or <bdi>أَعْنِي</bdi> — which specifies the intended referent of a pronoun mentioned before it. In <bdi>﴿رَحْمَتُ اللَّهِ وَبَرَكَاتُهُ عَلَيْكُمْ أَهْلَ الْبَيْتِ﴾</bdi>, <bdi>أَهْلَ الْبَيْتِ</bdi> is منصوب by an implied أخص/أعني, specifying who كُمْ refers to.`,
-          sample: `تعريف الاختصاص — نصب اسم بفعل محذوف (أخص/أعني) يخصص المقصود بضمير قبله<br>مثال — ﴿رحمت الله وبركاته عليكم أهل البيت﴾، أهل البيت منصوبة بأخص/أعني مقدرة`,
+          lines: [
+            { html: `<bdi>الِاخْتِصَاص</bdi> is the نصب of a noun by a deleted verb — such as <bdi>أَخُصُّ</bdi> or <bdi>أَعْنِي</bdi> — which specifies the intended referent of a pronoun mentioned before it.`, list: false },
+            { html: `In ﴿رَحْمَتُ اللَّهِ وَبَرَكَاتُهُ عَلَيْكُمْ أَهْلَ الْبَيْتِ﴾, <bdi>أَهْلَ الْبَيْتِ</bdi> is منصوب by an implied أخص/أعني, specifying who كُمْ refers to.`, list: false },
+          ],
           exercise: {
             prompt: `Define الاختصاص and explain what أَهْلَ الْبَيْتِ does in ﴿رَحْمَتُ اللَّهِ وَبَرَكَاتُهُ عَلَيْكُمْ أَهْلَ الْبَيْتِ﴾.`,
             kind: 'mcq',
@@ -368,8 +548,9 @@ export default {
         },
         {
           heading: 'الاختصاص بأيها وأيتها',
-          body: `الاختصاص can also be expressed with <bdi>أَيُّهَا</bdi>/<bdi>أَيَّتُهَا</bdi> without <bdi>يَا</bdi>, following the same rules as <bdi>النِّدَاء</bdi>. Example: <bdi>«وَنَهَى رَسُولُ اللَّهِ ﷺ الْمُسْلِمِينَ عَنْ كَلَامِنَا أَيُّهَا الثَّلَاثَةُ»</bdi>.`,
-          sample: `الاختصاص بأيها/أيتها — بلا يا، على قواعد النداء: «...عن كلامنا أيها الثلاثة»`,
+          lines: [
+            { html: `الاختصاص can also be expressed with <bdi>أَيُّهَا</bdi>/<bdi>أَيَّتُهَا</bdi> without <bdi>يَا</bdi>, following the same rules as <bdi>النِّدَاء</bdi>. Example: «وَنَهَى رَسُولُ اللَّهِ ﷺ الْمُسْلِمِينَ عَنْ كَلَامِنَا أَيُّهَا الثَّلَاثَةُ».`, list: false },
+          ],
           exercise: {
             prompt: `Can الاختصاص be expressed with أَيُّهَا and أَيَّتُهَا? What rules apply؟`,
             kind: 'mcq',
@@ -379,8 +560,13 @@ export default {
         },
         {
           heading: 'الاشتغال: تعريفه وأركانه',
-          body: `<bdi>الِاشْتِغَال</bdi> is when a noun precedes a verb which governs a pronoun referring back to that noun, such that if the verb were freed from governing that pronoun, it would place the fronted noun in نصب — as in <bdi>﴿وَرُسُلًا قَدْ قَصَصْنَاهُمْ عَلَيْكَ﴾</bdi>. Its three أركان: (1) <bdi>الْمَشْغُول</bdi> — the عامل itself, also called <bdi>الْمُشْتَغِل</bdi> (2) <bdi>الْمَشْغُولُ بِهِ</bdi> — the pronoun referring back to the fronted noun (3) <bdi>الْمَشْغُولُ عَنْهُ</bdi> — the fronted noun itself.`,
-          sample: `تعريف الاشتغال — اسم يتقدم فعلا يعمل في ضمير يعود عليه, بحيث لو تخلى الفعل عن ضميره لنصب الاسم المتقدم: ﴿ورسلا قد قصصناهم عليك﴾<br>أركانه الثلاثة — المشغول (العامل)، المشغول به (الضمير)، المشغول عنه (الاسم المتقدم)`,
+          lines: [
+            { html: `<bdi>الِاشْتِغَال</bdi> is when a noun precedes a verb which governs a pronoun referring back to that noun, such that if the verb were freed from governing that pronoun, it would place the fronted noun in نصب — as in ﴿وَرُسُلًا قَدْ قَصَصْنَاهُمْ عَلَيْكَ﴾.`, list: false },
+            { html: `Its three أركان:`, list: false },
+            { html: `<bdi>الْمَشْغُول</bdi> — the عامل itself, also called <bdi>الْمُشْتَغِل</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْمَشْغُولُ بِهِ</bdi> — the pronoun referring back to the fronted noun`, list: true, bullet: true },
+            { html: `<bdi>الْمَشْغُولُ عَنْهُ</bdi> — the fronted noun itself`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Define الاشتغال and name its three أركان.`,
             kind: 'mcq',
@@ -390,8 +576,10 @@ export default {
         },
         {
           heading: 'الاسم الوصفي للاشتغال، وإعراب المشغول عنه',
-          body: `الاشتغال’s traditional descriptive name is <bdi>مَا أُضْمِرَ عَامِلُهُ عَلَىٰ شَرِيطَةِ التَّفْسِير</bdi> — "that whose governor is concealed on condition of interpretation." المشغول عنه generally has two possible إعراب options: <bdi>رَفْع</bdi> (as مبتدأ) or <bdi>نَصْب</bdi> (by a deleted verb), as in <bdi>﴿وَالْمَوْتَىٰ يَبْعَثُهُمُ اللَّهُ﴾</bdi>, which allows either reading.`,
-          sample: `الاسم الوصفي للاشتغال — ما أضمر عامله على شريطة التفسير<br>إعراب المشغول عنه عموما — رفع (مبتدأ) أو نصب (بفعل محذوف): ﴿والموتى يبعثهم الله﴾`,
+          lines: [
+            { html: `الاشتغال's traditional descriptive name is <bdi>مَا أُضْمِرَ عَامِلُهُ عَلَىٰ شَرِيطَةِ التَّفْسِير</bdi> — "that whose governor is concealed on condition of interpretation."`, list: false },
+            { html: `المشغول عنه generally has two possible إعراب options: <bdi>رَفْع</bdi> (as مبتدأ) or <bdi>نَصْب</bdi> (by a deleted verb), as in ﴿وَالْمَوْتَىٰ يَبْعَثُهُمُ اللَّهُ﴾, which allows either reading.`, list: false },
+          ],
           exercise: {
             prompt: `What two إعراب options exist in general for المشغول عنه? Give the Qur’anic example.`,
             kind: 'mcq',
@@ -401,8 +589,10 @@ export default {
         },
         {
           heading: 'وجوب الرفع أو النصب في المشغول عنه',
-          body: `رفع of المشغول عنه is obligatory when it falls after a particle specific to nouns, such as <bdi>إِذَا الْفُجَائِيَّة</bdi>: <bdi>خَلَقَ اللَّهُ الْإِنْسَانَ وَأَنْعَمَ عَلَيْهِ فَإِذَا الشَّيْطَانُ يَتْبَعُهُ</bdi>. نصب is obligatory when it falls after a particle specific to verbs, such as <bdi>التَّحْضِيض</bdi> — <bdi>هَلَّا الْجَنَّةَ طَلَبْتَهَا</bdi> — or <bdi>الشَّرْط</bdi> — <bdi>إِنِ الْجَنَّةَ تُرِدْهَا فَاعْمَلْ صَالِحًا</bdi>.`,
-          sample: `وجوب الرفع — بعد حرف يختص بالأسماء (إذا الفجائية): فإذا الشيطانُ يتبعه<br>وجوب النصب — بعد حرف يختص بالأفعال (التحضيض، الشرط): هلا الجنةَ طلبتَها؛ إن الجنةَ تردْها فاعمل صالحا`,
+          lines: [
+            { html: `رفع of المشغول عنه is obligatory when it falls after a particle specific to nouns, such as <bdi>إِذَا الْفُجَائِيَّة</bdi>: خَلَقَ اللَّهُ الْإِنْسَانَ وَأَنْعَمَ عَلَيْهِ فَإِذَا الشَّيْطَانُ يَتْبَعُهُ.`, list: false },
+            { html: `نصب is obligatory when it falls after a particle specific to verbs, such as <bdi>التَّحْضِيض</bdi> (هَلَّا الْجَنَّةَ طَلَبْتَهَا) or <bdi>الشَّرْط</bdi> (إِنِ الْجَنَّةَ تُرِدْهَا فَاعْمَلْ صَالِحًا).`, list: false },
+          ],
           exercise: {
             prompt: `When is رفع of المشغول عنه obligatory, and when is نصب obligatory؟`,
             kind: 'mcq',
@@ -412,8 +602,13 @@ export default {
         },
         {
           heading: 'ترجيح النصب، والفعل المرادف',
-          body: `نصب of المشغول عنه is preferred (<bdi>يُتَرَجَّح</bdi>) in three cases: (1) the عامل is a verb of <bdi>طَلَب</bdi>, as in <bdi>اللَّهَ اعْبُدْهُ وَرَسُولَهُ اتَّبِعْهُ</bdi> (2) a جملة فعلية precedes the معمول, as in <bdi>أَعْبُدُ اللَّهَ وَرَسُولَهُ أَتَّبِعُهُ</bdi> (3) a particle that mostly precedes verbs comes first, e.g. <bdi>مَا النَّافِيَة</bdi> or <bdi>هَمْزَةُ الِاسْتِفْهَام</bdi>: <bdi>﴿أَبَشَرًا مِنَّا وَاحِدًا نَتَّبِعُهُ﴾</bdi>. The deleted verb in الاشتغال need not be the same word as the stated one — it may be a <bdi>مُرَادِف</bdi> (synonym), as in <bdi>﴿وَالظَّالِمِينَ أَعَدَّ لَهُمْ عَذَابًا أَلِيمًا﴾</bdi>, where the implied verb is like <bdi>أَوْعَدَ</bdi>.`,
-          sample: `النصب مترجَّح — عامل طلب: اللهَ اعبدْه ورسولَه اتبعْه؛ جملة فعلية سابقة: أعبد الله ورسولَه أتبعه؛ حرف غالبا يسبق الأفعال: ﴿أبشرا منا واحدا نتبعه﴾<br>الفعل المحذوف قد يكون مرادفا — ﴿والظالمين أعد لهم عذابا أليما﴾ (أوعد مقدرة)`,
+          lines: [
+            { html: `نصب of المشغول عنه is preferred (يُتَرَجَّح) in three cases:`, list: false },
+            { html: `the عامل is a verb of طَلَب, as in اللَّهَ اعْبُدْهُ وَرَسُولَهُ اتَّبِعْهُ`, list: true, bullet: true },
+            { html: `a جملة فعلية precedes the معمول, as in أَعْبُدُ اللَّهَ وَرَسُولَهُ أَتَّبِعُهُ`, list: true, bullet: true },
+            { html: `a particle that mostly precedes verbs comes first, e.g. مَا النَّافِيَة or هَمْزَةُ الِاسْتِفْهَام: ﴿أَبَشَرًا مِنَّا وَاحِدًا نَتَّبِعُهُ﴾`, list: true, bullet: true },
+            { html: `The deleted verb in الاشتغال need not be the same word as the stated one — it may be a <bdi>مُرَادِف</bdi> (synonym), as in ﴿وَالظَّالِمِينَ أَعَدَّ لَهُمْ عَذَابًا أَلِيمًا﴾, where the implied verb is like <bdi>أَوْعَدَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Can the deleted verb in الاشتغال be a synonym rather than the exact stated verb? Give the example.`,
             kind: 'mcq',
@@ -443,44 +638,87 @@ export default {
         { title: 'ترجيح النصب بجملة فعلية سابقة', kind: 'mcq', prompt: 'أَعْبُدُ اللَّهَ وَرَسُولَهُ أَتَّبِعُهُ shows نصب preferred because:', options: ['a جملة فعلية precedes the معمول', 'the عامل is a اسم فاعل', 'إذا الفجائية precedes it', 'the sentence has no ضمير at all'], correct: 0 },
         { title: 'الفعل المرادف في الاشتغال', kind: 'mcq', prompt: '﴿وَالظَّالِمِينَ أَعَدَّ لَهُمْ عَذَابًا أَلِيمًا﴾ shows the implied deleted verb as:', options: ['a مرادف (synonym) to the stated verb, like أوعد', 'the exact same word أعدّ, repeated', 'a فعل أمر', 'a فعل مضارع'], correct: 0 },
         {
-          title: 'تركيب: أركان الاشتغال',
+          title: 'تركيب: ﴿وَرُسُلًا قَدْ قَصَصْنَاهُمْ عَلَيْكَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each term to its role among أركان الاشتغال in ﴿ورسلا قد قصصناهم عليك﴾.',
-          source: 'رسلا / هم (الضمير في قصصناهم) / قصصنا',
-          words: ['رسلا', 'هم', 'قصصنا'],
-          labels: ['المشغول عنه', 'المشغول به', 'المشغول'],
-          distractors: ['المحذَّر منه'],
+          instruction: 'Identify each ركن of الاشتغال, then classify the whole example.',
+          sentence: 'وَرُسُلًا قَدْ قَصَصْنَاهُمْ عَلَيْكَ',
+          translation: 'And [We sent] messengers We have told you about before.',
+          cells: ['وَرُسُلًا', 'قَدْ', 'قَصَصْنَا', 'هُمْ', 'عَلَيْكَ'],
+          rows: [
+            { position: 'above', label: 'الأركان', labels: [
+              { start: 0, end: 0, role: 'المشغول عنه' },
+              { start: 2, end: 2, role: 'المشغول' },
+              { start: 3, end: 3, role: 'المشغول به' },
+            ] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 4, role: 'الاشتغال' }] },
+          ],
+          distractors: ['المحذَّر منه', 'الاختصاص'],
         },
         {
-          title: 'تركيب: رفع أم نصب واجب؟',
+          title: 'تركيب: ﴿رَحْمَتُ اللَّهِ وَبَرَكَاتُهُ عَلَيْكُمْ أَهْلَ الْبَيْتِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the required إعراب of المشغول عنه after each kind of particle.',
-          source: 'بعد إذا الفجائية / بعد حرف التحضيض / بعد حرف الشرط',
-          words: ['إذا الفجائية', 'حرف التحضيض', 'حرف الشرط'],
-          labels: ['رفع واجب', 'نصب واجب', 'نصب واجب'],
-          distractors: ['جر واجب'],
+          instruction: 'Classify this example: الاختصاص or الاشتغال؟',
+          sentence: 'رَحْمَتُ اللَّهِ وَبَرَكَاتُهُ عَلَيْكُمْ أَهْلَ الْبَيْتِ',
+          translation: "The mercy of Allah and His blessings be upon you, people of the house.",
+          cells: ['رَحْمَتُ', 'اللَّهِ', 'وَبَرَكَاتُهُ', 'عَلَيْكُمْ', 'أَهْلَ', 'الْبَيْتِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 4, end: 5, role: 'الاختصاص' }] },
+          ],
+          distractors: ['الاشتغال'],
         },
         {
-          title: 'تركيب: اختصاص أم اشتغال؟',
+          title: 'تركيب: خَلَقَ اللَّهُ الْإِنْسَانَ وَأَنْعَمَ عَلَيْهِ فَإِذَا الشَّيْطَانُ يَتْبَعُهُ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: الاختصاص or الاشتغال؟',
-          source: '﴿رحمت الله وبركاته عليكم أهل البيت﴾ / ﴿ورسلا قد قصصناهم عليك﴾',
-          words: ['أهل البيت', 'ورسلا قد قصصناهم'],
-          labels: ['الاختصاص', 'الاشتغال'],
-          distractors: ['التحذير'],
+          instruction: 'Classify the required إعراب of المشغول عنه here.',
+          sentence: 'خَلَقَ اللَّهُ الْإِنْسَانَ وَأَنْعَمَ عَلَيْهِ فَإِذَا الشَّيْطَانُ يَتْبَعُهُ',
+          translation: 'Allah created man and blessed him, and behold, Satan follows him.',
+          cells: ['خَلَقَ', 'اللَّهُ', 'الْإِنْسَانَ', 'وَأَنْعَمَ', 'عَلَيْهِ', 'فَإِذَا', 'الشَّيْطَانُ', 'يَتْبَعُهُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 6, end: 6, role: 'رفع واجب (بعد إذا الفجائية)' }] },
+          ],
+          distractors: ['نصب واجب (بعد حرف التحضيض)', 'نصب واجب (بعد حرف الشرط)'],
+        },
+        {
+          title: 'تركيب: هَلَّا الْجَنَّةَ طَلَبْتَهَا',
+          kind: 'tarkeeb',
+          instruction: 'Classify the required إعراب of المشغول عنه here.',
+          sentence: 'هَلَّا الْجَنَّةَ طَلَبْتَهَا',
+          translation: 'Why did you not seek Paradise?',
+          cells: ['هَلَّا', 'الْجَنَّةَ', 'طَلَبْتَهَا'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'نصب واجب (بعد حرف التحضيض)' }] },
+          ],
+          distractors: ['رفع واجب (بعد إذا الفجائية)', 'نصب واجب (بعد حرف الشرط)'],
+        },
+        {
+          title: 'تركيب: إِنِ الْجَنَّةَ تُرِدْهَا فَاعْمَلْ صَالِحًا',
+          kind: 'tarkeeb',
+          instruction: 'Classify the required إعراب of المشغول عنه here.',
+          sentence: 'إِنِ الْجَنَّةَ تُرِدْهَا فَاعْمَلْ صَالِحًا',
+          translation: 'If you want Paradise, then do righteous deeds.',
+          cells: ['إِنِ', 'الْجَنَّةَ', 'تُرِدْهَا', 'فَاعْمَلْ', 'صَالِحًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'نصب واجب (بعد حرف الشرط)' }] },
+          ],
+          distractors: ['رفع واجب (بعد إذا الفجائية)', 'نصب واجب (بعد حرف التحضيض)'],
         },
       ],
     },
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'النداء: أركانه وحروفه وإعرابه',
+      title: 'النداء: أركانه وأحكامه',
       subtitle: 'The Vocative — النداء’s أركان, its seven particles, when they’re deleted, and how المنادى is declined',
       concepts: [
         {
           heading: 'تعريف النداء وأركانه',
-          body: `<bdi>النِّدَاء</bdi> is calling out with a particle that stands in the place of the verb <bdi>أَدْعُو</bdi>, as in <bdi>يَا زَيْدُ</bdi>. Its three أركان: (1) the deleted verb of calling — <bdi>أَدْعُو</bdi> or similar (2) the particle of النداء standing in its place, e.g. <bdi>يَا</bdi> (3) <bdi>الْمُنَادَى</bdi> — the one called, e.g. <bdi>زَيْد</bdi>.`,
-          sample: `تعريف النداء — دعوة بحرف ينوب عن الفعل أدعو: يا زيد<br>أركانه الثلاثة — الفعل المحذوف (أدعو)، حرف النداء (يا)، المنادى (زيد)`,
+          lines: [
+            { html: `<bdi>النِّدَاء</bdi> is calling out with a particle that stands in the place of the verb <bdi>أَدْعُو</bdi>, as in يَا زَيْدُ.`, list: false },
+            { html: `Its three أركان:`, list: false },
+            { html: `the deleted verb of calling — أَدْعُو or similar`, list: true, bullet: true },
+            { html: `the particle of النداء standing in its place, e.g. يَا`, list: true, bullet: true },
+            { html: `<bdi>الْمُنَادَى</bdi> — the one called, e.g. زَيْد`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Define النداء and name its three أركان.`,
             kind: 'mcq',
@@ -490,8 +728,14 @@ export default {
         },
         {
           heading: 'حروف النداء السبعة',
-          body: `The seven particles of النداء and their uses: <bdi>الْهَمْزَة</bdi> and <bdi>أَيْ</bdi> — for the near, as in <bdi>أَعَبْدَ اللَّهِ</bdi>, <bdi>أَيْ عَبْدَ اللَّهِ</bdi>; <bdi>يَا، آ، أَيَا، هَيَا</bdi> — for the far, as in <bdi>يَا عَبْدَ اللَّهِ</bdi>; and <bdi>وَا</bdi> — for <bdi>النَّدْبَة</bdi> (lament/grief).`,
-          sample: `للقريب — الهمزة، أي: أعبد الله، أي عبد الله<br>للبعيد — يا، آ، أيا، هيا: يا عبد الله<br>للندبة — وا`,
+          lines: [
+            { html: `The seven particles of النداء and their uses:`, list: false },
+            { table: { headers: ['Group', 'حروف', 'Example'], rows: [
+              ['للقريب', 'الْهَمْزَة، أَيْ', 'أَعَبْدَ اللَّهِ، أَيْ عَبْدَ اللَّهِ'],
+              ['للبعيد', 'يَا، آ، أَيَا، هَيَا', 'يَا عَبْدَ اللَّهِ'],
+              ['للندبة', 'وَا', '—'],
+            ] } },
+          ],
           exercise: {
             prompt: `List the seven particles of النداء and what each group is used for.`,
             kind: 'mcq',
@@ -501,8 +745,10 @@ export default {
         },
         {
           heading: 'حذف حرف النداء: متى يجوز ومتى يمتنع',
-          body: `The particle of النداء may be deleted when المنادى is <bdi>مُضَاف</bdi>, as in <bdi>﴿اعْمَلُوا آلَ دَاوُودَ شُكْرًا﴾</bdi>, or a <bdi>عَلَم</bdi>, as in <bdi>﴿يُوسُفُ أَعْرِضْ عَنْ هَٰذَا﴾</bdi>. It may NOT be deleted with <bdi>لَفْظُ الْجَلَالَة</bdi> (الله) or with a <bdi>نَكِرَة مَقْصُودَة</bdi>, as in <bdi>يَا رَجُلُ</bdi>.`,
-          sample: `يجوز حذف حرف النداء — مع المضاف: ﴿اعملوا آل داود شكرا﴾؛ ومع العلم: ﴿يوسف أعرض عن هذا﴾<br>يمتنع حذفه — مع لفظ الجلالة، ومع النكرة المقصودة: يا رجلُ`,
+          lines: [
+            { html: `The particle of النداء may be deleted when المنادى is <bdi>مُضَاف</bdi> (﴿اعْمَلُوا آلَ دَاوُودَ شُكْرًا﴾) or a <bdi>عَلَم</bdi> (﴿يُوسُفُ أَعْرِضْ عَنْ هَٰذَا﴾).`, list: false },
+            { html: `It may NOT be deleted with <bdi>لَفْظُ الْجَلَالَة</bdi> (الله) or with a <bdi>نَكِرَة مَقْصُودَة</bdi>, as in يَا رَجُلُ.`, list: false },
+          ],
           exercise: {
             prompt: `With which منادى may the particle of النداء NOT be deleted؟`,
             kind: 'mcq',
@@ -512,8 +758,15 @@ export default {
         },
         {
           heading: 'إعراب المنادى: أصله، ومتى ينصب لفظا',
-          body: `The underlying إعراب of المنادى is that of a مفعول به of the deleted أدعو — منصوب either <bdi>لَفْظًا</bdi> (overtly) or <bdi>مَحَلًّا</bdi> (in position). It is منصوب لفظا in three cases with examples: (1) <bdi>مُضَاف</bdi>: <bdi>يَا عَبْدَ اللَّهِ</bdi> (2) <bdi>شَبِيهٌ بِالْمُضَاف</bdi> — a noun governing what follows it: <bdi>يَا غَافِرًا ذُنُوبَنَا</bdi> (3) <bdi>غَيْرُ مُعَيَّن</bdi> (unspecified): <bdi>يَا غَافِلًا وَالْمَوْتُ يَطْلُبُهُ</bdi>.`,
-          sample: `أصل إعراب المنادى — مفعول به للفعل المحذوف أدعو، منصوب لفظا أو محلا<br>ينصب لفظا في ثلاث — مضاف: يا عبد الله؛ شبيه بالمضاف: يا غافرا ذنوبَنا؛ غير معين: يا غافلا والموت يطلبه`,
+          lines: [
+            { html: `The underlying إعراب of المنادى is that of a مفعول به of the deleted أدعو — منصوب either <bdi>لَفْظًا</bdi> (overtly) or <bdi>مَحَلًّا</bdi> (in position).`, list: false },
+            { html: `It is منصوب لفظا in three cases:`, list: false },
+            { table: { headers: ['Case', 'Example'], rows: [
+              ['مُضَاف', 'يَا عَبْدَ اللَّهِ'],
+              ['شَبِيهٌ بِالْمُضَاف — a noun governing what follows it', 'يَا غَافِرًا ذُنُوبَنَا'],
+              ['غَيْرُ مُعَيَّن (unspecified)', 'يَا غَافِلًا وَالْمَوْتُ يَطْلُبُهُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `When is the منادى منصوب لفظا? Give the three cases.`,
             kind: 'mcq',
@@ -523,8 +776,10 @@ export default {
         },
         {
           heading: 'المنادى المبني: متى ولماذا',
-          body: `The <bdi>مُفْرَد</bdi> منادى (non-مضاف and non-شبيه بالمضاف) that is <bdi>مَعْرِفَة</bdi> or <bdi>نَكِرَة مَقْصُودَة</bdi> is <bdi>مَبْنِيّ</bdi> (منصوب محلا) — it is built on the sign it would take in رفع, as in <bdi>يَا زَيْدُ، يَا رَجُلُ، يَا رَجُلَانِ، يَا مُسْلِمُونَ</bdi>. That is why one says <bdi>يَا مُسْلِمُونَ</bdi> rather than <bdi>يَا مُسْلِمِينَ</bdi>: a مفرد definite منادى is built on its رفع sign — here الواو — even though it is منصوب محلا.`,
-          sample: `المنادى المبني — المفرد المعرفة أو النكرة المقصودة: يا زيدُ، يا رجلُ، يا رجلان، يا مسلمون<br>لماذا يا مسلمون لا يا مسلمين؟ — لأنه يُبنى على علامة رفعه (الواو) وإن كان منصوبا محلا`,
+          lines: [
+            { html: `The <bdi>مُفْرَد</bdi> منادى (non-مضاف and non-شبيه بالمضاف) that is <bdi>مَعْرِفَة</bdi> or <bdi>نَكِرَة مَقْصُودَة</bdi> is <bdi>مَبْنِيّ</bdi> (منصوب محلا) — it is built on the sign it would take in رفع, as in يَا زَيْدُ، يَا رَجُلُ، يَا رَجُلَانِ، يَا مُسْلِمُونَ.`, list: false },
+            { html: `That is why one says <bdi>يَا مُسْلِمُونَ</bdi> rather than <bdi>يَا مُسْلِمِينَ</bdi>: a مفرد definite منادى is built on its رفع sign — here الواو — even though it is منصوب محلا.`, list: false },
+          ],
           exercise: {
             prompt: `Why do we say يَا مُسْلِمُونَ and not يَا مُسْلِمِينَ؟`,
             kind: 'mcq',
@@ -534,8 +789,15 @@ export default {
         },
         {
           heading: 'المنادى المضاف إلى ياء المتكلم',
-          body: `Four forms are permitted for a منادى annexed to <bdi>يَاءُ الْمُتَكَلِّم</bdi>: (1) deleting the ياء, sufficing with the كسرة: <bdi>﴿يَا عِبَادِ فَاتَّقُونِ﴾</bdi> (2) retaining the ياء quiescent: <bdi>﴿يَا عِبَادِيَ لَا خَوْفٌ عَلَيْكُمُ الْيَوْمَ﴾</bdi> (3) retaining the ياء with فتحة: <bdi>﴿يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ﴾</bdi> (4) turning the كسرة into فتحة and the ياء into ألف: <bdi>﴿يَا حَسْرَتَىٰ﴾</bdi>.`,
-          sample: `الصور الأربع للمنادى المضاف لياء المتكلم — حذف الياء والاكتفاء بالكسرة: ﴿يا عبادِ فاتقون﴾؛ إثبات الياء ساكنة: ﴿يا عباديْ لا خوف عليكم اليوم﴾؛ إثباتها مفتوحة: ﴿يا عباديَ الذين أسرفوا﴾؛ قلب الكسرة فتحة والياء ألفا: ﴿يا حسرتى﴾`,
+          lines: [
+            { html: `Four forms are permitted for a منادى annexed to <bdi>يَاءُ الْمُتَكَلِّم</bdi>:`, list: false },
+            { table: { headers: ['#', 'Form', 'Example'], rows: [
+              ['1', 'deleting the ياء, sufficing with the كسرة', '﴿يَا عِبَادِ فَاتَّقُونِ﴾'],
+              ['2', 'retaining the ياء quiescent', '﴿يَا عِبَادِيَ لَا خَوْفٌ عَلَيْكُمُ الْيَوْمَ﴾'],
+              ['3', 'retaining the ياء with فتحة', '﴿يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ﴾'],
+              ['4', 'turning the كسرة into فتحة and the ياء into ألف', '﴿يَا حَسْرَتَىٰ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What are the four permitted forms for a منادى annexed to ياء المتكلم؟`,
             kind: 'mcq',
@@ -566,44 +828,104 @@ export default {
         { title: 'يا عباديَ: إثبات الياء مفتوحة', kind: 'mcq', prompt: '﴿يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ﴾ shows ياء المتكلم:', options: ['retained with فتحة', 'deleted entirely', 'retained ساكنة', 'turned into ألف'], correct: 0 },
         { title: 'يا حسرتى: قلب الياء ألفا', kind: 'mcq', prompt: '﴿يَا حَسْرَتَىٰ﴾ shows which treatment of ياء المتكلم؟', options: ['كسرة turned into فتحة and ياء into ألف', 'الياء retained ساكنة', 'الياء deleted, كسرة alone kept', 'الياء retained مفتوحة without change'], correct: 0 },
         {
-          title: 'تركيب: قريب أم بعيد؟',
+          title: 'تركيب: أَعَبْدَ اللَّهِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف نداء: للقريب or للبعيد؟',
-          source: 'الهمزة / أي / يا / أيا',
-          words: ['الهمزة', 'أي', 'يا', 'أيا'],
-          labels: ['للقريب', 'للقريب', 'للبعيد', 'للبعيد'],
-          distractors: ['للندبة'],
+          instruction: 'Classify this حرف نداء: للقريب or للبعيد؟',
+          sentence: 'أَعَبْدَ اللَّهِ',
+          translation: 'O Abdullah (calling one nearby)',
+          cells: ['أَ', 'عَبْدَ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'للقريب' }] },
+          ],
+          distractors: ['للبعيد'],
         },
         {
-          title: 'تركيب: لفظا أم محلا؟',
+          title: 'تركيب: أَيْ عَبْدَ اللَّهِ',
           kind: 'tarkeeb',
-          instruction: 'Classify the نصب of each منادى: لفظا or محلا؟',
-          source: 'يا عبدَ الله (مضاف) / يا زيدُ (مفرد معرفة)',
-          words: ['يا عبدَ الله', 'يا زيدُ'],
-          labels: ['منصوب لفظا', 'منصوب محلا'],
-          distractors: ['مجرور لفظا'],
+          instruction: 'Classify this حرف نداء: للقريب or للبعيد؟',
+          sentence: 'أَيْ عَبْدَ اللَّهِ',
+          translation: 'O Abdullah (calling one nearby)',
+          cells: ['أَيْ', 'عَبْدَ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'للقريب' }] },
+          ],
+          distractors: ['للبعيد'],
         },
         {
-          title: 'تركيب: صور المنادى المضاف لياء المتكلم',
+          title: 'تركيب: يَا عَبْدَ اللَّهِ',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the treatment of ياء المتكلم it shows.',
-          source: '﴿يا عبادِ فاتقون﴾ / ﴿يا عباديَ الذين أسرفوا﴾ / ﴿يا حسرتى﴾',
-          words: ['يا عبادِ فاتقون', 'يا عباديَ الذين أسرفوا', 'يا حسرتى'],
-          labels: ['حذف الياء والاكتفاء بالكسرة', 'إثبات الياء مفتوحة', 'قلب الكسرة فتحة والياء ألفا'],
-          distractors: ['إثبات الياء ساكنة'],
+          instruction: 'Classify this حرف نداء, then the نصب of المنادى.',
+          sentence: 'يَا عَبْدَ اللَّهِ',
+          translation: 'O Abdullah (calling one far)',
+          cells: ['يَا', 'عَبْدَ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', label: 'الحرف', labels: [{ start: 0, end: 0, role: 'للبعيد' }] },
+            { position: 'below', label: 'الإعراب', labels: [{ start: 1, end: 2, role: 'منصوب لفظا (مضاف)' }] },
+          ],
+          distractors: ['للقريب', 'منصوب محلا'],
+        },
+        {
+          title: 'تركيب: يَا زَيْدُ',
+          kind: 'tarkeeb',
+          instruction: 'Classify the نصب of المنادى here.',
+          sentence: 'يَا زَيْدُ',
+          translation: 'O Zayd!',
+          cells: ['يَا', 'زَيْدُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'منصوب محلا (مفرد معرفة)' }] },
+          ],
+          distractors: ['منصوب لفظا'],
+        },
+        {
+          title: 'تركيب: ﴿يَا عِبَادِ فَاتَّقُونِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What treatment of ياء المتكلم does this show؟',
+          sentence: 'يَا عِبَادِ فَاتَّقُونِ',
+          translation: 'O My servants, fear Me.',
+          cells: ['يَا', 'عِبَادِ', 'فَاتَّقُونِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'حذف الياء والاكتفاء بالكسرة' }] },
+          ],
+          distractors: ['إثبات الياء مفتوحة', 'قلب الكسرة فتحة والياء ألفا'],
+        },
+        {
+          title: 'تركيب: ﴿يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What treatment of ياء المتكلم does this show؟',
+          sentence: 'يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ',
+          translation: 'O My servants who have transgressed against themselves.',
+          cells: ['يَا', 'عِبَادِيَ', 'الَّذِينَ', 'أَسْرَفُوا', 'عَلَىٰ', 'أَنْفُسِهِمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'إثبات الياء مفتوحة' }] },
+          ],
+          distractors: ['حذف الياء والاكتفاء بالكسرة', 'قلب الكسرة فتحة والياء ألفا'],
+        },
+        {
+          title: 'تركيب: ﴿يَا حَسْرَتَىٰ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What treatment of ياء المتكلم does this show؟',
+          sentence: 'يَا حَسْرَتَىٰ',
+          translation: 'Oh, my grief!',
+          cells: ['يَا', 'حَسْرَتَىٰ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'قلب الكسرة فتحة والياء ألفا' }] },
+          ],
+          distractors: ['حذف الياء والاكتفاء بالكسرة', 'إثبات الياء مفتوحة'],
         },
       ],
     },
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'الترخيم، الاستغاثة، الندبة، وحذف عامل الحال',
+      title: 'ملحقات النداء',
       subtitle: 'Truncation, Appeals, and Lament — الترخيم, الاستغاثة, نداء التعجب, الندبة, and deleting عامل الحال',
       concepts: [
         {
           heading: 'الترخيم: تعريفه وما يجوز ترخيمه',
-          body: `<bdi>التَّرْخِيم</bdi> is deleting the end of المنادى for lightness (<bdi>التَّخْفِيف</bdi>), as in <bdi>يَا فَاطِمَ</bdi> (for <bdi>فَاطِمَة</bdi>). Only two kinds of nouns may undergo it: nouns ending in the <bdi>تَاء</bdi>, as in <bdi>يَا عَائِشَ</bdi>, and a masculine <bdi>عَلَم</bdi> of more than three letters that is not compound, as in <bdi>يَا جَعْفَ</bdi> (for <bdi>جَعْفَر</bdi>) — unlike <bdi>زَيْنَب، زَيْد، عَبْدُ اللَّه</bdi>.`,
-          sample: `تعريف الترخيم — حذف آخر المنادى تخفيفا: يا فاطمَ (لفاطمة)<br>ما يجوز ترخيمه — المختوم بتاء: يا عائشَ؛ العلم المذكر فوق ثلاثة أحرف غير المركب: يا جعفَ (لجعفر)؛ لا يجوز مع زينب وزيد وعبد الله`,
+          lines: [
+            { html: `<bdi>التَّرْخِيم</bdi> is deleting the end of المنادى for lightness (التَّخْفِيف), as in يَا فَاطِمَ (for فَاطِمَة).`, list: false },
+            { html: `Only two kinds of nouns may undergo it: nouns ending in the تَاء, as in يَا عَائِشَ, and a masculine عَلَم of more than three letters that is not compound, as in يَا جَعْفَ (for جَعْفَر) — unlike زَيْنَب، زَيْد، عَبْدُ اللَّه.`, list: false },
+          ],
           exercise: {
             prompt: `Which nouns may undergo الترخيم؟`,
             kind: 'mcq',
@@ -613,8 +935,9 @@ export default {
         },
         {
           heading: 'الترخيم: الوزنان الجائزان في آخر المرخَّم',
-          body: `Two vowelings are permitted on the end of the <bdi>مُرَخَّم</bdi> منادى: keeping the original vowel it had before truncation, as in <bdi>يَا حَارِ</bdi> (for <bdi>حَارِث</bdi>), or giving it the <bdi>ضَمَّة</bdi>, as in <bdi>يَا حَارُ</bdi>.`,
-          sample: `الوزنان الجائزان في آخر المرخَّم — إبقاء الحركة الأصلية: يا حارِ (لحارث)؛ أو الضمة: يا حارُ`,
+          lines: [
+            { html: `Two vowelings are permitted on the end of the <bdi>مُرَخَّم</bdi> منادى: keeping the original vowel it had before truncation, as in يَا حَارِ (for حَارِث), or giving it the ضَمَّة, as in يَا حَارُ.`, list: false },
+          ],
           exercise: {
             prompt: `What two vowelings are permitted on the end of the مرخَّم منادى؟`,
             kind: 'mcq',
@@ -624,8 +947,11 @@ export default {
         },
         {
           heading: 'اللهم ودلالتها',
-          body: `<bdi>اللَّهُمَّ</bdi> is a vocative form (<bdi>صِيغَةُ نِدَاء</bdi>) for لفظ الجلالة. Before <bdi>إِلَّا</bdi>, it signals the rarity (<bdi>نُدْرَة</bdi>) of the مستثنى, as in <bdi>اللَّهُمَّ إِلَّا أَنْ يَكُونَ كَذَا</bdi>. Before <bdi>نَعَمْ</bdi>, it signals the responder’s certainty (<bdi>تَيَقُّن</bdi>) of the answer, as in <bdi>اللَّهُمَّ نَعَمْ</bdi>.`,
-          sample: `اللهم — صيغة نداء للفظ الجلالة<br>قبل إلا — ندرة المستثنى: اللهم إلا أن يكون كذا<br>قبل نعم — تيقن المجيب: اللهم نعم`,
+          lines: [
+            { html: `<bdi>اللَّهُمَّ</bdi> is a vocative form (صِيغَةُ نِدَاء) for لفظ الجلالة.`, list: false },
+            { html: `Before <bdi>إِلَّا</bdi>, it signals the rarity (نُدْرَة) of the مستثنى, as in اللَّهُمَّ إِلَّا أَنْ يَكُونَ كَذَا.`, list: false },
+            { html: `Before <bdi>نَعَمْ</bdi>, it signals the responder's certainty (تَيَقُّن) of the answer, as in اللَّهُمَّ نَعَمْ.`, list: false },
+          ],
           exercise: {
             prompt: `What does اللَّهُمَّ signify before إِلَّا, and what does it signify before نَعَمْ؟`,
             kind: 'mcq',
@@ -635,8 +961,13 @@ export default {
         },
         {
           heading: 'الاستغاثة: تعريفها وأركانها',
-          body: `<bdi>الِاسْتِغَاثَة</bdi> is a type of نداء: the caller calls a منادى to come to the aid of another. Its three أركان: (1) the particle of الاستغاثة — which is <bdi>يَا</bdi> only (2) <bdi>الْمُسْتَغَاث</bdi> — the one called for help, i.e. المنادى (3) <bdi>الْمُسْتَغَاثُ لَهُ</bdi> / <bdi>لِأَجْلِهِ</bdi> — the one for whose sake help is sought.`,
-          sample: `تعريف الاستغاثة — نداء يُدعى فيه المنادى ليغيث آخر<br>أركانها الثلاثة — حرف الاستغاثة (يا فقط)، المستغاث، المستغاث له/لأجله`,
+          lines: [
+            { html: `<bdi>الِاسْتِغَاثَة</bdi> is a type of نداء: the caller calls a منادى to come to the aid of another.`, list: false },
+            { html: `Its three أركان:`, list: false },
+            { html: `the particle of الاستغاثة — which is يَا only`, list: true, bullet: true },
+            { html: `<bdi>الْمُسْتَغَاث</bdi> — the one called for help, i.e. المنادى`, list: true, bullet: true },
+            { html: `<bdi>الْمُسْتَغَاثُ لَهُ</bdi> / <bdi>لِأَجْلِهِ</bdi> — the one for whose sake help is sought`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Define الاستغاثة and name its three أركان.`,
             kind: 'mcq',
@@ -646,8 +977,11 @@ export default {
         },
         {
           heading: 'أحكام اللام في الاستغاثة',
-          body: `A <bdi>لَام جَارَّة</bdi> with <bdi>فَتْحَة</bdi> attaches to المستغاث, as in <bdi>يَا لَلَّهِ</bdi>; an <bdi>أَلِف</bdi> may substitute for it at the end, as in <bdi>يَا زَيْدَا، يَا زَيْدَاهْ</bdi>. When a second مستغاث is conjoined without repeating يا, its لام takes <bdi>كَسْرَة</bdi>, as in <bdi>يَا لَلْأَمِيرِ وَلِلْمُسْلِمِينَ لِلْمَظْلُومِينَ</bdi>. A لام جارة with كسرة also attaches to المستغاث له, as in <bdi>يَا لَلَّهِ لِلْمُسْلِمِينَ</bdi>.`,
-          sample: `لام المستغاث — فتحة: يا لَلّهِ؛ أو ألف بدلها: يا زيدَا، يا زيدَاهْ<br>لام المستغاث الثاني المعطوف دون تكرار يا — كسرة: يا لَلأمير ولِلمسلمين للمظلومين<br>لام المستغاث له — كسرة: يا لَلّه لِلمسلمين`,
+          lines: [
+            { html: `A <bdi>لَام جَارَّة</bdi> with <bdi>فَتْحَة</bdi> attaches to المستغاث, as in يَا لَلَّهِ; an <bdi>أَلِف</bdi> may substitute for it at the end, as in يَا زَيْدَا، يَا زَيْدَاهْ.`, list: false },
+            { html: `When a second مستغاث is conjoined without repeating يا, its لام takes <bdi>كَسْرَة</bdi>, as in يَا لَلْأَمِيرِ وَلِلْمُسْلِمِينَ لِلْمَظْلُومِينَ.`, list: false },
+            { html: `A لام جارة with كسرة also attaches to المستغاث له, as in يَا لَلَّهِ لِلْمُسْلِمِينَ.`, list: false },
+          ],
           exercise: {
             prompt: `What لام attaches to المستغاث, and what may substitute for it?`,
             kind: 'mcq',
@@ -657,8 +991,11 @@ export default {
         },
         {
           heading: 'نداء التعجب والندبة',
-          body: `<bdi>نِدَاءُ التَّعَجُّب</bdi> is calling out to that which one marvels at; it is treated like الاستغاثة, with المتعجب منه taking the place of المستغاث, as in <bdi>يَا لَلْقُرْآنِ، يَا قُرْآنَاهْ</bdi>, or the place of المستغاث له with المستغاث deleted, as in <bdi>يَا لِلْقُرْآنِ</bdi>. <bdi>الْنَّدْبَة</bdi> is a type of نداء expressing grief (<bdi>إِظْهَارُ الْحُزْن</bdi>), expressed with <bdi>وَا</bdi> — <bdi>وَا أَبَتَاهْ</bdi> — or with <bdi>يَا</bdi> when confusion with plain نداء is not feared, as in <bdi>يَا زَيْدُ</bdi>. المنادى in الندبة is parsed exactly as in ordinary نداء — <bdi>وَا زَيْدُ، وَا عَبْدَ اللَّهِ</bdi> — and may take <bdi>أَلِفُ النَّدْبَة</bdi> at its end, as in <bdi>وَا زَيْدَا</bdi>, or <bdi>هَاءُ السَّكْت</bdi> after that ألف when pausing, as in <bdi>وَا رَأْسَاهْ، وَا وَيْلَاهْ</bdi>.`,
-          sample: `نداء التعجب — كالاستغاثة: المتعجب منه محل المستغاث (يا للقرآن، يا قرآناه) أو محل المستغاث له مع حذف المستغاث (يا للقرآن)<br>الندبة — إظهار الحزن؛ بوا: وا أبتاه؛ أو بيا إذا أُمن اللبس: يا زيد<br>إعراب منادى الندبة — كالنداء العادي: وا زيدُ، وا عبدَ الله<br>ألف الندبة وهاء السكت — وا زيدَا؛ وا رأسَاهْ، وا ويلَاهْ`,
+          lines: [
+            { html: `<bdi>نِدَاءُ التَّعَجُّب</bdi> is calling out to that which one marvels at; it is treated like الاستغاثة, with المتعجب منه taking the place of المستغاث, as in يَا لَلْقُرْآنِ، يَا قُرْآنَاهْ, or the place of المستغاث له with المستغاث deleted, as in يَا لِلْقُرْآنِ.`, list: false },
+            { html: `<bdi>الْنَّدْبَة</bdi> is a type of نداء expressing grief (إِظْهَارُ الْحُزْن), expressed with <bdi>وَا</bdi> (وَا أَبَتَاهْ) or with <bdi>يَا</bdi> when confusion with plain نداء is not feared, as in يَا زَيْدُ.`, list: false },
+            { html: `المنادى in الندبة is parsed exactly as in ordinary نداء — وَا زَيْدُ، وَا عَبْدَ اللَّهِ — and may take <bdi>أَلِفُ النَّدْبَة</bdi> at its end, as in وَا زَيْدَا, or <bdi>هَاءُ السَّكْت</bdi> after that ألف when pausing, as in وَا رَأْسَاهْ، وَا وَيْلَاهْ.`, list: false },
+          ],
           exercise: {
             prompt: `Define الندبة, and what may be attached to its منادى؟`,
             kind: 'mcq',
@@ -668,8 +1005,16 @@ export default {
         },
         {
           heading: 'حذف عامل الحال: أربعة مواضع قياسية',
-          body: `Deletion of the عامل of الحال is obligatory by rule (<bdi>قِيَاسًا وُجُوبًا</bdi>) in four places: (1) الحال stands in for the خبر, as in <bdi>دُعَائِي رَبِّي مُسْتَيْقِنًا</bdi> (2) الحال indicates gradual increase or decrease, as in <bdi>تَصَدَّقْ بِدِرْهَمٍ فَصَاعِدًا</bdi> (3) preceded by an استفهام of توبيخ, as in <bdi>أَقَاعِدًا وَقَدْ أُقِيمَتِ الصَّلَاةُ؟</bdi> (4) الحال confirms the content of the sentence, as in <bdi>﴿وَهُوَ الْحَقُّ مُصَدِّقًا لِمَا مَعَهُمْ﴾</bdi>. سماعي examples also occur, like <bdi>هَنِيئًا لَكَ</bdi> and <bdi>سَالِمًا غَانِمًا</bdi>.`,
-          sample: `المواضع القياسية الأربعة لحذف عامل الحال — الحال سادة مسد الخبر: دعائي ربي مستيقنا؛ الحال للزيادة أو النقصان تدريجا: تصدق بدرهم فصاعدا؛ بعد استفهام التوبيخ: أقاعدا وقد أقيمت الصلاة؟؛ الحال مؤكدة لمضمون الجملة: ﴿وهو الحق مصدقا لما معهم﴾<br>سماعي — هنيئا لك، سالما غانما`,
+          lines: [
+            { html: `Deletion of the عامل of الحال is obligatory by rule (قِيَاسًا وُجُوبًا) in four places:`, list: false },
+            { table: { headers: ['#', 'Place', 'Example'], rows: [
+              ['1', 'الحال stands in for the خبر', 'دُعَائِي رَبِّي مُسْتَيْقِنًا'],
+              ['2', 'الحال indicates gradual increase or decrease', 'تَصَدَّقْ بِدِرْهَمٍ فَصَاعِدًا'],
+              ['3', 'preceded by an استفهام of توبيخ', 'أَقَاعِدًا وَقَدْ أُقِيمَتِ الصَّلَاةُ؟'],
+              ['4', 'الحال confirms the content of the sentence', '﴿وَهُوَ الْحَقُّ مُصَدِّقًا لِمَا مَعَهُمْ﴾'],
+            ] } },
+            { html: `سماعي examples also occur, like هَنِيئًا لَكَ and سَالِمًا غَانِمًا.`, list: false },
+          ],
           exercise: {
             prompt: `In which four places is deletion of the عامل of الحال obligatory by rule (قياسا وجوبا)؟`,
             kind: 'mcq',
@@ -703,40 +1048,129 @@ export default {
         { title: 'الحال المؤكدة لمضمون الجملة', kind: 'mcq', prompt: '﴿وَهُوَ الْحَقُّ مُصَدِّقًا لِمَا مَعَهُمْ﴾ shows مصدقا منصوب because it is:', options: ['a حال مؤكدة لمضمون الجملة, with an obligatorily deleted عامل', 'a حال سادة مسد الخبر', 'a حال indicating تدرج', 'a مفعول به of a stated فعل'], correct: 0 },
         { title: 'أمثلة سماعية لحذف عامل الحال', kind: 'mcq', prompt: 'هَنِيئًا لَكَ and سَالِمًا غَانِمًا are examples of حذف عامل الحال that is:', options: ['سماعي, not extended by rule', 'قياسي, extended to any matching case', 'واحد من مواضع الاستغاثة', 'غير صحيح نحويا'], correct: 0 },
         {
-          title: 'تركيب: ما يجوز ترخيمه',
+          title: 'تركيب: يَا عَائِشَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each اسم: يجوز ترخيمه or لا يجوز ترخيمه؟',
-          source: 'عائشة (منتهية بتاء) / جعفر (علم مذكر فوق ثلاثة أحرف) / زيد (ثلاثة أحرف فقط)',
-          words: ['عائشة', 'جعفر', 'زيد'],
-          labels: ['يجوز ترخيمه', 'يجوز ترخيمه', 'لا يجوز ترخيمه'],
-          distractors: ['يجب ترخيمه'],
+          instruction: 'Can this منادى undergo الترخيم؟',
+          sentence: 'يَا عَائِشَ',
+          translation: 'O Aisha! (truncated from عائشة)',
+          cells: ['يَا', 'عَائِشَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'يجوز ترخيمه (منتهية بتاء)' }] },
+          ],
+          distractors: ['لا يجوز ترخيمه'],
         },
         {
-          title: 'تركيب: أركان الاستغاثة',
+          title: 'تركيب: يَا جَعْفَ',
           kind: 'tarkeeb',
-          instruction: 'Match each term in يا للّه للمسلمين to its ركن of الاستغاثة.',
-          source: 'يا / اللّه / المسلمين',
-          words: ['يا', 'اللّه', 'المسلمين'],
-          labels: ['حرف الاستغاثة', 'المستغاث', 'المستغاث له'],
-          distractors: ['المستغيث'],
+          instruction: 'Can this منادى undergo الترخيم؟',
+          sentence: 'يَا جَعْفَ',
+          translation: 'O Ja’far! (truncated from جعفر)',
+          cells: ['يَا', 'جَعْفَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'يجوز ترخيمه (علم مذكر فوق ثلاثة أحرف)' }] },
+          ],
+          distractors: ['لا يجوز ترخيمه'],
         },
         {
-          title: 'تركيب: مواضع حذف عامل الحال الأربعة',
+          title: 'تركيب: يَا زَيْدُ',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the قياسي موضع of حذف عامل الحال it illustrates.',
-          source: 'دعائي ربي مستيقنا / تصدق بدرهم فصاعدا / أقاعدا وقد أقيمت الصلاة؟ / وهو الحق مصدقا لما معهم',
-          words: ['دعائي ربي مستيقنا', 'تصدق بدرهم فصاعدا', 'أقاعدا وقد أقيمت الصلاة؟', 'وهو الحق مصدقا لما معهم'],
-          labels: ['سادة مسد الخبر', 'للتدرج', 'بعد استفهام التوبيخ', 'مؤكدة لمضمون الجملة'],
-          distractors: ['سماعية'],
+          instruction: 'Can this منادى undergo الترخيم؟',
+          sentence: 'يَا زَيْدُ',
+          translation: 'O Zayd! (kept whole, unlike جعفر)',
+          cells: ['يَا', 'زَيْدُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'لا يجوز ترخيمه (ثلاثة أحرف فقط)' }] },
+          ],
+          distractors: ['يجوز ترخيمه'],
         },
         {
-          title: 'تركيب: ترخيم أم استغاثة أم ندبة؟',
+          title: 'تركيب: يَا لَلَّهِ لِلْمُسْلِمِينَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example.',
-          source: 'يا فاطمَ (لفاطمة) / يا للّه للمسلمين / وا زيدَا',
-          words: ['يا فاطمَ', 'يا للّه للمسلمين', 'وا زيدَا'],
-          labels: ['الترخيم', 'الاستغاثة', 'الندبة'],
-          distractors: ['الاختصاص'],
+          instruction: 'Identify each ركن of الاستغاثة, then classify the whole example.',
+          sentence: 'يَا لَلَّهِ لِلْمُسْلِمِينَ',
+          translation: 'O Allah, [come to the aid] of the Muslims!',
+          cells: ['يَا', 'لَلَّهِ', 'لِلْمُسْلِمِينَ'],
+          rows: [
+            { position: 'above', label: 'الأركان', labels: [
+              { start: 0, end: 0, role: 'حرف الاستغاثة' },
+              { start: 1, end: 1, role: 'المستغاث' },
+              { start: 2, end: 2, role: 'المستغاث له' },
+            ] },
+            { position: 'below', label: 'النوع', labels: [{ start: 0, end: 2, role: 'الاستغاثة' }] },
+          ],
+          distractors: ['المستغيث', 'الترخيم'],
+        },
+        {
+          title: 'تركيب: دُعَائِي رَبِّي مُسْتَيْقِنًا',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع of حذف عامل الحال does this illustrate؟',
+          sentence: 'دُعَائِي رَبِّي مُسْتَيْقِنًا',
+          translation: 'My prayer to my Lord, [being] certain.',
+          cells: ['دُعَائِي', 'رَبِّي', 'مُسْتَيْقِنًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'سادة مسد الخبر' }] },
+          ],
+          distractors: ['للتدرج', 'بعد استفهام التوبيخ', 'مؤكدة لمضمون الجملة'],
+        },
+        {
+          title: 'تركيب: تَصَدَّقْ بِدِرْهَمٍ فَصَاعِدًا',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع of حذف عامل الحال does this illustrate؟',
+          sentence: 'تَصَدَّقْ بِدِرْهَمٍ فَصَاعِدًا',
+          translation: 'Give charity of a dirham or more.',
+          cells: ['تَصَدَّقْ', 'بِدِرْهَمٍ', 'فَصَاعِدًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'للتدرج' }] },
+          ],
+          distractors: ['سادة مسد الخبر', 'بعد استفهام التوبيخ', 'مؤكدة لمضمون الجملة'],
+        },
+        {
+          title: 'تركيب: أَقَاعِدًا وَقَدْ أُقِيمَتِ الصَّلَاةُ؟',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع of حذف عامل الحال does this illustrate؟',
+          sentence: 'أَقَاعِدًا وَقَدْ أُقِيمَتِ الصَّلَاةُ؟',
+          translation: 'Sitting, while the prayer has been called?!',
+          cells: ['أَقَاعِدًا', 'وَقَدْ', 'أُقِيمَتِ', 'الصَّلَاةُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'بعد استفهام التوبيخ' }] },
+          ],
+          distractors: ['سادة مسد الخبر', 'للتدرج', 'مؤكدة لمضمون الجملة'],
+        },
+        {
+          title: 'تركيب: ﴿وَهُوَ الْحَقُّ مُصَدِّقًا لِمَا مَعَهُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which قياسي موضع of حذف عامل الحال does this illustrate؟',
+          sentence: 'وَهُوَ الْحَقُّ مُصَدِّقًا لِمَا مَعَهُمْ',
+          translation: 'And it is the truth, confirming what is with them.',
+          cells: ['وَهُوَ', 'الْحَقُّ', 'مُصَدِّقًا', 'لِمَا', 'مَعَهُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'مؤكدة لمضمون الجملة' }] },
+          ],
+          distractors: ['سادة مسد الخبر', 'للتدرج', 'بعد استفهام التوبيخ'],
+        },
+        {
+          title: 'تركيب: يَا فَاطِمَ',
+          kind: 'tarkeeb',
+          instruction: 'Classify this example.',
+          sentence: 'يَا فَاطِمَ',
+          translation: 'O Fatima! (truncated from فاطمة)',
+          cells: ['يَا', 'فَاطِمَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'الترخيم' }] },
+          ],
+          distractors: ['الاستغاثة', 'الندبة'],
+        },
+        {
+          title: 'تركيب: وَا زَيْدَا',
+          kind: 'tarkeeb',
+          instruction: 'Classify this example.',
+          sentence: 'وَا زَيْدَا',
+          translation: 'Alas, Zayd!',
+          cells: ['وَا', 'زَيْدَا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'الندبة' }] },
+          ],
+          distractors: ['الاستغاثة', 'الترخيم'],
         },
       ],
     },

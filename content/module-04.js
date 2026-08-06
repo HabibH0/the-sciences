@@ -18,7 +18,7 @@ export default {
   title: 'حروف الجر',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
-  blurb: 'The richest class of عامل حروف: حروف الجر\'s three أضرب (أصلي، شبيه بالزائد، زائد), the meaning and وظائف of each of the thirteen أصلية حروف, أحرف القسم, مذ ومنذ, and when a حرف الجر is omitted or added only for emphasis.',
+  blurb: 'حروف الجر: the thirteen prepositions, their core meanings, and when one is dropped or added only for emphasis.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -28,8 +28,17 @@ export default {
       concepts: [
         {
           heading: 'الحروف العاملة: في الاسم وفي الفعل',
-          body: `<bdi>الْحُرُوفُ الْعَامِلَة</bdi> split into two types by what they govern: (1) حروف that عمل في <bdi>الِاسْم</bdi> (2) حروف that عمل في <bdi>الْفِعْل</bdi>. The first type further divides into four categories by what it does to its اسم: (1) حروف that put a single اسم in <bdi>جَرّ</bdi> — <bdi>حُرُوفُ الْجَرّ</bdi> (2) a حرف that puts a single اسم in <bdi>نَصْب</bdi> — <bdi>إِلَّا</bdi> (3) حروف that put the اسم in نصب and the <bdi>خَبَر</bdi> in <bdi>رَفْع</bdi> — <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi> (and <bdi>لَا لِنَفْيِ الْجِنْس</bdi>) (4) حروف that put the اسم in رفع and the خبر in نصب — <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس</bdi>. This module is built entirely on the first of these four — حروف الجر.`,
-          sample: `العاملة — تعمل في الاسم أو تعمل في الفعل<br>تعمل في الاسم — حروف الجر، إلا، المشبهة بالفعل، المشبهة بليس`,
+          lines: [
+            { html: `<bdi>الْحُرُوفُ الْعَامِلَة</bdi> split into two types by what they govern: حروف that عمل في <bdi>الِاسْم</bdi>, and حروف that عمل في <bdi>الْفِعْل</bdi>.`, list: false },
+            { html: `The first type further divides into four categories by what it does to its اسم:`, list: false },
+            { table: { headers: ['Category', 'Effect on اسم / خبر'], rows: [
+              ['حُرُوفُ الْجَرّ', 'puts a single اسم in جَرّ'],
+              ['إِلَّا', 'puts a single اسم in نَصْب'],
+              ['الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل (and لَا لِنَفْيِ الْجِنْس)', 'اسم in نصب, خَبَر in رَفْع'],
+              ['الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس', 'اسم in رفع, خبر in نصب'],
+            ] } },
+            { html: `This module is built entirely on the first of these four — حروف الجر.`, list: false },
+          ],
           exercise: {
             prompt: `Among the four categories of حروف تعمل في الاسم, which one is this whole module built around؟`,
             kind: 'mcq',
@@ -39,8 +48,14 @@ export default {
         },
         {
           heading: 'أضرب حروف الجر الثلاثة',
-          body: `حروف الجر themselves fall into three <bdi>أَضْرُب</bdi>: (1) <bdi>حَرْفُ الْجَرِّ الْأَصْلِيّ</bdi> — it carries a specific meaning (<bdi>مَعْنًى خَاصّ</bdi>), and together with its <bdi>مَجْرُور</bdi> it occupies a <bdi>مَحَلّ</bdi> as the <bdi>مَعْمُول</bdi> of a <bdi>فِعْل</bdi> or of <bdi>شِبْهِ الْفِعْل</bdi> (2) <bdi>حَرْفُ الْجَرِّ الشَّبِيهُ بِالزَّائِد</bdi> — it also carries a specific meaning, but together with its مجرور it is not the معمول of a فعل or شبه الفعل (3) <bdi>حَرْفُ الْجَرِّ الزَّائِد</bdi> — also called <bdi>حَرْفُ صِلَة</bdi> — it carries no meaning beyond <bdi>تَأْكِيد</bdi> (emphasis), and like الشبيه بالزائد, it is not a معمول either.`,
-          sample: `الأصلي — له معنى خاص، وهو معمول لفعل أو شبه فعل<br>الشبيه بالزائد — له معنى خاص، لكنه ليس معمولا<br>الزائد (حرف صلة) — لا معنى له إلا التوكيد، وليس معمولا`,
+          lines: [
+            { html: `حروف الجر themselves fall into three <bdi>أَضْرُب</bdi>:`, list: false },
+            { table: { headers: ['ضرب', 'Definition'], rows: [
+              ['حَرْفُ الْجَرِّ الْأَصْلِيّ', 'carries a specific meaning (مَعْنًى خَاصّ), and with its مَجْرُور occupies a مَحَلّ as the مَعْمُول of a فِعْل or شِبْهِ الْفِعْل'],
+              ['حَرْفُ الْجَرِّ الشَّبِيهُ بِالزَّائِد', 'also carries a specific meaning, but with its مجرور it is NOT the معمول of a فعل or شبه الفعل'],
+              ['حَرْفُ الْجَرِّ الزَّائِد (also حَرْفُ صِلَة)', 'carries no meaning beyond تَأْكِيد (emphasis); like الشبيه بالزائد, not a معمول either'],
+            ] } },
+          ],
           exercise: {
             prompt: `What distinguishes حرف الجر الأصلي from the other two أضرب؟`,
             kind: 'mcq',
@@ -50,8 +65,11 @@ export default {
         },
         {
           heading: 'حرف صلة، والتعلّق',
-          body: `<bdi>حَرْفُ صِلَة</bdi> is the alternate name for حرف الجر الزائد. Because حرف الجر الأصلي's جار ومجرور is a معمول — it occupies a محل governed by a فعل or شبه الفعل — its meaning must always relate back to that governing word; this relationship is called <bdi>التَّعَلُّق</bdi>. الشبيه بالزائد and الزائد need no تعلق at all, since neither is ever a معمول.`,
-          sample: `حرف صلة = حرف الجر الزائد<br>التعلق — خاص بالأصلي، لأنه معمول لفعل أو شبه فعل`,
+          lines: [
+            { html: `<bdi>حَرْفُ صِلَة</bdi> is the alternate name for حرف الجر الزائد.`, list: false },
+            { html: `Because حرف الجر الأصلي's جار ومجرور is a معمول — it occupies a محل governed by a فعل or شبه الفعل — its meaning must always relate back to that governing word; this relationship is called <bdi>التَّعَلُّق</bdi>.`, list: false },
+            { html: `الشبيه بالزائد and الزائد need no تعلق at all, since neither is ever a معمول.`, list: false },
+          ],
           exercise: {
             prompt: `Why must the جار والمجرور of a حرف الجر الأصلي "attach" (تعلّق) to something؟`,
             kind: 'mcq',
@@ -61,8 +79,11 @@ export default {
         },
         {
           heading: 'حروف الجر الأصلية الثلاثة عشر',
-          body: `The thirteen <bdi>حُرُوفُ الْجَرِّ الْأَصْلِيَّة</bdi> are: <bdi>الْبَاء، مِنْ، إِلَى، عَنْ، عَلَى، اللَّام، فِي، الْكَاف، حَتَّى، وَاوُ الْقَسَم، تَاءُ الْقَسَم، مُذْ، مُنْذُ</bdi>. Every lesson from here on works through this list, group by group.`,
-          sample: `الأصلية (١٣) — الباء، من، إلى، عن، على، اللام، في، الكاف، حتى، واو القسم، تاء القسم، مذ، منذ`,
+          lines: [
+            { html: `The thirteen <bdi>حُرُوفُ الْجَرِّ الْأَصْلِيَّة</bdi> are:`, list: false },
+            { html: `<bdi>الْبَاء، مِنْ، إِلَى، عَنْ، عَلَى، اللَّام، فِي، الْكَاف، حَتَّى، وَاوُ الْقَسَم، تَاءُ الْقَسَم، مُذْ، مُنْذُ</bdi>`, list: true, bullet: true },
+            { html: `Every lesson from here on works through this list, group by group.`, list: false },
+          ],
           exercise: {
             prompt: `How many حروف جر أصلية are there؟`,
             kind: 'mcq',
@@ -245,40 +266,62 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: أقسام الحروف العاملة في الاسم',
+          title: 'تركيب: ﴿بِسْمِ اللَّهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by which of the four categories of حروف تعمل في الاسم it belongs to.',
-          source: 'الباء / إلا / إنَّ / ليس',
-          words: ['الباء', 'إلا', 'إنَّ', 'ليس'],
-          labels: ['حروف الجر', 'إلا', 'الحروف المشبهة بالفعل', 'الحروف المشبهة بليس'],
-          distractors: ['حروف تعمل في الفعل'],
+          instruction: 'Identify what الباء does to its اسم here.',
+          sentence: 'بِسْمِ اللَّهِ',
+          translation: 'In the name of Allah.',
+          cells: ['بِسْمِ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', label: 'حروف الجر', labels: [
+              { start: 0, end: 1, role: 'تجر اسمًا واحدًا' },
+            ] },
+          ],
+          distractors: ['تنصب اسمًا واحدًا', 'ترفع اسمًا وتنصب خبرًا'],
         },
         {
-          title: 'تركيب: من حروف الجر الأصلية؟',
+          title: 'تركيب: قَامَ الْقَوْمُ إِلَّا زَيْدًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: is it one of the thirteen حروف الجر الأصلية?',
-          source: 'الكاف / حتى / لن / هل',
-          words: ['الكاف', 'حتى', 'لن', 'هل'],
-          labels: ['من الأصلية', 'من الأصلية', 'ليست حرف جر', 'ليست حرف جر'],
-          distractors: ['من الزائدة'],
+          instruction: 'Identify what إلا does to the اسم after it here.',
+          sentence: 'قَامَ الْقَوْمُ إِلَّا زَيْدًا',
+          translation: 'The people stood, except Zayd.',
+          cells: ['قَامَ', 'الْقَوْمُ', 'إِلَّا', 'زَيْدًا'],
+          rows: [
+            { position: 'above', label: 'إلا', labels: [
+              { start: 3, end: 3, role: 'تنصب اسمًا واحدًا' },
+            ] },
+          ],
+          distractors: ['تجر اسمًا واحدًا', 'ترفع اسمًا وتنصب خبرًا'],
         },
         {
-          title: 'تركيب: تعريف كل ضرب',
+          title: 'تركيب: ﴿إِنَّ اللَّهَ غَفُورٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each ضرب of حرف الجر to its defining trait.',
-          source: 'حرف الجر الأصلي / حرف الجر الشبيه بالزائد / حرف الجر الزائد',
-          words: ['حرف الجر الأصلي', 'حرف الجر الشبيه بالزائد', 'حرف الجر الزائد'],
-          labels: ['معمول لفعل أو شبه فعل، وله معنى خاص', 'غير معمول، لكن له معنى خاص', 'غير معمول، ولا معنى له سوى التوكيد'],
-          distractors: ['حرف عطف'],
+          instruction: 'Identify اسم إنّ and خبرها, and their إعراب.',
+          sentence: 'إِنَّ اللَّهَ غَفُورٌ',
+          translation: 'Indeed, Allah is Forgiving.',
+          cells: ['إِنَّ', 'اللَّهَ', 'غَفُورٌ'],
+          rows: [
+            { position: 'above', label: 'الحروف المشبهة بالفعل', labels: [
+              { start: 1, end: 1, role: 'اسمها، منصوب' },
+              { start: 2, end: 2, role: 'خبرها، مرفوع' },
+            ] },
+          ],
+          distractors: ['مرفوع', 'منصوب'],
         },
         {
-          title: 'تركيب: عمل كل قسم في الاسم',
+          title: 'تركيب: لَيْسَ الطَّالِبُ كَسْلَانَ',
           kind: 'tarkeeb',
-          instruction: 'Classify what each category of حروف تعمل في الاسم does to its اسم.',
-          source: 'حروف الجر / إلا / الحروف المشبهة بالفعل / الحروف المشبهة بليس',
-          words: ['حروف الجر', 'إلا', 'الحروف المشبهة بالفعل', 'الحروف المشبهة بليس'],
-          labels: ['جر الاسم', 'نصب الاسم', 'نصب الاسم ورفع الخبر', 'رفع الاسم ونصب الخبر'],
-          distractors: ['جزم الفعل'],
+          instruction: 'Identify اسم ليس and خبرها, and their إعراب.',
+          sentence: 'لَيْسَ الطَّالِبُ كَسْلَانَ',
+          translation: 'The student is not lazy.',
+          cells: ['لَيْسَ', 'الطَّالِبُ', 'كَسْلَانَ'],
+          rows: [
+            { position: 'above', label: 'الحروف المشبهة بليس', labels: [
+              { start: 1, end: 1, role: 'اسمها، مرفوع' },
+              { start: 2, end: 2, role: 'خبرها، منصوب' },
+            ] },
+          ],
+          distractors: ['مرفوع', 'منصوب'],
         },
       ],
     },
@@ -291,8 +334,11 @@ export default {
       concepts: [
         {
           heading: 'الباء: معناها الأصلي ووظائفها',
-          body: `The core meaning of <bdi>الْبَاء</bdi> is <bdi>الْإِلْصَاق</bdi> — attachment, the joining of one thing to another. With its مجرور it can take on nine different وظائف (as a <bdi>شِبْهُ جُمْلَة</bdi>): (1) <bdi>الْمَفْعُولُ الْمُطْلَق</bdi> (2) <bdi>الْمَفْعُولُ بِهِ</bdi> (3) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (4) <bdi>الْمَفْعُولُ لَهُ</bdi> (5) <bdi>الْمَفْعُولُ مَعَهُ</bdi> (6) <bdi>الْحَال</bdi> (7) <bdi>التَّمْيِيز</bdi> (8) <bdi>الْآلَة</bdi> (9) <bdi>الْعِوَض</bdi>.`,
-          sample: `الإلصاق — attachment<br>وظائف الباء التسع — المطلق، به، فيه، له، معه، الحال، التمييز، الآلة، العوض`,
+          lines: [
+            { html: `The core meaning of <bdi>الْبَاء</bdi> is <bdi>الْإِلْصَاق</bdi> — attachment, the joining of one thing to another.`, list: false },
+            { html: `With its مجرور it can take on nine different وظائف (as a <bdi>شِبْهُ جُمْلَة</bdi>):`, list: false },
+            { html: `<bdi>الْمَفْعُولُ الْمُطْلَق</bdi>، <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>، <bdi>الْمَفْعُولُ مَعَهُ</bdi>، <bdi>الْحَال</bdi>، <bdi>التَّمْيِيز</bdi>، <bdi>الْآلَة</bdi>، <bdi>الْعِوَض</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `الإلصاق (attachment/adhesion) is the core meaning of which حرف جر؟`,
             kind: 'mcq',
@@ -302,8 +348,15 @@ export default {
         },
         {
           heading: 'الباء: أمثلة من القرآن',
-          body: `A few of الباء's nine وظائف, worked through: in <bdi>﴿خُذِ الْكِتَابَ بِقُوَّةٍ﴾</bdi>, بقوة is <bdi>الْمَفْعُولُ الْمُطْلَق</bdi> — "take it with a strong taking". In <bdi>﴿فَلَمَّا ذَهَبُوا بِهِ﴾</bdi>, به is <bdi>الْمَفْعُولُ بِهِ</bdi> (<bdi>غَيْرُ صَرِيح</bdi>). In <bdi>﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾</bdi>, ببدر is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلْمَكَان</bdi>. In <bdi>﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾</bdi>, بسلام is <bdi>الْحَال</bdi> — "enter it in a state of peace".`,
-          sample: `بقوة — المفعول المطلق<br>به — المفعول به<br>ببدر — المفعول فيه (مكان)<br>بسلام — الحال`,
+          lines: [
+            { html: `A few of الباء's nine وظائف, worked through:`, list: false },
+            { table: { headers: ['Verse', 'Phrase', 'وظيفة'], rows: [
+              ['﴿خُذِ الْكِتَابَ بِقُوَّةٍ﴾', 'بِقُوَّةٍ', 'الْمَفْعُولُ الْمُطْلَق — "take it with a strong taking"'],
+              ['﴿فَلَمَّا ذَهَبُوا بِهِ﴾', 'بِهِ', 'الْمَفْعُولُ بِهِ (غَيْرُ صَرِيح)'],
+              ['﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾', 'بِبَدْرٍ', 'الْمَفْعُولُ فِيهِ — لِلْمَكَان'],
+              ['﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾', 'بِسَلَامٍ', 'الْحَال — "enter it in a state of peace"'],
+            ] } },
+          ],
           exercise: {
             prompt: `In ﴿خذ الكتاب بقوة﴾, بقوة functions as:`,
             kind: 'mcq',
@@ -313,8 +366,11 @@ export default {
         },
         {
           heading: 'مِن: معناها الأصلي ووظائفها',
-          body: `The core meaning of <bdi>مِنْ</bdi> is <bdi>ابْتِدَاءُ الْغَايَة</bdi> — the starting point of an extent. With its مجرور it can take six of the same وظائف الباء takes: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ لَهُ</bdi> (4) <bdi>التَّمْيِيز</bdi> (5) <bdi>الْعِوَض</bdi> (6) <bdi>الْآلَة</bdi>.`,
-          sample: `ابتداء الغاية — starting point<br>وظائف من الست — به، فيه، له، التمييز، العوض، الآلة`,
+          lines: [
+            { html: `The core meaning of <bdi>مِنْ</bdi> is <bdi>ابْتِدَاءُ الْغَايَة</bdi> — the starting point of an extent.`, list: false },
+            { html: `With its مجرور it can take six of the same وظائف الباء takes:`, list: false },
+            { html: `<bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>، <bdi>التَّمْيِيز</bdi>، <bdi>الْعِوَض</bdi>، <bdi>الْآلَة</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `ابتداء الغاية (the starting point of an extent) is the core meaning of:`,
             kind: 'mcq',
@@ -324,8 +380,14 @@ export default {
         },
         {
           heading: 'مِن: أمثلة من القرآن',
-          body: `In <bdi>﴿مِنَ الْمَسْجِدِ الْحَرَامِ﴾</bdi>, من المسجد is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلْمَكَان</bdi>. In <bdi>﴿تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾</bdi>, من الدمع is <bdi>التَّمْيِيز</bdi> — specifying what overflows. In <bdi>﴿أَرَضِيتُم بِالْحَيَاةِ الدُّنْيَا مِنَ الْآخِرَةِ﴾</bdi>, من الآخرة is <bdi>الْعِوَض</bdi> — in exchange for the Hereafter. In <bdi>﴿يَنظُرُونَ مِن طَرْفٍ خَفِيٍّ﴾</bdi>, من طرف is <bdi>الْآلَة</bdi> — the furtive glance as instrument.`,
-          sample: `من المسجد — المفعول فيه (مكان)<br>من الدمع — التمييز<br>من الآخرة — العوض<br>من طرف — الآلة`,
+          lines: [
+            { table: { headers: ['Verse', 'Phrase', 'وظيفة'], rows: [
+              ['﴿مِنَ الْمَسْجِدِ الْحَرَامِ﴾', 'مِنَ الْمَسْجِدِ', 'الْمَفْعُولُ فِيهِ — لِلْمَكَان'],
+              ['﴿تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾', 'مِنَ الدَّمْعِ', 'التَّمْيِيز — specifying what overflows'],
+              ['﴿أَرَضِيتُم بِالْحَيَاةِ الدُّنْيَا مِنَ الْآخِرَةِ﴾', 'مِنَ الْآخِرَةِ', 'الْعِوَض — in exchange for the Hereafter'],
+              ['﴿يَنظُرُونَ مِن طَرْفٍ خَفِيٍّ﴾', 'مِن طَرْفٍ', 'الْآلَة — the furtive glance as instrument'],
+            ] } },
+          ],
           exercise: {
             prompt: `In ﴿ترى أعينهم تفيض من الدمع﴾, من الدمع functions as:`,
             kind: 'mcq',
@@ -494,49 +556,214 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: وظائف الباء (١)',
+          title: 'تركيب: ﴿خُذِ الْكِتَابَ بِقُوَّةٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each بـ + مجرور.',
-          source: '﴿خذ الكتاب بقوة﴾ / ﴿فلما ذهبوا به﴾ / ﴿ولقد نصركم الله ببدر﴾ / ﴿يسبحون له بالليل والنهار﴾',
-          words: ['بقوة', 'به', 'ببدر', 'بالليل'],
-          labels: ['المفعول المطلق', 'المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)'],
-          distractors: ['الحال'],
+          instruction: 'Identify the وظيفة of بِقُوَّةٍ.',
+          sentence: 'خُذِ الْكِتَابَ بِقُوَّةٍ',
+          translation: 'Take the Scripture with strength.',
+          cells: ['خُذِ', 'الْكِتَابَ', 'بِقُوَّةٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'المفعول المطلق' },
+            ] },
+          ],
+          distractors: ['المفعول به', 'الحال'],
         },
         {
-          title: 'تركيب: وظائف الباء (٢)',
+          title: 'تركيب: ﴿فَلَمَّا ذَهَبُوا بِهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each بـ + مجرور.',
-          source: '﴿فأهلكناهم بذنوبهم﴾ / ﴿وقد دخلوا بالكفر﴾ / ﴿ادخلوها بسلام آمنين﴾ / ﴿يكتبون الكتاب بأيديهم﴾',
-          words: ['بذنوبهم', 'بالكفر', 'بسلام', 'بأيديهم'],
-          labels: ['المفعول له', 'المفعول معه', 'الحال', 'الآلة'],
-          distractors: ['التمييز'],
+          instruction: 'Identify the وظيفة of بِهِ.',
+          sentence: 'فَلَمَّا ذَهَبُوا بِهِ',
+          translation: 'And when they went with him.',
+          cells: ['ذَهَبُوا', 'بِهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول المطلق', 'الحال'],
         },
         {
-          title: 'تركيب: وظائف مِن (١)',
+          title: 'تركيب: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each مِن + مجرور.',
-          source: 'أنا تائب من كل ذنب / ﴿من المسجد الحرام﴾ / ﴿أسس على التقوى من أول يوم﴾ / ﴿يجعلون أصابعهم في آذانهم من الصواعق﴾',
-          words: ['من كل ذنب', 'من المسجد', 'من أول يوم', 'من الصواعق'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)', 'المفعول له'],
-          distractors: ['الآلة'],
+          instruction: 'Identify the وظيفة of بِبَدْرٍ.',
+          sentence: 'وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ',
+          translation: 'And Allah had already given you victory at Badr.',
+          cells: ['نَصَرَكُمُ', 'اللَّهُ', 'بِبَدْرٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
         },
         {
-          title: 'تركيب: وظائف مِن (٢)',
+          title: 'تركيب: ﴿يُسَبِّحُونَ لَهُ بِاللَّيْلِ وَالنَّهَارِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each مِن + مجرور.',
-          source: '﴿ترى أعينهم تفيض من الدمع﴾ / ﴿أرضيتم بالحياة الدنيا من الآخرة﴾ / ﴿ينظرون من طرف خفي﴾',
-          words: ['من الدمع', 'من الآخرة', 'من طرف'],
-          labels: ['التمييز', 'العوض', 'الآلة'],
-          distractors: ['المفعول به'],
+          instruction: 'Identify the وظيفة of بِاللَّيْلِ وَالنَّهَارِ.',
+          sentence: 'يُسَبِّحُونَ لَهُ بِاللَّيْلِ وَالنَّهَارِ',
+          translation: 'They glorify Him by night and day.',
+          cells: ['يُسَبِّحُونَ', 'لَهُ', 'بِاللَّيْلِ', 'وَالنَّهَارِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'الحال'],
         },
         {
-          title: 'تركيب: الباء أم مِن؟',
+          title: 'تركيب: ﴿فَأَهْلَكْنَاهُمْ بِذُنُوبِهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which حرف جر appears: الباء or مِن?',
-          source: 'بقوة / من المسجد / بأيديهم / من الدمع',
-          words: ['بقوة', 'من المسجد', 'بأيديهم', 'من الدمع'],
-          labels: ['الباء', 'مِن', 'الباء', 'مِن'],
-          distractors: ['اللام'],
+          instruction: 'Identify the وظيفة of بِذُنُوبِهِمْ.',
+          sentence: 'فَأَهْلَكْنَاهُمْ بِذُنُوبِهِمْ',
+          translation: 'So We destroyed them for their sins.',
+          cells: ['أَهْلَكْنَاهُمْ', 'بِذُنُوبِهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول له' },
+            ] },
+          ],
+          distractors: ['المفعول معه', 'الآلة'],
+        },
+        {
+          title: 'تركيب: ﴿وَقَدْ دَخَلُوا بِالْكُفْرِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of بِالْكُفْرِ.',
+          sentence: 'وَقَدْ دَخَلُوا بِالْكُفْرِ',
+          translation: 'And they had entered with disbelief.',
+          cells: ['دَخَلُوا', 'بِالْكُفْرِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول معه' },
+            ] },
+          ],
+          distractors: ['المفعول له', 'الحال'],
+        },
+        {
+          title: 'تركيب: ﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of بِسَلَامٍ.',
+          sentence: 'ادْخُلُوهَا بِسَلَامٍ آمِنِينَ',
+          translation: 'Enter it in peace, secure.',
+          cells: ['ادْخُلُوهَا', 'بِسَلَامٍ', 'آمِنِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'الحال' },
+            ] },
+          ],
+          distractors: ['المفعول معه', 'الآلة'],
+        },
+        {
+          title: 'تركيب: ﴿يَكْتُبُونَ الْكِتَابَ بِأَيْدِيهِمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of بِأَيْدِيهِمْ.',
+          sentence: 'يَكْتُبُونَ الْكِتَابَ بِأَيْدِيهِمْ',
+          translation: 'They write the book with their own hands.',
+          cells: ['يَكْتُبُونَ', 'الْكِتَابَ', 'بِأَيْدِيهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'الآلة' },
+            ] },
+          ],
+          distractors: ['الحال', 'المفعول له'],
+        },
+        {
+          title: 'تركيب: أَنَا تَائِبٌ مِنْ كُلِّ ذَنْبٍ',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنْ كُلِّ ذَنْبٍ.',
+          sentence: 'أَنَا تَائِبٌ مِنْ كُلِّ ذَنْبٍ',
+          translation: 'I repent from every sin.',
+          cells: ['أَنَا', 'تَائِبٌ', 'مِنْ', 'كُلِّ', 'ذَنْبٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'التمييز'],
+        },
+        {
+          title: 'تركيب: ﴿أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِنَ الْمَسْجِدِ الْحَرَامِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنَ الْمَسْجِدِ الْحَرَامِ.',
+          sentence: 'أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِنَ الْمَسْجِدِ الْحَرَامِ',
+          translation: 'He took His servant by night from al-Masjid al-Haram.',
+          cells: ['أَسْرَىٰ', 'بِعَبْدِهِ', 'لَيْلًا', 'مِنَ', 'الْمَسْجِدِ', 'الْحَرَامِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 5, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿أُسِّسَ عَلَى التَّقْوَىٰ مِنْ أَوَّلِ يَوْمٍ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنْ أَوَّلِ يَوْمٍ.',
+          sentence: 'أُسِّسَ عَلَى التَّقْوَىٰ مِنْ أَوَّلِ يَوْمٍ',
+          translation: 'It was founded on righteousness from the first day.',
+          cells: ['أُسِّسَ', 'عَلَى', 'التَّقْوَىٰ', 'مِنْ', 'أَوَّلِ', 'يَوْمٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 5, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول له'],
+        },
+        {
+          title: 'تركيب: ﴿يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِمْ مِنَ الصَّوَاعِقِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنَ الصَّوَاعِقِ.',
+          sentence: 'يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِمْ مِنَ الصَّوَاعِقِ',
+          translation: 'They put their fingers in their ears from the thunderclaps.',
+          cells: ['يَجْعَلُونَ', 'أَصَابِعَهُمْ', 'فِي', 'آذَانِهِمْ', 'مِنَ', 'الصَّوَاعِقِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 5, role: 'المفعول له' },
+            ] },
+          ],
+          distractors: ['المفعول به', 'الآلة'],
+        },
+        {
+          title: 'تركيب: ﴿تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنَ الدَّمْعِ.',
+          sentence: 'تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ',
+          translation: 'You see their eyes overflowing with tears.',
+          cells: ['تَرَىٰ', 'أَعْيُنَهُمْ', 'تَفِيضُ', 'مِنَ', 'الدَّمْعِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'التمييز' },
+            ] },
+          ],
+          distractors: ['العوض', 'الآلة'],
+        },
+        {
+          title: 'تركيب: ﴿أَرَضِيتُم بِالْحَيَاةِ الدُّنْيَا مِنَ الْآخِرَةِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِنَ الْآخِرَةِ.',
+          sentence: 'أَرَضِيتُم بِالْحَيَاةِ الدُّنْيَا مِنَ الْآخِرَةِ',
+          translation: 'Are you satisfied with the life of this world instead of the Hereafter?',
+          cells: ['أَرَضِيتُمْ', 'بِالْحَيَاةِ', 'الدُّنْيَا', 'مِنَ', 'الْآخِرَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'العوض' },
+            ] },
+          ],
+          distractors: ['التمييز', 'المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿يَنظُرُونَ مِن طَرْفٍ خَفِيٍّ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of مِن طَرْفٍ.',
+          sentence: 'يَنظُرُونَ مِن طَرْفٍ خَفِيٍّ',
+          translation: 'They look with a furtive glance.',
+          cells: ['يَنظُرُونَ', 'مِنْ', 'طَرْفٍ', 'خَفِيٍّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'الآلة' },
+            ] },
+          ],
+          distractors: ['التمييز', 'العوض'],
         },
       ],
     },
@@ -549,8 +776,12 @@ export default {
       concepts: [
         {
           heading: 'إلى: معناها ووظائفها',
-          body: `The core meaning of <bdi>إِلَى</bdi> is <bdi>انْتِهَاءُ الْغَايَة</bdi> — the end point of an extent, the counterpart of مِن's ابتداء الغاية. With its مجرور it takes three وظائف: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ مَعَهُ</bdi>. In <bdi>﴿ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى اللَّيْلِ﴾</bdi>, إلى الليل is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi> — "until night". In <bdi>﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ﴾</bdi>, إلى أموالكم is <bdi>الْمَفْعُولُ مَعَهُ</bdi> — "together with your own wealth".`,
-          sample: `انتهاء الغاية — end point<br>وظائف إلى — به، فيه، معه<br>﴿أتموا الصيام إلى الليل﴾ — فيه (زمان)`,
+          lines: [
+            { html: `The core meaning of <bdi>إِلَى</bdi> is <bdi>انْتِهَاءُ الْغَايَة</bdi> — the end point of an extent, the counterpart of مِن's ابتداء الغاية.`, list: false },
+            { html: `With its مجرور it takes three وظائف: <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ مَعَهُ</bdi>.`, list: false },
+            { html: `In ﴿ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى اللَّيْلِ﴾, إلى الليل is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi> — "until night".`, list: false },
+            { html: `In ﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ﴾, إلى أموالكم is <bdi>الْمَفْعُولُ مَعَهُ</bdi> — "together with your own wealth".`, list: false },
+          ],
           exercise: {
             prompt: `انتهاء الغاية (the end point of an extent) is the core meaning of:`,
             kind: 'mcq',
@@ -560,8 +791,11 @@ export default {
         },
         {
           heading: 'عن: معناها ووظائفها، وعن الاسمية',
-          body: `The core meaning of <bdi>عَنْ</bdi> is <bdi>الْمُجَاوَزَة</bdi> — passing beyond or moving away from. With its مجرور it takes four وظائف: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ لَهُ</bdi> (4) <bdi>الْعِوَض</bdi>, as in the ḥadīth <bdi>«حُجَّ عَنْ أَبِيكَ»</bdi> — "on behalf of your father". When عن is preceded by مِن, it stops being a حرف جر and becomes an <bdi>اسم</bdi> meaning <bdi>جَانِب</bdi> (side), as in <bdi>جِئْتُ مِنْ عَنْ يَمِينِهِ</bdi> — "I came from his right side".`,
-          sample: `المجاوزة — passing beyond<br>وظائف عن — به، فيه، له، العوض<br>«حج عن أبيك» — العوض<br>من عن يمينه — عن اسم بمعنى جانب`,
+          lines: [
+            { html: `The core meaning of <bdi>عَنْ</bdi> is <bdi>الْمُجَاوَزَة</bdi> — passing beyond or moving away from.`, list: false },
+            { html: `With its مجرور it takes four وظائف: <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>، <bdi>الْعِوَض</bdi> — as in the ḥadīth «حُجَّ عَنْ أَبِيكَ» ("on behalf of your father").`, list: false },
+            { html: `When عن is preceded by مِن, it stops being a حرف جر and becomes an <bdi>اسم</bdi> meaning <bdi>جَانِب</bdi> (side), as in جِئْتُ مِنْ عَنْ يَمِينِهِ — "I came from his right side".`, list: false },
+          ],
           exercise: {
             prompt: `When is عن an اسم, and what does it then mean؟`,
             kind: 'mcq',
@@ -571,8 +805,12 @@ export default {
         },
         {
           heading: 'على: معناها ووظائفها',
-          body: `The core meaning of <bdi>عَلَى</bdi> is <bdi>الِاسْتِعْلَاء</bdi> — being above or upon. With its مجرور it takes five وظائف: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ لَهُ</bdi> (4) <bdi>الْمَفْعُولُ مَعَهُ</bdi> (5) <bdi>الْحَال</bdi>. In <bdi>﴿وَدَخَلَ الْمَدِينَةَ عَلَىٰ حِينِ غَفْلَةٍ مِّنْ أَهْلِهَا﴾</bdi>, على حين غفلة is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi>. In <bdi>﴿فَمَا آمَنَ لِمُوسَىٰ إِلَّا ذُرِّيَّةٌ مِّن قَوْمِهِ عَلَىٰ خَوْفٍ مِّن فِرْعَوْنَ﴾</bdi>, على خوف is <bdi>الْحَال</bdi> — they believed while being in a state of fear.`,
-          sample: `الاستعلاء — being above<br>وظائف على — به، فيه، له، معه، الحال<br>على حين غفلة — فيه (زمان)<br>على خوف — الحال`,
+          lines: [
+            { html: `The core meaning of <bdi>عَلَى</bdi> is <bdi>الِاسْتِعْلَاء</bdi> — being above or upon.`, list: false },
+            { html: `With its مجرور it takes five وظائف: <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>، <bdi>الْمَفْعُولُ مَعَهُ</bdi>، <bdi>الْحَال</bdi>.`, list: false },
+            { html: `In ﴿وَدَخَلَ الْمَدِينَةَ عَلَىٰ حِينِ غَفْلَةٍ مِّنْ أَهْلِهَا﴾, على حين غفلة is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi>.`, list: false },
+            { html: `In ﴿فَمَا آمَنَ لِمُوسَىٰ إِلَّا ذُرِّيَّةٌ مِّن قَوْمِهِ عَلَىٰ خَوْفٍ مِّن فِرْعَوْنَ﴾, على خوف is <bdi>الْحَال</bdi> — they believed while being in a state of fear.`, list: false },
+          ],
           exercise: {
             prompt: `الاستعلاء (being above/upon) is the core meaning of:`,
             kind: 'mcq',
@@ -582,8 +820,15 @@ export default {
         },
         {
           heading: 'إلى وعن وعلى: مقارنة الوظائف',
-          body: `إلى، عن، and على all share the ability to put their مجرور in the role of <bdi>الْمَفْعُولُ بِهِ</bdi> (<bdi>غَيْرُ صَرِيح</bdi>) and <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا وزمانا) — but only عن and على can also mark <bdi>الْمَفْعُولُ لَهُ</bdi>, and only إلى and على can mark <bdi>الْمَفْعُولُ مَعَهُ</bdi>. الحال is unique to على among these three; العوض is unique to عن.`,
-          sample: `المشترك — المفعول به والمفعول فيه<br>له — عن وعلى فقط<br>معه — إلى وعلى فقط<br>الحال — على وحدها<br>العوض — عن وحدها`,
+          lines: [
+            { html: `إلى، عن، and على all share the ability to put their مجرور in the role of <bdi>الْمَفْعُولُ بِهِ</bdi> (غَيْرُ صَرِيح) and <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا وزمانا).`, list: false },
+            { table: { headers: ['وظيفة', 'Which حروف mark it'], rows: [
+              ['الْمَفْعُولُ لَهُ', 'عن وعلى فقط'],
+              ['الْمَفْعُولُ مَعَهُ', 'إلى وعلى فقط'],
+              ['الْحَال', 'على وحدها'],
+              ['الْعِوَض', 'عن وحدها'],
+            ] } },
+          ],
           exercise: {
             prompt: `Which وظيفة can على mark that neither إلى nor عن can؟`,
             kind: 'mcq',
@@ -752,49 +997,200 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: وظائف إلى',
+          title: 'تركيب: ﴿حُبِّبَ إِلَيْكُمُ الْإِيمَانُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each إلى + مجرور.',
-          source: '﴿حبب إليكم الإيمان﴾ / ﴿إلى المسجد الأقصى﴾ / ﴿ثم أتموا الصيام إلى الليل﴾ / ﴿ولا تأكلوا أموالهم إلى أموالكم﴾',
-          words: ['إليكم', 'إلى المسجد', 'إلى الليل', 'إلى أموالكم'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)', 'المفعول معه'],
-          distractors: ['الحال'],
+          instruction: 'Identify the وظيفة of إِلَيْكُمُ.',
+          sentence: 'حُبِّبَ إِلَيْكُمُ الْإِيمَانُ',
+          translation: 'Faith has been made beloved to you.',
+          cells: ['حُبِّبَ', 'إِلَيْكُمُ', 'الْإِيمَانُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'الحال'],
         },
         {
-          title: 'تركيب: وظائف عن',
+          title: 'تركيب: ﴿أَسْرَىٰ بِعَبْدِهِ إِلَى الْمَسْجِدِ الْأَقْصَى﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each عن + مجرور.',
-          source: '﴿وينهون عن المنكر﴾ / ﴿هو يقبل التوبة عن عباده﴾ / ﴿عما قليل ليصبحن نادمين﴾ / ﴿وما نحن بتاركي آلهتنا عن قولك﴾',
-          words: ['عن المنكر', 'عن عباده', 'عن قليل', 'عن قولك'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)', 'المفعول له'],
-          distractors: ['العوض'],
+          instruction: 'Identify the وظيفة of إِلَى الْمَسْجِدِ الْأَقْصَى.',
+          sentence: 'أَسْرَىٰ بِعَبْدِهِ إِلَى الْمَسْجِدِ الْأَقْصَى',
+          translation: 'He took His servant to al-Masjid al-Aqsa.',
+          cells: ['أَسْرَىٰ', 'بِعَبْدِهِ', 'إِلَى', 'الْمَسْجِدِ', 'الْأَقْصَى'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
         },
         {
-          title: 'تركيب: وظائف على (١)',
+          title: 'تركيب: ﴿ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى اللَّيْلِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each على + مجرور.',
-          source: '﴿أنعمت عليهم﴾ / ﴿وعليها وعلى الفلك تحملون﴾ / ﴿ودخل المدينة على حين غفلة من أهلها﴾',
-          words: ['عليهم', 'على الفلك', 'على حين غفلة'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)'],
-          distractors: ['الحال'],
+          instruction: 'Identify the وظيفة of إِلَى اللَّيْلِ.',
+          sentence: 'ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى اللَّيْلِ',
+          translation: 'Then complete the fast until night.',
+          cells: ['أَتِمُّوا', 'الصِّيَامَ', 'إِلَى', 'اللَّيْلِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول معه'],
         },
         {
-          title: 'تركيب: وظائف على (٢)',
+          title: 'تركيب: ﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each على + مجرور.',
-          source: '﴿سخرها لكم لتكبروا الله على ما هداكم﴾ / ﴿ويطعمون الطعام على حبه مسكينا﴾ / ﴿فما آمن لموسى إلا ذرية من قومه على خوف من فرعون﴾',
-          words: ['على ما هداكم', 'على حبه', 'على خوف'],
-          labels: ['المفعول له', 'المفعول معه', 'الحال'],
-          distractors: ['العوض'],
+          instruction: 'Identify the وظيفة of إِلَىٰ أَمْوَالِكُمْ.',
+          sentence: 'وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ',
+          translation: 'And do not consume their wealth together with your own wealth.',
+          cells: ['تَأْكُلُوا', 'أَمْوَالَهُمْ', 'إِلَىٰ', 'أَمْوَالِكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'المفعول معه' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
         },
         {
-          title: 'تركيب: إلى أم عن أم على؟',
+          title: 'تركيب: ﴿وَيَنْهَوْنَ عَنِ الْمُنكَرِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which حرف جر appears in each phrase: إلى، عن، or على?',
-          source: 'إلى المسجد الأقصى / عن المنكر / على حين غفلة / حج عن أبيك',
-          words: ['إلى المسجد', 'عن المنكر', 'على حين غفلة', 'عن أبيك'],
-          labels: ['إلى', 'عن', 'على', 'عن'],
-          distractors: ['من'],
+          instruction: 'Identify the وظيفة of عَنِ الْمُنكَرِ.',
+          sentence: 'وَيَنْهَوْنَ عَنِ الْمُنكَرِ',
+          translation: 'And they forbid wrongdoing.',
+          cells: ['يَنْهَوْنَ', 'عَنِ', 'الْمُنكَرِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول له', 'العوض'],
+        },
+        {
+          title: 'تركيب: هُوَ يَقْبَلُ التَّوْبَةَ عَنْ عِبَادِهِ',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَنْ عِبَادِهِ.',
+          sentence: 'هُوَ يَقْبَلُ التَّوْبَةَ عَنْ عِبَادِهِ',
+          translation: 'He accepts repentance from His servants.',
+          cells: ['يَقْبَلُ', 'التَّوْبَةَ', 'عَنْ', 'عِبَادِهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول له', 'العوض'],
+        },
+        {
+          title: 'تركيب: ﴿عَمَّا قَلِيلٍ لَيُصْبِحُنَّ نَادِمِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَمَّا قَلِيلٍ.',
+          sentence: 'عَمَّا قَلِيلٍ لَيُصْبِحُنَّ نَادِمِينَ',
+          translation: 'In a little while they will surely become regretful.',
+          cells: ['عَمَّا', 'قَلِيلٍ', 'لَيُصْبِحُنَّ', 'نَادِمِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول له'],
+        },
+        {
+          title: 'تركيب: ﴿وَمَا نَحْنُ بِتَارِكِي آلِهَتِنَا عَنْ قَوْلِكَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَنْ قَوْلِكَ.',
+          sentence: 'وَمَا نَحْنُ بِتَارِكِي آلِهَتِنَا عَنْ قَوْلِكَ',
+          translation: 'And we are not abandoning our gods because of your word.',
+          cells: ['نَحْنُ', 'بِتَارِكِي', 'آلِهَتِنَا', 'عَنْ', 'قَوْلِكَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'المفعول له' },
+            ] },
+          ],
+          distractors: ['المفعول به', 'العوض'],
+        },
+        {
+          title: 'تركيب: ﴿أَنْعَمْتَ عَلَيْهِمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَيْهِمْ.',
+          sentence: 'أَنْعَمْتَ عَلَيْهِمْ',
+          translation: 'You have bestowed favor upon them.',
+          cells: ['أَنْعَمْتَ', 'عَلَيْهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'الحال'],
+        },
+        {
+          title: 'تركيب: ﴿وَعَلَيْهَا وَعَلَى الْفُلْكِ تُحْمَلُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَى الْفُلْكِ.',
+          sentence: 'وَعَلَيْهَا وَعَلَى الْفُلْكِ تُحْمَلُونَ',
+          translation: 'And upon them, and upon ships, you are carried.',
+          cells: ['عَلَيْهَا', 'عَلَى', 'الْفُلْكِ', 'تُحْمَلُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿وَدَخَلَ الْمَدِينَةَ عَلَىٰ حِينِ غَفْلَةٍ مِّنْ أَهْلِهَا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَىٰ حِينِ غَفْلَةٍ.',
+          sentence: 'وَدَخَلَ الْمَدِينَةَ عَلَىٰ حِينِ غَفْلَةٍ مِّنْ أَهْلِهَا',
+          translation: 'And he entered the city at a time of inattention by its people.',
+          cells: ['دَخَلَ', 'الْمَدِينَةَ', 'عَلَىٰ', 'حِينِ', 'غَفْلَةٍ', 'مِنْ', 'أَهْلِهَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'الحال'],
+        },
+        {
+          title: 'تركيب: سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَىٰ مَا هَدَاكُمْ.',
+          sentence: 'سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ',
+          translation: 'He subjected them to you so that you may glorify Allah for guiding you.',
+          cells: ['سَخَّرَهَا', 'لَكُمْ', 'لِتُكَبِّرُوا', 'اللَّهَ', 'عَلَىٰ', 'مَا', 'هَدَاكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 6, role: 'المفعول له' },
+            ] },
+          ],
+          distractors: ['المفعول معه', 'الحال'],
+        },
+        {
+          title: 'تركيب: ﴿وَيُطْعِمُونَ الطَّعَامَ عَلَىٰ حُبِّهِ مِسْكِينًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَىٰ حُبِّهِ.',
+          sentence: 'وَيُطْعِمُونَ الطَّعَامَ عَلَىٰ حُبِّهِ مِسْكِينًا',
+          translation: 'And they feed food, despite love for it, to the needy.',
+          cells: ['يُطْعِمُونَ', 'الطَّعَامَ', 'عَلَىٰ', 'حُبِّهِ', 'مِسْكِينًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'المفعول معه' },
+            ] },
+          ],
+          distractors: ['المفعول له', 'الحال'],
+        },
+        {
+          title: 'تركيب: ﴿فَمَا آمَنَ لِمُوسَىٰ إِلَّا ذُرِّيَّةٌ مِّن قَوْمِهِ عَلَىٰ خَوْفٍ مِّن فِرْعَوْنَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of عَلَىٰ خَوْفٍ.',
+          sentence: 'فَمَا آمَنَ لِمُوسَىٰ إِلَّا ذُرِّيَّةٌ مِّن قَوْمِهِ عَلَىٰ خَوْفٍ مِّن فِرْعَوْنَ',
+          translation: 'None believed in Moses, except a few of his people, in fear of Pharaoh.',
+          cells: ['آمَنَ', 'لِمُوسَىٰ', 'إِلَّا', 'ذُرِّيَّةٌ', 'مِنْ', 'قَوْمِهِ', 'عَلَىٰ', 'خَوْفٍ', 'مِنْ', 'فِرْعَوْنَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 6, end: 7, role: 'الحال' },
+            ] },
+          ],
+          distractors: ['المفعول له', 'المفعول معه'],
         },
       ],
     },
@@ -807,8 +1203,15 @@ export default {
       concepts: [
         {
           heading: 'اللام: معانيها الثلاثة',
-          body: `<bdi>اللَّام</bdi> carries three core meanings: (1) <bdi>التَّخْصِيص</bdi> — also called <bdi>الِاسْتِحْقَاق</bdi> — as in <bdi>﴿الْحَمْدُ لِلَّهِ﴾</bdi> (2) <bdi>الْمِلْك</bdi>, as in <bdi>﴿لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ﴾</bdi> (3) <bdi>شِبْهُ الْمِلْك</bdi> — also called <bdi>النِّسْبَة</bdi> — as in <bdi>﴿لَآيَاتٍ لِّلْمُؤْمِنِينَ﴾</bdi>. التخصيص and الملك differ in what they connect: التخصيص holds between a <b>meaning</b> and an <b>entity</b> (الحمد لله), while الملك holds between an <b>entity</b> and an <b>entity</b> (له ما في السماوات).`,
-          sample: `التخصيص/الاستحقاق — ﴿الحمد لله﴾<br>الملك — ﴿له ما في السماوات وما في الأرض﴾<br>شبه الملك/النسبة — ﴿لآيات للمؤمنين﴾`,
+          lines: [
+            { html: `<bdi>اللَّام</bdi> carries three core meanings:`, list: false },
+            { table: { headers: ['Meaning', 'Example'], rows: [
+              ['التَّخْصِيص (also الِاسْتِحْقَاق)', '﴿الْحَمْدُ لِلَّهِ﴾'],
+              ['الْمِلْك', '﴿لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ﴾'],
+              ['شِبْهُ الْمِلْك (also النِّسْبَة)', '﴿لَآيَاتٍ لِّلْمُؤْمِنِينَ﴾'],
+            ] } },
+            { html: `التخصيص and الملك differ in what they connect: التخصيص holds between a <b>meaning</b> and an <b>entity</b> (الحمد لله), while الملك holds between an <b>entity</b> and an <b>entity</b> (له ما في السماوات).`, list: false },
+          ],
           exercise: {
             prompt: `التخصيص and الملك, two of the three core meanings of اللام, differ in that:`,
             kind: 'mcq',
@@ -818,8 +1221,14 @@ export default {
         },
         {
           heading: 'اللام: وظائفها، ولام التعليل والعاقبة',
-          body: `With its مجرور, اللام takes three وظائف: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ لَهُ</bdi>. When اللام + مجرور is a مفعول له, the outcome is usually intended by the agent (<bdi>عَنْ قَصْدِ الْفَاعِل</bdi>), as in <bdi>﴿لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا﴾</bdi> — this is called <bdi>لَامُ التَّعْلِيل</bdi> (also <bdi>وَالْحِكْمَة</bdi>). When the outcome is instead a result the agent never intended (<bdi>نَتِيجَةٌ عَنْ غَيْرِ قَصْد</bdi>), it is called <bdi>لَامُ الْعَاقِبَة</bdi> — also <bdi>لَامُ الصَّيْرُورَة</bdi> and <bdi>لَامُ الْمَآل</bdi> — as in <bdi>﴿فَالْتَقَطَهُ آلُ فِرْعَوْنَ لِيَكُونَ لَهُمْ عَدُوًّا وَحَزَنًا﴾</bdi>.`,
-          sample: `وظائف اللام — به، فيه، له<br>لام التعليل — ﴿ليكون للعالمين نذيرا﴾ (مقصود)<br>لام العاقبة — ﴿فالتقطه آل فرعون ليكون لهم عدوا وحزنا﴾ (غير مقصود)`,
+          lines: [
+            { html: `With its مجرور, اللام takes three وظائف: <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>.`, list: false },
+            { html: `When اللام + مجرور is a مفعول له, it splits by whether the outcome was intended:`, list: false },
+            { table: { headers: ['Name', 'Outcome', 'Example'], rows: [
+              ['لَامُ التَّعْلِيل (also وَالْحِكْمَة)', 'intended by the agent (عَنْ قَصْدِ الْفَاعِل)', '﴿لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا﴾'],
+              ['لَامُ الْعَاقِبَة (also لَامُ الصَّيْرُورَة, لَامُ الْمَآل)', 'never intended by the agent (نَتِيجَةٌ عَنْ غَيْرِ قَصْد)', '﴿فَالْتَقَطَهُ آلُ فِرْعَوْنَ لِيَكُونَ لَهُمْ عَدُوًّا وَحَزَنًا﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What is لام العاقبة؟`,
             kind: 'mcq',
@@ -829,8 +1238,12 @@ export default {
         },
         {
           heading: 'في: معناها ووظائفها',
-          body: `The core meaning of <bdi>فِي</bdi> is <bdi>الظَّرْفِيَّة</bdi> — containment, one thing occurring within another. With its مجرور it takes four وظائف: (1) <bdi>الْمَفْعُولُ بِهِ</bdi> (2) <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا أو زمانا (3) <bdi>الْمَفْعُولُ لَهُ</bdi> (4) <bdi>الْمَفْعُولُ مَعَهُ</bdi>. In <bdi>﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ﴾</bdi>, فيه is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi>. In <bdi>﴿فَادْخُلِي فِي عِبَادِي﴾</bdi>, في عبادي is <bdi>الْمَفْعُولُ مَعَهُ</bdi>.`,
-          sample: `الظرفية — containment<br>وظائف في — به، فيه، له، معه<br>﴿أنزل فيه القرآن﴾ — فيه (زمان)<br>﴿فادخلي في عبادي﴾ — معه`,
+          lines: [
+            { html: `The core meaning of <bdi>فِي</bdi> is <bdi>الظَّرْفِيَّة</bdi> — containment, one thing occurring within another.`, list: false },
+            { html: `With its مجرور it takes four وظائف: <bdi>الْمَفْعُولُ بِهِ</bdi>، <bdi>الْمَفْعُولُ فِيهِ</bdi> (مكانا أو زمانا)، <bdi>الْمَفْعُولُ لَهُ</bdi>، <bdi>الْمَفْعُولُ مَعَهُ</bdi>.`, list: false },
+            { html: `In ﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ﴾, فيه is <bdi>الْمَفْعُولُ فِيهِ</bdi> — <bdi>لِلزَّمَان</bdi>.`, list: false },
+            { html: `In ﴿فَادْخُلِي فِي عِبَادِي﴾, في عبادي is <bdi>الْمَفْعُولُ مَعَهُ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `الظرفية (containment) is the core meaning of:`,
             kind: 'mcq',
@@ -840,8 +1253,11 @@ export default {
         },
         {
           heading: 'الكاف: معناها وقيدها',
-          body: `The core meaning of <bdi>الْكَاف</bdi> is <bdi>التَّشْبِيه</bdi> — likening or comparison. With its مجرور it can mark <bdi>الْمَفْعُولُ الْمُطْلَق</bdi>, as in <bdi>﴿رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا﴾</bdi>, or <bdi>الْمَفْعُولُ لَهُ</bdi>, as in <bdi>﴿وَاذْكُرُوهُ كَمَا هَدَاكُمْ﴾</bdi>. A restriction unique to الكاف: its مجرور can only be an <bdi>اسم ظاهر</bdi> — an overt noun — never a <bdi>ضمير</bdi>.`,
-          sample: `التشبيه — likening<br>﴿كما ربياني صغيرا﴾ — المفعول المطلق<br>﴿كما هداكم﴾ — المفعول له<br>مجرور الكاف — اسم ظاهر فقط، لا ضمير`,
+          lines: [
+            { html: `The core meaning of <bdi>الْكَاف</bdi> is <bdi>التَّشْبِيه</bdi> — likening or comparison.`, list: false },
+            { html: `With its مجرور it can mark <bdi>الْمَفْعُولُ الْمُطْلَق</bdi>, as in ﴿رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا﴾, or <bdi>الْمَفْعُولُ لَهُ</bdi>, as in ﴿وَاذْكُرُوهُ كَمَا هَدَاكُمْ﴾.`, list: false },
+            { html: `A restriction unique to الكاف: its مجرور can only be an <bdi>اسم ظاهر</bdi> — an overt noun — never a <bdi>ضمير</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What restriction applies to the مجرور of الكاف؟`,
             kind: 'mcq',
@@ -851,8 +1267,12 @@ export default {
         },
         {
           heading: 'حتى: معناها وقيدها، والفرق بينها وبين إلى',
-          body: `Like إلى, the core meaning of <bdi>حَتَّى</bdi> (as a جر حرف) is <bdi>انْتِهَاءُ الْغَايَة</bdi>. With its مجرور it can mark <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا (سِرْنَا حَتَّى مَكَّة) or زمانا (<bdi>﴿سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ﴾</bdi>) — or <bdi>الْمَفْعُولُ لَهُ</bdi>, as in <bdi>﴿وَقَاتِلُوهُمْ حَتَّىٰ لَا تَكُونَ فِتْنَةٌ﴾</bdi>. Its مجرور, like الكاف's, can only be an <bdi>اسم ظاهر</bdi>. حتى differs from إلى in what may follow it: what comes after حتى must be either the <b>final part</b> of what precedes it (<bdi>قُمْتُ اللَّيْلَ حَتَّى آخِرِهِ</bdi> — not <bdi>حَتَّى نِصْفِهِ</bdi>) or <b>connected to its end</b> (<bdi>قُمْتُ اللَّيْلَ حَتَّى الصَّبَاحِ</bdi>); إلى carries no such restriction.`,
-          sample: `انتهاء الغاية — مثل إلى<br>سرنا حتى مكة — فيه (مكان)<br>﴿سلام هي حتى مطلع الفجر﴾ — فيه (زمان)<br>﴿وقاتلوهم حتى لا تكون فتنة﴾ — له<br>حتى تشترط اتصال ما بعدها بآخر ما قبلها؛ إلى لا`,
+          lines: [
+            { html: `Like إلى, the core meaning of <bdi>حَتَّى</bdi> (as a جر حرف) is <bdi>انْتِهَاءُ الْغَايَة</bdi>.`, list: false },
+            { html: `With its مجرور it can mark <bdi>الْمَفْعُولُ فِيهِ</bdi> — مكانا (سِرْنَا حَتَّى مَكَّة) or زمانا (﴿سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ﴾) — or <bdi>الْمَفْعُولُ لَهُ</bdi>, as in ﴿وَقَاتِلُوهُمْ حَتَّىٰ لَا تَكُونَ فِتْنَةٌ﴾.`, list: false },
+            { html: `Its مجرور, like الكاف's, can only be an <bdi>اسم ظاهر</bdi>.`, list: false },
+            { html: `حتى differs from إلى in what may follow it: what comes after حتى must be either the <b>final part</b> of what precedes it (قُمْتُ اللَّيْلَ حَتَّى آخِرِهِ — not حَتَّى نِصْفِهِ) or <b>connected to its end</b> (قُمْتُ اللَّيْلَ حَتَّى الصَّبَاحِ); إلى carries no such restriction.`, list: false },
+          ],
           exercise: {
             prompt: `What is the difference between حتى and إلى regarding what follows them؟`,
             kind: 'mcq',
@@ -1021,49 +1441,172 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: معاني اللام الثلاثة',
+          title: 'تركيب: ﴿الْحَمْدُ لِلَّهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which meaning of اللام each example illustrates.',
-          source: '﴿الحمد لله﴾ / ﴿له ما في السماوات وما في الأرض﴾ / ﴿لآيات للمؤمنين﴾',
-          words: ['لله', 'له', 'للمؤمنين'],
-          labels: ['التخصيص', 'الملك', 'شبه الملك'],
-          distractors: ['التشبيه'],
+          instruction: 'Identify which meaning of اللام لِلَّهِ illustrates.',
+          sentence: 'الْحَمْدُ لِلَّهِ',
+          translation: 'Praise be to Allah.',
+          cells: ['الْحَمْدُ', 'لِلَّهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'التخصيص' },
+            ] },
+          ],
+          distractors: ['الملك', 'شبه الملك'],
         },
         {
-          title: 'تركيب: وظائف اللام',
+          title: 'تركيب: ﴿لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each لام + مجرور.',
-          source: '﴿ووهبنا له إسحاق ويعقوب﴾ / ﴿دعانا لجنبه أو قاعدا أو قائما﴾ / ﴿ونضع الموازين القسط ليوم القيامة﴾',
-          words: ['له', 'لجنبه', 'ليوم القيامة'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)'],
-          distractors: ['المفعول له'],
+          instruction: 'Identify which meaning of اللام لَهُ illustrates.',
+          sentence: 'لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ',
+          translation: 'To Him belongs whatever is in the heavens and whatever is on the earth.',
+          cells: ['لَهُ', 'مَا', 'فِي', 'السَّمَاوَاتِ', 'وَمَا', 'فِي', 'الْأَرْضِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الملك' },
+            ] },
+          ],
+          distractors: ['التخصيص', 'شبه الملك'],
         },
         {
-          title: 'تركيب: لام التعليل أم لام العاقبة؟',
+          title: 'تركيب: ﴿لَآيَاتٍ لِّلْمُؤْمِنِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each لام: لام التعليل (intended) or لام العاقبة (unintended)?',
-          source: '﴿ليكون للعالمين نذيرا﴾ / ﴿فالتقطه آل فرعون ليكون لهم عدوا وحزنا﴾',
-          words: ['ليكون للعالمين نذيرا', 'ليكون لهم عدوا'],
-          labels: ['لام التعليل', 'لام العاقبة'],
-          distractors: ['لام الجحود'],
+          instruction: 'Identify which meaning of اللام لِلْمُؤْمِنِينَ illustrates.',
+          sentence: 'لَآيَاتٍ لِّلْمُؤْمِنِينَ',
+          translation: 'Surely [these are] signs for the believers.',
+          cells: ['لَآيَاتٍ', 'لِلْمُؤْمِنِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'شبه الملك' },
+            ] },
+          ],
+          distractors: ['التخصيص', 'الملك'],
         },
         {
-          title: 'تركيب: وظائف في',
+          title: 'تركيب: ﴿وَوَهَبْنَا لَهُ إِسْحَاقَ وَيَعْقُوبَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the وظيفة of each في + مجرور.',
-          source: '﴿ويسارعون في الخيرات﴾ / ﴿ربنا آتنا في الدنيا حسنة﴾ / ﴿شهر رمضان الذي أنزل فيه القرآن﴾ / ﴿فادخلي في عبادي﴾',
-          words: ['في الخيرات', 'في الدنيا', 'فيه', 'في عبادي'],
-          labels: ['المفعول به', 'المفعول فيه (مكان)', 'المفعول فيه (زمان)', 'المفعول معه'],
-          distractors: ['الحال'],
+          instruction: 'Identify the وظيفة of لَهُ.',
+          sentence: 'وَوَهَبْنَا لَهُ إِسْحَاقَ وَيَعْقُوبَ',
+          translation: 'And We granted him Isaac and Jacob.',
+          cells: ['وَهَبْنَا', 'لَهُ', 'إِسْحَاقَ', 'وَيَعْقُوبَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول له'],
         },
         {
-          title: 'تركيب: اللام أم في أم الكاف أم حتى؟',
+          title: 'تركيب: ﴿دَعَانَا لِجَنبِهِ أَوْ قَاعِدًا أَوْ قَائِمًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which حرف جر appears in each phrase.',
-          source: 'له ما في السماوات / في الخيرات / كما هداكم / حتى مطلع الفجر',
-          words: ['له', 'في الخيرات', 'كما', 'حتى مطلع الفجر'],
-          labels: ['اللام', 'في', 'الكاف', 'حتى'],
-          distractors: ['على'],
+          instruction: 'Identify the وظيفة of لِجَنبِهِ.',
+          sentence: 'دَعَانَا لِجَنبِهِ أَوْ قَاعِدًا أَوْ قَائِمًا',
+          translation: 'He calls upon Us lying on his side, or sitting, or standing.',
+          cells: ['دَعَانَا', 'لِجَنبِهِ', 'أَوْ', 'قَاعِدًا', 'أَوْ', 'قَائِمًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿وَنَضَعُ الْمَوَازِينَ الْقِسْطَ لِيَوْمِ الْقِيَامَةِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of لِيَوْمِ الْقِيَامَةِ.',
+          sentence: 'وَنَضَعُ الْمَوَازِينَ الْقِسْطَ لِيَوْمِ الْقِيَامَةِ',
+          translation: 'And We place the scales of justice for the Day of Resurrection.',
+          cells: ['نَضَعُ', 'الْمَوَازِينَ', 'الْقِسْطَ', 'لِيَوْمِ', 'الْقِيَامَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول له'],
+        },
+        {
+          title: 'تركيب: ﴿لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify this اللام: لام التعليل (intended) or لام العاقبة (unintended)؟',
+          sentence: 'لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا',
+          translation: 'That he may be a warner to the worlds.',
+          cells: ['لِيَكُونَ', 'لِلْعَالَمِينَ', 'نَذِيرًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'لام التعليل' },
+            ] },
+          ],
+          distractors: ['لام العاقبة', 'لام الجحود'],
+        },
+        {
+          title: 'تركيب: ﴿فَالْتَقَطَهُ آلُ فِرْعَوْنَ لِيَكُونَ لَهُمْ عَدُوًّا وَحَزَنًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify this اللام: لام التعليل (intended) or لام العاقبة (unintended)؟',
+          sentence: 'فَالْتَقَطَهُ آلُ فِرْعَوْنَ لِيَكُونَ لَهُمْ عَدُوًّا وَحَزَنًا',
+          translation: "So Pharaoh's family picked him up so that he would become an enemy and a grief for them.",
+          cells: ['الْتَقَطَهُ', 'آلُ', 'فِرْعَوْنَ', 'لِيَكُونَ', 'لَهُمْ', 'عَدُوًّا', 'وَحَزَنًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 6, role: 'لام العاقبة' },
+            ] },
+          ],
+          distractors: ['لام التعليل', 'لام الجحود'],
+        },
+        {
+          title: 'تركيب: ﴿وَيُسَارِعُونَ فِي الْخَيْرَاتِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of فِي الْخَيْرَاتِ.',
+          sentence: 'وَيُسَارِعُونَ فِي الْخَيْرَاتِ',
+          translation: 'And they hasten to good deeds.',
+          cells: ['يُسَارِعُونَ', 'فِي', 'الْخَيْرَاتِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'المفعول به' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'الحال'],
+        },
+        {
+          title: 'تركيب: ﴿رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of فِي الدُّنْيَا.',
+          sentence: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً',
+          translation: 'Our Lord, give us in this world [that which is] good.',
+          cells: ['آتِنَا', 'فِي', 'الدُّنْيَا', 'حَسَنَةً'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'المفعول فيه (مكان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (زمان)', 'المفعول به'],
+        },
+        {
+          title: 'تركيب: ﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of فِيهِ.',
+          sentence: 'شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ',
+          translation: 'The month of Ramadan in which the Quran was sent down.',
+          cells: ['شَهْرُ', 'رَمَضَانَ', 'الَّذِي', 'أُنزِلَ', 'فِيهِ', 'الْقُرْآنُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 4, role: 'المفعول فيه (زمان)' },
+            ] },
+          ],
+          distractors: ['المفعول فيه (مكان)', 'المفعول معه'],
+        },
+        {
+          title: 'تركيب: ﴿فَادْخُلِي فِي عِبَادِي﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the وظيفة of فِي عِبَادِي.',
+          sentence: 'فَادْخُلِي فِي عِبَادِي',
+          translation: 'So enter among My servants.',
+          cells: ['ادْخُلِي', 'فِي', 'عِبَادِي'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'المفعول معه' },
+            ] },
+          ],
+          distractors: ['المفعول به', 'المفعول فيه (مكان)'],
         },
       ],
     },
@@ -1076,8 +1619,14 @@ export default {
       concepts: [
         {
           heading: 'أحرف القسم الثلاثة، وإعرابها',
-          body: `The three <bdi>أَحْرُفُ الْقَسَم</bdi> are <bdi>الْوَاو</bdi>, <bdi>التَّاء</bdi>, and <bdi>الْبَاء</bdi> — the original one (<bdi>أَصْلُ أَحْرُفِ الْقَسَم</bdi>) being <bdi>بَاءُ الْقَسَم</bdi>. <bdi>وَاوُ الْقَسَم</bdi>: <bdi>﴿وَالْعَصْرِ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ﴾</bdi>. <bdi>تَاءُ الْقَسَم</bdi>: <bdi>﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾</bdi>. Whichever حرف is used, the حرف plus its مجرور stands as the <bdi>الْمَفْعُولُ بِهِ</bdi> of an omitted <bdi>فِعْل</bdi> whose <bdi>تَقْدِير</bdi> is <bdi>أُقْسِمُ</bdi>.`,
-          sample: `أحرف القسم — الواو، التاء، الباء (الأصل)<br>﴿والعصر﴾ — واو القسم<br>﴿تالله﴾ — تاء القسم<br>إعرابها — مفعول به لفعل محذوف تقديره أقسم`,
+          lines: [
+            { html: `The three <bdi>أَحْرُفُ الْقَسَم</bdi> are <bdi>الْوَاو</bdi>, <bdi>التَّاء</bdi>, and <bdi>الْبَاء</bdi> — the original one (<bdi>أَصْلُ أَحْرُفِ الْقَسَم</bdi>) being <bdi>بَاءُ الْقَسَم</bdi>.`, list: false },
+            { table: { headers: ['حرف', 'Example'], rows: [
+              ['وَاوُ الْقَسَم', '﴿وَالْعَصْرِ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ﴾'],
+              ['تَاءُ الْقَسَم', '﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾'],
+            ] } },
+            { html: `Whichever حرف is used, the حرف plus its مجرور stands as the <bdi>الْمَفْعُولُ بِهِ</bdi> of an omitted <bdi>فِعْل</bdi> whose <bdi>تَقْدِير</bdi> is <bdi>أُقْسِمُ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Which حرف قسم is the "original" (أصل) of the أحرف القسم؟`,
             kind: 'mcq',
@@ -1087,8 +1636,13 @@ export default {
         },
         {
           heading: 'قيود أحرف القسم الثلاثة',
-          body: `Each حرف قسم carries its own restrictions. <bdi>تَاءُ الْقَسَم</bdi> is restricted to <bdi>لَفْظُ الْجَلَالَة</bdi> — <bdi>تَاللَّهِ</bdi> is valid, but not <bdi>تَالْعَصْرِ</bdi> or <bdi>تَالرَّحْمَٰنِ</bdi>. The مجرور of <bdi>وَاوُ الْقَسَم</bdi> and <bdi>تَاءُ الْقَسَم</bdi> can only be an <bdi>اسم ظاهر</bdi>, never a <bdi>ضَمِير</bdi>. With <bdi>بَاءُ الْقَسَم</bdi> the <bdi>فِعْلُ الْقَسَم</bdi> (أُقْسِمُ) may be either mentioned — <bdi>﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾</bdi> — or omitted — <bdi>﴿فَبِعِزَّتِكَ لَأُغْوِيَنَّهُمْ أَجْمَعِينَ﴾</bdi>; with الواو and التاء it is never mentioned. Unlike الواو and التاء, الباء can also attach to a <bdi>ضَمِير</bdi>, not only an اسم ظاهر — as in <bdi>بِكَ لَأَفْعَلَنَّ</bdi>.`,
-          sample: `تاء القسم — لفظ الجلالة فقط<br>مجرور الواو والتاء — اسم ظاهر فقط<br>فعل القسم — يجوز ذكره مع الباء، ويمتنع مع الواو والتاء<br>الباء — تتصل بالظاهر والمضمر`,
+          lines: [
+            { html: `Each حرف قسم carries its own restrictions.`, list: false },
+            { html: `<bdi>تَاءُ الْقَسَم</bdi> is restricted to <bdi>لَفْظُ الْجَلَالَة</bdi> — <bdi>تَاللَّهِ</bdi> is valid, but not <bdi>تَالْعَصْرِ</bdi> or <bdi>تَالرَّحْمَٰنِ</bdi>.`, list: true, bullet: true },
+            { html: `The مجرور of <bdi>وَاوُ الْقَسَم</bdi> and <bdi>تَاءُ الْقَسَم</bdi> can only be an <bdi>اسم ظاهر</bdi>, never a <bdi>ضَمِير</bdi>.`, list: true, bullet: true },
+            { html: `With <bdi>بَاءُ الْقَسَم</bdi> the <bdi>فِعْلُ الْقَسَم</bdi> (أُقْسِمُ) may be either mentioned (﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾) or omitted (﴿فَبِعِزَّتِكَ لَأُغْوِيَنَّهُمْ أَجْمَعِينَ﴾); with الواو and التاء it is never mentioned.`, list: true, bullet: true },
+            { html: `Unlike الواو and التاء, الباء can also attach to a <bdi>ضَمِير</bdi>, not only an اسم ظاهر — as in بِكَ لَأَفْعَلَنَّ.`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Can the فعل القسم be mentioned with واو القسم or تاء القسم؟`,
             kind: 'mcq',
@@ -1098,8 +1652,11 @@ export default {
         },
         {
           heading: 'مذ ومنذ: وظيفتهما وشرط الفعل قبلهما',
-          body: `<bdi>مُذْ</bdi> and <bdi>مُنْذُ</bdi> with their مجرور mark <bdi>الْمَفْعُولُ فِيهِ</bdi>, as in <bdi>مَا تَرَكْتُ صَلَاةً مُذْ يَوْمِ الْبُلُوغِ</bdi> and <bdi>تَجِبُ الصَّلَاةُ مُنْذُ يَوْمِ الْبُلُوغِ</bdi>. The فعل before them must be <bdi>فِعْلًا مَاضِيًا</bdi> that is either <b>negated</b> (<bdi>مَا رَأَيْتُهُ مُنْذُ يَوْمِ الْجُمُعَةِ</bdi>) or <b>affirmative and extended in duration</b> (<bdi>نِمْتُ مُنْذُ بَعْدِ الْعِشَاءِ</bdi>) — not a momentary affirmative like <bdi>سَقَطْتُ مُنْذُ طُلُوعِ الشَّمْسِ</bdi>. Their مجرور, in turn, can only be an <bdi>اسم ظاهر</bdi> denoting <b>past or present time</b>.`,
-          sample: `مذ/منذ — المفعول فيه<br>الفعل قبلهما — ماضٍ، منفي أو مثبت ممتد (لا مثبت لحظي)<br>مجرورهما — اسم ظاهر يدل على ماضٍ أو حاضر`,
+          lines: [
+            { html: `<bdi>مُذْ</bdi> and <bdi>مُنْذُ</bdi> with their مجرور mark <bdi>الْمَفْعُولُ فِيهِ</bdi>, as in مَا تَرَكْتُ صَلَاةً مُذْ يَوْمِ الْبُلُوغِ and تَجِبُ الصَّلَاةُ مُنْذُ يَوْمِ الْبُلُوغِ.`, list: false },
+            { html: `The فعل before them must be <bdi>فِعْلًا مَاضِيًا</bdi> that is either <b>negated</b> (مَا رَأَيْتُهُ مُنْذُ يَوْمِ الْجُمُعَةِ) or <b>affirmative and extended in duration</b> (نِمْتُ مُنْذُ بَعْدِ الْعِشَاءِ) — not a momentary affirmative like سَقَطْتُ مُنْذُ طُلُوعِ الشَّمْسِ.`, list: false },
+            { html: `Their مجرور, in turn, can only be an <bdi>اسم ظاهر</bdi> denoting <b>past or present time</b>.`, list: false },
+          ],
           exercise: {
             prompt: `What condition applies to the فعل preceding مذ and منذ؟`,
             kind: 'mcq',
@@ -1109,8 +1666,15 @@ export default {
         },
         {
           heading: 'مذ ومنذ: التعريف والإضافة إلى جملة',
-          body: `Definiteness of the مجرور maps onto an English distinction: definite (<bdi>مَعْرِفَة</bdi>) reads as "since" — <bdi>مُنْذُ الْجُمُعَةِ</bdi> = since Friday — while indefinite (<bdi>نَكِرَة</bdi>) reads as "for" — <bdi>مُنْذُ يَوْمَيْنِ</bdi> = for two days. The same split governs meaning: مذ/منذ carry the sense of <bdi>فِي</bdi> when the مجرور is a definite اسم denoting the <b>present</b> (<bdi>مَا رَأَيْتُهُ مُنْذُ الْيَوْمِ</bdi>), and the sense of <bdi>مِنْ وَإِلَى</bdi> when it denotes the <b>past</b>. Their إعراب follows the same logic: <bdi>مَجْرُور</bdi> obligatorily (<bdi>وُجُوبًا</bdi>) with a present-time اسم, and — for منذ — preferably (<bdi>تَرْجِيحًا</bdi>) with a past-time اسم, though for مذ a past-time اسم prefers <bdi>مَرْفُوع</bdi> instead (<bdi>مُذْ يَوْمَانِ</bdi>). When a full <bdi>جُمْلَة</bdi> follows مذ/منذ, they are treated as <b>أسماء in <bdi>إِضَافَة</bdi></b> to it — because a جر حرف cannot enter upon a جملة, only an اسم مضاف can.`,
-          sample: `معرفة → since (منذ الجمعة)؛ نكرة → for (منذ يومين)<br>معنى في — مع حاضر معرفة؛ معنى من وإلى — مع ماضٍ<br>إعراب بعد منذ — وجوبا مجرور مع حاضر، ترجيحا مع ماضٍ<br>إعراب بعد مذ — وجوبا مجرور مع حاضر، لكن مرفوع مفضل مع ماضٍ<br>جملة بعدهما — مذ/منذ اسمان مضافان إليها`,
+          lines: [
+            { html: `Definiteness of the مجرور maps onto an English distinction: definite (<bdi>مَعْرِفَة</bdi>) reads as "since" (مُنْذُ الْجُمُعَةِ = since Friday), while indefinite (<bdi>نَكِرَة</bdi>) reads as "for" (مُنْذُ يَوْمَيْنِ = for two days).`, list: false },
+            { html: `The same split governs meaning: مذ/منذ carry the sense of <bdi>فِي</bdi> when the مجرور is a definite اسم denoting the <b>present</b> (مَا رَأَيْتُهُ مُنْذُ الْيَوْمِ), and the sense of <bdi>مِنْ وَإِلَى</bdi> when it denotes the <b>past</b>.`, list: false },
+            { html: `Their إعراب follows the same logic:`, list: false },
+            { table: { headers: ['With a present-time اسم', 'With a past-time اسم'], rows: [
+              ['مَجْرُور وُجُوبًا (both مذ and منذ)', 'منذ: مَجْرُور تَرْجِيحًا — مذ: مَرْفُوع preferred instead (مُذْ يَوْمَانِ)'],
+            ] } },
+            { html: `When a full <bdi>جُمْلَة</bdi> follows مذ/منذ, they are treated as <b>أسماء in <bdi>إِضَافَة</bdi></b> to it — because a جر حرف cannot enter upon a جملة, only an اسم مضاف can.`, list: false },
+          ],
           exercise: {
             prompt: `Why must مذ/منذ be أسماء when followed by a جملة؟`,
             kind: 'mcq',
@@ -1279,49 +1843,145 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: واو أم تاء أم باء القسم؟',
+          title: 'تركيب: ﴿وَالْعَصْرِ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which حرف قسم appears in each phrase.',
-          source: '﴿والعصر إن الإنسان لفي خسر﴾ / ﴿تالله تفتأ تذكر يوسف﴾ / ﴿لا أقسم بيوم القيامة﴾',
-          words: ['والعصر', 'تالله', 'بيوم القيامة'],
-          labels: ['واو القسم', 'تاء القسم', 'باء القسم'],
-          distractors: ['لام القسم'],
+          instruction: 'Identify which حرف قسم appears.',
+          sentence: 'وَالْعَصْرِ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ',
+          translation: 'By Time, indeed mankind is in loss.',
+          cells: ['وَ', 'الْعَصْرِ', 'إِنَّ', 'الْإِنسَانَ', 'لَفِي', 'خُسْرٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'واو القسم' },
+            ] },
+          ],
+          distractors: ['تاء القسم', 'باء القسم'],
         },
         {
-          title: 'تركيب: قيود أحرف القسم',
+          title: 'تركيب: ﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each restriction to the حرف قسم it applies to.',
-          source: 'تاء القسم / واو القسم وتاء القسم / باء القسم',
-          words: ['تاء القسم', 'واو القسم وتاء القسم', 'باء القسم'],
-          labels: ['مقصورة على لفظ الجلالة', 'مجرورهما اسم ظاهر فقط، وفعل القسم لا يُذكر معهما', 'فعل القسم قد يُذكر أو يُحذف، وتتصل بالظاهر والمضمر'],
-          distractors: ['لام القسم'],
+          instruction: 'Identify which حرف قسم appears.',
+          sentence: 'تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ',
+          translation: 'By Allah, you will not cease remembering Joseph.',
+          cells: ['تَاللَّهِ', 'تَفْتَأُ', 'تَذْكُرُ', 'يُوسُفَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تاء القسم' },
+            ] },
+          ],
+          distractors: ['واو القسم', 'باء القسم'],
         },
         {
-          title: 'تركيب: شرط الفعل قبل مذ/منذ',
+          title: 'تركيب: ﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل before مذ/منذ: ماضٍ منفي, ماضٍ مثبت ممتد, or ماضٍ مثبت لحظي (غير صحيح)?',
-          source: 'ما رأيته منذ يوم الجمعة / نمت منذ بعد العشاء / سقطت منذ طلوع الشمس',
-          words: ['رأيته', 'نمت', 'سقطت'],
-          labels: ['ماضٍ منفي', 'ماضٍ مثبت ممتد', 'ماضٍ مثبت لحظي'],
-          distractors: ['مضارع'],
+          instruction: 'Identify which حرف قسم appears, and whether فعل القسم is mentioned or omitted.',
+          sentence: 'لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ',
+          translation: 'I swear by the Day of Resurrection.',
+          cells: ['أُقْسِمُ', 'بِيَوْمِ', 'الْقِيَامَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'باء القسم' },
+              { start: 0, end: 0, role: 'فعل القسم مذكور' },
+            ] },
+          ],
+          distractors: ['واو القسم', 'تاء القسم'],
         },
         {
-          title: 'تركيب: since أم for؟',
+          title: 'تركيب: مَا رَأَيْتُهُ مُنْذُ يَوْمِ الْجُمُعَةِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each مذ/منذ phrase by whether it reads as "since" or "for" in English.',
-          source: 'منذ الجمعة / منذ يومين / مذ الليلة / مذ يومان',
-          words: ['منذ الجمعة', 'منذ يومين', 'مذ الليلة', 'مذ يومان'],
-          labels: ['since', 'for', 'since', 'for'],
-          distractors: ['until'],
+          instruction: 'Classify رَأَيْتُهُ, the فعل before منذ.',
+          sentence: 'مَا رَأَيْتُهُ مُنْذُ يَوْمِ الْجُمُعَةِ',
+          translation: 'I have not seen him since Friday.',
+          cells: ['مَا', 'رَأَيْتُهُ', 'مُنْذُ', 'يَوْمِ', 'الْجُمُعَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'ماضٍ منفي' },
+            ] },
+          ],
+          distractors: ['ماضٍ مثبت ممتد', 'ماضٍ مثبت لحظي'],
         },
         {
-          title: 'تركيب: مجرور أم مرفوع بعد مذ/منذ؟',
+          title: 'تركيب: نِمْتُ مُنْذُ بَعْدِ الْعِشَاءِ',
           kind: 'tarkeeb',
-          instruction: 'Classify the إعراب of the اسم after مذ/منذ in each phrase.',
-          source: 'منذ الليلة / منذ يومين / مذ الليلة / مذ يومان',
-          words: ['منذ الليلة', 'منذ يومين', 'مذ الليلة', 'مذ يومان'],
-          labels: ['مجرور وجوبا', 'مجرور ترجيحا', 'مجرور وجوبا', 'مرفوع مفضل'],
-          distractors: ['منصوب'],
+          instruction: 'Classify نِمْتُ, the فعل before منذ.',
+          sentence: 'نِمْتُ مُنْذُ بَعْدِ الْعِشَاءِ',
+          translation: 'I have been sleeping since after the night prayer.',
+          cells: ['نِمْتُ', 'مُنْذُ', 'بَعْدِ', 'الْعِشَاءِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'ماضٍ مثبت ممتد' },
+            ] },
+          ],
+          distractors: ['ماضٍ منفي', 'ماضٍ مثبت لحظي'],
+        },
+        {
+          title: 'تركيب: سَقَطْتُ مُنْذُ طُلُوعِ الشَّمْسِ',
+          kind: 'tarkeeb',
+          instruction: 'Classify سَقَطْتُ, the فعل before منذ — and is this usage صحيح؟',
+          sentence: 'سَقَطْتُ مُنْذُ طُلُوعِ الشَّمْسِ',
+          translation: '"I fell since sunrise" (momentary — invalid usage).',
+          cells: ['سَقَطْتُ', 'مُنْذُ', 'طُلُوعِ', 'الشَّمْسِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'ماضٍ مثبت لحظي (غير صحيح)' },
+            ] },
+          ],
+          distractors: ['ماضٍ منفي', 'ماضٍ مثبت ممتد'],
+        },
+        {
+          title: 'تركيب: لَمْ أَرَهُ مُنْذُ الْجُمُعَةِ',
+          kind: 'tarkeeb',
+          instruction: 'مُنْذُ الْجُمُعَةِ has a معرفة مجرور — how does it read in English?',
+          sentence: 'لَمْ أَرَهُ مُنْذُ الْجُمُعَةِ',
+          translation: 'I have not seen him since Friday.',
+          cells: ['لَمْ', 'أَرَهُ', 'مُنْذُ', 'الْجُمُعَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'since' },
+            ] },
+          ],
+          distractors: ['for', 'until'],
+        },
+        {
+          title: 'تركيب: غِبْتُ مُنْذُ يَوْمَيْنِ',
+          kind: 'tarkeeb',
+          instruction: 'مُنْذُ يَوْمَيْنِ has a نكرة مجرور — how does it read in English?',
+          sentence: 'غِبْتُ مُنْذُ يَوْمَيْنِ',
+          translation: 'I have been absent for two days.',
+          cells: ['غِبْتُ', 'مُنْذُ', 'يَوْمَيْنِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'for' },
+            ] },
+          ],
+          distractors: ['since', 'until'],
+        },
+        {
+          title: 'تركيب: مَا رَأَيْتُهُ مُنْذُ الْيَوْمِ',
+          kind: 'tarkeeb',
+          instruction: 'الْيَوْمِ is a present-time معرفة. What is the إعراب of the اسم after منذ here?',
+          sentence: 'مَا رَأَيْتُهُ مُنْذُ الْيَوْمِ',
+          translation: 'I have not seen him today.',
+          cells: ['مَا', 'رَأَيْتُهُ', 'مُنْذُ', 'الْيَوْمِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'مجرور وجوبا' },
+            ] },
+          ],
+          distractors: ['مجرور ترجيحا', 'مرفوع مفضل'],
+        },
+        {
+          title: 'تركيب: هُوَ هُنَا مُذْ يَوْمَانِ',
+          kind: 'tarkeeb',
+          instruction: 'يَوْمَانِ is past-time. With مذ specifically, what is the preferred إعراب؟',
+          sentence: 'هُوَ هُنَا مُذْ يَوْمَانِ',
+          translation: 'He has been here for two days.',
+          cells: ['هُوَ', 'هُنَا', 'مُذْ', 'يَوْمَانِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'مرفوع مفضل' },
+            ] },
+          ],
+          distractors: ['مجرور وجوبا', 'مجرور ترجيحا'],
         },
       ],
     },
@@ -1334,8 +1994,12 @@ export default {
       concepts: [
         {
           heading: 'حروف الشبيه بالزائد الثلاثة: رُبَّ',
-          body: `Three حروف make up <bdi>الشَّبِيهُ بِالزَّائِد</bdi>: <bdi>رُبَّ</bdi>, <bdi>مِنِ التَّبْعِيضِيَّة</bdi>, and <bdi>حَاشَا</bdi>. <bdi>رُبَّ</bdi> expresses either <bdi>تَكْثِير</bdi> (abundance) or <bdi>تَقْلِيل</bdi> (scarcity) of its مجرور — context (<bdi>الْقَرِينَة</bdi>) decides which, as in <bdi>رُبَّ شَهْوَةٍ تُورِثُ حُزْنًا طَوِيلًا</bdi>. It must appear at the <bdi>صَدْرُ الْكَلَام</bdi> — the very start of the utterance — though a vocative حرف may precede it, as in <bdi>«يَا رُبَّ كَاسِيَاتٍ فِي الدُّنْيَا عَارِيَاتٍ فِي الْآخِرَةِ»</bdi>. Its مجرور can only be (1) an indefinite overt اسم (<bdi>اسم ظاهر نكرة</bdi>) or (2) an ambiguous ضمير clarified by a تمييز, as in <bdi>رُبَّهُ رَجُلًا كَرِيمًا لَقِيتُهُ</bdi> — and it is usually <bdi>مَوْصُوف</bdi> as well, by a single word or by a جملة.`,
-          sample: `رب — تكثير أو تقليل، حسب القرينة<br>موضعها — صدر الكلام (إلا بعد حرف نداء)<br>مجرورها — اسم ظاهر نكرة، أو ضمير مبهم يفسره تمييز<br>عادة موصوف — بكلمة أو بجملة`,
+          lines: [
+            { html: `Three حروف make up <bdi>الشَّبِيهُ بِالزَّائِد</bdi>: <bdi>رُبَّ</bdi>, <bdi>مِنِ التَّبْعِيضِيَّة</bdi>, and <bdi>حَاشَا</bdi>.`, list: false },
+            { html: `<bdi>رُبَّ</bdi> expresses either <bdi>تَكْثِير</bdi> (abundance) or <bdi>تَقْلِيل</bdi> (scarcity) of its مجرور — context (<bdi>الْقَرِينَة</bdi>) decides which, as in رُبَّ شَهْوَةٍ تُورِثُ حُزْنًا طَوِيلًا.`, list: false },
+            { html: `It must appear at the <bdi>صَدْرُ الْكَلَام</bdi> — the very start of the utterance — though a vocative حرف may precede it, as in «يَا رُبَّ كَاسِيَاتٍ فِي الدُّنْيَا عَارِيَاتٍ فِي الْآخِرَةِ».`, list: false },
+            { html: `Its مجرور can only be an indefinite overt اسم (اسم ظاهر نكرة), or an ambiguous ضمير clarified by a تمييز, as in رُبَّهُ رَجُلًا كَرِيمًا لَقِيتُهُ — and it is usually <bdi>مَوْصُوف</bdi> as well, by a single word or by a جملة.`, list: false },
+          ],
           exercise: {
             prompt: `Where must رُبَّ appear in the جملة? Any exception؟`,
             kind: 'mcq',
@@ -1345,8 +2009,13 @@ export default {
         },
         {
           heading: 'رُبَّ: ما الكافة، والتخفيف، والحذف؛ ومِن التبعيضية وحاشا',
-          body: `Adding <bdi>مَا الْكَافَّة</bdi> to رُبَّ stops it from operating (<bdi>كَفَّتْهَا عَنِ الْعَمَل</bdi>), shifts the تكثير/تقليل onto the <b>فعل</b> instead, and lets it enter upon <bdi>جُمَل فِعْلِيَّة</bdi> (<bdi>رُبَّمَا يَصُومُ زَيْدٌ</bdi>) and definite أسماء (<bdi>رُبَّمَا زَيْدٌ يَصُومُ</bdi>). رُبَّمَا can also be lightened (<bdi>تَخْفِيف</bdi>) to <bdi>رُبَمَا</bdi>, as in <bdi>﴿رُبَمَا يَوَدُّ الَّذِينَ كَفَرُوا لَوْ كَانُوا مُسْلِمِينَ﴾</bdi>; رُبَّ itself can be omitted while its عمل remains — frequently after <bdi>الْوَاو</bdi>, rarely after <bdi>الْفَاء</bdi> — as in <bdi>وَلَيْلٍ كَمَوْجِ الْبَحْرِ أَرْخَىٰ سُدُولَهُ</bdi>. مِنْ can also carry رُبَّ's meaning when <bdi>مَا</bdi> follows it (<bdi>مِمَّا</bdi>). <bdi>مِنِ التَّبْعِيضِيَّة</bdi> ("some of") appears in <bdi>﴿وَلَقَدْ جَاءَكَ مِن نَّبَإِ الْمُرْسَلِينَ﴾</bdi> and <bdi>عِنْدِي مِنْ مَاءٍ</bdi>; <bdi>حَاشَا</bdi> appears in <bdi>هَلَكَ النَّاسُ حَاشَا الْعَالِمِ</bdi>. All three are called شبيه بالزائد because — like الزائد — neither هي nor its مجرور is ever a معمول of a فعل or شبه فعل, but unlike الزائد, each still carries a real meaning of its own.`,
-          sample: `ما الكافة + رب — تكفها عن العمل، تدخل على جمل فعلية وأسماء معرفة<br>ربما → رُبَما (تخفيف)<br>حذف رب — بعد الواو كثيرا، بعد الفاء نادرا<br>من بمعنى رب — مما<br>من التبعيضية — ﴿ولقد جاءك من نبإ المرسلين﴾<br>حاشا — هلك الناس حاشا العالم`,
+          lines: [
+            { html: `Adding <bdi>مَا الْكَافَّة</bdi> to رُبَّ stops it from operating (<bdi>كَفَّتْهَا عَنِ الْعَمَل</bdi>), shifts the تكثير/تقليل onto the <b>فعل</b> instead, and lets it enter upon <bdi>جُمَل فِعْلِيَّة</bdi> (رُبَّمَا يَصُومُ زَيْدٌ) and definite أسماء (رُبَّمَا زَيْدٌ يَصُومُ).`, list: false },
+            { html: `رُبَّمَا can also be lightened (<bdi>تَخْفِيف</bdi>) to <bdi>رُبَمَا</bdi>, as in ﴿رُبَمَا يَوَدُّ الَّذِينَ كَفَرُوا لَوْ كَانُوا مُسْلِمِينَ﴾; رُبَّ itself can be omitted while its عمل remains — frequently after <bdi>الْوَاو</bdi>, rarely after <bdi>الْفَاء</bdi> — as in وَلَيْلٍ كَمَوْجِ الْبَحْرِ أَرْخَىٰ سُدُولَهُ.`, list: false },
+            { html: `مِنْ can also carry رُبَّ's meaning when <bdi>مَا</bdi> follows it (<bdi>مِمَّا</bdi>).`, list: false },
+            { html: `<bdi>مِنِ التَّبْعِيضِيَّة</bdi> ("some of") appears in ﴿وَلَقَدْ جَاءَكَ مِن نَّبَإِ الْمُرْسَلِينَ﴾ and عِنْدِي مِنْ مَاءٍ; <bdi>حَاشَا</bdi> appears in هَلَكَ النَّاسُ حَاشَا الْعَالِمِ.`, list: false },
+            { html: `All three are called شبيه بالزائد because — like الزائد — neither هي nor its مجرور is ever a معمول of a فعل or شبه فعل, but unlike الزائد, each still carries a real meaning of its own.`, list: false },
+          ],
           exercise: {
             prompt: `Understanding: why are رب، من التبعيضية، حاشا called "similar to the redundant" (شبيه بالزائد)؟`,
             kind: 'mcq',
@@ -1356,8 +2025,17 @@ export default {
         },
         {
           heading: 'حروف الجر الزائدة الأربعة: الباء الزائدة قياسا',
-          body: `Four حروف make up <bdi>حُرُوفُ الْجَرِّ الزَّائِدَة</bdi>: <bdi>الْبَاءُ الزَّائِدَة</bdi>, <bdi>مِنِ الزَّائِدَة</bdi>, <bdi>اللَّامُ الزَّائِدَة</bdi>, and <bdi>الْكَافُ الزَّائِدَة</bdi>. الباء الزائدة occurs by regular rule (<bdi>قِيَاسًا</bdi>) in five places: (1) the <bdi>خَبَر</bdi> of <bdi>نَفْي</bdi> with <bdi>لَيْسَ</bdi> and <bdi>مَا</bdi> — <bdi>﴿وَأَنَّ اللَّهَ لَيْسَ بِظَلَّامٍ لِّلْعَبِيدِ﴾</bdi> / <bdi>﴿وَمَا رَبُّكَ بِظَلَّامٍ لِّلْعَبِيدِ﴾</bdi> (2) the خبر of <bdi>اسْتِفْهَام</bdi> with <bdi>هَلْ</bdi> — <bdi>هَلْ زَيْدٌ بِقَائِمٍ؟</bdi> (3) <bdi>التَّأْكِيدُ الْمَعْنَوِيّ</bdi> with <bdi>نَفْس</bdi> — <bdi>نَظَّفَ الْأَمِيرُ الْمَسْجِدَ بِنَفْسِهِ</bdi> (4) the <bdi>فَاعِل</bdi> of <bdi>أَفْعِلْ بِهِ</bdi> (<bdi>تَعَجُّب</bdi>) — <bdi>﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾</bdi> (5) the <bdi>مُبْتَدَأ</bdi> after <bdi>إِذَا الْفُجَائِيَّة</bdi> — <bdi>دَخَلَ الرَّجُلُ فَإِذَا بِابْنِهِ يُصَلِّي</bdi>.`,
-          sample: `أربعة زائدة — الباء، من، اللام، الكاف<br>الباء قياسا — خبر نفي، خبر استفهام بهل، تأكيد معنوي بنفس، فاعل أفعِل به، مبتدأ بعد إذا الفجائية`,
+          lines: [
+            { html: `Four حروف make up <bdi>حُرُوفُ الْجَرِّ الزَّائِدَة</bdi>: <bdi>الْبَاءُ الزَّائِدَة</bdi>, <bdi>مِنِ الزَّائِدَة</bdi>, <bdi>اللَّامُ الزَّائِدَة</bdi>, and <bdi>الْكَافُ الزَّائِدَة</bdi>.`, list: false },
+            { html: `الباء الزائدة occurs by regular rule (<bdi>قِيَاسًا</bdi>) in five places:`, list: false },
+            { table: { headers: ['#', 'Place', 'Example'], rows: [
+              ['1', 'خَبَر of نَفْي with لَيْسَ and مَا', '﴿وَأَنَّ اللَّهَ لَيْسَ بِظَلَّامٍ لِّلْعَبِيدِ﴾ / ﴿وَمَا رَبُّكَ بِظَلَّامٍ لِّلْعَبِيدِ﴾'],
+              ['2', 'خبر of اسْتِفْهَام with هَلْ', 'هَلْ زَيْدٌ بِقَائِمٍ؟'],
+              ['3', 'التَّأْكِيدُ الْمَعْنَوِيّ with نَفْس', 'نَظَّفَ الْأَمِيرُ الْمَسْجِدَ بِنَفْسِهِ'],
+              ['4', 'فَاعِل of أَفْعِلْ بِهِ (تَعَجُّب)', '﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾'],
+              ['5', 'مُبْتَدَأ after إِذَا الْفُجَائِيَّة', 'دَخَلَ الرَّجُلُ فَإِذَا بِابْنِهِ يُصَلِّي'],
+            ] } },
+          ],
           exercise: {
             prompt: `Where does الباء الزائدة occur by regular rule (قياسا)? (5 places)`,
             kind: 'mcq',
@@ -1367,8 +2045,14 @@ export default {
         },
         {
           heading: 'الباء الزائدة سماعا؛ ومِن الزائدة',
-          body: `الباء الزائدة also occurs by transmission alone (<bdi>سَمَاعًا</bdi>) in three places: (1) on the <bdi>مُبْتَدَأ</bdi> with the word <bdi>حَسْب</bdi> — <bdi>«بِحَسْبِكَ أَن تَصُومَ كُلَّ شَهْرٍ ثَلَاثَةَ أَيَّامٍ»</bdi> (2) on the <bdi>خَبَر</bdi> of حسب — <bdi>حَسْبُكَ بِزَيْدٍ</bdi> (3) on the <bdi>فَاعِل</bdi> of <bdi>كَفَى</bdi> when it means حسب — <bdi>﴿كَفَى بِاللَّهِ شَهِيدًا﴾</bdi>; كفى does NOT take this زائدة باء when it instead means <bdi>وَقَى</bdi> (to protect), as in <bdi>﴿وَكَفَى اللَّهُ الْمُؤْمِنِينَ الْقِتَالَ﴾</bdi>. <bdi>مِنِ الزَّائِدَة</bdi> occurs (1) on the <bdi>تَمْيِيز</bdi> of <bdi>كَمِ الْخَبَرِيَّة</bdi> — <bdi>﴿كَمْ آتَيْنَاهُم مِّنْ آيَةٍ بَيِّنَةٍ﴾</bdi> (2) in non-affirmative speech (<bdi>كَلَام غَيْرُ مُوجَب</bdi>): <bdi>نَفْي</bdi> (<bdi>﴿مَا جَاءَنَا مِن بَشِيرٍ وَلَا نَذِيرٍ﴾</bdi>), <bdi>اسْتِفْهَام</bdi> meaning نفي (<bdi>﴿هَلْ مِنْ خَالِقٍ غَيْرُ اللَّهِ﴾</bdi>), or plain استفهام with هل (<bdi>﴿هَلْ مِن مَّزِيدٍ﴾</bdi>).`,
-          sample: `الباء سماعا — مبتدأ حسب، خبر حسب، فاعل كفى (بمعنى حسب)<br>كفى بمعنى وقى — لا تأخذ الباء الزائدة<br>من الزائدة — تمييز كم الخبرية، وكلام غير موجب (نفي، استفهام بمعنى نفي، استفهام بهل)`,
+          lines: [
+            { html: `الباء الزائدة also occurs by transmission alone (<bdi>سَمَاعًا</bdi>) in three places:`, list: false },
+            { html: `on the مُبْتَدَأ with the word حَسْب — «بِحَسْبِكَ أَن تَصُومَ كُلَّ شَهْرٍ ثَلَاثَةَ أَيَّامٍ»`, list: true, bullet: true },
+            { html: `on the خَبَر of حسب — حَسْبُكَ بِزَيْدٍ`, list: true, bullet: true },
+            { html: `on the فَاعِل of كَفَى when it means حسب — ﴿كَفَى بِاللَّهِ شَهِيدًا﴾`, list: true, bullet: true },
+            { html: `كفى does NOT take this زائدة باء when it instead means <bdi>وَقَى</bdi> (to protect), as in ﴿وَكَفَى اللَّهُ الْمُؤْمِنِينَ الْقِتَالَ﴾.`, list: false },
+            { html: `<bdi>مِنِ الزَّائِدَة</bdi> occurs on the تَمْيِيز of كَمِ الْخَبَرِيَّة (﴿كَمْ آتَيْنَاهُم مِّنْ آيَةٍ بَيِّنَةٍ﴾), and in non-affirmative speech (كَلَام غَيْرُ مُوجَب): نَفْي (﴿مَا جَاءَنَا مِن بَشِيرٍ وَلَا نَذِيرٍ﴾), اسْتِفْهَام meaning نفي (﴿هَلْ مِنْ خَالِقٍ غَيْرُ اللَّهِ﴾), or plain استفهام with هل (﴿هَلْ مِن مَّزِيدٍ﴾).`, list: false },
+          ],
           exercise: {
             prompt: `When does كفى NOT take الباء الزائدة on its فاعل؟`,
             kind: 'mcq',
@@ -1378,8 +2062,16 @@ export default {
         },
         {
           heading: 'اللام الزائدة والكاف الزائدة',
-          body: `اللام الزائدة occurs in four places: (1) on the <bdi>خَبَر</bdi> of a negated <bdi>كَانَ</bdi> — called <bdi>لَامُ الْجُحُود</bdi> — <bdi>﴿فَمَا كَانَ اللَّهُ لِيَظْلِمَهُمْ﴾</bdi> (2) on the <bdi>فَاعِل</bdi> — <bdi>لَامُ التَّبْيِين</bdi> — <bdi>﴿هَيْتَ لَكَ﴾</bdi> (3) on the fronted <bdi>مَعْمُول</bdi> of a فعل — <bdi>﴿إِن كُنتُمْ لِلرُّؤْيَا تَعْبُرُونَ﴾</bdi> (4) on the معمول of <bdi>شِبْهِ الْفِعْل</bdi> — called <bdi>لَامُ التَّقْوِيَة</bdi>, strengthening the weak government of a non-فعل — <bdi>﴿فَعَّالٌ لِّمَا يُرِيدُ﴾</bdi>. <bdi>الْكَافُ الزَّائِدَة</bdi> appears in <bdi>﴿لَيْسَ كَمِثْلِهِ شَيْءٌ﴾</bdi>: were الكاف not زائدة here, the phrase would mean "there is nothing like His like" — implying He has a like — so the زائدة reading avoids this and simply emphasises the نفي of any similarity.`,
-          sample: `اللام الزائدة (٤) — لام الجحود (خبر كان المنفية)، لام التبيين (الفاعل)، معمول الفعل المقدَّم، لام التقوية (معمول شبه الفعل)<br>الكاف الزائدة — ﴿ليس كمثله شيء﴾؛ لو لم تكن زائدة للزم أن له مثلا`,
+          lines: [
+            { html: `اللام الزائدة occurs in four places:`, list: false },
+            { table: { headers: ['#', 'Place', 'Example'], rows: [
+              ['1', 'خَبَر of a negated كَانَ — called لَامُ الْجُحُود', '﴿فَمَا كَانَ اللَّهُ لِيَظْلِمَهُمْ﴾'],
+              ['2', 'فَاعِل — لَامُ التَّبْيِين', '﴿هَيْتَ لَكَ﴾'],
+              ['3', 'fronted مَعْمُول of a فعل', '﴿إِن كُنتُمْ لِلرُّؤْيَا تَعْبُرُونَ﴾'],
+              ['4', 'معمول of شِبْهِ الْفِعْل — لَامُ التَّقْوِيَة, strengthening its weak government', '﴿فَعَّالٌ لِّمَا يُرِيدُ﴾'],
+            ] } },
+            { html: `<bdi>الْكَافُ الزَّائِدَة</bdi> appears in ﴿لَيْسَ كَمِثْلِهِ شَيْءٌ﴾: were الكاف not زائدة here, the phrase would mean "there is nothing like His like" — implying He has a like — so the زائدة reading avoids this and simply emphasises the نفي of any similarity.`, list: false },
+          ],
           exercise: {
             prompt: `What would ﴿ليس كمثله شيء﴾ imply if the كاف were NOT redundant؟`,
             kind: 'mcq',
@@ -1389,8 +2081,18 @@ export default {
         },
         {
           heading: 'حروف عند البعض، وحذف حرف الجر، والتضمين',
-          body: `Four حروف are treated as جر حروف only <bdi>عِنْدَ الْبَعْض</bdi>: <bdi>لَعَلَّ</bdi> in the dialect of <bdi>عُقَيْل</bdi> (<bdi>لَعَلَّ اللَّهِ فَضَّلَكُمْ عَلَيْنَا</bdi>); <bdi>خَلَا</bdi> and <bdi>عَدَا</bdi> in <bdi>اسْتِثْنَاء</bdi>, though most grammarians treat them as <bdi>أَفْعَال</bdi>; <bdi>مَتَى</bdi> meaning مِن in the dialect of <bdi>هُذَيْل</bdi>; and <bdi>كَيْ</bdi> meaning اللام of reason before <bdi>مَا الِاسْتِفْهَامِيَّة</bdi> — <bdi>كَيْمَهْ عَصَيْتَ اللَّهَ؟</bdi> (= لِمَهْ). A حرف الجر may also be omitted (<bdi>حُذِفَ وَإِيصَال</bdi>, also <bdi>اتِّسَاع</bdi>): by regular rule (<bdi>قِيَاسًا</bdi>) before <bdi>أَنْ</bdi> and <bdi>أَنَّ</bdi> — <bdi>﴿يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ﴾</bdi> (أصل: بأن) — or by transmission (<bdi>سَمَاعًا</bdi>) — <bdi>﴿إِنَّ عَادًا كَفَرُوا رَبَّهُمْ﴾</bdi> (أصل: بربهم); the اسم left behind is called <bdi>مَنْصُوبٌ بِنَزْعِ الْخَافِض</bdi>. Separately: a single <bdi>عَامِل</bdi> cannot take two معمولات from the same aspect (<bdi>جِهَة</bdi>) except by <bdi>تَبَعِيَّة</bdi> — <bdi>سَافَرْتُ صَبَاحًا وَمَسَاءً</bdi>, not <bdi>سَافَرْتُ صَبَاحًا مَسَاءً</bdi> — though it CAN take two ظرفان from two different جهتين, as in <bdi>﴿يَتَوَارَىٰ مِنَ الْقَوْمِ مِن سُوءِ مَا بُشِّرَ بِهِ﴾</bdi>. <bdi>التَّضْمِين</bdi> is when a <bdi>ظَرْفُ اللَّغْو</bdi> is made the معمول of a <b>different, omitted</b> فعل: <bdi>﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ﴾</bdi> = <bdi>لَا تَأْكُلُوا أَمْوَالَهُمْ وَلَا تَضُمُّوهَا إِلَىٰ أَمْوَالِكُمْ</bdi>.`,
-          sample: `عند البعض (٤) — لعل (عقيل)، خلا وعدا (أفعال عند الأكثر)، متى (هذيل)، كي بمعنى اللام<br>حذف حرف الجر — قياسا قبل أن/أنّ، سماعا في مواضع أخرى؛ الاسم بعده منصوب بنزع الخافض<br>تعدد المعمول — لا معمولان من جهة واحدة إلا بالتبعية؛ يجوز من جهتين<br>التضمين — الظرف معمول لفعل آخر محذوف`,
+          lines: [
+            { html: `Four حروف are treated as جر حروف only <bdi>عِنْدَ الْبَعْض</bdi>:`, list: false },
+            { table: { headers: ['حرف', 'Where / condition'], rows: [
+              ['لَعَلَّ', 'in the dialect of عُقَيْل — لَعَلَّ اللَّهِ فَضَّلَكُمْ عَلَيْنَا'],
+              ['خَلَا and عَدَا', 'in اسْتِثْنَاء, though most grammarians treat them as أَفْعَال'],
+              ['مَتَى', 'meaning مِن, in the dialect of هُذَيْل'],
+              ['كَيْ', 'meaning اللام of reason before مَا الِاسْتِفْهَامِيَّة — كَيْمَهْ عَصَيْتَ اللَّهَ؟ (= لِمَهْ)'],
+            ] } },
+            { html: `A حرف الجر may also be omitted (<bdi>حُذِفَ وَإِيصَال</bdi>, also <bdi>اتِّسَاع</bdi>): by regular rule (قِيَاسًا) before <bdi>أَنْ</bdi> and <bdi>أَنَّ</bdi> (﴿يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ﴾, أصل: بأن) — or by transmission (سَمَاعًا) (﴿إِنَّ عَادًا كَفَرُوا رَبَّهُمْ﴾, أصل: بربهم); the اسم left behind is called <bdi>مَنْصُوبٌ بِنَزْعِ الْخَافِض</bdi>.`, list: false },
+            { html: `Separately: a single <bdi>عَامِل</bdi> cannot take two معمولات from the same aspect (<bdi>جِهَة</bdi>) except by <bdi>تَبَعِيَّة</bdi> — سَافَرْتُ صَبَاحًا وَمَسَاءً, not سَافَرْتُ صَبَاحًا مَسَاءً — though it CAN take two ظرفان from two different جهتين, as in ﴿يَتَوَارَىٰ مِنَ الْقَوْمِ مِن سُوءِ مَا بُشِّرَ بِهِ﴾.`, list: false },
+            { html: `<bdi>التَّضْمِين</bdi> is when a <bdi>ظَرْفُ اللَّغْو</bdi> is made the معمول of a <b>different, omitted</b> فعل: ﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ﴾ = لَا تَأْكُلُوا أَمْوَالَهُمْ وَلَا تَضُمُّوهَا إِلَىٰ أَمْوَالِكُمْ.`, list: false },
+          ],
           exercise: {
             prompt: `What is the omission of حرف الجر called, and what is the resulting اسم called؟`,
             kind: 'mcq',
@@ -1559,49 +2261,203 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: الشبيه بالزائد أم الزائد؟',
+          title: 'تركيب: رُبَّ شَهْوَةٍ تُورِثُ حُزْنًا طَوِيلًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: شبيه بالزائد or زائد?',
-          source: 'رُبَّ / حاشا / الباء في ﴿ليس بظلام﴾ / اللام في ﴿فعال لما يريد﴾',
-          words: ['رُبَّ', 'حاشا', 'الباء', 'اللام'],
-          labels: ['شبيه بالزائد', 'شبيه بالزائد', 'زائد', 'زائد'],
-          distractors: ['أصلي'],
+          instruction: 'Classify رُبَّ: شبيه بالزائد or زائد؟',
+          sentence: 'رُبَّ شَهْوَةٍ تُورِثُ حُزْنًا طَوِيلًا',
+          translation: 'Many a desire brings about long sorrow.',
+          cells: ['رُبَّ', 'شَهْوَةٍ', 'تُورِثُ', 'حُزْنًا', 'طَوِيلًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'شبيه بالزائد' },
+            ] },
+          ],
+          distractors: ['زائد', 'أصلي'],
         },
         {
-          title: 'تركيب: مواضع الباء الزائدة',
+          title: 'تركيب: هَلَكَ النَّاسُ حَاشَا الْعَالِمِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example of الباء الزائدة by its موضع.',
-          source: '﴿وما ربك بظلام للعبيد﴾ / نظف الأمير المسجد بنفسه / ﴿أسمع بهم وأبصر﴾ / دخل الرجل فإذا بابنه يصلي',
-          words: ['بظلام', 'بنفسه', 'بهم', 'بابنه'],
-          labels: ['خبر نفي', 'التأكيد المعنوي', 'فاعل أفعِل به', 'مبتدأ بعد إذا الفجائية'],
-          distractors: ['خبر استفهام'],
+          instruction: 'Classify حَاشَا: شبيه بالزائد or زائد؟',
+          sentence: 'هَلَكَ النَّاسُ حَاشَا الْعَالِمِ',
+          translation: 'The people perished, except the scholar.',
+          cells: ['هَلَكَ', 'النَّاسُ', 'حَاشَا', 'الْعَالِمِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'شبيه بالزائد' },
+            ] },
+          ],
+          distractors: ['زائد', 'أصلي'],
         },
         {
-          title: 'تركيب: مواضع اللام الزائدة',
+          title: 'تركيب: ﴿وَمَا رَبُّكَ بِظَلَّامٍ لِّلْعَبِيدِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example of اللام الزائدة by its اسم.',
-          source: '﴿فما كان الله ليظلمهم﴾ / ﴿هيت لك﴾ / ﴿فعال لما يريد﴾',
-          words: ['ليظلمهم', 'لك', 'لما يريد'],
-          labels: ['لام الجحود', 'لام التبيين', 'لام التقوية'],
-          distractors: ['لام الأمر'],
+          instruction: 'Classify الباء in بِظَلَّامٍ: شبيه بالزائد or زائد؟ Then identify its موضع.',
+          sentence: 'وَمَا رَبُّكَ بِظَلَّامٍ لِّلْعَبِيدِ',
+          translation: 'And your Lord is not ever unjust to His servants.',
+          cells: ['رَبُّكَ', 'بِظَلَّامٍ', 'لِلْعَبِيدِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'زائد' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'خبر نفي' },
+            ] },
+          ],
+          distractors: ['شبيه بالزائد', 'خبر استفهام'],
         },
         {
-          title: 'تركيب: حروف عند البعض',
+          title: 'تركيب: نَظَّفَ الْأَمِيرُ الْمَسْجِدَ بِنَفْسِهِ',
           kind: 'tarkeeb',
-          instruction: 'Match each حرف عند البعض to the dialect or condition that makes it a جر حرف.',
-          source: 'لعل / متى بمعنى مِن / كي بمعنى اللام',
-          words: ['لعل', 'متى', 'كي'],
-          labels: ['لغة عقيل', 'لغة هذيل', 'قبل ما الاستفهامية'],
-          distractors: ['لغة تميم'],
+          instruction: 'Identify the موضع of الباء الزائدة in بِنَفْسِهِ.',
+          sentence: 'نَظَّفَ الْأَمِيرُ الْمَسْجِدَ بِنَفْسِهِ',
+          translation: 'The prince cleaned the mosque himself.',
+          cells: ['نَظَّفَ', 'الْأَمِيرُ', 'الْمَسْجِدَ', 'بِنَفْسِهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'التأكيد المعنوي' },
+            ] },
+          ],
+          distractors: ['خبر نفي', 'فاعل أفعِل به'],
         },
         {
-          title: 'تركيب: قياسا أم سماعا؟',
+          title: 'تركيب: ﴿أَسْمِعْ بِهِمْ وَأَبْصِرْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حذف حرف جر: قياسا or سماعا?',
-          source: '﴿يأمركم أن تؤدوا الأمانات﴾ / ﴿واشهدوا أني بريء﴾ / ﴿إن عادا كفروا ربهم﴾',
-          words: ['أن تؤدوا', 'أني بريء', 'كفروا ربهم'],
-          labels: ['قياسا', 'قياسا', 'سماعا'],
-          distractors: ['ممتنع'],
+          instruction: 'Identify the موضع of الباء الزائدة in بِهِمْ.',
+          sentence: 'أَسْمِعْ بِهِمْ وَأَبْصِرْ',
+          translation: 'How well they hear and how well they see!',
+          cells: ['أَسْمِعْ', 'بِهِمْ', 'وَأَبْصِرْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'فاعل أفعِل به' },
+            ] },
+          ],
+          distractors: ['خبر نفي', 'التأكيد المعنوي'],
+        },
+        {
+          title: 'تركيب: دَخَلَ الرَّجُلُ فَإِذَا بِابْنِهِ يُصَلِّي',
+          kind: 'tarkeeb',
+          instruction: 'Identify the موضع of الباء الزائدة in بِابْنِهِ.',
+          sentence: 'دَخَلَ الرَّجُلُ فَإِذَا بِابْنِهِ يُصَلِّي',
+          translation: 'The man entered, and suddenly there was his son praying.',
+          cells: ['دَخَلَ', 'الرَّجُلُ', 'فَإِذَا', 'بِابْنِهِ', 'يُصَلِّي'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'مبتدأ بعد إذا الفجائية' },
+            ] },
+          ],
+          distractors: ['خبر نفي', 'فاعل أفعِل به'],
+        },
+        {
+          title: 'تركيب: ﴿فَمَا كَانَ اللَّهُ لِيَظْلِمَهُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which اللام الزائدة this is.',
+          sentence: 'فَمَا كَانَ اللَّهُ لِيَظْلِمَهُمْ',
+          translation: 'And Allah would not ever wrong them.',
+          cells: ['كَانَ', 'اللَّهُ', 'لِيَظْلِمَهُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'لام الجحود' },
+            ] },
+          ],
+          distractors: ['لام التبيين', 'لام التقوية'],
+        },
+        {
+          title: 'تركيب: ﴿هَيْتَ لَكَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which اللام الزائدة this is.',
+          sentence: 'هَيْتَ لَكَ',
+          translation: 'Come, you.',
+          cells: ['هَيْتَ', 'لَكَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'لام التبيين' },
+            ] },
+          ],
+          distractors: ['لام الجحود', 'لام التقوية'],
+        },
+        {
+          title: 'تركيب: ﴿فَعَّالٌ لِّمَا يُرِيدُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which اللام الزائدة this is.',
+          sentence: 'فَعَّالٌ لِّمَا يُرِيدُ',
+          translation: 'A doer of whatever He intends.',
+          cells: ['فَعَّالٌ', 'لِمَا', 'يُرِيدُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'لام التقوية' },
+            ] },
+          ],
+          distractors: ['لام الجحود', 'لام التبيين'],
+        },
+        {
+          title: 'تركيب: لَعَلَّ اللَّهِ فَضَّلَكُمْ عَلَيْنَا',
+          kind: 'tarkeeb',
+          instruction: 'Treating لعل as a حرف جر here reflects which dialect؟',
+          sentence: 'لَعَلَّ اللَّهِ فَضَّلَكُمْ عَلَيْنَا',
+          translation: 'Perhaps Allah has favored you over us.',
+          cells: ['لَعَلَّ', 'اللَّهِ', 'فَضَّلَكُمْ', 'عَلَيْنَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'لغة عقيل' },
+            ] },
+          ],
+          distractors: ['لغة هذيل', 'لغة تميم'],
+        },
+        {
+          title: 'تركيب: كَيْمَهْ عَصَيْتَ اللَّهَ',
+          kind: 'tarkeeb',
+          instruction: 'كَيْ here carries the meaning of اللام of reason. What licenses treating it as a حرف جر؟',
+          sentence: 'كَيْمَهْ عَصَيْتَ اللَّهَ',
+          translation: 'Why did you disobey Allah?',
+          cells: ['كَيْمَهْ', 'عَصَيْتَ', 'اللَّهَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'قبل ما الاستفهامية' },
+            ] },
+          ],
+          distractors: ['لغة عقيل', 'لغة هذيل'],
+        },
+        {
+          title: 'تركيب: ﴿يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is the omitted حرف جر before أَنْ here قياسا or سماعا؟',
+          sentence: 'يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ',
+          translation: 'He commands you to render trusts [to whom they are due].',
+          cells: ['يَأْمُرُكُمْ', 'أَنْ', 'تُؤَدُّوا', 'الْأَمَانَاتِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 3, role: 'قياسا' },
+            ] },
+          ],
+          distractors: ['سماعا', 'ممتنع'],
+        },
+        {
+          title: 'تركيب: ﴿وَاشْهَدُوا أَنِّي بَرِيءٌ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is the omitted حرف جر before أَنِّي here قياسا or سماعا؟',
+          sentence: 'وَاشْهَدُوا أَنِّي بَرِيءٌ',
+          translation: 'And bear witness that I am free [of that].',
+          cells: ['اشْهَدُوا', 'أَنِّي', 'بَرِيءٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'قياسا' },
+            ] },
+          ],
+          distractors: ['سماعا', 'ممتنع'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّ عَادًا كَفَرُوا رَبَّهُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is the omitted حرف جر before رَبَّهُمْ here قياسا or سماعا؟',
+          sentence: 'إِنَّ عَادًا كَفَرُوا رَبَّهُمْ',
+          translation: "Indeed, 'Aad disbelieved in their Lord.",
+          cells: ['عَادًا', 'كَفَرُوا', 'رَبَّهُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'سماعا' },
+            ] },
+          ],
+          distractors: ['قياسا', 'ممتنع'],
         },
       ],
     },

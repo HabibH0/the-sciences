@@ -17,10 +17,10 @@
 
 export default {
   id: '08',
-  title: 'التوبيخ والتنبيه وما بعدهما',
+  title: 'التوبيخ والتنبيه',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
-  blurb: 'حروف التوبيخ والتحضيض والعرض, أحرف التنبيه (ألا، أما، ها), أحرف المصدر والتفسير, أحرف النفي والزيادة, حروف الاستفهام والتمني والاستقبال (السين وسوف), and فاء/لام الجواب with تاء التأنيث، هاء السكت، and the five kinds of تنوين.',
+  blurb: 'Particles of rebuke, attention, quotation, negation, and question — plus a few last housekeeping letters.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -30,8 +30,11 @@ export default {
       concepts: [
         {
           heading: 'التوبيخ والتحضيض: تعريفهما وحروفهما',
-          body: `<bdi>التَّوْبِيخ</bdi> is blame for a fault (<bdi>لَوْمٌ عَلَى الْخَطَأ</bdi>) — its حروف come before a فعل past in both form and meaning. <bdi>التَّحْضِيض</bdi> is an insistent request (<bdi>طَلَبٌ بِشِدَّة</bdi>) — its حروف come before المضارع. The same five حروف serve both: <bdi>هَلَّا، أَلَا، لَوْلَا، لَوْمَا، أَلَّا</bdi> — which of the two meanings applies is told apart by whether a ماضٍ or مضارع follows.`,
-          sample: `التوبيخ — لوم على الخطأ، قبل الماضي<br>التحضيض — طلب بشدة، قبل المضارع<br>الحروف الخمسة (نفسها لكليهما) — هلّا، ألا، لولا، لوما، ألّا`,
+          lines: [
+            { html: `<bdi>التَّوْبِيخ</bdi> is blame for a fault (<bdi>لَوْمٌ عَلَى الْخَطَأ</bdi>) — its حروف come before a فعل past in both form and meaning.`, list: false },
+            { html: `<bdi>التَّحْضِيض</bdi> is an insistent request (<bdi>طَلَبٌ بِشِدَّة</bdi>) — its حروف come before المضارع.`, list: false },
+            { html: `The same five حروف serve both — <bdi>هَلَّا، أَلَا، لَوْلَا، لَوْمَا، أَلَّا</bdi> — which of the two meanings applies is told apart by whether a ماضٍ or مضارع follows.`, list: false },
+          ],
           exercise: {
             prompt: `How do you tell التوبيخ apart from التحضيض, given that the same حروف serve both؟`,
             kind: 'mcq',
@@ -41,8 +44,10 @@ export default {
         },
         {
           heading: 'هلّا: أمثلتها وأصلها',
-          body: `<bdi>هَلَّا</bdi> serves both meanings: rebuke before the past — <bdi>هَلَّا صَلَّيْتَ</bdi> — and exhortation before the present — <bdi>هَلَّا تُصَلِّي</bdi>. Its origin is <bdi>هَلِ الِاسْتِفْهَامِيَّة</bdi> plus the نفي حرف <bdi>لَا</bdi>.`,
-          sample: `هلّا (توبيخ) — هلّا صليتَ<br>هلّا (تحضيض) — هلّا تصلي<br>أصلها — هل الاستفهامية + لا (نفي)`,
+          lines: [
+            { html: `<bdi>هَلَّا</bdi> serves both meanings: rebuke before the past (هَلَّا صَلَّيْتَ) and exhortation before the present (هَلَّا تُصَلِّي).`, list: false },
+            { html: `Its origin is <bdi>هَلِ الِاسْتِفْهَامِيَّة</bdi> plus the نفي حرف <bdi>لَا</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is the origin of هلّا؟`,
             kind: 'mcq',
@@ -52,8 +57,10 @@ export default {
         },
         {
           heading: 'لولا ولوما: أصلهما، والتمييز عن الشرط',
-          body: `In this usage, <bdi>لَوْلَا</bdi> comes from <bdi>لَوِ الشَّرْطِيَّة</bdi> plus the نفي حرف <bdi>لَا</bdi>, and <bdi>لَوْمَا</bdi> from لو الشرطية plus the نفي حرف <bdi>مَا</bdi> — as in <bdi>لَوْلَا صُمْتَ</bdi> / <bdi>لَوْلَا تَصُومُ</bdi> and <bdi>لَوْمَا صَدَقْتَ</bdi> / <bdi>﴿لَوْمَا تَأْتِينَا بِالْمَلَائِكَةِ﴾</bdi>. Since لولا/لوما can ALSO be plain أحرف الشرط (Module 07), the two readings are told apart <bdi>بِالسِّيَاق</bdi> (by context) — they serve both الشرط and التوبيخ والتحضيض.`,
-          sample: `لولا (توبيخ/تحضيض) — أصلها لو + لا: لولا صمتَ / لولا تصوم<br>لوما (توبيخ/تحضيض) — أصلها لو + ما: لوما صدقتَ / ﴿لوما تأتينا بالملائكة﴾<br>التمييز عن لولا/لوما الشرطية — بالسياق`,
+          lines: [
+            { html: `In this usage, <bdi>لَوْلَا</bdi> comes from <bdi>لَوِ الشَّرْطِيَّة</bdi> plus the نفي حرف <bdi>لَا</bdi> (لَوْلَا صُمْتَ / لَوْلَا تَصُومُ), and <bdi>لَوْمَا</bdi> from لو الشرطية plus the نفي حرف <bdi>مَا</bdi> (لَوْمَا صَدَقْتَ / ﴿لَوْمَا تَأْتِينَا بِالْمَلَائِكَةِ﴾).`, list: false },
+            { html: `Since لولا/لوما can ALSO be plain أحرف الشرط (Module 07), the two readings are told apart <bdi>بِالسِّيَاق</bdi> (by context) — they serve both الشرط and التوبيخ والتحضيض.`, list: false },
+          ],
           exercise: {
             prompt: `How do you tell whether لولا / لوما is شرط or for rebuke/exhortation؟`,
             kind: 'mcq',
@@ -63,8 +70,10 @@ export default {
         },
         {
           heading: 'ألّا: اختصاصها وأصلها',
-          body: `<bdi>أَلَّا</bdi> is distinctive among these five حروف: it is restricted to المضارع and never precedes the past, as in <bdi>﴿أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ﴾</bdi>. Its origin is <bdi>هَمْزَةُ اسْتِفْهَام</bdi> plus the نفي حرف <bdi>لَا</bdi>.`,
-          sample: `ألّا — مختصة بالمضارع، لا تسبق الماضي أبدا: ﴿ألا تحبون أن يغفر الله لكم﴾<br>أصلها — همزة استفهام + لا`,
+          lines: [
+            { html: `<bdi>أَلَّا</bdi> is distinctive among these five حروف: it is restricted to المضارع and never precedes the past, as in ﴿أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ﴾.`, list: false },
+            { html: `Its origin is <bdi>هَمْزَةُ اسْتِفْهَام</bdi> plus the نفي حرف <bdi>لَا</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is distinctive about ألّا among these five حروف؟`,
             kind: 'mcq',
@@ -74,8 +83,10 @@ export default {
         },
         {
           heading: 'العرض: تعريفه وحروفه',
-          body: `<bdi>الْعَرْض</bdi> is a gentle request (<bdi>طَلَبٌ بِلِين</bdi>). Its three حروف are <bdi>أَلَا، أَمَا، لَوْ</bdi>, as in <bdi>أَلَا تَقُومُ بِاللَّيْلِ؟</bdi>, <bdi>أَمَا تَصُومُ يَوْمَ الِاثْنَيْنِ وَالْخَمِيسِ</bdi>, and <bdi>لَوْ تَتَصَدَّقُ عَلَى الْفُقَرَاءِ</bdi>. <bdi>أَمَا</bdi> (of العرض) comes from <bdi>هَمْزَةُ اسْتِفْهَام</bdi> plus the نفي حرف <bdi>مَا</bdi>; <bdi>أَلَا</bdi> here serves both التحضيض and العرض, and is known only by context.`,
-          sample: `العرض — طلب بلين، حروفه الثلاثة: ألا، أما، لو<br>أمثلة — ألا تقوم بالليل؟ أما تصوم يوم الاثنين والخميس؟ لو تتصدق على الفقراء<br>أصل أما (العرض) — همزة استفهام + ما<br>ألا مشتركة بين التحضيض والعرض — تُعرف بالسياق`,
+          lines: [
+            { html: `<bdi>الْعَرْض</bdi> is a gentle request (<bdi>طَلَبٌ بِلِين</bdi>). Its three حروف are <bdi>أَلَا، أَمَا، لَوْ</bdi>, as in أَلَا تَقُومُ بِاللَّيْلِ؟, أَمَا تَصُومُ يَوْمَ الِاثْنَيْنِ وَالْخَمِيسِ, and لَوْ تَتَصَدَّقُ عَلَى الْفُقَرَاءِ.`, list: false },
+            { html: `<bdi>أَمَا</bdi> (of العرض) comes from <bdi>هَمْزَةُ اسْتِفْهَام</bdi> plus the نفي حرف <bdi>مَا</bdi>; <bdi>أَلَا</bdi> here serves both التحضيض and العرض, and is known only by context.`, list: false },
+          ],
           exercise: {
             prompt: `Define العرض and name its three حروف.`,
             kind: 'mcq',
@@ -209,31 +220,52 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: توبيخ أم تحضيض؟',
+          title: 'تركيب: هَلَّا صَلَّيْتَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: التوبيخ (before ماضٍ) or التحضيض (before مضارع)؟',
-          source: 'هلّا صليتَ / هلّا تصلي / لولا صمتَ / لوما تأتينا بالملائكة',
-          words: ['هلّا صليتَ', 'هلّا تصلي', 'لولا صمتَ', 'لوما تأتينا'],
-          labels: ['التوبيخ', 'التحضيض', 'التوبيخ', 'التحضيض'],
-          distractors: ['العرض'],
+          instruction: 'Classify هلّا here: التوبيخ or التحضيض؟',
+          sentence: 'هَلَّا صَلَّيْتَ',
+          translation: 'Why did you not pray? (rebuke)',
+          cells: ['هَلَّا', 'صَلَّيْتَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'التوبيخ' }] },
+          ],
+          distractors: ['التحضيض', 'العرض'],
         },
         {
-          title: 'تركيب: أصول الحروف الخمسة',
+          title: 'تركيب: هَلَّا تُصَلِّي',
           kind: 'tarkeeb',
-          instruction: 'Classify the origin of each حرف.',
-          source: 'هلّا / لولا / ألّا',
-          words: ['هلّا', 'لولا', 'ألّا'],
-          labels: ['هل + لا', 'لو + لا', 'همزة + لا'],
-          distractors: ['لو + ما'],
+          instruction: 'Classify هلّا here: التوبيخ or التحضيض؟',
+          sentence: 'هَلَّا تُصَلِّي',
+          translation: "Won't you pray? (insistent exhortation)",
+          cells: ['هَلَّا', 'تُصَلِّي'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'التحضيض' }] },
+          ],
+          distractors: ['التوبيخ', 'العرض'],
         },
         {
-          title: 'تركيب: حروف العرض وأصولها',
+          title: 'تركيب: لَوْلَا صُمْتَ',
           kind: 'tarkeeb',
-          instruction: 'Classify the origin of each حرف العرض.',
-          source: 'أما (العرض) / ألا (العرض)',
-          words: ['أما', 'ألا'],
-          labels: ['همزة + ما', 'همزة + لا'],
-          distractors: ['لو + ما'],
+          instruction: 'Classify لولا here: التوبيخ or التحضيض؟',
+          sentence: 'لَوْلَا صُمْتَ',
+          translation: 'Why did you not fast? (rebuke)',
+          cells: ['لَوْلَا', 'صُمْتَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'التوبيخ' }] },
+          ],
+          distractors: ['التحضيض', 'العرض'],
+        },
+        {
+          title: 'تركيب: ﴿لَوْمَا تَأْتِينَا بِالْمَلَائِكَةِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify لوما here: التوبيخ or التحضيض؟',
+          sentence: 'لَوْمَا تَأْتِينَا بِالْمَلَائِكَةِ',
+          translation: 'Why do you not bring us the angels?',
+          cells: ['لَوْمَا', 'تَأْتِينَا', 'بِالْمَلَائِكَةِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'التحضيض' }] },
+          ],
+          distractors: ['التوبيخ', 'العرض'],
         },
       ],
     },
@@ -245,8 +277,10 @@ export default {
       concepts: [
         {
           heading: 'الثلاثة، وألا التنبيه',
-          body: `There are three <bdi>أَحْرُفُ التَّنْبِيه</bdi>: <bdi>أَلَا، أَمَا، هَا</bdi>. The جملة after <bdi>أَلَا التَّنْبِيه</bdi> usually carries some emphasis, as in <bdi>﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾</bdi>; it enters both nominal and جمل فعلية, as in <bdi>﴿أَلَا حِينَ يَسْتَغْشُونَ ثِيَابَهُمْ يَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ﴾</bdi>.`,
-          sample: `أحرف التنبيه الثلاثة — ألا، أما، ها<br>ألا التنبيه — جملة بعدها فيها تأكيد غالبا: ﴿ألا إنهم هم المفسدون﴾، تدخل الاسمية والفعلية`,
+          lines: [
+            { html: `There are three <bdi>أَحْرُفُ التَّنْبِيه</bdi>: <bdi>أَلَا، أَمَا، هَا</bdi>.`, list: false },
+            { html: `The جملة after <bdi>أَلَا التَّنْبِيه</bdi> usually carries some emphasis, as in ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾; it enters both nominal and جمل فعلية, as in ﴿أَلَا حِينَ يَسْتَغْشُونَ ثِيَابَهُمْ يَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What are the three أحرف التنبيه؟`,
             kind: 'mcq',
@@ -256,8 +290,10 @@ export default {
         },
         {
           heading: 'تمييز ألا التنبيه عن التحضيض والعرض',
-          body: `ألا التنبيه is told apart from ألا of التحضيض/العرض by a simple test: the speech remains grammatically valid if <bdi>أَلَا التَّنْبِيه</bdi> is dropped — <bdi>﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾</bdi> still stands without it — unlike ألا of التحضيض or العرض, as in <bdi>﴿أَلَا تَأْكُلُونَ﴾</bdi>, where dropping it changes the sentence's force.`,
-          sample: `اختبار ألا التنبيه — يصح الكلام لو حُذفت: ﴿ألا إنهم هم المفسدون﴾<br>بخلاف ألا التحضيض/العرض — ﴿ألا تأكلون﴾، حذفها يغير قوة الجملة`,
+          lines: [
+            { html: `ألا التنبيه is told apart from ألا of التحضيض/العرض by a simple test: the speech remains grammatically valid if <bdi>أَلَا التَّنْبِيه</bdi> is dropped — ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾ still stands without it.`, list: false },
+            { html: `Unlike ألا of التحضيض or العرض, as in ﴿أَلَا تَأْكُلُونَ﴾, where dropping it changes the sentence's force.`, list: false },
+          ],
           exercise: {
             prompt: `How do you distinguish ألا of التنبيه from ألا of التحضيض/العرض؟`,
             kind: 'mcq',
@@ -267,8 +303,10 @@ export default {
         },
         {
           heading: 'أما التنبيه',
-          body: `<bdi>أَمَا التَّنْبِيه</bdi> is usually followed by a قسم, as in <bdi>أَمَا وَالَّذِي أَبْكَى وَأَضْحَكَ</bdi>...; its همزة may also be dropped, as in <bdi>مَا تَرَى الدَّهْرَ قَدْ أَبَادَ مَعَدًّا</bdi>...`,
-          sample: `أما التنبيه — يليها قسم غالبا: أما والذي أبكى وأضحك...<br>حذف همزتها — جائز: ما ترى الدهر قد أباد معدا...`,
+          lines: [
+            { html: `<bdi>أَمَا التَّنْبِيه</bdi> is usually followed by a قسم, as in أَمَا وَالَّذِي أَبْكَى وَأَضْحَكَ…`, list: false },
+            { html: `Its همزة may also be dropped, as in مَا تَرَى الدَّهْرَ قَدْ أَبَادَ مَعَدًّا…`, list: false },
+          ],
           exercise: {
             prompt: `What usually follows أما التنبيه, and may its همزة be dropped؟`,
             kind: 'mcq',
@@ -278,8 +316,15 @@ export default {
         },
         {
           heading: 'ها التنبيه: أربعة مواضع',
-          body: `<bdi>هَا التَّنْبِيه</bdi> enters upon four things: (1) an <bdi>اسْمُ إِشَارَةٍ لِلْقَرِيب</bdi>, as in <bdi>﴿هَٰؤُلَاءِ قَوْمُنَا﴾</bdi> (2) a <bdi>ضَمِيرُ رَفْع</bdi>, as in <bdi>﴿هَا أَنْتُمْ هَٰؤُلَاءِ﴾</bdi> (3) a <bdi>فِعْلٌ مَاضٍ</bdi> accompanied by <bdi>قَدْ</bdi>, as in <bdi>هَا قَدْ غَفَرَ اللَّهُ لِلتَّائِبِينَ</bdi> (4) <bdi>أَيّ</bdi>/<bdi>أَيَّة</bdi> before a word bearing <bdi>أَل</bdi>, as in <bdi>﴿يَا أَيُّهَا النَّاسُ﴾</bdi> and <bdi>﴿يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ﴾</bdi>.`,
-          sample: `ها التنبيه (٤ مواضع) — اسم إشارة للقريب: ﴿هؤلاء قومنا﴾؛ ضمير رفع: ﴿ها أنتم هؤلاء﴾؛ فعل ماضٍ مع قد: ها قد غفر الله للتائبين؛ أي/أية قبل ما فيه أل: ﴿يا أيها الناس﴾`,
+          lines: [
+            { html: `<bdi>هَا التَّنْبِيه</bdi> enters upon four things:`, list: false },
+            { table: { headers: ['#', 'Enters upon', 'Example'], rows: [
+              ['1', 'اسْمُ إِشَارَةٍ لِلْقَرِيب', '﴿هَٰؤُلَاءِ قَوْمُنَا﴾'],
+              ['2', 'ضَمِيرُ رَفْع', '﴿هَا أَنْتُمْ هَٰؤُلَاءِ﴾'],
+              ['3', 'فِعْلٌ مَاضٍ accompanied by قَدْ', 'هَا قَدْ غَفَرَ اللَّهُ لِلتَّائِبِينَ'],
+              ['4', 'أَيّ/أَيَّة before a word bearing أَل', '﴿يَا أَيُّهَا النَّاسُ﴾ / ﴿يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `Upon what four things does ها التنبيه enter؟`,
             kind: 'mcq',
@@ -378,22 +423,76 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مواضع ها التنبيه الأربعة',
+          title: 'تركيب: ﴿هَٰؤُلَاءِ قَوْمُنَا﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the موضع of ها التنبيه it illustrates.',
-          source: '﴿هؤلاء قومنا﴾ / ﴿ها أنتم هؤلاء﴾ / ها قد غفر الله للتائبين / ﴿يا أيها الناس﴾',
-          words: ['هؤلاء قومنا', 'ها أنتم', 'ها قد غفر', 'يا أيها الناس'],
-          labels: ['اسم إشارة للقريب', 'ضمير رفع', 'فعل ماضٍ مع قد', 'أيّ قبل أل'],
-          distractors: ['فعل مضارع'],
+          instruction: 'What does ها التنبيه enter upon here؟',
+          sentence: 'هَٰؤُلَاءِ قَوْمُنَا',
+          translation: 'These are our people.',
+          cells: ['هَٰؤُلَاءِ', 'قَوْمُنَا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'اسم إشارة للقريب' }] },
+          ],
+          distractors: ['ضمير رفع', 'فعل ماضٍ مع قد', 'أيّ قبل أل'],
         },
         {
-          title: 'تركيب: تنبيه أم تحضيض/عرض؟',
+          title: 'تركيب: ﴿هَا أَنْتُمْ هَٰؤُلَاءِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each ألا: للتنبيه (يصح حذفها) or للتحضيض/العرض (لا يصح حذفها)؟',
-          source: '﴿ألا إنهم هم المفسدون﴾ / ﴿ألا تأكلون﴾',
-          words: ['ألا إنهم', 'ألا تأكلون'],
-          labels: ['للتنبيه', 'للتحضيض/العرض'],
-          distractors: ['للعطف'],
+          instruction: 'What does ها التنبيه enter upon here؟',
+          sentence: 'هَا أَنْتُمْ هَٰؤُلَاءِ',
+          translation: 'Here you are (this is you)...',
+          cells: ['هَا', 'أَنْتُمْ', 'هَٰؤُلَاءِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'ضمير رفع' }] },
+          ],
+          distractors: ['اسم إشارة للقريب', 'فعل ماضٍ مع قد', 'أيّ قبل أل'],
+        },
+        {
+          title: 'تركيب: هَا قَدْ غَفَرَ اللَّهُ لِلتَّائِبِينَ',
+          kind: 'tarkeeb',
+          instruction: 'What does ها التنبيه enter upon here؟',
+          sentence: 'هَا قَدْ غَفَرَ اللَّهُ لِلتَّائِبِينَ',
+          translation: 'Behold, Allah has forgiven those who repent.',
+          cells: ['هَا', 'قَدْ', 'غَفَرَ', 'اللَّهُ', 'لِلتَّائِبِينَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'فعل ماضٍ مع قد' }] },
+          ],
+          distractors: ['اسم إشارة للقريب', 'ضمير رفع', 'أيّ قبل أل'],
+        },
+        {
+          title: 'تركيب: ﴿يَا أَيُّهَا النَّاسُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What does ها التنبيه enter upon here (via أيّ)؟',
+          sentence: 'يَا أَيُّهَا النَّاسُ',
+          translation: 'O mankind.',
+          cells: ['يَا', 'أَيُّهَا', 'النَّاسُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'أيّ قبل أل' }] },
+          ],
+          distractors: ['اسم إشارة للقريب', 'ضمير رفع', 'فعل ماضٍ مع قد'],
+        },
+        {
+          title: 'تركيب: ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify ألا here: للتنبيه or للتحضيض/العرض؟',
+          sentence: 'أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ',
+          translation: 'Unquestionably, they are the corrupters.',
+          cells: ['أَلَا', 'إِنَّهُمْ', 'هُمُ', 'الْمُفْسِدُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'للتنبيه' }] },
+          ],
+          distractors: ['للتحضيض/العرض'],
+        },
+        {
+          title: 'تركيب: ﴿أَلَا تَأْكُلُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify ألا here: للتنبيه or للتحضيض/العرض؟',
+          sentence: 'أَلَا تَأْكُلُونَ',
+          translation: 'Will you not eat?',
+          cells: ['أَلَا', 'تَأْكُلُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'للتحضيض/العرض' }] },
+          ],
+          distractors: ['للتنبيه'],
         },
       ],
     },
@@ -405,8 +504,14 @@ export default {
       concepts: [
         {
           heading: 'أحرف المصدر: أسماؤها البديلة، وغير العاملة منها',
-          body: `<bdi>أَحْرُفُ الْمَصْدَر</bdi> are also called <bdi>مَوْصُولَاتٌ حَرْفِيَّة</bdi> or <bdi>حُرُوفٌ مَوْصُولَة</bdi>. Three are غير عاملة: (1) <bdi>مَا</bdi> — both <bdi>الْمَصْدَرِيَّةُ الظَّرْفِيَّة</bdi>, as in <bdi>﴿وَأَوْصَانِي بِالصَّلَاةِ وَالزَّكَاةِ مَا دُمْتُ حَيًّا﴾</bdi>, and غير الظرفية, as in <bdi>﴿فَصَبَرُوا عَلَىٰ مَا كُذِّبُوا﴾</bdi> (2) <bdi>لَوْ</bdi> after <bdi>وَدَّ</bdi>, as in <bdi>﴿وَدُّوا لَوْ تَكْفُرُونَ كَمَا كَفَرُوا﴾</bdi> (3) <bdi>هَمْزَةُ التَّسْوِيَة</bdi>, as in <bdi>﴿وَسَوَاءٌ عَلَيْهِمْ أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ﴾</bdi>.`,
-          sample: `أحرف المصدر = موصولات حرفية = حروف موصولة<br>غير العاملة الثلاثة — ما (ظرفية أو لا): ﴿وأوصاني بالصلاة والزكاة ما دمت حيا﴾؛ لو بعد ودّ: ﴿ودوا لو تكفرون كما كفروا﴾؛ همزة التسوية: ﴿وسواء عليهم أأنذرتهم أم لم تنذرهم﴾`,
+          lines: [
+            { html: `<bdi>أَحْرُفُ الْمَصْدَر</bdi> are also called <bdi>مَوْصُولَاتٌ حَرْفِيَّة</bdi> or <bdi>حُرُوفٌ مَوْصُولَة</bdi>. Three are غير عاملة:`, list: false },
+            { table: { headers: ['حرف', 'Example'], rows: [
+              ['مَا — both الْمَصْدَرِيَّةُ الظَّرْفِيَّة and غير الظرفية', '﴿وَأَوْصَانِي بِالصَّلَاةِ وَالزَّكَاةِ مَا دُمْتُ حَيًّا﴾ / ﴿فَصَبَرُوا عَلَىٰ مَا كُذِّبُوا﴾'],
+              ['لَوْ after وَدَّ', '﴿وَدُّوا لَوْ تَكْفُرُونَ كَمَا كَفَرُوا﴾'],
+              ['هَمْزَةُ التَّسْوِيَة', '﴿وَسَوَاءٌ عَلَيْهِمْ أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What alternative names are given to أحرف المصدر؟`,
             kind: 'mcq',
@@ -416,8 +521,10 @@ export default {
         },
         {
           heading: 'العاملة منها، وموقع همزة التسوية',
-          body: `The governing (<bdi>عَامِلَة</bdi>) أحرف مصدرية are <bdi>كَيْ، أَنْ، أَنَّ</bdi>. <bdi>هَمْزَةُ التَّسْوِيَة</bdi> occurs after <bdi>سَوَاء</bdi>, <bdi>مَا أُبَالِي</bdi>, <bdi>مَا أَدْرِي</bdi>, <bdi>لَيْتَ شِعْرِي</bdi>, and the like.`,
-          sample: `العاملة — كي، أنْ، أنَّ<br>مواقع همزة التسوية — بعد سواء، ما أبالي، ما أدري، ليت شعري، وما شابهها`,
+          lines: [
+            { html: `The governing (<bdi>عَامِلَة</bdi>) أحرف مصدرية are <bdi>كَيْ، أَنْ، أَنَّ</bdi>.`, list: false },
+            { html: `<bdi>هَمْزَةُ التَّسْوِيَة</bdi> occurs after <bdi>سَوَاء</bdi>, <bdi>مَا أُبَالِي</bdi>, <bdi>مَا أَدْرِي</bdi>, <bdi>لَيْتَ شِعْرِي</bdi>, and the like.`, list: false },
+          ],
           exercise: {
             prompt: `Which أحرف مصدرية are governing (عاملة)؟`,
             kind: 'mcq',
@@ -427,8 +534,11 @@ export default {
         },
         {
           heading: 'حرفا التفسير: أي وأنْ',
-          body: `There are two <bdi>أَحْرُفُ التَّفْسِير</bdi> (explanatory particles): <bdi>أَيْ</bdi> can interpret both a single word, as in <bdi>أَسْأَلُ اللَّهَ الْفِرْدَوْسَ أَيِ الْجَنَّةَ</bdi>, and a جملة, as in <bdi>اسْتَغْفَرْتُ اللَّهَ أَيْ سَأَلْتُ اللَّهَ أَنْ يَغْفِرَ لِي</bdi>; <bdi>أَنْ</bdi> interprets only a جملة, as in <bdi>﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾</bdi>.`,
-          sample: `أي — تفسر مفردا أو جملة: أسأل الله الفردوس أي الجنة<br>أنْ — تفسر جملة فقط: ﴿وناديناه أن يا إبراهيم﴾`,
+          lines: [
+            { html: `There are two <bdi>أَحْرُفُ التَّفْسِير</bdi> (explanatory particles):`, list: false },
+            { html: `<bdi>أَيْ</bdi> can interpret both a single word (أَسْأَلُ اللَّهَ الْفِرْدَوْسَ أَيِ الْجَنَّةَ) and a جملة (اسْتَغْفَرْتُ اللَّهَ أَيْ سَأَلْتُ اللَّهَ أَنْ يَغْفِرَ لِي)`, list: true, bullet: true },
+            { html: `<bdi>أَنْ</bdi> interprets only a جملة, as in ﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What can أي interpret, versus what أنْ can interpret؟`,
             kind: 'mcq',
@@ -438,8 +548,12 @@ export default {
         },
         {
           heading: 'شرطا أنْ التفسيرية',
-          body: `أنْ التفسيرية requires two conditions: (1) it must be preceded by something carrying the <b>meaning</b> of speech without its wording (<bdi>لَفْظُ الْقَوْل</bdi>) — calling, as in <bdi>﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾</bdi>, revelation, as in <bdi>﴿وَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنْ أَلْقِ عَصَاكَ﴾</bdi>, covenant, as in <bdi>﴿وَعَهِدْنَا إِلَىٰ إِبْرَاهِيمَ وَإِسْمَاعِيلَ أَنْ طَهِّرَا بَيْتِيَ﴾</bdi>, or writing (2) no حرف جر, explicit or implied, before it — <bdi>﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تَذْبَحُوا بَقَرَةً﴾</bdi> is مصدرية instead, because الباء is implied there. Even when both conditions are met, أنْ is not necessarily تفسيرية — <bdi>﴿وَنَادَاهُمَا رَبُّهُمَا أَلَمْ أَنْهَكُمَا عَنْ تِلْكُمَا الشَّجَرَةِ﴾</bdi> meets them yet is not read that way.`,
-          sample: `شرطا أنْ التفسيرية — مسبوقة بما فيه معنى القول لا لفظه (نداء، وحي، عهد، كتابة)؛ لا حرف جر قبلها ظاهرا أو مقدرا<br>استيفاء الشرطين لا يلزم التفسيرية — ﴿وناداهما ربهما ألم أنهكما عن تلكما الشجرة﴾`,
+          lines: [
+            { html: `أنْ التفسيرية requires two conditions:`, list: false },
+            { html: `it must be preceded by something carrying the <b>meaning</b> of speech without its wording (لَفْظُ الْقَوْل) — calling (﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾), revelation (﴿وَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنْ أَلْقِ عَصَاكَ﴾), covenant (﴿وَعَهِدْنَا إِلَىٰ إِبْرَاهِيمَ وَإِسْمَاعِيلَ أَنْ طَهِّرَا بَيْتِيَ﴾), or writing`, list: true, bullet: true },
+            { html: `no حرف جر, explicit or implied, before it — ﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تَذْبَحُوا بَقَرَةً﴾ is مصدرية instead, because الباء is implied there`, list: true, bullet: true },
+            { html: `Even when both conditions are met, أنْ is not necessarily تفسيرية — ﴿وَنَادَاهُمَا رَبُّهُمَا أَلَمْ أَنْهَكُمَا عَنْ تِلْكُمَا الشَّجَرَةِ﴾ meets them yet is not read that way.`, list: false },
+          ],
           exercise: {
             prompt: `If both conditions of أنْ التفسيرية are met, must it be read as تفسيرية؟`,
             kind: 'mcq',
@@ -566,31 +680,40 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: أحرف مصدرية عاملة أم لا؟',
+          title: 'تركيب: أَسْأَلُ اللَّهَ الْفِرْدَوْسَ أَيِ الْجَنَّةَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف مصدر: عاملة or غير عاملة؟',
-          source: 'كي / ما / أنَّ / لو (بعد ودّ)',
-          words: ['كي', 'ما', 'أنَّ', 'لو'],
-          labels: ['عاملة', 'غير عاملة', 'عاملة', 'غير عاملة'],
-          distractors: ['جازمة'],
+          instruction: 'What does أي interpret here: a single word or a جملة؟',
+          sentence: 'أَسْأَلُ اللَّهَ الْفِرْدَوْسَ أَيِ الْجَنَّةَ',
+          translation: 'I ask Allah for al-Firdaws, i.e. Paradise.',
+          cells: ['أَسْأَلُ', 'اللَّهَ', 'الْفِرْدَوْسَ', 'أَيِ', 'الْجَنَّةَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 3, role: 'أي تفسر مفردا' }] },
+          ],
+          distractors: ['أي تفسر جملة', 'أنْ تفسيرية'],
         },
         {
-          title: 'تركيب: أي أم أنْ التفسيرية؟',
+          title: 'تركيب: اسْتَغْفَرْتُ اللَّهَ أَيْ سَأَلْتُ اللَّهَ أَنْ يَغْفِرَ لِي',
           kind: 'tarkeeb',
-          instruction: 'Classify what each حرف تفسير can interpret.',
-          source: 'أي / أنْ',
-          words: ['أي', 'أنْ'],
-          labels: ['مفرد أو جملة', 'جملة فقط'],
-          distractors: ['حرف جر فقط'],
+          instruction: 'What does أي interpret here: a single word or a جملة؟',
+          sentence: 'اسْتَغْفَرْتُ اللَّهَ أَيْ سَأَلْتُ اللَّهَ أَنْ يَغْفِرَ لِي',
+          translation: 'I sought Allah\'s forgiveness, i.e. I asked Allah to forgive me.',
+          cells: ['اسْتَغْفَرْتُ', 'اللَّهَ', 'أَيْ', 'سَأَلْتُ', 'اللَّهَ', 'أَنْ', 'يَغْفِرَ', 'لِي'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'أي تفسر جملة' }] },
+          ],
+          distractors: ['أي تفسر مفردا'],
         },
         {
-          title: 'تركيب: شروط أنْ التفسيرية',
+          title: 'تركيب: ﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each requirement of أنْ التفسيرية.',
-          source: 'سبقها بما فيه معنى القول / خلوها من حرف جر قبلها',
-          words: ['معنى القول قبلها', 'لا حرف جر قبلها'],
-          labels: ['الشرط الأول', 'الشرط الثاني'],
-          distractors: ['الشرط الثالث'],
+          instruction: 'Identify أنْ here and what it interprets.',
+          sentence: 'وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ',
+          translation: 'And We called to him, "O Abraham."',
+          cells: ['وَنَادَيْنَاهُ', 'أَنْ', 'يَا', 'إِبْرَاهِيمُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'أنْ تفسيرية (تفسر جملة)' }] },
+          ],
+          distractors: ['أي تفسر مفردا'],
         },
       ],
     },
@@ -602,8 +725,16 @@ export default {
       concepts: [
         {
           heading: 'أحرف النفي الثلاثة غير العاملة',
-          body: `Three <bdi>نَفْي حُرُوف</bdi> are غير عاملة: (1) <bdi>مَا</bdi> — on the past, as in <bdi>﴿وَمَا قَتَلُوهُ﴾</bdi>, and the present, as in <bdi>﴿وَمَا يَشْعُرُونَ﴾</bdi> (2) <bdi>لَا</bdi> — on the present فعل, as in <bdi>﴿وَهُمْ لَا يُؤْمِنُونَ﴾</bdi> (3) <bdi>إِنْ</bdi>, as in <bdi>﴿إِنْ أَنْتُمْ إِلَّا فِي ضَلَالٍ كَبِيرٍ﴾</bdi>. لا النافية can enter a فعل ماضٍ only when repeated, as in <bdi>﴿فَلَا صَدَّقَ وَلَا صَلَّىٰ﴾</bdi>, or when the meaning is future-oriented, like supplication — <bdi>لَا قَدَّرَ اللَّهُ</bdi>. The خبر after negating إنْ is usually accompanied by <bdi>إِلَّا</bdi>, as in the example above.`,
-          sample: `أحرف النفي الثلاثة غير العاملة — ما (ماضٍ ومضارع)، لا (مضارع)، إنْ<br>لا على الماضي — بالتكرار: ﴿فلا صدّق ولا صلى﴾؛ أو بمعنى الدعاء: لا قدّر الله<br>خبر إنْ النافية — يصحبه إلا غالبا: ﴿إن أنتم إلا في ضلال كبير﴾`,
+          lines: [
+            { html: `Three <bdi>نَفْي حُرُوف</bdi> are غير عاملة:`, list: false },
+            { table: { headers: ['حرف', 'Enters', 'Example'], rows: [
+              ['مَا', 'past and present', '﴿وَمَا قَتَلُوهُ﴾ / ﴿وَمَا يَشْعُرُونَ﴾'],
+              ['لَا', 'present فعل', '﴿وَهُمْ لَا يُؤْمِنُونَ﴾'],
+              ['إِنْ', '—', '﴿إِنْ أَنْتُمْ إِلَّا فِي ضَلَالٍ كَبِيرٍ﴾'],
+            ] } },
+            { html: `لا النافية can enter a فعل ماضٍ only when repeated (﴿فَلَا صَدَّقَ وَلَا صَلَّىٰ﴾), or when the meaning is future-oriented, like supplication (لَا قَدَّرَ اللَّهُ).`, list: false },
+            { html: `The خبر after negating إنْ is usually accompanied by <bdi>إِلَّا</bdi>, as in the example above.`, list: false },
+          ],
           exercise: {
             prompt: `When may negating لا enter upon a فعل ماضٍ؟`,
             kind: 'mcq',
@@ -613,8 +744,9 @@ export default {
         },
         {
           heading: 'أحرف النفي العاملة (تذكير)',
-          body: `Besides these three, several أحرف نفي already met ARE governing (<bdi>عَامِلَة</bdi>): <bdi>لَا لِنَفْيِ الْجِنْس</bdi> and الحروف المشبهة بليس (Module 05), <bdi>لَنْ</bdi> (Module 06), <bdi>لَمْ</bdi> and <bdi>لَمَّا</bdi> (Module 06), and <bdi>لَا النَّهْي</bdi> (Module 06).`,
-          sample: `النفي العاملة — لا لنفي الجنس، الحروف المشبهة بليس، لن، لم، لما، لا الناهية`,
+          lines: [
+            { html: `Besides these three, several أحرف نفي already met ARE governing (<bdi>عَامِلَة</bdi>): <bdi>لَا لِنَفْيِ الْجِنْس</bdi> and الحروف المشبهة بليس (Module 05), <bdi>لَنْ</bdi> (Module 06), <bdi>لَمْ</bdi> and <bdi>لَمَّا</bdi> (Module 06), and <bdi>لَا النَّهْي</bdi> (Module 06).`, list: false },
+          ],
           exercise: {
             prompt: `Which of these نفي حروف is governing (عاملة)؟`,
             kind: 'mcq',
@@ -624,8 +756,10 @@ export default {
         },
         {
           heading: 'أحرف الزيادة: اسمها البديل، وإنْ الزائدة',
-          body: `<bdi>أَحْرُفُ الزِّيَادَة</bdi> are alternatively called <bdi>أَحْرُفُ الصِّلَة</bdi>. Extra <bdi>إِنْ</bdi> usually occurs added with negating <bdi>مَا</bdi>, as in <bdi>مَا إِنْ أَتَيْتَ بِشَيْءٍ أَنْتَ تَكْرَهُهُ</bdi>; overall, إنْ can be <bdi>مُخَفَّفَة</bdi> (of إنّ), <bdi>شَرْطِيَّة</bdi>, <bdi>نَافِيَة</bdi>, or <bdi>زَائِدَة</bdi> — known by context.`,
-          sample: `أحرف الزيادة = أحرف الصلة<br>إنْ الزائدة — تكثر مع ما النافية: ما إنْ أتيت بشيء أنت تكرهه<br>أدوار إنْ الأربعة — مخففة، شرطية، نافية، زائدة`,
+          lines: [
+            { html: `<bdi>أَحْرُفُ الزِّيَادَة</bdi> are alternatively called <bdi>أَحْرُفُ الصِّلَة</bdi>.`, list: false },
+            { html: `Extra <bdi>إِنْ</bdi> usually occurs added with negating <bdi>مَا</bdi>, as in مَا إِنْ أَتَيْتَ بِشَيْءٍ أَنْتَ تَكْرَهُهُ; overall, إنْ can be <bdi>مُخَفَّفَة</bdi> (of إنّ), <bdi>شَرْطِيَّة</bdi>, <bdi>نَافِيَة</bdi>, or <bdi>زَائِدَة</bdi> — known by context.`, list: false },
+          ],
           exercise: {
             prompt: `What alternative name do أحرف الزيادة have؟`,
             kind: 'mcq',
@@ -635,8 +769,11 @@ export default {
         },
         {
           heading: 'أنْ الزائدة وما الزائدة',
-          body: `Extra <bdi>أَنْ</bdi> usually occurs (1) after <bdi>لَمَّا الْحِينِيَّة</bdi>, as in <bdi>﴿فَلَمَّا أَنْ جَاءَ الْبَشِيرُ﴾</bdi> (2) between <bdi>لَوْ</bdi> and a preceding قسم-واو, as in <bdi>وَاللَّهِ أَنْ لَوْ قُمْتَ قُمْتُ</bdi>. Extra <bdi>مَا</bdi> may be inserted after أدوات الشرط — <bdi>إِذَا، مَتَىٰ، أَيّ، أَيْنَ، إِنْ</bdi> — as in <bdi>﴿وَإِذَا مَا غَضِبُوا هُمْ يَغْفِرُونَ﴾</bdi>, and after حروف الجر — <bdi>مِنْ، عَنْ، الْبَاء</bdi> — as in <bdi>﴿مِمَّا خَطِيئَاتِهِمْ أُغْرِقُوا﴾</bdi>. Extra ما does <b>not</b> block (<bdi>لَا تَكُفُّ عَنِ</bdi>) the governing action of what it attaches to.`,
-          sample: `أنْ الزائدة — بعد لمّا الحينية: ﴿فلما أن جاء البشير﴾؛ بين لو وواو القسم قبلها: والله أنْ لو قمت قمت<br>ما الزائدة بعد أدوات الشرط — إذا، متى، أي، أين، إن: ﴿وإذا ما غضبوا هم يغفرون﴾<br>ما الزائدة بعد حروف الجر — من، عن، الباء: ﴿مما خطيئاتهم أغرقوا﴾<br>ما الزائدة لا تكفّ عن العمل`,
+          lines: [
+            { html: `Extra <bdi>أَنْ</bdi> usually occurs after <bdi>لَمَّا الْحِينِيَّة</bdi> (﴿فَلَمَّا أَنْ جَاءَ الْبَشِيرُ﴾), or between <bdi>لَوْ</bdi> and a preceding قسم-واو (وَاللَّهِ أَنْ لَوْ قُمْتَ قُمْتُ).`, list: false },
+            { html: `Extra <bdi>مَا</bdi> may be inserted after أدوات الشرط — <bdi>إِذَا، مَتَىٰ، أَيّ، أَيْنَ، إِنْ</bdi> (﴿وَإِذَا مَا غَضِبُوا هُمْ يَغْفِرُونَ﴾), and after حروف الجر — <bdi>مِنْ، عَنْ، الْبَاء</bdi> (﴿مِمَّا خَطِيئَاتِهِمْ أُغْرِقُوا﴾).`, list: false },
+            { html: `Extra ما does <b>not</b> block (لَا تَكُفُّ عَنِ) the governing action of what it attaches to.`, list: false },
+          ],
           exercise: {
             prompt: `Does extra ما block the governing action of what it attaches to؟`,
             kind: 'mcq',
@@ -646,8 +783,13 @@ export default {
         },
         {
           heading: 'لا الزائدة، والحروف الزائدة العاملة',
-          body: `Extra <bdi>لَا</bdi> is added in three positions: (1) with الواو after نفي, as in <bdi>مَا جَاءَ زَيْدٌ وَلَا عَمْرٌو</bdi> (2) after <bdi>أَنْ الْمَصْدَرِيَّة</bdi>, as in <bdi>﴿مَا مَنَعَكَ أَلَّا تَسْجُدَ إِذْ أَمَرْتُكَ﴾</bdi> (3) before a قسم, as in <bdi>﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾</bdi>. Some extra حروف ARE governing: <bdi>الْبَاء، مِنْ،</bdi> and <bdi>اللَّامُ الْجَارَّة</bdi>.`,
-          sample: `مواضع لا الزائدة (٣) — مع الواو بعد نفي: ما جاء زيد ولا عمرو؛ بعد أنْ المصدرية: ﴿ما منعك ألا تسجد إذ أمرتك﴾؛ قبل القسم: ﴿لا أقسم بيوم القيامة﴾<br>الزائدة العاملة — الباء، من، اللام الجارة`,
+          lines: [
+            { html: `Extra <bdi>لَا</bdi> is added in three positions:`, list: false },
+            { html: `with الواو after نفي, as in مَا جَاءَ زَيْدٌ وَلَا عَمْرٌو`, list: true, bullet: true },
+            { html: `after أَنْ الْمَصْدَرِيَّة, as in ﴿مَا مَنَعَكَ أَلَّا تَسْجُدَ إِذْ أَمَرْتُكَ﴾`, list: true, bullet: true },
+            { html: `before a قسم, as in ﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾`, list: true, bullet: true },
+            { html: `Some extra حروف ARE governing: <bdi>الْبَاء، مِنْ،</bdi> and <bdi>اللَّامُ الْجَارَّة</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `In what three positions is extra لا added؟`,
             kind: 'mcq',
@@ -781,31 +923,64 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: عاملة أم غير عاملة من النفي؟',
+          title: 'تركيب: ﴿وَمَا قَتَلُوهُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف نفي: عاملة or غير عاملة؟',
-          source: 'ما (النافية) / لا لنفي الجنس / لن / إنْ (النافية)',
-          words: ['ما', 'لا لنفي الجنس', 'لن', 'إنْ'],
-          labels: ['غير عاملة', 'عاملة', 'عاملة', 'غير عاملة'],
-          distractors: ['شرطية'],
+          instruction: 'Classify ما here: عاملة or غير عاملة؟',
+          sentence: 'وَمَا قَتَلُوهُ',
+          translation: 'And they did not kill him.',
+          cells: ['وَمَا', 'قَتَلُوهُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'ما النافية (غير عاملة)' }] },
+          ],
+          distractors: ['لا لنفي الجنس (عاملة)', 'لن (عاملة)'],
         },
         {
-          title: 'تركيب: مواضع الزيادة',
+          title: 'تركيب: ﴿إِنْ أَنْتُمْ إِلَّا فِي ضَلَالٍ كَبِيرٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what follows/precedes each extra حرف.',
-          source: 'إنْ الزائدة (بعد ما النافية) / أنْ الزائدة (بعد لمّا الحينية) / لا الزائدة (قبل قسم)',
-          words: ['إنْ الزائدة', 'أنْ الزائدة', 'لا الزائدة'],
-          labels: ['بعد ما النافية', 'بعد لمّا الحينية', 'قبل القسم'],
-          distractors: ['بعد حتى'],
+          instruction: 'Classify إنْ here: عاملة or غير عاملة؟',
+          sentence: 'إِنْ أَنْتُمْ إِلَّا فِي ضَلَالٍ كَبِيرٍ',
+          translation: 'You are not but in extreme error.',
+          cells: ['إِنْ', 'أَنْتُمْ', 'إِلَّا', 'فِي', 'ضَلَالٍ', 'كَبِيرٍ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'إنْ النافية (غير عاملة)' }] },
+          ],
+          distractors: ['ما النافية (غير عاملة)', 'لا لنفي الجنس (عاملة)'],
         },
         {
-          title: 'تركيب: زائدة عاملة أم لا؟',
+          title: 'تركيب: مَا إِنْ أَتَيْتَ بِشَيْءٍ أَنْتَ تَكْرَهُهُ',
           kind: 'tarkeeb',
-          instruction: 'Classify each extra حرف: عاملة or غير عاملة؟',
-          source: 'الباء (زائدة) / إنْ (زائدة) / اللام الجارة (زائدة)',
-          words: ['الباء', 'إنْ', 'اللام الجارة'],
-          labels: ['عاملة', 'غير عاملة', 'عاملة'],
-          distractors: ['جازمة'],
+          instruction: 'Identify the extra (زائد) حرف here and what it follows.',
+          sentence: 'مَا إِنْ أَتَيْتَ بِشَيْءٍ أَنْتَ تَكْرَهُهُ',
+          translation: 'You did not bring anything you dislike.',
+          cells: ['مَا', 'إِنْ', 'أَتَيْتَ', 'بِشَيْءٍ', 'أَنْتَ', 'تَكْرَهُهُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'إنْ الزائدة (بعد ما النافية)' }] },
+          ],
+          distractors: ['أنْ الزائدة (بعد لمّا الحينية)', 'لا الزائدة (قبل القسم)'],
+        },
+        {
+          title: 'تركيب: ﴿فَلَمَّا أَنْ جَاءَ الْبَشِيرُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the extra (زائد) حرف here and what it follows.',
+          sentence: 'فَلَمَّا أَنْ جَاءَ الْبَشِيرُ',
+          translation: 'Then when the bearer of good tidings arrived...',
+          cells: ['فَلَمَّا', 'أَنْ', 'جَاءَ', 'الْبَشِيرُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'أنْ الزائدة (بعد لمّا الحينية)' }] },
+          ],
+          distractors: ['إنْ الزائدة (بعد ما النافية)', 'لا الزائدة (قبل القسم)'],
+        },
+        {
+          title: 'تركيب: ﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the extra (زائد) حرف here and what it precedes.',
+          sentence: 'لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ',
+          translation: 'I swear by the Day of Resurrection.',
+          cells: ['لَا', 'أُقْسِمُ', 'بِيَوْمِ', 'الْقِيَامَةِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'لا الزائدة (قبل القسم)' }] },
+          ],
+          distractors: ['إنْ الزائدة (بعد ما النافية)', 'أنْ الزائدة (بعد لمّا الحينية)'],
         },
       ],
     },
@@ -817,8 +992,14 @@ export default {
       concepts: [
         {
           heading: 'حرفا الاستفهام: الهمزة وهل',
-          body: `There are two <bdi>حَرْفَا اسْتِفْهَام</bdi>: <bdi>الْهَمْزَة</bdi>, as in <bdi>﴿أَأَنْتُمْ أَعْلَمُ أَمِ اللَّهُ﴾</bdi> and <bdi>﴿أَكَفَرْتُمْ بَعْدَ إِيمَانِكُمْ﴾</bdi>, and <bdi>هَلْ</bdi>, as in <bdi>﴿فَهَلْ أَنْتُمْ مُنْتَهُونَ﴾</bdi> — both enter nominal and جمل فعلية. They differ in three ways: (1) الهمزة serves both <bdi>التَّصْدِيق</bdi> (yes/no) and <bdi>التَّصَوُّر</bdi> (specification), as in <bdi>﴿أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ﴾</bdi>, while هل serves تصديق only (2) الهمزة enters both affirmation and نفي, as in <bdi>﴿أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ﴾</bdi>, while هل enters affirmation only (3) الهمزة precedes a following عطف, as in <bdi>﴿أَوَمَنْ كَانَ مَيْتًا﴾</bdi>, while هل follows it, as in <bdi>﴿وَهَلْ أَتَاكَ حَدِيثُ مُوسَىٰ﴾</bdi>.`,
-          sample: `حرفا الاستفهام — الهمزة، هل؛ يدخلان الاسمية والفعلية<br>الفرق ١ (تصديق/تصور) — الهمزة تفيدهما معا؛ هل تصديق فقط<br>الفرق ٢ (النفي) — الهمزة تدخل المثبت والمنفي؛ هل المثبت فقط<br>الفرق ٣ (موقع العطف) — الهمزة تتقدم عليه؛ هل تتأخر عنه`,
+          lines: [
+            { html: `There are two <bdi>حَرْفَا اسْتِفْهَام</bdi>: <bdi>الْهَمْزَة</bdi> (﴿أَأَنْتُمْ أَعْلَمُ أَمِ اللَّهُ﴾, ﴿أَكَفَرْتُمْ بَعْدَ إِيمَانِكُمْ﴾) and <bdi>هَلْ</bdi> (﴿فَهَلْ أَنْتُمْ مُنْتَهُونَ﴾) — both enter nominal and جمل فعلية. They differ in three ways:`, list: false },
+            { table: { headers: ['Difference', 'الهمزة', 'هل'], rows: [
+              ['التَّصْدِيق (yes/no) vs التَّصَوُّر (specification)', 'serves both — ﴿أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ﴾', 'تصديق only'],
+              ['affirmation vs نفي', 'enters both — ﴿أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ﴾', 'affirmation only'],
+              ['position relative to عطف', 'precedes it — ﴿أَوَمَنْ كَانَ مَيْتًا﴾', 'follows it — ﴿وَهَلْ أَتَاكَ حَدِيثُ مُوسَىٰ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What is the difference between الهمزة and هل in terms of التصديق والتصور؟`,
             kind: 'mcq',
@@ -828,8 +1009,10 @@ export default {
         },
         {
           heading: 'حرفا التمني غير العاملين، والحرف العامل',
-          body: `Two غير عاملة حروف of wishing (<bdi>التَّمَنِّي</bdi>) are <bdi>لَوْ</bdi>, as in <bdi>﴿لَوْ أَنَّ لَنَا كَرَّةً﴾</bdi>, and <bdi>هَلْ</bdi>, as in <bdi>﴿هَلْ لَنَا مِنْ شُفَعَاءَ﴾</bdi>. The one حرف of wishing that IS governing is <bdi>لَيْتَ</bdi> (Module 05).`,
-          sample: `حرفا التمني غير العاملين — لو: ﴿لو أن لنا كرة﴾؛ هل: ﴿هل لنا من شفعاء﴾<br>الحرف العامل — ليت`,
+          lines: [
+            { html: `Two غير عاملة حروف of wishing (<bdi>التَّمَنِّي</bdi>) are <bdi>لَوْ</bdi> (﴿لَوْ أَنَّ لَنَا كَرَّةً﴾) and <bdi>هَلْ</bdi> (﴿هَلْ لَنَا مِنْ شُفَعَاءَ﴾).`, list: false },
+            { html: `The one حرف of wishing that IS governing is <bdi>لَيْتَ</bdi> (Module 05).`, list: false },
+          ],
           exercise: {
             prompt: `Which حرف of wishing (التمني) is governing (عامل)؟`,
             kind: 'mcq',
@@ -839,8 +1022,13 @@ export default {
         },
         {
           heading: 'لو: أربعة استعمالات وكيف تُعرف',
-          body: `لو can be <bdi>شَرْط</bdi>, <bdi>تَمَنٍّ</bdi>, <bdi>عَرْض</bdi>, or <bdi>مَصْدَر</bdi> — identified by position: at the start of a جملة, with a جواب present it is شرط, as in <bdi>لَوْ صَدَقَ لَنَجَا</bdi>; without a جواب, before something whose occurrence was missed, it is تمنٍّ, as in <bdi>لَوْ صَدَقَ</bdi>; before something whose occurrence is anticipated, it is عرض. Mid-sentence after <bdi>وَدّ</bdi>, it is مصدر, as in <bdi>أَوَدُّ لَوْ تَصْدُقُ</bdi>.`,
-          sample: `لو (٤ استعمالات) — شرط (بجواب): لو صدق لنجا؛ تمنٍّ (بلا جواب، فائت): لو صدقَ؛ عرض (بلا جواب، مرجو)؛ مصدر (بعد ودّ): أودّ لو تصدق`,
+          lines: [
+            { html: `لو can be <bdi>شَرْط</bdi>, <bdi>تَمَنٍّ</bdi>, <bdi>عَرْض</bdi>, or <bdi>مَصْدَر</bdi> — identified by position:`, list: false },
+            { html: `at the start of a جملة, with a جواب present, it is شرط — لَوْ صَدَقَ لَنَجَا`, list: true, bullet: true },
+            { html: `without a جواب, before something whose occurrence was missed, it is تمنٍّ — لَوْ صَدَقَ`, list: true, bullet: true },
+            { html: `without a جواب, before something whose occurrence is anticipated, it is عرض`, list: true, bullet: true },
+            { html: `mid-sentence after وَدّ, it is مصدر — أَوَدُّ لَوْ تَصْدُقُ`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `How do you tell whether لو is شرط or تمنٍّ, when both occur at the start of a جملة؟`,
             kind: 'mcq',
@@ -850,8 +1038,13 @@ export default {
         },
         {
           heading: 'حرفا الاستقبال: السين وسوف',
-          body: `The two future حروف are <bdi>السِّين</bdi>, which affirms the NEAR future — the counterpart of لا — as in <bdi>﴿سَيَقُولُ السُّفَهَاءُ مِنَ النَّاسِ﴾</bdi>, and <bdi>سَوْفَ</bdi>, which affirms the DISTANT future — the counterpart of لن — as in <bdi>﴿سَوْفَ تَعْلَمُونَ﴾</bdi>. السين is nicknamed <bdi>حَرْفُ تَنْفِيس</bdi>; سوف is nicknamed <bdi>حَرْفُ تَسْوِيف</bdi>. سوف spans a longer time, as in <bdi>سَيَشِبُّ الْغُلَامُ وَسَوْفَ يَشِيخُ الْفَتَىٰ</bdi>.`,
-          sample: `السين — المستقبل القريب، نقيض لا: ﴿سيقول السفهاء من الناس﴾، لقبها حرف تنفيس<br>سوف — المستقبل البعيد، نقيض لن: ﴿سوف تعلمون﴾، لقبها حرف تسويف؛ أطول مدى من السين`,
+          lines: [
+            { table: { headers: ['حرف', 'Meaning', 'Nickname', 'Example'], rows: [
+              ['السِّين', 'affirms the NEAR future — counterpart of لا', 'حَرْفُ تَنْفِيس', '﴿سَيَقُولُ السُّفَهَاءُ مِنَ النَّاسِ﴾'],
+              ['سَوْفَ', 'affirms the DISTANT future — counterpart of لن', 'حَرْفُ تَسْوِيف', '﴿سَوْفَ تَعْلَمُونَ﴾'],
+            ] } },
+            { html: `سوف spans a longer time than السين, as in سَيَشِبُّ الْغُلَامُ وَسَوْفَ يَشِيخُ الْفَتَىٰ.`, list: false },
+          ],
           exercise: {
             prompt: `What are السين and سوف each nicknamed, and which covers a longer span of time؟`,
             kind: 'mcq',
@@ -985,44 +1178,90 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: فروق الهمزة وهل',
+          title: 'تركيب: ﴿أَوَمَنْ كَانَ مَيْتًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each trait: خاص بالهمزة, خاص بهل, or مشترك بينهما؟',
-          source: 'التصور / دخول النفي / تدخل الاسمية والفعلية',
-          words: ['التصور', 'دخول النفي', 'تدخل الاسمية والفعلية'],
-          labels: ['خاص بالهمزة', 'خاص بالهمزة', 'مشترك بينهما'],
-          distractors: ['خاص بهل'],
+          instruction: 'Where does الهمزة sit relative to العطف (و) here؟',
+          sentence: 'أَوَمَنْ كَانَ مَيْتًا',
+          translation: 'Is he who was dead...?',
+          cells: ['أَ', 'وَمَنْ', 'كَانَ', 'مَيْتًا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'الهمزة (قبل العطف)' }] },
+          ],
+          distractors: ['هل (بعد العطف)'],
         },
         {
-          title: 'تركيب: استعمالات لو الأربعة',
+          title: 'تركيب: ﴿وَهَلْ أَتَاكَ حَدِيثُ مُوسَىٰ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each لو by its usage.',
-          source: 'لو صدق لنجا (بجواب) / أودّ لو تصدق (بعد ودّ)',
-          words: ['لو صدق لنجا', 'أودّ لو تصدق'],
-          labels: ['شرط', 'مصدر'],
-          distractors: ['تمنٍّ'],
+          instruction: 'Where does هل sit relative to العطف (و) here؟',
+          sentence: 'وَهَلْ أَتَاكَ حَدِيثُ مُوسَىٰ',
+          translation: 'And has the story of Moses reached you?',
+          cells: ['وَ', 'هَلْ', 'أَتَاكَ', 'حَدِيثُ', 'مُوسَىٰ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'هل (بعد العطف)' }] },
+          ],
+          distractors: ['الهمزة (قبل العطف)'],
         },
         {
-          title: 'تركيب: السين وسوف',
+          title: 'تركيب: لَوْ صَدَقَ لَنَجَا',
           kind: 'tarkeeb',
-          instruction: 'Match each حرف استقبال to its scope and nickname.',
-          source: 'السين / سوف',
-          words: ['السين', 'سوف'],
-          labels: ['المستقبل القريب، حرف تنفيس', 'المستقبل البعيد، حرف تسويف'],
-          distractors: ['المستقبل المطلق'],
+          instruction: 'Classify لو here by its usage.',
+          sentence: 'لَوْ صَدَقَ لَنَجَا',
+          translation: 'If he had told the truth, he would have been saved.',
+          cells: ['لَوْ', 'صَدَقَ', 'لَنَجَا'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'شرط (بجواب)' }] },
+          ],
+          distractors: ['تمنٍّ', 'عرض', 'مصدر'],
+        },
+        {
+          title: 'تركيب: أَوَدُّ لَوْ تَصْدُقُ',
+          kind: 'tarkeeb',
+          instruction: 'Classify لو here by its usage.',
+          sentence: 'أَوَدُّ لَوْ تَصْدُقُ',
+          translation: 'I would like you to be truthful.',
+          cells: ['أَوَدُّ', 'لَوْ', 'تَصْدُقُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'مصدر (بعد ودّ)' }] },
+          ],
+          distractors: ['شرط', 'تمنٍّ', 'عرض'],
+        },
+        {
+          title: 'تركيب: ﴿سَيَقُولُ السُّفَهَاءُ مِنَ النَّاسِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What time-scope does السين affirm here؟',
+          sentence: 'سَيَقُولُ السُّفَهَاءُ مِنَ النَّاسِ',
+          translation: 'The fools among the people will say...',
+          cells: ['سَيَقُولُ', 'السُّفَهَاءُ', 'مِنَ', 'النَّاسِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'المستقبل القريب (حرف تنفيس)' }] },
+          ],
+          distractors: ['المستقبل البعيد (حرف تسويف)'],
+        },
+        {
+          title: 'تركيب: ﴿سَوْفَ تَعْلَمُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What time-scope does سوف affirm here؟',
+          sentence: 'سَوْفَ تَعْلَمُونَ',
+          translation: 'You will come to know.',
+          cells: ['سَوْفَ', 'تَعْلَمُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'المستقبل البعيد (حرف تسويف)' }] },
+          ],
+          distractors: ['المستقبل القريب (حرف تنفيس)'],
         },
       ],
     },
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'روابط الجواب، والتاء والهاء والتنوين',
+      title: 'روابط الجواب ولواحق الفعل',
       subtitle: 'Loose Ends — فاء/لام الجواب, تاء التأنيث الساكنة, هاء السكت, and the five kinds of تنوين',
       concepts: [
         {
           heading: 'حرفا ربط الجواب',
-          body: `Two حروف link a جواب to what precedes it (<bdi>حَرْفَا الرَّبْطِ لِلْجَوَاب</bdi>): <bdi>الْفَاء</bdi>, as in <bdi>﴿مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا﴾</bdi>, and <bdi>اللَّام</bdi>, as in <bdi>﴿وَلَوْلَا رَهْطُكَ لَرَجَمْنَاكَ﴾</bdi>.`,
-          sample: `حرفا ربط الجواب — الفاء: ﴿من جاء بالحسنة فله عشر أمثالها﴾؛ اللام: ﴿ولولا رهطك لرجمناك﴾`,
+          lines: [
+            { html: `Two حروف link a جواب to what precedes it (<bdi>حَرْفَا الرَّبْطِ لِلْجَوَاب</bdi>): <bdi>الْفَاء</bdi>, as in ﴿مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا﴾, and <bdi>اللَّام</bdi>, as in ﴿وَلَوْلَا رَهْطُكَ لَرَجَمْنَاكَ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What are the two حروف linking a جواب to what precedes it؟`,
             kind: 'mcq',
@@ -1032,8 +1271,11 @@ export default {
         },
         {
           heading: 'تاء التأنيث الساكنة، وهاء السكت',
-          body: `<bdi>تَاءُ التَّأْنِيثِ السَّاكِنَة</bdi> is a ساكن تاء entering the فعل ماضٍ to show its فاعل is feminine, as in <bdi>﴿قَالَتْ﴾</bdi>. It only takes a vowel for an incidental reason, such as avoiding <bdi>الْتِقَاءَ السَّاكِنَيْن</bdi>, as in <bdi>﴿قَالَتِ امْرَأَةُ فِرْعَوْنَ﴾</bdi> and <bdi>﴿قَالَتَا أَتَيْنَا طَائِعِينَ﴾</bdi>. <bdi>هَاءُ السَّكْت</bdi> is a ساكن هاء attached to words at pause (<bdi>الْوَقْف</bdi>), as in <bdi>﴿مَا أَغْنَىٰ عَنِّي مَالِيَهْ﴾</bdi>.`,
-          sample: `تاء التأنيث الساكنة — تدخل الماضي لتأنيث فاعله: ﴿قالتْ﴾؛ تتحرك لعارض كالتقاء الساكنين: ﴿قالتِ امرأة فرعون﴾<br>هاء السكت — هاء ساكنة تلحق الكلمات عند الوقف: ﴿ما أغنى عني ماليهْ﴾`,
+          lines: [
+            { html: `<bdi>تَاءُ التَّأْنِيثِ السَّاكِنَة</bdi> is a ساكن تاء entering the فعل ماضٍ to show its فاعل is feminine, as in ﴿قَالَتْ﴾.`, list: false },
+            { html: `It only takes a vowel for an incidental reason, such as avoiding <bdi>الْتِقَاءَ السَّاكِنَيْن</bdi>, as in ﴿قَالَتِ امْرَأَةُ فِرْعَوْنَ﴾ and ﴿قَالَتَا أَتَيْنَا طَائِعِينَ﴾.`, list: false },
+            { html: `<bdi>هَاءُ السَّكْت</bdi> is a ساكن هاء attached to words at pause (الْوَقْف), as in ﴿مَا أَغْنَىٰ عَنِّي مَالِيَهْ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `When does تاء التأنيث الساكنة take a vowel rather than staying ساكنة؟`,
             kind: 'mcq',
@@ -1043,8 +1285,11 @@ export default {
         },
         {
           heading: 'أصل التنوين، وتنوينا التمكين والتنكير',
-          body: `<bdi>التَّنْوِين</bdi> originates as a ساكن نون at the end of a word — <bdi>أَحَدٌ</bdi> is in origin <bdi>أَحَدُنْ</bdi>. <bdi>تَنْوِينُ التَّمْكِين</bdi> — also called <bdi>تَنْوِينُ الصَّرْف</bdi> or <bdi>تَنْوِينُ الْأَمْكَنِيَّة</bdi> — attaches to fully declinable (<bdi>مُعْرَبَة مُنْصَرِفَة</bdi>) أسماء, as in <bdi>زَيْدٌ، رَجُلٌ</bdi>. <bdi>تَنْوِينُ التَّنْكِير</bdi> attaches to أسماء الأفعال and some indeclinable أسماء (e.g. proper names ending in <bdi>ـوَيْه</bdi>) to mark indefiniteness — <bdi>صَهٍ</bdi> (be silent about anything) vs <bdi>صَهْ</bdi> (about this specific talk).`,
-          sample: `أصل التنوين — نون ساكنة: أحدٌ أصلها أحدُنْ<br>تنوين التمكين (= الصرف = الأمكنية) — يلحق المعربة المنصرفة: زيدٌ، رجلٌ<br>تنوين التنكير — يلحق أسماء الأفعال وبعض الممنوع من الصرف: صهٍ (أي صوت) مقابل صهْ (هذا الصوت)`,
+          lines: [
+            { html: `<bdi>التَّنْوِين</bdi> originates as a ساكن نون at the end of a word — <bdi>أَحَدٌ</bdi> is in origin <bdi>أَحَدُنْ</bdi>.`, list: false },
+            { html: `<bdi>تَنْوِينُ التَّمْكِين</bdi> — also called <bdi>تَنْوِينُ الصَّرْف</bdi> or <bdi>تَنْوِينُ الْأَمْكَنِيَّة</bdi> — attaches to fully declinable (مُعْرَبَة مُنْصَرِفَة) أسماء, as in زَيْدٌ، رَجُلٌ.`, list: false },
+            { html: `<bdi>تَنْوِينُ التَّنْكِير</bdi> attaches to أسماء الأفعال and some indeclinable أسماء (e.g. proper names ending in ـوَيْه) to mark indefiniteness — صَهٍ (be silent about anything) vs صَهْ (about this specific talk).`, list: false },
+          ],
           exercise: {
             prompt: `What is تنوين التمكين, and what other names does it have؟`,
             kind: 'mcq',
@@ -1054,8 +1299,15 @@ export default {
         },
         {
           heading: 'تنوين المقابلة والتعويض',
-          body: `<bdi>تَنْوِينُ الْمُقَابَلَة</bdi> attaches to the sound feminine plural, as in <bdi>مُسْلِمَاتٍ</bdi> — it "corresponds" to the نون of the sound masculine plural. <bdi>تَنْوِينُ التَّعْوِيض</bdi> compensates for something omitted, in three varieties: for a letter, as in <bdi>﴿غَوَاشٍ﴾</bdi> (origin: <bdi>غَوَاشِي</bdi>); for a word, as in <bdi>﴿وَكُلٌّ آمَنَ﴾</bdi> (= <bdi>كُلُّ أَحَدٍ</bdi>); for a جملة, as in <bdi>﴿وَيَوْمَئِذٍ يَفْرَحُ الْمُؤْمِنُونَ﴾</bdi>.`,
-          sample: `تنوين المقابلة — يقابل نون جمع المذكر السالم: مسلماتٍ<br>تنوين التعويض (٣ أنواع) — عن حرف: ﴿غواشٍ﴾ (أصلها غواشي)؛ عن كلمة: ﴿وكلٌّ آمن﴾ (= كل أحد)؛ عن جملة: ﴿ويومئذٍ يفرح المؤمنون﴾`,
+          lines: [
+            { html: `<bdi>تَنْوِينُ الْمُقَابَلَة</bdi> attaches to the sound feminine plural, as in مُسْلِمَاتٍ — it "corresponds" to the نون of the sound masculine plural.`, list: false },
+            { html: `<bdi>تَنْوِينُ التَّعْوِيض</bdi> compensates for something omitted, in three varieties:`, list: false },
+            { table: { headers: ['Compensates for', 'Example'], rows: [
+              ['a letter', '﴿غَوَاشٍ﴾ (origin: غَوَاشِي)'],
+              ['a word', '﴿وَكُلٌّ آمَنَ﴾ (= كُلُّ أَحَدٍ)'],
+              ['a جملة', '﴿وَيَوْمَئِذٍ يَفْرَحُ الْمُؤْمِنُونَ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What is تنوين التعويض, and how many varieties does it have؟`,
             kind: 'mcq',
@@ -1065,8 +1317,10 @@ export default {
         },
         {
           heading: 'تنوين الترنم، وحروف صدر الكلام',
-          body: `Some grammarians add a fifth تنوين, <bdi>تَنْوِينُ التَّرَنُّم</bdi> — attached to "open" rhyme-endings (<bdi>الْقَوَافِي الْمُطْلَقَة</bdi>, ending in a madd letter); it can attach to اسم, فعل, or حرف alike, as in <bdi>أَقِلِّي اللَّوْمَ عَاذِلَ وَالْعِتَابَنْ</bdi>. Separately: several حرف families may only occur at <bdi>صَدْرُ الْكَلَام</bdi> (the very start of the utterance) — <bdi>حُرُوفُ النَّفْي، التَّنْبِيه، الِاسْتِفْهَام، الشَّرْط، التَّحْضِيض</bdi>, and <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi> — except <bdi>أَنَّ</bdi>.`,
-          sample: `تنوين الترنم — خامس عند بعضهم، يلحق القوافي المطلقة، ويدخل الاسم والفعل والحرف: أقلي اللوم عاذل والعتابنْ<br>حروف صدر الكلام — النفي، التنبيه، الاستفهام، الشرط، التحضيض، المشبهة بالفعل (إلا أنّ)`,
+          lines: [
+            { html: `Some grammarians add a fifth تنوين, <bdi>تَنْوِينُ التَّرَنُّم</bdi> — attached to "open" rhyme-endings (الْقَوَافِي الْمُطْلَقَة, ending in a madd letter); it can attach to اسم, فعل, or حرف alike, as in أَقِلِّي اللَّوْمَ عَاذِلَ وَالْعِتَابَنْ.`, list: false },
+            { html: `Separately: several حرف families may only occur at <bdi>صَدْرُ الْكَلَام</bdi> (the very start of the utterance) — <bdi>حُرُوفُ النَّفْي، التَّنْبِيه، الِاسْتِفْهَام، الشَّرْط، التَّحْضِيض</bdi>, and <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi> — except <bdi>أَنَّ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Which حرف families may only occur at صدر الكلام؟`,
             kind: 'mcq',
@@ -1193,31 +1447,76 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: أنواع التنوين الخمسة',
+          title: 'تركيب: ﴿وَكُلٌّ آمَنَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example by which تنوين it illustrates.',
-          source: 'زيدٌ / صهٍ (أي صوت) / مسلماتٍ / ﴿وكلٌّ آمن﴾',
-          words: ['زيدٌ', 'صهٍ', 'مسلماتٍ', 'وكلٌّ آمن'],
-          labels: ['تنوين التمكين', 'تنوين التنكير', 'تنوين المقابلة', 'تنوين التعويض'],
-          distractors: ['تنوين الترنم'],
+          instruction: 'Which تنوين does this تنوين compensate for؟',
+          sentence: 'وَكُلٌّ آمَنَ',
+          translation: 'And each [one] believed.',
+          cells: ['وَكُلٌّ', 'آمَنَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'تنوين التعويض عن كلمة (كل أحد)' }] },
+          ],
+          distractors: ['تنوين التعويض عن حرف', 'تنوين التعويض عن جملة', 'تنوين التمكين'],
         },
         {
-          title: 'تركيب: حرفا الربط',
+          title: 'تركيب: ﴿وَيَوْمَئِذٍ يَفْرَحُ الْمُؤْمِنُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify which رابط each example uses.',
-          source: '﴿من جاء بالحسنة فله عشر أمثالها﴾ / ﴿ولولا رهطك لرجمناك﴾',
-          words: ['فله', 'لرجمناك'],
-          labels: ['الفاء', 'اللام'],
-          distractors: ['الواو'],
+          instruction: 'Which تنوين does this تنوين compensate for؟',
+          sentence: 'وَيَوْمَئِذٍ يَفْرَحُ الْمُؤْمِنُونَ',
+          translation: 'And that Day the believers will rejoice.',
+          cells: ['وَيَوْمَئِذٍ', 'يَفْرَحُ', 'الْمُؤْمِنُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'تنوين التعويض عن جملة' }] },
+          ],
+          distractors: ['تنوين التعويض عن كلمة', 'تنوين التعويض عن حرف'],
         },
         {
-          title: 'تركيب: تاء التأنيث أم هاء السكت؟',
+          title: 'تركيب: ﴿مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: تاء التأنيث الساكنة or هاء السكت؟',
-          source: '﴿قالتْ﴾ / ﴿ما أغنى عني ماليهْ﴾',
-          words: ['قالتْ', 'ماليهْ'],
-          labels: ['تاء التأنيث الساكنة', 'هاء السكت'],
-          distractors: ['تنوين التعويض'],
+          instruction: 'Which رابط links the جواب here؟',
+          sentence: 'مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا',
+          translation: 'Whoever comes with a good deed will have ten times its like.',
+          cells: ['مَنْ', 'جَاءَ', 'بِالْحَسَنَةِ', 'فَلَهُ', 'عَشْرُ', 'أَمْثَالِهَا'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 3, role: 'الفاء (رابط الجواب)' }] },
+          ],
+          distractors: ['اللام (رابط الجواب)'],
+        },
+        {
+          title: 'تركيب: ﴿وَلَوْلَا رَهْطُكَ لَرَجَمْنَاكَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which رابط links the جواب here؟',
+          sentence: 'وَلَوْلَا رَهْطُكَ لَرَجَمْنَاكَ',
+          translation: 'Were it not for your family, we would have stoned you.',
+          cells: ['وَلَوْلَا', 'رَهْطُكَ', 'لَرَجَمْنَاكَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'اللام (رابط الجواب)' }] },
+          ],
+          distractors: ['الفاء (رابط الجواب)'],
+        },
+        {
+          title: 'تركيب: ﴿قَالَتِ امْرَأَةُ فِرْعَوْنَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify the marker here: تاء التأنيث الساكنة or هاء السكت؟',
+          sentence: 'قَالَتِ امْرَأَةُ فِرْعَوْنَ',
+          translation: "Pharaoh's wife said...",
+          cells: ['قَالَتِ', 'امْرَأَةُ', 'فِرْعَوْنَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 0, role: 'تاء التأنيث الساكنة' }] },
+          ],
+          distractors: ['هاء السكت'],
+        },
+        {
+          title: 'تركيب: ﴿مَا أَغْنَىٰ عَنِّي مَالِيَهْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify the marker here: تاء التأنيث الساكنة or هاء السكت؟',
+          sentence: 'مَا أَغْنَىٰ عَنِّي مَالِيَهْ',
+          translation: 'My wealth has not availed me.',
+          cells: ['مَا', 'أَغْنَىٰ', 'عَنِّي', 'مَالِيَهْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 3, role: 'هاء السكت' }] },
+          ],
+          distractors: ['تاء التأنيث الساكنة'],
         },
       ],
     },

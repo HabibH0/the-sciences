@@ -1,0 +1,780 @@
+// Module 05 — الجامد والمتصرف (The Frozen Verb and the Inflecting Verb)
+//
+// Covers Week 13 of the Advanced Sarf course: التقسيم الرابع للفعل بحسب
+// الجمود والتصريف, from شذا العرف في فن الصرف by أحمد الحملاوي. Definitions,
+// verb lists and examples are kept faithful to the source. Concept bodies are
+// short by design; quiz/bank question text is English with Arabic
+// morphological terms left in Arabic.
+//
+// Scope: the definitions of الجامد and المتصرف; the جامد verbs frozen in the
+// ماضي (أخوات كان، المقاربة، الرجاء، الشروع، المدح والذم، الاستثناء) and those
+// frozen in the أمر; تام التصرف against ناقص التصرف with أفعال الاستمرار and
+// أفعال المقاربة; and the فصل on deriving one form of a verb from another —
+// المضارع from the ماضي, and the أمر from the مضارع.
+// التقسيم الخامس (اللازم والمتعدي) follows in Module 06.
+
+export default {
+  id: 'as-05',
+  title: 'الجامد والمتصرف',
+  heading: 'الفعل',
+  blurb: 'الفعل divided by whether it moves through the tenses: frozen verbs, inflecting verbs, and how to derive one tense from another.',
+  lessons: [
+    // ---------------------------------------------------------------- L1
+    {
+      id: 'l1',
+      title: 'الجامد',
+      subtitle: 'The Frozen Verb — those locked into the ماضي, those locked into the أمر, and the disputes over some of them',
+      concepts: [
+        {
+          heading: 'تعريف الجامد وقسماه',
+          lines: [
+            { html: `<bdi>يَنْقَسِمُ الفِعْلُ إلى جامِدٍ ومُتَصَرِّفٍ</bdi>.`, list: false },
+            { html: `<bdi>فالجامِدُ: ما لازَمَ صُورَةً واحِدَةً</bdi> — it never leaves the one form it has.`, list: false },
+            { table: { title: 'أقسام الجامد', headers: ['القسم', 'ما يترتب عليه', 'أمثلة'], rows: [
+              ['ما يكونُ مُلازِمًا لِلْمُضِيِّ', 'فليس له مُضارِعٌ ولا أَمْرٌ', 'لَيْسَ، عَسَى، نِعْمَ، خَلا'],
+              ['ما يكونُ مُلازِمًا لِلْمُضارَعَةِ', 'فليس له ماضٍ ولا أَمْرٌ', 'يَبْغِي، يَسْوِي، يَهِيطُ (to cry out)'],
+              ['ما يكونُ مُلازِمًا لِلْأَمْرِيَّةِ', 'فليس له ماضٍ ولا مُضارِعٌ', 'هَبْ، تَعَلَّمْ'],
+            ] } },
+            { html: `The first group is much the larger of the three; the other two hold only a handful of verbs each.`, list: false },
+            { html: `The two definitions in the prose treat only the first and third of these — <bdi>إمَّا أن يكونَ مُلازِمًا لِلْمُضِيِّ … وإمَّا أن يكونَ مُلازِمًا لِلْأَمْرِيَّةِ</bdi> — but the summary table adds a middle column of verbs frozen in the مضارع, so the fuller picture is three.`, list: false },
+          ],
+          exercise: {
+            prompt: `What does it mean for a verb to be جامد؟`,
+            kind: 'mcq',
+            options: ['It stays in one form and never inflects into the others', 'It has no مصدر', 'It takes no فاعل', 'It is always لازم'],
+            correct: 0,
+          },
+        },
+        {
+          heading: 'الملازم للمضي: النواسخ والمقاربة والرجاء والشروع',
+          lines: [
+            { table: { headers: ['الفعل', 'بابه', 'البيان'], rows: [
+              ['لَيْسَ', 'من أخوات (كان)', '—'],
+              ['كَرَبَ', 'من أفعال المُقارَبَة', 'كَرَبَ الأَمْرُ يَنْتَهِي، أي كادَ'],
+              ['عَسَى، حَرَى، اخْلَوْلَقَ', 'من أفعال الرَّجاء', '—'],
+              ['أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'من أفعال الشُّرُوع', 'أَخَذَ الرَّجُلُ يَقْرَأُ — <bdi>لا يُقالُ يَأْخُذُ الرَّجُلُ يَقْرَأُ</bdi>'],
+            ] } },
+            { html: `The note on أَخَذَ is the test in miniature: the verb exists in the ماضي and there is simply no مضارع of it in this sense to be had.`, list: false },
+          ],
+          exercise: {
+            prompt: `أَخَذَ الرَّجُلُ يَقْرَأُ is said, but يَأْخُذُ الرَّجُلُ يَقْرَأُ is not. What does that establish?`,
+            kind: 'mcq',
+            options: ['That يَقْرَأُ cannot follow a ماضٍ', 'That أَخَذَ, as a فعل شروع, is جامد — locked into the ماضي', 'That أَخَذَ is متعدٍّ', 'That أَخَذَ is ناقص التصرف'],
+            correct: 1,
+          },
+        },
+        {
+          heading: 'الملازم للمضي: المدح والذم والاستثناء',
+          lines: [
+            { table: { headers: ['الفعل', 'بابه', 'المثال'], rows: [
+              ['نِعْمَ، حَبَّذَا', 'في المَدْح', 'نِعْمَ الرَّجُلُ زَيْدٌ'],
+              ['بِئْسَ، ساءَ', 'في الذَّمّ', '—'],
+              ['خَلا، عَدا، حاشا', 'في الاسْتِثْناء', 'جاءَ القَوْمُ خَلا زَيدٍ'],
+            ] } },
+            { html: `<bdi>على خِلافٍ في بَعْضِها؛ فإنَّ بَعْضَهُم يَعُدُّونَ (خَلا) و(عَدا) و(حاشا) حُرُوفًا، ويَعُدُّ الكُوفِيُّونَ (نِعْمَ) و(بِئْسَ) اسْمَيْنِ</bdi>.`, list: false },
+            { html: `So the list is not agreed in full: three of its members are held by some to be حروف rather than أفعال at all, and two more are held by the Kūfans to be أسماء.`, list: false },
+          ],
+          clarification: `The dispute is worth understanding, because it is not about these words' meaning but about their class. A word can only be called جامد if it is a فعل to begin with — a حرف has no forms to inflect through, so calling it "frozen" says nothing. Those who count خلا، عدا and حاشا as حروف are therefore removing them from this باب altogether, not disagreeing about their behaviour. The same holds for the Kūfan view of نِعْمَ and بِئْسَ: classing them as أسماء takes them out of the question. On the view followed here all six are أفعال, and their never leaving the ماضي is what makes them جامدة.`,
+          exercise: {
+            prompt: `Some hold خَلا، عَدا and حاشا to be حروف. What follows for this باب if that view is taken?`,
+            kind: 'mcq',
+            options: ['They become متصرفة instead', 'They become جامدة ملازمة للأمرية', 'Nothing changes', 'They fall outside it entirely, since only a فعل can be described as جامد'],
+            correct: 3,
+          },
+        },
+        {
+          heading: 'الملازم للأمرية',
+          lines: [
+            { html: `This kind is small.`, list: false },
+            { table: { headers: ['الفعل', 'بمعنى', 'المثال'], rows: [
+              ['هَبْ', 'ظُنَّ', 'هَبْ زَيدًا مُسافِرًا'],
+              ['تَعَلَّمْ', 'اعْلَمْ', '—'],
+              ['تَعالَ', '—', 'مختلَف فيه'],
+              ['هَلُمَّ', '—', 'مختلَف فيه'],
+            ] } },
+            { html: `Of the first two it is said <bdi>ولا ثالِثَ لَهُما</bdi> — the two have no third — yet <bdi>تَعالَ</bdi> and <bdi>هَلُمَّ</bdi> are commonly listed alongside them as frozen imperatives, and are marked as contested.`, list: false },
+            { html: `Note that هَبْ here is not the imperative of وَهَبَ, and تَعَلَّمْ is not the imperative of تَعَلَّمَ. Each is a distinct frozen form carrying a meaning of its own.`, list: false },
+          ],
+          clarification: `The tension between ولا ثالث لهما and the two extra verbs is a real one, not a slip. On the strict reading, هَبْ and تَعَلَّمْ are the only two that are unambiguously أفعال locked into the أمر with no ماضٍ and no مضارع anywhere in the language. تَعالَ and هَلُمَّ behave the same way in use, but their status is argued over — تَعالَ is traced by some back to تَعالَى, giving it a ماضٍ after all, and هَلُمَّ is held by the Ḥijāzīs to be an اسم فعل rather than a فعل, which would put it outside this باب for the same reason that classing خلا as a حرف puts خلا outside it. So learn هَبْ and تَعَلَّمْ as the settled pair, and تَعالَ and هَلُمَّ as the two that are commonly added.`,
+          exercise: {
+            prompt: `هَبْ زَيدًا مُسافِرًا. What does هَبْ mean here?`,
+            kind: 'mcq',
+            options: ['اذْهَبْ — go', 'اعْلَمْ — know', 'ظُنَّ — suppose', 'أَعْطِ — give'],
+            correct: 2,
+          },
+        },
+      ],
+      quiz: [
+        {
+          q: 'What is the definition of الجامد؟',
+          options: ['Does not stick to a single form', 'Only ماضي and مضارع forms come from it', 'One or more letters have been added to it', 'Sticks to a single form'],
+          correct: 3,
+        },
+        {
+          q: 'Which two kinds of جامد do the prose definitions give?',
+          options: ['لازم ومتعدٍّ', 'ملازم للمضي، وملازم للأمرية', 'تام التصرف، وناقص التصرف', 'ثلاثي ورباعي'],
+          correct: 1,
+        },
+        {
+          q: 'لَيْسَ is جامد, and belongs to which family?',
+          options: ['أفعال المقاربة', 'أفعال الرجاء', 'أفعال الشروع', 'أخوات كان'],
+          correct: 3,
+        },
+        {
+          q: 'عَسَى، حَرَى and اخْلَوْلَقَ belong to which family?',
+          options: ['أفعال المقاربة', 'أفعال المدح', 'أفعال الرجاء', 'أفعال الشروع'],
+          correct: 2,
+        },
+        {
+          q: 'Which two verbs are the settled pair of جامدة ملازمة للأمرية؟',
+          options: ['خَلا وعَدا', 'عَسَى وحَرَى', 'هَبْ وتَعَلَّمْ', 'نِعْمَ وبِئْسَ'],
+          correct: 2,
+        },
+        {
+          q: 'Who is reported as counting نِعْمَ and بِئْسَ as أسماء؟',
+          options: ['الرضيّ', 'الكوفيون', 'البصريون', 'الأخفش'],
+          correct: 1,
+        },
+      ],
+      bank: [
+        {
+          title: 'صورة واحدة',
+          kind: 'mcq',
+          prompt: 'Both definitions in this division turn on the phrase صورة واحدة. What does it refer to?',
+          options: ['One of the three forms — ماضٍ, مضارع or أمر', 'One وزن', 'One meaning', 'One باب'],
+          correct: 0,
+        },
+        {
+          title: 'ليس له مضارع',
+          kind: 'mcq',
+          prompt: 'What follows from a verb being ملازمًا للمضيّ؟',
+          options: ['It has all three forms', 'It has neither مضارع nor أمر', 'It has a مضارع but no أمر', 'It has an أمر but no مضارع'],
+          correct: 1,
+        },
+        {
+          title: 'كرَب',
+          kind: 'mcq',
+          prompt: 'كَرَبَ الأَمْرُ يَنْتَهِي means أي كادَ. Which family does كَرَبَ belong to?',
+          options: ['أفعال الشروع', 'أخوات كان', 'أفعال المقاربة', 'أفعال الرجاء'],
+          correct: 2,
+        },
+        {
+          title: 'أفعال الشروع',
+          kind: 'mcq',
+          prompt: 'Which set gives أفعال الشروع؟',
+          options: ['نِعْمَ، بِئْسَ، حَبَّذَا', 'أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'عَسَى، حَرَى، اخْلَوْلَقَ', 'كَرَبَ، كادَ، أَوْشَكَ'],
+          correct: 1,
+        },
+        {
+          title: 'اخلولق',
+          kind: 'mcq',
+          prompt: 'اخْلَوْلَقَ is جامد. Which وزن does it carry?',
+          options: ['اسْتَفْعَلَ', 'افْعَالَّ', 'افْعَوْعَلَ', 'افْعَنْلَلَ'],
+          correct: 2,
+        },
+        {
+          title: 'أفعال الرجاء',
+          kind: 'mcq',
+          prompt: 'How many أفعال رجاء are listed as جامدة؟',
+          options: ['ثلاثة', 'اثنان', 'أربعة', 'خمسة'],
+          correct: 0,
+        },
+        {
+          title: 'نعم الرجل زيد',
+          kind: 'mcq',
+          prompt: 'نِعْمَ الرَّجُلُ زَيْدٌ illustrates which use?',
+          options: ['الشروع', 'المدح', 'الذم', 'الاستثناء'],
+          correct: 1,
+        },
+        {
+          title: 'حبَّذا',
+          kind: 'mcq',
+          prompt: 'حَبَّذَا is grouped with which verb?',
+          options: ['عَسَى, in الرجاء', 'نِعْمَ, in المدح', 'بِئْسَ, in الذم', 'خَلا, in الاستثناء'],
+          correct: 1,
+        },
+        {
+          title: 'ساء',
+          kind: 'mcq',
+          prompt: 'ساءَ is grouped with which verb, and for what?',
+          options: ['نِعْمَ, for المدح', 'حاشا, for الاستثناء', 'طَفِقَ, for الشروع', 'بِئْسَ, for الذم'],
+          correct: 3,
+        },
+        {
+          title: 'خلا زيدٍ',
+          kind: 'mcq',
+          prompt: 'جاءَ القَوْمُ خَلا زَيدٍ illustrates which use?',
+          options: ['المدح', 'الذم', 'المقاربة', 'الاستثناء'],
+          correct: 3,
+        },
+        {
+          title: 'الخلاف الأول',
+          kind: 'mcq',
+          prompt: 'Which three verbs are held by some to be حروف rather than أفعال؟',
+          options: ['خَلا، عَدا، حاشا', 'نِعْمَ، بِئْسَ، ساءَ', 'عَسَى، حَرَى، اخْلَوْلَقَ', 'هَبْ، تَعَلَّمْ، هَلُمَّ'],
+          correct: 0,
+        },
+        {
+          title: 'أثر الخلاف',
+          kind: 'mcq',
+          prompt: 'Why does classing a word as a حرف take it out of this باب altogether?',
+          options: ['A حرف is always متصرف', 'A حرف belongs to النحو rather than الصرف', 'A حرف has no forms to inflect through, so calling it جامد says nothing', 'A حرف cannot carry a meaning'],
+          correct: 2,
+        },
+        {
+          title: 'هَبْ وتعلَّمْ',
+          kind: 'mcq',
+          prompt: 'What do هَبْ and تَعَلَّمْ have in common?',
+          options: ['Both are أفعال رجاء', 'Both are held by the Kūfans to be أسماء', 'Both are جامدة locked into the أمر form', 'Both are أفعال شروع'],
+          correct: 2,
+        },
+        {
+          title: 'تعلَّمْ',
+          kind: 'mcq',
+          prompt: 'تَعَلَّمْ, as a جامد, means:',
+          options: ['اعْلَمْ', 'ظُنَّ', 'تَدَرَّبْ', 'اجْتَهِدْ'],
+          correct: 0,
+        },
+        {
+          title: 'ولا ثالث لهما',
+          kind: 'mcq',
+          prompt: 'ولا ثالث لهما is said of هَبْ and تَعَلَّمْ. What does it assert?',
+          options: ['That they take no third object', 'That they have no ماضٍ or مضارع', 'That no third verb joins them in this category', 'That they have no third meaning'],
+          correct: 2,
+        },
+        {
+          title: 'هَبْ ووهب',
+          kind: 'mcq',
+          prompt: 'Is the جامد هَبْ the imperative of وَهَبَ؟',
+          options: ['It is the imperative of هابَ', 'No — it is a distinct frozen form meaning ظُنَّ', 'Yes — it is the ordinary imperative', 'Yes, but only in poetry'],
+          correct: 1,
+        },
+        {
+          title: 'تصنيف عسى',
+          kind: 'mcq',
+          prompt: 'عَسَى is جامد. Which of the three forms does it occupy?',
+          options: ['الأمر', 'All three', 'الماضي', 'المضارع'],
+          correct: 2,
+        },
+        {
+          title: 'حجم القسمين',
+          kind: 'mcq',
+          prompt: 'Comparing the two kinds of جامد, which is larger?',
+          options: ['The ملازم للمضي, by a wide margin', 'The ملازم للأمرية', 'They are equal', 'It cannot be determined'],
+          correct: 0,
+        },
+        {
+          title: 'ليس والتصريف',
+          kind: 'mcq',
+          prompt: 'Why is there no مضارع of لَيْسَ؟',
+          options: ['It is a حرف by agreement', 'It is ناقص التصرف', 'It is جامد — the language simply does not inflect it beyond the ماضي', 'Its عين is a حرف علة'],
+          correct: 2,
+        },
+        {
+          title: 'جامد ومتصرف',
+          kind: 'mcq',
+          prompt: 'This division sorts verbs by what?',
+          options: ['Whether they inflect through the three forms or stay in one', 'Whether they carry a حرف علة', 'Whether they take an object', 'Whether they are مجرد or مزيد'],
+          correct: 0,
+        },
+      ],
+    },
+    // ---------------------------------------------------------------- L2
+    {
+      id: 'l2',
+      title: 'المتصرف',
+      subtitle: 'The Inflecting Verb — complete inflection against defective, أفعال الاستمرار and أفعال المقاربة',
+      concepts: [
+        {
+          heading: 'تعريف المتصرف وقسماه',
+          lines: [
+            { html: `<bdi>والمُتَصَرِّف: ما لا يُلازِمُ صُورَةً واحِدَةً</bdi>.`, list: false },
+            { table: { title: 'قسما المتصرف', headers: ['القسم', 'ما يأتي منه'], rows: [
+              ['تامُّ التَّصَرُّف', 'الماضي والمُضارِع والأَمْر'],
+              ['ناقِصُ التَّصَرُّف', 'الماضي والمُضارِع فقط'],
+            ] } },
+            { html: `The two definitions across this whole division are exact opposites: <bdi>ما لازَمَ صُورَةً واحِدَةً</bdi> against <bdi>ما لا يُلازِمُ صُورَةً واحِدَةً</bdi>.`, list: false },
+          ],
+          exercise: {
+            prompt: `A verb has a ماضٍ and a مضارع but no أمر. How is it classed?`,
+            kind: 'mcq',
+            options: ['جامد', 'متصرف, and within that تام التصرف', 'It falls outside this division', 'متصرف, and within that ناقص التصرف'],
+            correct: 3,
+          },
+        },
+        {
+          heading: 'تام التصرف',
+          lines: [
+            { html: `<bdi>وهو يَأْتِي منه الماضي والمُضارِعُ والأَمْرُ، كنَصَرَ ودَحْرَجَ</bdi>.`, list: false },
+            { html: `<bdi>وهو أَغْلَبُ الأَفْعالِ</bdi> — the ordinary case, and by far the commonest.`, list: false },
+            { html: `نَصَرَ is a ثلاثي مجرد and دَحْرَجَ a رباعي مجرد, and both inflect fully — so both bases of the earlier division are covered.`, list: false },
+          ],
+          exercise: {
+            prompt: `Which class of verb is described as أغلب الأفعال؟`,
+            kind: 'mcq',
+            options: ['الجامد الملازم للأمرية', 'تام التصرف', 'ناقص التصرف', 'الجامد الملازم للمضي'],
+            correct: 1,
+          },
+        },
+        {
+          heading: 'ناقص التصرف: أفعال الاستمرار',
+          lines: [
+            { html: `<bdi>وهو ما يَأْتِي منه الماضي والمُضارِعُ فقط</bdi>.`, list: false },
+            { table: { title: 'أفعال الاستمرار', headers: ['الماضي', 'المضارع'], rows: [
+              ['زالَ', 'يَزالُ'],
+              ['بَرِحَ', 'يَبْرَحُ'],
+              ['فَتِئَ', 'يَفْتَأُ'],
+              ['انْفَكَّ', 'يَنْفَكُّ'],
+            ] } },
+            { html: `<bdi>وهي أَفْعالُ الاسْتِمْرارِ بِمَعْنَى (بَقِيَ)</bdi> — all four carry the sense of remaining or continuing.`, list: false },
+          ],
+          exercise: {
+            prompt: `زالَ، بَرِحَ، فَتِئَ and انْفَكَّ share a meaning. Which?`,
+            kind: 'mcq',
+            options: ['عَسَى — hoping', 'أَخَذَ — beginning', 'بَقِيَ — continuing or remaining', 'كادَ — being on the point of'],
+            correct: 2,
+          },
+        },
+        {
+          heading: 'ناقص التصرف: أفعال المقاربة',
+          lines: [
+            { table: { headers: ['الماضي', 'المضارع'], rows: [
+              ['كادَ', 'يَكادُ'],
+              ['أَوْشَكَ', 'يُوشِكُ'],
+            ] } },
+            { html: `<bdi>من أَفْعالِ المُقارَبَةِ</bdi>.`, list: false },
+            { html: `Set this beside the جامد list of the previous lesson and a pattern appears: <bdi>كَرَبَ</bdi> is also a فعل مقاربة, but it is جامد, while كادَ and أَوْشَكَ are ناقصة التصرف. Membership of a semantic family does not settle how a verb inflects — each verb has to be taken on its own.`, list: false },
+          ],
+          clarification: `The same holds inside أفعال المقاربة as inside every other family here. كَرَبَ has only a ماضي, so it is جامد; كادَ and أَوْشَكَ have a ماضي and a مضارع but no أمر, so they are ناقصة التصرف. Nothing about "being a فعل مقاربة" determines which. That is why this division cuts across the semantic classifications rather than following them — it is asking a purely formal question about which of the three forms a given verb actually has in use.`,
+          exercise: {
+            prompt: `كَرَبَ and كادَ are both أفعال مقاربة, yet they fall on different sides of this division. Why?`,
+            kind: 'mcq',
+            options: ['كَرَبَ has only a ماضي, so it is جامد; كادَ has a ماضي and a مضارع, so it is ناقص التصرف', 'كَرَبَ is متعدٍّ and كادَ لازم', 'كادَ is جامد and كَرَبَ متصرف', 'They do not in fact differ'],
+            correct: 0,
+          },
+        },
+      ],
+      quiz: [
+        {
+          q: 'What is the definition of المتصرف؟',
+          options: ['Sticks to a single form', 'Only ماضي and مضارع forms come from it', 'Only an أمر form comes from it', 'Does not stick to a single form'],
+          correct: 3,
+        },
+        {
+          q: 'Into what two does المتصرف divide?',
+          options: ['ملازم للمضي، وملازم للأمرية', 'مجرد ومزيد', 'صحيح ومعتل', 'تام التصرف، وناقص التصرف'],
+          correct: 3,
+        },
+        {
+          q: 'نَصَرَ and دَحْرَجَ are examples of:',
+          options: ['أفعال الاستمرار', 'تام التصرف', 'ناقص التصرف', 'الجامد'],
+          correct: 1,
+        },
+        {
+          q: 'What does ناقص التصرف lack?',
+          options: ['الماضي', 'المصدر', 'الأمر', 'المضارع'],
+          correct: 2,
+        },
+        {
+          q: 'أفعال الاستمرار are said to carry the meaning of:',
+          options: ['كادَ', 'أَخَذَ', 'عَسَى', 'بَقِيَ'],
+          correct: 3,
+        },
+        {
+          q: 'كادَ and أَوْشَكَ belong to which family?',
+          options: ['أفعال الرجاء', 'أفعال الشروع', 'أفعال المقاربة', 'أفعال الاستمرار'],
+          correct: 2,
+        },
+      ],
+      bank: [
+        {
+          title: 'تقابل التعريفين',
+          kind: 'mcq',
+          prompt: 'How do the definitions of الجامد and المتصرف relate?',
+          options: ['They are exact opposites — لازم صورة واحدة against لا يلازم صورة واحدة', 'They overlap in part', 'They concern different things entirely', 'One is a subset of the other'],
+          correct: 0,
+        },
+        {
+          title: 'ثلاث صور',
+          kind: 'mcq',
+          prompt: 'How many forms does تام التصرف produce?',
+          options: ['أربع', 'ثلاث — الماضي والمضارع والأمر', 'اثنتان', 'واحدة'],
+          correct: 1,
+        },
+        {
+          title: 'نصر ودحرج',
+          kind: 'mcq',
+          prompt: 'What do نَصَرَ and دَحْرَجَ together cover?',
+          options: ['They are both معتل', 'They are both جامدة', 'They are both مزيدة', 'They cover both the ثلاثي and the رباعي, and both inflect fully'],
+          correct: 3,
+        },
+        {
+          title: 'زال يزال',
+          kind: 'mcq',
+          prompt: 'زالَ يَزالُ is ناقص التصرف. Which form does it lack?',
+          options: ['المضارع', 'الماضي', 'None — it has all three', 'الأمر'],
+          correct: 3,
+        },
+        {
+          title: 'برِح يبرَح',
+          kind: 'mcq',
+          prompt: 'بَرِحَ يَبْرَحُ belongs to which family?',
+          options: ['أفعال الرجاء', 'أفعال الشروع', 'أفعال الاستمرار', 'أفعال المقاربة'],
+          correct: 2,
+        },
+        {
+          title: 'فتِئ يفتأ',
+          kind: 'mcq',
+          prompt: 'فَتِئَ يَفْتَأُ carries the meaning of:',
+          options: ['كادَ', 'أَخَذَ', 'عَسَى', 'بَقِيَ'],
+          correct: 3,
+        },
+        {
+          title: 'انفكّ ينفكّ',
+          kind: 'mcq',
+          prompt: 'انْفَكَّ يَنْفَكُّ is listed among أفعال الاستمرار. Which وزن does its ماضي carry?',
+          options: ['انْفَعَلَ', 'افْتَعَلَ', 'افْعَلَّ', 'تَفَعَّلَ'],
+          correct: 0,
+        },
+        {
+          title: 'عدد أفعال الاستمرار',
+          kind: 'mcq',
+          prompt: 'How many أفعال استمرار are listed?',
+          options: ['ثلاثة', 'خمسة', 'اثنان', 'أربعة'],
+          correct: 3,
+        },
+        {
+          title: 'أوشك يوشك',
+          kind: 'mcq',
+          prompt: 'أَوْشَكَ يُوشِكُ is ناقص التصرف. Which وزن does its ماضي carry?',
+          options: ['أَفْعَلَ', 'فَاعَلَ', 'فَعَّلَ', 'انْفَعَلَ'],
+          correct: 0,
+        },
+        {
+          title: 'كرَب وكاد',
+          kind: 'mcq',
+          prompt: 'Both كَرَبَ and كادَ are أفعال مقاربة. How does each fall in this division?',
+          options: ['كَرَبَ is ناقص التصرف; كادَ is جامد', 'كَرَبَ is جامد; كادَ is ناقص التصرف', 'Both are جامدة', 'Both are ناقصة التصرف'],
+          correct: 1,
+        },
+        {
+          title: 'تقاطع التقسيمات',
+          kind: 'mcq',
+          prompt: 'What does the كَرَبَ/كادَ contrast show about this division?',
+          options: ['It applies only to أفعال المقاربة', 'It replaces the semantic families', 'It cuts across the semantic families rather than following them', 'It follows the semantic families exactly'],
+          correct: 2,
+        },
+        {
+          title: 'سؤال التقسيم',
+          kind: 'mcq',
+          prompt: 'What question is this division actually asking of a verb?',
+          options: ['Which of the three forms it has in use', 'What its meaning is', 'Whether it takes an object', 'Which باب it belongs to'],
+          correct: 0,
+        },
+        {
+          title: 'تصنيف كتب',
+          kind: 'mcq',
+          prompt: 'كَتَبَ يَكْتُبُ اكْتُبْ. How is it classed in this division?',
+          options: ['متصرف ناقص التصرف', 'جامد ملازم للمضي', 'جامد ملازم للأمرية', 'متصرف تام التصرف'],
+          correct: 3,
+        },
+        {
+          title: 'تصنيف نعم',
+          kind: 'mcq',
+          prompt: 'نِعْمَ. How is it classed in this division?',
+          options: ['جامد ملازم للمضي', 'متصرف تام التصرف', 'متصرف ناقص التصرف', 'جامد ملازم للأمرية'],
+          correct: 0,
+        },
+        {
+          title: 'تصنيف زال',
+          kind: 'mcq',
+          prompt: 'زالَ يَزالُ. How is it classed in this division?',
+          options: ['جامد ملازم للأمرية', 'متصرف ناقص التصرف', 'جامد ملازم للمضي', 'متصرف تام التصرف'],
+          correct: 1,
+        },
+        {
+          title: 'تصنيف هَبْ',
+          kind: 'mcq',
+          prompt: 'هَبْ, in the sense of ظُنَّ. How is it classed?',
+          options: ['جامد ملازم للمضي', 'جامد ملازم للأمرية', 'متصرف تام التصرف', 'متصرف ناقص التصرف'],
+          correct: 1,
+        },
+        {
+          title: 'أربع فئات',
+          kind: 'mcq',
+          prompt: 'How many categories does this division produce in total?',
+          options: ['أربع', 'اثنتان', 'ثلاث', 'ست'],
+          correct: 0,
+        },
+        {
+          title: 'الاستمرار والمقاربة',
+          kind: 'mcq',
+          prompt: 'What do أفعال الاستمرار and كادَ وأَوْشَكَ have in common in this division?',
+          options: ['All carry the meaning of بَقِيَ', 'All are ناقصة التصرف — ماضٍ and مضارع, no أمر', 'All are جامدة', 'All are تامة التصرف'],
+          correct: 1,
+        },
+        {
+          title: 'ما يميز الناقص',
+          kind: 'mcq',
+          prompt: 'What separates ناقص التصرف from a جامد ملازم للمضي؟',
+          options: ['The جامد has a مضارع', 'They are the same category', 'The ناقص has a مضارع as well as a ماضٍ; the جامد has only the ماضي', 'The ناقص has an أمر'],
+          correct: 2,
+        },
+        {
+          title: 'مصطلح ناقص',
+          kind: 'mcq',
+          prompt: 'ناقص التصرف and الناقص (from the earlier division) both use the word ناقص. Do they mean the same thing?',
+          options: ['Yes — they are the same term', 'Yes, but one applies to nouns', 'No — one concerns a weak فاء', 'No — one concerns a missing form, the other a weak لام'],
+          correct: 3,
+        },
+      ],
+    },
+    // ---------------------------------------------------------------- L3
+    {
+      id: 'l3',
+      title: 'تصريف الأفعال بعضها من بعض',
+      subtitle: 'Deriving One Form from Another — building المضارع out of the ماضي, and the أمر out of the مضارع',
+      concepts: [
+        {
+          heading: 'حرف المضارعة وضبطه',
+          lines: [
+            { html: `The first step in building a مضارع: <bdi>أن يُزادَ في أوَّلِهِ أَحَدُ أَحْرُفِ المُضارَعَةِ</bdi>.`, list: false },
+            { table: { title: 'ضبط حرف المضارعة', headers: ['الحالة', 'الضبط', 'أمثلة'], rows: [
+              ['في الرُّباعي', 'مَضْمُومًا', 'يُدَحْرِج'],
+              ['في غَيْرِهِ', 'مَفْتُوحًا', 'يَكْتُب، يَنْطَلِق، يَسْتَغْفِر'],
+            ] } },
+            { html: `الرُّباعي here means a ماضي of four letters, however those letters arose — دَحْرَجَ, but equally أَكْرَمَ، عَظَّمَ، قاتَلَ, whose مضارع is يُكْرِم، يُعَظِّم، يُقاتِل. Anything longer or shorter takes a fatḥa, which is why يَسْتَغْفِر at six letters and يَكْتُب at three both do.`, list: false },
+          ],
+          exercise: {
+            prompt: `يَسْتَغْفِر has six letters, more than يُدَحْرِج. Why does it take a fatḥa on its حرف مضارعة rather than a ḍamma?`,
+            kind: 'mcq',
+            options: ['Because its أصل is معتل', 'Because it is مزيد', 'The ḍamma belongs to a ماضي of exactly four letters; اسْتَغْفَرَ has six', 'Because it begins with a سين'],
+            correct: 2,
+          },
+        },
+        {
+          heading: 'المضارع من الثلاثي',
+          lines: [
+            { html: `<bdi>إن كان الماضي ثُلاثِيًّا، سُكِّنَتْ فاؤُهُ، وحُرِّكَتْ عَيْنُهُ بِضَمَّةٍ أو فَتْحَةٍ أو كَسْرَةٍ، حَسَبَما يَقْتَضِيهِ نَصُّ اللُغَةِ</bdi>.`, list: false },
+            { html: `<bdi>كيَنْصُرُ ويَفْتَحُ ويَضْرِبُ</bdi>`, list: false },
+            { html: `Two operations, then: the فاء is silenced, and the عين takes whichever of the three vowels the language has fixed for that verb — which is exactly the باب the verb belongs to.`, list: false },
+          ],
+          exercise: {
+            prompt: `What decides which of the three vowels the عين of the مضارع carries?`,
+            kind: 'mcq',
+            options: ['The number of letters in the verb', 'Whether the verb is صحيح or معتل', 'The vowel on the حرف مضارعة', 'نص اللغة — which is to say, the باب the verb belongs to'],
+            correct: 3,
+          },
+        },
+        {
+          heading: 'المضارع من غير الثلاثي',
+          lines: [
+            { html: `<bdi>وإن كان غَيْرَ ثُلاثِيٍّ</bdi>, three rules apply in turn.`, list: false },
+            { table: { headers: ['القاعدة', 'أمثلة'], rows: [
+              ['<bdi>بَقِيَ على حالِهِ إن كان مَبْدُوءًا بِتاءٍ زائِدَةٍ</bdi>', 'يَتَشارَك، يَتَعَلَّم، يَتَدَحْرَج'],
+              ['<bdi>وإلَّا كُسِرَ ما قَبْلَ آخِرِهِ</bdi>', 'يُعَظِّم، يُقاتِل'],
+              ['<bdi>وحُذِفَتِ الهَمْزَةُ الزائِدَةُ في أَوَّلِهِ إن كانَتْ</bdi>', 'يُكْرِم، يَسْتَخْرِج'],
+            ] } },
+            { html: `The first rule is the exception and the second the default: a verb beginning with a زائدة تاء keeps its vowelling untouched, everything else takes a kasra before its last letter.`, list: false },
+          ],
+          exercise: {
+            prompt: `أَكْرَمَ becomes يُكْرِم. What has happened to the همزة؟`,
+            kind: 'mcq',
+            options: ['It was a زائدة همزة at the start and has been dropped', 'It has become a ياء', 'It has moved to the end', 'It has been doubled'],
+            correct: 0,
+          },
+        },
+        {
+          heading: 'الأمر من المضارع',
+          lines: [
+            { html: `Two steps.`, list: false },
+            { html: `<bdi>أن يُحْذَفَ حَرْفُ المُضارَعَةِ</bdi> — <bdi>كعَظِّمْ، تَشارَكْ، تَعَلَّمْ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>فإن كان أَوَّلُ الباقي ساكِنًا زِيدَ في أَوَّلِهِ هَمْزَةٌ</bdi> — <bdi>كانْصُرْ، افْتَحْ، اضْرِبْ، وأَكْرِمْ، انْطَلِقْ، اسْتَغْفِرْ</bdi>.`, list: true, bullet: true },
+            { html: `The condition explains the split in the examples: عَظِّمْ and تَشارَكْ begin with a vowelled letter once the حرف مضارعة is gone, so nothing is added; انْصُرْ and اسْتَغْفِرْ would begin with a sukūn, which Arabic cannot start a word on, so a همزة is supplied.`, list: false },
+          ],
+          clarification: `Why can a word not begin on a sukūn? Because a سَاكِن letter carries no vowel of its own to be pronounced with, and Arabic has no way of voicing one at the very start of an utterance — there is nothing before it to lean on. Strip يَنْصُرُ of its ياء and you are left with نْصُرْ, whose first letter is silent and therefore unpronounceable in isolation. The همزة supplied at the front of انْصُرْ، افْتَحْ، انْطَلِقْ and اسْتَغْفِرْ is a هَمْزَة وَصْل: it carries a vowel, gets the word started, and drops away in pronunciation as soon as something precedes it. أَكْرِمْ is the odd one in that list — its همزة is the همزة of أَفْعَلَ, a هَمْزَة قَطْع, which never drops.`,
+          exercise: {
+            prompt: `تَعَلَّمْ takes no added همزة while اسْتَغْفِرْ does. What accounts for the difference?`,
+            kind: 'mcq',
+            options: ['اسْتَغْفِرْ is ثلاثي', 'تَعَلَّمْ has no حرف مضارعة', 'After the حرف مضارعة is removed, تَعَلَّمْ begins on a vowelled letter and اسْتَغْفِرْ would begin on a sukūn', 'تَعَلَّمْ is جامد'],
+            correct: 2,
+          },
+        },
+      ],
+      quiz: [
+        {
+          q: 'The حرف المضارعة is مضموم in which case?',
+          options: ['في الرباعي', 'في الثلاثي', 'في الخماسي', 'في السداسي'],
+          correct: 0,
+        },
+        {
+          q: 'In building the مضارع of a ثلاثي, what happens to the فاء؟',
+          options: ['حُرِّكَتْ بضمة', 'حُذِفَتْ', 'ضُعِّفَتْ', 'سُكِّنَتْ'],
+          correct: 3,
+        },
+        {
+          q: 'A غير ثلاثي verb beginning with a زائدة تاء:',
+          options: ['ضُمَّ أوله', 'بقي على حاله', 'كُسِر ما قبل آخره', 'حُذِفت تاؤه'],
+          correct: 1,
+        },
+        {
+          q: 'يُكْرِم and يَسْتَخْرِج both illustrate:',
+          options: ['ضم حرف المضارعة', 'حذف الهمزة الزائدة في أوله', 'بقاءه على حاله', 'تسكين الفاء'],
+          correct: 1,
+        },
+        {
+          q: 'The first step in building the أمر from the مضارع is:',
+          options: ['زيادة همزة في أوله', 'كسر ما قبل الآخر', 'تسكين الفاء', 'حذف حرف المضارعة'],
+          correct: 3,
+        },
+        {
+          q: 'A همزة is added at the front of the أمر when:',
+          options: ['الفعل ثلاثي', 'الفعل رباعي', 'أول الباقي ساكن', 'أول الباقي متحرك'],
+          correct: 2,
+        },
+      ],
+      bank: [
+        {
+          title: 'يدحرج',
+          kind: 'mcq',
+          prompt: 'يُدَحْرِج carries a ḍamma on its ياء. Why?',
+          options: ['Its ماضي is رباعي', 'Its ماضي is ثلاثي', 'Its ماضي is مزيد', 'Its ماضي is معتل'],
+          correct: 0,
+        },
+        {
+          title: 'ينطلق ويستغفر',
+          kind: 'mcq',
+          prompt: 'يَنْطَلِق and يَسْتَغْفِر both carry a fatḥa on their حرف مضارعة. What do they share?',
+          options: ['Their ماضي runs to more than four letters', 'They are both جامدة', 'They both begin with a همزة', 'They are both ثلاثية مجردة'],
+          correct: 0,
+        },
+        {
+          title: 'الرباعي لا الطول',
+          kind: 'mcq',
+          prompt: 'The ḍamma on the حرف مضارعة is tied to what?',
+          options: ['The ماضي having four letters or more', 'The verb being مزيد', 'The verb being متعدٍّ', 'The ماضي having exactly four letters'],
+          correct: 3,
+        },
+        {
+          title: 'عمليتان',
+          kind: 'mcq',
+          prompt: 'Building the مضارع of a ثلاثي involves how many operations on the أصل itself, after the حرف مضارعة is added?',
+          options: ['Two — silencing the فاء and vowelling the عين', 'One — silencing the فاء', 'Three', 'None'],
+          correct: 0,
+        },
+        {
+          title: 'ينصر ويفتح ويضرب',
+          kind: 'mcq',
+          prompt: 'يَنْصُرُ, يَفْتَحُ and يَضْرِبُ differ only in one thing. What?',
+          options: ['The حرف مضارعة', 'The number of letters', 'The vowel on the عين', 'The vowel on the فاء'],
+          correct: 2,
+        },
+        {
+          title: 'نص اللغة',
+          kind: 'mcq',
+          prompt: 'حَسَبَما يَقْتَضِيهِ نَصُّ اللُغَةِ governs which choice?',
+          options: ['Which حرف مضارعة is used', 'Whether the فاء is silenced', 'Whether a همزة is added', 'Which vowel the عين of the مضارع takes'],
+          correct: 3,
+        },
+        {
+          title: 'يتشارك ويتعلم',
+          kind: 'mcq',
+          prompt: 'يَتَشارَك, يَتَعَلَّم and يَتَدَحْرَج share what feature?',
+          options: ['They all take a kasra before the last letter', 'Their ماضي begins with a زائدة تاء, so the vowelling stays as it was', 'They are all رباعية', 'They all lose a همزة'],
+          correct: 1,
+        },
+        {
+          title: 'يعظّم ويقاتل',
+          kind: 'mcq',
+          prompt: 'يُعَظِّم and يُقاتِل both show:',
+          options: ['بقاءهما على حالهما', 'حذف الهمزة', 'تسكين الفاء', 'كسر ما قبل الآخر'],
+          correct: 3,
+        },
+        {
+          title: 'الهمزة الزائدة',
+          kind: 'mcq',
+          prompt: 'أَكْرَمَ and اسْتَخْرَجَ both begin with a همزة. What happens to it in the مضارع؟',
+          options: ['It becomes a ياء', 'It moves before the حرف مضارعة', 'It is dropped', 'It is kept and given a ḍamma'],
+          correct: 2,
+        },
+        {
+          title: 'ترتيب القواعد',
+          kind: 'mcq',
+          prompt: 'Which of the غير ثلاثي rules is the default, and which the exception?',
+          options: ['Both apply equally often', 'Neither is a default', 'كسر ما قبل الآخر is the default; the زائدة تاء case is the exception', 'The زائدة تاء case is the default'],
+          correct: 2,
+        },
+        {
+          title: 'عظِّم وتشارك',
+          kind: 'mcq',
+          prompt: 'عَظِّمْ, تَشارَكْ and تَعَلَّمْ take no added همزة. Why?',
+          options: ['Their مضارع begins with a تاء', 'After the حرف مضارعة is removed, each begins on a vowelled letter', 'They are all جامدة', 'They are all ثلاثية'],
+          correct: 1,
+        },
+        {
+          title: 'انصر وافتح',
+          kind: 'mcq',
+          prompt: 'انْصُرْ, افْتَحْ and اضْرِبْ each carry an added همزة. Why?',
+          options: ['Without it each would begin on a sukūn', 'They are all رباعية', 'Their ماضي began with a همزة', 'They are all مزيدة'],
+          correct: 0,
+        },
+        {
+          title: 'لماذا لا يُبدأ بساكن',
+          kind: 'mcq',
+          prompt: 'Why can an Arabic word not begin on a sukūn?',
+          options: ['Because the حرف مضارعة must come first', 'A ساكن letter carries no vowel to be voiced with, and there is nothing before it to lean on', 'Because the ميزان forbids it', 'Because it would be شاذ'],
+          correct: 1,
+        },
+        {
+          title: 'همزة الوصل',
+          kind: 'mcq',
+          prompt: 'What kind of همزة is supplied at the front of انْصُرْ؟',
+          options: ['همزة وصل — it drops in pronunciation when something precedes it', 'همزة قطع', 'همزة التعدية', 'A زائدة همزة carried over from the ماضي'],
+          correct: 0,
+        },
+        {
+          title: 'أكرم واستغفر',
+          kind: 'mcq',
+          prompt: 'أَكْرِمْ and اسْتَغْفِرْ both begin with a همزة in the أمر. Where did it come from?',
+          options: ['It marks التعدية', 'It was supplied because what remained after removing the حرف مضارعة began on a sukūn', 'It was carried over unchanged from the ماضي', 'It replaced the حرف مضارعة'],
+          correct: 1,
+        },
+        {
+          title: 'من الماضي إلى الأمر',
+          kind: 'mcq',
+          prompt: 'Going from ماضٍ to أمر, which route does this فصل describe?',
+          options: ['مضارع → ماضٍ → أمر', 'ماضٍ → مضارع → أمر', 'ماضٍ → أمر directly', 'أمر → مضارع → ماضٍ'],
+          correct: 1,
+        },
+        {
+          title: 'اشتقاق ينطلق',
+          kind: 'mcq',
+          prompt: 'قاتَلَ becomes يُقاتِل. Which two rules applied?',
+          options: ['A ḍamma on the حرف مضارعة, and a kasra before the last letter', 'A fatḥa on the حرف مضارعة, and a kasra before the last letter', 'A fatḥa, and the dropping of a همزة', 'The verb stayed as it was'],
+          correct: 0,
+        },
+        {
+          title: 'اشتقاق يتدحرج',
+          kind: 'mcq',
+          prompt: 'تَدَحْرَجَ becomes يَتَدَحْرَج. Which rule applied?',
+          options: ['ضم حرف المضارعة', 'The زائدة تاء rule — it stayed as it was', 'كسر ما قبل الآخر', 'حذف الهمزة الزائدة'],
+          correct: 1,
+        },
+        {
+          title: 'أمر يتعلَّم',
+          kind: 'mcq',
+          prompt: 'What is the أمر of يَتَعَلَّم؟',
+          options: ['اتَعَلَّمْ', 'أَتَعَلَّمْ', 'يَتَعَلَّمْ', 'تَعَلَّمْ'],
+          correct: 3,
+        },
+        {
+          title: 'أمر يستغفر',
+          kind: 'mcq',
+          prompt: 'What is the أمر of يَسْتَغْفِر؟',
+          options: ['اسْتَغْفِرْ', 'سْتَغْفِرْ', 'تَسْتَغْفِرْ', 'أَسْتَغْفِرْ'],
+          correct: 0,
+        },
+      ],
+    },
+  ],
+};

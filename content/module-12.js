@@ -16,18 +16,19 @@ export default {
   title: 'الجملة وشبه الجملة',
   heading: 'المعمول وغير المعمول',
   subheading: 'الجملة وشبه الجملة',
-  blurb: 'الجملة التي لها محل من الإعراب (مرفوعة، منصوبة، مجرورة، مجزومة، ومعمولة بالتبعية), أحكام واو الحال وفاء جواب الشرط, الجملة التي لا محل لها من الإعراب بأنواعها الثمانية, أركان القسم وجوابه, and شبه الجملة: الظرف اللغو والمستقر, and المنصوب بنزع الخافض.',
+  blurb: 'Which جمل have a محل من الإعراب and which don\'t, the rules of القسم, and شبه الجملة.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'الجملة ذات المحل: تعريفها ومواضعها المرفوعة والمنصوبة',
+      title: 'الجملة ذات المحل: تعريفها ومواضعها',
       subtitle: 'The Sentence with a Grammatical Position — where it is مرفوعة and where منصوبة',
       concepts: [
         {
           heading: 'تعريف الجملة ذات المحل',
-          body: `The معمول sentence is called <bdi>الْجُمْلَةُ الَّتِي لَهَا مَحَلٌّ مِنَ الْإِعْرَاب</bdi> — the sentence that has a grammatical position, as though it were a single word standing in that إعراب slot.`,
-          sample: `تعريف الجملة المعمولة — الجملة التي لها محل من الإعراب`,
+          lines: [
+            { html: `The معمول sentence is called <bdi>الْجُمْلَةُ الَّتِي لَهَا مَحَلٌّ مِنَ الْإِعْرَاب</bdi> — the sentence that has a grammatical position, as though it were a single word standing in that إعراب slot.`, list: false },
+          ],
           exercise: {
             prompt: `What is the معمول sentence called?`,
             kind: 'mcq',
@@ -37,8 +38,11 @@ export default {
         },
         {
           heading: 'مواضع الجملة المرفوعة بالأصالة',
-          body: `A sentence is مرفوعة بالأصالة in two positions: (1) <bdi>خَبَرُ الْمُبْتَدَأ</bdi>, as in <bdi>﴿وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ﴾</bdi> — <bdi>يُحِبُّ الْمُحْسِنِينَ</bdi> is the خبر clause — (2) <bdi>خَبَرُ إِنّ</bdi>, as in <bdi>﴿إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ﴾</bdi>.`,
-          sample: `مرفوعة — خبر المبتدأ: ﴿والله يحب المحسنين﴾؛ خبر إن: ﴿إن الله يحب المحسنين﴾`,
+          lines: [
+            { html: `A sentence is مرفوعة بالأصالة in two positions:`, list: false },
+            { html: `<bdi>خَبَرُ الْمُبْتَدَأ</bdi>, as in <bdi>﴿وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ﴾</bdi> — <bdi>يُحِبُّ الْمُحْسِنِينَ</bdi> is the خبر clause`, list: true, bullet: true },
+            { html: `<bdi>خَبَرُ إِنّ</bdi>, as in <bdi>﴿إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ﴾</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `In which two positions is a sentence مرفوعة بالأصالة?`,
             kind: 'mcq',
@@ -48,8 +52,15 @@ export default {
         },
         {
           heading: 'مواضع الجملة المنصوبة بالأصالة',
-          body: `A sentence is منصوبة بالأصالة in four positions: (1) <bdi>الْمَفْعُولُ بِهِ</bdi>, as in <bdi>﴿قَالَ اللَّهُ هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾</bdi> (2) <bdi>الْمَفْعُولُ لَه</bdi>, as in <bdi>﴿وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ﴾</bdi> (3) <bdi>الْحَال</bdi>, as in <bdi>طَافَ رَسُولُ اللَّهِ ﷺ بِالْبَيْتِ وَهُوَ يُلَبِّي</bdi> (4) <bdi>خَبَرُ الْفِعْلِ النَّاقِص</bdi>, as in <bdi>﴿كَانُوا يَعْمَلُونَ﴾</bdi>.`,
-          sample: `منصوبة (٤ مواضع) — مفعول به: ﴿قال الله...﴾؛ مفعول له: ﴿واتقوا الله لعلكم تفلحون﴾؛ حال: طاف رسول الله وهو يلبي؛ خبر الفعل الناقص: ﴿كانوا يعملون﴾`,
+          lines: [
+            { html: `A sentence is منصوبة بالأصالة in four positions:`, list: false },
+            { table: { headers: ['#', 'الموضع', 'Example'], rows: [
+              ['1', 'الْمَفْعُولُ بِهِ', '﴿قَالَ اللَّهُ هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾'],
+              ['2', 'الْمَفْعُولُ لَه', '﴿وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ﴾'],
+              ['3', 'الْحَال', 'طَافَ رَسُولُ اللَّهِ ﷺ بِالْبَيْتِ وَهُوَ يُلَبِّي'],
+              ['4', 'خَبَرُ الْفِعْلِ النَّاقِص', '﴿كَانُوا يَعْمَلُونَ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `In which four positions is a sentence منصوبة بالأصالة?`,
             kind: 'mcq',
@@ -59,8 +70,9 @@ export default {
         },
         {
           heading: 'الجملة مفعولا به لقول: أسماؤها',
-          body: `A sentence functioning as المفعول به of a verb of saying is called <bdi>مَقُولًا</bdi>, <bdi>مَقُولَ الْقَوْل</bdi>, and <bdi>مَقُولَة</bdi>.`,
-          sample: `أسماء الجملة المفعول به لقول — مقول، مقول القول، مقولة`,
+          lines: [
+            { html: `A sentence functioning as المفعول به of a verb of saying is called <bdi>مَقُولًا</bdi>, <bdi>مَقُولَ الْقَوْل</bdi>, and <bdi>مَقُولَة</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is the sentence functioning as مفعول به of a verb of saying called?`,
             kind: 'mcq',
@@ -70,8 +82,9 @@ export default {
         },
         {
           heading: 'الجملة مفعولا له: الجملة التعليلية',
-          body: `A sentence functioning as المفعول له is called <bdi>الْجُمْلَةُ التَّعْلِيلِيَّة</bdi>, as in <bdi>﴿وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ﴾</bdi>.`,
-          sample: `الجملة مفعولا له — الجملة التعليلية: ﴿واتقوا الله لعلكم تفلحون﴾`,
+          lines: [
+            { html: `A sentence functioning as المفعول له is called <bdi>الْجُمْلَةُ التَّعْلِيلِيَّة</bdi>, as in <bdi>﴿وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is the sentence functioning as مفعول له called? Give the example.`,
             kind: 'mcq',
@@ -95,22 +108,64 @@ export default {
         { title: 'مقولة اسم بديل', kind: 'mcq', prompt: 'مَقُولَة is an alternative name for a sentence that is:', options: ['مقول القول', 'الجملة الحالية', 'صلة الموصول', 'المعترضة'], correct: 0 },
         { title: 'أربعة مواضع النصب', kind: 'mcq', prompt: 'Which of these is NOT one of the four مواضع of الجملة المنصوبة بالأصالة؟', options: ['خبر المبتدأ', 'المفعول به', 'الحال', 'خبر الفعل الناقص'], correct: 0 },
         {
-          title: 'تركيب: مرفوعة أم منصوبة؟',
+          title: 'تركيب: ﴿وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جملة by its موضع من الإعراب.',
-          source: '﴿والله يحب المحسنين﴾ / ﴿واتقوا الله لعلكم تفلحون﴾',
-          words: ['يحب المحسنين', 'لعلكم تفلحون'],
-          labels: ['مرفوعة (خبر المبتدأ)', 'منصوبة (مفعول له)'],
-          distractors: ['مجرورة'],
+          instruction: 'Classify موضع هذه الجملة.',
+          sentence: 'وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ',
+          translation: 'And Allah loves the doers of good.',
+          cells: ['وَاللَّهُ', 'يُحِبُّ', 'الْمُحْسِنِينَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 2, role: 'مرفوعة (خبر المبتدأ)' }] },
+          ],
+          distractors: ['منصوبة (مفعول له)', 'مجرورة'],
         },
         {
-          title: 'تركيب: مواضع النصب الأربعة',
+          title: 'تركيب: ﴿وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the موضع of الجملة المنصوبة it illustrates.',
-          source: '﴿قال الله هذا...﴾ (مقول) / ﴿واتقوا الله لعلكم تفلحون﴾ / وهو يلبي / ﴿كانوا يعملون﴾',
-          words: ['مقول القول', 'لعلكم تفلحون', 'وهو يلبي', 'كانوا يعملون'],
-          labels: ['مفعول به', 'مفعول له', 'حال', 'خبر الفعل الناقص'],
-          distractors: ['مضاف إليه'],
+          instruction: 'Classify موضع هذه الجملة.',
+          sentence: 'وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ',
+          translation: 'And fear Allah that you may succeed.',
+          cells: ['وَاتَّقُوا', 'اللَّهَ', 'لَعَلَّكُمْ', 'تُفْلِحُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 3, role: 'منصوبة (مفعول له)' }] },
+          ],
+          distractors: ['مرفوعة (خبر المبتدأ)', 'مجرورة'],
+        },
+        {
+          title: 'تركيب: ﴿قَالَ اللَّهُ هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify موضع الجملة بعد قال.',
+          sentence: 'قَالَ اللَّهُ هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ',
+          translation: 'Allah said, "This is the Day when the truthful will benefit from their truthfulness."',
+          cells: ['قَالَ', 'اللَّهُ', 'هَٰذَا', 'يَوْمُ', 'يَنفَعُ', 'الصَّادِقِينَ', 'صِدْقُهُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 6, role: 'مفعول به (مقول القول)' }] },
+          ],
+          distractors: ['مفعول له', 'حال'],
+        },
+        {
+          title: 'تركيب: طَافَ رَسُولُ اللَّهِ ﷺ بِالْبَيْتِ وَهُوَ يُلَبِّي',
+          kind: 'tarkeeb',
+          instruction: 'Classify موضع وهو يلبي هنا.',
+          sentence: 'طَافَ رَسُولُ اللَّهِ بِالْبَيْتِ وَهُوَ يُلَبِّي',
+          translation: 'The Messenger of Allah circled the House while he was reciting the talbiyah.',
+          cells: ['طَافَ', 'رَسُولُ', 'اللَّهِ', 'بِالْبَيْتِ', 'وَهُوَ', 'يُلَبِّي'],
+          rows: [
+            { position: 'above', labels: [{ start: 4, end: 5, role: 'حال' }] },
+          ],
+          distractors: ['مفعول به', 'مفعول له'],
+        },
+        {
+          title: 'تركيب: ﴿كَانُوا يَعْمَلُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify موضع يعملون هنا.',
+          sentence: 'كَانُوا يَعْمَلُونَ',
+          translation: 'They used to do [good deeds].',
+          cells: ['كَانُوا', 'يَعْمَلُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'خبر الفعل الناقص' }] },
+          ],
+          distractors: ['مفعول به', 'حال'],
         },
       ],
     },
@@ -122,8 +177,14 @@ export default {
       concepts: [
         {
           heading: 'مواضع وجوب واو الحال الثلاثة',
-          body: `الواو of الجملة الحالية is obligatory in three cases: (1) the clause has no pronoun linking to صاحب الحال, as in <bdi>﴿لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ﴾</bdi> (2) it is a nominal clause beginning with صاحب الحال’s own pronoun, as in <bdi>﴿وَلَا تَقْرَبُوا الصَّلَاةَ وَأَنتُمْ سُكَارَىٰ﴾</bdi> (3) it is a مضارع clause with <bdi>قَدْ</bdi>, as in <bdi>﴿لِمَ تُؤْذُونَنِي وَقَدْ تَعْلَمُونَ أَنِّي رَسُولُ اللَّهِ إِلَيْكُمْ﴾</bdi>.`,
-          sample: `وجوب الواو (٣) — لا رابط بينها وبين صاحبها: ﴿ونحن عصبة﴾؛ اسمية بادئة بضمير صاحبها: ﴿وأنتم سكارى﴾؛ مضارعة مقترنة بقد: ﴿وقد تعلمون﴾`,
+          lines: [
+            { html: `الواو of الجملة الحالية is obligatory in three cases:`, list: false },
+            { table: { headers: ['#', 'الحالة', 'Example'], rows: [
+              ['1', 'the clause has no pronoun linking to صاحب الحال', '﴿لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ﴾'],
+              ['2', 'a nominal clause beginning with صاحب الحال’s own pronoun', '﴿وَلَا تَقْرَبُوا الصَّلَاةَ وَأَنتُمْ سُكَارَىٰ﴾'],
+              ['3', 'a مضارع clause with قَدْ', '﴿لِمَ تُؤْذُونَنِي وَقَدْ تَعْلَمُونَ أَنِّي رَسُولُ اللَّهِ إِلَيْكُمْ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `In which three cases is the واو of the جملة حالية obligatory؟`,
             kind: 'mcq',
@@ -133,8 +194,18 @@ export default {
         },
         {
           heading: 'مواضع امتناع واو الحال السبعة',
-          body: `الواو of الجملة الحالية is prohibited in seven cases: (1) after a عاطف, as in <bdi>﴿أَوْ هُمْ قَائِلُونَ﴾</bdi> (2) the clause is مؤكدة for its preceding clause, as in <bdi>﴿ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ﴾</bdi> (3) a ماضي clause after <bdi>إِلَّا</bdi>, as in <bdi>﴿إِلَّا كَانُوا بِهِ يَسْتَهْزِئُونَ﴾</bdi> (4) a ماضي clause before <bdi>أَوْ</bdi>, as in <bdi>أَنْصِفِ النَّاسَ أَنْصَفُوكَ أَوْ ظَلَمُوكَ</bdi> (5) an affirmative مضارع clause without قد, as in <bdi>﴿وَلَا تَمْنُنْ تَسْتَكْثِرُ﴾</bdi> (6) a مضارع clause negated by <bdi>مَا</bdi>, as in <bdi>عَهِدْتُكَ مَا تَصْبِرُ عَلَى الشَّدَائِدِ</bdi> (7) a مضارع clause negated by <bdi>لَا</bdi>, as in <bdi>﴿وَمَا لِيَ لَا أَعْبُدُ الَّذِي فَطَرَنِي﴾</bdi>.`,
-          sample: `امتناع الواو (٧) — بعد عاطف: ﴿أو هم قائلون﴾؛ مؤكدة لما قبلها: ﴿لا ريب فيه﴾؛ ماضية بعد إلا: ﴿إلا كانوا به يستهزئون﴾؛ ماضية قبل أو: أنصفوك أو ظلموك؛ مضارعة مثبتة بلا قد: ﴿ولا تمنن تستكثر﴾؛ مضارعة منفية بما: ما تصبر؛ مضارعة منفية بلا: ﴿لا أعبد الذي فطرني﴾`,
+          lines: [
+            { html: `الواو of الجملة الحالية is prohibited in seven cases:`, list: false },
+            { table: { headers: ['#', 'الحالة', 'Example'], rows: [
+              ['1', 'after a عاطف', '﴿أَوْ هُمْ قَائِلُونَ﴾'],
+              ['2', 'the clause is مؤكدة for its preceding clause', '﴿ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ﴾'],
+              ['3', 'a ماضي clause after إِلَّا', '﴿إِلَّا كَانُوا بِهِ يَسْتَهْزِئُونَ﴾'],
+              ['4', 'a ماضي clause before أَوْ', 'أَنْصِفِ النَّاسَ أَنْصَفُوكَ أَوْ ظَلَمُوكَ'],
+              ['5', 'an affirmative مضارع clause without قد', '﴿وَلَا تَمْنُنْ تَسْتَكْثِرُ﴾'],
+              ['6', 'a مضارع clause negated by مَا', 'عَهِدْتُكَ مَا تَصْبِرُ عَلَى الشَّدَائِدِ'],
+              ['7', 'a مضارع clause negated by لَا', '﴿وَمَا لِيَ لَا أَعْبُدُ الَّذِي فَطَرَنِي﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `In which seven cases is the واو of the جملة حالية prohibited؟`,
             kind: 'mcq',
@@ -144,19 +215,22 @@ export default {
         },
         {
           heading: 'الوجهان مع لم، وترجيح الواو مع لمّا',
-          body: `For a مضارع حال clause negated by <bdi>لَمْ</bdi>, both are allowed: with واو, as in <bdi>﴿قُلْ أُوحِيَ إِلَيَّ وَلَمْ يُوحَ إِلَيْهِ شَيْءٌ﴾</bdi>, or without, as in <bdi>﴿فَانقَلَبُوا بِنِعْمَةٍ مِّنَ اللَّهِ وَفَضْلٍ لَّمْ يَمْسَسْهُمْ سُوءٌ﴾</bdi>. For الحال clause negated by <bdi>لَمَّا</bdi>, الواو is preferred, as in <bdi>﴿وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنكُمْ﴾</bdi>.`,
-          sample: `مع لم — الوجهان جائزان: بالواو ﴿ولم يوح إليه شيء﴾؛ بدونها ﴿لم يمسسهم سوء﴾<br>مع لمّا — الواو أرجح: ﴿ولما يعلم الله الذين جاهدوا منكم﴾`,
+          lines: [
+            { html: `For a مضارع حال clause negated by <bdi>لَمْ</bdi>, both are allowed: with واو, as in <bdi>﴿قُلْ أُوحِيَ إِلَيَّ وَلَمْ يُوحَ إِلَيْهِ شَيْءٌ﴾</bdi>, or without, as in <bdi>﴿فَانقَلَبُوا بِنِعْمَةٍ مِّنَ اللَّهِ وَفَضْلٍ لَّمْ يَمْسَسْهُمْ سُوءٌ﴾</bdi>.`, list: false },
+            { html: `For الحال clause negated by <bdi>لَمَّا</bdi>, الواو is preferred, as in <bdi>﴿وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنكُمْ﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is preferred for the حال clause negated by لمّا؟`,
             kind: 'mcq',
-            options: ['الواو', 'حذف الواو دائما', 'كلاهما ممتنع', 'اللام'],
+            options: ['الواو', 'no واو — it must always be dropped', 'neither واو nor its absence is acceptable', 'اللام'],
             correct: 0,
           },
         },
         {
           heading: 'الاسمية غير البادئة بالضمير',
-          body: `The rule for the nominal (اسمية) حال clause NOT starting with صاحبها’s pronoun: predominantly with واو, as in <bdi>﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾</bdi>, sometimes without it, as in <bdi>﴿وَقُلْنَا اهْبِطُوا بَعْضُكُمْ لِبَعْضٍ عَدُوٌّ﴾</bdi>.`,
-          sample: `اسمية غير بادئة بضمير صاحبها — غالبا بالواو: ﴿وأنتم أذلة﴾؛ أحيانا بدونها: ﴿بعضكم لبعض عدو﴾`,
+          lines: [
+            { html: `The rule for the nominal (اسمية) حال clause NOT starting with صاحبها’s pronoun: predominantly with واو, as in <bdi>﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾</bdi>, sometimes without it, as in <bdi>﴿وَقُلْنَا اهْبِطُوا بَعْضُكُمْ لِبَعْضٍ عَدُوٌّ﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is the rule for the nominal (اسمية) حال clause not starting with صاحبها’s pronoun؟`,
             kind: 'mcq',
@@ -166,8 +240,12 @@ export default {
         },
         {
           heading: 'أحكام الماضي المثبت حالا',
-          body: `For the affirmative ماضي حال clause: predominantly with واو and قد, as in <bdi>﴿وَقَدْ هَدَانِ﴾</bdi>; sometimes واو alone, as in <bdi>﴿وَاتَّبَعَكَ الْأَرْذَلُونَ﴾</bdi>; sometimes neither, as in <bdi>﴿رُدَّتْ إِلَيْنَا﴾</bdi> (i.e. <bdi>هَٰذِهِ بِضَاعَتُنَا رُدَّتْ إِلَيْنَا﴾).`,
-          sample: `الماضي المثبت حالا — غالبا بالواو وقد: ﴿وقد هداني﴾؛ أحيانا بالواو وحدها: ﴿واتبعك الأرذلون﴾؛ أحيانا بلا واو ولا قد: ﴿ردت إلينا﴾`,
+          lines: [
+            { html: `For the affirmative ماضي حال clause:`, list: false },
+            { html: `predominantly with واو and قد, as in <bdi>﴿وَقَدْ هَدَانِ﴾</bdi>`, list: true, bullet: true },
+            { html: `sometimes واو alone, as in <bdi>﴿وَاتَّبَعَكَ الْأَرْذَلُونَ﴾</bdi>`, list: true, bullet: true },
+            { html: `sometimes neither, as in <bdi>﴿رُدَّتْ إِلَيْنَا﴾</bdi> (i.e. <bdi>هَٰذِهِ بِضَاعَتُنَا رُدَّتْ إِلَيْنَا﴾)`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What are the rules for the affirmative ماضي حال clause?`,
             kind: 'mcq',
@@ -194,35 +272,102 @@ export default {
         { title: 'الوجهان مع لم بالمثال الثاني', kind: 'mcq', prompt: '﴿فَانقَلَبُوا بِنِعْمَةٍ مِّنَ اللَّهِ وَفَضْلٍ لَّمْ يَمْسَسْهُمْ سُوءٌ﴾ shows a مضارع حال clause negated by لم:', options: ['without واو, one of the two allowed options', 'with واو, obligatorily', 'with واو and قد together', 'in a form that is entirely forbidden'], correct: 0 },
         { title: 'ماضٍ بلا واو ولا قد', kind: 'mcq', prompt: '﴿رُدَّتْ إِلَيْنَا﴾ (i.e. هذه بضاعتنا ردت إلينا) illustrates the affirmative ماضي حال clause appearing:', options: ['with neither واو nor قد', 'with واو and قد together', 'with واو alone', 'this is never a valid حال pattern'], correct: 0 },
         {
-          title: 'تركيب: وجوب أم امتناع واو الحال؟',
+          title: 'تركيب: ﴿لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال.',
-          source: '﴿ونحن عصبة﴾ / ﴿لا ريب فيه﴾ / ﴿وأنتم سكارى﴾ / ﴿أو هم قائلون﴾',
-          words: ['ونحن عصبة', 'لا ريب فيه', 'وأنتم سكارى', 'أو هم قائلون'],
-          labels: ['وجوب', 'امتناع', 'وجوب', 'امتناع'],
-          distractors: ['جواز'],
+          instruction: 'Is واو الحال هنا واجبة or ممتنعة؟',
+          sentence: 'لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ',
+          translation: 'If the wolf should eat him while we are a group [of strength]...',
+          cells: ['لَئِنْ', 'أَكَلَهُ', 'الذِّئْبُ', 'وَنَحْنُ', 'عُصْبَةٌ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 4, role: 'واجبة (لا رابط بلا واو)' }] },
+          ],
+          distractors: ['ممتنعة'],
         },
         {
-          title: 'تركيب: أسباب امتناع الواو',
+          title: 'تركيب: ﴿ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each مثال to the reason واو الحال is prohibited.',
-          source: '﴿إلا كانوا به يستهزئون﴾ / عهدتك ما تصبر / ﴿ولا تمنن تستكثر﴾',
-          words: ['إلا كانوا به يستهزئون', 'عهدتك ما تصبر', 'ولا تمنن تستكثر'],
-          labels: ['ماضية بعد إلا', 'مضارعة منفية بما', 'مضارعة مثبتة بلا قد'],
-          distractors: ['مسبوقة بعاطف'],
+          instruction: 'Is واو الحال هنا واجبة or ممتنعة؟',
+          sentence: 'ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ',
+          translation: 'That is the Book about which there is no doubt.',
+          cells: ['ذَٰلِكَ', 'الْكِتَابُ', 'لَا', 'رَيْبَ', 'فِيهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 4, role: 'ممتنعة (مؤكدة لما قبلها)' }] },
+          ],
+          distractors: ['واجبة'],
+        },
+        {
+          title: 'تركيب: ﴿وَلَا تَقْرَبُوا الصَّلَاةَ وَأَنتُمْ سُكَارَىٰ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is واو الحال هنا واجبة or ممتنعة؟',
+          sentence: 'وَلَا تَقْرَبُوا الصَّلَاةَ وَأَنتُمْ سُكَارَىٰ',
+          translation: 'Do not approach prayer while you are intoxicated.',
+          cells: ['وَلَا', 'تَقْرَبُوا', 'الصَّلَاةَ', 'وَأَنتُمْ', 'سُكَارَىٰ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 4, role: 'واجبة (اسمية بادئة بالضمير)' }] },
+          ],
+          distractors: ['ممتنعة'],
+        },
+        {
+          title: 'تركيب: ﴿أَوْ هُمْ قَائِلُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is واو الحال هنا واجبة or ممتنعة؟',
+          sentence: 'أَوْ هُمْ قَائِلُونَ',
+          translation: '...or while they are resting at noon.',
+          cells: ['أَوْ', 'هُمْ', 'قَائِلُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 2, role: 'ممتنعة (بعد عاطف)' }] },
+          ],
+          distractors: ['واجبة'],
+        },
+        {
+          title: 'تركيب: ﴿إِلَّا كَانُوا بِهِ يَسْتَهْزِئُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Why is واو الحال prohibited here؟',
+          sentence: 'إِلَّا كَانُوا بِهِ يَسْتَهْزِئُونَ',
+          translation: '...except that they used to ridicule it.',
+          cells: ['إِلَّا', 'كَانُوا', 'بِهِ', 'يَسْتَهْزِئُونَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 1, role: 'ماضية بعد إلا' }] },
+          ],
+          distractors: ['مضارعة منفية بما', 'مضارعة مثبتة بلا قد'],
+        },
+        {
+          title: 'تركيب: عَهِدْتُكَ مَا تَصْبِرُ عَلَى الشَّدَائِدِ',
+          kind: 'tarkeeb',
+          instruction: 'Why is واو الحال prohibited here؟',
+          sentence: 'عَهِدْتُكَ مَا تَصْبِرُ عَلَى الشَّدَائِدِ',
+          translation: 'I knew you to not endure hardships.',
+          cells: ['عَهِدْتُكَ', 'مَا', 'تَصْبِرُ', 'عَلَى', 'الشَّدَائِدِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 2, role: 'مضارعة منفية بما' }] },
+          ],
+          distractors: ['ماضية بعد إلا', 'مضارعة مثبتة بلا قد'],
+        },
+        {
+          title: 'تركيب: ﴿وَلَا تَمْنُنْ تَسْتَكْثِرُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Why is واو الحال prohibited here؟',
+          sentence: 'وَلَا تَمْنُنْ تَسْتَكْثِرُ',
+          translation: 'And do not confer favor seeking more.',
+          cells: ['وَلَا', 'تَمْنُنْ', 'تَسْتَكْثِرُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 2, role: 'مضارعة مثبتة بلا قد' }] },
+          ],
+          distractors: ['ماضية بعد إلا', 'مضارعة منفية بما'],
         },
       ],
     },
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'الجملة المجرورة والمجزومة: أحكام فاء جواب الشرط',
+      title: 'الجملة المجرورة والمجزومة',
       subtitle: 'The جر and جزم Positions, and when فاء the جواب needs is obligatory, optional, or forbidden',
       concepts: [
         {
           heading: 'الجملة المجرورة: مضافا إليه',
-          body: `A sentence is مجرورة بالأصالة as <bdi>مُضَافٌ إِلَيْه</bdi>, as in <bdi>﴿هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾</bdi>, where <bdi>يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ</bdi> is مضاف إليه to <bdi>يَوْم</bdi>.`,
-          sample: `مجرورة — مضاف إليه: ﴿هذا يوم ينفع الصادقين صدقهم﴾`,
+          lines: [
+            { html: `A sentence is مجرورة بالأصالة as <bdi>مُضَافٌ إِلَيْه</bdi>, as in <bdi>﴿هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾</bdi>, where <bdi>يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ</bdi> is مضاف إليه to <bdi>يَوْم</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `In which position is a sentence مجرورة بالأصالة? Give the example.`,
             kind: 'mcq',
@@ -232,8 +377,9 @@ export default {
         },
         {
           heading: 'الجملة المجزومة: جواب الشرط الجازم برابطة',
-          body: `A sentence is مجزومة بالأصالة as the جواب of a jazm-conditional (<bdi>شَرْطٌ جَازِم</bdi>), PROVIDED it is linked by a <bdi>رَابِطَة</bdi> — the <bdi>فَاء</bdi> or <bdi>إِذَا الْفُجَائِيَّة</bdi> — as in <bdi>﴿مَن يُضْلِلِ اللَّهُ فَلَا هَادِيَ لَهُ﴾</bdi>.`,
-          sample: `مجزومة — جواب شرط جازم مرتبط برابطة (الفاء أو إذا الفجائية): ﴿من يضلل الله فلا هادي له﴾`,
+          lines: [
+            { html: `A sentence is مجزومة بالأصالة as the جواب of a jazm-conditional (<bdi>شَرْطٌ جَازِم</bdi>), PROVIDED it is linked by a <bdi>رَابِطَة</bdi> — the <bdi>فَاء</bdi> or <bdi>إِذَا الْفُجَائِيَّة</bdi> — as in <bdi>﴿مَن يُضْلِلِ اللَّهُ فَلَا هَادِيَ لَهُ﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `In which position is a sentence مجزومة بالأصالة, and what is required؟`,
             kind: 'mcq',
@@ -243,8 +389,21 @@ export default {
         },
         {
           heading: 'الفاء الواجبة في جواب الشرط',
-          body: `الفاء is obligatory in جواب الشرط when الجواب is: (1) جملة اسمية, as in <bdi>﴿وَإِن يَمْسَسْكَ بِخَيْرٍ فَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ﴾</bdi> (2) فعلية with a jāmid verb, as in <bdi>﴿إِن تَرَنِ أَنَا أَقَلَّ مِنكَ مَالًا وَوَلَدًا... فَعَسَىٰ رَبِّي﴾</bdi> (3) <bdi>طَلَبِيَّة</bdi> — أمر, as in <bdi>﴿إِن كُنتُمْ تُحِبُّونَ اللَّهَ فَاتَّبِعُونِي﴾</bdi>, or نهي, as in <bdi>﴿فَإِنْ عَلِمْتُمُوهُنَّ مُؤْمِنَاتٍ فَلَا تَرْجِعُوهُنَّ إِلَى الْكُفَّارِ﴾</bdi> (4) ماضٍ affirmative with قد — overt or implied, as in <bdi>﴿إِن يَسْرِقْ فَقَدْ سَرَقَ أَخٌ لَّهُ مِن قَبْلُ﴾</bdi> (5) negated by <bdi>مَا</bdi>, as in <bdi>﴿وَإِن لَّمْ تَفْعَلْ فَمَا بَلَّغْتَ رِسَالَتَهُ﴾</bdi> (6) مضارع with a <bdi>تَنْفِيس</bdi> particle, as in <bdi>﴿فَسَيَحْشُرُهُمْ إِلَيْهِ جَمِيعًا﴾</bdi> (7) negated by <bdi>لَنْ</bdi>, as in <bdi>﴿وَمَا يَفْعَلُوا مِنْ خَيْرٍ فَلَن يُكْفَرُوهُ﴾</bdi> (8) opening with <bdi>كَأَنَّمَا</bdi>, as in <bdi>﴿وَمَن يُشْرِكْ بِاللَّهِ فَكَأَنَّمَا خَرَّ مِنَ السَّمَاءِ﴾</bdi> (9) opening with a conditional particle, as in <bdi>﴿وَإِن كَانَ كَبُرَ عَلَيْكَ إِعْرَاضُهُمْ فَإِنِ اسْتَطَعْتَ...﴾</bdi>.`,
-          sample: `الفاء واجبة إذا كان الجواب — اسمية؛ فعلية بفعل جامد؛ طلبية (أمر أو نهي)؛ ماضية مثبتة بقد ظاهرة أو مقدرة؛ منفية بما؛ مضارعة بحرف تنفيس؛ منفية بلن؛ مفتتحة بكأنما؛ مفتتحة بأداة شرط أخرى`,
+          lines: [
+            { html: `الفاء is obligatory in جواب الشرط when الجواب is:`, list: false },
+            { table: { headers: ['#', 'الجواب', 'Example'], rows: [
+              ['1', 'جملة اسمية', '﴿وَإِن يَمْسَسْكَ بِخَيْرٍ فَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ﴾'],
+              ['2', 'فعلية with a jāmid verb', '﴿إِن تَرَنِ أَنَا أَقَلَّ مِنكَ مَالًا وَوَلَدًا... فَعَسَىٰ رَبِّي﴾'],
+              ['3', 'طَلَبِيَّة — أمر', '﴿إِن كُنتُمْ تُحِبُّونَ اللَّهَ فَاتَّبِعُونِي﴾'],
+              ['3', 'طَلَبِيَّة — نهي', '﴿فَإِنْ عَلِمْتُمُوهُنَّ مُؤْمِنَاتٍ فَلَا تَرْجِعُوهُنَّ إِلَى الْكُفَّارِ﴾'],
+              ['4', 'ماضٍ affirmative with قد — overt or implied', '﴿إِن يَسْرِقْ فَقَدْ سَرَقَ أَخٌ لَّهُ مِن قَبْلُ﴾'],
+              ['5', 'negated by مَا', '﴿وَإِن لَّمْ تَفْعَلْ فَمَا بَلَّغْتَ رِسَالَتَهُ﴾'],
+              ['6', 'مضارع with a تَنْفِيس particle', '﴿فَسَيَحْشُرُهُمْ إِلَيْهِ جَمِيعًا﴾'],
+              ['7', 'negated by لَنْ', '﴿وَمَا يَفْعَلُوا مِنْ خَيْرٍ فَلَن يُكْفَرُوهُ﴾'],
+              ['8', 'opening with كَأَنَّمَا', '﴿وَمَن يُشْرِكْ بِاللَّهِ فَكَأَنَّمَا خَرَّ مِنَ السَّمَاءِ﴾'],
+              ['9', 'opening with a conditional particle', '﴿وَإِن كَانَ كَبُرَ عَلَيْكَ إِعْرَاضُهُمْ فَإِنِ اسْتَطَعْتَ...﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `List the cases in which الفاء is obligatory in جواب الشرط (name several).`,
             kind: 'mcq',
@@ -254,8 +413,11 @@ export default {
         },
         {
           heading: 'جواز الفاء مع المضارع',
-          body: `الفاء is optional (<bdi>جَائِزَة</bdi>) in جواب الشرط when الجواب is a مضارع: affirmative without تنفيس — with فاء, as in <bdi>﴿وَمَنْ عَادَ فَيَنتَقِمُ اللَّهُ مِنْهُ﴾</bdi>, or without, as in <bdi>﴿إِن يَكُن مِّنكُمْ عِشْرُونَ صَابِرُونَ يَغْلِبُوا مِائَتَيْنِ﴾</bdi>; or negated by <bdi>لَا</bdi>, as in <bdi>﴿وَمَن يَعْمَلْ مِنَ الصَّالِحَاتِ وَهُوَ مُؤْمِنٌ فَلَا يَخَافُ ظُلْمًا وَلَا هَضْمًا﴾</bdi> — or without الفاء.`,
-          sample: `جواز الفاء — مضارعة مثبتة بلا تنفيس: بها ﴿فينتقم الله منه﴾؛ بدونها ﴿يغلبوا مائتين﴾؛ منفية بلا: ﴿فلا يخاف ظلما ولا هضما﴾، أو بدونها`,
+          lines: [
+            { html: `الفاء is optional (<bdi>جَائِزَة</bdi>) in جواب الشرط when الجواب is a مضارع:`, list: false },
+            { html: `affirmative without تنفيس — with فاء, as in <bdi>﴿وَمَنْ عَادَ فَيَنتَقِمُ اللَّهُ مِنْهُ﴾</bdi>, or without, as in <bdi>﴿إِن يَكُن مِّنكُمْ عِشْرُونَ صَابِرُونَ يَغْلِبُوا مِائَتَيْنِ﴾</bdi>`, list: true, bullet: true },
+            { html: `or negated by <bdi>لَا</bdi>, as in <bdi>﴿وَمَن يَعْمَلْ مِنَ الصَّالِحَاتِ وَهُوَ مُؤْمِنٌ فَلَا يَخَافُ ظُلْمًا وَلَا هَضْمًا﴾</bdi> — or without الفاء`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `When is الفاء optional (جائزة) in جواب الشرط?`,
             kind: 'mcq',
@@ -265,8 +427,10 @@ export default {
         },
         {
           heading: 'امتناع الفاء، وبديلها إذا الفجائية',
-          body: `الفاء is prohibited in جواب الشرط when الجواب is a ماضٍ without قد — لفظا, as in <bdi>﴿إِنْ أَحْسَنتُمْ أَحْسَنتُمْ لِأَنفُسِكُمْ﴾</bdi>, or معنى (i.e. past-meaning <bdi>لَمْ</bdi> + مضارع), as in <bdi>إِنْ خَرَجْتَ لَمْ أَخْرُجْ</bdi>. What may replace الفاء as رابطة is <bdi>إِذَا الْفُجَائِيَّة</bdi> — after إن and إذا — as in <bdi>﴿وَإِن تُصِبْهُمْ سَيِّئَةٌ بِمَا قَدَّمَتْ أَيْدِيهِمْ إِذَا هُمْ يَقْنَطُونَ﴾</bdi>.`,
-          sample: `امتناع الفاء — ماضٍ بلا قد، لفظا: ﴿أحسنتم أحسنتم لأنفسكم﴾؛ أو معنى (لم+مضارع): إن خرجت لم أخرج<br>بديلها — إذا الفجائية: ﴿إذا هم يقنطون﴾`,
+          lines: [
+            { html: `الفاء is prohibited in جواب الشرط when الجواب is a ماضٍ without قد — لفظا, as in <bdi>﴿إِنْ أَحْسَنتُمْ أَحْسَنتُمْ لِأَنفُسِكُمْ﴾</bdi>, or معنى (i.e. past-meaning <bdi>لَمْ</bdi> + مضارع), as in <bdi>إِنْ خَرَجْتَ لَمْ أَخْرُجْ</bdi>.`, list: false },
+            { html: `What may replace الفاء as رابطة is <bdi>إِذَا الْفُجَائِيَّة</bdi> — after إن and إذا — as in <bdi>﴿وَإِن تُصِبْهُمْ سَيِّئَةٌ بِمَا قَدَّمَتْ أَيْدِيهِمْ إِذَا هُمْ يَقْنَطُونَ﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What may replace الفاء as رابطة of الجواب?`,
             kind: 'mcq',
@@ -293,35 +457,82 @@ export default {
         { title: 'الفاء الجائزة بلا', kind: 'mcq', prompt: '﴿وَمَن يَعْمَلْ مِنَ الصَّالِحَاتِ وَهُوَ مُؤْمِنٌ فَلَا يَخَافُ ظُلْمًا وَلَا هَضْمًا﴾ shows الفاء as:', options: ['جائزة, since الجواب is a مضارع negated by لا', 'واجبة, with no alternative', 'ممتنعة, since it should not appear at all', 'مستبدلة بإذا الفجائية'], correct: 0 },
         { title: 'امتناع الفاء معنى', kind: 'mcq', prompt: 'إِنْ خَرَجْتَ لَمْ أَخْرُجْ shows الفاء prohibited because الجواب is:', options: ['past in meaning (لم + مضارع), though not لفظا ماضٍ', 'a جملة اسمية', 'a طلبية', 'مفتتحة بكأنما'], correct: 0 },
         {
-          title: 'تركيب: مجرورة أم مجزومة؟',
+          title: 'تركيب: ﴿هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ﴾ (موضع الجر)',
           kind: 'tarkeeb',
-          instruction: 'Classify each جملة.',
-          source: '﴿هذا يوم ينفع الصادقين صدقهم﴾ / ﴿من يضلل الله فلا هادي له﴾',
-          words: ['ينفع الصادقين صدقهم', 'فلا هادي له'],
-          labels: ['مجرورة (مضاف إليه)', 'مجزومة (جواب شرط)'],
-          distractors: ['منصوبة'],
+          instruction: 'Classify موضع هذه الجملة.',
+          sentence: 'هَٰذَا يَوْمُ يَنفَعُ الصَّادِقِينَ صِدْقُهُمْ',
+          translation: 'This is the Day when the truthful will benefit from their truthfulness.',
+          cells: ['هَٰذَا', 'يَوْمُ', 'يَنفَعُ', 'الصَّادِقِينَ', 'صِدْقُهُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 4, role: 'مجرورة (مضاف إليه)' }] },
+          ],
+          distractors: ['مجزومة (جواب شرط)', 'منصوبة'],
         },
         {
-          title: 'تركيب: واجبة أم جائزة أم ممتنعة الفاء؟',
+          title: 'تركيب: ﴿مَن يُضْلِلِ اللَّهُ فَلَا هَادِيَ لَهُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جواب شرط by حكم الفاء فيه.',
-          source: '﴿فهو على كل شيء قدير﴾ / ﴿يغلبوا مائتين﴾ (بلا فاء) / ﴿أحسنتم أحسنتم لأنفسكم﴾',
-          words: ['فهو على كل شيء قدير', 'يغلبوا مائتين', 'أحسنتم أحسنتم لأنفسكم'],
-          labels: ['واجبة', 'جائزة (بدونها)', 'ممتنعة'],
-          distractors: ['مستبدلة بإذا'],
+          instruction: 'Classify موضع فلا هادي له.',
+          sentence: 'مَن يُضْلِلِ اللَّهُ فَلَا هَادِيَ لَهُ',
+          translation: 'Whoever Allah sends astray, there is no guide for him.',
+          cells: ['مَن', 'يُضْلِلِ', 'اللَّهُ', 'فَلَا', 'هَادِيَ', 'لَهُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 5, role: 'مجزومة (جواب شرط)' }] },
+          ],
+          distractors: ['مجرورة (مضاف إليه)', 'منصوبة'],
+        },
+        {
+          title: 'تركيب: ﴿وَإِن يَمْسَسْكَ بِخَيْرٍ فَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify حكم الفاء هنا.',
+          sentence: 'وَإِن يَمْسَسْكَ بِخَيْرٍ فَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+          translation: 'And if He touches you with good — He is over all things competent.',
+          cells: ['وَإِن', 'يَمْسَسْكَ', 'بِخَيْرٍ', 'فَهُوَ', 'عَلَىٰ', 'كُلِّ', 'شَيْءٍ', 'قَدِيرٌ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 7, role: 'واجبة (جملة اسمية)' }] },
+          ],
+          distractors: ['جائزة', 'ممتنعة'],
+        },
+        {
+          title: 'تركيب: ﴿إِن يَكُن مِّنكُمْ عِشْرُونَ صَابِرُونَ يَغْلِبُوا مِائَتَيْنِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify حكم الفاء هنا.',
+          sentence: 'إِن يَكُن مِّنكُمْ عِشْرُونَ صَابِرُونَ يَغْلِبُوا مِائَتَيْنِ',
+          translation: 'If there be among you twenty who are steadfast, they will overcome two hundred.',
+          cells: ['إِن', 'يَكُن', 'مِّنكُمْ', 'عِشْرُونَ', 'صَابِرُونَ', 'يَغْلِبُوا', 'مِائَتَيْنِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 5, end: 6, role: 'جائزة (بدون الفاء)' }] },
+          ],
+          distractors: ['واجبة', 'ممتنعة'],
+        },
+        {
+          title: 'تركيب: ﴿إِنْ أَحْسَنتُمْ أَحْسَنتُمْ لِأَنفُسِكُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify حكم الفاء هنا.',
+          sentence: 'إِنْ أَحْسَنتُمْ أَحْسَنتُمْ لِأَنفُسِكُمْ',
+          translation: 'If you do good, you do good for yourselves.',
+          cells: ['إِنْ', 'أَحْسَنتُمْ', 'أَحْسَنتُمْ', 'لِأَنفُسِكُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 3, role: 'ممتنعة (ماضٍ بلا قد)' }] },
+          ],
+          distractors: ['واجبة', 'جائزة'],
         },
       ],
     },
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'الجملة معمولة بالتبعية، وأنواع غير المعمولة الأولى',
+      title: 'الجملة معمولة بالتبعية',
       subtitle: 'The Sentence as a تابع, and the First of the Eight محل-less Types',
       concepts: [
         {
           heading: 'الجملة معمولة بالتبعية: طرقها الثلاث، وشرطا النعتية',
-          body: `A sentence is معمولة بالتبعية in three ways: (1) <bdi>نَعْت</bdi>, as in <bdi>﴿مِن قَبْلِ أَن يَأْتِيَ يَوْمٌ لَّا بَيْعٌ فِيهِ﴾</bdi> (2) <bdi>بَدَل</bdi> (3) <bdi>مَعْطُوفَة</bdi> on a sentence that has a محل. The جملة النعتية has two conditions: it must contain a pronoun returning to المنعوت — overt or implied — and المنعوت must be a نكرة (محضة or غير محضة), as in <bdi>﴿عَلَيْهَا مَلَائِكَةٌ غِلَاظٌ شِدَادٌ لَّا يَعْصُونَ اللَّهَ مَا أَمَرَهُمْ﴾</bdi>, or definite but في حكم النكرة, as in <bdi>﴿كَمَثَلِ الْحِمَارِ يَحْمِلُ أَسْفَارًا﴾</bdi>.`,
-          sample: `طرق التبعية الثلاث — نعت: ﴿لا بيع فيه﴾؛ بدل؛ معطوفة على جملة لها محل<br>شرطا الجملة النعتية — ضمير عائد على المنعوت (لفظا أو تقديرا)؛ المنعوت نكرة (محضة أو غير محضة) أو معرفة في حكم النكرة`,
+          lines: [
+            { html: `A sentence is معمولة بالتبعية in three ways:`, list: false },
+            { html: `<bdi>نَعْت</bdi>, as in <bdi>﴿مِن قَبْلِ أَن يَأْتِيَ يَوْمٌ لَّا بَيْعٌ فِيهِ﴾</bdi>`, list: true, bullet: true },
+            { html: `<bdi>بَدَل</bdi>`, list: true, bullet: true },
+            { html: `<bdi>مَعْطُوفَة</bdi> on a sentence that has a محل`, list: true, bullet: true },
+            { html: `The جملة النعتية has two conditions: it must contain a pronoun returning to المنعوت — overt or implied — and المنعوت must be a نكرة (محضة or غير محضة), as in <bdi>﴿عَلَيْهَا مَلَائِكَةٌ غِلَاظٌ شِدَادٌ لَّا يَعْصُونَ اللَّهَ مَا أَمَرَهُمْ﴾</bdi>, or definite but في حكم النكرة, as in <bdi>﴿كَمَثَلِ الْحِمَارِ يَحْمِلُ أَسْفَارًا﴾</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `In which three ways is a sentence معمولة بالتبعية?`,
             kind: 'mcq',
@@ -331,8 +542,10 @@ export default {
         },
         {
           heading: 'جملة البدل، وجملة معطوفة',
-          body: `A جملة بدل may substitute from a مفرد, as in <bdi>﴿أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ﴾</bdi> — <bdi>كَيْفَ خُلِقَتْ</bdi> is بدل from <bdi>الْإِبِل</bdi> — or from a sentence that has a محل, as in <bdi>﴿نَجَّيْنَاكُم مِّنْ آلِ فِرْعَوْنَ يَسُومُونَكُمْ سُوءَ الْعَذَابِ يَذْبَحُونَ أَبْنَاءَكُمْ﴾</bdi> — <bdi>يَذْبَحُونَ أَبْنَاءَكُمْ</bdi> is بدل from <bdi>يَسُومُونَكُمْ</bdi>. A جملة معطوفة on a sentence with a محل: <bdi>«الصَّلَاةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ»</bdi> — <bdi>وَالصَّدَقَةُ بُرْهَانٌ</bdi> is معطوفة on a clause that has a محل.`,
-          sample: `جملة بدل من مفرد — ﴿كيف خلقت﴾ بدل من الإبل<br>جملة بدل من جملة لها محل — ﴿يذبحون أبناءكم﴾ بدل من ﴿يسومونكم﴾<br>جملة معطوفة على جملة لها محل — «والصدقة برهان» معطوفة على «الصلاة نور»`,
+          lines: [
+            { html: `A جملة بدل may substitute from a مفرد, as in <bdi>﴿أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ﴾</bdi> — <bdi>كَيْفَ خُلِقَتْ</bdi> is بدل from <bdi>الْإِبِل</bdi> — or from a sentence that has a محل, as in <bdi>﴿نَجَّيْنَاكُم مِّنْ آلِ فِرْعَوْنَ يَسُومُونَكُمْ سُوءَ الْعَذَابِ يَذْبَحُونَ أَبْنَاءَكُمْ﴾</bdi> — <bdi>يَذْبَحُونَ أَبْنَاءَكُمْ</bdi> is بدل from <bdi>يَسُومُونَكُمْ</bdi>.`, list: false },
+            { html: `A جملة معطوفة on a sentence with a محل: <bdi>«الصَّلَاةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ»</bdi> — <bdi>وَالصَّدَقَةُ بُرْهَانٌ</bdi> is معطوفة on a clause that has a محل.`, list: false },
+          ],
           exercise: {
             prompt: `From what may a جملة بدل be substituted? Give examples.`,
             kind: 'mcq',
@@ -342,8 +555,9 @@ export default {
         },
         {
           heading: 'تعريف الجملة غير المعمولة، وعدد أنواعها',
-          body: `The غير معمولة sentence is called <bdi>الْجُمْلَةُ الَّتِي لَا مَحَلَّ لَهَا مِنَ الْإِعْرَاب</bdi>. There are eight types of it.`,
-          sample: `تعريف الجملة غير المعمولة — الجملة التي لا محل لها من الإعراب؛ ثمانية أنواع`,
+          lines: [
+            { html: `The غير معمولة sentence is called <bdi>الْجُمْلَةُ الَّتِي لَا مَحَلَّ لَهَا مِنَ الْإِعْرَاب</bdi>. There are eight types of it.`, list: false },
+          ],
           exercise: {
             prompt: `What is the غير معمولة sentence called, and how many types are there?`,
             kind: 'mcq',
@@ -353,8 +567,17 @@ export default {
         },
         {
           heading: 'الأنواع الثمانية للجملة غير المعمولة',
-          body: `The eight sentences that have no محل من الإعراب: (1) <bdi>الِابْتِدَائِيَّة</bdi> (2) <bdi>الْمُسْتَأْنَفَة</bdi> (3) <bdi>صِلَةُ الْمَوْصُول</bdi> (4) <bdi>الْمُعْتَرِضَة</bdi> (5) <bdi>التَّفْسِيرِيَّة</bdi> (6) <bdi>جَوَابُ الْقَسَم</bdi> (7) <bdi>جَوَابُ الشَّرْطِ غَيْرِ الْجَازِم</bdi> (or the jazm-conditional's جواب without a رابطة) (8) <bdi>التَّابِعَةُ لِمَا لَا مَحَلَّ لَه</bdi>.`,
-          sample: `الأنواع الثمانية — الابتدائية، المستأنفة، صلة الموصول، المعترضة، التفسيرية، جواب القسم، جواب الشرط غير الجازم (أو الجازم بلا رابطة)، التابعة لما لا محل له`,
+          lines: [
+            { html: `The eight sentences that have no محل من الإعراب:`, list: false },
+            { html: `<bdi>الِابْتِدَائِيَّة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْمُسْتَأْنَفَة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>صِلَةُ الْمَوْصُول</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْمُعْتَرِضَة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>التَّفْسِيرِيَّة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>جَوَابُ الْقَسَم</bdi>`, list: true, bullet: true },
+            { html: `<bdi>جَوَابُ الشَّرْطِ غَيْرِ الْجَازِم</bdi> (or the jazm-conditional's جواب without a رابطة)`, list: true, bullet: true },
+            { html: `<bdi>التَّابِعَةُ لِمَا لَا مَحَلَّ لَه</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `List the eight sentences that have no محل من الإعراب (name several).`,
             kind: 'mcq',
@@ -364,8 +587,12 @@ export default {
         },
         {
           heading: 'الابتدائية والمستأنفة، وحروف الاستئناف',
-          body: `<bdi>الْجُمْلَةُ الِابْتِدَائِيَّة</bdi> is the sentence with which speech begins, as in <bdi>﴿إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ﴾</bdi>. <bdi>الْمُسْتَأْنَفَة</bdi> is the sentence occurring mid-speech but disconnected in إعراب (<bdi>مُنْقَطِعَة إِعْرَابًا</bdi>) from what precedes it — معطوفة on a sentence with no محل, as in <bdi>اِجْتَهَدَ زَيْدٌ وَنَجَحَ</bdi>, or غير معطوفة, as in <bdi>﴿وَمَا أُبَرِّئُ نَفْسِي إِنَّ النَّفْسَ لَأَمَّارَةٌ بِالسُّوءِ﴾</bdi>. <bdi>جَوَابُ النِّدَاء</bdi> belongs to المستأنفة too, as in <bdi>﴿يَا أَيُّهَا النَّاسُ اعْبُدُوا رَبَّكُمْ﴾</bdi> — and indeed the term المستأنفة may also be applied to الابتدائية itself. The <bdi>حُرُوفُ الِاسْتِئْنَاف</bdi>: <bdi>الْوَاو، ثُمَّ، حَتَّىٰ، أَمِ الْمُنْقَطِعَة، بَلِ الِانْتِقَالِيَّة، أَوْ بِمَعْنَىٰ بَل، لَٰكِنِ الْمُجَرَّدَة عَنِ الْوَاو</bdi>.`,
-          sample: `الابتدائية — أول جملة تبدأ بها الكلام: ﴿إنا أنزلناه في ليلة القدر﴾<br>المستأنفة — منقطعة إعرابا عما قبلها، معطوفة (اجتهد زيد ونجح) أو غير معطوفة (﴿إن النفس لأمارة بالسوء﴾)؛ جواب النداء منها: ﴿اعبدوا ربكم﴾؛ وقد تُطلق على الابتدائية نفسها<br>حروف الاستئناف — الواو، ثم، حتى، أم المنقطعة، بل الانتقالية، أو بمعنى بل، لكن المجردة عن الواو`,
+          lines: [
+            { html: `<bdi>الْجُمْلَةُ الِابْتِدَائِيَّة</bdi> is the sentence with which speech begins, as in <bdi>﴿إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ﴾</bdi>.`, list: false },
+            { html: `<bdi>الْمُسْتَأْنَفَة</bdi> is the sentence occurring mid-speech but disconnected in إعراب (<bdi>مُنْقَطِعَة إِعْرَابًا</bdi>) from what precedes it — معطوفة on a sentence with no محل, as in <bdi>اِجْتَهَدَ زَيْدٌ وَنَجَحَ</bdi>, or غير معطوفة, as in <bdi>﴿وَمَا أُبَرِّئُ نَفْسِي إِنَّ النَّفْسَ لَأَمَّارَةٌ بِالسُّوءِ﴾</bdi>.`, list: false },
+            { html: `<bdi>جَوَابُ النِّدَاء</bdi> belongs to المستأنفة too, as in <bdi>﴿يَا أَيُّهَا النَّاسُ اعْبُدُوا رَبَّكُمْ﴾</bdi> — and indeed the term المستأنفة may also be applied to الابتدائية itself.`, list: false },
+            { html: `The <bdi>حُرُوفُ الِاسْتِئْنَاف</bdi>: <bdi>الْوَاو، ثُمَّ، حَتَّىٰ، أَمِ الْمُنْقَطِعَة، بَلِ الِانْتِقَالِيَّة، أَوْ بِمَعْنَىٰ بَل، لَٰكِنِ الْمُجَرَّدَة عَنِ الْوَاو</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Define الجملة المستأنفة, and give an example.`,
             kind: 'mcq',
@@ -375,8 +602,10 @@ export default {
         },
         {
           heading: 'صلة الموصول، والمعترضة',
-          body: `<bdi>صِلَةُ الْمَوْصُول</bdi> is the sentence forming the relative clause, as in <bdi>﴿اعْبُدُوا رَبَّكُمُ الَّذِي خَلَقَكُمْ﴾</bdi> — <bdi>خَلَقَكُمْ</bdi> has no محل. <bdi>الْجُمْلَةُ الْمُعْتَرِضَة</bdi> is the sentence interposed between two connected elements, as in <bdi>﴿فَإِن لَّمْ تَفْعَلُوا وَلَن تَفْعَلُوا فَاتَّقُوا النَّارَ﴾</bdi> — <bdi>وَلَن تَفْعَلُوا</bdi> is معترضة.`,
-          sample: `صلة الموصول — الجملة التي تكوّن الصلة: ﴿الذي خلقكم﴾، خلقكم لا محل لها<br>المعترضة — تتوسط بين متلازمين: ﴿ولن تفعلوا﴾`,
+          lines: [
+            { html: `<bdi>صِلَةُ الْمَوْصُول</bdi> is the sentence forming the relative clause, as in <bdi>﴿اعْبُدُوا رَبَّكُمُ الَّذِي خَلَقَكُمْ﴾</bdi> — <bdi>خَلَقَكُمْ</bdi> has no محل.`, list: false },
+            { html: `<bdi>الْجُمْلَةُ الْمُعْتَرِضَة</bdi> is the sentence interposed between two connected elements, as in <bdi>﴿فَإِن لَّمْ تَفْعَلُوا وَلَن تَفْعَلُوا فَاتَّقُوا النَّارَ﴾</bdi> — <bdi>وَلَن تَفْعَلُوا</bdi> is معترضة.`, list: false },
+          ],
           exercise: {
             prompt: `Define the جملة المعترضة, and give the example.`,
             kind: 'mcq',
@@ -401,35 +630,91 @@ export default {
         { title: 'المستأنفة قد تُطلق على الابتدائية', kind: 'mcq', prompt: 'What relationship holds between المستأنفة and الابتدائية?', options: ['المستأنفة may also be applied to الابتدائية', 'They are entirely unrelated terms', 'الابتدائية is a subtype of صلة الموصول', 'المستأنفة never applies to the first sentence of speech'], correct: 0 },
         { title: 'الصلاة نور والصدقة برهان', kind: 'mcq', prompt: '«الصَّلَاةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ» shows والصدقة برهان as:', options: ['معطوفة on a sentence that has a محل', 'بدل from a مفرد', 'صلة الموصول', 'المعترضة'], correct: 0 },
         {
-          title: 'تركيب: نعت أم بدل أم معطوفة؟',
+          title: 'تركيب: ﴿مِن قَبْلِ أَنْ يَأْتِيَ يَوْمٌ لَّا بَيْعٌ فِيهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جملة معمولة بالتبعية.',
-          source: '﴿لا بيع فيه﴾ / ﴿كيف خلقت﴾ (بدل من الإبل) / والصدقة برهان',
-          words: ['لا بيع فيه', 'كيف خلقت', 'والصدقة برهان'],
-          labels: ['نعت', 'بدل', 'معطوفة'],
-          distractors: ['صلة الموصول'],
+          instruction: 'Classify هذه الجملة المعمولة بالتبعية.',
+          sentence: 'مِن قَبْلِ أَنْ يَأْتِيَ يَوْمٌ لَّا بَيْعٌ فِيهِ',
+          translation: 'Before a Day comes in which there is no bargaining.',
+          cells: ['مِن', 'قَبْلِ', 'أَنْ', 'يَأْتِيَ', 'يَوْمٌ', 'لَّا', 'بَيْعٌ', 'فِيهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 5, end: 7, role: 'نعت' }] },
+          ],
+          distractors: ['بدل', 'معطوفة'],
         },
         {
-          title: 'تركيب: أي نوع من الثمانية؟',
+          title: 'تركيب: ﴿أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال by نوعه من الجملة غير المعمولة.',
-          source: '﴿إنا أنزلناه في ليلة القدر﴾ / ﴿الذي خلقكم﴾ / ﴿ولن تفعلوا﴾',
-          words: ['إنا أنزلناه في ليلة القدر', 'الذي خلقكم', 'ولن تفعلوا'],
-          labels: ['الابتدائية', 'صلة الموصول', 'المعترضة'],
-          distractors: ['التفسيرية'],
+          instruction: 'Classify هذه الجملة المعمولة بالتبعية.',
+          sentence: 'أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ',
+          translation: 'Do they not look at the camels, how they were created?',
+          cells: ['أَفَلَا', 'يَنظُرُونَ', 'إِلَى', 'الْإِبِلِ', 'كَيْفَ', 'خُلِقَتْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 4, end: 5, role: 'بدل' }] },
+          ],
+          distractors: ['نعت', 'معطوفة'],
+        },
+        {
+          title: 'تركيب: «الصَّلَاةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ»',
+          kind: 'tarkeeb',
+          instruction: 'Classify هذه الجملة المعمولة بالتبعية.',
+          sentence: 'الصَّلَاةُ نُورٌ وَالصَّدَقَةُ بُرْهَانٌ',
+          translation: 'Prayer is light, and charity is proof.',
+          cells: ['الصَّلَاةُ', 'نُورٌ', 'وَالصَّدَقَةُ', 'بُرْهَانٌ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 3, role: 'معطوفة' }] },
+          ],
+          distractors: ['نعت', 'بدل'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify نوع هذه الجملة من غير المعمولة.',
+          sentence: 'إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ',
+          translation: 'Indeed, We sent it down during the Night of Decree.',
+          cells: ['إِنَّا', 'أَنزَلْنَاهُ', 'فِي', 'لَيْلَةِ', 'الْقَدْرِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 0, end: 4, role: 'الابتدائية' }] },
+          ],
+          distractors: ['صلة الموصول', 'المعترضة'],
+        },
+        {
+          title: 'تركيب: ﴿اعْبُدُوا رَبَّكُمُ الَّذِي خَلَقَكُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify نوع خلقكم من غير المعمولة.',
+          sentence: 'اعْبُدُوا رَبَّكُمُ الَّذِي خَلَقَكُمْ',
+          translation: 'Worship your Lord, who created you.',
+          cells: ['اعْبُدُوا', 'رَبَّكُمُ', 'الَّذِي', 'خَلَقَكُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 3, role: 'صلة الموصول' }] },
+          ],
+          distractors: ['الابتدائية', 'المعترضة'],
+        },
+        {
+          title: 'تركيب: ﴿فَإِن لَّمْ تَفْعَلُوا وَلَن تَفْعَلُوا فَاتَّقُوا النَّارَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify نوع ولن تفعلوا من غير المعمولة.',
+          sentence: 'فَإِن لَّمْ تَفْعَلُوا وَلَن تَفْعَلُوا فَاتَّقُوا النَّارَ',
+          translation: 'And if you do not — and you will never do it — then fear the Fire.',
+          cells: ['فَإِن', 'لَّمْ', 'تَفْعَلُوا', 'وَلَن', 'تَفْعَلُوا', 'فَاتَّقُوا', 'النَّارَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 4, role: 'المعترضة' }] },
+          ],
+          distractors: ['الابتدائية', 'صلة الموصول'],
         },
       ],
     },
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'الجملة التفسيرية، والقسم وجوابه',
+      title: 'الجملة التفسيرية والقسم',
       subtitle: 'The Explanatory Clause, and القسم — its أركان, ما يُصدَّر به جوابه, and نون التوكيد',
       concepts: [
         {
           heading: 'الجملة التفسيرية وصورتاها',
-          body: `<bdi>الْجُمْلَةُ التَّفْسِيرِيَّة</bdi> is the sentence explaining what precedes it. It has two forms: with a <bdi>حَرْفُ تَفْسِير</bdi>, as in <bdi>﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾</bdi>, or without one, as in <bdi>﴿مَسَّتْهُمُ الْبَأْسَاءُ وَالضَّرَّاءُ﴾</bdi> (explaining what precedes it).`,
-          sample: `الجملة التفسيرية — تفسر ما قبلها؛ بحرف تفسير: ﴿أن يا إبراهيم﴾؛ بدون حرف: ﴿مستهم البأساء والضراء﴾`,
+          lines: [
+            { html: `<bdi>الْجُمْلَةُ التَّفْسِيرِيَّة</bdi> is the sentence explaining what precedes it.`, list: false },
+            { html: `It has two forms: with a <bdi>حَرْفُ تَفْسِير</bdi>, as in <bdi>﴿وَنَادَيْنَاهُ أَنْ يَا إِبْرَاهِيمُ﴾</bdi>, or without one, as in <bdi>﴿مَسَّتْهُمُ الْبَأْسَاءُ وَالضَّرَّاءُ﴾</bdi> (explaining what precedes it).`, list: false },
+          ],
           exercise: {
             prompt: `Define the جملة التفسيرية and its two forms.`,
             kind: 'mcq',
@@ -439,8 +724,12 @@ export default {
         },
         {
           heading: 'أركان القسم الثلاثة',
-          body: `القسم has three أركان: (1) <bdi>فِعْلُ الْقَسَم</bdi> (e.g. <bdi>أُقْسِمُ</bdi> / <bdi>أَحْلِفُ</bdi> — usually deleted) (2) <bdi>الْمُقْسَمُ بِه</bdi> — together these two form القسم proper (3) <bdi>الْمُقْسَمُ عَلَيْه</bdi> — which is جواب القسم.`,
-          sample: `أركان القسم — فعل القسم (أقسم/أحلف، يُحذف غالبا)، المقسم به (يشكلان معا القسم)، المقسم عليه (وهو جواب القسم)`,
+          lines: [
+            { html: `القسم has three أركان:`, list: false },
+            { html: `<bdi>فِعْلُ الْقَسَم</bdi> (e.g. <bdi>أُقْسِمُ</bdi> / <bdi>أَحْلِفُ</bdi> — usually deleted)`, list: true, bullet: true },
+            { html: `<bdi>الْمُقْسَمُ بِه</bdi> — together these two form القسم proper`, list: true, bullet: true },
+            { html: `<bdi>الْمُقْسَمُ عَلَيْه</bdi> — which is جواب القسم`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What are the three أركان of القسم?`,
             kind: 'mcq',
@@ -450,8 +739,9 @@ export default {
         },
         {
           heading: 'اللام الموطئة تدل على قسم محذوف',
-          body: `A deleted قسم before الجواب is indicated by the لام of القسم (<bdi>اللَّامُ الْمُوَطِّئَةُ لِلْقَسَم</bdi> / <bdi>لَامُ الْقَسَم</bdi>) entering الجواب, as in <bdi>﴿وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ﴾</bdi> — i.e. a قسم is implied.`,
-          sample: `اللام الموطئة للقسم — تدل على قسم محذوف: ﴿ولسوف يعطيك ربك فترضى﴾`,
+          lines: [
+            { html: `A deleted قسم before الجواب is indicated by the لام of القسم (<bdi>اللَّامُ الْمُوَطِّئَةُ لِلْقَسَم</bdi> / <bdi>لَامُ الْقَسَم</bdi>) entering الجواب, as in <bdi>﴿وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ﴾</bdi> — i.e. a قسم is implied.`, list: false },
+          ],
           exercise: {
             prompt: `What indicates a deleted قسم before الجواب? Give the example.`,
             kind: 'mcq',
@@ -461,8 +751,17 @@ export default {
         },
         {
           heading: 'ما يُصدَّر به جواب القسم',
-          body: `جواب القسم may be opened (<bdi>يُصَدَّر</bdi>) with: <bdi>إِنَّ الْمُشَدَّدَة</bdi>, as in <bdi>﴿إِنَّ رَبَّكَ لَبِالْمِرْصَادِ﴾</bdi>; <bdi>إِنَّ الْمُخَفَّفَة</bdi>, as in <bdi>﴿إِنْ كُنَّا لَفِي ضَلَالٍ مُّبِينٍ﴾</bdi>; <bdi>قَدْ</bdi>, as in <bdi>﴿قَدْ أَفْلَحَ مَن زَكَّاهَا﴾</bdi>; <bdi>اللَّامُ الْمَفْتُوحَة</bdi>, as in <bdi>﴿لَنَسْأَلَنَّهُمْ أَجْمَعِينَ﴾</bdi>; <bdi>مَا النَّافِيَة</bdi>, as in <bdi>﴿مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ﴾</bdi>; and <bdi>لَا النَّافِيَة</bdi>, as in <bdi>﴿لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ﴾</bdi>.`,
-          sample: `يُصدَّر جواب القسم بـ — إن المشددة: ﴿إن ربك لبالمرصاد﴾؛ إن المخففة: ﴿إن كنا لفي ضلال مبين﴾؛ قد: ﴿قد أفلح من زكاها﴾؛ اللام المفتوحة: ﴿لنسألنهم أجمعين﴾؛ ما النافية: ﴿ما ودعك ربك وما قلى﴾؛ لا النافية: ﴿لا يبعث الله من يموت﴾`,
+          lines: [
+            { html: `جواب القسم may be opened (<bdi>يُصَدَّر</bdi>) with:`, list: false },
+            { table: { headers: ['الأداة', 'Example'], rows: [
+              ['إِنَّ الْمُشَدَّدَة', '﴿إِنَّ رَبَّكَ لَبِالْمِرْصَادِ﴾'],
+              ['إِنَّ الْمُخَفَّفَة', '﴿إِنْ كُنَّا لَفِي ضَلَالٍ مُّبِينٍ﴾'],
+              ['قَدْ', '﴿قَدْ أَفْلَحَ مَن زَكَّاهَا﴾'],
+              ['اللَّامُ الْمَفْتُوحَة', '﴿لَنَسْأَلَنَّهُمْ أَجْمَعِينَ﴾'],
+              ['مَا النَّافِيَة', '﴿مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ﴾'],
+              ['لَا النَّافِيَة', '﴿لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `With what may جواب القسم be opened (يُصدَّر)?`,
             kind: 'mcq',
@@ -472,8 +771,13 @@ export default {
         },
         {
           heading: 'نون التوكيد في جواب القسم: وجوبها وامتناعها',
-          body: `نون التوكيد is obligatory in جواب القسم when الجواب is affirmative (<bdi>مُثْبَت</bdi>) and not separated from اللام, as in <bdi>﴿وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ﴾</bdi>. It is prohibited (1) when الجواب is not affirmative, as in <bdi>﴿لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ﴾</bdi> (2) when it has no لام, as in <bdi>﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾</bdi> (3) when separated from اللام, as in <bdi>﴿وَلَسَوْفَ يُعْطِيكَ رَبُّكَ﴾</bdi>.`,
-          sample: `وجوب نون التوكيد — الجواب مثبت وغير مفصول عن اللام: ﴿لأكيدنَّ أصنامكم﴾<br>امتناعها — غير مثبت: ﴿لا يبعث الله من يموت﴾؛ بلا لام: ﴿تفتأ تذكر يوسف﴾؛ مفصول عن اللام: ﴿ولسوف يعطيك ربك﴾`,
+          lines: [
+            { html: `نون التوكيد is obligatory in جواب القسم when الجواب is affirmative (<bdi>مُثْبَت</bdi>) and not separated from اللام, as in <bdi>﴿وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ﴾</bdi>.`, list: false },
+            { html: `It is prohibited when:`, list: false },
+            { html: `الجواب is not affirmative, as in <bdi>﴿لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ﴾</bdi>`, list: true, bullet: true },
+            { html: `it has no لام, as in <bdi>﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾</bdi>`, list: true, bullet: true },
+            { html: `it is separated from اللام, as in <bdi>﴿وَلَسَوْفَ يُعْطِيكَ رَبُّكَ﴾</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `When is نون التوكيد obligatory in جواب القسم?`,
             kind: 'mcq',
@@ -483,8 +787,11 @@ export default {
         },
         {
           heading: 'اجتماع القسم والشرط: من يستحق الجواب',
-          body: `When قسم and شرط combine, الجواب belongs to whichever came first (<bdi>السَّابِق</bdi>); the other's جواب is deleted, indicated by the mentioned one. In <bdi>﴿لَئِنْ أُخْرِجُوا لَا يَخْرُجُونَ مَعَهُمْ﴾</bdi>, <bdi>لَا يَخْرُجُونَ</bdi> is not مجزوم because it is جواب القسم (the implied قسم precedes الشرط), not جواب الشرط. When قسم precedes شرط, the فعل after the conditional particle must be ماضٍ — لفظا, as in <bdi>وَاللَّهِ إِنْ أَتَيْتَنِي لَأُكْرِمَنَّكَ</bdi>, or معنى (<bdi>لَمْ</bdi> + مضارع), as in <bdi>وَاللَّهِ إِنْ لَمْ تَأْتِنِي لَأَهْجُرَنَّكَ</bdi>.`,
-          sample: `الجواب للسابق منهما — الآخر يُحذف جوابه ويدل عليه المذكور<br>﴿لئن أخرجوا لا يخرجون معهم﴾ — لا يخرجون جواب القسم لا الشرط، فلا يُجزم<br>إذا سبق القسم الشرط — يكون الفعل بعد أداة الشرط ماضيا لفظا (والله إن أتيتني لأكرمنك) أو معنى (والله إن لم تأتني لأهجرنَّك)`,
+          lines: [
+            { html: `When قسم and شرط combine, الجواب belongs to whichever came first (<bdi>السَّابِق</bdi>); the other's جواب is deleted, indicated by the mentioned one.`, list: false },
+            { html: `In <bdi>﴿لَئِنْ أُخْرِجُوا لَا يَخْرُجُونَ مَعَهُمْ﴾</bdi>, <bdi>لَا يَخْرُجُونَ</bdi> is not مجزوم because it is جواب القسم (the implied قسم precedes الشرط), not جواب الشرط.`, list: false },
+            { html: `When قسم precedes شرط, the فعل after the conditional particle must be ماضٍ — لفظا, as in <bdi>وَاللَّهِ إِنْ أَتَيْتَنِي لَأُكْرِمَنَّكَ</bdi>, or معنى (<bdi>لَمْ</bdi> + مضارع), as in <bdi>وَاللَّهِ إِنْ لَمْ تَأْتِنِي لَأَهْجُرَنَّكَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `When قسم and شرط combine, which gets الجواب?`,
             kind: 'mcq',
@@ -510,35 +817,72 @@ export default {
         { title: 'امتناع النون بلا لام', kind: 'mcq', prompt: '﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾ shows نون التوكيد prohibited because:', options: ['الجواب has no لام', 'الجواب is مثبت وغير مفصول', 'a قسم is implied, not stated', 'الجواب opens with قد'], correct: 0 },
         { title: 'الفعل ماضيا لفظا بعد سبق القسم', kind: 'mcq', prompt: 'وَاللَّهِ إِنْ أَتَيْتَنِي لَأُكْرِمَنَّكَ shows the فعل after إن as:', options: ['ماضٍ لفظا', 'مضارع مجزوم', 'أمر', 'ماضٍ معنى فقط, not لفظا'], correct: 0 },
         {
-          title: 'تركيب: أركان القسم',
+          title: 'تركيب: ﴿وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each term to its ركن من أركان القسم.',
-          source: 'أقسم (المقدر) / بالله (في والله) / لأكيدنَّ أصنامكم',
-          words: ['أقسم (المقدر)', 'بالله', 'لأكيدنَّ أصنامكم'],
-          labels: ['فعل القسم', 'المقسم به', 'المقسم عليه (جواب القسم)'],
-          distractors: ['المحذَّر منه'],
+          instruction: 'Identify each ركن من أركان القسم.',
+          sentence: 'وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ',
+          translation: 'And by Allah, I will surely plan against your idols.',
+          cells: ['وَتَاللَّهِ', 'لَأَكِيدَنَّ', 'أَصْنَامَكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'المقسم به' },
+              { start: 1, end: 2, role: 'المقسم عليه (جواب القسم)' },
+            ] },
+          ],
+          distractors: ['فعل القسم'],
         },
         {
-          title: 'تركيب: وجوب أم امتناع نون التوكيد؟',
+          title: 'تركيب: ﴿وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ﴾ (نون التوكيد)',
           kind: 'tarkeeb',
-          instruction: 'Classify each جواب قسم بحسب حكم نون التوكيد.',
-          source: '﴿لأكيدنَّ أصنامكم﴾ / ﴿لا يبعث الله من يموت﴾ / ﴿تفتأ تذكر يوسف﴾',
-          words: ['لأكيدنَّ أصنامكم', 'لا يبعث الله من يموت', 'تفتأ تذكر يوسف'],
-          labels: ['وجوب', 'امتناع (غير مثبت)', 'امتناع (بلا لام)'],
-          distractors: ['جواز'],
+          instruction: 'Classify حكم نون التوكيد هنا.',
+          sentence: 'وَتَاللَّهِ لَأَكِيدَنَّ أَصْنَامَكُمْ',
+          translation: 'And by Allah, I will surely plan against your idols.',
+          cells: ['وَتَاللَّهِ', 'لَأَكِيدَنَّ', 'أَصْنَامَكُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'وجوب (مثبت وغير مفصول)' }] },
+          ],
+          distractors: ['امتناع (غير مثبت)', 'امتناع (بلا لام)'],
+        },
+        {
+          title: 'تركيب: ﴿لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify حكم نون التوكيد هنا.',
+          sentence: 'لَا يَبْعَثُ اللَّهُ مَن يَمُوتُ',
+          translation: 'Allah will not resurrect whoever dies.',
+          cells: ['لَا', 'يَبْعَثُ', 'اللَّهُ', 'مَن', 'يَمُوتُ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'امتناع (غير مثبت)' }] },
+          ],
+          distractors: ['وجوب', 'امتناع (بلا لام)'],
+        },
+        {
+          title: 'تركيب: ﴿تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify حكم نون التوكيد هنا.',
+          sentence: 'تَاللَّهِ تَفْتَأُ تَذْكُرُ يُوسُفَ',
+          translation: 'By Allah, you will not cease remembering Joseph.',
+          cells: ['تَاللَّهِ', 'تَفْتَأُ', 'تَذْكُرُ', 'يُوسُفَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'امتناع (بلا لام)' }] },
+          ],
+          distractors: ['وجوب', 'امتناع (غير مثبت)'],
         },
       ],
     },
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'بقية غير المعمولة، وشبه الجملة: خاتمة الكتاب',
+      title: 'بقية غير المعمولة وشبه الجملة',
       subtitle: 'The Remaining محل-less Types, and شبه الجملة — الظرف اللغو, المستقر, and المنصوب بنزع الخافض',
       concepts: [
         {
           heading: 'جوابا الشرط بلا محل، والتابعة لما لا محل له',
-          body: `Two more جوابات الشرط have no محل من الإعراب: جواب of a non-jazm conditional (<bdi>لَوْ، لَوْلَا، إِذَا...</bdi>), as in <bdi>﴿وَلَوْ شِئْنَا لَرَفَعْنَاهُ بِهَا﴾</bdi>, and جواب of a jazm-conditional NOT linked by الفاء or إذا الفجائية, as in <bdi>إِنْ تَجْتَهِدْ تَنْجَحْ</bdi>. The eighth type, <bdi>التَّابِعَة لِمَا لَا مَحَلَّ لَه</bdi>, is a sentence that is تابع (e.g. معطوفة) to a sentence having no محل, as in <bdi>﴿وَاتَّقُوا الَّذِي أَمَدَّكُم بِمَا تَعْلَمُونَ ۝ أَمَدَّكُم بِأَنْعَامٍ وَبَنِينَ ۝ وَجَنَّاتٍ وَعُيُونٍ﴾</bdi> — the second أمدكم-clause follows الصلة, which itself has no محل.`,
-          sample: `جواب الشرط غير الجازم — ﴿ولو شئنا لرفعناه بها﴾<br>جواب الجازم بلا رابطة — إن تجتهد تنجحْ<br>التابعة لما لا محل له — الجملة الثانية معطوفة على صلة الموصول التي لا محل لها`,
+          lines: [
+            { html: `Two more جوابات الشرط have no محل من الإعراب:`, list: false },
+            { html: `جواب of a non-jazm conditional (<bdi>لَوْ، لَوْلَا، إِذَا...</bdi>), as in <bdi>﴿وَلَوْ شِئْنَا لَرَفَعْنَاهُ بِهَا﴾</bdi>`, list: true, bullet: true },
+            { html: `جواب of a jazm-conditional NOT linked by الفاء or إذا الفجائية, as in <bdi>إِنْ تَجْتَهِدْ تَنْجَحْ</bdi>`, list: true, bullet: true },
+            { html: `The eighth type, <bdi>التَّابِعَة لِمَا لَا مَحَلَّ لَه</bdi>, is a sentence that is تابع (e.g. معطوفة) to a sentence having no محل, as in <bdi>﴿وَاتَّقُوا الَّذِي أَمَدَّكُم بِمَا تَعْلَمُونَ ۝ أَمَدَّكُم بِأَنْعَامٍ وَبَنِينَ ۝ وَجَنَّاتٍ وَعُيُونٍ﴾</bdi> — the second أمدكم-clause follows الصلة, which itself has no محل.`, list: false },
+          ],
           exercise: {
             prompt: `Define the eighth type: التابعة لما لا محل له. Give the example.`,
             kind: 'mcq',
@@ -548,8 +892,12 @@ export default {
         },
         {
           heading: 'شبه الجملة كلها معمول، ونوعا الظرف',
-          body: `All شبه جملة is معمول — none of it is غير معمول. الظرف (in the شبه الجملة sense) has two types: <bdi>الظَّرْفُ اللَّغْو</bdi> — attached (<bdi>مُتَعَلِّق</bdi>) to a mentioned عامل — and <bdi>الظَّرْفُ الْمُسْتَقِرّ</bdi> — attached to an obligatorily deleted general عامل (<bdi>كَائِن</bdi> / <bdi>اسْتَقَرَّ</bdi>).`,
-          sample: `شبه الجملة كلها معمول، لا غير معمول فيها<br>نوعا الظرف — اللغو (متعلق بعامل مذكور)؛ المستقر (متعلق بعامل عام محذوف وجوبا: كائن/استقر)`,
+          lines: [
+            { html: `All شبه جملة is معمول — none of it is غير معمول.`, list: false },
+            { html: `الظرف (in the شبه الجملة sense) has two types:`, list: false },
+            { html: `<bdi>الظَّرْفُ اللَّغْو</bdi> — attached (<bdi>مُتَعَلِّق</bdi>) to a mentioned عامل`, list: true, bullet: true },
+            { html: `<bdi>الظَّرْفُ الْمُسْتَقِرّ</bdi> — attached to an obligatorily deleted general عامل (<bdi>كَائِن</bdi> / <bdi>اسْتَقَرَّ</bdi>)`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What is the ruling of شبه الجملة regarding العمل?`,
             kind: 'mcq',
@@ -559,8 +907,19 @@ export default {
         },
         {
           heading: 'مواضع الظرف اللغو: المرفوع والمنصوب',
-          body: `الظرف اللغو is مرفوع محلا in a single position: <bdi>نَائِبُ الْفَاعِل</bdi>, as in <bdi>﴿وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ﴾</bdi>. It is منصوب محلا in seven positions: <bdi>الْمَفْعُولُ الْمُطْلَق</bdi>, as in <bdi>﴿يَعْرِفُونَهُ كَمَا يَعْرِفُونَ أَبْنَاءَهُمْ﴾</bdi>; <bdi>الْمَفْعُولُ بِه</bdi>, as in <bdi>﴿عَفَا اللَّهُ عَنكَ﴾</bdi>; <bdi>الْمَفْعُولُ فِيه</bdi>, as in <bdi>﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾</bdi>; <bdi>الْمَفْعُولُ لَه</bdi>, as in <bdi>﴿يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِم مِّنَ الصَّوَاعِقِ﴾</bdi>; <bdi>الْمَفْعُولُ مَعَه</bdi>, as in <bdi>هَاجَرَ النَّبِيُّ ﷺ مَعَ أَبِي بَكْرٍ</bdi>; <bdi>الْحَال</bdi>, as in <bdi>﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾</bdi>; and <bdi>التَّمْيِيز</bdi>, as in <bdi>﴿تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾</bdi>.`,
-          sample: `اللغو مرفوعا محلا — نائب الفاعل: ﴿وجيء يومئذ بجهنم﴾ (موضع واحد)<br>اللغو منصوبا محلا (٧ مواضع) — مفعول مطلق، مفعول به، مفعول فيه، مفعول له، مفعول معه، حال، تمييز`,
+          lines: [
+            { html: `الظرف اللغو is مرفوع محلا in a single position: <bdi>نَائِبُ الْفَاعِل</bdi>, as in <bdi>﴿وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ﴾</bdi>.`, list: false },
+            { html: `It is منصوب محلا in seven positions:`, list: false },
+            { table: { headers: ['الموضع', 'Example'], rows: [
+              ['الْمَفْعُولُ الْمُطْلَق', '﴿يَعْرِفُونَهُ كَمَا يَعْرِفُونَ أَبْنَاءَهُمْ﴾'],
+              ['الْمَفْعُولُ بِه', '﴿عَفَا اللَّهُ عَنكَ﴾'],
+              ['الْمَفْعُولُ فِيه', '﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾'],
+              ['الْمَفْعُولُ لَه', '﴿يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِم مِّنَ الصَّوَاعِقِ﴾'],
+              ['الْمَفْعُولُ مَعَه', 'هَاجَرَ النَّبِيُّ ﷺ مَعَ أَبِي بَكْرٍ'],
+              ['الْحَال', '﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾'],
+              ['التَّمْيِيز', '﴿تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `In which single position is the ظرف اللغو مرفوع محلا? Give the example.`,
             kind: 'mcq',
@@ -570,8 +929,15 @@ export default {
         },
         {
           heading: 'مواضع الظرف المستقر، ومعموليته بالتبعية',
-          body: `الظرف المستقر is مرفوع بالأصالة in two positions: <bdi>خَبَرُ الْمُبْتَدَأ</bdi>, as in <bdi>إِنَّمَا الْعِلْمُ عِندَ اللَّهِ</bdi>, and <bdi>خَبَرُ إِنّ</bdi>, as in <bdi>﴿إِنَّ اللَّهَ مَعَنَا﴾</bdi>. It is منصوب بالأصالة in two positions: <bdi>خَبَرُ الْفِعْلِ النَّاقِص</bdi>, as in <bdi>﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ النَّارِ﴾</bdi>, and <bdi>الْحَال</bdi>, as in <bdi>أَسْأَلُ اللَّهَ بِرَجَاءِ الْفِرْدَوْسِ فِي الْجَنَّةِ</bdi>. It can also be معمول بالتبعية, as <bdi>نَعْت</bdi>, as in <bdi>﴿أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ﴾</bdi> — <bdi>مِن رَّبِّهِمْ</bdi> is a نعت of <bdi>هُدًى</bdi>.`,
-          sample: `المستقر مرفوعا — خبر المبتدأ: إنما العلم عند الله؛ خبر إن: ﴿إن الله معنا﴾<br>المستقر منصوبا — خبر الفعل الناقص: ﴿على شفا حفرة من النار﴾؛ حال: أسأل الله برجاء الفردوس في الجنة<br>معمول بالتبعية — نعت: ﴿على هدى من ربهم﴾`,
+          lines: [
+            { html: `الظرف المستقر is مرفوع بالأصالة in two positions:`, list: false },
+            { html: `<bdi>خَبَرُ الْمُبْتَدَأ</bdi>, as in <bdi>إِنَّمَا الْعِلْمُ عِندَ اللَّهِ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>خَبَرُ إِنّ</bdi>, as in <bdi>﴿إِنَّ اللَّهَ مَعَنَا﴾</bdi>`, list: true, bullet: true },
+            { html: `It is منصوب بالأصالة in two positions:`, list: false },
+            { html: `<bdi>خَبَرُ الْفِعْلِ النَّاقِص</bdi>, as in <bdi>﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ النَّارِ﴾</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْحَال</bdi>, as in <bdi>أَسْأَلُ اللَّهَ بِرَجَاءِ الْفِرْدَوْسِ فِي الْجَنَّةِ</bdi>`, list: true, bullet: true },
+            { html: `It can also be معمول بالتبعية, as <bdi>نَعْت</bdi>, as in <bdi>﴿أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ﴾</bdi> — <bdi>مِن رَّبِّهِمْ</bdi> is a نعت of <bdi>هُدًى</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `How can a ظرف مستقر be معمول بالتبعية? Give the example.`,
             kind: 'mcq',
@@ -581,8 +947,15 @@ export default {
         },
         {
           heading: 'حذف الموصوف مع شبه الجملة، وخاتمة: بعد معرفة، نكرة، ونكرة غير محضة',
-          body: `A موصوف may be deleted, leaving its صفة, when الصفة is a ظرف مستقر with <bdi>مِنْ</bdi> or <bdi>فِي</bdi>, as in <bdi>﴿وَإِن مِّنكُمْ إِلَّا وَارِدُهَا﴾</bdi> (i.e. <bdi>وَإِنْ أَحَدٌ كَائِنٌ مِّنكُمْ</bdi>). As a closing note (<bdi>خَاتِمَة</bdi>): a شبه جملة after a معرفة is parsed as حال, as in <bdi>أَسْأَلُ اللَّهَ الْفِرْدَوْسَ فِي الْجَنَّةِ</bdi> — <bdi>فِي الْجَنَّةِ</bdi> is حال of الفردوس. After a نكرة, it is نعت, as in <bdi>أَسْأَلُ اللَّهَ بَيْتًا فِي الْجَنَّةِ</bdi> — unless الشبه جملة precedes the noun, in which case it is حال: <bdi>أَسْأَلُ اللَّهَ فِي الْجَنَّةِ بَيْتًا</bdi>. After a نكرة غير محضة, both are allowed — حال or نعت, as in <bdi>﴿وَقَالَ رَجُلٌ مُّؤْمِنٌ مِّنْ آلِ فِرْعَوْنَ﴾</bdi>.`,
-          sample: `حذف الموصوف — إذا كانت الصفة ظرفا مستقرا بمن أو في: ﴿وإن منكم إلا واردها﴾<br>خاتمة — بعد معرفة: حال (في الجنة حال من الفردوس)؛ بعد نكرة: نعت — إلا إن تقدمت شبه الجملة فحال؛ بعد نكرة غير محضة: الوجهان جائزان`,
+          lines: [
+            { html: `A موصوف may be deleted, leaving its صفة, when الصفة is a ظرف مستقر with <bdi>مِنْ</bdi> or <bdi>فِي</bdi>, as in <bdi>﴿وَإِن مِّنكُمْ إِلَّا وَارِدُهَا﴾</bdi> (i.e. <bdi>وَإِنْ أَحَدٌ كَائِنٌ مِّنكُمْ</bdi>).`, list: false },
+            { html: `As a closing note (<bdi>خَاتِمَة</bdi>), a شبه جملة is parsed as follows:`, list: false },
+            { table: { headers: ['After', 'Parsed as', 'Example'], rows: [
+              ['معرفة', 'حال', 'أَسْأَلُ اللَّهَ الْفِرْدَوْسَ فِي الْجَنَّةِ (في الجنة حال من الفردوس)'],
+              ['نكرة', 'نعت — unless شبه الجملة precedes the noun, in which case حال', 'أَسْأَلُ اللَّهَ بَيْتًا فِي الْجَنَّةِ؛ or fronted: أَسْأَلُ اللَّهَ فِي الْجَنَّةِ بَيْتًا'],
+              ['نكرة غير محضة', 'both allowed — حال or نعت', '﴿وَقَالَ رَجُلٌ مُّؤْمِنٌ مِّنْ آلِ فِرْعَوْنَ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `How is a شبه جملة after a نكرة parsed?`,
             kind: 'mcq',
@@ -592,8 +965,12 @@ export default {
         },
         {
           heading: 'المنصوب بنزع الخافض',
-          body: `<bdi>الْمَنْصُوبُ بِنَزْعِ الْخَافِض</bdi> is a noun placed in نصب by removal of the preposition: نصب لفظا, as in <bdi>﴿لَأَقْعُدَنَّ لَهُمْ صِرَاطَكَ الْمُسْتَقِيمَ﴾</bdi> (i.e. <bdi>عَلَىٰ صِرَاطِكَ</bdi>), or نصب محلا, as in <bdi>﴿أَوَعَجِبْتُمْ أَن جَاءَكُمْ ذِكْرٌ مِّن رَّبِّكُمْ﴾</bdi> (i.e. <bdi>مِنْ أَنْ جَاءَكُمْ</bdi>). The removal of الخافض is also called <bdi>الْحَذْف</bdi>, <bdi>الْإِيصَال</bdi>, and <bdi>الِاتِّسَاع</bdi>.`,
-          sample: `المنصوب بنزع الخافض — نصب لفظا: ﴿صراطك المستقيم﴾، أي على صراطك؛ نصب محلا: ﴿أن جاءكم ذكر﴾، أي من أن جاءكم<br>أسماء أخرى لنزع الخافض — الحذف، الإيصال، الاتساع`,
+          lines: [
+            { html: `<bdi>الْمَنْصُوبُ بِنَزْعِ الْخَافِض</bdi> is a noun placed in نصب by removal of the preposition:`, list: false },
+            { html: `نصب لفظا, as in <bdi>﴿لَأَقْعُدَنَّ لَهُمْ صِرَاطَكَ الْمُسْتَقِيمَ﴾</bdi> (i.e. <bdi>عَلَىٰ صِرَاطِكَ</bdi>)`, list: true, bullet: true },
+            { html: `نصب محلا, as in <bdi>﴿أَوَعَجِبْتُمْ أَن جَاءَكُمْ ذِكْرٌ مِّن رَّبِّكُمْ﴾</bdi> (i.e. <bdi>مِنْ أَنْ جَاءَكُمْ</bdi>)`, list: true, bullet: true },
+            { html: `The removal of الخافض is also called <bdi>الْحَذْف</bdi>, <bdi>الْإِيصَال</bdi>, and <bdi>الِاتِّسَاع</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is المنصوب بنزع الخافض? Give both examples.`,
             kind: 'mcq',
@@ -620,31 +997,76 @@ export default {
         { title: 'شبه الجملة بعد نكرة متقدمة', kind: 'mcq', prompt: 'أَسْأَلُ اللَّهَ فِي الْجَنَّةِ بَيْتًا shows في الجنة parsed as حال (not نعت) because:', options: ['شبه الجملة precedes the نكرة noun بيتا', 'بيتا is actually معرفة', 'the verb is مبني للمجهول', 'the sentence has no ذو حال at all'], correct: 0 },
         { title: 'نصب لفظا بنزع الخافض', kind: 'mcq', prompt: '﴿لَأَقْعُدَنَّ لَهُمْ صِرَاطَكَ الْمُسْتَقِيمَ﴾ shows صراطك منصوبا بنزع الخافض:', options: ['لفظا (i.e. على صراطك)', 'محلا (i.e. من صراطك)', 'as a ظرف لغو, not نزع خافض', 'as a ظرف مستقر'], correct: 0 },
         {
-          title: 'تركيب: اللغو أم المستقر؟',
+          title: 'تركيب: ﴿وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ﴾ (اللغو أم المستقر)',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال of الظرف.',
-          source: '﴿وجيء يومئذ بجهنم﴾ / إنما العلم عند الله',
-          words: ['يومئذ', 'عند الله'],
-          labels: ['اللغو', 'المستقر'],
-          distractors: ['لا محل له'],
+          instruction: 'Classify هذا الظرف: اللغو or المستقر؟',
+          sentence: 'وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ',
+          translation: 'And Hell is brought that Day.',
+          cells: ['وَجِيءَ', 'يَوْمَئِذٍ', 'بِجَهَنَّمَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 1, role: 'اللغو' }] },
+          ],
+          distractors: ['المستقر'],
         },
         {
-          title: 'تركيب: شبه الجملة بعد معرفة أم نكرة؟',
+          title: 'تركيب: إِنَّمَا الْعِلْمُ عِندَ اللَّهِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال بحسب حكم شبه الجملة فيه.',
-          source: 'أسأل الله الفردوس في الجنة / أسأل الله بيتا في الجنة',
-          words: ['في الجنة (بعد الفردوس)', 'في الجنة (بعد بيتا)'],
-          labels: ['حال (بعد معرفة)', 'نعت (بعد نكرة)'],
-          distractors: ['مضاف إليه'],
+          instruction: 'Classify هذا الظرف: اللغو or المستقر؟',
+          sentence: 'إِنَّمَا الْعِلْمُ عِندَ اللَّهِ',
+          translation: 'Knowledge is only with Allah.',
+          cells: ['إِنَّمَا', 'الْعِلْمُ', 'عِندَ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 3, role: 'المستقر' }] },
+          ],
+          distractors: ['اللغو'],
         },
         {
-          title: 'تركيب: نصب لفظا أم محلا بنزع الخافض؟',
+          title: 'تركيب: أَسْأَلُ اللَّهَ الْفِرْدَوْسَ فِي الْجَنَّةِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each مثال.',
-          source: '﴿صراطك المستقيم﴾ (أي على صراطك) / ﴿أن جاءكم ذكر﴾ (أي من أن جاءكم)',
-          words: ['صراطك المستقيم', 'أن جاءكم ذكر'],
-          labels: ['نصب لفظا', 'نصب محلا'],
-          distractors: ['رفع محلا'],
+          instruction: 'Classify شبه الجملة هنا (بعد معرفة).',
+          sentence: 'أَسْأَلُ اللَّهَ الْفِرْدَوْسَ فِي الْجَنَّةِ',
+          translation: 'I ask Allah for al-Firdaws in Paradise.',
+          cells: ['أَسْأَلُ', 'اللَّهَ', 'الْفِرْدَوْسَ', 'فِي', 'الْجَنَّةِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 4, role: 'حال (بعد معرفة)' }] },
+          ],
+          distractors: ['نعت (بعد نكرة)'],
+        },
+        {
+          title: 'تركيب: أَسْأَلُ اللَّهَ بَيْتًا فِي الْجَنَّةِ',
+          kind: 'tarkeeb',
+          instruction: 'Classify شبه الجملة هنا (بعد نكرة).',
+          sentence: 'أَسْأَلُ اللَّهَ بَيْتًا فِي الْجَنَّةِ',
+          translation: 'I ask Allah for a house in Paradise.',
+          cells: ['أَسْأَلُ', 'اللَّهَ', 'بَيْتًا', 'فِي', 'الْجَنَّةِ'],
+          rows: [
+            { position: 'above', labels: [{ start: 3, end: 4, role: 'نعت (بعد نكرة)' }] },
+          ],
+          distractors: ['حال (بعد معرفة)'],
+        },
+        {
+          title: 'تركيب: ﴿لَأَقْعُدَنَّ لَهُمْ صِرَاطَكَ الْمُسْتَقِيمَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify نصب هذا المنصوب بنزع الخافض.',
+          sentence: 'لَأَقْعُدَنَّ لَهُمْ صِرَاطَكَ الْمُسْتَقِيمَ',
+          translation: 'I will surely sit in wait for them on Your straight path.',
+          cells: ['لَأَقْعُدَنَّ', 'لَهُمْ', 'صِرَاطَكَ', 'الْمُسْتَقِيمَ'],
+          rows: [
+            { position: 'above', labels: [{ start: 2, end: 3, role: 'نصب لفظا' }] },
+          ],
+          distractors: ['نصب محلا'],
+        },
+        {
+          title: 'تركيب: ﴿أَوَعَجِبْتُمْ أَنْ جَاءَكُمْ ذِكْرٌ مِّن رَّبِّكُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify نصب هذا المنصوب بنزع الخافض.',
+          sentence: 'أَوَعَجِبْتُمْ أَنْ جَاءَكُمْ ذِكْرٌ مِّن رَّبِّكُمْ',
+          translation: 'Do you wonder that a reminder has come to you from your Lord?',
+          cells: ['أَوَعَجِبْتُمْ', 'أَنْ', 'جَاءَكُمْ', 'ذِكْرٌ', 'مِّن', 'رَّبِّكُمْ'],
+          rows: [
+            { position: 'above', labels: [{ start: 1, end: 2, role: 'نصب محلا' }] },
+          ],
+          distractors: ['نصب لفظا'],
         },
       ],
     },

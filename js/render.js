@@ -2,25 +2,52 @@ import { esc, escAttr, escBidi, isolateArabicHtml } from './html.js';
 import {
   QUIZ_PASS_RATIO,
   isModuleUnlocked,
+  isModuleComplete,
   completedCount,
   isLessonUnlocked,
   isLessonComplete,
   lessonProgress,
   conceptsToRender,
   areAllConceptsPassed,
+  isLessonReadyForQuiz,
+  isLessonExerciseItemPassed,
+  lessonExerciseItemKey,
   isConceptExercisePassed,
   conceptKey,
   conceptLines,
   getBankPool,
   getMcqPool,
   getTarkeebPool,
-  getAllMcqPool,
-  getAllTarkeebPool,
+  getVocabPool,
+  getUnlockedVocabPool,
+  courseHasVocab,
   totalLessonsCleared,
   totalLessons,
+  COURSES,
+  courseIdForModule,
+  flattenTarkeebSlots,
+  moduleHasTarkeeb,
+  isCourseUnlocked,
+  totalModulesAllCourses,
+  totalLessonsAllCourses,
+  completedModulesAllCourses,
+  completedLessonsAllCourses,
+  getModule,
+  courseUnlockTestPool,
+  moduleSkipTestPool,
+  moduleSkipTestSourceModules,
+  UNLOCK_TEST_LENGTH,
+  MODULE_SKIP_TEST_LENGTH,
+  UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak } from './gamification.js';
-import { buildRevisionQueue, MASTERY_TARGET_STREAK } from './state.js';
+import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, sectionTestCounts, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
+import {
+  levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
+  ACHIEVEMENT_CATEGORIES, LEVEL_TIERS, STREAK_TIERS, PERFECT_QUIZ_TIERS, PRACTICE_TIERS,
+  MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
+  perfectQuizCount,
+} from './gamification.js';
+import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
 import { todayISO } from './persistence.js';
 
 // --- Line icons -----------------------------------------------------------
@@ -48,18 +75,29 @@ function icon(name, size = 16, strokeWidth = 1.6) {
 }
 
 // --- Appearance: themes & Arabic typefaces ---------------------------------
-// Mirrors the theme blocks in styles.css exactly (kept as data here too,
-// rather than read from CSS, because Settings' theme-card swatches preview
-// each theme in ITS OWN colours regardless of which theme is currently
-// active -- that needs literal hex values to inline, not var(--color-*)).
+// Mirrors the theme/accent blocks in styles.css exactly (kept as data here
+// too, rather than read from CSS, because Settings' swatches preview each
+// option in ITS OWN colours regardless of what's currently active -- that
+// needs literal hex values to inline, not var(--color-*)). Background and
+// accent are independent choices -- any of the five grounds can pair with
+// any of the five accents -- rather than one bundling the other.
 
 const THEME_ORDER = ['manuscript', 'mushaf', 'lamp', 'ink', 'sepia'];
 const THEMES = {
-  manuscript: { name: 'Manuscript', note: 'default', bg: '#f3f2f2', surface: '#eae9e9', text: '#201f1d', accent: '#b68235' },
-  mushaf: { name: 'Mushaf', note: 'ivory', bg: '#f7f1e1', surface: '#efe7d2', text: '#22271f', accent: '#2f6b4f' },
-  lamp: { name: 'Lamp', note: 'night', bg: '#16130f', surface: '#211d16', text: '#ece3d1', accent: '#c9a04a' },
-  ink: { name: 'Ink', note: 'sober', bg: '#eceef1', surface: '#e0e4ea', text: '#1b2028', accent: '#3d4d80' },
-  sepia: { name: 'Sepia', note: 'aged', bg: '#ece0ca', surface: '#e2d4b9', text: '#2d2115', accent: '#7d5029' },
+  manuscript: { name: 'Manuscript', note: 'default', bg: '#f3f2f2', surface: '#eae9e9', text: '#201f1d' },
+  mushaf: { name: 'Mushaf', note: 'ivory', bg: '#f7f1e1', surface: '#efe7d2', text: '#22271f' },
+  lamp: { name: 'Lamp', note: 'night', bg: '#16130f', surface: '#211d16', text: '#ece3d1' },
+  ink: { name: 'Ink', note: 'sober', bg: '#eceef1', surface: '#e0e4ea', text: '#1b2028' },
+  sepia: { name: 'Sepia', note: 'aged', bg: '#ece0ca', surface: '#e2d4b9', text: '#2d2115' },
+};
+
+const ACCENT_ORDER = ['gold', 'emerald', 'amber', 'indigo', 'umber'];
+const ACCENTS = {
+  gold: { name: 'Gold', hex: '#b68235' },
+  emerald: { name: 'Emerald', hex: '#2f6b4f' },
+  amber: { name: 'Amber', hex: '#c9a04a' },
+  indigo: { name: 'Indigo', hex: '#3d4d80' },
+  umber: { name: 'Umber', hex: '#7d5029' },
 };
 
 // Body face (Naskh/Uthmani) and the Kufi-headings toggle are independent
@@ -91,6 +129,10 @@ function headerHtml(state, MODULES) {
   // Falls back to the plain tab list if the course context is somehow gone
   // (e.g. a stale moduleId) rather than rendering a broken breadcrumb.
   const showCrumbs = inCourse && mod && (state.view === 'module' || lesson);
+  // My Path isn't "inside" any single course the way Home/Schedule are --
+  // both read as one specific course's own dashboard/planner, which is
+  // exactly what My Path deliberately isn't (it spans fstu+sarf at once).
+  const onPath = state.view === 'path' || state.view === 'pathGroups';
 
   // Back button + breadcrumb live on the left, next to the brand -- "where
   // you are / how to get back" reads as one group there, distinct from the
@@ -132,6 +174,12 @@ function headerHtml(state, MODULES) {
       }).join('')}</div>`;
     }
 
+    // A lesson/quiz reached via My Path routes "back" to the path map
+    // instead of the module page it would otherwise belong to -- the crumb
+    // LABELS stay the same (still names the actual module/lesson for
+    // context), only the arrow button's destination changes.
+    if (state.pathActive) backAction = 'backToPath';
+
     const crumbsHtml = crumbs.map((c, i) => {
       const sep = i > 0 ? '<span class="app-header-crumb-sep">/</span>' : '';
       const nodeCls = ['app-header-crumb-current', c.en ? 'app-header-crumb-en' : ''].join(' ').trim();
@@ -147,40 +195,64 @@ function headerHtml(state, MODULES) {
         <div class="app-header-crumbs">${crumbsHtml}</div>
       </div>`;
   } else {
-    // Highlights Schedule for the whole time a Revision/Mastery session it
-    // launched is running too, not just on the Schedule screen itself --
-    // those sessions have no module page of their own to look "active"
-    // under instead.
-    const scheduleActive = state.view === 'schedule' || state.view === 'masteryComplete'
-      || (state.practice && state.practice.source && state.practice.source !== 'module');
+    // Highlights Schedule for the whole time a Revision session it launched
+    // is running too, not just on the Schedule screen itself -- that
+    // session has no module page of its own to look "active" under instead.
+    const scheduleActive = state.view === 'schedule'
+      || (state.practice && state.practice.source === 'revision');
     const tab = (label, action, active) =>
       `<button class="app-header-tab ${active ? 'is-active' : ''}" data-action="${action}">${esc(label)}</button>`;
 
+    // My Path replaces Home/Schedule with its own "back" step where each
+    // would sit -- neither reads as "this course's dashboard/planner"
+    // while browsing something that spans both courses at once. A group's
+    // own map (state.view === 'path') gets "All groups" where Home was
+    // (its own back-navigation, one level up); the group-selection hub
+    // itself has nothing further to go back to, so that slot is just empty.
+    const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
+      : onPath ? '' : tab('Home', 'openDashboard', state.view === 'dashboard');
+
     rightInner = `
       <nav class="app-header-nav" aria-label="Primary">
-        ${tab('Home', 'openDashboard', state.view === 'dashboard')}
-        ${tab('Schedule', 'openSchedule', scheduleActive)}
+        ${homeSlot}
+        ${onPath ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
         ${tab('Settings', 'openSettings', state.view === 'settings')}
       </nav>`;
   }
 
+  // Always rendered, on every screen (dashboard, module, lesson, quiz, ...)
+  // -- reachable no matter where the learner currently is, not just from
+  // Home. Names the active course and, rather than switching in place (the
+  // old inline pill row), sends the learner back to the launch screen's
+  // course picker (see openLaunch in js/main.js) to choose from there.
+  // While browsing My Path this reads "My Path" instead of a single
+  // course's name -- state.courseId still holds whichever course a path
+  // lesson last activated (see enterPathLesson), which would otherwise
+  // show a misleading single-course label while actually spanning both.
+  const activeCourse = COURSES.find((c) => c.id === state.courseId);
+  const courseSwitchHtml = `
+    <button class="app-header-course-btn" data-action="openLaunch" title="Switch course">
+      ${icon('book', 14, 1.7)}
+      <span>${onPath ? 'My Path' : esc(activeCourse ? activeCourse.name : '')}</span>
+    </button>`;
+
   return `
     <header class="app-header">
       <div class="app-header-left">
-        <div class="app-header-brand" data-action="openDashboard">
-          <span class="app-header-kicker">نحو</span>
-          <span class="app-header-rule"></span>
-          <span class="app-header-name">Nahw Trainer</span>
-        </div>
+        <button class="app-header-brand" data-action="openDashboard" title="Home" aria-label="Home">
+          <span class="app-header-kicker">العلوم</span>
+        </button>
+        <span class="app-header-rule" aria-hidden="true"></span>
+        ${courseSwitchHtml}
         ${leftExtra}
       </div>
       <div class="app-header-right">
         ${rightInner}
-        <div class="app-header-stats">
+        <button class="app-header-stats" data-action="openAchievements" title="Achievements">
           <span class="app-header-stat" title="Current streak">${icon('flame', 15, 1.7)}${state.streak || 1}</span>
           <span class="app-header-stat" title="Total XP">${icon('star', 14, 1.8)}${state.xp} XP</span>
           <span class="app-header-level" title="Level ${li.level}">${li.level}</span>
-        </div>
+        </button>
       </div>
       ${dotsHtml}
     </header>`;
@@ -194,7 +266,7 @@ function footerHtml(state) {
   const faceLabel = face.name + (state.kufiHeadings ? ' + Kufi' : '');
   return `
     <footer class="app-footer">
-      <span>Nahw Trainer — a private study desk</span>
+      <span>The Sciences — a private study desk</span>
       <span class="app-footer-state">${esc(theme.name)} · ${esc(faceLabel)}</span>
     </footer>`;
 }
@@ -220,7 +292,7 @@ function progressBar(pct) {
 // module is complete.
 function findContinueLesson(state, MODULES) {
   for (const m of MODULES) {
-    if (!isModuleUnlocked(m.id, state.completed)) break;
+    if (!isModuleUnlocked(m.id, state.completed, state.unlockedModules)) break;
     for (let i = 0; i < m.lessons.length; i++) {
       const lesson = m.lessons[i];
       if (!isLessonComplete(m.id, lesson.id, state.completed)) {
@@ -305,6 +377,126 @@ function separatorHtml() {
     </div>`;
 }
 
+// --- Launch screen (course picker) ---------------------------------------
+// The very first thing the app shows on every boot, ahead of Home itself
+// (see js/main.js: state.launchScreen, cleared by the chooseCourse action).
+// Reuses the same hero-panel visual language (corner brackets, badge,
+// arabesque-adjacent framing) as Home rather than inventing a new one, so
+// it reads as the cover of the same book, not a separate app.
+
+// Per-course lesson/module counts, computed straight from `course.modules`
+// rather than via completedCount/isModuleComplete (content/index.js) --
+// those resolve against the single active MODULES binding, so they can't
+// answer "how far along is course X" for a course that isn't the active
+// one, which is exactly what every card here needs to do at once.
+function courseStats(course, completed) {
+  let total = 0;
+  let done = 0;
+  course.modules.forEach((m) => {
+    total += m.lessons.length;
+    const doneMap = completed[m.id] || {};
+    done += m.lessons.filter((l) => doneMap[l.id]).length;
+  });
+  return { total, done, moduleCount: course.modules.length };
+}
+
+function launchCourseCardHtml(course, index, state) {
+  const { total, done, moduleCount } = courseStats(course, state.completed);
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const isCurrent = course.id === state.courseId;
+  const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses);
+  if (!unlocked) {
+    return `
+      <button class="launch-card locked" data-anim-key="lc${index}" data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}">
+        <div class="launch-card-top">
+          <span class="launch-card-kicker">${moduleCount} CHAPTER${moduleCount === 1 ? '' : 'S'}</span>
+          <span class="tag tag-neutral">${icon('lock', 11, 2.6)} Locked</span>
+        </div>
+        <h3 class="launch-card-arabic" lang="ar" dir="rtl">${esc(course.arabicName)}</h3>
+        <p class="launch-card-body">${esc(course.lockedMessage || 'Locked.')}</p>
+        <span class="launch-card-cta">Take a test to unlock early &rarr;</span>
+      </button>`;
+  }
+  return `
+    <button class="launch-card ${isCurrent ? 'is-current' : ''}" data-anim-key="lc${index}" data-action="chooseCourse" data-course-id="${escAttr(course.id)}">
+      <div class="launch-card-top">
+        <span class="launch-card-kicker">${moduleCount} CHAPTER${moduleCount === 1 ? '' : 'S'}</span>
+        ${isCurrent ? '<span class="tag tag-accent">Last opened</span>' : ''}
+      </div>
+      <h3 class="launch-card-arabic" lang="ar" dir="rtl">${esc(course.arabicName)}</h3>
+      <p class="launch-card-body">${escBidi(course.blurb)}</p>
+      <div class="launch-card-footer">
+        <span class="launch-card-track"><span class="launch-card-fill" style="width:${pct}%"></span></span>
+        <span class="launch-card-meta">${done} / ${total}</span>
+      </div>
+      <span class="launch-card-cta">${done > 0 ? 'Continue' : 'Begin'} &rarr;</span>
+    </button>`;
+}
+
+// "Sits on top of the courses" -- a small banner between the course
+// picker's subtitle and its card grid, leading to My Path's group-selection
+// screen (see openMyPath in js/main.js) rather than one specific course.
+// Progress phrasing reads live off PATH_TRACKS/state.pathNodeStatus via
+// firstUnfinishedPathNodeIndex, the same derive-don't-store idiom the rest
+// of the app uses for "how far along" (see e.g. content/index.js's
+// completedCount).
+// Always opens the group-selection screen (req: a separate "choose a
+// group" hub, see openMyPath in js/main.js) -- the label just names overall
+// progress across every POPULATED group, across BOTH tracks (only the
+// introductory path's Group 1-and-the-advanced path's Group 1 exist so far;
+// empty "Coming soon" groups don't count toward "started" either way).
+function launchPathBannerHtml(state) {
+  const populated = PATH_TRACKS.flatMap((t) => t.groups.filter((g) => g.sections.length));
+  let groupsDone = 0;
+  let anyStarted = false;
+  populated.forEach((group) => {
+    const skeleton = groupSkeleton(group);
+    const idx = firstUnfinishedPathNodeIndex(skeleton, state.pathNodeStatus, state.completed);
+    if (idx > 1) anyStarted = true;
+    if (idx >= skeleton.length) groupsDone += 1;
+  });
+  const label = groupsDone > 0
+    ? `Continue — ${groupsDone} of ${populated.length} group${populated.length === 1 ? '' : 's'} complete`
+    : anyStarted ? 'Continue My Path' : 'Start My Path';
+  return `
+    <button class="launch-path-banner" data-anim-key="launchpathbanner" data-action="openMyPath">
+      <div class="launch-path-banner-text">
+        <span class="launch-path-banner-kicker">MY PATH</span>
+        <span class="launch-path-banner-title">${esc(label)}</span>
+        <span class="launch-path-banner-sub">Nahw + Sarf, introductory and advanced — guided routes through both.</span>
+      </div>
+      <span class="launch-path-banner-cta">${anyStarted ? 'Continue' : 'Begin'} &rarr;</span>
+    </button>`;
+}
+
+function launchHtml(state) {
+  const cards = COURSES.map((c, i) => launchCourseCardHtml(c, i, state)).join('');
+  return `
+    <div class="launch-screen">
+      <span aria-hidden="true" class="launch-watermark" lang="ar" dir="rtl">العلوم</span>
+      <div class="launch-scroll">
+      <div class="launch-inner">
+        <div class="launch-head" data-anim-key="launchhead">
+          <div class="launch-brand-row">
+            <div class="launch-brand">
+              <span class="launch-brand-kicker" lang="ar" dir="rtl">العلوم</span>
+              <span class="launch-brand-rule" aria-hidden="true"></span>
+              <span class="launch-brand-name">The Sciences</span>
+            </div>
+            ${heroBadgeHtml('وَالْعِلْمُ نُورٌ')}
+          </div>
+          <h1 class="launch-title">Choose a course</h1>
+          <p class="launch-sub">Four paths through Arabic grammar. Pick one to enter its dashboard — you can switch anytime from the header.</p>
+        </div>
+        ${launchPathBannerHtml(state)}
+        <div class="launch-grid">${cards}</div>
+      </div>
+      </div>
+      ${cornerBracketsHtml()}
+      ${unlockPromptHtml(state)}
+    </div>`;
+}
+
 function homeHeroHtml(state, MODULES) {
   const continueInfo = findContinueLesson(state, MODULES);
   const lessonsCleared = totalLessonsCleared(state.completed);
@@ -346,12 +538,6 @@ function homeHeroHtml(state, MODULES) {
 function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
   let lastGroupKey = null;
   const cards = MODULES.map((m, i) => {
-    // The very first module is the dashboard's "above the fold" content --
-    // gating it behind a scroll trigger would mean a learner who never
-    // scrolls (the grid can fit on-screen on a tall enough window) never
-    // sees chapter 01 slide in at all. Every chapter after it still
-    // reveals on scroll as normal.
-    const isFirst = i === 0;
     // One divider per distinct (heading, subheading) pair -- every module
     // that starts a new pair gets its own line, always showing both the
     // heading (right) and the subheading (left); modules with no
@@ -370,12 +556,25 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
     }
 
     const done = completedCount(m.id, state.completed);
-    const unlocked = isModuleUnlocked(m.id, state.completed);
+    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules);
     const cardKey = `dash_card_${m.id}`;
+    // Row 1 (however many cards that turns out to be -- see js/main.js's
+    // cascadeGrid/setupScrollObserver) is revealed on arrival rather than
+    // gated behind the scroll trigger like every row after it; which cards
+    // land in row 1 is a real-layout question, not something this string
+    // render can know (auto-fit column count depends on window width, and
+    // courses vary in how many modules share a first heading).
+    // A locked module can still be skipped to early via its own unlock
+    // test (see moduleSkipTestPool) -- same "locked card opens the unlock
+    // prompt instead of just sitting disabled" treatment as a locked course
+    // card on the launch screen.
+    const clickAttrs = unlocked
+      ? `data-action="openModule" data-module-id="${escAttr(m.id)}"`
+      : `data-action="openUnlockPrompt" data-target-type="module" data-target-id="${escAttr(m.id)}"`;
     return `${chapterHtml}
-      <button class="${revealCls(cardKey, 'chapter-card', revealedKeys, isFirst)}" data-reveal-key="${cardKey}" ${unlocked ? `data-action="openModule" data-module-id="${escAttr(m.id)}"` : 'disabled'}>
+      <button class="${revealCls(cardKey, 'chapter-card', revealedKeys)}" data-reveal-key="${cardKey}" ${clickAttrs}>
         <div class="chapter-card-top">
-          <span class="chapter-card-kicker">${unlocked ? `MODULE ${esc(m.id)}` : icon('lock', 12, 2)}</span>
+          <span class="chapter-card-kicker">${unlocked ? `MODULE ${String(i + 1).padStart(2, '0')}` : icon('lock', 12, 2)}</span>
           <span class="chapter-card-arabic" lang="ar" dir="rtl">${esc(m.heading || '')}</span>
         </div>
         <h3 class="chapter-card-title" lang="ar" dir="rtl">${esc(m.title)}</h3>
@@ -395,10 +594,16 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
         <h2>Chapters</h2>
         <div class="chapter-grid">${cards}</div>
       </section>
-      ${state.badges.length ? `
-      <div class="badges-row">
-        ${state.badges.map((id) => `<span class="tag tag-outline badge-tag">${icon('award', 13, 2)}${esc(BADGE_DEFS[id].name)}</span>`).join('')}
-      </div>` : ''}
+      <section class="home-badges-teaser">
+        <div class="home-badges-teaser-head">
+          <h2>Badges</h2>
+          <button class="text-link-btn" data-action="openAchievements">View all achievements →</button>
+        </div>
+        ${state.badges.length ? `
+        <div class="badges-row">
+          ${state.badges.slice(-12).map((id) => `<span class="tag tag-outline badge-tag">${icon('award', 13, 2)}${esc(BADGE_DEFS[id].name)}</span>`).join('')}
+        </div>` : '<p class="home-badges-empty">Earn your first badge by completing a lesson.</p>'}
+      </section>
     </div>`;
 }
 
@@ -413,16 +618,14 @@ function modulePageHtml(state, MODULES) {
   const bankPool = getBankPool(mod.id, state.completed);
 
   const rows = mod.lessons.map((lesson, i) => {
-    const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed);
+    const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed, state.unlockedModules);
     const complete = isLessonComplete(mod.id, lesson.id, state.completed);
-    // Mastered: every MCQ card for this lesson has hit MASTERY_TARGET_STREAK
-    // -- تركيب doesn't count toward mastering a lesson (see scheduleMasteryHtml,
-    // which never offers it as a Mastery Mode kind choice). Only meaningful
-    // once the lesson is complete (an incomplete lesson's bank pool is empty
-    // -- see getBankPool), so it can only ever be true alongside `complete`.
-    const lessonPool = bankPool.filter((e) => e.lessonId === lesson.id && e.item.kind !== 'tarkeeb');
-    const mastered = complete && lessonPool.length > 0
-      && lessonPool.every((e) => state.masteryProgress[e.key] && state.masteryProgress[e.key].mastered);
+    // Mastered: this lesson's Mastery test (mixed تركيب+mcq, launched from
+    // the "Start lesson" preview modal -- see lessonPreviewHtml) has been
+    // passed at 100%. Display-only here; the row itself doesn't launch
+    // Mastery directly, same click as ever (openLessonPreview).
+    const masteryEntry = state.masteryV2[`${mod.id}_${lesson.id}`];
+    const mastered = complete && masteryEntry && masteryEntry.passed;
     const rowCls = ['lesson-row', unlocked ? '' : 'locked', mastered ? 'mastered' : ''].join(' ').trim();
     const indicatorCls = ['lesson-row-indicator', unlocked ? '' : 'locked'].join(' ').trim();
     const indicator = !unlocked
@@ -482,6 +685,20 @@ function lessonPreviewHtml(state, MODULES) {
   if (!mod || idx < 0) return '';
   const lesson = mod.lessons[idx];
   const complete = isLessonComplete(mod.id, lesson.id, state.completed);
+  const masteryEntry = state.masteryV2[`${mod.id}_${lesson.id}`];
+  const mastered = complete && masteryEntry && masteryEntry.passed;
+
+  // A completed lesson offers both Review (reopen the lesson content) and
+  // Mastery (a fresh 100%-required test over its تركيب+mcq+quiz pool, see
+  // startMasteryV2 in js/main.js) side by side -- this same modal opens
+  // identically whether the lesson was reached from a module page's row
+  // (openLessonPreview) or a My Path lesson node (enterPathLesson), so
+  // Mastery is reachable from both without any separate UI of its own.
+  const actionButtons = complete
+    ? `
+      <button class="btn btn-secondary" data-action="startMasteryV2" data-lesson-id="${escAttr(lesson.id)}">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
+      <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Review</button>`
+    : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Start lesson</button>`;
 
   return `
     <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLessonPreview">
@@ -489,9 +706,10 @@ function lessonPreviewHtml(state, MODULES) {
         <div class="card-kicker modal-kicker">LESSON ${idx + 1} &middot; ${esc(mod.title)}</div>
         <h3>${esc(lesson.title)}</h3>
         <p class="modal-sub">${escBidi(lesson.subtitle || '')}</p>
+        ${mastered ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="cancelLessonPreview">Cancel</button>
-          <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${complete ? 'Review lesson' : 'Start lesson'}</button>
+          ${actionButtons}
         </div>
       </div>
     </div>`;
@@ -515,6 +733,87 @@ function badgeModalHtml(state) {
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
         <div class="modal-buttons">
           <button class="btn btn-primary" data-action="closeBadgeModal">Continue</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- Advanced-course/path/module unlock prompt -----------------------------
+// Opened from a locked launch-screen course card, a locked My Path
+// advanced-track card, or a locked module's dashboard card (all use
+// data-action="openUnlockPrompt", see the actions in js/main.js). Rather
+// than a password, this offers a skip-ahead test built from the content the
+// learner would otherwise have had to finish first (see
+// courseUnlockTestPool/trackUnlockTestPool/moduleSkipTestPool) --
+// startUnlockTest (js/main.js) enters it as a graded practice session, and
+// finalizeUnlockTest records the unlock permanently once it's passed at
+// UNLOCK_TEST_PASS_RATIO.
+function unlockPromptLabel(state) {
+  const p = state.unlockPrompt;
+  if (!p) return null;
+  if (p.type === 'course') {
+    const course = COURSES.find((c) => c.id === p.id);
+    if (!course) return null;
+    const req = COURSES.find((c) => c.id === course.requiresCourseId);
+    return {
+      name: course.name, message: course.lockedMessage,
+      pool: courseUnlockTestPool(p.id), length: UNLOCK_TEST_LENGTH,
+      sourceDescription: req ? `the second half of ${req.name}` : 'the introductory course',
+    };
+  }
+  if (p.type === 'track') {
+    const track = PATH_TRACKS.find((t) => t.id === p.id);
+    if (!track) return null;
+    return {
+      name: track.title, message: track.lockedMessage,
+      pool: trackUnlockTestPool(p.id), length: UNLOCK_TEST_LENGTH,
+      sourceDescription: 'the second half of both Introductory Nahw and Introductory Sarf',
+    };
+  }
+  const mod = getModule(p.id);
+  if (!mod) return null;
+  const sourceNames = moduleSkipTestSourceModules(p.id).map((m) => m.title).join(' and ');
+  return {
+    name: mod.title, message: 'Locked until the previous module is complete.',
+    pool: moduleSkipTestPool(p.id), length: MODULE_SKIP_TEST_LENGTH,
+    sourceDescription: sourceNames || 'the modules before it',
+  };
+}
+
+// req: "a mix of tarkeeb and mcqs, or mcqs only if there are no tarkeeb
+// questions" -- described up front so the learner knows what they're
+// about to take, before startUnlockTest builds the actual queue.
+function unlockTestCompositionText(pool, length) {
+  const total = Math.min(length, pool.length);
+  if (!total) return 'Not enough content yet to build this test.';
+  const hasTarkeeb = pool.some((e) => e.item.kind === 'tarkeeb');
+  return hasTarkeeb
+    ? `${total} questions — a mix of تركيب and multiple choice.`
+    : `${total} multiple-choice questions.`;
+}
+
+// Its own flat/sharp-cornered shape (NOT the shared .modal/.modal-backdrop
+// that the badge and lesson-preview modals use) -- this one is opened from
+// the launch screen's course cards, My Path's group cards, and the
+// dashboard's module cards, so it's styled to match those (hairline divider
+// border, 2px corners, no drop shadow, .ds-btn buttons) rather than the
+// rounder legacy modal shape.
+function unlockPromptHtml(state) {
+  if (!state.unlockPrompt) return '';
+  const label = unlockPromptLabel(state);
+  if (!label) return '';
+  const composition = unlockTestCompositionText(label.pool, label.length);
+  const canStart = label.pool.length > 0;
+  return `
+    <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
+      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" aria-label="Unlock test">
+        <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
+        <h3 class="unlock-modal-title">${esc(label.name)} is locked</h3>
+        <p class="unlock-modal-sub">${esc(label.message || '')}</p>
+        <p class="unlock-modal-sub">Pass a test on ${esc(label.sourceDescription)} to unlock it early. ${esc(composition)}</p>
+        <div class="unlock-modal-buttons">
+          <button class="ds-btn ds-btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
+          ${canStart ? `<button class="ds-btn ds-btn-primary" data-action="startUnlockTest">Start Test</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -610,6 +909,29 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
   conceptLines(pseudoConcept).forEach((line) => {
     lineIdx++;
     const itemKey = prefix ? `${prefix}_p${lineIdx}` : '';
+
+    if (line.table) {
+      if (openList) {
+        html += '</ul>';
+        openList = false;
+      }
+      const cls = itemKey ? revealCls(itemKey, 'concept-table-wrap', revealedKeys, forceReveal) : 'concept-table-wrap';
+      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      html += conceptTableHtml(line.table, cls, attr);
+      return;
+    }
+
+    if (line.tarkeebDiagram) {
+      if (openList) {
+        html += '</ul>';
+        openList = false;
+      }
+      const cls = itemKey ? revealCls(itemKey, 'tarkeeb-diagram-wrap', revealedKeys, forceReveal) : 'tarkeeb-diagram-wrap';
+      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      html += `<div class="${cls}"${attr}>${tarkeebDiagramReadOnlyHtml(line.tarkeebDiagram)}</div>`;
+      return;
+    }
+
     const lineHtml = isolateArabicHtml(line.html);
     const cls = itemKey ? revealCls(itemKey, 'concept-line', revealedKeys, forceReveal) : 'concept-line';
     const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
@@ -633,12 +955,135 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
   return html;
 }
 
+// A data table reproduced from the book's own teaching content (content-fstu
+// only -- e.g. an irab table, a letters table). Cells are plain strings, not
+// pre-marked with <bdi>, so they go through escBidi (escape + isolate any
+// raw Arabic run) exactly like a concept exercise's prompt does.
+function conceptTableHtml(table, wrapCls, wrapAttr) {
+  const headHtml = table.headers.map((h) => `<th>${escBidi(h)}</th>`).join('');
+  const bodyHtml = table.rows.map((row) => `<tr>${row.map((cell) => `<td>${escBidi(cell)}</td>`).join('')}</tr>`).join('');
+  return `
+    <div class="${wrapCls}"${wrapAttr}>
+      ${table.title ? `<div class="concept-table-title">${escBidi(table.title)}</div>` : ''}
+      <div class="concept-table-scroll">
+        <table class="concept-table">
+          <thead><tr>${headHtml}</tr></thead>
+          <tbody>${bodyHtml}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
 // A supplementary note for the handful of concepts whose prose alone left a
 // gap -- added context under the concept, not a rewrite of the body above
 // it.
 function revealCls(key, baseCls, revealedKeys, forceReveal = false) {
   const isRev = forceReveal || (revealedKeys && revealedKeys.has(key));
   return `${baseCls} reveal-on-scroll${isRev ? ' is-revealed' : ''}`;
+}
+
+// Sidebar "Lesson Summary" card -- only present for lessons that carry a
+// `summary` field (content-fstu/content-fstu-sarf's converted lessons; the
+// original course's lessons have none, so this renders nothing for them).
+// Each row names an unlock index and only renders once that's been cleared,
+// so the card builds up gradually rather than dumping every row in at once.
+// Two lessons shapes feed this: lessons still on the single batch exercise
+// (lesson.exercise.items[], e.g. content-fstu-sarf) unlock rows by that
+// item's index; lessons converted to per-concept exercises (content-fstu)
+// unlock rows by concept index instead. A lesson only ever has one of the
+// two, so checking for lesson.exercise.items first is enough to tell them
+// apart.
+function isSummaryRowUnlocked(lesson, row, exStates, moduleId, lessonId) {
+  if (row.unlockAt === undefined || row.unlockAt === null) return true;
+  if (lesson.exercise && lesson.exercise.items && lesson.exercise.items.length) {
+    return isLessonExerciseItemPassed(lesson, row.unlockAt, exStates, moduleId, lessonId);
+  }
+  return isConceptExercisePassed(lesson, row.unlockAt, exStates, moduleId, lessonId);
+}
+
+function lessonSummaryCardHtml(lesson, state, mod, sbSumKey) {
+  const summary = lesson.summary;
+  if (!summary) return '';
+  const rows = summary.rows.filter((row) => isSummaryRowUnlocked(lesson, row, state.exStates, mod.id, lesson.id));
+  // The card shell itself is always present (same three-card sidebar every
+  // content-fstu lesson has, matching "In This Lesson"/"Your Progress"
+  // right around it) -- only the ROWS inside build up gradually, with a
+  // placeholder until the first one unlocks, rather than the whole card
+  // popping into existence mid-lesson.
+  const body = rows.length
+    ? `<div class="lesson-summary-rows">${rows.map((row) => `
+    <div class="lesson-summary-row">
+      <div class="lesson-summary-row-head">
+        <span class="lesson-summary-label">${esc(row.label)}</span>
+        <bdi class="lesson-summary-arabic" lang="ar">${esc(row.arabic)}</bdi>
+      </div>
+      <div class="lesson-summary-meaning">${esc(row.meaning)}</div>
+      ${row.examples && row.examples.length ? `<div class="lesson-summary-examples">${row.examples.map((ex) => `<bdi lang="ar">${esc(ex)}</bdi>`).join('، ')}</div>` : ''}
+    </div>`).join('')}</div>`
+    : `<p class="lesson-summary-empty">Clear the lesson's exercises to build this up.</p>`;
+  return `
+    <div class="${revealCls(sbSumKey, 'card lesson-sidebar-card lesson-summary-card', null, true)}" data-reveal-key="${sbSumKey}">
+      <div class="card-kicker">${esc(summary.title || 'Lesson Summary')}</div>
+      ${body}
+    </div>`;
+}
+
+// The lesson's own single exercise (lesson.exercise.items[]) -- ONE
+// persistent box whose contents swap to the next question after each
+// answer (auto-advance is scheduled from js/main.js's
+// selectLessonExerciseOption, which is why this reads state.lessonExIndex
+// rather than deriving "current item" from exStates on every render --
+// deriving it would jump to the next question the instant it's answered,
+// with no visible feedback beat). Reveal-on-click, same as the lesson quiz
+// and Practice Mode's MCQ (renderMcqOptions) -- picking an option grades
+// and shows it immediately, no separate Check step, and it always moves on
+// after a brief pause regardless of whether the answer was right. Only ever
+// renders once concepts have nothing left to gate (content-fstu lessons
+// keep concepts exercise-free -- see the schema note in
+// content-fstu/module-01.js), so unlike conceptBlockHtml's per-concept
+// exercise this has no reveal-on-scroll treatment: it's always fully
+// visible and interactive as soon as the reading content above it is.
+function lessonExerciseCardHtml(state, mod, lesson) {
+  const ex = lesson.exercise;
+  if (!ex || !ex.items || !ex.items.length) return '';
+  const items = ex.items;
+  const idx = Math.min(state.lessonExIndex || 0, items.length);
+
+  if (idx >= items.length) {
+    return `
+      <div class="card exercise-card lesson-exercise-card" data-anim-key="lessonex_done">
+        <div class="card-kicker">EXERCISE</div>
+        <div class="exercise-feedback correct">${icon('check', 13, 2.4)} All ${items.length} question${items.length === 1 ? '' : 's'} cleared.</div>
+        ${cornerBracketsHtml()}
+      </div>`;
+  }
+
+  const item = items[idx];
+  const key = lessonExerciseItemKey(mod.id, lesson.id, idx);
+  const exState = state.exStates[key] || {};
+  const submitted = !!exState.submitted;
+  const wasCorrect = exState.selected === item.correct;
+  const feedback = submitted
+    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}</div>`
+    : '';
+
+  return `
+    <div class="card exercise-card lesson-exercise-card" data-anim-key="lessonex${idx}">
+      <div class="card-kicker">EXERCISE · ${idx + 1} OF ${items.length}</div>
+      ${ex.instructions ? `<p class="lesson-exercise-instructions">${isolateArabicHtml(ex.instructions)}</p>` : ''}
+      <p class="exercise-prompt">${escBidi(item.prompt)}</p>
+      ${renderMcqOptions({
+        options: item.options,
+        correct: item.correct,
+        selected: exState.selected,
+        submitted,
+        actionName: 'selectLessonExerciseOption',
+        animScope: `lessonex${idx}`,
+        order: state.optionOrder[key],
+      })}
+      ${feedback}
+      ${cornerBracketsHtml()}
+    </div>`;
 }
 
 function conceptClarificationHtml(text, key, revealedKeys, forceReveal = false) {
@@ -725,7 +1170,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
   const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
-  const allPassed = areAllConceptsPassed(lesson, state.exStates, mod.id, lesson.id);
+  const allPassed = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
 
   const dots = lesson.concepts
     .map((_, i) => `<div class="concept-dot ${i < shown ? 'filled' : ''}"></div>`)
@@ -736,12 +1181,14 @@ function lessonHtml(state, MODULES, revealedKeys) {
     .map((_, i) => conceptBlockHtml(state, mod, lesson, i, revealedKeys))
     .join('');
 
+  const exerciseCardHtml = lessonExerciseCardHtml(state, mod, lesson);
+
   const qpKey = `qp_${mod.id}_${lesson.id}`;
   const quizPrompt = allPassed ? `
     <div class="${revealCls(qpKey, 'quiz-prompt', revealedKeys)}" data-reveal-key="${qpKey}">
       <div class="kicker">LESSON COMPLETE</div>
       <h3>Move onto the quiz?</h3>
-      <p>You've cleared every concept in ${esc(lesson.title)}. Answer the quiz to complete this lesson.</p>
+      <p>You've finished every concept and exercise in ${esc(lesson.title)}. Answer the quiz to complete this lesson.</p>
       <button class="ds-btn ds-btn-primary" data-action="gotoQuiz">Continue to quiz →</button>
     </div>` : '';
 
@@ -763,7 +1210,9 @@ function lessonHtml(state, MODULES, revealedKeys) {
   }).join('');
 
   const sbObjKey = `sb_obj_${mod.id}_${lesson.id}`;
+  const sbSumKey = `sb_sum_${mod.id}_${lesson.id}`;
   const sbProgKey = `sb_prog_${mod.id}_${lesson.id}`;
+  const summaryCardHtml = lessonSummaryCardHtml(lesson, state, mod, sbSumKey);
 
   const prog = lessonProgress(lesson, state.exStates, mod.id, lesson.id);
   const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
@@ -789,6 +1238,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
         <div class="lesson-layout" style="margin-top:28px;">
           <div class="lesson-main">
             ${blocks}
+            ${exerciseCardHtml}
             ${quizPrompt}
           </div>
           <div class="lesson-sidebar">
@@ -796,6 +1246,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
               <div class="card-kicker">In This Lesson</div>
               <div class="lesson-objectives">${objectives}</div>
             </div>
+            ${summaryCardHtml}
             <div class="${revealCls(sbProgKey, 'card lesson-sidebar-card lesson-progress-card', revealedKeys)}" data-reveal-key="${sbProgKey}">
               <div class="card-kicker" style="text-align:center;">Your Progress</div>
               <div class="lesson-progress-value">${prog.done}/${prog.total}</div>
@@ -889,7 +1340,8 @@ function quizHtml(state, MODULES) {
 
   const scope = `q${state.quizAttempt || 0}i${qi}`;
   const feedback = revealed
-    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])} — +${quizCosmeticXp(false)} XP`}</div>`
+    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])} — +${quizCosmeticXp(false)} XP`}</div>
+       ${q.explanation ? `<div class="quiz-feedback-explanation">${escBidi(q.explanation)}</div>` : ''}`
     : '';
 
   return `
@@ -921,22 +1373,175 @@ function lessonCompleteHtml(state, MODULES) {
     ? `<div class="tag tag-accent" style="margin:12px auto 0;font-size:13px;">+${xpForQuiz(score.correct, score.total)} XP</div>`
     : '';
 
+  // A lesson reached via My Path (see enterPathLesson in js/main.js) routes
+  // back to the path map instead of the module page it technically belongs
+  // to -- the whole point of the path is not needing to think in terms of
+  // "which module am I in".
+  const buttons = state.pathActive
+    ? `<button class="btn btn-primary" data-action="backToPath">Continue on My Path →</button>`
+    : `
+      <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
+      <button class="btn btn-primary" data-action="openPractice">Practice this chapter →</button>`;
+
   return `
     <div class="col complete-col">
       <div class="kicker" style="justify-content:center;display:flex;">LESSON CLEARED</div>
       <h1 style="text-align:center;">أحسنت! — Well done</h1>
       <p class="lede" style="text-align:center;margin:0 auto;">You've completed <strong>${esc(lesson.title)}</strong>. Progress saved to disk.</p>
       <div style="text-align:center;">${xpTag}</div>
-      <div class="complete-buttons">
-        <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
-        <button class="btn btn-primary" data-action="openPractice">Practice this chapter →</button>
-      </div>
+      <div class="complete-buttons">${buttons}</div>
     </div>`;
 }
 
 // --- Practice: تركيب widget ------------------------------------------------
 
-function renderTarkeeb(state, item, key) {
+// Shared grid geometry for the cells[]/rows[] تركيب diagram schema
+// (content-fstu units 2+): `slotContent(slot, i)` renders each label span's
+// inner HTML -- a static role label for the read-only teaching diagram
+// (tarkeebDiagramReadOnlyHtml), a draggable placement target for the
+// practice version (renderTarkeebDiagram) -- so both share the same
+// column-span/row-stacking math and can't drift apart. RTL grid: column
+// line 1 sits at the right edge, matching cells[0] being the first
+// (rightmost) word.
+function tarkeebDiagramGridHtml(item, slotContent, { fillBlanks = false } = {}) {
+  const { slots, sentenceGridRow, totalRows, rowLabels } = flattenTarkeebSlots(item, { fillBlanks });
+  const numCells = item.cells.length;
+  const hasRowLabels = rowLabels.length > 0;
+  const labelCol = numCells + 1;
+  const cellsHtml = item.cells.map((cell, i) => `
+    <div class="tarkeeb-diagram-cell" style="grid-column:${i + 1};grid-row:${sentenceGridRow};">${escBidi(cell)}</div>`).join('');
+  const slotsHtml = slots.map((slot, i) => `
+    <div style="grid-column:${slot.start + 1} / ${slot.end + 2};grid-row:${slot.gridRow};">${slotContent(slot, i)}</div>`).join('');
+  // Row labels (row.label in content) name the tier of analysis a row of
+  // boxes tests -- e.g. "Word class" vs "Sign of الاسم" -- so a multi-row
+  // item doesn't just present stacked boxes with no indication of what each
+  // band means. Rendered as their own column past the last cell.
+  const rowLabelsHtml = hasRowLabels ? rowLabels.map((rl) => `
+    <div class="tarkeeb-diagram-row-label" style="grid-column:${labelCol};grid-row:${rl.gridRow};">${escBidi(rl.label)}</div>`).join('') : '';
+  const columns = `repeat(${numCells}, minmax(64px, auto))${hasRowLabels ? ' auto' : ''}`;
+  return `
+    <div class="tarkeeb-diagram-grid" dir="rtl" style="grid-template-columns:${columns};grid-template-rows:repeat(${totalRows}, auto);">
+      ${cellsHtml}
+      ${slotsHtml}
+      ${rowLabelsHtml}
+    </div>`;
+}
+
+// A worked تركيب diagram reproduced inline in a lesson's teaching content
+// (sections[].blocks[] type:"tarkeeb" -> a concept line with `.tarkeebDiagram`,
+// see conceptProseHtml) -- read-only, every role label already shown.
+function tarkeebDiagramReadOnlyHtml(item) {
+  const grid = tarkeebDiagramGridHtml(item, (slot) => `<div class="tarkeeb-diagram-label">${escBidi(slot.role)}</div>`);
+  return `
+    <div class="tarkeeb-diagram tarkeeb-diagram-static">
+      ${grid}
+      ${item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
+    </div>`;
+}
+
+// Shared by both تركيب schemas (diagram cells[] and flat words[]) -- the
+// chip tray markup is identical either way, only what ts.placements is
+// checked against differs, and that's already baked into ts itself.
+// Keyboard-operable: role="button" + tabindex makes each chip a real Tab
+// stop so a mouse isn't required to select one (see tarkeebFocusSelector
+// in js/main.js for how focus survives the re-render a selection triggers).
+function tarkeebTrayHtml(ts, key) {
+  const usedChipIdx = new Set(ts.placements.filter((p) => p !== null && p !== undefined));
+  return ts.chipOrder.map((chipIdx) => {
+    const used = usedChipIdx.has(chipIdx);
+    const selected = ts.selectedChip === chipIdx;
+    const interactive = !used && !ts.submitted;
+    let cls = 'tarkeeb-chip';
+    if (used) cls += ' used';
+    if (selected) cls += ' selected';
+    const label = ts.chipPool[chipIdx];
+    const ariaLabel = used ? `${label}, placed` : label;
+    return `<div class="${cls}" draggable="${interactive ? 'true' : 'false'}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-pressed="${selected}" aria-label="${escAttr(ariaLabel)}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}">${esc(label)}</div>`;
+  }).join('');
+}
+
+// The interactive Practice Mode version of the same schema (lesson.tarkeeb[]
+// bank items) -- drag-and-drop chips onto label slots, same
+// select/place/check/reset actions as the original words[]/labels[]
+// تركيب (js/main.js branches on item.cells, not new action names), just a
+// multi-row grid of slots instead of one slot per word.
+function renderTarkeebDiagram(state, item, key, moduleId) {
+  const ts = state.tarkeebState[key];
+  const submitted = !!ts.submitted;
+  const feedback = ts.feedback;
+  // Blank slots for every unlabeled cell are an Advanced Nahw (annahw) thing
+  // -- fstu's تركيب was designed without them, so filling them in there just
+  // clutters a layout that was never meant to show "no match here" boxes.
+  const fillBlanks = courseIdForModule(moduleId) === 'annahw';
+  const { slots, rowLabels } = flattenTarkeebSlots(item, { fillBlanks });
+
+  const grid = tarkeebDiagramGridHtml(item, (slot, i) => {
+    const chipIdx = ts.placements[i];
+    const chipText = chipIdx === null || chipIdx === undefined ? null : ts.chipPool[chipIdx];
+    const isBlank = slot.role === null;
+    // Both classes: .tarkeeb-slot is what the drag-and-drop delegation in
+    // js/main.js queries for (dragover/dragleave/drop), .tarkeeb-diagram-slot
+    // carries this layout's own sizing -- see styles.css.
+    let slotCls = 'tarkeeb-slot tarkeeb-diagram-slot';
+    if (isBlank) slotCls += ' blank';
+    let slotState = 'empty';
+    let content = chipText ? esc(chipText) : '';
+    // Keyboard/screen-reader label for this slot: identifies it by the
+    // word(s) it sits under (same cue a sighted learner uses), never by
+    // slot.role -- that's the graded answer, and leaking it here would hand
+    // screen-reader users the solution the visual layout withholds.
+    let stateText = chipText ? `filled with ${chipText}` : 'empty';
+    if (chipText) {
+      slotCls += ' filled';
+      slotState = `f${chipIdx}`;
+    }
+    if (submitted && feedback) {
+      const pass = feedback[i].pass;
+      slotCls += pass ? ' correct' : ' incorrect';
+      slotState += pass ? '-ok' : '-no';
+      stateText += pass ? ', correct' : `, incorrect, correct answer: ${isBlank ? 'leave blank' : slot.role}`;
+      if (!pass) {
+        // Reveal the correct answer in place of whatever was (or wasn't)
+        // dropped here, rather than just marking it wrong and leaving the
+        // learner to guess what it should have been.
+        content = `<span class="tarkeeb-slot-answer">${isBlank ? 'leave blank' : esc(slot.role)}</span>`;
+      } else if (isBlank) {
+        // Correctly left empty -- a faint marker so the learner knows that
+        // was a deliberate right answer, not just an unnoticed slot.
+        slotCls += ' blank-ok';
+      }
+    }
+    const cellText = item.cells.slice(slot.start, slot.end + 1).join(' ');
+    const rowLabel = rowLabels.find((rl) => rl.gridRow === slot.gridRow);
+    const ariaLabel = `Slot for ${cellText}${rowLabel ? `, ${rowLabel.label}` : ''} — ${stateText}`;
+    const interactive = !submitted;
+    return `<div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${content}</div>`;
+  }, { fillBlanks });
+
+  const tray = tarkeebTrayHtml(ts, key);
+
+  // Only real slots (role !== null) need a chip before the learner can
+  // check -- blank slots are allowed to stay empty, that's the point.
+  const allPlaced = slots.every((s, i) => s.role === null || (ts.placements[i] !== null && ts.placements[i] !== undefined));
+  const passed = submitted && feedback && feedback.every((f) => f.pass);
+
+  return `
+  <div class="tarkeeb tarkeeb-diagram-practice" data-tarkeeb-key="${escAttr(key)}">
+    ${item.instruction ? `<p class="exercise-prompt">${escBidi(item.instruction)}</p>` : ''}
+    ${grid}
+    ${item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
+    <div class="tarkeeb-tray-label">Drag each label onto its slot (tap a filled slot to clear it)</div>
+    <div class="tarkeeb-tray" dir="rtl">${tray}</div>
+    <div class="action-row">
+      ${!submitted ? checkButton('checkTarkeeb', allPlaced, `data-key="${escAttr(key)}"`) : ''}
+      ${!submitted ? `<button class="btn btn-ghost" data-action="resetTarkeeb" data-key="${escAttr(key)}">Reset</button>` : ''}
+      ${submitted ? `<span class="tag ${passed ? 'tag-accent' : 'tag-outline'}" data-anim-key="tk:${escAttr(key)}:${passed ? 'ok' : 'no'}">${passed ? '✓ Correct' : '✗ Not quite'}</span>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderTarkeeb(state, item, key, moduleId) {
+  if (item.cells) return renderTarkeebDiagram(state, item, key, moduleId);
   const ts = state.tarkeebState[key];
   const submitted = !!ts.submitted;
   const feedback = ts.feedback;
@@ -950,26 +1555,26 @@ function renderTarkeeb(state, item, key) {
       slotCls += ' filled';
       slotState = `f${chipIdx}`;
     }
+    // Labeled by the word it sits under (visible right above it), never by
+    // item.labels[i] -- that's the graded answer; see the diagram variant's
+    // matching comment above.
+    let stateText = chipText ? `filled with ${chipText}` : 'empty';
     if (submitted && feedback) {
-      slotCls += feedback[i].pass ? ' correct' : ' incorrect';
-      slotState += feedback[i].pass ? '-ok' : '-no';
+      const pass = feedback[i].pass;
+      slotCls += pass ? ' correct' : ' incorrect';
+      slotState += pass ? '-ok' : '-no';
+      stateText += pass ? ', correct' : `, incorrect, correct answer: ${item.labels[i]}`;
     }
+    const ariaLabel = `Label slot for ${word} — ${stateText}`;
+    const interactive = !submitted;
     return `
     <div class="tarkeeb-col" data-anim-key="tc:${escAttr(key)}:${i}">
       <div class="tarkeeb-word">${esc(word)}</div>
-      <div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? esc(chipText) : ''}</div>
+      <div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? esc(chipText) : ''}</div>
     </div>`;
   }).join('');
 
-  const usedChipIdx = new Set(ts.placements.filter((p) => p !== null && p !== undefined));
-  const tray = ts.chipOrder.map((chipIdx) => {
-    const used = usedChipIdx.has(chipIdx);
-    let cls = 'tarkeeb-chip';
-    if (used) cls += ' used';
-    if (ts.selectedChip === chipIdx) cls += ' selected';
-    const draggable = !used && !submitted;
-    return `<div class="${cls}" draggable="${draggable ? 'true' : 'false'}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}">${esc(ts.chipPool[chipIdx])}</div>`;
-  }).join('');
+  const tray = tarkeebTrayHtml(ts, key);
 
   const allPlaced = ts.placements.every((p) => p !== null && p !== undefined);
   const passed = submitted && feedback && feedback.every((f) => f.pass);
@@ -977,7 +1582,6 @@ function renderTarkeeb(state, item, key) {
   return `
   <div class="tarkeeb" data-tarkeeb-key="${escAttr(key)}">
     <p class="exercise-prompt">${escBidi(item.instruction)}</p>
-    ${item.source ? `<div class="tarkeeb-source" dir="rtl">${esc(item.source)}</div>` : ''}
     <div class="tarkeeb-row" dir="rtl">${wordCols}</div>
     <div class="tarkeeb-tray-label">Drag each label onto its word (tap a filled slot to clear it)</div>
     <div class="tarkeeb-tray" dir="rtl">${tray}</div>
@@ -1005,12 +1609,33 @@ function practiceCountOptions(poolLen) {
 // The popout that expands under the module page's "Practice Mode" button --
 // picking a tab and a count starts the session immediately (see
 // startPractice), so there's no separate "confirm" step.
+// The three vocab question directions (see the vocabType tag on generated
+// vocab bank items in content-fstu/module-0N.js) -- shared between the
+// Practice Mode popout and Schedule tab's Revision panel, the two places a
+// vocab session can be started, so picking a direction actually narrows the
+// pool instead of the three being mixed together.
+const VOCAB_TYPES = [
+  { id: 'en-ar', label: 'EN → AR' },
+  { id: 'ar-en', label: 'AR → EN' },
+  { id: 'form', label: 'Plural/مصدر' },
+];
+
+function vocabTypeTabsHtml(activeType, actionName) {
+  return `
+    <div class="practice-tabs practice-tabs-sub">
+      ${VOCAB_TYPES.map((t) => `<button class="practice-tab ${activeType === t.id ? 'active' : ''}" data-action="${actionName}" data-vocab-type="${t.id}">${esc(t.label)}</button>`).join('')}
+    </div>`;
+}
+
 function practiceSetupPanelHtml(state, mod) {
-  const kind = state.practiceSetupKind || 'mcq';
+  const hasTarkeeb = moduleHasTarkeeb(mod);
+  const kind = state.practiceSetupKind === 'tarkeeb' && !hasTarkeeb ? 'mcq' : (state.practiceSetupKind || 'mcq');
+  const vocabType = state.practiceVocabType || 'en-ar';
   const mcqPool = getMcqPool(mod.id, state.completed);
-  const tarkeebPool = getTarkeebPool(mod.id, state.completed);
-  const pool = kind === 'tarkeeb' ? tarkeebPool : mcqPool;
-  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : 'MCQ';
+  const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed) : [];
+  const vocabPool = getVocabPool(mod.id, state.completed, vocabType);
+  const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
+  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
 
   const body = pool.length === 0
     ? `<p class="empty-state">Complete a lesson to unlock ${kindLabel} practice questions.</p>`
@@ -1025,10 +1650,12 @@ function practiceSetupPanelHtml(state, mod) {
       <div class="practice-popout-head">
         <div class="practice-tabs">
           <button class="practice-tab ${kind === 'mcq' ? 'active' : ''}" data-action="setPracticeTab" data-kind="mcq">MCQ</button>
-          <button class="practice-tab ${kind === 'tarkeeb' ? 'active' : ''}" data-action="setPracticeTab" data-kind="tarkeeb">تركيب</button>
+          ${hasTarkeeb ? `<button class="practice-tab ${kind === 'tarkeeb' ? 'active' : ''}" data-action="setPracticeTab" data-kind="tarkeeb">تركيب</button>` : ''}
+          <button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setPracticeTab" data-kind="vocab">Vocab</button>
         </div>
         <button class="practice-popout-close" data-action="closePracticeSetup" aria-label="Close">✕</button>
       </div>
+      ${kind === 'vocab' ? vocabTypeTabsHtml(vocabType, 'setPracticeVocabType') : ''}
       ${body}
     </div>`;
 }
@@ -1037,69 +1664,119 @@ function nextPracticeButton(isLast) {
   return `<button class="btn btn-primary btn-push-right" data-action="nextPracticeQuestion">${isLast ? 'See results →' : 'Next question →'}</button>`;
 }
 
-// Shared by all three session sources -- 'module' (undefined/default) is
-// the original per-module Practice Mode; 'revision' and 'mastery' route
-// their "session over/missing" bail-outs back to the Schedule tab instead
-// of a module page, since neither has one.
+// Shared by every session source -- 'module' (undefined/default) is the
+// original per-module Practice Mode, with a module page to fall back to;
+// 'revision' has none, so it bails to the Schedule tab instead; 'path'
+// always bails to the path map; 'masteryV2' bails to wherever it was
+// launched from (the path map if pathActive, else the module page);
+// 'unlockTest' bails to the dashboard (a course/track test's own exit view
+// is the launch screen instead, but that's not a `body` this dispatcher
+// renders -- see exitPracticeSession in js/main.js).
 function sessionFallback(state, MODULES) {
   const src = state.practice && state.practice.source;
-  return src === 'revision' || src === 'mastery' ? scheduleHtml(state, MODULES) : modulePageHtml(state, MODULES);
+  if (src === 'path') return pathMapHtml(state);
+  if (src === 'masteryV2') return state.pathActive ? pathMapHtml(state) : modulePageHtml(state, MODULES);
+  if (src === 'revision') return scheduleHtml(state, MODULES);
+  if (src === 'unlockTest') return dashboardHtml(state, MODULES);
+  return modulePageHtml(state, MODULES);
 }
 
-function sessionKicker(p) {
-  const label = p.kind === 'tarkeeb' ? 'تركيب' : 'MCQ';
-  if (p.source === 'revision') return `REVISION · ${label}`;
-  if (p.source === 'mastery') return `MASTERY · ${label}`;
+// Checkpoint type names are Arabic throughout the path (row heading, setup
+// popout, and this in-session kicker all share the same dictionary) --
+// اِمْتِحَان distinguishes an ordinary mcq test from اِخْتِبَارُ الْقِسْمِ, the
+// bigger section-ending exam, even though both translate loosely to "test"
+// in English.
+const PATH_KIND_LABELS = {
+  mcqCheckpoint: 'اِمْتِحَان', vocabCheckpoint: 'الْمُفْرَدَات', tarkeebCheckpoint: 'تركيب', revision: 'مُرَاجَعَة',
+  sectionTest: 'اِخْتِبَارُ الْقِسْمِ', groupTest: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
+};
+
+function sessionKicker(p, mod) {
+  if (p.source === 'path') {
+    const label = PATH_KIND_LABELS[p.kind] || p.kind;
+    return `MY PATH · <bdi lang="ar" dir="rtl">${esc(label)}</bdi>${p.mastery ? ' · MASTERY' : ''}`;
+  }
+  if (p.source === 'masteryV2') return 'MASTERY';
+  if (p.source === 'unlockTest') return 'UNLOCK TEST';
+  if (p.source === 'revision') {
+    const label = p.kind === 'revisionVocab' ? 'Vocab' : mod ? mod.title : '';
+    return `REVISION${label ? ` · ${esc(label)}` : ''}`;
+  }
+  const label = p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
   return `PRACTICE · ${label}`;
 }
 
 function practiceHtml(state, MODULES) {
   const p = state.practice;
   if (!p) return modulePageHtml(state, MODULES);
-  // 'revision' spans every unlocked lesson at once -- no single owning
-  // module to look up. 'module' and 'mastery' both have one.
-  const mod = p.source === 'revision' ? null : MODULES.find((m) => m.id === p.moduleId);
-  if (p.source !== 'revision' && !mod) return sessionFallback(state, MODULES);
+  // 'path' spans more than one lesson (and even more than one course) at
+  // once, and so does a 'revisionVocab' session (the whole course's
+  // unlocked vocab, no single module) -- no single owning module to look up
+  // for either. Neither does an 'unlockTest' session -- a course/track test
+  // spans multiple modules (possibly across courses), and even a module-skip
+  // test draws from the modules BEFORE its target, not the target itself.
+  // 'module', 'masteryV2', and an ordinary (module-quiz) 'revision' session
+  // (pinned to one fully-completed module -- see buildModuleRevisionQueue in
+  // js/state.js) all have exactly one.
+  const mod = (p.source === 'path' || p.source === 'unlockTest' || p.kind === 'revisionVocab') ? null : MODULES.find((m) => m.id === p.moduleId);
+  if (p.source === 'module' && !mod) return sessionFallback(state, MODULES);
 
-  // Mastery is always MCQ -- تركيب doesn't count toward mastering a lesson
-  // (see scheduleMasteryHtml/isLessonFullyMastered), so there's no kind
-  // branch to check here the way 'revision' and 'module' both need.
-  const pool = p.source === 'revision'
-    ? (p.kind === 'tarkeeb' ? getAllTarkeebPool(state.completed) : getAllMcqPool(state.completed))
-    : p.source === 'mastery'
-      ? getBankPool(p.moduleId, state.completed).filter((e) => e.lessonId === p.lessonId && e.item.kind !== 'tarkeeb')
-      : (p.kind === 'tarkeeb' ? getTarkeebPool(mod.id, state.completed) : getMcqPool(mod.id, state.completed));
+  const poolForKind = (mcqPool, tarkeebPool, vocabPool) => (
+    p.kind === 'tarkeeb' ? tarkeebPool : p.kind === 'vocab' ? vocabPool : mcqPool
+  );
+  const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
+  let pool;
+  if (p.source === 'revision') {
+    pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed) : moduleRevisionPool(p.moduleId, state.completed);
+  } else if (p.source === 'masteryV2') {
+    pool = masteryV2Pool(p.moduleId, p.lessonId);
+  } else if (p.source === 'path') {
+    pool = pathNode ? pathFullPool(pathNode) : [];
+  } else if (p.source === 'unlockTest') {
+    pool = p.unlockKind === 'course' ? courseUnlockTestPool(p.targetId)
+      : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
+        : moduleSkipTestPool(p.targetId);
+  } else {
+    pool = poolForKind(getMcqPool(mod.id, state.completed), getTarkeebPool(mod.id, state.completed), getVocabPool(mod.id, state.completed));
+  }
   const key = p.queue[p.index];
   const entry = pool.find((e) => e.key === key);
   // The unlocked pool can only grow between sessions, never shrink mid-one --
   // but bail safely rather than render a missing item.
   if (!entry) return sessionFallback(state, MODULES);
 
-  const isLast = p.index + 1 >= p.queue.length;
+  // A graded session (Mastery, or a My Path checkpoint/test) can become
+  // mathematically un-passable before the queue actually runs out -- once
+  // that's true, the CURRENT question is effectively the last one that
+  // matters, so its button reads "See Results" just like the real last
+  // question would, even though more questions remain in the queue.
+  // Reaching that button is what actually ends the session (see
+  // nextPracticeQuestion in js/main.js) -- this only decides the label,
+  // never ends anything by itself, so the learner always sees this
+  // question's own feedback before finding out they've failed.
+  const passRatio = p.source === 'masteryV2' ? 1 : p.source === 'unlockTest' ? UNLOCK_TEST_PASS_RATIO : pathNode ? pathCheckpointPassRatio(pathNode, p.mastery) : null;
+  const doomed = p.submitted && passRatio !== null && !stillPassable(p, passRatio);
+  const isLast = p.index + 1 >= p.queue.length || doomed;
   const progressPct = Math.round((p.index / p.queue.length) * 100);
-  // Mastery Mode never "ends" at a fixed question count -- it loops
-  // indefinitely over the lesson's not-yet-mastered cards (see
-  // nextPracticeQuestion's refill branch in main.js), so nothing here
-  // shows a question counter, a progress bar tied to a total, or a "See
-  // Results" label that would falsely imply an endpoint. Just the card,
-  // answered, then the next one.
-  const isMastery = p.source === 'mastery';
 
-  // تركيب has no equivalent in the end-of-lesson quiz to mirror -- it keeps
-  // its own bordered-card presentation, unchanged.
-  if (p.kind === 'tarkeeb') {
-    let body = renderTarkeeb(state, entry.item, entry.key);
+  // Which widget to render is decided per-QUESTION (entry.item.kind), not
+  // per-session (p.kind) -- a My Path revision node mixes mcq/vocab items
+  // with تركيب ones in the same queue, so p.kind (e.g. 'revision') doesn't
+  // reliably say what the CURRENT question is. This also covers every
+  // other session unchanged, since those are single-kind by construction
+  // (p.kind and entry.item.kind always agree there).
+  if (entry.item.kind === 'tarkeeb') {
+    let body = renderTarkeeb(state, entry.item, entry.key, entry.moduleId);
     const ts = state.tarkeebState[entry.key];
     if (ts && ts.submitted) {
-      body += `<div class="action-row">${nextPracticeButton(isMastery ? false : isLast)}</div>`;
+      body += `<div class="action-row">${nextPracticeButton(isLast)}</div>`;
     }
     return `
       <div class="col">
         ${backLink('End session', 'endPracticeSession')}
-        <div class="kicker">${sessionKicker(p)}</div>
-        ${isMastery ? '' : `
+        <div class="kicker">${sessionKicker(p, mod)}</div>
         <p class="lede">Question ${p.index + 1} of ${p.queue.length} ${p.combo > 1 ? `<span class="tag tag-accent">Combo ×${p.combo}</span>` : ''}</p>
-        ${progressBar(progressPct)}`}
+        ${progressBar(progressPct)}
         <div class="card exercise-card" data-anim-key="practice:${p.startedAt}:${p.index}">
           <div class="card-kicker">${escBidi(entry.title)}</div>
           ${body}
@@ -1108,32 +1785,34 @@ function practiceHtml(state, MODULES) {
       </div>`;
   }
 
-  // MCQ practice mirrors the end-of-lesson quiz's presentation exactly:
-  // the same unboxed .quiz-question-single layout, live gamify strip,
-  // centered "Question X of Y", <h2> prompt, feedback line, and full-width
-  // primary button -- using the combo/XP practice already tracks per
-  // session in place of the quiz's own live streak/XP. Reveal-on-click,
-  // same as the quiz: picking an option grades and shows it immediately
-  // (see selectPracticeOption in main.js).
+  // MCQ (and vocab, which is also multiple-choice) practice mirrors the
+  // end-of-lesson quiz's presentation exactly: the same unboxed
+  // .quiz-question-single layout, live gamify strip, centered
+  // "Question X of Y", <h2> prompt, feedback line, and full-width primary
+  // button -- using the combo/XP practice already tracks per session in
+  // place of the quiz's own live streak/XP. Reveal-on-click, same as the
+  // quiz: picking an option grades and shows it immediately (see
+  // selectPracticeOption in main.js).
   const scope = `prac${p.startedAt}i${p.index}`;
   const feedback = p.submitted
-    ? `<div class="quiz-feedback-line ${p.correct ? 'correct' : 'incorrect'}">${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</div>`
+    ? `<div class="quiz-feedback-line ${p.correct ? 'correct' : 'incorrect'}">${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</div>
+       ${entry.item.explanation ? `<div class="quiz-feedback-explanation">${escBidi(entry.item.explanation)}</div>` : ''}`
     : '';
 
   return `
     <div class="col">
       ${backLink('End session', 'endPracticeSession')}
-      <div class="kicker" style="justify-content:center;display:flex;">${sessionKicker(p)}</div>
+      <div class="kicker" style="justify-content:center;display:flex;">${sessionKicker(p, mod)}</div>
       <div class="quiz-question-single" data-anim-key="${scope}">
         <div class="quiz-gamify-strip">
           <span class="quiz-gamify-stat">${icon('flame', 15, 1.7)} ${p.combo || 0} streak</span>
           <span class="quiz-gamify-stat">${icon('star', 14, 1.8)} ${p.xpGained || 0} XP</span>
         </div>
-        ${isMastery ? '' : `<div class="card-kicker" style="text-align:center;">Question ${p.index + 1} of ${p.queue.length}</div>`}
+        <div class="card-kicker" style="text-align:center;">Question ${p.index + 1} of ${p.queue.length}</div>
         <h2>${escBidi(entry.item.prompt)}</h2>
         ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', animScope: scope, order: state.optionOrder[key] })}
         ${feedback}
-        <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" style="margin-top:16px;" ${p.submitted ? '' : 'disabled'}>${isMastery ? 'Next' : (isLast ? 'See Results' : 'Next Question')}</button>
+        <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" style="margin-top:16px;" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See Results' : 'Next Question'}</button>
         ${cornerBracketsHtml()}
       </div>
     </div>`;
@@ -1159,29 +1838,66 @@ function practiceReviewHtml(state, MODULES) {
   // formula would only be right if the combo never varied.
   const xpGained = p.xpGained || 0;
 
+  // EVERY My Path checkpoint (not just the section test) is now a real
+  // pass/fail gate -- 70% for a normal attempt, 95% for the section test,
+  // 100% for any node's own Mastery attempt (see pathCheckpointPassRatio in
+  // js/state.js). Below that threshold nothing was marked done (and, for a
+  // Mastery attempt, nothing was marked mastered either -- see
+  // finalizePathSession in js/main.js), so the only sensible next step is
+  // trying again, not "continue" (there's nothing new to continue to). A
+  // session can also have ended EARLY, the instant passing became
+  // mathematically impossible (see maybeEndSessionEarly) -- this screen
+  // doesn't need to know which case it is; the log is just shorter.
+  const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
+  const pathPassRatio = pathNode ? pathCheckpointPassRatio(pathNode, p.mastery) : null;
+  const pathPassed = pathNode && total > 0 && correctCount / total >= pathPassRatio;
+  const isUnlockTest = p.source === 'unlockTest';
+  const unlockPassed = isUnlockTest && total > 0 && correctCount / total >= UNLOCK_TEST_PASS_RATIO;
+
   // 'module' Practice Mode offers "Practice again" (reopens the per-module
-  // popout) and returns to that module's page. Revision/Mastery have
-  // neither a popout nor a module page to go back to -- they offer to
-  // re-run the exact same session (a fresh due-deck for Revision, the
-  // lesson's remaining unmastered cards for Mastery) and otherwise return
-  // to the Schedule tab.
+  // popout) and returns to that module's page. 'revision' has no popout or
+  // module page to go back to -- it offers to re-run a fresh quiz (the
+  // module one or the vocab one, matching whichever this session was --
+  // see p.kind) and otherwise returns to the Schedule tab. 'path' always
+  // returns straight to the path map (its own next node picks up the
+  // "what's next" job the other two sources need a button for) -- except a
+  // FAILED checkpoint, which offers a retry instead since nothing new
+  // unlocked to continue to. 'unlockTest' offers a retry on a fail, same as
+  // a failed path checkpoint; on a pass it just closes (closePracticeReview/
+  // exitPracticeSession in js/main.js already knows to land back on the
+  // launch screen or dashboard, wherever the target's own card lives).
+  // 'masteryV2' never reaches this screen -- it routes straight to
+  // masteryV2Complete instead (see nextPracticeQuestion in js/main.js).
   const footer = p.source === 'revision' ? `
       <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="startRevision">Revise again</button>
+        <button class="btn btn-primary" data-action="${p.kind === 'revisionVocab' ? 'startRevisionVocab' : 'startRevision'}">Revise again</button>
         <button class="btn btn-ghost" data-action="closePracticeReview">Back to Schedule</button>
-      </div>` : p.source === 'mastery' ? `
+      </div>` : pathNode && !pathPassed ? `
       <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="startMastery">Keep practicing</button>
-        <button class="btn btn-ghost" data-action="closePracticeReview">Back to Schedule</button>
+        <button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
+        <button class="btn btn-ghost" data-action="closePracticeReview">Back to Path</button>
+      </div>` : p.source === 'path' ? `
+      <div class="complete-buttons">
+        <button class="btn btn-primary" data-action="closePracticeReview">${p.mastery ? 'Back to Path' : 'Continue on My Path →'}</button>
+      </div>` : isUnlockTest ? `
+      <div class="complete-buttons">
+        ${unlockPassed ? '' : `<button class="btn btn-primary" data-action="retryUnlockTest">Retry Test</button>`}
+        <button class="btn btn-ghost" data-action="closePracticeReview">${unlockPassed ? 'Continue' : 'Back'}</button>
       </div>` : `
       <div class="complete-buttons">
         <button class="btn btn-primary" data-action="openPractice">Practice again</button>
         <button class="btn btn-ghost" data-action="closePracticeReview">Back to chapters</button>
       </div>`;
 
+  const kicker = pathNode
+    ? `${p.mastery ? 'MASTERY · ' : ''}${pathPassed ? 'PASSED' : `NEED ${Math.round(pathPassRatio * 100)}%`}`
+    : isUnlockTest
+      ? (unlockPassed ? 'UNLOCKED' : `NEED ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
+      : 'SESSION COMPLETE';
+
   return `
     <div class="col">
-      <div class="kicker" style="justify-content:center;display:flex;">SESSION COMPLETE</div>
+      <div class="kicker" style="justify-content:center;display:flex;">${kicker}</div>
       <h1 style="text-align:center;">${correctCount} / ${total} correct</h1>
       <div style="text-align:center;"><div class="tag tag-accent" style="font-size:13px;">+${xpGained} XP</div></div>
       <div class="stat-row">
@@ -1193,16 +1909,16 @@ function practiceReviewHtml(state, MODULES) {
     </div>`;
 }
 
-// --- Schedule tab: Deadline / Revision / Mastery --------------------------
-// Three independent planning tools sharing one landing page. Deadline picks
-// a target date and works out a daily lesson quota, recomputed live on every
+// --- Schedule tab: Deadline / Revision --------------------------------
+// Two independent planning tools sharing one landing page. Deadline picks a
+// target date and works out a daily lesson quota, recomputed live on every
 // render from remaining/days-left rather than a stored plan (see state.js's
 // scheduleDeadline comment). Revision builds a due-today deck from the
-// whole unlocked course, spaced by a learner-set frequency. Mastery drills
-// one lesson at a time until every card in it has been answered correctly
-// MASTERY_TARGET_STREAK times in a row. All three sessions reuse the exact
-// same practice/practiceReview screens (see practiceHtml's `source` handling)
-// -- this file only builds the setup panels that launch them.
+// whole unlocked course, spaced by a learner-set frequency. Both reuse the
+// exact same practice/practiceReview screens (see practiceHtml's `source`
+// handling) -- this file only builds the setup panels that launch them.
+// Mastery no longer lives here -- see lessonPreviewHtml for the app-wide
+// per-lesson replacement.
 
 // Every element below that wants a staggered slide-in carries a
 // data-anim-key scoped by the current scheduleTabAttempt (see state.js),
@@ -1227,24 +1943,22 @@ function scheduleHtml(state, MODULES, revealedKeys) {
   const tabs = [
     { id: 'deadline', label: 'Deadline' },
     { id: 'revision', label: 'Revision' },
-    { id: 'mastery', label: 'Mastery' },
   ];
   const tabsHtml = tabs.map((t) => `<button class="practice-tab ${tab === t.id ? 'active' : ''}" data-action="setScheduleTab" data-tab="${t.id}">${t.label}</button>`).join('');
 
-  let panel;
-  if (tab === 'revision') panel = scheduleRevisionHtml(state, attempt);
-  else if (tab === 'mastery') panel = scheduleMasteryHtml(state, MODULES, attempt);
-  else panel = scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt);
+  const panel = tab === 'revision'
+    ? scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)
+    : scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt);
 
   const hero = heroPanelHtml({
     watermark: 'الجدول',
     badge: 'الجدول الزمني',
     title: 'Study Planner',
-    body: 'Plan a deadline, keep everything fresh with spaced revision, or drill one lesson to true mastery.',
+    body: 'Plan a deadline, or quiz yourself on a completed module or your vocab to keep it fresh.',
     ledger: heroLedgerHtml([
       ['Lessons cleared', `${totalLessonsCleared(state.completed)} / ${totalLessons()}`],
       ['Streak', `${state.streak || 1}d`],
-      ['Deadline', state.scheduleDeadline || 'Not set'],
+      ['Deadline', esc(state.scheduleDeadline[state.courseId] || 'Not set')],
     ]),
   });
 
@@ -1272,7 +1986,7 @@ function upcomingLessons(state, MODULES, limit = 5) {
   for (const m of MODULES) {
     for (const l of m.lessons) {
       if (isLessonComplete(m.id, l.id, state.completed)) continue;
-      out.push({ mod: m, lesson: l, unlocked: isLessonUnlocked(m.id, l.id, state.completed) });
+      out.push({ mod: m, lesson: l, unlocked: isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules) });
       if (out.length >= limit) return out;
     }
   }
@@ -1322,29 +2036,33 @@ function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
 
   // How many lessons were finished today specifically -- state.completed's
   // per-lesson value is already the ISO completion date (see main.js's
-  // markLessonComplete), so this is a plain scan, no extra tracking needed.
+  // markLessonComplete). Scoped to this course's own modules only (state.
+  // completed is a flat dict shared by every course, keyed by moduleId --
+  // see COURSES' comment in content/index.js), so a lesson finished today in
+  // a different course doesn't count toward this course's target.
+  const deadline = state.scheduleDeadline[state.courseId];
   let completedToday = 0;
-  Object.values(state.completed).forEach((lessons) => {
-    Object.values(lessons || {}).forEach((v) => { if (v === todayISO()) completedToday += 1; });
+  MODULES.forEach((m) => {
+    Object.values(state.completed[m.id] || {}).forEach((v) => { if (v === todayISO()) completedToday += 1; });
   });
 
   const dateInput = `
     <div class="schedule-field" ${animAttr(`sched${attempt}_date`, 0)}>
       <label for="schedule-deadline-input">Target completion date</label>
-      <input id="schedule-deadline-input" type="date" class="schedule-input" value="${escAttr(state.scheduleDeadline || '')}" min="${todayISO()}" data-action="setScheduleDeadline" />
+      <input id="schedule-deadline-input" type="date" class="schedule-input" value="${escAttr(deadline || '')}" min="${todayISO()}" data-action="setScheduleDeadline" />
     </div>`;
   const upcoming = scheduleUpcomingHtml(state, MODULES, revealedKeys, attempt);
 
   if (remaining === 0) {
     return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${dateInput}<p class="lede" style="margin-top:16px;">You've completed every lesson in the course — nothing left to schedule.</p></div>`;
   }
-  if (!state.scheduleDeadline) {
+  if (!deadline) {
     return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${dateInput}${upcoming}<p class="empty-state">Pick a date to see how many lessons a day that works out to.</p></div>`;
   }
 
   const today = new Date(`${todayISO()}T00:00:00`);
-  const deadline = new Date(`${state.scheduleDeadline}T00:00:00`);
-  const diffDays = Math.round((deadline - today) / 86400000);
+  const deadlineDate = new Date(`${deadline}T00:00:00`);
+  const diffDays = Math.round((deadlineDate - today) / 86400000);
   const overdue = diffDays < 0;
   const dailyTarget = Math.ceil(remaining / Math.max(1, diffDays));
   const todayDone = Math.min(completedToday, dailyTarget);
@@ -1369,123 +2087,522 @@ function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
     </div>`;
 }
 
-function scheduleRevisionHtml(state, attempt) {
-  const kind = state.scheduleRevisionKind || 'mcq';
-  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : 'MCQ';
-  const pool = kind === 'tarkeeb' ? getAllTarkeebPool(state.completed) : getAllMcqPool(state.completed);
-  const freq = state.revisionFrequencyDays;
-  const dueCount = freq ? buildRevisionQueue(pool, state.practiceHistory, freq).length : 0;
+// Redesigned: no longer a spaced-repetition due-today deck spanning the
+// whole course -- instead a single fixed 30-question quiz (20 mcq + 10
+// تركيب, see buildModuleRevisionQueue in js/state.js) over ONE module, so a
+// learner can go back and drill a specific chapter they want to keep sharp.
+// Only modules the learner has FULLY completed are offered (isModuleComplete
+// below) -- a partially-done module has nothing behind it that's fair game
+// yet, same "only completed lessons contribute" rule Practice Mode and old
+// Revision Mode both already followed.
+function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
+  const hasVocab = courseHasVocab();
+  const kind = state.scheduleRevisionKind === 'vocab' && hasVocab ? 'vocab' : 'module';
 
-  const kindTabs = `
-    <div class="practice-tabs" ${animAttr(`sched${attempt}_kind`, 0)}>
-      <button class="practice-tab ${kind === 'mcq' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="mcq">MCQ</button>
-      <button class="practice-tab ${kind === 'tarkeeb' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="tarkeeb">تركيب</button>
-    </div>`;
-
-  if (!pool.length) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${kindTabs}<p class="empty-state">Complete a lesson to unlock ${kindLabel} revision questions.</p></div>`;
-  }
-
-  const freqField = `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_freq`, 1)}>
-      <label for="schedule-frequency-input">See every question again within</label>
-      <div class="schedule-field-inline">
-        <input id="schedule-frequency-input" type="number" min="1" max="365" class="schedule-input schedule-input-narrow" value="${freq ? escAttr(String(freq)) : ''}" placeholder="3" data-action="setRevisionFrequency" />
-        <span>day${freq === 1 ? '' : 's'}</span>
-      </div>
-    </div>`;
-
-  return `
-    <div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>
-      ${kindTabs}
-      ${freqField}
-      ${freq ? `
-        <div ${animAttr(`sched${attempt}_duecount_${kind}`, 2)}>
-          <p class="lede" style="margin-top:16px;">${dueCount} of ${pool.length} question${pool.length === 1 ? '' : 's'} due today.</p>
-          ${dueCount
-            ? `<button class="btn btn-primary btn-block" data-action="startRevision">Start Revision (${dueCount})</button>`
-            : `<p class="empty-state">Nothing's due yet — everything's been seen within the last ${freq} day${freq === 1 ? '' : 's'}. Check back later.</p>`}
-        </div>
-      ` : `<p class="empty-state">Set how often you want to see every question again to build today's deck.</p>`}
-    </div>`;
-}
-
-function scheduleMasteryHtml(state, MODULES, attempt) {
-  const moduleId = state.scheduleMasteryModuleId;
-  const lessonId = state.scheduleMasteryLessonId;
-
-  const availableModules = MODULES.filter((m) => completedCount(m.id, state.completed) > 0);
-  const mod = moduleId ? MODULES.find((m) => m.id === moduleId) : null;
-  const availableLessons = mod ? mod.lessons.filter((l) => isLessonComplete(mod.id, l.id, state.completed)) : [];
-
-  if (!availableModules.length) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}><p class="empty-state">Complete a lesson to unlock Mastery Mode.</p></div>`;
-  }
-
-  const moduleSelect = `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_module`, 0)}>
-      <label for="schedule-mastery-module">Module</label>
-      <select id="schedule-mastery-module" class="schedule-input" data-action="setScheduleMasteryModule">
-        <option value="">Choose a module…</option>
-        ${availableModules.map((m) => `<option value="${escAttr(m.id)}" ${m.id === moduleId ? 'selected' : ''}>${esc(m.title)}</option>`).join('')}
-      </select>
-    </div>`;
-
-  // Keyed by moduleId (on top of the tab-switch attempt) so picking a
-  // *different* module also slides the lesson dropdown in fresh, not just
-  // the first time the Mastery tab is opened.
-  const lessonSelect = mod ? `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_lesson_${moduleId}`, 1)}>
-      <label for="schedule-mastery-lesson">Lesson</label>
-      <select id="schedule-mastery-lesson" class="schedule-input" data-action="setScheduleMasteryLesson">
-        <option value="">Choose a lesson…</option>
-        ${availableLessons.map((l) => `<option value="${escAttr(l.id)}" ${l.id === lessonId ? 'selected' : ''}>${esc(l.title)}</option>`).join('')}
-      </select>
+  // Omitted entirely for a vocab-less course (annahw, sarf-advanced --
+  // see courseHasVocab's own comment) rather than ever showing a
+  // permanently-empty Vocab tab, same idea as the removed تركيب kind-tab's
+  // old hasTarkeeb conditional.
+  const kindTabs = hasVocab ? `
+    <div class="practice-tabs" ${animAttr(`sched${attempt}_revkind`, 0)}>
+      <button class="practice-tab ${kind === 'module' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="module">Module Quiz</button>
+      <button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="vocab">Vocab</button>
     </div>` : '';
+  const baseOrder = hasVocab ? 1 : 0;
 
-  // MCQ only -- تركيب doesn't count toward mastering a lesson (see
-  // isLessonFullyMastered's matching filter in modulePageHtml), so Mastery
-  // Mode never offers it as a kind choice the way Practice/Revision do.
-  let summary = '';
-  if (mod && lessonId) {
-    const pool = getBankPool(mod.id, state.completed)
-      .filter((e) => e.lessonId === lessonId && e.item.kind !== 'tarkeeb');
-    const masteredCount = pool.filter((e) => state.masteryProgress[e.key] && state.masteryProgress[e.key].mastered).length;
-    const remaining = pool.length - masteredCount;
-    const summaryBody = pool.length ? `
-      <div class="stat-row" style="margin-top:16px;">
-        <div class="card stat-card"><div class="stat-kicker">Mastered</div><div class="stat-value">${masteredCount}/${pool.length}</div></div>
-      </div>
-      ${remaining
-        ? `<button class="btn btn-primary btn-block" style="margin-top:12px;" data-action="startMastery">Start Mastery Practice</button>`
-        : `<p class="lede" style="margin-top:16px;">Every card in this lesson is already mastered.</p>`}
-    ` : `<p class="empty-state">No MCQ cards in this lesson.</p>`;
-    // Keyed by lessonId too, for the same reason the lesson <select> above
-    // is keyed by moduleId -- picking a different lesson re-slides this in.
-    summary = `<div ${animAttr(`sched${attempt}_summary_${moduleId}_${lessonId}`, 2)}>${summaryBody}</div>`;
-  }
+  const body = kind === 'vocab'
+    ? scheduleRevisionVocabHtml(state, attempt, baseOrder)
+    : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder);
 
-  return `
-    <div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>
-      ${moduleSelect}
-      ${lessonSelect}
-      ${summary}
-      <p class="lede" style="font-size:12.5px;margin-top:16px;">MCQ only — تركيب doesn't count toward mastering a lesson. A card is mastered once you've answered it correctly ${MASTERY_TARGET_STREAK} times in a row — one mistake resets that card's own streak, not your progress on the rest.</p>
-    </div>`;
+  return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${kindTabs}${body}</div>`;
 }
 
-function masteryCompleteHtml(state, MODULES) {
+// The per-module mcq+تركيب quiz -- unchanged from its original standalone
+// version, just re-homed as one of Revision's two kinds and taking
+// `baseOrder` so its own entrance stagger picks up wherever the kind
+// toggle above it (if any) left off. Each row is its own reveal-on-scroll
+// target (see revealCls) rather than riding the panel's one-shot entrance
+// stagger like the tabs around it -- js/main.js's cascadeGrid gives
+// .revision-module-list the exact same "row 1 reveals on arrival, the rest
+// as they're scrolled to" treatment as the dashboard's chapter cards and My
+// Path's group cards.
+function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder) {
+  const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
+
+  if (!eligible.length) {
+    return `<p class="empty-state">Complete every lesson in a module to unlock a Revision quiz for it.</p>`;
+  }
+
+  const mode = state.scheduleRevisionMode === 'random' ? 'random' : 'pick';
+  const pickedId = mode === 'pick' && eligible.some((m) => m.id === state.scheduleRevisionModuleId)
+    ? state.scheduleRevisionModuleId : null;
+
+  const modeTabs = `
+    <div class="practice-tabs" ${animAttr(`sched${attempt}_mode`, baseOrder)}>
+      <button class="practice-tab ${mode === 'pick' ? 'active' : ''}" data-action="setScheduleRevisionMode" data-mode="pick">Pick a module</button>
+      <button class="practice-tab ${mode === 'random' ? 'active' : ''}" data-action="setScheduleRevisionMode" data-mode="random">Random</button>
+    </div>`;
+
+  const moduleRowHtml = (m) => {
+    const counts = moduleRevisionCounts(m.id, state.completed);
+    const compo = counts.tarkeeb ? `${counts.mcq} MCQ + ${counts.tarkeeb} تركيب` : `${counts.mcq} MCQ`;
+    const rowKey = `sched${attempt}_revrow_${m.id}`;
+    const rowCls = `revision-module-row${pickedId === m.id ? ' selected' : ''}`;
+    return `
+      <button class="${revealCls(rowKey, rowCls, revealedKeys)}" data-reveal-key="${rowKey}" data-action="setScheduleRevisionModule" data-module-id="${escAttr(m.id)}">
+        <span class="revision-module-title">${esc(m.title)}</span>
+        <span class="revision-module-meta">${compo}</span>
+      </button>`;
+  };
+
+  const body = mode === 'pick'
+    ? `<div class="revision-module-list" ${animAttr(`sched${attempt}_modulelist`, baseOrder + 1)}>${eligible.map(moduleRowHtml).join('')}</div>`
+    : `<p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_random`, baseOrder + 1)}>One of your ${eligible.length} completed module${eligible.length === 1 ? '' : 's'} will be picked at random when you start.</p>`;
+
+  const canStart = mode === 'random' || !!pickedId;
+
+  return `
+    ${modeTabs}
+    ${body}
+    <p class="lede" style="margin-top:16px;" ${animAttr(`sched${attempt}_desc`, baseOrder + 2)}>30 questions in random order — 20 MCQ (split between the lesson quiz and book exercises) and 10 تركيب, each capped by what that module actually has.</p>
+    <button class="btn btn-primary btn-block" style="margin-top:8px;" data-action="startRevision" ${canStart ? '' : 'disabled'}>Start Revision Quiz</button>`;
+}
+
+// Course-wide vocab quiz -- reuses the path's own vocab-checkpoint idea
+// (resurface seen-but-not-yet-learned words, weighted toward whichever are
+// closest to the line, plus a trickle of brand-new ones and a few
+// plural/مصدر "form" questions) against a HIGHER 10-correct bar and a 3:7
+// unseen:seen split rather than the path's 50:50 -- see
+// buildRevisionVocabQueue in js/state.js for the exact mix. Progress is
+// shared with the path: a word the path already calls "learned" at 5
+// correct still needs 5 more here before it stops appearing.
+function scheduleRevisionVocabHtml(state, attempt, baseOrder) {
+  const pool = getUnlockedVocabPool(state.completed);
+  if (!pool.length) {
+    return `<p class="empty-state">Complete a lesson to unlock Vocab revision questions.</p>`;
+  }
+  const eligibleCount = pool.filter((e) => {
+    const v = state.vocabExposure[e.key];
+    return !v || v.count < REVISION_VOCAB_LEARNED_COUNT;
+  }).length;
+
+  const direction = state.scheduleRevisionVocabDirection === 'ar-en' ? 'ar-en' : 'en-ar';
+  const directionPicker = `
+    <p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_vocabnote`, baseOrder)}>A few plural/مصدر questions are mixed in either way.</p>
+    <div class="practice-tabs" ${animAttr(`sched${attempt}_vocabdir`, baseOrder)}>
+      <button class="practice-tab ${direction === 'en-ar' ? 'active' : ''}" data-action="setScheduleRevisionVocabDirection" data-vocab-type="en-ar">EN → AR</button>
+      <button class="practice-tab ${direction === 'ar-en' ? 'active' : ''}" data-action="setScheduleRevisionVocabDirection" data-vocab-type="ar-en">AR → EN</button>
+    </div>`;
+
+  return `
+    ${directionPicker}
+    <p class="lede" style="margin-top:16px;" ${animAttr(`sched${attempt}_vocabdesc`, baseOrder + 1)}>20 questions — mostly words you've already seen (the closer to learned, the more likely to come up), a few brand-new ones, and a handful of plural/مصدر questions. Answer a word correctly 10 times total (path sessions count too) and it stops appearing here.</p>
+    ${eligibleCount
+      ? `<button class="btn btn-primary btn-block" style="margin-top:8px;" data-action="startRevisionVocab">Start Vocab Revision</button>`
+      : `<p class="empty-state">You've learned every unlocked vocab word — nothing left to revise.</p>`}`;
+}
+
+// --- Mastery result (app-wide replacement for the old Mastery Mode) -------
+// Reached only via nextPracticeQuestion's masteryV2 branch in js/main.js --
+// a single fixed-length pass over the lesson's whole تركيب+mcq+quiz pool,
+// graded 100%-or-nothing. Returns to wherever it was launched from: the
+// path map if pathActive, the module page otherwise.
+function masteryV2CompleteHtml(state, MODULES) {
   const p = state.practice;
   const mod = p && MODULES.find((m) => m.id === p.moduleId);
   const lesson = mod && mod.lessons.find((l) => l.id === p.lessonId);
+  const entry = p ? state.masteryV2[`${p.moduleId}_${p.lessonId}`] : null;
+  const passed = !!(entry && entry.passed);
+  const correctCount = p ? p.log.filter((l) => l.correct).length : 0;
+  const total = p ? p.log.length : 0;
+
+  const backAction = state.pathActive ? 'backToPath' : 'openModule';
+  const backExtra = state.pathActive || !mod ? '' : `data-module-id="${escAttr(mod.id)}"`;
+  const backLabel = state.pathActive ? 'Continue on My Path →' : 'Back to chapters';
+
   return `
     <div class="col complete-col">
-      <div class="kicker" style="justify-content:center;display:flex;">MASTERY ACHIEVED</div>
-      <h1 style="text-align:center;">${lesson ? esc(lesson.title) : 'Lesson'} mastered!</h1>
-      <p class="lede" style="text-align:center;margin:0 auto;">Every card in this lesson has been answered correctly ${MASTERY_TARGET_STREAK} times in a row.</p>
+      <div class="kicker" style="justify-content:center;display:flex;">${passed ? 'MASTERY ACHIEVED' : 'NOT QUITE'}</div>
+      <h1 style="text-align:center;">${lesson ? esc(lesson.title) : 'Lesson'}</h1>
+      <p class="lede" style="text-align:center;margin:0 auto;">${passed
+        ? 'A flawless run across every تركيب, book-exercise, and lesson-quiz question in this lesson.'
+        : `Mastery needs a perfect run — ${correctCount} of ${total} correct this time.`}</p>
       <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="backToSchedule">Back to Schedule</button>
+        ${!passed ? `<button class="btn btn-primary" data-action="retryMasteryV2">Retry Mastery</button>` : ''}
+        <button class="btn ${passed ? 'btn-primary' : 'btn-ghost'}" data-action="${backAction}" ${backExtra}>${backLabel}</button>
       </div>
+    </div>`;
+}
+
+// --- My Path ---------------------------------------------------------
+// A Duolingo-style vertical node list interleaving fstu (Introductory Nahw)
+// and sarf (Introductory Sarf) lessons with fixed-length checkpoints,
+// spaced revision, and section/group tests -- see content/path.js's
+// PATH_GROUPS for the actual node sequence (grouped into browsable chunks,
+// see pathGroupsHtml below) and js/state.js for how a node's live question
+// set gets resolved. Node lock/done state is derived live from
+// state.pathNodeStatus (isPathNodeUnlocked/firstUnfinishedPathNodeIndex),
+// never stored separately -- same idiom as isLessonUnlocked elsewhere.
+
+// Path-node reveal-on-scroll trigger: this list is a long single-column
+// scroll (unlike the dashboard/My Path card grids, which use the default
+// half-way line), so each node gets its own PATH_NODE_REVEAL_LINE override
+// via data-reveal-line -- an item slides in once it's 65% of the way down
+// the container instead of the usual 50%, so nodes reveal later/closer to
+// where you're actually reading rather than jumping in a beat before you
+// reach them.
+const PATH_NODE_REVEAL_LINE = 0.65;
+
+function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
+  const course = COURSES.find((c) => c.id === node.courseId);
+  const mod = course && course.modules.find((m) => m.id === node.moduleId);
+  const lesson = mod && mod.lessons.find((l) => l.id === node.lessonId);
+  if (!lesson) return '';
+  const courseLabel = (node.courseId === 'sarf' || node.courseId === 'sarf-advanced') ? 'صرف' : 'نحو';
+  const masteryEntry = state.masteryV2[`${node.moduleId}_${node.lessonId}`];
+  const mastered = done && masteryEntry && masteryEntry.passed;
+  const indicator = !unlocked ? icon('lock', 17, 2) : done ? icon('check', 19, 2.4) : icon('book', 16, 1.8);
+  const tag = !unlocked
+    ? `<span class="tag tag-neutral">Locked</span>`
+    : mastered
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      : done
+        ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Done</span>`
+        : `<span class="tag tag-accent">Start</span>`;
+  const nodeKey = `path_node_${node.id}`;
+  const rowCls = revealCls(nodeKey, ['path-node', 'path-node-lesson', unlocked ? '' : 'locked', mastered ? 'mastered' : ''].filter(Boolean).join(' '), revealedKeys);
+  const dataAttrs = unlocked
+    ? `data-action="enterPathLesson" data-course-id="${escAttr(node.courseId)}" data-module-id="${escAttr(node.moduleId)}" data-lesson-id="${escAttr(node.lessonId)}"`
+    : 'disabled';
+  return `
+    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+      <div class="path-node-indicator">${indicator}</div>
+      <div class="path-node-body">
+        <span class="path-node-course-badge" lang="ar" dir="rtl">${esc(courseLabel)}</span>
+        <h3>${esc(lesson.title)}</h3>
+        <div class="path-node-subtitle">${escBidi(lesson.subtitle || '')}</div>
+      </div>
+      ${tag}
+    </button>`;
+}
+
+// Checkpoint type names are Arabic (see PATH_KIND_LABELS' own comment) --
+// اِمْتِحَان (mcq), الْمُفْرَدَات (vocab), تركيب, مُرَاجَعَة (revision).
+const PATH_CHECKPOINT_META = {
+  mcqCheckpoint: { label: 'اِمْتِحَان', icon: 'target' },
+  vocabCheckpoint: { label: 'الْمُفْرَدَات', icon: 'book' },
+  tarkeebCheckpoint: { label: 'تركيب', icon: 'target' },
+  revision: { label: 'مُرَاجَعَة', icon: 'flame' },
+};
+
+function pathCheckpointRowHtml(node, index, unlocked, done, mastered, revealedKeys) {
+  const meta = PATH_CHECKPOINT_META[node.type];
+  const nodeKey = `path_node_${node.id}`;
+  const rowCls = revealCls(nodeKey, ['path-node', 'path-node-checkpoint', unlocked ? '' : 'locked', done ? 'done' : '', mastered ? 'mastered' : ''].filter(Boolean).join(' '), revealedKeys);
+  const indicator = !unlocked ? icon('lock', 17, 2) : mastered ? icon('award', 19, 2) : done ? icon('check', 19, 2.4) : icon(meta.icon, 16, 1.8);
+  const tag = !unlocked
+    ? `<span class="tag tag-neutral">Locked</span>`
+    : mastered
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      : done
+        ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Done</span>`
+        : `<span class="tag tag-accent">Start</span>`;
+  // Every checkpoint routes through pathCheckpointSetupHtml first -- a vocab
+  // direction picker for vocabCheckpoint, and once already passed once, a
+  // Redo-vs-Mastery choice (see openPathCheckpointSetup in js/main.js).
+  // تركيب checkpoints don't have a fixed length (see
+  // buildPathTarkeebCheckpointQueue), so their subtitle names the 5-10
+  // range instead of a single number.
+  const dataAttrs = unlocked ? `data-action="openPathCheckpointSetup" data-node-id="${escAttr(node.id)}"` : 'disabled';
+  const subtitle = node.type === 'tarkeebCheckpoint' ? '5-10 questions' : `${node.length} question${node.length === 1 ? '' : 's'}`;
+  return `
+    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+      <div class="path-node-indicator">${indicator}</div>
+      <div class="path-node-body">
+        <h3 lang="ar" dir="rtl">${esc(meta.label)}</h3>
+        <div class="path-node-subtitle">${subtitle}</div>
+      </div>
+      ${tag}
+    </button>`;
+}
+
+// Pre-checkpoint setup, shared by every checkpoint AND the section test --
+// vocabCheckpoint gets a translation-direction picker (مصدر/plural "form"
+// questions are mixed in regardless of the choice, see
+// buildPathVocabCheckpointQueue); any node already passed once offers a
+// choice between redoing it normally or attempting its double-length,
+// 100%-required Mastery variant instead (data-mastery="1" on the same
+// startPathCheckpoint action -- see js/main.js). Reached via
+// openPathCheckpointSetup (a path-map row click), rendered globally
+// alongside lessonPreviewHtml/badgeModalHtml so it overlays whatever's
+// behind it.
+function pathCheckpointSetupHtml(state) {
+  const nodeId = state.pathCheckpointSetupNodeId;
+  if (!nodeId) return '';
+  const node = findPathNode(nodeId);
+  if (!node) return '';
+  const label = (node.type === 'sectionTest' || node.type === 'groupTest') ? node.label : PATH_CHECKPOINT_META[node.type].label;
+  const done = isPathNodeDone(node, state.pathNodeStatus, state.completed);
+  const mastered = !!(state.pathCheckpointMastery[node.id] && state.pathCheckpointMastery[node.id].passed);
+  const isVocab = node.type === 'vocabCheckpoint';
+  const direction = state.pathVocabDirection || 'en-ar';
+
+  const directionPicker = isVocab ? `
+    <p class="modal-sub">A few plural/مصدر questions are mixed in either way.</p>
+    <div class="practice-tabs" style="justify-content:center;margin:4px 0 20px;">
+      <button class="practice-tab ${direction === 'en-ar' ? 'active' : ''}" data-action="setPathVocabDirection" data-vocab-type="en-ar">EN → AR</button>
+      <button class="practice-tab ${direction === 'ar-en' ? 'active' : ''}" data-action="setPathVocabDirection" data-vocab-type="ar-en">AR → EN</button>
+    </div>` : `<p class="modal-sub">${Math.round(pathCheckpointPassRatio(node, false) * 100)}% needed to pass.</p>`;
+
+  const actionButtons = !done
+    ? `<button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}">Start</button>`
+    : `
+      <button class="btn btn-secondary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}" data-mastery="1">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
+      <button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}">Redo</button>`;
+
+  return `
+    <div class="modal-backdrop" data-anim-key="pathcheckpointmodalbd" data-action="closePathCheckpointSetup">
+      <div class="modal" data-anim-key="pathcheckpointmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(label)}">
+        <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(label)}</div>
+        <h3>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h3>
+        ${directionPicker}
+        ${mastered ? `<div class="tag tag-accent" style="margin:4px 0 0;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
+        <div class="modal-buttons">
+          <button class="btn btn-ghost" data-action="closePathCheckpointSetup">Cancel</button>
+          ${actionButtons}
+        </div>
+      </div>
+    </div>`;
+}
+
+// A pure celebratory marker -- auto-completed the instant every node
+// before it is done (see checkPathMilestones in js/main.js), nothing to
+// click or score. Its heading names the ACHIEVEMENT (only true once
+// `done`); the subtitle is what actually carries live status, which is why
+// it's phrased as a state ("Earned"/"Reach here to earn it"/"Keep going")
+// rather than a restatement of the heading.
+function pathMilestoneRowHtml(node, index, unlocked, done, revealedKeys) {
+  const nodeKey = `path_node_${node.id}`;
+  const rowCls = revealCls(nodeKey, `path-node path-node-milestone${done ? ' done' : ''}`, revealedKeys);
+  return `
+    <div class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}">
+      <div class="path-node-indicator">${icon('award', 19, 2)}</div>
+      <div class="path-node-body">
+        <h3>${esc(node.label)}</h3>
+        <div class="path-node-subtitle">${done ? 'Earned' : unlocked ? 'Reach here to earn it' : 'Keep going'}</div>
+      </div>
+    </div>`;
+}
+
+// The section-ending gate -- unlike every other checkpoint, this is a real
+// scored test: reaching the end of the queue alone does NOT mark it done
+// (see nextPracticeQuestion's sectionTest branch in js/main.js) -- only a
+// passing score does, so the heading can't ever claim the section is
+// complete before it actually is. sectionTestCounts caps the displayed
+// composition to what's actually available in-window (grouping 1 has no
+// تركيب content yet, for instance), so the subtitle never promises a count
+// the test can't deliver.
+function pathSectionTestRowHtml(node, index, unlocked, done, mastered, revealedKeys) {
+  const counts = sectionTestCounts(node);
+  const nodeKey = `path_node_${node.id}`;
+  const rowCls = revealCls(nodeKey, ['path-node', 'path-node-sectiontest', unlocked ? '' : 'locked', done ? 'done' : '', mastered ? 'mastered' : ''].filter(Boolean).join(' '), revealedKeys);
+  const indicator = !unlocked ? icon('lock', 17, 2) : mastered ? icon('award', 19, 2) : done ? icon('check', 19, 2.4) : icon('award', 18, 2);
+  const tag = !unlocked
+    ? `<span class="tag tag-neutral">Locked</span>`
+    : mastered
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      : done
+        ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Passed</span>`
+        : `<span class="tag tag-accent">Start</span>`;
+  const dataAttrs = unlocked ? `data-action="openPathCheckpointSetup" data-node-id="${escAttr(node.id)}"` : 'disabled';
+  const parts = [
+    counts.mcq ? `${counts.mcq} MCQ` : null,
+    counts.tarkeeb ? `${counts.tarkeeb} تركيب` : null,
+    counts.vocab ? `${counts.vocab} Vocab` : null,
+  ].filter(Boolean).join(' · ');
+  return `
+    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+      <div class="path-node-indicator">${indicator}</div>
+      <div class="path-node-body">
+        <h3 lang="ar" dir="rtl">${esc(node.label)}</h3>
+        <div class="path-node-subtitle">${esc(parts)} · ${Math.round(node.passRatio * 100)}% to pass</div>
+      </div>
+      ${tag}
+    </button>`;
+}
+
+// Which track (PATH_TRACKS entry) a given group belongs to -- used to pull
+// that track's own kicker/title/subtitle for the group-map hero, so the map
+// screen reads as "Advanced Path" rather than always "My Path" once the
+// learner is inside the advanced track.
+function trackForGroup(group) {
+  return PATH_TRACKS.find((t) => t.groups.includes(group));
+}
+
+function pathMapHtml(state, revealedKeys = new Set()) {
+  const group = state.pathGroupId && findPathGroup(state.pathGroupId);
+  if (!group || !group.sections.length) return pathGroupsHtml(state, revealedKeys);
+  const track = trackForGroup(group);
+  const skeleton = groupSkeleton(group);
+  const pathNodeStatus = state.pathNodeStatus;
+  const rows = skeleton.map((node, i) => {
+    if (node.type === 'sectionHeader') {
+      // Section 1's header carries a hand-authored arabicTitle; sections
+      // 2+ are numbered only (see buildSectionNodes in content/path.js) --
+      // the second line only renders when one actually exists.
+      return `
+        <div class="path-section-heading" data-anim-key="pn${i}">
+          <span>${esc(node.title)}</span>
+          ${node.arabicTitle ? `<bdi lang="ar" dir="rtl">${esc(node.arabicTitle)}</bdi>` : ''}
+        </div>`;
+    }
+    const unlocked = isPathNodeUnlocked(skeleton, pathNodeStatus, state.completed, i);
+    const done = isPathNodeDone(node, pathNodeStatus, state.completed);
+    const mastered = !!(state.pathCheckpointMastery[node.id] && state.pathCheckpointMastery[node.id].passed);
+    if (node.type === 'lesson') return pathLessonRowHtml(state, node, i, unlocked, done, revealedKeys);
+    if (node.type === 'milestone') return pathMilestoneRowHtml(node, i, unlocked, done, revealedKeys);
+    if (node.type === 'sectionTest' || node.type === 'groupTest') return pathSectionTestRowHtml(node, i, unlocked, done, mastered, revealedKeys);
+    return pathCheckpointRowHtml(node, i, unlocked, done, mastered, revealedKeys);
+  }).join('');
+
+  const hero = heroPanelHtml({
+    watermark: 'المسار',
+    badge: track.kicker,
+    title: `${esc(track.title)} — <bdi lang="ar">${esc(group.title)}</bdi>`,
+    body: escBidi(track.subtitle),
+  });
+
+  return `
+    <div class="hero-page">
+      ${hero}
+      ${separatorHtml()}
+      <div class="col-wide path-node-list">${rows}</div>
+    </div>`;
+}
+
+// The group-selection hub (req: "group each section into its own groups so
+// the path isn't one long line") -- reached via the launch screen's My Path
+// banner, and via pathMapHtml's own "All groups" back link. Only each
+// track's Group 1 is populated so far; the rest render as locked "Coming
+// soon" cards so the whole 5-group shape of each track is visible even
+// before they're built. `groups` is the specific track's own PATH_GROUPS
+// array (not a global) -- isGroupUnlocked needs to look at the PREVIOUS
+// group within the SAME track, never a different track's.
+function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocked) {
+  const cardKey = `path_card_${group.id}`;
+  const comingSoon = !group.sections.length;
+  if (comingSoon) {
+    return `
+      <div class="${revealCls(cardKey, 'path-group-card locked', revealedKeys)}" data-reveal-key="${cardKey}">
+        <div class="path-group-card-top">
+          <span class="path-node-indicator">${icon('lock', 17, 2)}</span>
+          <span class="tag tag-neutral">Coming soon</span>
+        </div>
+        <h3 lang="ar" dir="rtl">${esc(group.title)}</h3>
+        <p class="path-group-card-body">Not built yet.</p>
+      </div>`;
+  }
+  // Whole track still locked (see isTrackUnlocked in content/paths.js) --
+  // every group card in it stays locked regardless of its own groupTest
+  // progress, and opens the unlock-test prompt rather than the map, same as
+  // a locked course card on the launch screen.
+  if (trackLocked) {
+    const sectionCount = group.sections.length;
+    const trackId = trackForGroup(group).id;
+    return `
+      <button class="${revealCls(cardKey, 'path-group-card locked unlockable', revealedKeys)}" data-reveal-key="${cardKey}" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(trackId)}">
+        <div class="path-group-card-top">
+          <span class="path-node-indicator">${icon('lock', 17, 2)}</span>
+          <span class="tag tag-neutral">Locked</span>
+        </div>
+        <h3 lang="ar" dir="rtl">${esc(group.title)}</h3>
+        <p class="path-group-card-body">${sectionCount} section${sectionCount === 1 ? '' : 's'}</p>
+      </button>`;
+  }
+  const skeleton = groupSkeleton(group);
+  const unlocked = isGroupUnlocked(groups, index, state.pathNodeStatus, state.completed);
+  // idx is a raw array index (it counts sectionHeader slots too, even
+  // though those are skipped when searching for the boundary) -- excluding
+  // them here so "0 done" on a fresh group reads as 0, not 1 (Section 1's
+  // own header) or however many section headers happen to precede it.
+  const interactive = (n) => n.type !== 'sectionHeader';
+  const total = skeleton.filter(interactive).length;
+  // A locked group's own lesson nodes can still derive as "done" from
+  // completed[] the moment a learner finishes those lessons on the
+  // course's own page (see firstUnfinishedPathNodeIndex's comment) -- but
+  // a card you can't even open yet showing "3 done" reads as real path
+  // progress it isn't. Force 0/complete=false while locked; the real
+  // count still applies the instant it unlocks.
+  const idx = unlocked ? firstUnfinishedPathNodeIndex(skeleton, state.pathNodeStatus, state.completed) : 0;
+  const doneCount = unlocked ? skeleton.slice(0, idx).filter(interactive).length : 0;
+  const complete = unlocked && idx >= skeleton.length;
+  const pct = total ? Math.round((doneCount / total) * 100) : 0;
+  const sectionCount = group.sections.length;
+
+  const tag = !unlocked
+    ? `<span class="tag tag-neutral">Locked</span>`
+    : complete
+      ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Complete</span>`
+      : doneCount > 0
+        ? `<span class="tag tag-accent">In progress</span>`
+        : `<span class="tag tag-accent">Start</span>`;
+  const dataAttrs = unlocked ? `data-action="openPathGroup" data-group-id="${escAttr(group.id)}"` : 'disabled';
+  const rowCls = ['path-group-card', unlocked ? '' : 'locked', complete ? 'mastered' : ''].join(' ').trim();
+
+  return `
+    <button class="${revealCls(cardKey, rowCls, revealedKeys)}" data-reveal-key="${cardKey}" ${dataAttrs}>
+      <div class="path-group-card-top">
+        <span class="path-node-indicator">${!unlocked ? icon('lock', 17, 2) : complete ? icon('check', 19, 2.4) : icon('award', 18, 2)}</span>
+        ${tag}
+      </div>
+      <h3 lang="ar" dir="rtl">${esc(group.title)}</h3>
+      <p class="path-group-card-body">${sectionCount} section${sectionCount === 1 ? '' : 's'}</p>
+      <span class="launch-card-track"><span class="launch-card-fill" style="width:${pct}%"></span></span>
+      <span class="launch-card-meta">${doneCount} / ${total}</span>
+    </button>`;
+}
+
+// One card grid per track (req: the advanced path lives in the same My Path
+// tab, under the introductory groups, separated by a divider -- not a
+// separate tab of its own), each with its own heading naming which track
+// it is, so scrolling past the introductory path's 5 groups reads as
+// "here's a second, separate route" rather than a continuation of the same
+// one.
+function pathTrackSectionHtml(state, track, revealedKeys) {
+  const trackLocked = !isTrackUnlocked(track, state.completed, state.unlockedTracks);
+  const cards = track.groups.map((group, i) => pathGroupCardHtml(state, track.groups, group, i, revealedKeys, trackLocked)).join('');
+  const lockedBanner = trackLocked
+    ? `<button class="path-track-locked-banner" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(track.id)}">
+        ${icon('lock', 15, 2)}
+        <span>${esc(track.lockedMessage || 'Locked.')} Take a test to unlock early &rarr;</span>
+      </button>`
+    : '';
+  return `
+    <div class="path-track-section">
+      <h2 class="settings-group-title">${esc(track.title)}</h2>
+      <p class="settings-group-sub">${escBidi(track.subtitle)}</p>
+      ${lockedBanner}
+      <div class="col-wide path-group-grid">${cards}</div>
+    </div>`;
+}
+
+function pathGroupsHtml(state, revealedKeys = new Set()) {
+  const sections = PATH_TRACKS.map((track) => pathTrackSectionHtml(state, track, revealedKeys)).join(separatorHtml());
+  const hero = heroPanelHtml({
+    watermark: 'المسار',
+    badge: 'المسارات',
+    title: 'My Path',
+    body: 'Guided routes through the courses, paired together and broken into groups so it never feels like one long line. Pick a group to continue.',
+  });
+  // path-groups-page: js/main.js's setupScrollObserver keys off this (like
+  // .dashboard-page/.chapter-grid) to find each track's own .path-group-grid
+  // and run the same scroll-reveal + left-to-right cascade the dashboard's
+  // chapter cards use -- see setupCascadeReveal there.
+  return `
+    <div class="hero-page path-groups-page">
+      ${hero}
+      ${separatorHtml()}
+      ${sections}
     </div>`;
 }
 
@@ -1508,8 +2625,101 @@ const SPECIMEN_WORDS = [
   { text: 'الصَّابِرِينَ', label: 'مضاف إليه مجرور' },
 ];
 
+// --- Achievements ----------------------------------------------------------
+// Every badge the app can award, earned or not, grouped into the same
+// categories the tier ladders live in (see gamification.js's
+// ACHIEVEMENT_CATEGORIES) plus a My Path section pulled from BADGE_DEFS'
+// own 'path-'/'path-adv-' id prefixes. Reached from the header's XP/level/
+// streak cluster (see headerHtml) and from Home's badge-row teaser.
+
+function achievementCardHtml(state, id, current, threshold, unit) {
+  const def = BADGE_DEFS[id];
+  const earned = state.badges.includes(id);
+  const progress = (!earned && threshold != null)
+    ? `<span class="ach-card-progress">${Math.min(current, threshold)} / ${threshold}${unit ? ` ${unit}` : ''}</span>`
+    : '';
+  return `
+    <div class="ach-card ${earned ? 'earned' : 'locked'}">
+      <span class="ach-card-icon">${icon(earned ? 'award' : 'lock', 18, 1.7)}</span>
+      <span class="ach-card-body">
+        <span class="ach-card-name">${esc(def.name)}</span>
+        <span class="ach-card-desc">${escBidi(def.desc)}</span>
+        ${progress}
+      </span>
+    </div>`;
+}
+
+function achievementsHtml(state) {
+  const li = levelInfo(state.xp);
+  const totalBadges = Object.keys(BADGE_DEFS).length;
+  const modulesDone = completedModulesAllCourses(state.completed);
+  const lessonsDone = completedLessonsAllCourses(state.completed);
+  const perfectCount = perfectQuizCount(state.quizScores);
+  const streak = state.streak || 1;
+  const card = (id, current, threshold, unit) => achievementCardHtml(state, id, current, threshold, unit);
+
+  const sections = [
+    { title: 'Getting Started', cards: [card('first-steps', 0, null, null)] },
+    { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null)) },
+    { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days')) },
+    { title: 'Perfect Quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes')) },
+    { title: 'Practice Volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills')) },
+    {
+      title: 'Modules Completed',
+      cards: [
+        ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules')),
+        card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules'),
+      ],
+    },
+    {
+      title: 'Lessons Cleared',
+      cards: [
+        ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons')),
+        card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons'),
+      ],
+    },
+    {
+      title: 'Courses',
+      cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null)],
+    },
+  ];
+
+  const pathIds = Object.keys(BADGE_DEFS).filter((id) => id.startsWith('path-'));
+  const advPathIds = pathIds.filter((id) => id.startsWith('path-adv-'));
+  const introPathIds = pathIds.filter((id) => !id.startsWith('path-adv-'));
+  sections.push({ title: 'My Path — Introductory', cards: introPathIds.map((id) => card(id, 0, null, null)) });
+  sections.push({ title: 'My Path — Advanced', cards: advPathIds.map((id) => card(id, 0, null, null)) });
+
+  const sectionsHtml = sections.map((s) => `
+    <section class="ach-section">
+      <h2 class="ach-section-title">${esc(s.title)}</h2>
+      <div class="ach-grid">${s.cards.join('')}</div>
+    </section>`).join('');
+
+  const hero = heroPanelHtml({
+    watermark: 'أوسمة',
+    badge: 'أوسمة الإنجاز',
+    title: 'Achievements',
+    body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
+    ledger: heroLedgerHtml([
+      ['Badges earned', `${state.badges.length} / ${totalBadges}`],
+      ['Level', li.level],
+      ['XP', state.xp],
+    ]),
+  });
+
+  return `
+    <div class="hero-page">
+      ${hero}
+      ${separatorHtml()}
+      <div class="col-wide achievements-page">${sectionsHtml}</div>
+    </div>`;
+}
+
 function settingsHtml(state) {
   const theme = state.theme || 'manuscript';
+  const accent = state.accent || 'gold';
+  const accentHex = (ACCENTS[accent] || ACCENTS.gold).hex;
   const face = state.arabicFace || 'naskh';
   const currentFace = FACES[face] || FACES.naskh;
 
@@ -1522,12 +2732,22 @@ function settingsHtml(state) {
           <span class="theme-swatch-rule" style="background:${th.text};opacity:.75;width:70%"></span>
           <span class="theme-swatch-rule" style="background:${th.text};opacity:.4;width:86%"></span>
           <span class="theme-swatch-rule" style="background:${th.text};opacity:.4;width:52%;margin-bottom:0"></span>
-          <span class="theme-swatch-mark" style="border-color:${th.accent}"></span>
+          <span class="theme-swatch-mark" style="border-color:${accentHex}"></span>
         </div>
         <div class="theme-card-caption">
           <span class="theme-card-name">${esc(th.name)}</span>
           <span class="theme-card-note">${esc(th.note)}</span>
         </div>
+      </button>`;
+  }).join('');
+
+  const accentChips = ACCENT_ORDER.map((key) => {
+    const a = ACCENTS[key];
+    const selected = key === accent;
+    return `
+      <button class="accent-chip ${selected ? 'is-selected' : ''}" role="radio" aria-checked="${selected}" data-action="pickAccent" data-accent="${key}">
+        <span class="accent-chip-swatch" style="background:${a.hex}"></span>
+        <span class="accent-chip-name">${esc(a.name)}</span>
       </button>`;
   }).join('');
 
@@ -1578,9 +2798,13 @@ function settingsHtml(state) {
 
         <hr class="settings-hr">
 
-        <h2 class="settings-group-title">Paper &amp; ink</h2>
+        <h2 class="settings-group-title">Paper</h2>
         <p class="settings-group-sub">Five grounds. The structure of the page does not change with them.</p>
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
+
+        <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
+        <p class="settings-group-sub">Independent of the paper -- any accent pairs with any ground.</p>
+        <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
 
         <hr class="settings-hr">
 
@@ -1607,7 +2831,7 @@ function settingsHtml(state) {
             <div class="specimen-gloss" dir="ltr">Indeed Allah is with the patient. The ḥarf inna governs naṣb in the noun that follows it.</div>
           </div>
           <div class="specimen-actions">
-            <button class="ds-btn ds-btn-ghost" data-action="resetAppearance">Reset to Manuscript</button>
+            <button class="ds-btn ds-btn-ghost" data-action="resetAppearance">Reset to Manuscript &amp; Gold</button>
           </div>
         </div>
       </aside>
@@ -1617,6 +2841,9 @@ function settingsHtml(state) {
 // --- top-level dispatch ---------------------------------------------------
 
 export function render(state, MODULES, revealedKeys = new Set()) {
+  // Cover screen, ahead of the normal header/main/footer chrome entirely --
+  // see launchHtml's own comment for why.
+  if (state.launchScreen) return launchHtml(state);
   let body;
   switch (state.view) {
     case 'module':
@@ -1640,14 +2867,23 @@ export function render(state, MODULES, revealedKeys = new Set()) {
     case 'schedule':
       body = scheduleHtml(state, MODULES, revealedKeys);
       break;
-    case 'masteryComplete':
-      body = masteryCompleteHtml(state, MODULES);
+    case 'pathGroups':
+      body = pathGroupsHtml(state, revealedKeys);
+      break;
+    case 'path':
+      body = pathMapHtml(state, revealedKeys);
+      break;
+    case 'masteryV2Complete':
+      body = masteryV2CompleteHtml(state, MODULES);
       break;
     case 'settings':
       body = settingsHtml(state);
       break;
+    case 'achievements':
+      body = achievementsHtml(state);
+      break;
     default:
       body = dashboardHtml(state, MODULES, revealedKeys);
   }
-  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${toastHtml(state)}${badgeModalHtml(state)}`;
+  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${unlockPromptHtml(state)}`;
 }

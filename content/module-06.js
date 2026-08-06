@@ -21,18 +21,21 @@ export default {
   title: 'النواصب والجوازم',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
-  blurb: 'The عامل حروف that reach into الفعل rather than الاسم: the four نواصب المضارع (أنْ، كي، لن، إذن) with the rules for إضمار أنْ, and the جوازم — لم ولما ولام الأمر ولا الناهية, plus إنْ وإذما governing a شرط + جواب pair.',
+  blurb: 'النواصب والجوازم: the particles that put the مضارع in the subjunctive or the jussive.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'نواصب المضارع: تمهيد، أنْ، وكي',
+      title: 'نواصب المضارع: أنْ وكي',
       subtitle: 'Subjunctive Particles — the two categories of حروف تعمل في الفعل, أنْ الناصبة, and كي',
       concepts: [
         {
           heading: 'حروف تعمل في الفعل: نواصب وجوازم',
-          body: `<bdi>حُرُوف</bdi> operating on the <bdi>فِعْل</bdi> (specifically the مضارع) split into two categories: (1) حروف putting المضارع in <bdi>نَصْب</bdi> — the <bdi>نَوَاصِب</bdi> (2) حروف putting المضارع in <bdi>جَزْم</bdi> — the <bdi>جَوَازِم</bdi>. Four حروف make up the نواصب: <bdi>أَنْ، كَيْ، لَنْ، إِذَنْ</bdi>.`,
-          sample: `نواصب — تنصب المضارع<br>جوازم — تجزم المضارع<br>النواصب الأربعة — أنْ، كي، لن، إذن`,
+          lines: [
+            { html: `<bdi>حُرُوف</bdi> operating on the <bdi>فِعْل</bdi> (specifically the مضارع) split into two categories: حروف putting المضارع in <bdi>نَصْب</bdi> — the <bdi>نَوَاصِب</bdi>, and حروف putting المضارع in <bdi>جَزْم</bdi> — the <bdi>جَوَازِم</bdi>.`, list: false },
+            { html: `Four حروف make up the نواصب:`, list: false },
+            { html: `<bdi>أَنْ، كَيْ، لَنْ، إِذَنْ</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What are the two categories of حروف operating on the فعل؟`,
             kind: 'mcq',
@@ -42,8 +45,15 @@ export default {
         },
         {
           heading: 'أنْ الناصبة (المصدرية)',
-          body: `<bdi>أَنْ الناصبة</bdi> is a <bdi>حَرْفُ مَصْدَر</bdi>, as in <bdi>﴿أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ﴾</bdi>. After a فعل قلب, it must be told apart from أنْ المخففة (the lightened form of أنّ, covered last module): after a فعل of <b>certainty</b> (يقين) it is مخففة, as in <bdi>﴿عَلِمَ أَنْ سَيَكُونُ مِنْكُمْ مَرْضَىٰ﴾</bdi>; after a فعل of <b>supposition</b> (ظن) both readings are possible, as in <bdi>﴿وَحَسِبُوا أَلَّا تَكُونَ فِتْنَةٌ﴾</bdi>; when there is no فعل قلب at all, it is مصدرية, as in <bdi>﴿نَطْمَعُ أَنْ يَغْفِرَ لَنَا رَبُّنَا خَطَايَانَا﴾</bdi>.`,
-          sample: `أنْ الناصبة — حرف مصدر: ﴿ألا تحبون أن يغفر الله لكم﴾<br>بعد فعل يقين — أنْ مخففة: ﴿علم أن سيكون منكم مرضى﴾<br>بعد فعل ظن — كلا الوجهين: ﴿وحسبوا ألا تكون فتنة﴾<br>بلا فعل قلب — أنْ مصدرية: ﴿نطمع أن يغفر لنا ربنا خطايانا﴾`,
+          lines: [
+            { html: `<bdi>أَنْ الناصبة</bdi> is a <bdi>حَرْفُ مَصْدَر</bdi>, as in ﴿أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ﴾.`, list: false },
+            { html: `After a فعل قلب, it must be told apart from أنْ المخففة (the lightened form of أنّ, covered last module):`, list: false },
+            { table: { headers: ['Preceding فعل', 'Reading', 'Example'], rows: [
+              ['فعل of certainty (يقين)', 'مخففة', '﴿عَلِمَ أَنْ سَيَكُونُ مِنْكُمْ مَرْضَىٰ﴾'],
+              ['فعل of supposition (ظن)', 'both readings possible', '﴿وَحَسِبُوا أَلَّا تَكُونَ فِتْنَةٌ﴾'],
+              ['no فعل قلب at all', 'مصدرية', '﴿نَطْمَعُ أَنْ يَغْفِرَ لَنَا رَبُّنَا خَطَايَانَا﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `How do you distinguish أنْ الناصبة (المصدرية) from أنْ المخففة after a فعل قلب؟`,
             kind: 'mcq',
@@ -53,8 +63,10 @@ export default {
         },
         {
           heading: 'كي',
-          body: `<bdi>كَيْ</bdi> is a <bdi>حَرْفُ مَصْدَرٍ لِلتَّعْلِيل</bdi> (purpose), as in <bdi>﴿فَرَجَعْنَاكَ إِلَىٰ أُمِّكَ كَيْ تَقَرَّ عَيْنُهَا﴾</bdi>. It is preceded by the <bdi>لَامُ الْجَرّ</bdi>, whether explicit — <bdi>﴿لِكَيْلَا يَعْلَمَ بَعْدَ عِلْمٍ شَيْئًا﴾</bdi> — or implied (<bdi>تُقَدَّر</bdi>), as in <bdi>﴿كَيْ تَقَرَّ عَيْنُهَا﴾</bdi> (i.e. <bdi>لِكَيْ</bdi>).`,
-          sample: `كي — حرف مصدر للتعليل: ﴿فرجعناك إلى أمك كي تقر عينها﴾<br>لام الجر قبلها — صريحة: ﴿لكيلا يعلم بعد علم شيئا﴾؛ مقدرة: ﴿كي تقر عينها﴾ أي لكي`,
+          lines: [
+            { html: `<bdi>كَيْ</bdi> is a <bdi>حَرْفُ مَصْدَرٍ لِلتَّعْلِيل</bdi> (purpose), as in ﴿فَرَجَعْنَاكَ إِلَىٰ أُمِّكَ كَيْ تَقَرَّ عَيْنُهَا﴾.`, list: false },
+            { html: `It is preceded by the <bdi>لَامُ الْجَرّ</bdi>, whether explicit (﴿لِكَيْلَا يَعْلَمَ بَعْدَ عِلْمٍ شَيْئًا﴾) or implied (تُقَدَّر), as in ﴿كَيْ تَقَرَّ عَيْنُهَا﴾ (i.e. لِكَيْ).`, list: false },
+          ],
           exercise: {
             prompt: `What precedes كي؟`,
             kind: 'mcq',
@@ -64,8 +76,10 @@ export default {
         },
         {
           heading: 'لن',
-          body: `<bdi>لَنْ</bdi> emphasises the <bdi>نَفْي</bdi> of the <b>future</b>, as in <bdi>﴿فَلَنْ أُكَلِّمَ الْيَوْمَ إِنْسِيًّا﴾</bdi>. It only indicates <bdi>التَّأْبِيد</bdi> (perpetuity) when contextual evidence (<bdi>قَرِينَة</bdi>) supports that, as in <bdi>﴿لَنْ يَخْلُقُوا ذُبَابًا﴾</bdi> — لن on its own does not mean "never."`,
-          sample: `لن — تأكيد نفي المستقبل: ﴿فلن أكلم اليوم إنسيا﴾<br>التأبيد — بقرينة فقط: ﴿لن يخلقوا ذبابا﴾، لا من لن نفسها`,
+          lines: [
+            { html: `<bdi>لَنْ</bdi> emphasises the <bdi>نَفْي</bdi> of the <b>future</b>, as in ﴿فَلَنْ أُكَلِّمَ الْيَوْمَ إِنْسِيًّا﴾.`, list: false },
+            { html: `It only indicates <bdi>التَّأْبِيد</bdi> (perpetuity) when contextual evidence (<bdi>قَرِينَة</bdi>) supports that, as in ﴿لَنْ يَخْلُقُوا ذُبَابًا﴾ — لن on its own does not mean "never."`, list: false },
+          ],
           exercise: {
             prompt: `Does لن by itself imply eternity (that something will NEVER happen)؟`,
             kind: 'mcq',
@@ -199,40 +213,88 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: تصنيف النواصب الأربعة',
+          title: 'تركيب: ﴿أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by its core meaning/function.',
-          source: 'أنْ / كي / لن / إذن',
-          words: ['أنْ', 'كي', 'لن', 'إذن'],
-          labels: ['حرف مصدر', 'حرف تعليل', 'تأكيد نفي المستقبل', 'حرف جواب'],
-          distractors: ['حرف جزم'],
+          instruction: 'Classify أَنْ here.',
+          sentence: 'أَلَا تُحِبُّونَ أَنْ يَغْفِرَ اللَّهُ لَكُمْ',
+          translation: 'Do you not love that Allah should forgive you?',
+          cells: ['تُحِبُّونَ', 'أَنْ', 'يَغْفِرَ', 'اللَّهُ', 'لَكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'حرف مصدر (الناصبة)' },
+            ] },
+          ],
+          distractors: ['مخففة من أنّ', 'زائدة'],
         },
         {
-          title: 'تركيب: أنْ بعد أفعال القلوب',
+          title: 'تركيب: ﴿عَلِمَ أَنْ سَيَكُونُ مِنْكُمْ مَرْضَىٰ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify how أنْ is read after each type of فعل.',
-          source: '﴿علم أن سيكون منكم مرضى﴾ / ﴿وحسبوا ألا تكون فتنة﴾ / ﴿نطمع أن يغفر لنا ربنا خطايانا﴾',
-          words: ['بعد علم (يقين)', 'بعد حسبوا (ظن)', 'بلا فعل قلب'],
-          labels: ['مخففة من أنّ', 'كلا الوجهين', 'مصدرية'],
-          distractors: ['زائدة'],
+          instruction: 'Classify أَنْ, following this فعل يقين.',
+          sentence: 'عَلِمَ أَنْ سَيَكُونُ مِنْكُمْ مَرْضَىٰ',
+          translation: 'He knew that there will be among you sick people.',
+          cells: ['عَلِمَ', 'أَنْ', 'سَيَكُونُ', 'مِنْكُمْ', 'مَرْضَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'مخففة من أنّ' },
+            ] },
+          ],
+          distractors: ['مصدرية ناصبة', 'كلا الوجهين'],
         },
         {
-          title: 'تركيب: نواصب المضارع أم لا؟',
+          title: 'تركيب: ﴿وَحَسِبُوا أَلَّا تَكُونَ فِتْنَةٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: من نواصب المضارع أم لا؟',
-          source: 'أنْ / لم / كي / هل',
-          words: ['أنْ', 'لم', 'كي', 'هل'],
-          labels: ['من النواصب', 'ليست من النواصب', 'من النواصب', 'ليست من النواصب'],
-          distractors: ['من الجوازم'],
+          instruction: 'Classify أَلَّا (أنْ), following this فعل ظن.',
+          sentence: 'وَحَسِبُوا أَلَّا تَكُونَ فِتْنَةٌ',
+          translation: 'And they thought there would be no trial.',
+          cells: ['حَسِبُوا', 'أَلَّا', 'تَكُونَ', 'فِتْنَةٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'كلا الوجهين' },
+            ] },
+          ],
+          distractors: ['مخففة من أنّ فقط', 'مصدرية فقط'],
         },
         {
-          title: 'تركيب: معاني كي ولن',
+          title: 'تركيب: ﴿نَطْمَعُ أَنْ يَغْفِرَ لَنَا رَبُّنَا خَطَايَانَا﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each حرف to what it does.',
-          source: 'كي / لن',
-          words: ['كي', 'لن'],
-          labels: ['حرف مصدر للتعليل', 'تأكيد نفي المستقبل'],
-          distractors: ['حرف جواب بثلاثة شروط'],
+          instruction: 'Classify أَنْ — no فعل قلب precedes it here.',
+          sentence: 'نَطْمَعُ أَنْ يَغْفِرَ لَنَا رَبُّنَا خَطَايَانَا',
+          translation: 'We hope that our Lord will forgive us our sins.',
+          cells: ['نَطْمَعُ', 'أَنْ', 'يَغْفِرَ', 'لَنَا', 'رَبُّنَا', 'خَطَايَانَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'مصدرية' },
+            ] },
+          ],
+          distractors: ['مخففة من أنّ', 'زائدة'],
+        },
+        {
+          title: 'تركيب: ﴿فَرَجَعْنَاكَ إِلَىٰ أُمِّكَ كَيْ تَقَرَّ عَيْنُهَا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the meaning of كي, and the implied حرف before it.',
+          sentence: 'فَرَجَعْنَاكَ إِلَىٰ أُمِّكَ كَيْ تَقَرَّ عَيْنُهَا',
+          translation: 'So We restored you to your mother that her eye might be content.',
+          cells: ['رَجَعْنَاكَ', 'إِلَىٰ', 'أُمِّكَ', 'كَيْ', 'تَقَرَّ', 'عَيْنُهَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'حرف تعليل (واللام مقدرة)' },
+            ] },
+          ],
+          distractors: ['تأكيد نفي المستقبل', 'حرف جواب'],
+        },
+        {
+          title: 'تركيب: ﴿فَلَنْ أُكَلِّمَ الْيَوْمَ إِنْسِيًّا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify the meaning of لن here.',
+          sentence: 'فَلَنْ أُكَلِّمَ الْيَوْمَ إِنْسِيًّا',
+          translation: 'So today I will not speak to any human.',
+          cells: ['لَنْ', 'أُكَلِّمَ', 'الْيَوْمَ', 'إِنْسِيًّا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تأكيد نفي المستقبل' },
+            ] },
+          ],
+          distractors: ['حرف تعليل', 'حرف جواب'],
         },
       ],
     },
@@ -244,8 +306,14 @@ export default {
       concepts: [
         {
           heading: 'إذن: تعريفها وشروطها',
-          body: `<bdi>إِذَنْ</bdi> is the حرف of response (<bdi>لِلْجَوَاب</bdi>), as in <bdi>إِذَنْ تَدْخُلَ الْجَنَّةَ</bdi> (said to one who says <bdi>أُطِيعُ اللَّهَ</bdi>). It operates on three conditions: (1) it stands at <bdi>صَدْرُ الْكَلَام</bdi> (2) a future-tense فعل follows it (3) nothing separates it from the فعل — except a <bdi>قَسَم</bdi>, as in <bdi>إِذَنْ وَاللَّهِ أُكْرِمَكَ</bdi>. After a <bdi>وَاو</bdi> or <bdi>فَاء</bdi>, both عمل and إهمال are allowed, with إهمال predominant, as in <bdi>﴿فَإِذًا لَا يُؤْتُونَ النَّاسَ نَقِيرًا﴾</bdi>. In the muṣḥaf it is written with an <bdi>أَلِف</bdi>: <bdi>﴿فَإِذًا﴾</bdi>.`,
-          sample: `إذن — حرف جواب: إذن تدخل الجنة<br>شروطها الثلاثة — صدر الكلام، فعل مستقبل بعدها، عدم الفصل إلا بقسم<br>بعد واو/فاء — الإهمال هو الغالب: ﴿فإذا لا يؤتون الناس نقيرا﴾<br>رسمها في المصحف — بألف: فإذا`,
+          lines: [
+            { html: `<bdi>إِذَنْ</bdi> is the حرف of response (<bdi>لِلْجَوَاب</bdi>), as in إِذَنْ تَدْخُلَ الْجَنَّةَ (said to one who says أُطِيعُ اللَّهَ).`, list: false },
+            { html: `It operates on three conditions:`, list: false },
+            { html: `it stands at صَدْرُ الْكَلَام`, list: true, bullet: true },
+            { html: `a future-tense فعل follows it`, list: true, bullet: true },
+            { html: `nothing separates it from the فعل — except a قَسَم, as in إِذَنْ وَاللَّهِ أُكْرِمَكَ`, list: true, bullet: true },
+            { html: `After a <bdi>وَاو</bdi> or <bdi>فَاء</bdi>, both عمل and إهمال are allowed, with إهمال predominant, as in ﴿فَإِذًا لَا يُؤْتُونَ النَّاسَ نَقِيرًا﴾. In the muṣḥaf it is written with an <bdi>أَلِف</bdi>: ﴿فَإِذًا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What are the three conditions for إذن to operate؟`,
             kind: 'mcq',
@@ -255,8 +323,11 @@ export default {
         },
         {
           heading: 'إضمار أنْ جوازا',
-          body: `أنْ is implied optionally (<bdi>جَوَازًا</bdi>) in two places: (1) after the <bdi>لَامُ الْجَرّ</bdi>, so long as it is not joined with <bdi>لَا النَّافِيَة</bdi> — as in <bdi>﴿لِيَغْفِرَ لَكَ اللَّهُ﴾</bdi>, but NOT after <bdi>لِئَلَّا</bdi>, where أن must appear explicitly, as in <bdi>﴿لِئَلَّا يَكُونَ لِلنَّاسِ عَلَيْكُمْ حُجَّةٌ﴾</bdi> (2) after a <bdi>حَرْفُ عَطْف</bdi> preceded by an explicit (<bdi>غَيْرُ مُؤَوَّل</bdi>) اسم, as in <bdi>﴿وَمَا كَانَ لِبَشَرٍ أَنْ يُكَلِّمَهُ اللَّهُ إِلَّا وَحْيًا أَوْ مِنْ وَرَاءِ حِجَابٍ أَوْ يُرْسِلَ رَسُولًا﴾</bdi>.`,
-          sample: `إضمار أنْ جوازا (٢) — بعد لام الجر غير المقترنة بلا: ﴿ليغفر لك الله﴾؛ بعد حرف عطف مسبوق باسم غير مؤول: ﴿وما كان لبشر...أو يرسل رسولا﴾<br>استثناء — بعد لئلا يجب ذكر أن: ﴿لئلا يكون للناس عليكم حجة﴾`,
+          lines: [
+            { html: `أنْ is implied optionally (<bdi>جَوَازًا</bdi>) in two places:`, list: false },
+            { html: `after the لَامُ الْجَرّ, so long as it is not joined with لَا النَّافِيَة — as in ﴿لِيَغْفِرَ لَكَ اللَّهُ﴾, but NOT after لِئَلَّا, where أن must appear explicitly, as in ﴿لِئَلَّا يَكُونَ لِلنَّاسِ عَلَيْكُمْ حُجَّةٌ﴾`, list: true, bullet: true },
+            { html: `after a حَرْفُ عَطْف preceded by an explicit (غَيْرُ مُؤَوَّل) اسم, as in ﴿وَمَا كَانَ لِبَشَرٍ أَنْ يُكَلِّمَهُ اللَّهُ إِلَّا وَحْيًا أَوْ مِنْ وَرَاءِ حِجَابٍ أَوْ يُرْسِلَ رَسُولًا﴾`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Where is أنْ implied OPTIONALLY (جوازا)؟`,
             kind: 'mcq',
@@ -266,8 +337,16 @@ export default {
         },
         {
           heading: 'إضمار أنْ وجوبا',
-          body: `أنْ is implied OBLIGATORILY (<bdi>وُجُوبًا</bdi>) in five places: (1) after <bdi>حَتَّى</bdi>, as in <bdi>﴿لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ﴾</bdi> (2) after <bdi>لَامُ الْجُحُود</bdi>, as in <bdi>﴿وَمَا كَانَ اللَّهُ لِيُضِيعَ إِيمَانَكُمْ﴾</bdi> (3) after <bdi>أَوْ</bdi> meaning <bdi>إِلَىٰ أَنْ</bdi> or <bdi>إِلَّا أَنْ</bdi> (4) after <bdi>وَاوُ الصَّرْف</bdi> (المعية) preceded by نفي or a verbal request (5) after <bdi>فَاءُ السَّبَبِيَّة</bdi> preceded by نفي or a verbal request.`,
-          sample: `إضمار أنْ وجوبا (٥) — بعد حتى: ﴿لن تنالوا البر حتى تنفقوا مما تحبون﴾<br>بعد لام الجحود: ﴿وما كان الله ليضيع إيمانكم﴾<br>بعد أو (إلى أن/إلا أن)، بعد واو الصرف (بعد نفي أو طلب)، بعد فاء السببية (بعد نفي أو طلب)`,
+          lines: [
+            { html: `أنْ is implied OBLIGATORILY (<bdi>وُجُوبًا</bdi>) in five places:`, list: false },
+            { table: { headers: ['#', 'Place', 'Example'], rows: [
+              ['1', 'after حَتَّى', '﴿لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ﴾'],
+              ['2', 'after لَامُ الْجُحُود', '﴿وَمَا كَانَ اللَّهُ لِيُضِيعَ إِيمَانَكُمْ﴾'],
+              ['3', 'after أَوْ meaning إِلَىٰ أَنْ or إِلَّا أَنْ', '—'],
+              ['4', 'after وَاوُ الصَّرْف (المعية) preceded by نفي or a verbal request', '—'],
+              ['5', 'after فَاءُ السَّبَبِيَّة preceded by نفي or a verbal request', '—'],
+            ] } },
+          ],
           exercise: {
             prompt: `After how many things is أنْ implied OBLIGATORILY before a مضارع منصوب؟`,
             kind: 'mcq',
@@ -277,8 +356,14 @@ export default {
         },
         {
           heading: 'أو (إلى أن / إلا أن)، وواو الصرف',
-          body: `<bdi>أَوْ</bdi> before a مضارع منصوب carries one of two meanings: <b>إلى أن</b>, as in <bdi>لَأَسْتَسْهِلَنَّ الصَّعْبَ أَوْ أُدْرِكَ الْمُنَى</bdi>, or <b>إلا أن</b>, as in <bdi>كَسَرْتُ كُعُوبَهَا أَوْ تَسْتَقِيمَا</bdi>. <bdi>وَاوُ الصَّرْف</bdi> (المعية) is the واو that, with an implied أن, puts the فعل in نصب; it must be preceded by <b>نفي</b>, as in <bdi>﴿وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنْكُمْ وَيَعْلَمَ الصَّابِرِينَ﴾</bdi>, or by a <b>verbal request</b>, as in <bdi>﴿يَا لَيْتَنَا نُرَدُّ وَلَا نُكَذِّبَ بِآيَاتِ رَبِّنَا وَنَكُونَ مِنَ الْمُؤْمِنِينَ﴾</bdi>.`,
-          sample: `أو (إلى أن) — لأستسهلن الصعب أو أدرك المنى<br>أو (إلا أن) — كسرت كعوبها أو تستقيما<br>واو الصرف بعد نفي — ﴿ولما يعلم الله الذين جاهدوا منكم ويعلم الصابرين﴾<br>واو الصرف بعد طلب — ﴿يا ليتنا نرد ولا نكذب بآيات ربنا ونكون من المؤمنين﴾`,
+          lines: [
+            { html: `<bdi>أَوْ</bdi> before a مضارع منصوب carries one of two meanings:`, list: false },
+            { table: { headers: ['Meaning', 'Example'], rows: [
+              ['إلى أن', 'لَأَسْتَسْهِلَنَّ الصَّعْبَ أَوْ أُدْرِكَ الْمُنَى'],
+              ['إلا أن', 'كَسَرْتُ كُعُوبَهَا أَوْ تَسْتَقِيمَا'],
+            ] } },
+            { html: `<bdi>وَاوُ الصَّرْف</bdi> (المعية) is the واو that, with an implied أن, puts the فعل in نصب; it must be preceded by <b>نفي</b> (﴿وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنْكُمْ وَيَعْلَمَ الصَّابِرِينَ﴾) or by a <b>verbal request</b> (﴿يَا لَيْتَنَا نُرَدُّ وَلَا نُكَذِّبَ بِآيَاتِ رَبِّنَا وَنَكُونَ مِنَ الْمُؤْمِنِينَ﴾).`, list: false },
+          ],
           exercise: {
             prompt: `What must precede واو الصرف (المعية) for it to put the following فعل in نصب؟`,
             kind: 'mcq',
@@ -288,8 +373,10 @@ export default {
         },
         {
           heading: 'فاء السببية، وأمثلة سماعية',
-          body: `Like واو الصرف, <bdi>فَاءُ السَّبَبِيَّة</bdi> licenses نصب on the following فعل when preceded by <bdi>نَفْي</bdi> or a verbal request — <bdi>الْأَمْر، النَّهْي، الِاسْتِفْهَام، التَّمَنِّي، التَّرَجِّي، الْعَرْض،</bdi> or <bdi>التَّحْضِيض</bdi>, as in <bdi>أَسْلِمْ فَتَدْخُلَ الْجَنَّةَ</bdi>. Separately, a handful of نصب-by-implied-أنْ examples are <bdi>سَمَاعِيّ</bdi> — heard but not extended by analogy — such as <bdi>مُرْهُ يَحْفِرَهَا</bdi> and <bdi>خُذِ اللِّصَّ قَبْلَ يَأْخُذَكَ</bdi>.`,
-          sample: `فاء السببية بعد طلب — أسلم فتدخل الجنة<br>أنواع الطلب المرخصة — الأمر، النهي، الاستفهام، التمني، الترجي، العرض، التحضيض (وأيضا النفي)<br>سماعي لا قياسي — مره يحفرها؛ خذ اللص قبل يأخذك`,
+          lines: [
+            { html: `Like واو الصرف, <bdi>فَاءُ السَّبَبِيَّة</bdi> licenses نصب on the following فعل when preceded by <bdi>نَفْي</bdi> or a verbal request — <bdi>الْأَمْر، النَّهْي، الِاسْتِفْهَام، التَّمَنِّي، التَّرَجِّي، الْعَرْض،</bdi> or <bdi>التَّحْضِيض</bdi>, as in أَسْلِمْ فَتَدْخُلَ الْجَنَّةَ.`, list: false },
+            { html: `Separately, a handful of نصب-by-implied-أنْ examples are <bdi>سَمَاعِيّ</bdi> — heard but not extended by analogy — such as مُرْهُ يَحْفِرَهَا and خُذِ اللِّصَّ قَبْلَ يَأْخُذَكَ.`, list: false },
+          ],
           exercise: {
             prompt: `List the request-types that license نصب after فاء السببية.`,
             kind: 'mcq',
@@ -326,7 +413,7 @@ export default {
         },
         {
           q: 'مُرْهُ يَحْفِرَهَا, with implied أنْ, is an example that is:',
-          options: ['سماعي, not extended by analogy', 'قياسي, freely extendable', 'شرطية، تفيد الجزم', 'من مواضع الوجوب الخمسة'],
+          options: ['سماعي, not extended by analogy', 'قياسي, freely extendable', 'شرطية, entailing the جزم', 'من مواضع الوجوب الخمسة'],
           correct: 0,
         },
       ],
@@ -444,40 +531,91 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: إضمار أنْ جوازا أم وجوبا؟',
+          title: 'تركيب: ﴿لِيَغْفِرَ لَكَ اللَّهُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: إضمار أنْ جوازا or وجوبا?',
-          source: '﴿ليغفر لك الله﴾ / ﴿لن تنالوا البر حتى تنفقوا مما تحبون﴾ / ﴿وما كان الله ليضيع إيمانكم﴾',
-          words: ['ليغفر لك الله', 'حتى تنفقوا', 'ليضيع إيمانكم'],
-          labels: ['جوازا (لام الجر)', 'وجوبا (حتى)', 'وجوبا (لام الجحود)'],
-          distractors: ['جوازا (بعد عطف)'],
+          instruction: 'Is أنْ implied here جوازا or وجوبا? Then classify this as قياسي or سماعي.',
+          sentence: 'لِيَغْفِرَ لَكَ اللَّهُ',
+          translation: 'That Allah may forgive you.',
+          cells: ['لِيَغْفِرَ', 'لَكَ', 'اللَّهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'جوازا (لام الجر)' },
+            ] },
+            { position: 'below', labels: [
+              { start: 0, end: 0, role: 'قياسي' },
+            ] },
+          ],
+          distractors: ['وجوبا (حتى)', 'سماعي'],
         },
         {
-          title: 'تركيب: شروط إذن',
+          title: 'تركيب: ﴿لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ﴾',
           kind: 'tarkeeb',
-          instruction: "Classify each requirement of إذن's three conditions.",
-          source: 'صدر الكلام / فعل مستقبل بعدها / لا فاصل إلا القسم',
-          words: ['صدر الكلام', 'فعل مستقبل', 'لا فاصل إلا القسم'],
-          labels: ['شرط أول', 'شرط ثانٍ', 'شرط ثالث'],
-          distractors: ['شرط رابع'],
+          instruction: 'Is أنْ implied here جوازا or وجوبا?',
+          sentence: 'لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ',
+          translation: 'You will not attain righteousness until you spend from that which you love.',
+          cells: ['تَنَالُوا', 'الْبِرَّ', 'حَتَّىٰ', 'تُنْفِقُوا', 'مِمَّا', 'تُحِبُّونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'وجوبا (حتى)' },
+            ] },
+          ],
+          distractors: ['جوازا (لام الجر)', 'وجوبا (لام الجحود)'],
         },
         {
-          title: 'تركيب: ما يسبق واو الصرف وفاء السببية',
+          title: 'تركيب: ﴿وَمَا كَانَ اللَّهُ لِيُضِيعَ إِيمَانَكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what precedes واو الصرف / فاء السببية in each example.',
-          source: '﴿ولما يعلم الله...ويعلم الصابرين﴾ / أسلم فتدخل الجنة',
-          words: ['ولما يعلم...ويعلم', 'أسلم فتدخل'],
-          labels: ['نفي', 'طلب (أمر)'],
-          distractors: ['استفهام'],
+          instruction: 'Is أنْ implied here جوازا or وجوبا؟',
+          sentence: 'وَمَا كَانَ اللَّهُ لِيُضِيعَ إِيمَانَكُمْ',
+          translation: 'And Allah would not let your faith go to waste.',
+          cells: ['كَانَ', 'اللَّهُ', 'لِيُضِيعَ', 'إِيمَانَكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'وجوبا (لام الجحود)' },
+            ] },
+          ],
+          distractors: ['جوازا (لام الجر)', 'وجوبا (حتى)'],
         },
         {
-          title: 'تركيب: قياسي أم سماعي؟',
+          title: 'تركيب: ﴿وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنْكُمْ وَيَعْلَمَ الصَّابِرِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each نصب-by-implied-أنْ example: قياسي or سماعي?',
-          source: '﴿ليغفر لك الله﴾ / مره يحفرها',
-          words: ['ليغفر لك الله', 'مره يحفرها'],
-          labels: ['قياسي (لام الجر)', 'سماعي'],
-          distractors: ['ممتنع كليا'],
+          instruction: 'What precedes واو الصرف here?',
+          sentence: 'وَلَمَّا يَعْلَمِ اللَّهُ الَّذِينَ جَاهَدُوا مِنْكُمْ وَيَعْلَمَ الصَّابِرِينَ',
+          translation: 'Not yet knowing those of you who strive, and knowing the steadfast.',
+          cells: ['لَمَّا', 'يَعْلَمِ', 'اللَّهُ', 'الَّذِينَ', 'جَاهَدُوا', 'مِنْكُمْ', 'وَيَعْلَمَ', 'الصَّابِرِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'نفي' },
+            ] },
+          ],
+          distractors: ['طلب (أمر)', 'استفهام'],
+        },
+        {
+          title: 'تركيب: أَسْلِمْ فَتَدْخُلَ الْجَنَّةَ',
+          kind: 'tarkeeb',
+          instruction: 'What precedes فاء السببية here؟',
+          sentence: 'أَسْلِمْ فَتَدْخُلَ الْجَنَّةَ',
+          translation: 'Submit [to Allah], and you will enter Paradise.',
+          cells: ['أَسْلِمْ', 'فَتَدْخُلَ', 'الْجَنَّةَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'طلب (أمر)' },
+            ] },
+          ],
+          distractors: ['نفي', 'استفهام'],
+        },
+        {
+          title: 'تركيب: مُرْهُ يَحْفِرَهَا',
+          kind: 'tarkeeb',
+          instruction: 'Classify this instance of implied أنْ.',
+          sentence: 'مُرْهُ يَحْفِرَهَا',
+          translation: 'Order him to dig it.',
+          cells: ['مُرْهُ', 'يَحْفِرَهَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'سماعي' },
+            ] },
+          ],
+          distractors: ['قياسي'],
         },
       ],
     },
@@ -489,8 +627,13 @@ export default {
       concepts: [
         {
           heading: 'ضربا جوازم المضارع',
-          body: `جزم حروف split into two subtypes: (1) حروف putting <b>one</b> فعل in جزم — four of them: <bdi>لَمْ، لَمَّا، لَامُ الْأَمْر، لَا النَّاهِيَة</bdi> (2) حروف putting <b>two</b> أفعال in جزم — two of them: <bdi>إِنْ، إِذْمَا</bdi>.`,
-          sample: `جوازم فعل واحد (٤) — لم، لما، لام الأمر، لا الناهية<br>جوازم فعلين (٢) — إنْ، إذما`,
+          lines: [
+            { html: `جزم حروف split into two subtypes:`, list: false },
+            { table: { headers: ['Subtype', 'حروف'], rows: [
+              ['put ONE فعل in جزم', 'لَمْ، لَمَّا، لَامُ الْأَمْر، لَا النَّاهِيَة'],
+              ['put TWO أفعال in جزم', 'إِنْ، إِذْمَا'],
+            ] } },
+          ],
           exercise: {
             prompt: `What are the two subtypes of جزم حروف؟`,
             kind: 'mcq',
@@ -500,8 +643,11 @@ export default {
         },
         {
           heading: 'لم ولما',
-          body: `<bdi>لَمْ</bdi> negates the مضارع and converts its meaning to the past, as in <bdi>﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾</bdi>. <bdi>لَمَّا</bdi> does the same but adds an <b>expectation that it will yet occur</b> (<bdi>مَعَ تَوَقُّعِ الْحُصُول</bdi>), as in <bdi>﴿وَلَمَّا يَدْخُلِ الْإِيمَانُ فِي قُلُوبِكُمْ﴾</bdi>. An example combining <bdi>لَامُ الْأَمْر</bdi> and <bdi>لَا النَّاهِيَة</bdi> together is <bdi>﴿فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِ أَحَدًا﴾</bdi>.`,
-          sample: `لم — تنفي المضارع وتقلبه ماضيا: ﴿لم يلد ولم يولد﴾<br>لما — كذلك، مع توقع الحصول: ﴿ولما يدخل الإيمان في قلوبكم﴾<br>لام الأمر + لا الناهية معا — ﴿فمن كان يرجو لقاء ربه فليعمل عملا صالحا ولا يشرك بعبادة ربه أحدا﴾`,
+          lines: [
+            { html: `<bdi>لَمْ</bdi> negates the مضارع and converts its meaning to the past, as in ﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾.`, list: false },
+            { html: `<bdi>لَمَّا</bdi> does the same but adds an <b>expectation that it will yet occur</b> (<bdi>مَعَ تَوَقُّعِ الْحُصُول</bdi>), as in ﴿وَلَمَّا يَدْخُلِ الْإِيمَانُ فِي قُلُوبِكُمْ﴾.`, list: false },
+            { html: `An example combining <bdi>لَامُ الْأَمْر</bdi> and <bdi>لَا النَّاهِيَة</bdi> together is ﴿فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِ أَحَدًا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `How does لما differ from لم؟`,
             kind: 'mcq',
@@ -511,8 +657,10 @@ export default {
         },
         {
           heading: 'شرط بفعلين: التسمية والمثال',
-          body: `In a <bdi>شَرْط</bdi> governing two أفعال, the first فعل is called the <bdi>شَرْط</bdi> (condition) and the second is the <bdi>جَوَابُ الشَّرْط</bdi>, also called <bdi>الْجَزَاء</bdi>. <bdi>إِنِ الشَّرْطِيَّة</bdi> governs exactly this pair, as in <bdi>﴿إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ وَنُدْخِلْكُمْ مُدْخَلًا كَرِيمًا﴾</bdi>.`,
-          sample: `شرط بفعلين — الأول: الشرط، الثاني: جواب الشرط (الجزاء)<br>إنْ الشرطية — ﴿إن تجتنبوا كبائر ما تنهون عنه نكفر عنكم سيئاتكم وندخلكم مدخلا كريما﴾`,
+          lines: [
+            { html: `In a <bdi>شَرْط</bdi> governing two أفعال, the first فعل is called the <bdi>شَرْط</bdi> (condition) and the second is the <bdi>جَوَابُ الشَّرْط</bdi>, also called <bdi>الْجَزَاء</bdi>.`, list: false },
+            { html: `<bdi>إِنِ الشَّرْطِيَّة</bdi> governs exactly this pair, as in ﴿إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ وَنُدْخِلْكُمْ مُدْخَلًا كَرِيمًا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `In a شرط governing two أفعال, what are the two أفعال called؟`,
             kind: 'mcq',
@@ -522,8 +670,15 @@ export default {
         },
         {
           heading: 'مواضع إضمار إنْ',
-          body: `إِنْ الشرطية is implied (<bdi>مُقَدَّرَة</bdi>) before a مضارع مجزوم after four things: (1) <bdi>طَلَب</bdi>, as in <bdi>﴿تَعَالَوْا أَتْلُ﴾</bdi> (= <bdi>إِنْ تَتَعَالَوْا أَتْلُ</bdi>) (2) <bdi>اسْتِفْهَام</bdi>, as in <bdi>هَلْ تَزُورُنَا نُكْرِمْكَ</bdi> (3) <bdi>تَمَنٍّ</bdi>, as in <bdi>لَيْتَكَ عِنْدِي أَخْدِمْكَ</bdi> (4) <bdi>عَرْض</bdi>, as in <bdi>أَلَا تَنْزِلُ بِنَا تُصِبْ خَيْرًا</bdi>.`,
-          sample: `إضمار إنْ بعد أربعة — طلب: ﴿تعالوا أتل﴾ = إن تتعالوا أتل؛ استفهام: هل تزورنا نكرمك؛ تمنٍّ: ليتك عندي أخدمك؛ عرض: ألا تنزل بنا تصب خيرا`,
+          lines: [
+            { html: `إِنْ الشرطية is implied (<bdi>مُقَدَّرَة</bdi>) before a مضارع مجزوم after four things:`, list: false },
+            { table: { headers: ['#', 'After', 'Example'], rows: [
+              ['1', 'طَلَب', '﴿تَعَالَوْا أَتْلُ﴾ (= إِنْ تَتَعَالَوْا أَتْلُ)'],
+              ['2', 'اسْتِفْهَام', 'هَلْ تَزُورُنَا نُكْرِمْكَ'],
+              ['3', 'تَمَنٍّ', 'لَيْتَكَ عِنْدِي أَخْدِمْكَ'],
+              ['4', 'عَرْض', 'أَلَا تَنْزِلُ بِنَا تُصِبْ خَيْرًا'],
+            ] } },
+          ],
           exercise: {
             prompt: `After how many things is إنْ implied (مقدرة) before a مضارع مجزوم؟`,
             kind: 'mcq',
@@ -533,8 +688,16 @@ export default {
         },
         {
           heading: 'ما الزائدة، وتوافق الأزمنة',
-          body: `When redundant <bdi>مَا</bdi> is added after إنْ, it adds <bdi>تَوْكِيد</bdi>, and the condition فعل then takes the <bdi>نُونُ التَّوْكِيد</bdi>, as in <bdi>﴿وَإِمَّا يَنْزَغَنَّكَ مِنَ الشَّيْطَانِ نَزْغٌ فَاسْتَعِذْ بِاللَّهِ﴾</bdi>. The two أفعال after إنْ may combine tenses freely: (1) both مضارع, as in <bdi>﴿وَإِنْ تَعُودُوا نَعُدْ﴾</bdi> (2) both ماضٍ, as in <bdi>﴿وَإِنْ عُدْتُمْ عُدْنَا﴾</bdi> (3) مضارع then ماضٍ, as in <bdi>مَنْ يَقُمْ لَيْلَةَ الْقَدْرِ</bdi>...<bdi>غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ</bdi> (4) ماضٍ then مضارع — جزم or رفع both allowed, as in <bdi>﴿مَنْ كَانَ يُرِيدُ حَرْثَ الْآخِرَةِ نَزِدْ لَهُ فِي حَرْثِهِ﴾</bdi>.`,
-          sample: `ما الزائدة بعد إنْ — توكيد + نون التوكيد: ﴿وإما ينزغنك من الشيطان نزغ فاستعذ بالله﴾<br>تراكيب الأزمنة (٤) — مضارع+مضارع، ماضٍ+ماضٍ، مضارع+ماضٍ، ماضٍ+مضارع (جزم أو رفع)`,
+          lines: [
+            { html: `When redundant <bdi>مَا</bdi> is added after إنْ, it adds <bdi>تَوْكِيد</bdi>, and the condition فعل then takes the <bdi>نُونُ التَّوْكِيد</bdi>, as in ﴿وَإِمَّا يَنْزَغَنَّكَ مِنَ الشَّيْطَانِ نَزْغٌ فَاسْتَعِذْ بِاللَّهِ﴾.`, list: false },
+            { html: `The two أفعال after إنْ may combine tenses freely:`, list: false },
+            { table: { headers: ['Combination', 'Example'], rows: [
+              ['both مضارع', '﴿وَإِنْ تَعُودُوا نَعُدْ﴾'],
+              ['both ماضٍ', '﴿وَإِنْ عُدْتُمْ عُدْنَا﴾'],
+              ['مضارع then ماضٍ', 'مَنْ يَقُمْ لَيْلَةَ الْقَدْرِ … غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ'],
+              ['ماضٍ then مضارع — جزم or رفع both allowed', '﴿مَنْ كَانَ يُرِيدُ حَرْثَ الْآخِرَةِ نَزِدْ لَهُ فِي حَرْثِهِ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What happens when redundant ما is added after إنْ؟`,
             kind: 'mcq',
@@ -544,8 +707,10 @@ export default {
         },
         {
           heading: 'الفاء قبل الجواب، وإذما',
-          body: `When <bdi>الْفَاء</bdi> is added before جواب الشرط, إنْ then does <b>not</b> operate on that جواب, as in <bdi>﴿وَإِنْ يَمْسَسْكَ اللَّهُ بِضُرٍّ فَلَا كَاشِفَ لَهُ إِلَّا هُوَ﴾</bdi>. <bdi>إِذْمَا</bdi> is a جزم حرف carrying the meaning of إنْ, as in <bdi>إِذْمَا تَتُبْ تُقْبَلْ تَوْبَتُكَ</bdi>.`,
-          sample: `الفاء قبل الجواب — إنْ لا تعمل فيه: ﴿وإن يمسسك الله بضر فلا كاشف له إلا هو﴾<br>إذما — بمعنى إنْ: إذما تتب تقبل توبتك`,
+          lines: [
+            { html: `When <bdi>الْفَاء</bdi> is added before جواب الشرط, إنْ then does <b>not</b> operate on that جواب, as in ﴿وَإِنْ يَمْسَسْكَ اللَّهُ بِضُرٍّ فَلَا كَاشِفَ لَهُ إِلَّا هُوَ﴾.`, list: false },
+            { html: `<bdi>إِذْمَا</bdi> is a جزم حرف carrying the meaning of إنْ, as in إِذْمَا تَتُبْ تُقْبَلْ تَوْبَتُكَ.`, list: false },
+          ],
           exercise: {
             prompt: `What happens to إنْ's government of جواب الشرط when الفاء is added before it؟`,
             kind: 'mcq',
@@ -686,40 +851,163 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: تصنيف الجوازم الستة',
+          title: 'تركيب: ﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جازم: تجزم فعلا واحدا, or فعلين؟',
-          source: 'لم / لا الناهية / إنْ / إذما',
-          words: ['لم', 'لا الناهية', 'إنْ', 'إذما'],
-          labels: ['فعلا واحدا', 'فعلا واحدا', 'فعلين', 'فعلين'],
-          distractors: ['ثلاثة أفعال'],
+          instruction: 'Classify لم: how many أفعال does it jazm, and what does it add beyond plain نفي؟',
+          sentence: 'لَمْ يَلِدْ وَلَمْ يُولَدْ',
+          translation: 'He neither begets nor is born.',
+          cells: ['لَمْ', 'يَلِدْ', 'وَلَمْ', 'يُولَدْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'فعلا واحدا' },
+            ] },
+            { position: 'below', labels: [
+              { start: 0, end: 1, role: 'نفي وقلب للماضي فقط' },
+            ] },
+          ],
+          distractors: ['فعلين', 'نفي مع توقع الحصول'],
         },
         {
-          title: 'تركيب: لم ولما، والفرق',
+          title: 'تركيب: ﴿وَلَمَّا يَدْخُلِ الْإِيمَانُ فِي قُلُوبِكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by what it adds beyond plain نفي.',
-          source: 'لم / لما',
-          words: ['لم', 'لما'],
-          labels: ['نفي وقلب للماضي فقط', 'نفي وقلب للماضي مع توقع الحصول'],
-          distractors: ['نفي المستقبل'],
+          instruction: 'Classify لما: what does it add beyond plain نفي؟',
+          sentence: 'وَلَمَّا يَدْخُلِ الْإِيمَانُ فِي قُلُوبِكُمْ',
+          translation: 'And faith has not yet entered your hearts.',
+          cells: ['لَمَّا', 'يَدْخُلِ', 'الْإِيمَانُ', 'فِي', 'قُلُوبِكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'نفي وقلب للماضي مع توقع الحصول' },
+            ] },
+          ],
+          distractors: ['نفي وقلب للماضي فقط', 'نفي المستقبل'],
         },
         {
-          title: 'تركيب: مواضع إضمار إنْ الأربعة',
+          title: 'تركيب: ﴿فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِ أَحَدًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the موضع of إضمار إنْ it illustrates.',
-          source: '﴿تعالوا أتل﴾ / هل تزورنا نكرمك / ليتك عندي أخدمك / ألا تنزل بنا تصب خيرا',
-          words: ['تعالوا أتل', 'هل تزورنا', 'ليتك عندي', 'ألا تنزل'],
-          labels: ['طلب', 'استفهام', 'تمنٍّ', 'عرض'],
-          distractors: ['نهي'],
+          instruction: 'Identify لام الأمر and لا الناهية.',
+          sentence: 'فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِ أَحَدًا',
+          translation: 'So whoever hopes to meet his Lord, let him do righteous work and not associate anyone in the worship of his Lord.',
+          cells: ['كَانَ', 'يَرْجُو', 'لِقَاءَ', 'رَبِّهِ', 'فَلْيَعْمَلْ', 'عَمَلًا', 'صَالِحًا', 'وَلَا', 'يُشْرِكْ', 'بِعِبَادَةِ', 'رَبِّهِ', 'أَحَدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 4, role: 'لام الأمر' },
+              { start: 7, end: 8, role: 'لا الناهية' },
+            ] },
+          ],
+          distractors: ['لم', 'لما'],
         },
         {
-          title: 'تركيب: تراكيب الأزمنة بعد إنْ',
+          title: 'تركيب: ﴿إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the tense combination of شرط + جواب in each example.',
-          source: '﴿وإن تعودوا نعد﴾ / ﴿وإن عدتم عدنا﴾',
-          words: ['وإن تعودوا نعد', 'وإن عدتم عدنا'],
-          labels: ['مضارع ثم مضارع', 'ماضٍ ثم ماضٍ'],
-          distractors: ['مضارع ثم ماضٍ'],
+          instruction: 'Identify الشرط and جواب الشرط.',
+          sentence: 'إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ',
+          translation: 'If you avoid the major sins forbidden to you, We will remove from you your lesser sins.',
+          cells: ['تَجْتَنِبُوا', 'كَبَائِرَ', 'مَا', 'تُنْهَوْنَ', 'عَنْهُ', 'نُكَفِّرْ', 'عَنْكُمْ', 'سَيِّئَاتِكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 4, role: 'الشرط' },
+              { start: 5, end: 7, role: 'جواب الشرط (الجزاء)' },
+            ] },
+          ],
+          distractors: ['مبتدأ', 'حال'],
+        },
+        {
+          title: 'تركيب: إِذْمَا تَتُبْ تُقْبَلْ تَوْبَتُكَ',
+          kind: 'tarkeeb',
+          instruction: 'Classify إذما: how many أفعال does it jazm, and what does it mean?',
+          sentence: 'إِذْمَا تَتُبْ تُقْبَلْ تَوْبَتُكَ',
+          translation: 'Whenever you repent, your repentance will be accepted.',
+          cells: ['إِذْمَا', 'تَتُبْ', 'تُقْبَلْ', 'تَوْبَتُكَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'فعلين، بمعنى إنْ' },
+            ] },
+          ],
+          distractors: ['فعلا واحدا'],
+        },
+        {
+          title: 'تركيب: ﴿تَعَالَوْا أَتْلُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'إنْ is implied before أتل. After what does it become implied here?',
+          sentence: 'تَعَالَوْا أَتْلُ',
+          translation: 'Come, I will recite [to you].',
+          cells: ['تَعَالَوْا', 'أَتْلُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'طلب' },
+            ] },
+          ],
+          distractors: ['استفهام', 'تمنٍّ'],
+        },
+        {
+          title: 'تركيب: هَلْ تَزُورُنَا نُكْرِمْكَ',
+          kind: 'tarkeeb',
+          instruction: 'إنْ is implied before نكرمك. After what does it become implied here?',
+          sentence: 'هَلْ تَزُورُنَا نُكْرِمْكَ',
+          translation: 'If you visit us, we will honor you.',
+          cells: ['هَلْ', 'تَزُورُنَا', 'نُكْرِمْكَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'استفهام' },
+            ] },
+          ],
+          distractors: ['طلب', 'عرض'],
+        },
+        {
+          title: 'تركيب: لَيْتَكَ عِنْدِي أَخْدِمْكَ',
+          kind: 'tarkeeb',
+          instruction: 'إنْ is implied before أخدمك. After what does it become implied here?',
+          sentence: 'لَيْتَكَ عِنْدِي أَخْدِمْكَ',
+          translation: 'I wish you were with me — I would serve you.',
+          cells: ['لَيْتَكَ', 'عِنْدِي', 'أَخْدِمْكَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'تمنٍّ' },
+            ] },
+          ],
+          distractors: ['طلب', 'استفهام'],
+        },
+        {
+          title: 'تركيب: أَلَا تَنْزِلُ بِنَا تُصِبْ خَيْرًا',
+          kind: 'tarkeeb',
+          instruction: 'إنْ is implied before تصب. After what does it become implied here?',
+          sentence: 'أَلَا تَنْزِلُ بِنَا تُصِبْ خَيْرًا',
+          translation: "Won't you stay with us? You will find good.",
+          cells: ['أَلَا', 'تَنْزِلُ', 'بِنَا', 'تُصِبْ', 'خَيْرًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'عرض' },
+            ] },
+          ],
+          distractors: ['طلب', 'استفهام'],
+        },
+        {
+          title: 'تركيب: ﴿وَإِنْ تَعُودُوا نَعُدْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify the tense combination of شرط + جواب.',
+          sentence: 'وَإِنْ تَعُودُوا نَعُدْ',
+          translation: 'And if you return [to hostility], We will return.',
+          cells: ['إِنْ', 'تَعُودُوا', 'نَعُدْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'مضارع ثم مضارع' },
+            ] },
+          ],
+          distractors: ['ماضٍ ثم ماضٍ', 'مضارع ثم ماضٍ'],
+        },
+        {
+          title: 'تركيب: ﴿وَإِنْ عُدْتُمْ عُدْنَا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify the tense combination of شرط + جواب.',
+          sentence: 'وَإِنْ عُدْتُمْ عُدْنَا',
+          translation: 'And if you return, We will return.',
+          cells: ['إِنْ', 'عُدْتُمْ', 'عُدْنَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'ماضٍ ثم ماضٍ' },
+            ] },
+          ],
+          distractors: ['مضارع ثم مضارع', 'مضارع ثم ماضٍ'],
         },
       ],
     },

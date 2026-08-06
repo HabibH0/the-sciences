@@ -22,7 +22,7 @@ export default {
   title: 'العطف وما بعده',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
-  blurb: 'The nine أحرف العطف (الواو، الفاء، ثم، حتى، أو، أم، لا، بل، لكن) and what each signifies, أحرف الجواب (نعم، بلى، كلا...), أحرف التأكيد (اللامات، النونان، قد), and أحرف الشرط غير العاملة (لو، لولا، لوما، أمّا).',
+  blurb: 'The nine أحرف العطف, plus the particles of response, emphasis, and non-governing condition.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -32,8 +32,12 @@ export default {
       concepts: [
         {
           heading: 'أحرف العطف التسعة، ومعنى الواو',
-          body: `There are nine <bdi>أَحْرُفُ الْعَطْفِ غَيْرِ الْعَامِلَة</bdi>: <bdi>الْوَاو، الْفَاء، ثُمَّ، حَتَّى، أَوْ، أَمْ، لَا، بَل، لَكِنْ</bdi>. <bdi>الْوَاو</bdi> signifies <bdi>الْجَمْعَ مُطْلَقًا</bdi> — absolute joining, saying nothing about order or simultaneity, as in <bdi>﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾</bdi>. In <bdi>جَاءَ زَيْدٌ وَعَمْرٌو</bdi>, they may have come together or separately, in either order — الواو is silent on <bdi>الْمَعِيَّة</bdi> and <bdi>التَّرْتِيب</bdi>, though either may still be understood from context (<bdi>قَرِينَة</bdi>).`,
-          sample: `أحرف العطف (٩) — الواو، الفاء، ثم، حتى، أو، أم، لا، بل، لكن<br>الواو — الجمع مطلقا: ﴿أطيعوا الله والرسول﴾<br>جاء زيد وعمرو — لا تفيد معية ولا ترتيبا`,
+          lines: [
+            { html: `There are nine <bdi>أَحْرُفُ الْعَطْفِ غَيْرِ الْعَامِلَة</bdi>:`, list: false },
+            { html: `<bdi>الْوَاو، الْفَاء، ثُمَّ، حَتَّى، أَوْ، أَمْ، لَا، بَل، لَكِنْ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْوَاو</bdi> signifies <bdi>الْجَمْعَ مُطْلَقًا</bdi> — absolute joining, saying nothing about order or simultaneity, as in ﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾.`, list: false },
+            { html: `In جَاءَ زَيْدٌ وَعَمْرٌو, they may have come together or separately, in either order — الواو is silent on <bdi>الْمَعِيَّة</bdi> and <bdi>التَّرْتِيب</bdi>, though either may still be understood from context (قَرِينَة).`, list: false },
+          ],
           exercise: {
             prompt: `What does حرف العطف الواو signify؟`,
             kind: 'mcq',
@@ -43,8 +47,14 @@ export default {
         },
         {
           heading: 'الفاء: الترتيب والتعقيب، والسببية',
-          body: `<bdi>الْفَاء</bdi> signifies <bdi>الْجَمْعَ مَعَ التَّرْتِيبِ وَالتَّعْقِيب</bdi> — joining with order and immediate succession, as in <bdi>آمَنَتْ خَدِيجَةُ فَأَبُو بَكْرٍ</bdi> — though <bdi>التَّعْقِيب</bdi> is relative to the action (<bdi>تَعْقِيبُ كُلِّ شَيْءٍ بِحَسَبِهِ</bdi>): the gap in <bdi>سَافَرْتُ إِلَىٰ مَكَّةَ فَالْمَدِينَةِ</bdi> is naturally longer than in <bdi>دَخَلَ زَيْدٌ الدَّارَ فَعَمْرٌو</bdi>. Between two جمل, الفاء can mark: (1) temporal order, (2) order of mention (<bdi>تَرْتِيب ذِكْرِي</bdi>, detail after summary), or (3) causation (<bdi>السَّبَب</bdi>) — running either direction: what follows can be the cause of what precedes (فاء ≈ لام, "because"), as in <bdi>﴿وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ﴾</bdi>, or what precedes can be the cause of what follows ("therefore"), as in <bdi>﴿إِنَّكُمْ ظَلَمْتُمْ أَنْفُسَكُمْ بِاتِّخَاذِكُمُ الْعِجْلَ فَتُوبُوا إِلَىٰ بَارِئِكُمْ﴾</bdi>. <bdi>الْفَاءُ الْفَصِيحَة</bdi> is a فاء before which the cause itself (the <bdi>مَعْطُوفٌ عَلَيْه</bdi>) has been omitted, as in <bdi>﴿فَقُلْنَا اذْهَبَا إِلَى الْقَوْمِ الَّذِينَ كَذَّبُوا بِآيَاتِنَا فَدَمَّرْنَاهُمْ تَدْمِيرًا﴾</bdi> (they went, [the people] denied, so We destroyed them).`,
-          sample: `الفاء — الجمع مع الترتيب والتعقيب: آمنت خديجة فأبو بكر<br>التعقيب نسبي — سافرت إلى مكة فالمدينة (فجوة أطول) مقابل دخل زيد الدار فعمرو<br>ثلاثة عند جملة+جملة — الترتيب الزمني، الترتيب الذكري، السببية (باتجاهين)<br>الفاء الفصيحة — ﴿فقلنا اذهبا...فدمرناهم تدميرا﴾، حُذف السبب`,
+          lines: [
+            { html: `<bdi>الْفَاء</bdi> signifies <bdi>الْجَمْعَ مَعَ التَّرْتِيبِ وَالتَّعْقِيب</bdi> — joining with order and immediate succession, as in آمَنَتْ خَدِيجَةُ فَأَبُو بَكْرٍ — though <bdi>التَّعْقِيب</bdi> is relative to the action (تَعْقِيبُ كُلِّ شَيْءٍ بِحَسَبِهِ): the gap in سَافَرْتُ إِلَىٰ مَكَّةَ فَالْمَدِينَةِ is naturally longer than in دَخَلَ زَيْدٌ الدَّارَ فَعَمْرٌو.`, list: false },
+            { html: `Between two جمل, الفاء can mark:`, list: false },
+            { html: `temporal order`, list: true, bullet: true },
+            { html: `order of mention (تَرْتِيب ذِكْرِي, detail after summary)`, list: true, bullet: true },
+            { html: `causation (السَّبَب) — running either direction: what follows can be the cause of what precedes (فاء ≈ لام, "because"), as in ﴿وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ﴾; or what precedes can be the cause of what follows ("therefore"), as in ﴿إِنَّكُمْ ظَلَمْتُمْ أَنْفُسَكُمْ بِاتِّخَاذِكُمُ الْعِجْلَ فَتُوبُوا إِلَىٰ بَارِئِكُمْ﴾`, list: true, bullet: true },
+            { html: `<bdi>الْفَاءُ الْفَصِيحَة</bdi> is a فاء before which the cause itself (the مَعْطُوفٌ عَلَيْه) has been omitted, as in ﴿فَقُلْنَا اذْهَبَا إِلَى الْقَوْمِ الَّذِينَ كَذَّبُوا بِآيَاتِنَا فَدَمَّرْنَاهُمْ تَدْمِيرًا﴾ (they went, [the people] denied, so We destroyed them).`, list: false },
+          ],
           exercise: {
             prompt: `Is the immediacy (التعقيب) of الفاء absolute, the same length in every sentence؟`,
             kind: 'mcq',
@@ -54,8 +64,10 @@ export default {
         },
         {
           heading: 'ثمّ',
-          body: `<bdi>ثُمَّ</bdi> signifies <bdi>الْجَمْعَ مَعَ التَّرْتِيبِ وَالتَّرَاخِي</bdi> — joining with order and delay, as in <bdi>آمَنَ عَلِيٌّ ثُمَّ عُمَرُ</bdi>. Between two جمل it can mark (1) temporal order, as in <bdi>﴿ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ﴾</bdi>, or (2) order of mention (≈ "furthermore"), where the conjoined جملة outranks what came before, as in <bdi>﴿فَإِلَيْنَا مَرْجِعُهُمْ ثُمَّ اللَّهُ شَهِيدٌ عَلَىٰ مَا يَفْعَلُونَ﴾</bdi>.`,
-          sample: `ثم — الجمع مع الترتيب والتراخي: آمن علي ثم عمر<br>بين جملتين — ترتيب زمني: ﴿ثم يميتكم ثم يحييكم ثم إليه ترجعون﴾؛ ترتيب ذكري (الأعلى رتبة): ﴿فإلينا مرجعهم ثم الله شهيد على ما يفعلون﴾`,
+          lines: [
+            { html: `<bdi>ثُمَّ</bdi> signifies <bdi>الْجَمْعَ مَعَ التَّرْتِيبِ وَالتَّرَاخِي</bdi> — joining with order and delay, as in آمَنَ عَلِيٌّ ثُمَّ عُمَرُ.`, list: false },
+            { html: `Between two جمل it can mark temporal order (﴿ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ﴾), or order of mention (≈ "furthermore"), where the conjoined جملة outranks what came before (﴿فَإِلَيْنَا مَرْجِعُهُمْ ثُمَّ اللَّهُ شَهِيدٌ عَلَىٰ مَا يَفْعَلُونَ﴾).`, list: false },
+          ],
           exercise: {
             prompt: `What does حرف العطف ثمّ signify, and how does it differ from الفاء؟`,
             kind: 'mcq',
@@ -65,8 +77,14 @@ export default {
         },
         {
           heading: 'حتى العاطفة',
-          body: `<bdi>حَتَّى</bdi> signifies <bdi>الْغَايَةَ وَالتَّدْرِيج</bdi> — the endpoint (the last part of a thing) reached gradually. Its معطوف must satisfy two conditions: (1) be part (<bdi>جُزْء</bdi>) of the معطوف عليه — ✓ <bdi>أَكَلْتُ السَّمَكَةَ حَتَّىٰ رَأْسَهَا</bdi>, ✗ <bdi>أَكَلْتُ السَّمَكَةَ حَتَّى الْفَاكِهَةَ</bdi> (2) be its last part, either literally (<bdi>حَقِيقَةً</bdi>, as in <bdi>قَرَأْتُ الْقُرْآنَ حَتَّىٰ سُورَةِ النَّاسِ</bdi>) or by status (<bdi>حُكْمًا</bdi>) — in strength, as in <bdi>مَاتَ النَّاسُ حَتَّى الْأَنْبِيَاءُ</bdi>, or in insignificance, as in <bdi>قَدِمَ الْحُجَّاجُ حَتَّى الْمُشَاةُ</bdi>. Like الواو, حتى العاطفة does <b>not</b> indicate <bdi>التَّرْتِيبَ الزَّمَنِيّ</bdi>. Its غاية can be of time, place, or rank, as in <bdi>﴿سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ﴾</bdi>, <bdi>مَشَيْتُ حَتَّىٰ بَابِ الْمَسْجِدِ</bdi>, and <bdi>مَاتَ النَّاسُ حَتَّى الْأَنْبِيَاءُ</bdi>. It is told apart from حتى الجارة by two things: the معطوف must be part of what precedes (the مجرور need only be connected, as in <bdi>صُمْتُ رَمَضَانَ حَتَّىٰ يَوْمِ الْفِطْرِ</bdi> — necessarily جارة, since العيد is not part of الصوم), and the معطوف always shares the قبله's ruling, while the مجرور only shares it absent contrary evidence, as in <bdi>سِرْتُ النَّهَارَ حَتَّى الْعَصْرِ</bdi>.`,
-          sample: `حتى — الغاية والتدريج<br>شرطا المعطوف — جزء من المعطوف عليه؛ آخر جزء منه (حقيقة أو حكما: قوة أو ضعفا)<br>لا تفيد ترتيبا زمنيا، كالواو<br>أنواع الغاية — زمان، مكان، رتبة<br>حتى العاطفة/الجارة — المعطوف جزء دائما ويشارك الحكم دائما؛ المجرور قد لا يكون جزءا وقد لا يشارك الحكم`,
+          lines: [
+            { html: `<bdi>حَتَّى</bdi> signifies <bdi>الْغَايَةَ وَالتَّدْرِيج</bdi> — the endpoint (the last part of a thing) reached gradually.`, list: false },
+            { html: `Its معطوف must satisfy two conditions:`, list: false },
+            { html: `be part (جُزْء) of the معطوف عليه — ✓ أَكَلْتُ السَّمَكَةَ حَتَّىٰ رَأْسَهَا, ✗ أَكَلْتُ السَّمَكَةَ حَتَّى الْفَاكِهَةَ`, list: true, bullet: true },
+            { html: `be its last part, either literally (حَقِيقَةً, as in قَرَأْتُ الْقُرْآنَ حَتَّىٰ سُورَةِ النَّاسِ) or by status (حُكْمًا) — in strength (مَاتَ النَّاسُ حَتَّى الْأَنْبِيَاءُ), or in insignificance (قَدِمَ الْحُجَّاجُ حَتَّى الْمُشَاةُ)`, list: true, bullet: true },
+            { html: `Like الواو, حتى العاطفة does <b>not</b> indicate <bdi>التَّرْتِيبَ الزَّمَنِيّ</bdi>. Its غاية can be of time, place, or rank, as in ﴿سَلَامٌ هِيَ حَتَّىٰ مَطْلَعِ الْفَجْرِ﴾, مَشَيْتُ حَتَّىٰ بَابِ الْمَسْجِدِ, and مَاتَ النَّاسُ حَتَّى الْأَنْبِيَاءُ.`, list: false },
+            { html: `It is told apart from حتى الجارة by two things: the معطوف must be part of what precedes (the مجرور need only be connected, as in صُمْتُ رَمَضَانَ حَتَّىٰ يَوْمِ الْفِطْرِ — necessarily جارة, since العيد is not part of الصوم), and the معطوف always shares the قبله's ruling, while the مجرور only shares it absent contrary evidence, as in سِرْتُ النَّهَارَ حَتَّى الْعَصْرِ.`, list: false },
+          ],
           exercise: {
             prompt: `What are the two conditions on the معطوف of حتى؟`,
             kind: 'mcq',
@@ -76,8 +94,19 @@ export default {
         },
         {
           heading: 'أو وأم',
-          body: `<bdi>أَوْ</bdi> has three uses: (1) doubt after a statement (<bdi>الشَّكُّ بَعْدَ الْخَبَر</bdi>), as in <bdi>﴿وَإِنَّا أَوْ إِيَّاكُمْ لَعَلَىٰ هُدًى﴾</bdi> (2) choice after a command (<bdi>التَّخْيِيرُ بَعْدَ الْأَمْر</bdi>), as in <bdi>﴿فَفِدْيَةٌ مِنْ صِيَامٍ أَوْ صَدَقَةٍ أَوْ نُسُكٍ﴾</bdi> (3) joining after نفي or prohibition, as in <bdi>﴿وَلَا تُطِعْ مِنْهُمْ آثِمًا أَوْ كَفُورًا﴾</bdi>. <bdi>أَمْ</bdi> — restricted to الاستفهام and what carries its meaning — has two uses: requesting specification (<bdi>طَلَبُ التَّعْيِين</bdi>), as in <bdi>﴿أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ﴾</bdi>, and equalisation (<bdi>التَّسْوِيَة</bdi>), as in <bdi>﴿سَوَاءٌ عَلَيْهِمْ أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ﴾</bdi>.`,
-          sample: `أو (٣) — الشك بعد الخبر، التخيير بعد الأمر، الجمع بعد نفي/نهي<br>أم (٢) — طلب التعيين، التسوية؛ مقصورة على الاستفهام وما في معناه`,
+          lines: [
+            { html: `<bdi>أَوْ</bdi> has three uses:`, list: false },
+            { table: { headers: ['Use', 'Example'], rows: [
+              ['الشَّكُّ بَعْدَ الْخَبَر — doubt after a statement', '﴿وَإِنَّا أَوْ إِيَّاكُمْ لَعَلَىٰ هُدًى﴾'],
+              ['التَّخْيِيرُ بَعْدَ الْأَمْر — choice after a command', '﴿فَفِدْيَةٌ مِنْ صِيَامٍ أَوْ صَدَقَةٍ أَوْ نُسُكٍ﴾'],
+              ['joining after نفي or prohibition', '﴿وَلَا تُطِعْ مِنْهُمْ آثِمًا أَوْ كَفُورًا﴾'],
+            ] } },
+            { html: `<bdi>أَمْ</bdi> — restricted to الاستفهام and what carries its meaning — has two uses:`, list: false },
+            { table: { headers: ['Use', 'Example'], rows: [
+              ['طَلَبُ التَّعْيِين — requesting specification', '﴿أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ﴾'],
+              ['التَّسْوِيَة — equalisation', '﴿سَوَاءٌ عَلَيْهِمْ أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `What is أم restricted to, and what are its two uses؟`,
             kind: 'mcq',
@@ -87,8 +116,13 @@ export default {
         },
         {
           heading: 'لا وبل ولكن وإمّا',
-          body: `<bdi>لَا</bdi> negates the ruling from the معطوف, as in <bdi>اعْمَلْ صَالِحًا لَا سَيِّئًا</bdi>, on condition it is preceded by affirmation or command; if preceded instead by نفي or prohibition, الواو becomes obligatory and لا becomes <bdi>زَائِدَة</bdi>, as in <bdi>﴿وَلَنْ تَرْضَىٰ عَنْكَ الْيَهُودُ وَلَا النَّصَارَىٰ﴾</bdi>. لا must be repeated with الواو when it enters a negated خبر, a negated نعت (<bdi>﴿لَا مَقْطُوعَةٍ وَلَا مَمْنُوعَةٍ﴾</bdi>), or a negated حال. <bdi>بَلْ</bdi> signifies <bdi>الْإِضْرَاب</bdi> (turning away): after affirmation/command it strips the ruling from what precedes and gives it to what follows (<bdi>صُمِ الْيَوْمَ بَلْ غَدًا</bdi>); after نفي/prohibition it confirms what precedes and assigns the opposite to what follows (<bdi>لَا تَصُمِ الْيَوْمَ بَلْ غَدًا</bdi>). <bdi>لَكِنْ</bdi> signifies <bdi>الِاسْتِدْرَاك</bdi> — what follows contradicts what precedes, as in <bdi>مَا جَاءَ زَيْدٌ لَكِنْ خَالِدٌ</bdi> — on two conditions: preceded by نفي/prohibition, and not accompanied by الواو (if الواو is present, لكن is زائدة). <bdi>إِمَّا</bdi>, on the sounder view, is <b>not</b> حرف عطف at all, though it resembles أو and أم in meaning; it only occurs repeated, as in <bdi>﴿إِمَّا شَاكِرًا وَإِمَّا كَفُورًا﴾</bdi>, or paired with أو standing in for the second إما.`,
-          sample: `لا — تنفي الحكم عن المعطوف: اعمل صالحا لا سيئا؛ شرطها: إثبات أو أمر قبلها<br>لا بعد نفي — الواو تجب، لا زائدة: ﴿ولن ترضى عنك اليهود ولا النصارى﴾<br>بل — الإضراب، يتغير أثره بحسب ما قبله<br>لكن — الاستدراك: ما جاء زيد لكن خالد، بشرطين<br>إما — ليست عطفا على الأصح، تتكرر: ﴿إما شاكرا وإما كفورا﴾`,
+          lines: [
+            { html: `<bdi>لَا</bdi> negates the ruling from the معطوف, as in اعْمَلْ صَالِحًا لَا سَيِّئًا, on condition it is preceded by affirmation or command; if preceded instead by نفي or prohibition, الواو becomes obligatory and لا becomes <bdi>زَائِدَة</bdi>, as in ﴿وَلَنْ تَرْضَىٰ عَنْكَ الْيَهُودُ وَلَا النَّصَارَىٰ﴾.`, list: false },
+            { html: `لا must be repeated with الواو when it enters a negated خبر, a negated نعت (﴿لَا مَقْطُوعَةٍ وَلَا مَمْنُوعَةٍ﴾), or a negated حال.`, list: false },
+            { html: `<bdi>بَلْ</bdi> signifies <bdi>الْإِضْرَاب</bdi> (turning away): after affirmation/command it strips the ruling from what precedes and gives it to what follows (صُمِ الْيَوْمَ بَلْ غَدًا); after نفي/prohibition it confirms what precedes and assigns the opposite to what follows (لَا تَصُمِ الْيَوْمَ بَلْ غَدًا).`, list: false },
+            { html: `<bdi>لَكِنْ</bdi> signifies <bdi>الِاسْتِدْرَاك</bdi> — what follows contradicts what precedes, as in مَا جَاءَ زَيْدٌ لَكِنْ خَالِدٌ — on two conditions: preceded by نفي/prohibition, and not accompanied by الواو (if الواو is present, لكن is زائدة).`, list: false },
+            { html: `<bdi>إِمَّا</bdi>, on the sounder view, is <b>not</b> حرف عطف at all, though it resembles أو and أم in meaning; it only occurs repeated, as in ﴿إِمَّا شَاكِرًا وَإِمَّا كَفُورًا﴾, or paired with أو standing in for the second إما.`, list: false },
+          ],
           exercise: {
             prompt: `What happens to لا (العاطفة) when it is preceded by نفي or prohibition rather than affirmation؟`,
             kind: 'mcq',
@@ -271,40 +305,116 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: تصنيف التسعة بمعناها',
+          title: 'تركيب: ﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف عطف by its core meaning.',
-          source: 'الواو / الفاء / ثم / حتى',
-          words: ['الواو', 'الفاء', 'ثم', 'حتى'],
-          labels: ['الجمع مطلقا', 'الجمع مع الترتيب والتعقيب', 'الجمع مع الترتيب والتراخي', 'الغاية والتدريج'],
-          distractors: ['الاستدراك'],
+          instruction: 'What does الواو signify here؟',
+          sentence: 'أَطِيعُوا اللَّهَ وَالرَّسُولَ',
+          translation: 'Obey Allah and the Messenger.',
+          cells: ['أَطِيعُوا', 'اللَّهَ', 'وَالرَّسُولَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'الجمع مطلقا' },
+            ] },
+          ],
+          distractors: ['الجمع مع الترتيب والتعقيب', 'الجمع مع الترتيب والتراخي'],
         },
         {
-          title: 'تركيب: استعمالات أو الثلاثة',
+          title: 'تركيب: آمَنَتْ خَدِيجَةُ فَأَبُو بَكْرٍ',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the use of أو it illustrates.',
-          source: '﴿وإنا أو إياكم لعلى هدى﴾ / ﴿ففدية من صيام أو صدقة أو نسك﴾ / ﴿ولا تطع منهم آثما أو كفورا﴾',
-          words: ['وإنا أو إياكم', 'صيام أو صدقة', 'آثما أو كفورا'],
-          labels: ['الشك بعد الخبر', 'التخيير بعد الأمر', 'الجمع بعد نهي'],
-          distractors: ['التسوية'],
+          instruction: 'What does الفاء signify here؟',
+          sentence: 'آمَنَتْ خَدِيجَةُ فَأَبُو بَكْرٍ',
+          translation: 'Khadijah believed, then Abu Bakr.',
+          cells: ['آمَنَتْ', 'خَدِيجَةُ', 'فَأَبُو', 'بَكْرٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'الجمع مع الترتيب والتعقيب' },
+            ] },
+          ],
+          distractors: ['الجمع مطلقا', 'الجمع مع الترتيب والتراخي'],
         },
         {
-          title: 'تركيب: بل حسب ما قبلها',
+          title: 'تركيب: آمَنَ عَلِيٌّ ثُمَّ عُمَرُ',
           kind: 'tarkeeb',
-          instruction: 'Classify what بل does in each example.',
-          source: 'صم اليوم بل غدا / لا تصم اليوم بل غدا',
-          words: ['صم اليوم بل غدا', 'لا تصم اليوم بل غدا'],
-          labels: ['إبطال حكم الأول', 'تثبيت حكم الأول'],
-          distractors: ['نفي كليهما'],
+          instruction: 'What does ثم signify here؟',
+          sentence: 'آمَنَ عَلِيٌّ ثُمَّ عُمَرُ',
+          translation: 'Ali believed, then [later] Umar.',
+          cells: ['آمَنَ', 'عَلِيٌّ', 'ثُمَّ', 'عُمَرُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'الجمع مع الترتيب والتراخي' },
+            ] },
+          ],
+          distractors: ['الجمع مطلقا', 'الجمع مع الترتيب والتعقيب'],
         },
         {
-          title: 'تركيب: عاطفة أم زائدة؟',
+          title: 'تركيب: قَرَأْتُ الْقُرْآنَ حَتَّىٰ سُورَةِ النَّاسِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each: هل الحرف عاطف هنا, أم غير ذلك؟',
-          source: 'إما (متكررة) / لكن (بعد نفي، بلا واو) / لا (بعد نفي، مع الواو)',
-          words: ['إما', 'لكن', 'لا مع الواو بعد نفي'],
-          labels: ['ليست عاطفة على الأصح', 'عاطفة', 'زائدة (والواو هي العاطفة)'],
-          distractors: ['جارة'],
+          instruction: 'What does حتى signify here؟',
+          sentence: 'قَرَأْتُ الْقُرْآنَ حَتَّىٰ سُورَةِ النَّاسِ',
+          translation: 'I read the Quran, up to Surat an-Nas.',
+          cells: ['قَرَأْتُ', 'الْقُرْآنَ', 'حَتَّىٰ', 'سُورَةِ', 'النَّاسِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'الغاية والتدريج' },
+            ] },
+          ],
+          distractors: ['الجمع مطلقا', 'الجمع مع الترتيب والتراخي'],
+        },
+        {
+          title: 'تركيب: ﴿فَفِدْيَةٌ مِنْ صِيَامٍ أَوْ صَدَقَةٍ أَوْ نُسُكٍ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which use of أو does this illustrate؟',
+          sentence: 'فَفِدْيَةٌ مِنْ صِيَامٍ أَوْ صَدَقَةٍ أَوْ نُسُكٍ',
+          translation: 'Then a ransom of fasting, charity, or sacrifice.',
+          cells: ['فِدْيَةٌ', 'مِنْ', 'صِيَامٍ', 'أَوْ', 'صَدَقَةٍ', 'أَوْ', 'نُسُكٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 6, role: 'التخيير بعد الأمر' },
+            ] },
+          ],
+          distractors: ['الشك بعد الخبر', 'التسوية'],
+        },
+        {
+          title: 'تركيب: ﴿وَلَا تُطِعْ مِنْهُمْ آثِمًا أَوْ كَفُورًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which use of أو does this illustrate؟',
+          sentence: 'وَلَا تُطِعْ مِنْهُمْ آثِمًا أَوْ كَفُورًا',
+          translation: 'And do not obey among them a sinner or disbeliever.',
+          cells: ['تُطِعْ', 'مِنْهُمْ', 'آثِمًا', 'أَوْ', 'كَفُورًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'الجمع بعد نهي' },
+            ] },
+          ],
+          distractors: ['الشك بعد الخبر', 'التخيير بعد الأمر'],
+        },
+        {
+          title: 'تركيب: صُمِ الْيَوْمَ بَلْ غَدًا',
+          kind: 'tarkeeb',
+          instruction: 'What does بل do to the ruling on اليوم here؟',
+          sentence: 'صُمِ الْيَوْمَ بَلْ غَدًا',
+          translation: 'Fast today — no, [rather] tomorrow.',
+          cells: ['صُمِ', 'الْيَوْمَ', 'بَلْ', 'غَدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'إبطال حكم الأول' },
+            ] },
+          ],
+          distractors: ['تثبيت حكم الأول'],
+        },
+        {
+          title: 'تركيب: لَا تَصُمِ الْيَوْمَ بَلْ غَدًا',
+          kind: 'tarkeeb',
+          instruction: 'What does بل do to the ruling on اليوم here؟',
+          sentence: 'لَا تَصُمِ الْيَوْمَ بَلْ غَدًا',
+          translation: "Don't fast today — but [do] tomorrow.",
+          cells: ['تَصُمِ', 'الْيَوْمَ', 'بَلْ', 'غَدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'تثبيت حكم الأول' },
+            ] },
+          ],
+          distractors: ['إبطال حكم الأول'],
         },
       ],
     },
@@ -316,8 +426,13 @@ export default {
       concepts: [
         {
           heading: 'فئتا أحرف الجواب',
-          body: `<bdi>أَحْرُفُ الْجَوَاب</bdi> split into two categories: (1) <bdi>أَحْرُفُ الْإِيجَاب</bdi> — six of them: <bdi>نَعَمْ، بَلَىٰ، إِي، أَجَلْ، إِنَّ، جَيْرِ</bdi> (2) <bdi>أَحْرُفُ النَّفْي</bdi> — two of them: <bdi>لَا، كَلَّا</bdi>.`,
-          sample: `أحرف الإيجاب (٦) — نعم، بلى، إي، أجل، إنّ، جير<br>أحرف النفي (٢) — لا، كلا`,
+          lines: [
+            { html: `<bdi>أَحْرُفُ الْجَوَاب</bdi> split into two categories:`, list: false },
+            { table: { headers: ['Category', 'حروف'], rows: [
+              ['أَحْرُفُ الْإِيجَاب', 'نَعَمْ، بَلَىٰ، إِي، أَجَلْ، إِنَّ، جَيْرِ'],
+              ['أَحْرُفُ النَّفْي', 'لَا، كَلَّا'],
+            ] } },
+          ],
           exercise: {
             prompt: `What are the two categories of أحرف الجواب؟`,
             kind: 'mcq',
@@ -327,8 +442,10 @@ export default {
         },
         {
           heading: 'نعم وبلى',
-          body: `<bdi>نَعَمْ</bdi> confirms the question exactly as asked: after an affirmative question it affirms — <bdi>أَسَافَرَ خَالِدٌ؟ نَعَمْ</bdi> means the journey happened; after a negative question it confirms the نفي — <bdi>أَمَا سَافَرَ خَالِدٌ؟ نَعَمْ</bdi> means the journey did <b>not</b> happen. <bdi>بَلَىٰ</bdi>, by contrast, always affirms what was negated (<bdi>لِإِيجَابِ الْمَنْفِيّ</bdi>) — whether after a negative question, as in <bdi>﴿أَلَسْتُ بِرَبِّكُمْ قَالُوا بَلَىٰ﴾</bdi> (indeed You are), or a negative statement: <bdi>لَمْ يَقُمْ زَيْدٌ</bdi> → <bdi>بَلَىٰ</bdi> means he did stand.`,
-          sample: `نعم — تقرر السؤال كما وقع: أسافر خالد؟ نعم (سافر)؛ أما سافر خالد؟ نعم (لم يسافر)<br>بلى — لإيجاب المنفي دوما: ﴿ألست بربكم قالوا بلى﴾؛ لم يقم زيد → بلى (قام)`,
+          lines: [
+            { html: `<bdi>نَعَمْ</bdi> confirms the question exactly as asked: after an affirmative question it affirms (أَسَافَرَ خَالِدٌ؟ نَعَمْ means the journey happened); after a negative question it confirms the نفي (أَمَا سَافَرَ خَالِدٌ؟ نَعَمْ means the journey did <b>not</b> happen).`, list: false },
+            { html: `<bdi>بَلَىٰ</bdi>, by contrast, always affirms what was negated (لِإِيجَابِ الْمَنْفِيّ) — whether after a negative question, as in ﴿أَلَسْتُ بِرَبِّكُمْ قَالُوا بَلَىٰ﴾ (indeed You are), or a negative statement: لَمْ يَقُمْ زَيْدٌ → بَلَىٰ means he did stand.`, list: false },
+          ],
           exercise: {
             prompt: `How does نعم work after a NEGATIVE question, e.g. أَمَا سَافَرَ خَالِدٌ؟ نَعَمْ؟`,
             kind: 'mcq',
@@ -338,8 +455,11 @@ export default {
         },
         {
           heading: 'إي وأجل وإنّ وجير',
-          body: `<bdi>إِي</bdi> occurs specifically before a قسم, as in <bdi>﴿وَيَسْتَنْبِئُونَكَ أَحَقٌّ هُوَ قُلْ إِي وَرَبِّي إِنَّهُ لَحَقٌّ﴾</bdi>. <bdi>أَجَلْ</bdi> is used as affirmation after a statement (<bdi>بَعْدَ الْخَبَر</bdi>) — in reply to <bdi>نُحِبُّ الْأَنْصَارَ</bdi>, one says <bdi>أَجَلْ</bdi>. Two less common أحرف الإيجاب: <bdi>إِنَّ</bdi>, as in a reply of <bdi>إِنَّهُ</bdi> to <bdi>هَلْ تُحِبُّ الصَّحَابَةَ؟</bdi>, and <bdi>جَيْر</bdi>, as in <bdi>جَيْرِ لَأَتْبَعَنَّهُمْ</bdi> replying to <bdi>هَلْ تَتَّبِعُ الرَّسُولَ ﷺ وَأَصْحَابَهُ؟</bdi>`,
-          sample: `إي — قبل القسم: ﴿قل إي وربي إنه لحق﴾<br>أجل — بعد الخبر: نحب الأنصار → أجل<br>إنّ وجير — أقل شيوعا: إنّه (ردا على هل تحب الصحابة؟)، جير لأتبعنهم`,
+          lines: [
+            { html: `<bdi>إِي</bdi> occurs specifically before a قسم, as in ﴿وَيَسْتَنْبِئُونَكَ أَحَقٌّ هُوَ قُلْ إِي وَرَبِّي إِنَّهُ لَحَقٌّ﴾.`, list: false },
+            { html: `<bdi>أَجَلْ</bdi> is used as affirmation after a statement (بَعْدَ الْخَبَر) — in reply to نُحِبُّ الْأَنْصَارَ, one says أَجَلْ.`, list: false },
+            { html: `Two less common أحرف الإيجاب: <bdi>إِنَّ</bdi>, as in a reply of إِنَّهُ to هَلْ تُحِبُّ الصَّحَابَةَ؟, and <bdi>جَيْر</bdi>, as in جَيْرِ لَأَتْبَعَنَّهُمْ replying to هَلْ تَتَّبِعُ الرَّسُولَ ﷺ وَأَصْحَابَهُ؟`, list: false },
+          ],
           exercise: {
             prompt: `Which response حرف occurs specifically before a قسم؟`,
             kind: 'mcq',
@@ -349,8 +469,10 @@ export default {
         },
         {
           heading: 'كلا: معانيها الثلاثة',
-          body: `<bdi>كَلَّا</bdi>'s primary meaning is <bdi>الزَّجْر</bdi> (rebuke) — rejecting what precedes and affirming what follows, as in <bdi>﴿قَالَ رَبِّ ارْجِعُونِ. لَعَلِّي أَعْمَلُ صَالِحًا فِيمَا تَرَكْتُ. كَلَّا﴾</bdi>; it is called <bdi>حَرْفُ رَدْعٍ وَزَجْر</bdi>. It can also carry <b>affirmation</b> (<bdi>التَّصْدِيق</bdi>, ≈ أجل/إي), as in <bdi>﴿وَمَا هُوَ إِلَّا ذِكْرَىٰ لِلْبَشَرِ. كَلَّا وَالْقَمَرِ﴾</bdi>, or serve as an <b>opener/attention-getter</b> (<bdi>الِاسْتِفْتَاح</bdi>, ≈ ألا), as in <bdi>﴿عَلَّمَ الْإِنْسَانَ مَا لَمْ يَعْلَمْ. كَلَّا إِنَّ الْإِنْسَانَ لَيَطْغَىٰ﴾</bdi>.`,
-          sample: `كلا (الزجر) — ﴿قال رب ارجعون...كلا﴾، حرف ردع<br>كلا (التصديق) — ﴿وما هو إلا ذكرى للبشر. كلا والقمر﴾<br>كلا (الاستفتاح) — ﴿علم الإنسان ما لم يعلم. كلا إن الإنسان ليطغى﴾`,
+          lines: [
+            { html: `<bdi>كَلَّا</bdi>'s primary meaning is <bdi>الزَّجْر</bdi> (rebuke) — rejecting what precedes and affirming what follows, as in ﴿قَالَ رَبِّ ارْجِعُونِ. لَعَلِّي أَعْمَلُ صَالِحًا فِيمَا تَرَكْتُ. كَلَّا﴾; it is called <bdi>حَرْفُ رَدْعٍ وَزَجْر</bdi>.`, list: false },
+            { html: `It can also carry <b>affirmation</b> (التَّصْدِيق, ≈ أجل/إي), as in ﴿وَمَا هُوَ إِلَّا ذِكْرَىٰ لِلْبَشَرِ. كَلَّا وَالْقَمَرِ﴾, or serve as an <b>opener/attention-getter</b> (الِاسْتِفْتَاح, ≈ ألا), as in ﴿عَلَّمَ الْإِنْسَانَ مَا لَمْ يَعْلَمْ. كَلَّا إِنَّ الْإِنْسَانَ لَيَطْغَىٰ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What is the primary meaning of كلا, and what is it called؟`,
             kind: 'mcq',
@@ -477,31 +599,74 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: نعم أم بلى؟',
+          title: 'تركيب: أَسَافَرَ خَالِدٌ؟ نَعَمْ',
           kind: 'tarkeeb',
-          instruction: 'Classify which حرف — نعم أم بلى — fits each context.',
-          source: 'أسافر خالد؟ ___ (تقرير) / ألست بربكم؟ ___ (بلى، أنت ربنا)',
-          words: ['أسافر خالد؟', 'ألست بربكم؟'],
-          labels: ['نعم', 'بلى'],
-          distractors: ['إي'],
+          instruction: 'After this affirmative question, what does نَعَمْ confirm?',
+          sentence: 'أَسَافَرَ خَالِدٌ؟ نَعَمْ',
+          translation: 'Did Khalid travel? Yes.',
+          cells: ['أَسَافَرَ', 'خَالِدٌ', 'نَعَمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'تقرير: سافر' },
+            ] },
+          ],
+          distractors: ['نفي السفر'],
         },
         {
-          title: 'تركيب: معاني كلا الثلاثة',
+          title: 'تركيب: ﴿أَلَسْتُ بِرَبِّكُمْ قَالُوا بَلَىٰ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the meaning of كلا it illustrates.',
-          source: '﴿قال رب ارجعون...كلا﴾ / ﴿وما هو إلا ذكرى للبشر. كلا والقمر﴾ / ﴿علم الإنسان ما لم يعلم. كلا إن الإنسان ليطغى﴾',
-          words: ['كلا (ارجعون)', 'كلا والقمر', 'كلا إن الإنسان'],
-          labels: ['الزجر', 'التصديق', 'الاستفتاح'],
-          distractors: ['الاستفهام'],
+          instruction: 'After this negative question, what does بَلَىٰ confirm?',
+          sentence: 'أَلَسْتُ بِرَبِّكُمْ قَالُوا بَلَىٰ',
+          translation: '"Am I not your Lord?" They said, "Yes, [we testify]."',
+          cells: ['أَلَسْتُ', 'بِرَبِّكُمْ', 'قَالُوا', 'بَلَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'إيجاب المنفي: أنت ربنا' },
+            ] },
+          ],
+          distractors: ['تقرير النفي'],
         },
         {
-          title: 'تركيب: إيجاب أم نفي؟',
+          title: 'تركيب: ﴿قَالَ رَبِّ ارْجِعُونِ لَعَلِّي أَعْمَلُ صَالِحًا فِيمَا تَرَكْتُ كَلَّا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: من أحرف الإيجاب أم النفي؟',
-          source: 'نعم / لا / أجل / كلا',
-          words: ['نعم', 'لا', 'أجل', 'كلا'],
-          labels: ['إيجاب', 'نفي', 'إيجاب', 'نفي'],
-          distractors: ['شرط'],
+          instruction: 'Which meaning of كلا does this illustrate?',
+          sentence: 'قَالَ رَبِّ ارْجِعُونِ لَعَلِّي أَعْمَلُ صَالِحًا فِيمَا تَرَكْتُ كَلَّا',
+          translation: 'He said, "My Lord, send me back, that I might do righteousness in that which I left." No!',
+          cells: ['قَالَ', 'رَبِّ', 'ارْجِعُونِ', 'لَعَلِّي', 'أَعْمَلُ', 'صَالِحًا', 'فِيمَا', 'تَرَكْتُ', 'كَلَّا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 8, end: 8, role: 'الزجر' },
+            ] },
+          ],
+          distractors: ['التصديق', 'الاستفتاح'],
+        },
+        {
+          title: 'تركيب: ﴿وَمَا هُوَ إِلَّا ذِكْرَىٰ لِلْبَشَرِ كَلَّا وَالْقَمَرِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of كلا does this illustrate؟',
+          sentence: 'وَمَا هُوَ إِلَّا ذِكْرَىٰ لِلْبَشَرِ كَلَّا وَالْقَمَرِ',
+          translation: 'And it is not but a reminder to mankind. Indeed, by the moon.',
+          cells: ['هُوَ', 'إِلَّا', 'ذِكْرَىٰ', 'لِلْبَشَرِ', 'كَلَّا', 'وَالْقَمَرِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 4, role: 'التصديق' },
+            ] },
+          ],
+          distractors: ['الزجر', 'الاستفتاح'],
+        },
+        {
+          title: 'تركيب: ﴿عَلَّمَ الْإِنْسَانَ مَا لَمْ يَعْلَمْ كَلَّا إِنَّ الْإِنْسَانَ لَيَطْغَىٰ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of كلا does this illustrate؟',
+          sentence: 'عَلَّمَ الْإِنْسَانَ مَا لَمْ يَعْلَمْ كَلَّا إِنَّ الْإِنْسَانَ لَيَطْغَىٰ',
+          translation: 'He taught man that which he did not know. No indeed! Man truly transgresses.',
+          cells: ['عَلَّمَ', 'الْإِنْسَانَ', 'مَا', 'لَمْ', 'يَعْلَمْ', 'كَلَّا', 'إِنَّ', 'الْإِنْسَانَ', 'لَيَطْغَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 5, end: 5, role: 'الاستفتاح' },
+            ] },
+          ],
+          distractors: ['الزجر', 'التصديق'],
         },
       ],
     },
@@ -513,8 +678,11 @@ export default {
       concepts: [
         {
           heading: 'الخمسة، ولام الابتداء',
-          body: `There are five <bdi>أَحْرُفُ التَّأْكِيدِ غَيْرِ الْعَامِلَة</bdi>: (1) <bdi>لَامُ الِابْتِدَاء</bdi> (2) <bdi>اللَّامُ الْمُزَحْلَقَة</bdi> (3) <bdi>اللَّامُ فِي جَوَابِ الْقَسَم</bdi> (4) <bdi>نُونَا التَّأْكِيد</bdi> (light and heavy) (5) <bdi>قَدْ</bdi>. لام الابتداء enters upon the <bdi>مُبْتَدَأ</bdi>, as in <bdi>﴿وَلَدَارُ الْآخِرَةِ خَيْرٌ لِلَّذِينَ اتَّقَوْا﴾</bdi>.`,
-          sample: `أحرف التأكيد الخمسة — لام الابتداء، اللام المزحلقة، لام جواب القسم، نونا التأكيد، قد<br>لام الابتداء — تدخل على المبتدأ: ﴿ولدار الآخرة خير للذين اتقوا﴾`,
+          lines: [
+            { html: `There are five <bdi>أَحْرُفُ التَّأْكِيدِ غَيْرِ الْعَامِلَة</bdi>:`, list: false },
+            { html: `<bdi>لَامُ الِابْتِدَاء</bdi>، <bdi>اللَّامُ الْمُزَحْلَقَة</bdi>، <bdi>اللَّامُ فِي جَوَابِ الْقَسَم</bdi>، <bdi>نُونَا التَّأْكِيد</bdi> (light and heavy)، <bdi>قَدْ</bdi>`, list: true, bullet: true },
+            { html: `لام الابتداء enters upon the <bdi>مُبْتَدَأ</bdi>, as in ﴿وَلَدَارُ الْآخِرَةِ خَيْرٌ لِلَّذِينَ اتَّقَوْا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What does لام الابتداء enter upon؟`,
             kind: 'mcq',
@@ -524,8 +692,15 @@ export default {
         },
         {
           heading: 'اللام المزحلقة، ولام التوكيد',
-          body: `<bdi>اللَّامُ الْمُزَحْلَقَة</bdi> enters upon the خبر of إنّ in three cases: when it is an اسم, as in <bdi>﴿إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ﴾</bdi>; a present-tense فعل, as in <bdi>﴿وَإِنَّ رَبَّكَ لَيَعْلَمُ مَا تُكِنُّ صُدُورُهُمْ﴾</bdi>; or a شبه جملة, as in <bdi>﴿وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ﴾</bdi>. لام الابتداء and اللام المزحلقة together share the collective name <bdi>لَامُ التَّوْكِيد</bdi>.`,
-          sample: `اللام المزحلقة — في خبر إنّ: اسم (﴿إن ربي لسميع الدعاء﴾)، فعل مضارع (﴿وإن ربك ليعلم ما تكن صدورهم﴾)، شبه جملة (﴿وإنك لعلى خلق عظيم﴾)<br>لام التوكيد — الاسم الجامع للام الابتداء واللام المزحلقة`,
+          lines: [
+            { html: `<bdi>اللَّامُ الْمُزَحْلَقَة</bdi> enters upon the خبر of إنّ in three cases:`, list: false },
+            { table: { headers: ['خبر type', 'Example'], rows: [
+              ['اسم', '﴿إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ﴾'],
+              ['present-tense فعل', '﴿وَإِنَّ رَبَّكَ لَيَعْلَمُ مَا تُكِنُّ صُدُورُهُمْ﴾'],
+              ['شبه جملة', '﴿وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ﴾'],
+            ] } },
+            { html: `لام الابتداء and اللام المزحلقة together share the collective name <bdi>لَامُ التَّوْكِيد</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Upon what does اللام المزحلقة enter, and in which cases؟`,
             kind: 'mcq',
@@ -535,8 +710,10 @@ export default {
         },
         {
           heading: 'لام جواب القسم، ونونا التأكيد',
-          body: `A لام also appears in the answer of a قسم, as in <bdi>﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنْتُمْ تَفْتَرُونَ﴾</bdi>. There are two <bdi>نُونَا التَّأْكِيد</bdi>: the light (<bdi>الْخَفِيفَة</bdi>) and heavy (<bdi>الثَّقِيلَة</bdi>) — an example containing both is <bdi>﴿لَيُسْجَنَنَّ وَلَيَكُونًا مِنَ الصَّاغِرِينَ﴾</bdi>.`,
-          sample: `لام جواب القسم — ﴿تالله لتُسألنّ عما كنتم تفترون﴾<br>نونا التأكيد — الخفيفة والثقيلة: ﴿ليُسجننّ وليكوناً من الصاغرين﴾`,
+          lines: [
+            { html: `A لام also appears in the answer of a قسم, as in ﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنْتُمْ تَفْتَرُونَ﴾.`, list: false },
+            { html: `There are two <bdi>نُونَا التَّأْكِيد</bdi>: the light (<bdi>الْخَفِيفَة</bdi>) and heavy (<bdi>الثَّقِيلَة</bdi>) — an example containing both is ﴿لَيُسْجَنَنَّ وَلَيَكُونًا مِنَ الصَّاغِرِينَ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What are the two نونا التأكيد؟`,
             kind: 'mcq',
@@ -546,8 +723,16 @@ export default {
         },
         {
           heading: 'قد مع الماضي والمضارع',
-          body: `With a past-tense فعل, <bdi>قَدْ</bdi> means certainty/realisation (<bdi>التَّحْقِيق</bdi>), as in <bdi>﴿قَدْ أَفْلَحَ الْمُؤْمِنُونَ﴾</bdi>. With a present-tense فعل it can carry four meanings: (1) <bdi>التَّحْقِيق</bdi>, as in <bdi>﴿قَدْ يَعْلَمُ اللَّهُ﴾</bdi> (2) <bdi>التَّوَقُّع</bdi> (expectation of future occurrence), as in <bdi>قَدْ يَبْرَأُ الْمَرِيضُ</bdi> (3) <bdi>التَّكْثِير</bdi>, as in <bdi>﴿قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ﴾</bdi> (4) <bdi>التَّقْلِيل</bdi>, as in <bdi>قَدْ يَصْدُقُ الْكَذُوبُ</bdi> — with المضارع, <b>التقليل is predominant</b>.`,
-          sample: `قد + ماضٍ — التحقيق: ﴿قد أفلح المؤمنون﴾<br>قد + مضارع (٤) — التحقيق: ﴿قد يعلم الله﴾؛ التوقع: قد يبرأ المريض؛ التكثير: ﴿قد نرى تقلب وجهك في السماء﴾؛ التقليل (الغالب): قد يصدق الكذوب`,
+          lines: [
+            { html: `With a past-tense فعل, <bdi>قَدْ</bdi> means certainty/realisation (<bdi>التَّحْقِيق</bdi>), as in ﴿قَدْ أَفْلَحَ الْمُؤْمِنُونَ﴾.`, list: false },
+            { html: `With a present-tense فعل it can carry four meanings — with المضارع, <b>التقليل is predominant</b>:`, list: false },
+            { table: { headers: ['Meaning', 'Example'], rows: [
+              ['التَّحْقِيق', '﴿قَدْ يَعْلَمُ اللَّهُ﴾'],
+              ['التَّوَقُّع (expectation of future occurrence)', 'قَدْ يَبْرَأُ الْمَرِيضُ'],
+              ['التَّكْثِير', '﴿قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ﴾'],
+              ['التَّقْلِيل', 'قَدْ يَصْدُقُ الْكَذُوبُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `With المضارع, which of قد's four meanings predominates؟`,
             kind: 'mcq',
@@ -660,31 +845,102 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مواضع اللام المزحلقة الثلاثة',
+          title: 'تركيب: ﴿إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what type of خبر each example shows اللام المزحلقة entering.',
-          source: '﴿إن ربي لسميع الدعاء﴾ / ﴿وإن ربك ليعلم ما تكن صدورهم﴾ / ﴿وإنك لعلى خلق عظيم﴾',
-          words: ['لسميع الدعاء', 'ليعلم', 'لعلى خلق'],
-          labels: ['اسم', 'فعل مضارع', 'شبه جملة'],
-          distractors: ['فعل ماضٍ'],
+          instruction: 'What type of خبر does اللام المزحلقة enter here؟',
+          sentence: 'إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ',
+          translation: 'Indeed, my Lord is the Hearer of supplication.',
+          cells: ['رَبِّي', 'لَسَمِيعُ', 'الدُّعَاءِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'اسم' },
+            ] },
+          ],
+          distractors: ['فعل مضارع', 'شبه جملة'],
         },
         {
-          title: 'تركيب: معاني قد الأربعة مع المضارع',
+          title: 'تركيب: ﴿وَإِنَّ رَبَّكَ لَيَعْلَمُ مَا تُكِنُّ صُدُورُهُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the meaning of قد it illustrates.',
-          source: '﴿قد يعلم الله﴾ / قد يبرأ المريض / ﴿قد نرى تقلب وجهك في السماء﴾ / قد يصدق الكذوب',
-          words: ['قد يعلم الله', 'قد يبرأ المريض', 'قد نرى', 'قد يصدق الكذوب'],
-          labels: ['التحقيق', 'التوقع', 'التكثير', 'التقليل'],
-          distractors: ['الاستفهام'],
+          instruction: 'What type of خبر does اللام المزحلقة enter here؟',
+          sentence: 'وَإِنَّ رَبَّكَ لَيَعْلَمُ مَا تُكِنُّ صُدُورُهُمْ',
+          translation: 'And indeed, your Lord knows what their breasts conceal.',
+          cells: ['رَبَّكَ', 'لَيَعْلَمُ', 'مَا', 'تُكِنُّ', 'صُدُورُهُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'فعل مضارع' },
+            ] },
+          ],
+          distractors: ['اسم', 'شبه جملة'],
         },
         {
-          title: 'تركيب: تصنيف أحرف التأكيد الخمسة',
+          title: 'تركيب: ﴿وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: من أحرف التأكيد or not?',
-          source: 'لام الابتداء / قد / حتى / نونا التأكيد',
-          words: ['لام الابتداء', 'قد', 'حتى', 'نونا التأكيد'],
-          labels: ['من أحرف التأكيد', 'من أحرف التأكيد', 'ليست منها', 'من أحرف التأكيد'],
-          distractors: ['من أحرف الجواب'],
+          instruction: 'What type of خبر does اللام المزحلقة enter here؟',
+          sentence: 'وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ',
+          translation: 'And indeed, you are of a great moral character.',
+          cells: ['إِنَّكَ', 'لَعَلَىٰ', 'خُلُقٍ', 'عَظِيمٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 3, role: 'شبه جملة' },
+            ] },
+          ],
+          distractors: ['اسم', 'فعل مضارع'],
+        },
+        {
+          title: 'تركيب: ﴿قَدْ يَعْلَمُ اللَّهُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of قد does this illustrate?',
+          sentence: 'قَدْ يَعْلَمُ اللَّهُ',
+          translation: 'Allah certainly knows.',
+          cells: ['قَدْ', 'يَعْلَمُ', 'اللَّهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'التحقيق' },
+            ] },
+          ],
+          distractors: ['التوقع', 'التكثير', 'التقليل'],
+        },
+        {
+          title: 'تركيب: قَدْ يَبْرَأُ الْمَرِيضُ',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of قد does this illustrate؟',
+          sentence: 'قَدْ يَبْرَأُ الْمَرِيضُ',
+          translation: 'The patient may [yet] recover.',
+          cells: ['قَدْ', 'يَبْرَأُ', 'الْمَرِيضُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'التوقع' },
+            ] },
+          ],
+          distractors: ['التحقيق', 'التكثير', 'التقليل'],
+        },
+        {
+          title: 'تركيب: ﴿قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of قد does this illustrate؟',
+          sentence: 'قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ',
+          translation: 'We have certainly seen the turning of your face toward the sky.',
+          cells: ['قَدْ', 'نَرَىٰ', 'تَقَلُّبَ', 'وَجْهِكَ', 'فِي', 'السَّمَاءِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'التكثير' },
+            ] },
+          ],
+          distractors: ['التحقيق', 'التوقع', 'التقليل'],
+        },
+        {
+          title: 'تركيب: قَدْ يَصْدُقُ الْكَذُوبُ',
+          kind: 'tarkeeb',
+          instruction: 'Which meaning of قد does this illustrate؟',
+          sentence: 'قَدْ يَصْدُقُ الْكَذُوبُ',
+          translation: 'The habitual liar may [rarely] tell the truth.',
+          cells: ['قَدْ', 'يَصْدُقُ', 'الْكَذُوبُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'التقليل' },
+            ] },
+          ],
+          distractors: ['التحقيق', 'التوقع', 'التكثير'],
         },
       ],
     },
@@ -696,8 +952,11 @@ export default {
       concepts: [
         {
           heading: 'الأربعة، وتعريف لو',
-          body: `The four <bdi>أَحْرُفُ الشَّرْطِ غَيْرِ الْعَامِلَة</bdi> — unlike إنْ and its sisters from Module 06, none of these causes جزم — are <bdi>لَوْ، لَوْلَا، لَوْمَا، أَمَّا</bdi>. Classically, <bdi>لَوْ</bdi> is defined as <bdi>امْتِنَاعُ الْجَوَابِ لِامْتِنَاعِ الشَّرْط</bdi> ("the جواب fails to occur because the شرط failed to occur"). Ibn Hishām refines this: لو indicates (1) the non-occurrence of the شرط, and (2) that the شرط entails the جواب — but it does <b>not</b> indicate that the جواب itself failed to occur.`,
-          sample: `أحرف الشرط غير العاملة (٤) — لو، لولا، لوما، أمّا؛ لا تجزم، بخلاف إنْ وأخواتها<br>لو (تقليديا) — امتناع الجواب لامتناع الشرط<br>لو (تنقيح ابن هشام) — عدم وقوع الشرط + تلازم الشرط والجواب، لا عدم وقوع الجواب`,
+          lines: [
+            { html: `The four <bdi>أَحْرُفُ الشَّرْطِ غَيْرِ الْعَامِلَة</bdi> — unlike إنْ and its sisters from Module 06, none of these causes جزم — are <bdi>لَوْ، لَوْلَا، لَوْمَا، أَمَّا</bdi>.`, list: false },
+            { html: `Classically, <bdi>لَوْ</bdi> is defined as <bdi>امْتِنَاعُ الْجَوَابِ لِامْتِنَاعِ الشَّرْط</bdi> ("the جواب fails to occur because the شرط failed to occur").`, list: false },
+            { html: `Ibn Hishām refines this: لو indicates the non-occurrence of the شرط, and that the شرط entails the جواب — but it does <b>not</b> indicate that the جواب itself failed to occur.`, list: false },
+          ],
           exercise: {
             prompt: `According to Ibn Hishām's refinement, what does لو indicate — and what does it NOT indicate؟`,
             kind: 'mcq',
@@ -707,8 +966,11 @@ export default {
         },
         {
           heading: 'لو: أمثلة الشرط والجواب والزمن',
-          body: `In <bdi>لَوْ تَابَ هَٰذَا الرَّجُلُ إِلَى اللَّهِ لَغَفَرَ اللَّهُ لَهُ</bdi>: implied is that the man did not repent, and that repentance entails forgiveness; NOT implied is that Allah did not forgive him — He may forgive out of mercy regardless. That the جواب of لو CAN occur despite the شرط not occurring is shown in <bdi>﴿وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ﴾</bdi> — the trees are not really pens, yet Allah's words are (in fact) inexhaustible. لو also indicates the past: entering a مضارع, it converts its meaning to past, as in <bdi>﴿لَوْ نَشَاءُ لَجَعَلْنَاهُ حُطَامًا﴾</bdi>. Its affirmative جواب usually takes the لام, as here, though it may come without it: <bdi>﴿لَوْ نَشَاءُ جَعَلْنَاهُ أُجَاجًا﴾</bdi>.`,
-          sample: `لو تاب هذا الرجل إلى الله لغفر الله له — يفيد: لم يتب + التوبة تستلزم المغفرة؛ لا يفيد: لم يغفر الله له<br>وقوع الجواب رغم عدم وقوع الشرط — ﴿ولو أنما في الأرض من شجرة أقلام...ما نفدت كلمات الله﴾<br>لو تحول الزمن للماضي — ﴿لو نشاء لجعلناه حطاما﴾<br>الجواب المثبت غالبا باللام — وأحيانا بلا لام: ﴿لو نشاء جعلناه أجاجا﴾`,
+          lines: [
+            { html: `In لَوْ تَابَ هَٰذَا الرَّجُلُ إِلَى اللَّهِ لَغَفَرَ اللَّهُ لَهُ: implied is that the man did not repent, and that repentance entails forgiveness; NOT implied is that Allah did not forgive him — He may forgive out of mercy regardless.`, list: false },
+            { html: `That the جواب of لو CAN occur despite the شرط not occurring is shown in ﴿وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ﴾ — the trees are not really pens, yet Allah's words are (in fact) inexhaustible.`, list: false },
+            { html: `لو also indicates the past: entering a مضارع, it converts its meaning to past, as in ﴿لَوْ نَشَاءُ لَجَعَلْنَاهُ حُطَامًا﴾. Its affirmative جواب usually takes the لام, as here, though it may come without it: ﴿لَوْ نَشَاءُ جَعَلْنَاهُ أُجَاجًا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `Can the جواب of لو occur even though its شرط did NOT occur؟`,
             kind: 'mcq',
@@ -718,8 +980,12 @@ export default {
         },
         {
           heading: 'لو للتمني، وما يجب أن يتبعها',
-          body: `لو may also carry the meaning of <bdi>التَّمَنِّي</bdi> (wishing), as in <bdi>﴿فَلَوْ أَنَّ لَنَا كَرَّةً فَنَكُونَ مِنَ الْمُؤْمِنِينَ﴾</bdi>. A فعل must follow لو; when an اسم appears to follow instead, it is explained away: an explicit اسم is the <bdi>مَعْمُول</bdi> of an omitted فعل explained by what follows, as in <bdi>لَوْ زَيْدًا رَأَيْتَهُ لَأَكْرَمْتَهُ</bdi> (= لو رأيت زيدا...); an اسم introduced by أنّ is the <bdi>فَاعِل</bdi> of an omitted فعل (لو ثبت أنّ...), as in <bdi>﴿وَلَوْ أَنَّهُمْ فَعَلُوا مَا يُوعَظُونَ بِهِ لَكَانَ خَيْرًا لَهُمْ﴾</bdi>.`,
-          sample: `لو للتمني — ﴿فلو أن لنا كرة فنكون من المؤمنين﴾<br>يجب أن يتبعها فعل — اسم صريح: معمول لفعل محذوف يفسره ما بعده: لو زيدا رأيته لأكرمته<br>اسم بأنّ — فاعل لفعل محذوف (لو ثبت أنّ): ﴿ولو أنهم فعلوا ما يوعظون به لكان خيرا لهم﴾`,
+          lines: [
+            { html: `لو may also carry the meaning of <bdi>التَّمَنِّي</bdi> (wishing), as in ﴿فَلَوْ أَنَّ لَنَا كَرَّةً فَنَكُونَ مِنَ الْمُؤْمِنِينَ﴾.`, list: false },
+            { html: `A فعل must follow لو; when an اسم appears to follow instead, it is explained away:`, list: false },
+            { html: `an explicit اسم is the مَعْمُول of an omitted فعل explained by what follows, as in لَوْ زَيْدًا رَأَيْتَهُ لَأَكْرَمْتَهُ (= لو رأيت زيدا...)`, list: true, bullet: true },
+            { html: `an اسم introduced by أنّ is the فَاعِل of an omitted فعل (لو ثبت أنّ...), as in ﴿وَلَوْ أَنَّهُمْ فَعَلُوا مَا يُوعَظُونَ بِهِ لَكَانَ خَيْرًا لَهُمْ﴾`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What must follow لو, and how is an apparent اسم after it explained؟`,
             kind: 'mcq',
@@ -729,8 +995,11 @@ export default {
         },
         {
           heading: 'لولا ولوما',
-          body: `<bdi>لَوْلَا</bdi> is defined as <bdi>امْتِنَاعُ الْجَوَابِ لِوُجُودِ الشَّرْط</bdi> — the جواب fails BECAUSE the شرط exists (the reverse of لو). It enters upon two جمل: first a جملة اسمية whose خبر is omitted (تقديره <bdi>مَوْجُود</bdi>), then a verbal جملة, as in <bdi>﴿وَلَوْلَا فَضْلُ اللَّهِ عَلَيْكُمْ وَرَحْمَتُهُ مَا زَكَىٰ مِنْكُمْ مِنْ أَحَدٍ أَبَدًا﴾</bdi>. <bdi>لَوْمَا</bdi> works identically — <bdi>امْتِنَاعُ الْجَوَابِ لِوُجُودِ الشَّرْط</bdi> — as in <bdi>لَوْمَا التَّوْفِيقُ لَمَا عَمِلْنَا الصَّالِحَاتِ</bdi>.`,
-          sample: `لولا — امتناع الجواب لوجود الشرط: ﴿ولولا فضل الله عليكم ورحمته ما زكى منكم من أحد أبدا﴾، (جملة اسمية خبرها محذوف تقديره موجود) + جملة فعلية<br>لوما — كلولا: لوما التوفيق لما عملنا الصالحات`,
+          lines: [
+            { html: `<bdi>لَوْلَا</bdi> is defined as <bdi>امْتِنَاعُ الْجَوَابِ لِوُجُودِ الشَّرْط</bdi> — the جواب fails BECAUSE the شرط exists (the reverse of لو).`, list: false },
+            { html: `It enters upon two جمل: first a جملة اسمية whose خبر is omitted (تقديره مَوْجُود), then a verbal جملة, as in ﴿وَلَوْلَا فَضْلُ اللَّهِ عَلَيْكُمْ وَرَحْمَتُهُ مَا زَكَىٰ مِنْكُمْ مِنْ أَحَدٍ أَبَدًا﴾.`, list: false },
+            { html: `<bdi>لَوْمَا</bdi> works identically — امْتِنَاعُ الْجَوَابِ لِوُجُودِ الشَّرْط — as in لَوْمَا التَّوْفِيقُ لَمَا عَمِلْنَا الصَّالِحَاتِ.`, list: false },
+          ],
           exercise: {
             prompt: `How does لولا's meaning differ from لو's؟`,
             kind: 'mcq',
@@ -740,8 +1009,10 @@ export default {
         },
         {
           heading: 'أمّا: وظائفها وتكرارها',
-          body: `<bdi>أَمَّا</bdi> combines three functions: <bdi>الشَّرْط</bdi>, <bdi>التَّفْصِيل</bdi> (detailing), and <bdi>التَّوْكِيد</bdi> (emphasis), as in <bdi>﴿فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ وَأَمَّا الَّذِينَ كَفَرُوا فَيَقُولُونَ مَاذَا أَرَادَ اللَّهُ بِهَٰذَا مَثَلًا﴾</bdi>. It is repeated to detail multiple items summarised beforehand, as in <bdi>﴿كَذَّبَتْ ثَمُودُ وَعَادٌ بِالْقَارِعَةِ. فَأَمَّا ثَمُودُ فَأُهْلِكُوا بِالطَّاغِيَةِ. وَأَمَّا عَادٌ فَأُهْلِكُوا بِرِيحٍ صَرْصَرٍ عَاتِيَةٍ﴾</bdi> — though repetition may be dropped when a single item suffices, as in <bdi>﴿فَأَمَّا الَّذِينَ آمَنُوا بِاللَّهِ وَاعْتَصَمُوا بِهِ فَسَيُدْخِلُهُمْ فِي رَحْمَةٍ مِنْهُ وَفَضْلٍ﴾</bdi>.`,
-          sample: `أمّا (٣ وظائف) — شرط، تفصيل، توكيد: ﴿فأما الذين آمنوا...وأما الذين كفروا...﴾<br>تتكرر للتفصيل — ﴿كذبت ثمود وعاد بالقارعة. فأما ثمود...وأما عاد...﴾<br>قد يُترك التكرار — ﴿فأما الذين آمنوا بالله واعتصموا به فسيدخلهم في رحمة منه وفضل﴾`,
+          lines: [
+            { html: `<bdi>أَمَّا</bdi> combines three functions: <bdi>الشَّرْط</bdi>, <bdi>التَّفْصِيل</bdi> (detailing), and <bdi>التَّوْكِيد</bdi> (emphasis), as in ﴿فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ وَأَمَّا الَّذِينَ كَفَرُوا فَيَقُولُونَ مَاذَا أَرَادَ اللَّهُ بِهَٰذَا مَثَلًا﴾.`, list: false },
+            { html: `It is repeated to detail multiple items summarised beforehand, as in ﴿كَذَّبَتْ ثَمُودُ وَعَادٌ بِالْقَارِعَةِ. فَأَمَّا ثَمُودُ فَأُهْلِكُوا بِالطَّاغِيَةِ. وَأَمَّا عَادٌ فَأُهْلِكُوا بِرِيحٍ صَرْصَرٍ عَاتِيَةٍ﴾ — though repetition may be dropped when a single item suffices, as in ﴿فَأَمَّا الَّذِينَ آمَنُوا بِاللَّهِ وَاعْتَصَمُوا بِهِ فَسَيُدْخِلُهُمْ فِي رَحْمَةٍ مِنْهُ وَفَضْلٍ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What three functions does أمّا combine؟`,
             kind: 'mcq',
@@ -751,8 +1022,17 @@ export default {
         },
         {
           heading: 'ما بين أمّا وفائها، وامتناع الجزم',
-          body: `Five things can come between أمّا and its فاء: (1) the مبتدأ, as in <bdi>﴿أَمَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ جَنَّاتُ الْمَأْوَىٰ﴾</bdi> (2) the خبر, as in <bdi>أَمَّا فِي الْبَيْتِ فَزَيْدٌ</bdi> (3) the شرط جملة, as in <bdi>﴿فَأَمَّا إِنْ كَانَ مِنَ الْمُقَرَّبِينَ فَرَوْحٌ وَرَيْحَانٌ﴾</bdi> (4) an اسم governed by a word in the جواب, as in <bdi>﴿فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ﴾</bdi> (5) an اسم governed by an omitted word, as in <bdi>﴿وَأَمَّا ثَمُودُ فَهَدَيْنَاهُمْ﴾</bdi> (with <bdi>ثَمُودَ</bdi> read بالنصب). None of the four أحرف الشرط in this lesson cause جزم — that remains exclusive to the أدوات الشرط العاملة (إنْ and its sisters, Module 06).`,
-          sample: `الخمسة بين أمّا وفائها — المبتدأ، الخبر، جملة الشرط، اسم بمعمول في الجواب، اسم بمحذوف مقدر<br>لا جزم — لو، لولا، لوما، أمّا كلها غير عاملة، بخلاف أدوات الشرط العاملة`,
+          lines: [
+            { html: `Five things can come between أمّا and its فاء:`, list: false },
+            { table: { headers: ['#', 'What comes between', 'Example'], rows: [
+              ['1', 'the مبتدأ', '﴿أَمَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ جَنَّاتُ الْمَأْوَىٰ﴾'],
+              ['2', 'the خبر', 'أَمَّا فِي الْبَيْتِ فَزَيْدٌ'],
+              ['3', 'the شرط جملة', '﴿فَأَمَّا إِنْ كَانَ مِنَ الْمُقَرَّبِينَ فَرَوْحٌ وَرَيْحَانٌ﴾'],
+              ['4', 'an اسم governed by a word in the جواب', '﴿فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ﴾'],
+              ['5', 'an اسم governed by an omitted word', '﴿وَأَمَّا ثَمُودُ فَهَدَيْنَاهُمْ﴾ (with ثَمُودَ read بالنصب)'],
+            ] } },
+            { html: `None of the four أحرف الشرط in this lesson cause جزم — that remains exclusive to the أدوات الشرط العاملة (إنْ and its sisters, Module 06).`, list: false },
+          ],
           exercise: {
             prompt: `Do لو، لولا، لوما، and أمّا cause جزم the way إنْ and its sisters do؟`,
             kind: 'mcq',
@@ -893,31 +1173,88 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: تعريف كل حرف',
+          title: 'تركيب: لَوْ نَشَاءُ لَجَعَلْنَاهُ حُطَامًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by its defining trait.',
-          source: 'لو / لولا / أمّا',
-          words: ['لو', 'لولا', 'أمّا'],
-          labels: ['امتناع الجواب لامتناع الشرط', 'امتناع الجواب لوجود الشرط', 'الشرط والتفصيل والتوكيد'],
-          distractors: ['الجمع مطلقا'],
+          instruction: 'Identify the defining trait of لو here.',
+          sentence: 'لَوْ نَشَاءُ لَجَعَلْنَاهُ حُطَامًا',
+          translation: 'If We willed, We could make it debris.',
+          cells: ['لَوْ', 'نَشَاءُ', 'لَجَعَلْنَاهُ', 'حُطَامًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'امتناع الجواب لامتناع الشرط' },
+            ] },
+          ],
+          distractors: ['امتناع الجواب لوجود الشرط', 'الشرط والتفصيل والتوكيد'],
         },
         {
-          title: 'تركيب: ما بين أمّا وفائها',
+          title: 'تركيب: ﴿وَلَوْلَا فَضْلُ اللَّهِ عَلَيْكُمْ وَرَحْمَتُهُ مَا زَكَىٰ مِنْكُمْ مِنْ أَحَدٍ أَبَدًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what comes between أمّا and its فاء in each example.',
-          source: '﴿أما الذين آمنوا وعملوا الصالحات فلهم جنات المأوى﴾ / أما في البيت فزيد / ﴿فأما إن كان من المقربين فروح وريحان﴾',
-          words: ['الذين آمنوا', 'في البيت', 'إن كان'],
-          labels: ['المبتدأ', 'الخبر', 'جملة الشرط'],
-          distractors: ['اسم بمحذوف مقدر'],
+          instruction: 'Identify the defining trait of لولا here.',
+          sentence: 'وَلَوْلَا فَضْلُ اللَّهِ عَلَيْكُمْ وَرَحْمَتُهُ مَا زَكَىٰ مِنْكُمْ مِنْ أَحَدٍ أَبَدًا',
+          translation: 'And if it had not been for the favor of Allah upon you and His mercy, not one of you would have been pure, ever.',
+          cells: ['لَوْلَا', 'فَضْلُ', 'اللَّهِ', 'عَلَيْكُمْ', 'وَرَحْمَتُهُ', 'مَا', 'زَكَىٰ', 'مِنْكُمْ', 'مِنْ', 'أَحَدٍ', 'أَبَدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'امتناع الجواب لوجود الشرط' },
+            ] },
+          ],
+          distractors: ['امتناع الجواب لامتناع الشرط', 'الشرط والتفصيل والتوكيد'],
         },
         {
-          title: 'تركيب: عاملة أم غير عاملة؟',
+          title: 'تركيب: ﴿فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each أداة شرط: عاملة (تجزم) or غير عاملة؟',
-          source: 'لو / إنْ / أمّا / إذما',
-          words: ['لو', 'إنْ', 'أمّا', 'إذما'],
-          labels: ['غير عاملة', 'عاملة', 'غير عاملة', 'عاملة'],
-          distractors: ['ناصبة'],
+          instruction: 'Identify the three functions أمّا combines.',
+          sentence: 'فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ',
+          translation: 'As for those who believed, they will know that it is the truth from their Lord.',
+          cells: ['أَمَّا', 'الَّذِينَ', 'آمَنُوا', 'فَيَعْلَمُونَ', 'أَنَّهُ', 'الْحَقُّ', 'مِنْ', 'رَبِّهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 7, role: 'الشرط والتفصيل والتوكيد' },
+            ] },
+          ],
+          distractors: ['امتناع الجواب لامتناع الشرط', 'امتناع الجواب لوجود الشرط'],
+        },
+        {
+          title: 'تركيب: ﴿أَمَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ جَنَّاتُ الْمَأْوَىٰ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What comes between أمّا and its فاء here؟',
+          sentence: 'أَمَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ جَنَّاتُ الْمَأْوَىٰ',
+          translation: 'As for those who believed and did righteous deeds, for them are the Gardens of Refuge.',
+          cells: ['أَمَّا', 'الَّذِينَ', 'آمَنُوا', 'وَعَمِلُوا', 'الصَّالِحَاتِ', 'فَلَهُمْ', 'جَنَّاتُ', 'الْمَأْوَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 4, role: 'المبتدأ' },
+            ] },
+          ],
+          distractors: ['الخبر', 'جملة الشرط'],
+        },
+        {
+          title: 'تركيب: أَمَّا فِي الْبَيْتِ فَزَيْدٌ',
+          kind: 'tarkeeb',
+          instruction: 'What comes between أمّا and its فاء here؟',
+          sentence: 'أَمَّا فِي الْبَيْتِ فَزَيْدٌ',
+          translation: 'As for [who is] in the house, it is Zayd.',
+          cells: ['أَمَّا', 'فِي', 'الْبَيْتِ', 'فَزَيْدٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'الخبر' },
+            ] },
+          ],
+          distractors: ['المبتدأ', 'جملة الشرط'],
+        },
+        {
+          title: 'تركيب: ﴿فَأَمَّا إِنْ كَانَ مِنَ الْمُقَرَّبِينَ فَرَوْحٌ وَرَيْحَانٌ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What comes between أمّا and its فاء here؟',
+          sentence: 'فَأَمَّا إِنْ كَانَ مِنَ الْمُقَرَّبِينَ فَرَوْحٌ وَرَيْحَانٌ',
+          translation: 'And if he is of those brought near [to Allah], then rest and bounty.',
+          cells: ['أَمَّا', 'إِنْ', 'كَانَ', 'مِنَ', 'الْمُقَرَّبِينَ', 'فَرَوْحٌ', 'وَرَيْحَانٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 4, role: 'جملة الشرط' },
+            ] },
+          ],
+          distractors: ['المبتدأ', 'الخبر'],
         },
       ],
     },

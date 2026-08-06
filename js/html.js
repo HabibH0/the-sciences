@@ -21,10 +21,30 @@ export function escAttr(str) {
 //
 // Runs deliberately span the spaces *between* Arabic words (isolating each
 // word on its own would reverse a multi-word phrase) and include Arabic
-// punctuation such as ، and ؛, which should travel with the Arabic.
+// punctuation such as ، and ؛, which should travel with the Arabic, as well
+// as a ":" sandwiched between two Arabic chars, e.g. "(أي: تَثْبُتُ)" --
+// without that, "أي" and "تَثْبُتُ" become two separate isolates with the
+// bare ":" stranded between them, and since both neighbours of that neutral
+// are then RTL isolates, the bidi algorithm resolves the ":" itself as RTL
+// too, reversing the two halves' order.
+//
+// A "(...)" that wraps only Arabic (plus the connectors above) is matched
+// as one whole isolate *including* both parens, rather than treating "("
+// and ")" as connectors themselves. Parens can legitimately separate two
+// unrelated Arabic runs (e.g. "فِعْلٌ وَفَاعِلٌ (هِيَ)", where "(هِيَ)" is
+// its own aside, not glued to the phrase before it), so a bare "(" has to
+// seed a fresh, self-contained run rather than bridge into the previous
+// one. A self-contained "(Arabic)" isolate mirrors and reverses as a unit,
+// which cancels out and displays with the parens the right way round --
+// unlike a lone "(" or ")" stranded between two separate isolates, which
+// has nothing to anchor its direction and gets pulled into whichever RTL
+// neighbour is adjacent (the reversed-bracket bug this is guarding
+// against).
 
 const AR = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF';
-const AR_RUN = new RegExp(`[${AR}](?:[${AR} \\t\\u200f]*[${AR}])?`, 'g');
+const CONNECTOR = ' \\t\\u200f:';
+const AR_WORD = `[${AR}](?:[${AR}${CONNECTOR}]*[${AR}])?`;
+const AR_RUN = new RegExp(`\\(${AR_WORD}\\)|${AR_WORD}`, 'g');
 
 export function isolateArabic(text) {
   return String(text ?? '').replace(AR_RUN, (run) => `<span class="ar" dir="auto">${run}</span>`);

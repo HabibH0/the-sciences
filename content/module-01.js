@@ -10,7 +10,7 @@ export default {
   id: '01',
   title: 'المقدمة',
   heading: 'المقدمة',
-  blurb: 'The foundations of An-Nahw: the word, its signs, the sentence, the quasi-sentence, and the governor/governed relationship.',
+  blurb: 'The foundations of An-Nahw: the word, the sentence, and the governor/governed relationship.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -20,8 +20,13 @@ export default {
       concepts: [
         {
           heading: 'اللفظ، القول، والكلمة',
-          body: `<bdi>اللَّفْظ</bdi> is any sound from the mouth, meaningful or not. <bdi>الْقَوْل</bdi> narrows that to a meaningful لفظ. <bdi>الْكَلِمَة</bdi> narrows it further to a single (<bdi>مُفْرَد</bdi>) meaningful قول — one whose parts carry no meaning alone, like <bdi>رَجُل</bdi>. A <bdi>مُرَكَّب</bdi> like <bdi>كِتَابُ الْوَلَدِ</bdi> has parts that each mean something, so it is two كلمات, not one.`,
-          sample: `اللفظ — كل صوت خرج من الفم (بمعنى أو بلا معنى)<br>القول — لفظ دالّ على معنى، نحو: زَيْدٌ<br>الكلمة — قول مفرد، نحو: رَجُلٌ (ر + ج + ل: لا معنى لأي جزء منفردًا)<br>المركب — نحو: كِتَابُ الْوَلَدِ (كتاب: معنى، الولد: معنى)`,
+          lines: [
+            { html: `Four terms build on each other, each one narrower than the last.`, list: false },
+            { html: `<bdi>اللَّفْظ</bdi> — any sound that comes out of the mouth, whether or not it means anything.`, list: true, bullet: true },
+            { html: `<bdi>الْقَوْل</bdi> — a لفظ that does mean something, e.g. <bdi>زَيْدٌ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>الْكَلِمَة</bdi> — a single (<bdi>مُفْرَد</bdi>) meaningful قول, one whose own parts carry no meaning on their own, like <bdi>رَجُل</bdi> (ر + ج + ل mean nothing separately).`, list: true, bullet: true },
+            { html: `<bdi>الْمُرَكَّب</bdi> — a meaningful قول whose parts each mean something on their own, like <bdi>كِتَابُ الْوَلَدِ</bdi> (كتاب means something, الولد means something) — so this counts as two كلمات, not one.`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Three of these four terms apply to both كِتَابُ الْوَلَدِ and رَجُلٌ. Which one applies to كِتَابُ الْوَلَدِ alone?`,
             kind: 'mcq',
@@ -31,8 +36,19 @@ export default {
         },
         {
           heading: 'أقسام الكلمة الثلاثة، والاسم',
-          body: `الكلمة is one of three types: <bdi>الِاسْم</bdi>, <bdi>الْفِعْل</bdi>, or <bdi>الْحَرْف</bdi>. الاسم means a meaning not tied to time. It is <bdi>اسْمٌ صَرِيح</bdi> (a plain word, e.g. <bdi>الصَّوْمُ</bdi>) or <bdi>اسْمٌ مُؤَوَّل</bdi> (a حرف مصدر + جملة acting as one, e.g. <bdi>أَنْ تَصُومُوا</bdi>). A described thing is <bdi>الْمَوْصُوف</bdi>, its description is <bdi>الصِّفَة</bdi>; within الموصوف, <bdi>اسْمُ عَيْنٍ</bdi> subsists by itself (<bdi>رَجُلٌ</bdi>) and <bdi>اسْمُ مَعْنًى</bdi> subsists through another (<bdi>عِلْمٌ</bdi>).`,
-          sample: `الاسم الصريح — الصَّوْمُ<br>الاسم المؤول — أَنْ تَصُومُوا (= صَوْمُكُمْ) في ﴿وَأَنْ تَصُومُوا خَيْرٌ﴾<br>اسم عين — رَجُلٌ (يقوم بذاته)<br>اسم معنى — عِلْمٌ (لا يقوم إلا بغيره)<br>الصفة — صَالِحٌ، عَالِمٌ`,
+          lines: [
+            { html: `الكلمة splits into three types: <bdi>الِاسْم</bdi>, <bdi>الْفِعْل</bdi>, and <bdi>الْحَرْف</bdi>.`, list: false },
+            { html: `الاسم is a كلمة whose meaning is not tied to a time.`, list: false },
+            { table: { title: 'Two Forms of الاسم', headers: ['Form', 'What it is', 'Example'], rows: [
+              ['اسْمٌ صَرِيح', 'a plain word', 'الصَّوْمُ'],
+              ['اسْمٌ مُؤَوَّل', 'a حرف مصدر + جملة acting as one اسم', 'أَنْ تَصُومُوا (= صَوْمُكُمْ) في ﴿وَأَنْ تَصُومُوا خَيْرٌ﴾'],
+            ] } },
+            { html: `Within الاسم, a described thing is called <bdi>الْمَوْصُوف</bdi> and its description is <bdi>الصِّفَة</bdi> (e.g. <bdi>صَالِحٌ، عَالِمٌ</bdi>).`, list: false },
+            { table: { title: 'Two Kinds of الموصوف', headers: ['Kind', 'What it means', 'Example'], rows: [
+              ['اسْمُ عَيْنٍ', 'subsists by itself', 'رَجُلٌ'],
+              ['اسْمُ مَعْنًى', 'subsists only through another', 'عِلْمٌ'],
+            ] } },
+          ],
           exercise: {
             prompt: `All four of these are أسماء. Which one is the اسم المؤول rather than an اسم صريح?`,
             kind: 'mcq',
@@ -42,8 +58,15 @@ export default {
         },
         {
           heading: 'الفعل والحرف',
-          body: `الفعل adds one thing to the definition of الاسم: its meaning IS tied to time (<bdi>عَبَدَ، يَعْبُدُ، اُعْبُدْ</bdi>). الحرف indicates a meaning only in something else (<bdi>فِي، إِنَّ</bdi>). The word حرف is also used for the alphabet itself (<bdi>حُرُوفُ الْمَبَانِي</bdi>) — don't confuse the two senses.`,
-          sample: `الفعل — عَبَدَ، يَعْبُدُ، اُعْبُدْ (مقترن بزمان)<br>الحرف — فِي، إِنَّ (يدل على معنى في غيره)<br>حروف المباني — ف، ع، ل (حروف الهجاء)<br>حروف المعاني — فِي، إِنَّ، بَلْ، لَا`,
+          lines: [
+            { html: `الفعل adds one thing to the definition of الاسم: its meaning IS tied to time, e.g. <bdi>عَبَدَ، يَعْبُدُ، اُعْبُدْ</bdi>.`, list: false },
+            { html: `الحرف indicates a meaning only in something else, like <bdi>فِي</bdi> or <bdi>إِنَّ</bdi>.`, list: false },
+            { table: { title: 'Two Senses of the Word حرف', headers: ['Sense', 'What it means', 'Examples'], rows: [
+              ['حُرُوفُ الْمَعَانِي (grammatical)', 'a particle whose meaning appears only in another word', 'فِي، إِنَّ، بَلْ، لَا'],
+              ['حُرُوفُ الْمَبَانِي (spelling)', 'the letters of the alphabet itself', 'ف، ع، ل'],
+            ] } },
+            { html: `Don't confuse the two senses — the grammatical حرف is one of the three أقسام الكلمة; حروف المباني just means "letters" in the ordinary sense.`, list: false },
+          ],
           exercise: {
             prompt: `Neither إِنَّ nor رَجُلٌ carries any attachment to time. What then separates إِنَّ from رَجُلٌ?`,
             kind: 'mcq',
@@ -53,8 +76,13 @@ export default {
         },
         {
           heading: 'حرف المد وحرف اللين',
-          body: `Both are a weak, vowelless letter (<bdi>و ي ا</bdi>). <bdi>حَرْفُ الْمَدِّ</bdi> is preceded by the vowel that matches it, as in <bdi>الصَّادِقِينَ</bdi>. <bdi>حَرْفُ اللِّينِ</bdi> is a <bdi>و</bdi> or <bdi>ي</bdi> preceded by a فتحة that does NOT match it, as in <bdi>الْخَيْر</bdi>.`,
-          sample: `حرف المد — الصَّادِقِينَ (الياء ساكنة بعد كسرة تطابقها)<br>حرف اللين — الْخَيْر (الياء ساكنة بعد فتحة لا تطابقها)`,
+          lines: [
+            { html: `Both are a weak, vowelless letter — <bdi>و ي ا</bdi>. What separates them is the vowel that comes right before.`, list: false },
+            { table: { headers: ['Term', 'Condition', 'Example'], rows: [
+              ['حَرْفُ الْمَدِّ', 'preceded by the vowel that matches it', 'الصَّادِقِينَ (الياء ساكنة بعد كسرة تطابقها)'],
+              ['حَرْفُ اللِّينِ', 'a و or ي preceded by a فتحة that does NOT match it', 'الْخَيْر (الياء ساكنة بعد فتحة لا تطابقها)'],
+            ] } },
+          ],
           exercise: {
             prompt: `The ياء of الْخَيْر and the ياء of الصَّادِقِينَ are both ساكنة. Which of them is حرف اللين, and on what grounds?`,
             kind: 'mcq',
@@ -150,20 +178,43 @@ export default {
         {
           title: 'تركيب: خَرَجَ الرَّجُلُ مِنَ الْبَيْتِ',
           kind: 'tarkeeb',
-          instruction: 'Identify the word class of each word: اسم, فعل, or حرف.',
-          source: 'خَرَجَ الرَّجُلُ مِنَ الْبَيْتِ',
-          words: ['خَرَجَ', 'الرَّجُلُ', 'مِنَ', 'الْبَيْتِ'],
-          labels: ['فعل', 'اسم', 'حرف', 'اسم'],
-          distractors: ['مفرد', 'مركب'],
+          instruction: 'Label the word class of each word; then classify الرَّجُلُ as اسم عين or اسم معنى.',
+          sentence: 'خَرَجَ الرَّجُلُ مِنَ الْبَيْتِ',
+          translation: 'The man left the house.',
+          cells: ['خَرَجَ', 'الرَّجُلُ', 'مِنَ', 'الْبَيْتِ'],
+          rows: [
+            { position: 'above', label: 'Word class', labels: [
+              { start: 0, end: 0, role: 'فعل' },
+              { start: 1, end: 1, role: 'اسم' },
+              { start: 2, end: 2, role: 'حرف' },
+              { start: 3, end: 3, role: 'اسم' },
+            ] },
+            { position: 'below', label: 'Meaning of الاسم', labels: [
+              { start: 1, end: 1, role: 'اسم عين' },
+            ] },
+          ],
+          distractors: ['اسم معنى', 'صفة'],
         },
         {
           title: 'تركيب: وَيَعْبُدُ الْمُؤْمِنُ رَبَّهُ',
           kind: 'tarkeeb',
-          instruction: 'Identify the word class of each word: اسم, فعل, or حرف.',
-          source: 'وَيَعْبُدُ الْمُؤْمِنُ رَبَّهُ',
-          words: ['وَ', 'يَعْبُدُ', 'الْمُؤْمِنُ', 'رَبَّهُ'],
-          labels: ['حرف', 'فعل', 'اسم', 'اسم'],
-          distractors: ['صفة'],
+          instruction: 'Label the word class of each word; then classify الْمُؤْمِنُ and رَبَّهُ as مفرد or مركب.',
+          sentence: 'وَيَعْبُدُ الْمُؤْمِنُ رَبَّهُ',
+          translation: 'And the believer worships his Lord.',
+          cells: ['وَ', 'يَعْبُدُ', 'الْمُؤْمِنُ', 'رَبَّهُ'],
+          rows: [
+            { position: 'above', label: 'Word class', labels: [
+              { start: 0, end: 0, role: 'حرف' },
+              { start: 1, end: 1, role: 'فعل' },
+              { start: 2, end: 2, role: 'اسم' },
+              { start: 3, end: 3, role: 'اسم' },
+            ] },
+            { position: 'below', label: 'مفرد or مركب', labels: [
+              { start: 2, end: 2, role: 'مفرد' },
+              { start: 3, end: 3, role: 'مركب' },
+            ] },
+          ],
+          distractors: ['اسم عين', 'اسم معنى'],
         },
         {
           title: 'Is a meaningless sound a لفظ؟',
@@ -266,38 +317,64 @@ export default {
         {
           title: 'تركيب: ﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the word class of each word: اسم, فعل, or حرف.',
-          source: 'إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ',
-          words: ['إِنَّ', 'اللَّهَ', 'غَفُورٌ', 'رَحِيمٌ'],
-          labels: ['حرف', 'اسم', 'اسم', 'اسم'],
-          distractors: ['فعل'],
+          instruction: 'Identify الموصوف and each صفة describing it.',
+          sentence: 'إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ',
+          translation: 'Indeed, Allah is Forgiving, Merciful.',
+          cells: ['إِنَّ', 'اللَّهَ', 'غَفُورٌ', 'رَحِيمٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'موصوف' },
+              { start: 2, end: 2, role: 'صفة' },
+              { start: 3, end: 3, role: 'صفة' },
+            ] },
+          ],
+          distractors: ['مفرد', 'اسم مؤول'],
         },
         {
-          title: 'تركيب: أقسام الاسم باعتبار المعنى',
+          title: 'تركيب: طَلَبَ الرَّجُلُ الصَّالِحُ الْعِلْمَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each اسم by its meaning: اسم عين, اسم معنى, or صفة.',
-          source: 'رَجُلٌ / عِلْمٌ / صَالِحٌ',
-          words: ['رَجُلٌ', 'عِلْمٌ', 'صَالِحٌ'],
-          labels: ['اسم عين', 'اسم معنى', 'صفة'],
-          distractors: ['اسم مؤول', 'حرف'],
+          instruction: 'Classify each اسم as اسم عين, صفة, or اسم معنى.',
+          sentence: 'طَلَبَ الرَّجُلُ الصَّالِحُ الْعِلْمَ',
+          translation: 'The righteous man sought knowledge.',
+          cells: ['طَلَبَ', 'الرَّجُلُ', 'الصَّالِحُ', 'الْعِلْمَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسم عين' },
+              { start: 2, end: 2, role: 'صفة' },
+              { start: 3, end: 3, role: 'اسم معنى' },
+            ] },
+          ],
+          distractors: ['موصوف', 'مركب'],
         },
         {
-          title: 'تركيب: مفرد أم مركب؟',
+          title: 'تركيب: قَرَأَ زَيْدٌ كِتَابَ الْوَلَدِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each: مفرد or مركب?',
-          source: 'قَلَمٌ / بَيْتُ الطَّالِبِ / رَجُلٌ / كِتَابُ الْوَلَدِ',
-          words: ['قَلَمٌ', 'بَيْتُ الطَّالِبِ', 'رَجُلٌ', 'كِتَابُ الْوَلَدِ'],
-          labels: ['مفرد', 'مركب', 'مفرد', 'مركب'],
-          distractors: ['حرف'],
+          instruction: 'Classify زَيْدٌ and كِتَابَ الْوَلَدِ as مفرد or مركب.',
+          sentence: 'قَرَأَ زَيْدٌ كِتَابَ الْوَلَدِ',
+          translation: 'Zayd read the boy’s book.',
+          cells: ['قَرَأَ', 'زَيْدٌ', 'كِتَابَ', 'الْوَلَدِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'مفرد' },
+              { start: 2, end: 3, role: 'مركب' },
+            ] },
+          ],
+          distractors: ['اسم عين', 'اسم معنى'],
         },
         {
-          title: 'تركيب: حرف مد أم حرف لين؟',
+          title: 'تركيب: قَالُوا هَذَا يَوْمُ الْخَيْرِ',
           kind: 'tarkeeb',
-          instruction: 'Is the weak letter in each word حرف مد or حرف لين?',
-          source: 'الصَّادِقِينَ / الْخَيْر / قَالُوا / يَوْم',
-          words: ['الصَّادِقِينَ', 'الْخَيْر', 'قَالُوا', 'يَوْم'],
-          labels: ['حرف مد', 'حرف لين', 'حرف مد', 'حرف لين'],
-          distractors: ['حرف مبنى'],
+          instruction: 'Identify which word contains a حرف مد and which contains a حرف لين.',
+          sentence: 'قَالُوا هَذَا يَوْمُ الْخَيْرِ',
+          translation: 'They said, "This is the day of goodness."',
+          cells: ['قَالُوا', 'هَذَا', 'يَوْمُ', 'الْخَيْرِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'حرف مد' },
+              { start: 2, end: 2, role: 'حرف لين' },
+            ] },
+          ],
+          distractors: ['حرف مبنى', 'اسم مؤول'],
         },
       ],
     },
@@ -310,8 +387,17 @@ export default {
       concepts: [
         {
           heading: 'علامات الاسم الست',
-          body: `Any ONE of six signs proves a word is اسم: (1) <bdi>مَجْرُور</bdi> (بِسْمِ اللَّهِ), (2) <bdi>أَلْ</bdi> التعريف (الرَّحْمَٰنِ الرَّحِيمِ), (3) <bdi>التَّنْوِين</bdi> (هُدًى لِلْمُتَّقِينَ), (4) <bdi>مُسْنَدٌ إِلَيْهِ</bdi> (إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ), (5) <bdi>مُنَادًى</bdi> (يَا نُوحُ), (6) <bdi>مُضَاف</bdi> (رَبِّ الْعَالَمِينَ). Neither الفعل nor الحرف can ever be مجرور, even if a جار enters upon them.`,
-          sample: `مجرور — ﴿بِسْمِ اللَّهِ﴾<br>أل التعريف — ﴿الرَّحْمَٰنِ الرَّحِيمِ﴾<br>التنوين — ﴿هُدًى لِلْمُتَّقِينَ﴾<br>مسند إليه — ﴿إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ﴾<br>منادى — ﴿يَا نُوحُ﴾<br>مضاف — ﴿رَبِّ الْعَالَمِينَ﴾`,
+          lines: [
+            { html: `Any ONE of six signs proves a word is اسم. Neither الفعل nor الحرف can ever show these signs — even where a جار seems to enter upon a فعل, it's really governing a hidden اسم مؤول, not the فعل itself (see the Clarification below).`, list: false },
+            { table: { title: 'The Six Signs of الاسم', headers: ['#', 'Sign', 'Example'], rows: [
+              ['1', 'مَجْرُور', '﴿بِسْمِ اللَّهِ﴾'],
+              ['2', 'أَلْ التعريف', '﴿الرَّحْمَٰنِ الرَّحِيمِ﴾'],
+              ['3', 'التَّنْوِين', '﴿هُدًى لِلْمُتَّقِينَ﴾'],
+              ['4', 'مُسْنَدٌ إِلَيْهِ', '﴿إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ﴾'],
+              ['5', 'مُنَادًى', '﴿يَا نُوحُ﴾'],
+              ['6', 'مُضَاف', '﴿رَبِّ الْعَالَمِينَ﴾'],
+            ] } },
+          ],
           clarification: `What actually happens when a جار seems to precede a فعل, as in لِأَكُونَ لِلْعَالَمِينَ نَذِيرًا؟ It isn't governing أَكُونَ itself — أَنْ plus the جملة after it (أَنْ أَكُونَ) forms one اسم مؤول (a حرف مصدر + جملة acting as a single اسم, just like أَنْ تَصُومُوا). It's that اسم مؤول that's مجرور, never the bare فعل. So the rule holds without any real exception — only an اسم, whether صريح or مؤول, is ever مجرور.`,
           exercise: {
             prompt: `Three of these four are among the six signs of الاسم. Which one is not?`,
@@ -322,8 +408,14 @@ export default {
         },
         {
           heading: 'علامتا الفعل العامتان، وعلامة الماضي',
-          body: `Every فعل has two shared signs: <bdi>التَّصْرِيف</bdi> (into ماضٍ / مضارع / أمر / نهي) and accepting the <bdi>الضَّمَائِرُ الْبَارِزَةُ الْمَرْفُوعَة</bdi> (آمَنْتُ). الفعل الماضي alone also accepts <bdi>تَاءُ التَّأْنِيثِ السَّاكِنَة</bdi> (آمَنَتْ).`,
-          sample: `تصريف — عَبَدَ / يَعْبُدُ / اُعْبُدْ / لَا تَعْبُدْ<br>ضمائر بارزة مرفوعة — آمَنْتُ، آمَنُوا<br>تاء التأنيث الساكنة (خاصة بالماضي) — ﴿آمَنَتْ﴾`,
+          lines: [
+            { html: `Every فعل shares two signs, no matter which type it is:`, list: false },
+            { table: { headers: ['Sign', 'Example'], rows: [
+              ['التَّصْرِيف — conjugating into ماضٍ / مضارع / أمر / نهي', 'عَبَدَ / يَعْبُدُ / اُعْبُدْ / لَا تَعْبُدْ'],
+              ['قبول الضَّمَائِرُ الْبَارِزَةُ الْمَرْفُوعَة', 'آمَنْتُ، آمَنُوا'],
+            ] } },
+            { html: `الفعل الماضي alone also accepts a third sign: <bdi>تَاءُ التَّأْنِيثِ السَّاكِنَة</bdi>, as in ﴿آمَنَتْ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `Which class of الفعل does تاء التأنيث الساكنة, as in ﴿آمَنَتْ﴾, single out?`,
             kind: 'mcq',
@@ -333,8 +425,14 @@ export default {
         },
         {
           heading: 'علامات المضارع الخاصة وحروف المضارعة',
-          body: `المضارع has three signs that belong to it alone: (1) <bdi>لَمْ</bdi> and <bdi>لَنْ</bdi>, (2) <bdi>السِّين</bdi> and <bdi>سَوْفَ</bdi>, (3) the <bdi>نُونَا التَّوْكِيدِ</bdi>. It is also recognized by opening with one of the <bdi>حُرُوفُ الْمُضَارَعَةِ</bdi> — <bdi>ن، أ، ي، ت</bdi>, remembered by <bdi>نَأَيْتُ</bdi>, as in <bdi>يُحْيِي وَيُمِيتُ</bdi>. <bdi>قَدْ</bdi>, by contrast, is not specific to المضارع — it is shared with الماضي.`,
-          sample: `لم / لن / السين / سوف — علامات خاصة بالمضارع<br>حروف المضارعة — ن، أ، ي، ت (نَأَيْتُ)، نحو: يُحْيِي وَيُمِيتُ<br>قد — مشتركة بين الماضي والمضارع فقط`,
+          lines: [
+            { html: `المضارع has three signs that belong to it alone:`, list: false },
+            { html: `<bdi>لَمْ</bdi> and <bdi>لَنْ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>السِّين</bdi> and <bdi>سَوْفَ</bdi>`, list: true, bullet: true },
+            { html: `the <bdi>نُونَا التَّوْكِيدِ</bdi>`, list: true, bullet: true },
+            { html: `It's also recognized by opening with one of the <bdi>حُرُوفُ الْمُضَارَعَةِ</bdi> — <bdi>ن، أ، ي، ت</bdi>, remembered by the word <bdi>نَأَيْتُ</bdi>, as in <bdi>يُحْيِي وَيُمِيتُ</bdi>.`, list: false },
+            { html: `<bdi>قَدْ</bdi>, by contrast, is not specific to المضارع — it's shared with الماضي.`, list: false },
+          ],
           exercise: {
             prompt: `تُؤْمِنُونَ begins with a تاء. What is that تاء, and what does it establish?`,
             kind: 'mcq',
@@ -344,8 +442,10 @@ export default {
         },
         {
           heading: 'علامة الأمر، وكيف يُعرف الحرف',
-          body: `الأمر is known by indicating <bdi>طَلَب</bdi> while accepting <bdi>يَاءِ الْمُخَاطَبَةِ</bdi> (وَادْخُلِي جَنَّتِي). الحرف has no positive sign of its own — it's recognized only by the absence of every sign of الاسم and الفعل, like <bdi>هَلْ</bdi> and <bdi>بَلْ</bdi>.`,
-          sample: `علامة الأمر — الدلالة على الطلب + قبول ياء المخاطبة، نحو: ﴿وَادْخُلِي جَنَّتِي﴾<br>الحرف — لا علامة إيجابية له؛ يُعرف بعدم صلاحيته لعلامة الاسم أو الفعل، نحو: هَلْ، بَلْ`,
+          lines: [
+            { html: `الأمر is known by indicating <bdi>طَلَب</bdi> while accepting <bdi>يَاءِ الْمُخَاطَبَةِ</bdi>, as in ﴿وَادْخُلِي جَنَّتِي﴾.`, list: false },
+            { html: `الحرف has no positive sign of its own. It's recognized only by process of elimination — the absence of every sign of both الاسم and الفعل, as with <bdi>هَلْ</bdi> and <bdi>بَلْ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Only one of these four displays no sign of الاسم and no sign of الفعل. Which one is the حرف?`,
             kind: 'mcq',
@@ -441,20 +541,47 @@ export default {
         {
           title: 'تركيب: ﴿إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ أَوَّاهٌ مُنِيبٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the sign that proves each اسم — or write حرف for what isn’t one.',
-          source: 'إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ أَوَّاهٌ مُنِيبٌ',
-          words: ['إِنَّ', 'إِبْرَاهِيمَ', 'حَلِيمٌ', 'أَوَّاهٌ', 'مُنِيبٌ'],
-          labels: ['حرف', 'مسند إليه', 'التنوين', 'التنوين', 'التنوين'],
+          instruction: 'Identify the sign of الاسم each اسم displays.',
+          sentence: 'إِنَّ إِبْرَاهِيمَ لَحَلِيمٌ أَوَّاهٌ مُنِيبٌ',
+          translation: 'Indeed, Abraham was truly forbearing, imploring, penitent.',
+          cells: ['إِنَّ', 'إِبْرَاهِيمَ', 'حَلِيمٌ', 'أَوَّاهٌ', 'مُنِيبٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'مسند إليه' },
+              { start: 2, end: 2, role: 'التنوين' },
+              { start: 3, end: 3, role: 'التنوين' },
+              { start: 4, end: 4, role: 'التنوين' },
+            ] },
+          ],
           distractors: ['مجرور', 'منادى'],
         },
         {
-          title: 'تركيب: ﴿سَيَرْحَمُهُمُ اللَّهُ﴾ و﴿سَوْفَ أَسْتَغْفِرُ﴾',
+          title: 'تركيب: ﴿أُولَٰئِكَ سَيَرْحَمُهُمُ اللَّهُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify which sign of المضارع appears with each verb.',
-          source: 'سَيَرْحَمُهُمُ … / سَوْفَ أَسْتَغْفِرُ …',
-          words: ['سَيَرْحَمُهُمُ', 'أَسْتَغْفِرُ'],
-          labels: ['السين', 'سوف'],
-          distractors: ['لم', 'لن', 'نونا التوكيد'],
+          instruction: 'Identify the sign of المضارع the verb displays.',
+          sentence: 'أُولَٰئِكَ سَيَرْحَمُهُمُ اللَّهُ',
+          translation: 'Those — Allah will have mercy upon them.',
+          cells: ['أُولَٰئِكَ', 'سَيَرْحَمُهُمُ', 'اللَّهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'السين' },
+            ] },
+          ],
+          distractors: ['سوف', 'لن'],
+        },
+        {
+          title: 'تركيب: ﴿سَوْفَ أَسْتَغْفِرُ لَكُمْ رَبِّي﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which sign of المضارع does the verb display here?',
+          sentence: 'سَوْفَ أَسْتَغْفِرُ لَكُمْ رَبِّي',
+          translation: '[Yaqub] said, "I will ask my Lord to forgive you."',
+          cells: ['سَوْفَ', 'أَسْتَغْفِرُ', 'لَكُمْ', 'رَبِّي'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'سوف' },
+            ] },
+          ],
+          distractors: ['السين', 'لن'],
         },
         {
           title: 'Sign in ﴿بِسْمِ اللَّهِ﴾',
@@ -548,40 +675,58 @@ export default {
           correct: 1,
         },
         {
-          title: 'تركيب: علامات الاسم الست',
+          title: 'تركيب: ﴿بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each word to the sign of الاسم it demonstrates.',
-          source: '﴿بِسْمِ اللَّهِ﴾ / ﴿الرَّحْمَٰنِ الرَّحِيمِ﴾ / ﴿هُدًى لِلْمُتَّقِينَ﴾ / ﴿يَا نُوحُ﴾ / ﴿رَبِّ الْعَالَمِينَ﴾',
-          words: ['بِسْمِ', 'الرَّحْمَٰنِ', 'هُدًى', 'نُوحُ', 'رَبِّ'],
-          labels: ['مجرور', 'أل التعريف', 'التنوين', 'منادى', 'مضاف'],
-          distractors: ['مسند إليه'],
+          instruction: 'Identify one sign of الاسم each word displays.',
+          sentence: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+          translation: 'In the name of Allah, the Most Gracious, the Most Merciful.',
+          cells: ['بِسْمِ', 'اللَّهِ', 'الرَّحْمَٰنِ', 'الرَّحِيمِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مضاف' },
+              { start: 1, end: 1, role: 'مجرور' },
+              { start: 2, end: 2, role: 'أل التعريف' },
+              { start: 3, end: 3, role: 'أل التعريف' },
+            ] },
+          ],
+          distractors: ['مسند إليه', 'منادى', 'التنوين'],
         },
         {
-          title: 'تركيب: تصنيف بالعلامات',
+          title: 'تركيب: هَلْ آمَنَتِ الْمَرْأَةُ؟',
           kind: 'tarkeeb',
-          instruction: 'Use the signs to classify each word: اسم, فعل, or حرف.',
-          source: 'هَلْ / بَلْ / آمَنَتْ / الْمُتَّقِينَ',
-          words: ['هَلْ', 'بَلْ', 'آمَنَتْ', 'الْمُتَّقِينَ'],
-          labels: ['حرف', 'حرف', 'فعل', 'اسم'],
-          distractors: ['منادى'],
+          instruction: 'Classify each word by its signs; then name the specific sign that proves آمَنَتِ and الْمَرْأَةُ.',
+          sentence: 'هَلْ آمَنَتِ الْمَرْأَةُ؟',
+          translation: 'Has the woman believed?',
+          cells: ['هَلْ', 'آمَنَتِ', 'الْمَرْأَةُ'],
+          rows: [
+            { position: 'above', label: 'Word class', labels: [
+              { start: 0, end: 0, role: 'حرف' },
+              { start: 1, end: 1, role: 'فعل' },
+              { start: 2, end: 2, role: 'اسم' },
+            ] },
+            { position: 'below', label: 'Sign proving it', labels: [
+              { start: 1, end: 1, role: 'تاء التأنيث الساكنة' },
+              { start: 2, end: 2, role: 'أل التعريف' },
+            ] },
+          ],
+          distractors: ['منادى', 'مسند إليه'],
         },
         {
-          title: 'تركيب: أي زمن تُعيّنه العلامة؟',
+          title: 'تركيب: نَحْنُ نَذْهَبُ وَهُوَ يَذْهَبُ وَأَنَا أَذْهَبُ وَأَنْتَ تَذْهَبُ',
           kind: 'tarkeeb',
-          instruction: 'Which tense does each sign identify?',
-          source: 'قَدْ / سَوْفَ / تَاءُ التَّأْنِيثِ السَّاكِنَة',
-          words: ['قَدْ', 'سَوْفَ', 'تَاءُ التَّأْنِيثِ'],
-          labels: ['مشتركة بين الماضي والمضارع', 'خاصة بالمضارع', 'خاصة بالماضي'],
-          distractors: ['خاصة بالأمر'],
-        },
-        {
-          title: 'تركيب: حروف المضارعة (نَأَيْتُ)',
-          kind: 'tarkeeb',
-          instruction: 'Name the حرف مضارعة that opens each verb.',
-          source: 'نَعْبُدُ / أَسْتَغْفِرُ / يُحْيِي / تَعْبُدُ',
-          words: ['نَعْبُدُ', 'أَسْتَغْفِرُ', 'يُحْيِي', 'تَعْبُدُ'],
-          labels: ['ن', 'أ', 'ي', 'ت'],
-          distractors: ['س'],
+          instruction: 'Identify the حرف مضارعة that opens each verb.',
+          sentence: 'نَحْنُ نَذْهَبُ وَهُوَ يَذْهَبُ وَأَنَا أَذْهَبُ وَأَنْتَ تَذْهَبُ',
+          translation: 'We go, and he goes, and I go, and you go.',
+          cells: ['نَحْنُ', 'نَذْهَبُ', 'وَ', 'هُوَ', 'يَذْهَبُ', 'وَ', 'أَنَا', 'أَذْهَبُ', 'وَ', 'أَنْتَ', 'تَذْهَبُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'ن' },
+              { start: 4, end: 4, role: 'ي' },
+              { start: 7, end: 7, role: 'أ' },
+              { start: 10, end: 10, role: 'ت' },
+            ] },
+          ],
+          distractors: ['س', 'و'],
         },
       ],
     },
@@ -594,8 +739,15 @@ export default {
       concepts: [
         {
           heading: 'تعريف الجملة: المسند والمسند إليه',
-          body: `الجملة contains a <bdi>مُسْنَد</bdi> and <bdi>مُسْنَدٌ إِلَيْهِ</bdi>. المسند إليه (= مبتدأ or فاعل) is what's spoken about — <bdi>الْمَحْكُومُ عَلَيْهِ</bdi>. المسند (= خبر or فعل) is what's said about it — <bdi>الْمَحْكُومُ بِهِ</bdi>. Together they are <bdi>عُمْدَة</bdi>; everything else (like the five مفاعيل) is <bdi>فَضْلَة</bdi>.`,
-          sample: `مسند إليه (= مبتدأ أو فاعل، ويسمى المحكوم عليه)<br>مسند (= خبر أو فعل، ويسمى المحكوم به)<br>عمدة — المسند والمسند إليه (لا غنى عنهما)<br>فضلة/قيد — كل ما زاد، كالمفاعيل الخمسة`,
+          lines: [
+            { html: `الجملة is built from two parts: a <bdi>مُسْنَد</bdi> and a <bdi>مُسْنَدٌ إِلَيْهِ</bdi>.`, list: false },
+            { html: `<bdi>الْمُسْنَدُ إِلَيْهِ</bdi> (= مبتدأ or فاعل) is what's spoken about — also called <bdi>الْمَحْكُومُ عَلَيْهِ</bdi>.`, list: false },
+            { html: `<bdi>الْمُسْنَد</bdi> (= خبر or فعل) is what's said about it — also called <bdi>الْمَحْكُومُ بِهِ</bdi>.`, list: false },
+            { tarkeebDiagram: { sentence: 'اللَّهُ غَفُورٌ', translation: 'Allah is Forgiving.', cells: ['اللَّهُ', 'غَفُورٌ'], rows: [
+              { position: 'above', labels: [ { start: 0, end: 0, role: 'مسند إليه' }, { start: 1, end: 1, role: 'مسند' } ] },
+            ] } },
+            { html: `Together المسند and المسند إليه are called <bdi>عُمْدَة</bdi> — the جملة can't stand without them. Everything else added on top, like the five مفاعيل, is <bdi>فَضْلَة</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `Which pair of labels belongs to the five مفاعيل, as against the two the جملة cannot do without?`,
             kind: 'mcq',
@@ -605,8 +757,15 @@ export default {
         },
         {
           heading: 'اسمية أو فعلية',
-          body: `By form, a جملة is <bdi>اسْمِيَّة</bdi> (starts with اسم — <bdi>غَيْرُ مَنْسُوخَة</bdi> like وَاللَّهُ غَفُورٌ رَحِيمٌ, or <bdi>مَنْسُوخَة</bdi> after a ناسخ like إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ) or <bdi>فِعْلِيَّة</bdi> (starts with فعل — وَخَلَقَ كُلَّ شَيْءٍ). A ناسخ or a fronted فضلة never changes this: إِيَّاكَ نَعْبُدُ is فعلية because إِيَّاكَ is فضلة.`,
-          sample: `اسمية غير منسوخة — ﴿وَاللَّهُ غَفُورٌ رَحِيمٌ﴾<br>اسمية منسوخة — ﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾<br>فعلية — ﴿وَخَلَقَ كُلَّ شَيْءٍ﴾<br>فعلية رغم الفضلة المقدمة — ﴿إِيَّاكَ نَعْبُدُ﴾ (الأصل: نَعْبُدُ إِيَّاكَ)`,
+          lines: [
+            { html: `By form, a جملة is either <bdi>اسْمِيَّة</bdi> (starts with اسم) or <bdi>فِعْلِيَّة</bdi> (starts with فعل).`, list: false },
+            { table: { headers: ['Type', 'Condition', 'Example'], rows: [
+              ['اسمية غير منسوخة', 'starts with اسم, no ناسخ', '﴿وَاللَّهُ غَفُورٌ رَحِيمٌ﴾'],
+              ['اسمية منسوخة', 'starts with اسم, after a ناسخ', '﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾'],
+              ['فعلية', 'starts with فعل', '﴿وَخَلَقَ كُلَّ شَيْءٍ﴾'],
+            ] } },
+            { html: `A ناسخ or a fronted فضلة never changes this classification: ﴿إِيَّاكَ نَعْبُدُ﴾ is فعلية, because إِيَّاكَ is a فضلة (الأصل: نَعْبُدُ إِيَّاكَ) — classification goes by original word order, not by whatever visibly stands first.`, list: false },
+          ],
           clarification: `How can إِيَّاكَ نَعْبُدُ be فعلية when إِيَّاكَ visibly stands first؟ Classification goes by the sentence's original word order before a فضلة gets fronted for emphasis — not by whatever happens to stand first on the surface. Undo the fronting and the أصل is نَعْبُدُ إِيَّاكَ: a فعل standing first, with إِيَّاكَ (the فضلة, here the مفعول به) simply moved ahead of it for emphasis.`,
           exercise: {
             prompt: `Classifying a جملة by form goes by what stands first — but one thing standing first is passed over. What is it?`,
@@ -617,8 +776,11 @@ export default {
         },
         {
           heading: 'الجملة الشرطية: فعلية دائمًا',
-          body: `Only أفعال occur right after <bdi>أَدَاةُ الشَّرْطِ</bdi>, so <bdi>الْجُمْلَةُ الشَّرْطِيَّة</bdi> is always فعلية — even where an اسم appears to follow it directly, a فعل is implied (وَإِنِ اسْتَجَارَكَ أَحَدٌ, not وَإِنْ أَحَدٌ اسْتَجَارَكَ).`,
-          sample: `﴿إِنْ تُخْفُوا مَا فِي صُدُورِكُمْ أَوْ تُبْدُوهُ يَعْلَمْهُ اللَّهُ﴾ — فعل بعد أداة الشرط مباشرة<br>﴿وَإِنْ أَحَدٌ مِنَ الْمُشْرِكِينَ اسْتَجَارَكَ﴾ — والتقدير: وَإِنِ اسْتَجَارَكَ أَحَدٌ`,
+          lines: [
+            { html: `Only أفعال occur right after <bdi>أَدَاةُ الشَّرْطِ</bdi>, so <bdi>الْجُمْلَةُ الشَّرْطِيَّة</bdi> is always فعلية.`, list: false },
+            { html: `﴿إِنْ تُخْفُوا مَا فِي صُدُورِكُمْ أَوْ تُبْدُوهُ يَعْلَمْهُ اللَّهُ﴾ — a فعل sits right after إِنْ.`, list: true, bullet: true },
+            { html: `﴿وَإِنْ أَحَدٌ مِنَ الْمُشْرِكِينَ اسْتَجَارَكَ﴾ — أَحَدٌ looks like it comes first, but a فعل is implied before it: التقدير هو وَإِنِ اسْتَجَارَكَ أَحَدٌ.`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Why is الجملة الشرطية always فعلية, even when an اسم appears to sit right after the شرط particle?`,
             kind: 'mcq',
@@ -633,8 +795,23 @@ export default {
         },
         {
           heading: 'خبرية أو إنشائية، وأنواع الإنشاء',
-          body: `By meaning, a جملة is <bdi>خَبَرِيَّة</bdi> (its speaker can be truthful or lying) or <bdi>إِنْشَائِيَّة</bdi> (it cannot). الإنشاء has eleven types: <bdi>الِاسْتِفْهَام</bdi>, <bdi>التَّمَنِّي</bdi>, <bdi>النِّدَاء</bdi>, <bdi>التَّحْذِير</bdi>, <bdi>الْإِغْرَاء</bdi>, <bdi>الْأَمْر</bdi>, <bdi>النَّهْي</bdi>, <bdi>الدُّعَاء</bdi>, <bdi>صيغ المدح والذم</bdi>, <bdi>صيغ التوجع والتفجع</bdi>, and <bdi>الْقَسَم</bdi>.`,
-          sample: `خبرية — ﴿إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ﴾<br>تمني — ﴿يَا لَيْتَ قَوْمِي يَعْلَمُونَ﴾<br>تحذير — نَاقَةَ اللَّهِ وَسُقْيَاهَا<br>إغراء — الْعِلْمَ الْعِلْمَ<br>توجع وتفجع — ﴿يَا حَسْرَتَىٰ عَلَىٰ مَا فَرَّطْتُ فِي جَنْبِ اللَّهِ﴾<br>قسم — ﴿وَالْعَصْرِ﴾`,
+          lines: [
+            { html: `By meaning, a جملة is <bdi>خَبَرِيَّة</bdi> (its speaker can be truthful or lying, e.g. ﴿إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ﴾) or <bdi>إِنْشَائِيَّة</bdi> (it cannot).`, list: false },
+            { html: `الإنشاء has eleven types:`, list: false },
+            { table: { headers: ['Type', 'Example'], rows: [
+              ['الِاسْتِفْهَام', '—'],
+              ['التَّمَنِّي', '﴿يَا لَيْتَ قَوْمِي يَعْلَمُونَ﴾'],
+              ['النِّدَاء', '—'],
+              ['التَّحْذِير', 'نَاقَةَ اللَّهِ وَسُقْيَاهَا'],
+              ['الْإِغْرَاء', 'الْعِلْمَ الْعِلْمَ'],
+              ['الْأَمْر', '—'],
+              ['النَّهْي', '—'],
+              ['الدُّعَاء', '—'],
+              ['صيغ المدح والذم', '—'],
+              ['صيغ التوجع والتفجع', '﴿يَا حَسْرَتَىٰ عَلَىٰ مَا فَرَّطْتُ فِي جَنْبِ اللَّهِ﴾'],
+              ['الْقَسَم', '﴿وَالْعَصْرِ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿سَلَامٌ عَلَيْكُمْ﴾, said in greeting someone, is which of the eleven types of الجملة الإنشائية?`,
             kind: 'mcq',
@@ -644,8 +821,18 @@ export default {
         },
         {
           heading: 'خبر بلفظ إنشاء وعكسه؛ الكبرى والصغرى',
-          body: `Form and meaning can split: <bdi>الْحَمْدُ لِلَّهِ</bdi> is خبر in wording but إنشاء in meaning; the حديث <bdi>«مَنْ كَذَبَ عَلَيَّ...فَلْيَتَبَوَّأْ»</bdi> is أمر in wording but خبر in meaning (= سَيَتَبَوَّأُ). Separately: a جملة containing another is <bdi>كُبْرَى</bdi>; the one inside it, sitting in the position of a مفرد, is <bdi>صُغْرَى</bdi>.`,
-          sample: `خبر لفظًا، إنشاء معنى — ﴿الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾<br>إنشاء لفظًا، خبر معنى — «مَنْ كَذَبَ عَلَيَّ مُتَعَمِّدًا فَلْيَتَبَوَّأْ مَقْعَدَهُ مِنَ النَّارِ» (= سَيَتَبَوَّأُ)<br>كبرى وصغرى — ﴿وَاللَّهُ يَعْلَمُ﴾: الكل كبرى، يَعْلَمُ صغرى في موضع الخبر`,
+          lines: [
+            { html: `Form and meaning can split apart:`, list: false },
+            { table: { headers: ['Case', 'Example'], rows: [
+              ['خبر in wording, إنشاء in meaning', '﴿الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾'],
+              ['إنشاء in wording, خبر in meaning (= سَيَتَبَوَّأُ)', '«مَنْ كَذَبَ عَلَيَّ مُتَعَمِّدًا فَلْيَتَبَوَّأْ مَقْعَدَهُ مِنَ النَّارِ»'],
+            ] } },
+            { html: `Separately: a جملة containing another جملة is called <bdi>كُبْرَى</bdi>; the جملة inside it, sitting in the position of a مفرد, is <bdi>صُغْرَى</bdi>.`, list: false },
+            { tarkeebDiagram: { sentence: 'وَاللَّهُ يَعْلَمُ', translation: 'And Allah knows.', cells: ['اللَّهُ', 'يَعْلَمُ'], rows: [
+              { position: 'above', labels: [ { start: 0, end: 1, role: 'الكل = جملة كبرى' } ] },
+              { position: 'below', labels: [ { start: 1, end: 1, role: 'يَعْلَمُ = جملة صغرى (خبر)' } ] },
+            ] } },
+          ],
           clarification: `What does "sitting in the position of a مفرد" mean? It means the inner جملة is doing the job a single word would normally do in that slot. In ﴿وَاللَّهُ يَعْلَمُ﴾, the خبر of اللَّه would normally be one word — here a whole جملة, يَعْلَمُ, fills that خبر slot instead. So الكل (the whole thing) is كُبْرَى, and يَعْلَمُ is صُغْرَى, sitting where a مفرد خبر would otherwise sit.`,
           exercise: {
             prompt: `﴿وَاللَّهُ يَعْلَمُ﴾ holds one جملة inside another. Which label goes to which?`,
@@ -656,8 +843,20 @@ export default {
         },
         {
           heading: 'الكلام: المفيد، وموجب/غير موجب',
-          body: `الكلام is <bdi>قَوْلٌ مُفِيد</bdi> — a meaningful utterance complete enough to stop at (<bdi>صَدَقْتَ</bdi>, not <bdi>إِنْ تَصْدُقْ</bdi>). Every كلام is جملة, but not every جملة is كلام. الكلام is <bdi>مُوجَب</bdi> (no نفي/نهي/استفهام) or <bdi>غَيْرُ مُوجَب</bdi> (contains one of them).`,
-          sample: `مفيد — صَدَقْتَ (يحسن السكوت عليه)<br>غير مفيد — إِنْ تَصْدُقْ (ناقص، معلَّق بجوابه)<br>موجب — ﴿اُعْبُدِ اللَّهَ الَّذِي يَتَوَفَّاكُمْ﴾<br>غير موجب (نفي) — ﴿فَلَا أَعْبُدُ الَّذِينَ تَعْبُدُونَ مِنْ دُونِ اللَّهِ﴾<br>غير موجب (نهي) — ﴿لَا تُشْرِكْ بِاللَّهِ﴾<br>غير موجب (استفهام) — ﴿أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً﴾`,
+          lines: [
+            { html: `الكلام is <bdi>قَوْلٌ مُفِيد</bdi> — a meaningful utterance complete enough to stop at. Every كلام is جملة, but not every جملة is كلام.`, list: false },
+            { table: { headers: ['Case', 'Example'], rows: [
+              ['مفيد (يحسن السكوت عليه)', 'صَدَقْتَ'],
+              ['غير مفيد (ناقص، معلَّق بجوابه)', 'إِنْ تَصْدُقْ'],
+            ] } },
+            { html: `الكلام is also <bdi>مُوجَب</bdi> (contains no نفي, نهي, or استفهام) or <bdi>غَيْرُ مُوجَب</bdi> (contains one of them).`, list: false },
+            { table: { headers: ['Type', 'Example'], rows: [
+              ['موجب', '﴿اُعْبُدِ اللَّهَ الَّذِي يَتَوَفَّاكُمْ﴾'],
+              ['غير موجب (نفي)', '﴿فَلَا أَعْبُدُ الَّذِينَ تَعْبُدُونَ مِنْ دُونِ اللَّهِ﴾'],
+              ['غير موجب (نهي)', '﴿لَا تُشْرِكْ بِاللَّهِ﴾'],
+              ['غير موجب (استفهام)', '﴿أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `Only one of these four is كلام موجب. Which one?`,
             kind: 'mcq',
@@ -751,22 +950,113 @@ export default {
           correct: 1,
         },
         {
-          title: 'تركيب: تصنيف جمل باعتبار الهيئة',
+          title: 'تركيب: ﴿إِيَّاكَ نَعْبُدُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جملة: اسمية or فعلية.',
-          source: '﴿وَاللَّهُ غَفُورٌ رَحِيمٌ﴾ / ﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾ / ﴿وَخَلَقَ كُلَّ شَيْءٍ﴾',
-          words: ['وَاللَّهُ غَفُورٌ رَحِيمٌ', 'إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ', 'وَخَلَقَ كُلَّ شَيْءٍ'],
-          labels: ['اسمية غير منسوخة', 'اسمية منسوخة', 'فعلية'],
-          distractors: ['شرطية'],
+          instruction: 'Classify إِيَّاكَ and نَعْبُدُ as عمدة or فضلة; then classify the whole جملة by form; then by meaning.',
+          sentence: 'إِيَّاكَ نَعْبُدُ',
+          translation: 'You alone we worship.',
+          cells: ['إِيَّاكَ', 'نَعْبُدُ'],
+          rows: [
+            { position: 'above', label: 'عمدة or فضلة', labels: [
+              { start: 0, end: 0, role: 'فضلة' },
+              { start: 1, end: 1, role: 'عمدة' },
+            ] },
+            { position: 'below', label: 'Form', labels: [
+              { start: 0, end: 1, role: 'فعلية' },
+            ] },
+            { position: 'below', label: 'Meaning', labels: [
+              { start: 0, end: 1, role: 'خبرية' },
+            ] },
+          ],
+          distractors: ['اسمية غير منسوخة', 'إنشائية'],
         },
         {
-          title: 'تركيب: تصنيف الإنشاء',
+          title: 'تركيب: ﴿وَاللَّهُ غَفُورٌ رَحِيمٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the type of إنشاء in each example.',
-          source: '﴿يَا لَيْتَ قَوْمِي يَعْلَمُونَ﴾ / نَاقَةَ اللَّهِ وَسُقْيَاهَا / سَلَامٌ عَلَيْكُمْ',
-          words: ['يَا لَيْتَ قَوْمِي يَعْلَمُونَ', 'نَاقَةَ اللَّهِ وَسُقْيَاهَا', 'سَلَامٌ عَلَيْكُمْ'],
-          labels: ['التمني', 'التحذير', 'الدعاء'],
-          distractors: ['الإغراء', 'القسم'],
+          instruction: 'Label المسند and المسند إليه; then classify the whole جملة by form.',
+          sentence: 'وَاللَّهُ غَفُورٌ رَحِيمٌ',
+          translation: 'And Allah is Forgiving, Merciful.',
+          cells: ['اللَّهُ', 'غَفُورٌ', 'رَحِيمٌ'],
+          rows: [
+            { position: 'above', label: 'المسند / المسند إليه', labels: [
+              { start: 0, end: 0, role: 'مسند إليه' },
+              { start: 1, end: 2, role: 'مسند' },
+            ] },
+            { position: 'below', label: 'Form', labels: [
+              { start: 0, end: 2, role: 'اسمية غير منسوخة' },
+            ] },
+          ],
+          distractors: ['اسمية منسوخة', 'فعلية'],
+        },
+        {
+          title: 'تركيب: ﴿وَخَلَقَ كُلَّ شَيْءٍ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify the whole جملة by form.',
+          sentence: 'وَخَلَقَ كُلَّ شَيْءٍ',
+          translation: 'And He created all things.',
+          cells: ['خَلَقَ', 'كُلَّ', 'شَيْءٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'فعلية' },
+            ] },
+          ],
+          distractors: ['اسمية غير منسوخة', 'اسمية منسوخة'],
+        },
+        {
+          title: 'تركيب: ﴿يَا لَيْتَ قَوْمِي يَعْلَمُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which type of الإنشاء this whole جملة represents.',
+          sentence: 'يَا لَيْتَ قَوْمِي يَعْلَمُونَ',
+          translation: 'If only my people knew!',
+          cells: ['يَا', 'لَيْتَ', 'قَوْمِي', 'يَعْلَمُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 3, role: 'التمني' },
+            ] },
+          ],
+          distractors: ['الاستفهام', 'النداء'],
+        },
+        {
+          title: 'تركيب: ﴿وَالْعَصْرِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which type of الإنشاء this represents.',
+          sentence: 'وَالْعَصْرِ',
+          translation: 'By Time.',
+          cells: ['وَ', 'الْعَصْرِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'القسم' },
+            ] },
+          ],
+          distractors: ['التمني', 'الدعاء'],
+        },
+        {
+          title: 'تركيب: ﴿أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which type of الإنشاء this represents.',
+          sentence: 'أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً',
+          translation: 'Should I take gods besides Him?',
+          cells: ['أَأَتَّخِذُ', 'مِنْ', 'دُونِهِ', 'آلِهَةً'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 3, role: 'الاستفهام' },
+            ] },
+          ],
+          distractors: ['التمني', 'القسم'],
+        },
+        {
+          title: 'تركيب: الْعِلْمَ الْعِلْمَ',
+          kind: 'tarkeeb',
+          instruction: 'Identify which type of الإنشاء this represents.',
+          sentence: 'الْعِلْمَ الْعِلْمَ',
+          translation: '[Hold fast to] knowledge, knowledge!',
+          cells: ['الْعِلْمَ', 'الْعِلْمَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'الإغراء' },
+            ] },
+          ],
+          distractors: ['التحذير', 'النداء'],
         },
         {
           title: 'Definition of الجملة',
@@ -881,40 +1171,40 @@ export default {
           correct: 1,
         },
         {
-          title: 'تركيب: عمدة أم فضلة؟',
+          title: 'تركيب: يَغْفِرُ اللَّهُ الذُّنُوبَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each part of the جملة: عمدة or فضلة?',
-          source: 'المبتدأ / الخبر / المفعول به',
-          words: ['المبتدأ', 'الخبر', 'المفعول به'],
-          labels: ['عمدة', 'عمدة', 'فضلة'],
-          distractors: ['ناسخ'],
+          instruction: 'Label المسند and المسند إليه; then classify each part as عمدة or فضلة.',
+          sentence: 'يَغْفِرُ اللَّهُ الذُّنُوبَ',
+          translation: 'Allah forgives sins.',
+          cells: ['يَغْفِرُ', 'اللَّهُ', 'الذُّنُوبَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مسند' },
+              { start: 1, end: 1, role: 'مسند إليه' },
+            ] },
+            { position: 'below', labels: [
+              { start: 0, end: 1, role: 'عمدة' },
+              { start: 2, end: 2, role: 'فضلة' },
+            ] },
+          ],
+          distractors: ['ناسخ', 'شرطية'],
         },
         {
-          title: 'تركيب: خبرية أم إنشائية؟',
+          title: 'تركيب: ﴿وَاللَّهُ يَعْلَمُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each جملة by its meaning.',
-          source: '﴿إِيَّاكَ نَعْبُدُ﴾ / ﴿أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً﴾ / ﴿وَالْعَصْرِ﴾',
-          words: ['إِيَّاكَ نَعْبُدُ', 'أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً', 'وَالْعَصْرِ'],
-          labels: ['خبرية', 'إنشائية', 'إنشائية'],
-          distractors: ['شرطية'],
-        },
-        {
-          title: 'تركيب: أنواع الإنشاء (٢)',
-          kind: 'tarkeeb',
-          instruction: 'Identify the type of إنشاء in each example.',
-          source: 'الْعِلْمَ الْعِلْمَ / ﴿يَا حَسْرَتَىٰ﴾ / ﴿وَالْعَصْرِ﴾ / ﴿أَأَتَّخِذُ﴾',
-          words: ['الْعِلْمَ الْعِلْمَ', 'يَا حَسْرَتَىٰ', 'وَالْعَصْرِ', 'أَأَتَّخِذُ'],
-          labels: ['الإغراء', 'صيغ التوجع والتفجع', 'القسم', 'الاستفهام'],
-          distractors: ['التحذير', 'الدعاء'],
-        },
-        {
-          title: 'تركيب: موجب أم غير موجب؟',
-          kind: 'tarkeeb',
-          instruction: 'Classify each كلام: موجب or غير موجب?',
-          source: '﴿اعْبُدِ اللَّهَ﴾ / ﴿لَا تُشْرِكْ بِاللَّهِ﴾ / ﴿أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً﴾',
-          words: ['اعْبُدِ اللَّهَ', 'لَا تُشْرِكْ بِاللَّهِ', 'أَأَتَّخِذُ مِنْ دُونِهِ آلِهَةً'],
-          labels: ['موجب', 'غير موجب', 'غير موجب'],
-          distractors: ['خبرية'],
+          instruction: 'Label the whole جملة; then identify the جملة sitting inside it.',
+          sentence: 'وَاللَّهُ يَعْلَمُ',
+          translation: 'And Allah knows.',
+          cells: ['اللَّهُ', 'يَعْلَمُ'],
+          rows: [
+            { position: 'above', label: 'الكل', labels: [
+              { start: 0, end: 1, role: 'جملة كبرى' },
+            ] },
+            { position: 'below', label: 'الجزء', labels: [
+              { start: 1, end: 1, role: 'جملة صغرى' },
+            ] },
+          ],
+          distractors: ['خبرية', 'إنشائية'],
         },
       ],
     },
@@ -927,8 +1217,19 @@ export default {
       concepts: [
         {
           heading: 'تعريف شبه الجملة ومعاني الظرف',
-          body: `شبه الجملة is also called <bdi>الظَّرْف</bdi> — a word used for three things: <bdi>الْمَفْعُولُ فِيهِ</bdi>; <bdi>فَوْقَ / تَحْتَ / عِنْدَ</bdi> and their sisters; and شبه الجملة itself. By form it is <bdi>الْجَارُّ وَالْمَجْرُور</bdi> (فِي مَكَّةَ) or <bdi>الظَّرْفُ وَالْمُضَافُ إِلَيْهِ</bdi> (عِنْدَ الْكَعْبَةِ).`,
-          sample: `المعاني الثلاثة لـ"ظرف" — المفعول فيه / فوق، تحت، عند وأخواتها / شبه الجملة<br>الجار والمجرور — فِي مَكَّةَ<br>الظرف والمضاف إليه — عِنْدَ الْكَعْبَةِ`,
+          lines: [
+            { html: `شبه الجملة is also called <bdi>الظَّرْف</bdi> — a word used for three separate things:`, list: false },
+            { table: { headers: ['Meaning of ظرف', 'What it refers to'], rows: [
+              ['الْمَفْعُولُ فِيهِ', 'the time/place object of a فعل'],
+              ['فَوْقَ / تَحْتَ / عِنْدَ وأخواتها', 'a fixed set of location words'],
+              ['شبه الجملة نفسه', 'شبه الجملة itself'],
+            ] } },
+            { html: `By form, شبه الجملة takes one of two shapes:`, list: false },
+            { table: { headers: ['Shape', 'Example'], rows: [
+              ['الْجَارُّ وَالْمَجْرُور', 'فِي مَكَّةَ'],
+              ['الظَّرْفُ وَالْمُضَافُ إِلَيْهِ', 'عِنْدَ الْكَعْبَةِ'],
+            ] } },
+          ],
           exercise: {
             prompt: `فِي مَكَّةَ and عِنْدَ الْكَعْبَةِ are the two shapes شبه الجملة can take. Which shape does عِنْدَ الْكَعْبَةِ represent?`,
             kind: 'mcq',
@@ -938,8 +1239,20 @@ export default {
         },
         {
           heading: 'المتعلَّق والمتعلِّق، والظرف اللغو',
-          body: `The عامل of a شبه جملة is its <bdi>مُتَعَلَّق</bdi>; the شبه جملة itself is <bdi>مُتَعَلِّق</bdi>. By its عامل, شبه الجملة is <bdi>الظَّرْفُ اللَّغْو</bdi> (عامل mentioned, أَرْسَلْنَا نُوحًا, or deleted-but-known, وَإِلَىٰ عَادٍ) — called لغو because it holds no ضمير مستتر linking back to a مبتدأ, ذو حال, منعوت, or موصول. Four contexts force its عامل to delete: (1) <bdi>الْأَمْثَال</bdi> — set proverbs, (2) a transmitted expression, (3) <bdi>قَسَم</bdi> sworn by other than الباء, (4) <bdi>خَبَرُ كَانَ</bdi> after <bdi>لَامِ الْجُحُود</bdi>.`,
-          sample: `متعلَّق — العامل نفسه<br>متعلِّق — شبه الجملة المتعلقة به<br>ظرف لغو، عامل مذكور — ﴿لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ﴾<br>ظرف لغو، عامل محذوف معروف — ﴿وَإِلَىٰ عَادٍ أَخَاهُمْ هُودًا﴾ (أي أَرْسَلْنَا)`,
+          lines: [
+            { html: `The عامل of a شبه جملة is called its <bdi>مُتَعَلَّق</bdi>; the شبه جملة itself is the <bdi>مُتَعَلِّق</bdi>.`, list: false },
+            { html: `By its عامل, شبه الجملة is <bdi>الظَّرْفُ اللَّغْو</bdi> when the عامل is either mentioned outright or deleted-but-known:`, list: false },
+            { table: { headers: ['Case', 'Example'], rows: [
+              ['عامل مذكور', '﴿لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ﴾'],
+              ['عامل محذوف معروف (أي أَرْسَلْنَا)', '﴿وَإِلَىٰ عَادٍ أَخَاهُمْ هُودًا﴾'],
+            ] } },
+            { html: `It's called لغو ("idle") because it holds no hidden pronoun linking back to a مبتدأ, ذو حال, منعوت, or موصول.`, list: false },
+            { html: `Four contexts force its عامل to be deleted:`, list: false },
+            { html: `<bdi>الْأَمْثَال</bdi> — set proverbs`, list: true, bullet: true },
+            { html: `a transmitted expression`, list: true, bullet: true },
+            { html: `<bdi>قَسَم</bdi> sworn by other than الباء`, list: true, bullet: true },
+            { html: `<bdi>خَبَرُ كَانَ</bdi> after <bdi>لَامِ الْجُحُود</bdi>`, list: true, bullet: true },
+          ],
           clarification: `The simplest test for لغو vs. مستقر (covered next): delete the شبه جملة and see what's left standing. In لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ, drop إِلَىٰ قَوْمِهِ and أَرْسَلْنَا نُوحًا is already a complete جملة on its own (فعل + فاعل + مفعول) — so إِلَىٰ قَوْمِهِ is only extra detail, which is what makes it لغو ("idle"). Now contrast إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ (the example for مستقر, next concept): drop عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ and إِنَّكَ is left with no خبر at all — there, the شبه جملة is standing in for the missing خبر itself, so it can't be removed. That's why الظرف اللغو carries no ضمير مستتر pointing back to a مبتدأ, حال, نعت, or صلة still waiting to be completed — its عامل (a complete فعل, stated or deleted-but-known) never needed one in the first place.`,
           exercise: {
             prompt: `In ﴿لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ﴾ the عامل is mentioned outright; in ﴿وَإِلَىٰ عَادٍ أَخَاهُمْ هُودًا﴾ it is deleted but still specifically known. What do both شبه جملة count as?`,
@@ -950,8 +1263,13 @@ export default {
         },
         {
           heading: 'الظرف المستقر',
-          body: `<bdi>الظَّرْفُ الْمُسْتَقِرّ</bdi> has a عامل that is deleted AND general, as in <bdi>إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ</bdi> (= تَثْبُتُ). Only words of existence fill that slot — <bdi>اسْتَقَرَّ / ثَبَتَ / وُجِدَ / يَكُونُ</bdi>, or <bdi>مُسْتَقِرّ / ثَابِت / مَوْجُود / كَائِن</bdi>. Inside <bdi>الصِّلَة</bdi> specifically, that deleted عامل must be a فعل, since الصلة must itself be a جملة.`,
-          sample: `الظرف المستقر — ﴿إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾ (أي: تَثْبُتُ / ثَابِتٌ)<br>كلمات الوجود العامة — استقر، ثبت، وُجد، يكون / مستقر، ثابت، موجود، كائن<br>موضع الصلة (يلزم فعلا) — الَّذِي فِي مَكَّةَ (أي: الَّذِي اسْتَقَرَّ فِي مَكَّةَ)`,
+          lines: [
+            { html: `<bdi>الظَّرْفُ الْمُسْتَقِرّ</bdi> has a عامل that is BOTH deleted and general — as in ﴿إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾ (أي: تَثْبُتُ).`, list: false },
+            { html: `Only words of existence can fill that deleted slot:`, list: false },
+            { html: `as أفعال — <bdi>اسْتَقَرَّ / ثَبَتَ / وُجِدَ / يَكُونُ</bdi>`, list: true, bullet: true },
+            { html: `or as أسماء — <bdi>مُسْتَقِرّ / ثَابِت / مَوْجُود / كَائِن</bdi>`, list: true, bullet: true },
+            { html: `Inside <bdi>الصِّلَة</bdi> specifically, that deleted عامل must be a فعل, since الصلة must itself be a جملة, as in الَّذِي فِي مَكَّةَ (أي: الَّذِي اسْتَقَرَّ فِي مَكَّةَ).`, list: false },
+          ],
           clarification: `Why must it be a فعل, not the matching اسم (مُسْتَقِرّ)? Because الصلة has to be a full جملة, and a جملة needs a مُسْنَد paired with a مُسْنَدٌ إِلَيْهِ (recall: خبر أو فعل, paired with مبتدأ أو فاعل). A فعل already comes with its own فاعل built in, so استقر في مكة is by itself a complete جملة. مُسْتَقِرّ is just a single اسم (a مفرد) — with no فاعل or مسند إليه of its own, it can't be a جملة at all. That's why only the فعل-form works inside الصلة.`,
           exercise: {
             prompt: `In الَّذِي فِي مَكَّةَ, the deleted general عامل must specifically be a فعل (استقر), never an اسم like مستقر. Why?`,
@@ -967,8 +1285,17 @@ export default {
         },
         {
           heading: 'مواضع الظرف المستقر الخمسة',
-          body: `الظرف المستقر occurs in exactly five positions: (1) <bdi>الْخَبَر</bdi>, as in <bdi>وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ</bdi>, (2) <bdi>الْحَال</bdi>, as in <bdi>فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ</bdi>, (3) <bdi>النَّعْت</bdi>, as in <bdi>أُولَٰئِكَ عَلَىٰ هُدًى</bdi>, (4) <bdi>الصِّلَة</bdi>, as in <bdi>وَلَهُ مَنْ فِي السَّمَاوَاتِ</bdi>, (5) <bdi>الِاعْتِمَاد</bdi>, as in <bdi>أَفِي اللَّهِ شَكٌّ</bdi>. Note: <bdi>مُسْتَقَرّ</bdi> is the deleted عامل itself; <bdi>ظَرْفٌ مُسْتَقِرّ</bdi> is the whole شبه جملة.`,
-          sample: `الخبر — ﴿وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾<br>الحال — ﴿فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ﴾<br>النعت — ﴿أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ﴾<br>الصلة — ﴿وَلَهُ مَنْ فِي السَّمَاوَاتِ وَالْأَرْضِ﴾<br>الاعتماد — ﴿أَفِي اللَّهِ شَكٌّ﴾<br>مستقَر = العامل المحذوف ⟷ ظرف مستقر = شبه الجملة نفسه`,
+          lines: [
+            { html: `الظرف المستقر occurs in exactly five positions:`, list: false },
+            { table: { headers: ['#', 'Position', 'Example'], rows: [
+              ['1', 'الْخَبَر', '﴿وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾'],
+              ['2', 'الْحَال', '﴿فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ﴾'],
+              ['3', 'النَّعْت', '﴿أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ﴾'],
+              ['4', 'الصِّلَة', '﴿وَلَهُ مَنْ فِي السَّمَاوَاتِ وَالْأَرْضِ﴾'],
+              ['5', 'الِاعْتِمَاد', '﴿أَفِي اللَّهِ شَكٌّ﴾'],
+            ] } },
+            { html: `One naming note: <bdi>مُسْتَقَرّ</bdi> is the deleted عامل itself; <bdi>ظَرْفٌ مُسْتَقِرّ</bdi> is the whole شبه جملة.`, list: false },
+          ],
           exercise: {
             prompt: `﴿فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ﴾ — في زينته occupies which of the five positions of الظرف المستقر?`,
             kind: 'mcq',
@@ -1062,22 +1389,105 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مواضع الظرف المستقر',
+          title: 'تركيب: ﴿وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the position each شبه جملة (الظرف المستقر) occupies.',
-          source: '﴿وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾ / ﴿فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ﴾ / ﴿وَلَهُ مَنْ فِي السَّمَاوَاتِ وَالْأَرْضِ﴾',
-          words: ['عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ', 'فِي زِينَتِهِ', 'فِي السَّمَاوَاتِ وَالْأَرْضِ'],
-          labels: ['الخبر', 'الحال', 'الصلة'],
-          distractors: ['النعت', 'الاعتماد'],
+          instruction: 'Label المسند إليه; then identify which of the five مواضع الظرف المستقر the شبه جملة occupies.',
+          sentence: 'وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ',
+          translation: 'And he is on a straight path.',
+          cells: ['هُوَ', 'عَلَىٰ', 'صِرَاطٍ', 'مُسْتَقِيمٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'مسند إليه' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 3, role: 'الخبر' },
+            ] },
+          ],
+          distractors: ['الحال', 'النعت'],
         },
         {
-          title: 'تركيب: لغو أم مستقر؟',
+          title: 'تركيب: ﴿فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each شبه جملة: الظرف اللغو or الظرف المستقر.',
-          source: '﴿لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ﴾ / ﴿إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾',
-          words: ['إِلَىٰ قَوْمِهِ', 'عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ'],
-          labels: ['الظرف اللغو', 'الظرف المستقر'],
-          distractors: ['متعلَّق'],
+          instruction: 'Identify which of the five مواضع the شبه جملة فِي زِينَتِهِ occupies.',
+          sentence: 'فَخَرَجَ عَلَىٰ قَوْمِهِ فِي زِينَتِهِ',
+          translation: 'So he went out before his people in his adornment.',
+          cells: ['خَرَجَ', 'عَلَىٰ', 'قَوْمِهِ', 'فِي', 'زِينَتِهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'الحال' },
+            ] },
+          ],
+          distractors: ['الخبر', 'الصلة'],
+        },
+        {
+          title: 'تركيب: ﴿أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which of the five مواضع عَلَىٰ هُدًى occupies.',
+          sentence: 'أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ',
+          translation: 'Those are upon guidance from their Lord.',
+          cells: ['أُولَٰئِكَ', 'عَلَىٰ', 'هُدًى', 'مِنْ', 'رَبِّهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'النعت' },
+            ] },
+          ],
+          distractors: ['الاعتماد', 'الخبر'],
+        },
+        {
+          title: 'تركيب: ﴿وَلَهُ مَنْ فِي السَّمَاوَاتِ وَالْأَرْضِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which of the five مواضع the شبه جملة فِي السَّمَاوَاتِ وَالْأَرْضِ occupies.',
+          sentence: 'وَلَهُ مَنْ فِي السَّمَاوَاتِ وَالْأَرْضِ',
+          translation: 'And to Him belongs whoever is in the heavens and the earth.',
+          cells: ['لَهُ', 'مَنْ', 'فِي', 'السَّمَاوَاتِ', 'وَالْأَرْضِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'الصلة' },
+            ] },
+          ],
+          distractors: ['الحال', 'الاعتماد'],
+        },
+        {
+          title: 'تركيب: ﴿أَفِي اللَّهِ شَكٌّ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify which of the five مواضع أَفِي اللَّهِ occupies.',
+          sentence: 'أَفِي اللَّهِ شَكٌّ',
+          translation: 'Is there any doubt about Allah?',
+          cells: ['أَفِي', 'اللَّهِ', 'شَكٌّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'الاعتماد' },
+            ] },
+          ],
+          distractors: ['الخبر', 'النعت'],
+        },
+        {
+          title: 'تركيب: ﴿لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify إِلَىٰ قَوْمِهِ as الظرف اللغو or الظرف المستقر.',
+          sentence: 'لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ',
+          translation: 'We sent Noah to his people.',
+          cells: ['لَقَدْ', 'أَرْسَلْنَا', 'نُوحًا', 'إِلَىٰ', 'قَوْمِهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'الظرف اللغو' },
+            ] },
+          ],
+          distractors: ['الظرف المستقر', 'مضاف'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ as الظرف اللغو or الظرف المستقر.',
+          sentence: 'إِنَّكَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ',
+          translation: 'Indeed, you are on a straight path.',
+          cells: ['إِنَّكَ', 'عَلَىٰ', 'صِرَاطٍ', 'مُسْتَقِيمٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 3, role: 'الظرف المستقر' },
+            ] },
+          ],
+          distractors: ['الظرف اللغو', 'متعلَّق'],
         },
         {
           title: 'Not one of the three senses of ظرف',
@@ -1178,40 +1588,34 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: نوع شبه الجملة بالهيئة',
+          title: 'تركيب: صَلَّيْتُ فِي مَكَّةَ عِنْدَ الْكَعْبَةِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each شبه جملة by its form.',
-          source: 'فِي مَكَّةَ / عِنْدَ الْكَعْبَةِ',
-          words: ['فِي مَكَّةَ', 'عِنْدَ الْكَعْبَةِ'],
-          labels: ['الجار والمجرور', 'الظرف والمضاف إليه'],
+          instruction: 'Classify فِي مَكَّةَ and عِنْدَ الْكَعْبَةِ by form.',
+          sentence: 'صَلَّيْتُ فِي مَكَّةَ عِنْدَ الْكَعْبَةِ',
+          translation: 'I prayed in Mecca, by the Kaaba.',
+          cells: ['صَلَّيْتُ', 'فِي', 'مَكَّةَ', 'عِنْدَ', 'الْكَعْبَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'الجار والمجرور' },
+              { start: 3, end: 4, role: 'الظرف والمضاف إليه' },
+            ] },
+          ],
           distractors: ['الظرف اللغو', 'الظرف المستقر'],
         },
         {
-          title: 'تركيب: مواضع الظرف المستقر (٢)',
+          title: 'تركيب: يَجْلِسُ الْوَلَدُ عِنْدَ الْمُعَلِّمِ',
           kind: 'tarkeeb',
-          instruction: 'Identify the position each ظرف مستقر occupies.',
-          source: '﴿أُولَٰئِكَ عَلَىٰ هُدًى﴾ / ﴿أَفِي اللَّهِ شَكٌّ﴾ / ﴿فَلَا تَحْسَبَنَّهُمْ بِمَفَازَةٍ﴾',
-          words: ['عَلَىٰ هُدًى', 'أَفِي اللَّهِ', 'بِمَفَازَةٍ'],
-          labels: ['النعت', 'الاعتماد', 'الخبر'],
-          distractors: ['الحال', 'الصلة'],
-        },
-        {
-          title: 'تركيب: مواضع حذف العامل وجوبًا',
-          kind: 'tarkeeb',
-          instruction: 'Name the context that forces the عامل to be deleted in each case.',
-          source: 'الْكِلَابَ عَلَى الْبَقَرِ / بِأَبِي أَنْتَ وَأُمِّي / ﴿تَاللَّهِ تَفْتَأُ﴾ / ﴿مَا كَانَ اللَّهُ لِيُعَذِّبَهُمْ﴾',
-          words: ['الْكِلَابَ عَلَى الْبَقَرِ', 'بِأَبِي أَنْتَ وَأُمِّي', 'تَاللَّهِ تَفْتَأُ', 'مَا كَانَ اللَّهُ لِيُعَذِّبَهُمْ'],
-          labels: ['الأمثال', 'تعبير منقول', 'قسم بغير الباء', 'خبر كان مع لام الجحود'],
-          distractors: ['الصلة'],
-        },
-        {
-          title: 'تركيب: متعلَّق أم متعلِّق؟',
-          kind: 'tarkeeb',
-          instruction: 'Which term names each side of the relationship?',
-          source: 'العامل / شبه الجملة',
-          words: ['العامل', 'شبه الجملة'],
-          labels: ['متعلَّق', 'متعلِّق'],
-          distractors: ['مستقَر'],
+          instruction: 'Identify المتعلَّق (العامل) and المتعلِّق (شبه الجملة).',
+          sentence: 'يَجْلِسُ الْوَلَدُ عِنْدَ الْمُعَلِّمِ',
+          translation: 'The boy sits by the teacher.',
+          cells: ['يَجْلِسُ', 'الْوَلَدُ', 'عِنْدَ', 'الْمُعَلِّمِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'متعلَّق' },
+              { start: 2, end: 3, role: 'متعلِّق' },
+            ] },
+          ],
+          distractors: ['الظرف اللغو', 'الظرف المستقر'],
         },
       ],
     },
@@ -1224,8 +1628,16 @@ export default {
       concepts: [
         {
           heading: 'العامل وغير العامل',
-          body: `<bdi>الْعَامِل</bdi> necessitates a grammatical state — <bdi>لَنْ</bdi> in وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا forces نصب. All أفعال are عامل; حروف and أسماء split. <bdi>غَيْرُ الْعَامِل</bdi> necessitates nothing (<bdi>مَا</bdi> in مَا أَشْرَكْنَا); every جملة and every شبه جملة is always غير عامل.`,
-          sample: `عامل — لَنْ في ﴿وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا﴾ (توجب النصب)<br>غير عامل — مَا في ﴿مَا أَشْرَكْنَا﴾<br>عاملة دائمًا — كل الأفعال<br>غير عاملة دائمًا — كل الجمل وكل أشباه الجمل`,
+          lines: [
+            { html: `<bdi>الْعَامِل</bdi> is anything that necessitates a grammatical state — <bdi>لَنْ</bdi> in ﴿وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا﴾ forces نصب.`, list: false },
+            { html: `<bdi>غَيْرُ الْعَامِل</bdi> necessitates nothing, like <bdi>مَا</bdi> in ﴿مَا أَشْرَكْنَا﴾.`, list: false },
+            { table: { headers: ['Category', 'عامل or not?'], rows: [
+              ['كل الأفعال', 'عاملة دائمًا'],
+              ['كل الجمل', 'غير عاملة دائمًا'],
+              ['كل أشباه الجمل', 'غير عاملة دائمًا'],
+              ['الحروف والأسماء', 'بعضها عامل، وبعضها لا'],
+            ] } },
+          ],
           exercise: {
             prompt: `Which of the following is true without exception, for every single member of its category?`,
             kind: 'mcq',
@@ -1235,8 +1647,16 @@ export default {
         },
         {
           heading: 'المبادئ الخمسة',
-          body: `Five rules: all أفعال are عاملة; حروف split; أسماء split; every جملة is غير عاملة; every شبه جملة is غير عاملة. غير العامل is also called <bdi>عَاطِل</bdi> or <bdi>مُهْمَل</bdi>.`,
-          sample: `المبادئ الخمسة:<br>١) كل الأفعال عاملة<br>٢) بعض الحروف عاملة، وبعضها لا<br>٣) بعض الأسماء عاملة، وبعضها لا<br>٤) كل الجمل غير عاملة<br>٥) كل أشباه الجمل غير عاملة<br>غير العامل = عاطل = مهمل`,
+          lines: [
+            { table: { title: 'المبادئ الخمسة', headers: ['#', 'Principle'], rows: [
+              ['1', 'كل الأفعال عاملة'],
+              ['2', 'بعض الحروف عاملة، وبعضها لا'],
+              ['3', 'بعض الأسماء عاملة، وبعضها لا'],
+              ['4', 'كل الجمل غير عاملة'],
+              ['5', 'كل أشباه الجمل غير عاملة'],
+            ] } },
+            { html: `غير العامل is also called <bdi>عَاطِل</bdi> or <bdi>مُهْمَل</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `According to the five principles, are أفعال and جمل treated the same way (partly عاملة, partly not) or differently?`,
             kind: 'mcq',
@@ -1251,8 +1671,19 @@ export default {
         },
         {
           heading: 'المعمول وغير المعمول',
-          body: `<bdi>الْمَعْمُول</bdi> accepts a state and has إعراب — <bdi>صَاحِب</bdi> in مَا ضَلَّ صَاحِبُكُمْ. Five things count as معمول: (1) every اسم except أسماء الفعل, (2) المضارع, (3) a ماضٍ once a ناصب or جازم enters upon it, (4) some جمل, (5) every شبه جملة. Three things are <bdi>غَيْرُ مَعْمُول</bdi> instead: (1) every حرف, (2) أسماء الفعل, (3) a plain ماضٍ with no ناصب or جازم.`,
-          sample: `معمول — صَاحِب في ﴿مَا ضَلَّ صَاحِبُكُمْ﴾<br>معمولة — كل الأسماء (إلا أسماء الفعل)، المضارع، الماضي بعد ناصب/جازم، كل أشباه الجمل<br>غير معمولة — أسماء الفعل، الماضي المجرد من ناصب أو جازم، كل الحروف`,
+          lines: [
+            { html: `<bdi>الْمَعْمُول</bdi> is anything that accepts a state and has إعراب — <bdi>صَاحِب</bdi> in ﴿مَا ضَلَّ صَاحِبُكُمْ﴾.`, list: false },
+            { html: `Five things count as معمول:`, list: false },
+            { html: `every اسم except أسماء الفعل`, list: true, bullet: true },
+            { html: `المضارع`, list: true, bullet: true },
+            { html: `a ماضٍ once a ناصب or جازم enters upon it`, list: true, bullet: true },
+            { html: `some جمل`, list: true, bullet: true },
+            { html: `every شبه جملة`, list: true, bullet: true },
+            { html: `Three things are <bdi>غَيْرُ مَعْمُول</bdi> instead:`, list: false },
+            { html: `every حرف`, list: true, bullet: true },
+            { html: `أسماء الفعل`, list: true, bullet: true },
+            { html: `a plain ماضٍ with no ناصب or جازم`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `أشباه الجمل are always غير عامل. Are they معمول or غير معمول?`,
             kind: 'mcq',
@@ -1262,8 +1693,14 @@ export default {
         },
         {
           heading: 'الإعراب وأنواعه',
-          body: `الإعراب is the effect a عامل brings at a word's end. <bdi>لَفْظِيّ</bdi> appears in pronunciation (يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ). <bdi>تَقْدِيرِيّ</bdi> is blocked by a phonetic <bdi>مَانِع</bdi> (يَسْعَى الْفَتَى إِلَى الْهُدَى). <bdi>مَحَلِّيّ</bdi> never appears because the word itself can't bear a marking, as with the ضمائر in تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ.`,
-          sample: `لفظي — يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ (الضمة والكسرة ظاهرتان)<br>تقديري — يَسْعَى الْفَتَى إِلَى الْهُدَى (الضمة والكسرة مقدَّرتان، منع من ظهورهما التعذر)<br>محلي — تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ (الضمائر لا تقبل علامة إعراب أصلًا)`,
+          lines: [
+            { html: `الإعراب is the effect a عامل brings about at a word's end.`, list: false },
+            { table: { headers: ['Type', 'Condition', 'Example'], rows: [
+              ['لَفْظِيّ', 'appears in pronunciation', 'يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ'],
+              ['تَقْدِيرِيّ', 'blocked from appearing by a phonetic مَانِع', 'يَسْعَى الْفَتَى إِلَى الْهُدَى'],
+              ['مَحَلِّيّ', "never appears — the word itself can't bear a marking", 'تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ'],
+            ] } },
+          ],
           exercise: {
             prompt: `In يَسْعَى الْفَتَى إِلَى الْهُدَى, the ضمة and كسرة are understood but blocked from appearing by the nature of the ending. Which type of إعراب is this?`,
             kind: 'mcq',
@@ -1362,22 +1799,67 @@ export default {
           correct: 1,
         },
         {
-          title: 'تركيب: عامل أم غير عامل؟',
+          title: 'تركيب: ﴿وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each word: عامل or غير عامل.',
-          source: 'وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا / مَا أَشْرَكْنَا',
-          words: ['لَنْ', 'مَا'],
-          labels: ['عامل', 'غير عامل'],
-          distractors: ['معمول', 'غير معمول'],
+          instruction: 'Identify which word is العامل and which is المعمول.',
+          sentence: 'وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا',
+          translation: 'And we will never associate with our Lord anyone.',
+          cells: ['لَنْ', 'نُشْرِكَ', 'بِرَبِّنَا', 'أَحَدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'عامل' },
+              { start: 1, end: 1, role: 'معمول' },
+            ] },
+          ],
+          distractors: ['غير عامل', 'غير معمول'],
         },
         {
-          title: 'تركيب: أنواع الإعراب',
+          title: 'تركيب: يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ',
           kind: 'tarkeeb',
-          instruction: 'Identify the type of إعراب shown in each example.',
-          source: 'يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ / يَسْعَى الْفَتَى إِلَى الْهُدَى / تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ',
-          words: ['يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ', 'يَسْعَى الْفَتَى إِلَى الْهُدَى', 'تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ'],
-          labels: ['لفظي', 'تقديري', 'محلي'],
-          distractors: ['عامل'],
+          instruction: 'Label the word class of each word; then identify the type of إعراب shown.',
+          sentence: 'يَجْتَهِدُ الْمُؤْمِنُ فِي الْخَيْرِ',
+          translation: 'The believer strives in [doing] good.',
+          cells: ['يَجْتَهِدُ', 'الْمُؤْمِنُ', 'فِي', 'الْخَيْرِ'],
+          rows: [
+            { position: 'above', label: 'Word class', labels: [
+              { start: 0, end: 0, role: 'فعل' },
+              { start: 1, end: 1, role: 'اسم' },
+              { start: 2, end: 2, role: 'حرف' },
+              { start: 3, end: 3, role: 'اسم' },
+            ] },
+            { position: 'below', label: 'الإعراب', labels: [
+              { start: 0, end: 3, role: 'الإعراب اللفظي' },
+            ] },
+          ],
+          distractors: ['الإعراب التقديري', 'الإعراب المحلي'],
+        },
+        {
+          title: 'تركيب: يَسْعَى الْفَتَى إِلَى الْهُدَى',
+          kind: 'tarkeeb',
+          instruction: 'Identify the type of إعراب shown.',
+          sentence: 'يَسْعَى الْفَتَى إِلَى الْهُدَى',
+          translation: 'The young man strives toward guidance.',
+          cells: ['يَسْعَى', 'الْفَتَى', 'إِلَى', 'الْهُدَى'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 3, role: 'الإعراب التقديري' },
+            ] },
+          ],
+          distractors: ['الإعراب اللفظي', 'الإعراب المحلي'],
+        },
+        {
+          title: 'تركيب: تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ',
+          kind: 'tarkeeb',
+          instruction: 'Identify the type of إعراب shown.',
+          sentence: 'تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ',
+          translation: 'You (fem. pl.) strive toward him.',
+          cells: ['تَسْعَيْنَ', 'أَنْتُنَّ', 'إِلَيْهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'الإعراب المحلي' },
+            ] },
+          ],
+          distractors: ['الإعراب اللفظي', 'الإعراب التقديري'],
         },
         {
           title: 'Definition of العامل',
@@ -1478,40 +1960,20 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: المبادئ الخمسة',
+          title: 'تركيب: ﴿مَا ضَلَّ صَاحِبُكُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'State the ruling on each category with respect to being عامل.',
-          source: 'الأفعال / الحروف / الجمل',
-          words: ['الأفعال', 'الحروف', 'الجمل'],
-          labels: ['كلها عاملة', 'بعضها عامل', 'كلها غير عاملة'],
-          distractors: ['كلها معمولة'],
-        },
-        {
-          title: 'تركيب: معمول أم غير معمول؟',
-          kind: 'tarkeeb',
-          instruction: 'Classify each category: معمول or غير معمول?',
-          source: 'الأسماء (غير أسماء الفعل) / الحروف / أسماء الفعل / شبه الجملة',
-          words: ['الأسماء عدا أسماء الفعل', 'الحروف', 'أسماء الفعل', 'شبه الجملة'],
-          labels: ['معمول', 'غير معمول', 'غير معمول', 'معمول'],
-          distractors: ['عامل'],
-        },
-        {
-          title: 'تركيب: تعريف أنواع الإعراب',
-          kind: 'tarkeeb',
-          instruction: 'Match each description to the type of إعراب it defines.',
-          source: 'اللفظي / التقديري / المحلي',
-          words: ['يظهر في النطق', 'يمنعه مانع', 'لا يقبله اللفظ'],
-          labels: ['لفظي', 'تقديري', 'محلي'],
-          distractors: ['عامل'],
-        },
-        {
-          title: 'تركيب: عامل أم معمول؟',
-          kind: 'tarkeeb',
-          instruction: 'Classify each word: عامل or معمول?',
-          source: '﴿وَلَنْ نُشْرِكَ بِرَبِّنَا أَحَدًا﴾ / ﴿مَا ضَلَّ صَاحِبُكُمْ﴾',
-          words: ['لَنْ', 'نُشْرِكَ', 'صَاحِبُكُمْ'],
-          labels: ['عامل', 'معمول', 'معمول'],
-          distractors: ['غير معمول'],
+          instruction: 'Classify each word: عامل, غير عامل, معمول, or غير معمول.',
+          sentence: 'مَا ضَلَّ صَاحِبُكُمْ',
+          translation: 'Your companion has not strayed.',
+          cells: ['مَا', 'ضَلَّ', 'صَاحِبُكُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'غير عامل' },
+              { start: 1, end: 1, role: 'غير معمول' },
+              { start: 2, end: 2, role: 'معمول' },
+            ] },
+          ],
+          distractors: ['عامل', 'الإعراب اللفظي'],
         },
       ],
     },

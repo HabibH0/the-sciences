@@ -19,7 +19,7 @@ export default {
   title: 'النواسخ الحرفية',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
-  blurb: 'إنّ وأخواتها (الحروف المشبهة بالفعل) and the eleven/ten مواضع of إنّ and أنّ, كأن ولكن ولعل وليت, التخفيف (lightening) and ما الكافة, and لا لنفي الجنس with the حروف المشبهة بليس.',
+  blurb: 'النواسخ الحرفية: إنّ وأخواتها, كأنّ, لكنّ, لعلّ, ليت, and لا لنفي الجنس.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -29,8 +29,10 @@ export default {
       concepts: [
         {
           heading: 'إلا، ومدخل الحروف المشبهة بالفعل',
-          body: `<bdi>إِلَّا</bdi> is the second of the four categories of <bdi>حُرُوف تَعْمَل فِي الِاسْم</bdi> — a حرف putting one اسم in <bdi>نَصْب</bdi>, as in <bdi>﴿فَسَجَدُوا إِلَّا إِبْلِيسَ﴾</bdi>. This module turns to the third category: <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi>, six of them — <bdi>إِنَّ، أَنَّ، كَأَنَّ، لَكِنَّ، لَعَلَّ، لَيْتَ</bdi> — which put the first اسم in <b>نصب</b> (called their اسم) and the second in <b>رفع</b> (called their خبر).`,
-          sample: `إلا (استثناء) — ﴿فسجدوا إلا إبليس﴾، نصب<br>الحروف المشبهة بالفعل (٦) — إن، أن، كأن، لكن، لعل، ليت<br>عملها — نصب الاسم، رفع الخبر`,
+          lines: [
+            { html: `<bdi>إِلَّا</bdi> is the second of the four categories of <bdi>حُرُوف تَعْمَل فِي الِاسْم</bdi> — a حرف putting one اسم in <bdi>نَصْب</bdi>, as in ﴿فَسَجَدُوا إِلَّا إِبْلِيسَ﴾.`, list: false },
+            { html: `This module turns to the third category: <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi>, six of them — <bdi>إِنَّ، أَنَّ، كَأَنَّ، لَكِنَّ، لَعَلَّ، لَيْتَ</bdi> — which put the first اسم in <b>نصب</b> (called their اسم) and the second in <b>رفع</b> (called their خبر).`, list: false },
+          ],
           exercise: {
             prompt: `What do الحروف المشبهة بالفعل do grammatically؟`,
             kind: 'mcq',
@@ -40,8 +42,10 @@ export default {
         },
         {
           heading: 'معنى إنّ وموضعها',
-          body: `<bdi>إِنَّ</bdi> carries the meaning of <bdi>التَّأْكِيد</bdi> (also called <bdi>التَّحْقِيق</bdi>), as in <bdi>﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾</bdi>. With its كسرة, إِنَّ occurs specifically in the position of a <b>جُمْلَة</b> (<bdi>مَوْضِعُ الْجُمْلَة</bdi>) — unlike أَنَّ, which will occupy the position of a single word.`,
-          sample: `إنّ — التأكيد/التحقيق، ﴿إن الله غفور رحيم﴾<br>موضع إنّ المكسورة — موضع الجملة`,
+          lines: [
+            { html: `<bdi>إِنَّ</bdi> carries the meaning of <bdi>التَّأْكِيد</bdi> (also called <bdi>التَّحْقِيق</bdi>), as in ﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾.`, list: false },
+            { html: `With its كسرة, إِنَّ occurs specifically in the position of a <b>جُمْلَة</b> (<bdi>مَوْضِعُ الْجُمْلَة</bdi>) — unlike أَنَّ, which will occupy the position of a single word.`, list: false },
+          ],
           exercise: {
             prompt: `In what kind of position does إنّ (with كسرة) occur؟`,
             kind: 'mcq',
@@ -51,8 +55,23 @@ export default {
         },
         {
           heading: 'مواضع إنّ المكسورة الأحد عشر',
-          body: `إِنَّ المكسورة is required in eleven مواضع: (1) at the <bdi>ابْتِدَاء</bdi>, real or effectively so after a <bdi>حَرْفُ تَنْبِيه</bdi> or <bdi>حَرْفُ زَجْر</bdi> (2) after <bdi>الْقَسَم</bdi> (3) after <bdi>الْقَوْل</bdi> (4) after <bdi>وَاوُ الْحَال</bdi> (5) after <bdi>حَتَّى الِابْتِدَائِيَّة</bdi> (6) in the <bdi>صِلَة</bdi> (7) in the <bdi>نَعْت</bdi> (8) before the <bdi>لَامُ الْمُعَلِّقَة</bdi> (9) after إِلَّا of <bdi>حَصْر</bdi> (10) after <bdi>حَيْثُ</bdi> (11) in the خبر of an <bdi>اسْمُ عَيْن</bdi>. In <bdi>﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾</bdi>, the حرف تنبيه <bdi>أَلَا</bdi> makes what follows count as ابتداء <bdi>حُكْمًا</bdi>, which is why إنّ (not أنّ) is used.`,
-          sample: `مواضع إنّ المكسورة (١١) — الابتداء (حقيقة أو حكما)، بعد القسم، بعد القول، بعد واو الحال، بعد حتى الابتدائية، في الصلة، في النعت، قبل اللام المعلقة، بعد إلا الحصر، بعد حيث، في خبر اسم عين<br>﴿ألا إنهم هم المفسدون﴾ — بعد حرف تنبيه، ابتداء حكما`,
+          lines: [
+            { html: `إِنَّ المكسورة is required in eleven مواضع:`, list: false },
+            { table: { title: 'مواضع إنّ المكسورة الأحد عشر', headers: ['#', 'Position'], rows: [
+              ['1', 'الابْتِدَاء, real or effectively so after a حَرْفُ تَنْبِيه or حَرْفُ زَجْر'],
+              ['2', 'after الْقَسَم'],
+              ['3', 'after الْقَوْل'],
+              ['4', 'after وَاوُ الْحَال'],
+              ['5', 'after حَتَّى الِابْتِدَائِيَّة'],
+              ['6', 'in the صِلَة'],
+              ['7', 'in the نَعْت'],
+              ['8', 'before the لَامُ الْمُعَلِّقَة'],
+              ['9', 'after إِلَّا of حَصْر'],
+              ['10', 'after حَيْثُ'],
+              ['11', 'in the خبر of an اسْمُ عَيْن'],
+            ] } },
+            { html: `In ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾, the حرف تنبيه <bdi>أَلَا</bdi> makes what follows count as ابتداء <bdi>حُكْمًا</bdi>, which is why إنّ (not أنّ) is used.`, list: false },
+          ],
           exercise: {
             prompt: `Why is إنّ (not أنّ) used in ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾؟`,
             kind: 'mcq',
@@ -62,8 +81,14 @@ export default {
         },
         {
           heading: 'إلا مع إنّ أو أنّ، وحيث',
-          body: `Which of إنّ or أنّ follows إِلَّا depends on which sense of إلا it is: إلا of <b>حَصْر</b> takes إنّ, as in <bdi>﴿وَمَا أَرْسَلْنَا قَبْلَكَ مِنَ الْمُرْسَلِينَ إِلَّا إِنَّهُمْ لَيَأْكُلُونَ الطَّعَامَ﴾</bdi>; إلا of <b>اسْتِثْنَاء</b> takes أنّ, as in <bdi>هُوَ شُجَاعٌ إِلَّا أَنَّهُ لَيْسَ بِكَرِيمٍ</bdi>. After <bdi>حَيْثُ</bdi>, إنّ is used, as in <bdi>جَلَسْتُ حَيْثُ إِنَّ عَلِيًّا جَالِسٌ</bdi> — though some disagree, since حيث is مضاف to a جملة.`,
-          sample: `إلا الحصر + إنّ — ﴿وما أرسلنا قبلك من المرسلين إلا إنهم ليأكلون الطعام﴾<br>إلا الاستثناء + أنّ — هو شجاع إلا أنه ليس بكريم<br>حيث + إنّ — جلست حيث إن عليا جالس`,
+          lines: [
+            { html: `Which of إنّ or أنّ follows إِلَّا depends on which sense of إلا it is:`, list: false },
+            { table: { headers: ['إلا sense', 'Takes', 'Example'], rows: [
+              ['حَصْر', 'إنّ', '﴿وَمَا أَرْسَلْنَا قَبْلَكَ مِنَ الْمُرْسَلِينَ إِلَّا إِنَّهُمْ لَيَأْكُلُونَ الطَّعَامَ﴾'],
+              ['اسْتِثْنَاء', 'أنّ', 'هُوَ شُجَاعٌ إِلَّا أَنَّهُ لَيْسَ بِكَرِيمٍ'],
+            ] } },
+            { html: `After <bdi>حَيْثُ</bdi>, إنّ is used, as in جَلَسْتُ حَيْثُ إِنَّ عَلِيًّا جَالِسٌ — though some disagree, since حيث is مضاف to a جملة.`, list: false },
+          ],
           exercise: {
             prompt: `When does إلا take إنّ after it, and when أنّ؟`,
             kind: 'mcq',
@@ -73,8 +98,13 @@ export default {
         },
         {
           heading: 'إنّ أم أنّ في الخبر',
-          body: `The choice between إنّ and أنّ in a خبر tracks what kind of اسم it describes: إنّ appears in the خبر of an <b>اسم عين</b> (a concrete entity), as in <bdi>﴿إِنَّ الَّذِينَ آمَنُوا</bdi>... <bdi>إِنَّ اللَّهَ يَفْصِلُ بَيْنَهُمْ﴾</bdi>; أنّ appears in the خبر of an <b>اسم معنى</b>, as in <bdi>الْمَرْجُو أَنَّهُ مَغْفُورٌ</bdi>.`,
-          sample: `إنّ في خبر اسم عين — ﴿إن الذين آمنوا...إن الله يفصل بينهم﴾<br>أنّ في خبر اسم معنى — المرجو أنه مغفور`,
+          lines: [
+            { html: `The choice between إنّ and أنّ in a خبر tracks what kind of اسم it describes:`, list: false },
+            { table: { headers: ['خبر of', 'Takes', 'Example'], rows: [
+              ['اسم عين (a concrete entity)', 'إنّ', '﴿إِنَّ الَّذِينَ آمَنُوا … إِنَّ اللَّهَ يَفْصِلُ بَيْنَهُمْ﴾'],
+              ['اسم معنى', 'أنّ', 'الْمَرْجُو أَنَّهُ مَغْفُورٌ'],
+            ] } },
+          ],
           exercise: {
             prompt: `When is إنّ used in a خبر, and when أنّ؟`,
             kind: 'mcq',
@@ -243,58 +273,159 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مواضع إنّ من الأمثلة',
+          title: 'تركيب: ﴿إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the موضع of إنّ المكسورة it illustrates.',
-          source: '﴿ألا إنهم هم المفسدون﴾ / ﴿والقرآن الحكيم إنك لمن المرسلين﴾ / ﴿قال إني عبد الله﴾ / نظرت إلى رجل إنه صالح',
-          words: ['ألا إنهم', 'والقرآن الحكيم إنك', 'قال إني', 'إنه صالح'],
-          labels: ['بعد حرف تنبيه (ابتداء حكما)', 'بعد القسم', 'بعد القول', 'في النعت'],
-          distractors: ['في الصلة'],
+          instruction: 'Identify اسم إنّ and خبرها, and their إعراب.',
+          sentence: 'إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ',
+          translation: 'Indeed, Allah is Forgiving, Merciful.',
+          cells: ['إِنَّ', 'اللَّهَ', 'غَفُورٌ', 'رَحِيمٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'اسمها، منصوب' },
+              { start: 2, end: 3, role: 'خبرها، مرفوع' },
+            ] },
+          ],
+          distractors: ['مرفوع', 'منصوب'],
         },
         {
-          title: 'تركيب: إلا وما بعدها',
+          title: 'تركيب: ﴿أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each إلا by sense, and what follows it.',
-          source: 'وما أرسلنا قبلك من المرسلين إلا إنهم ليأكلون الطعام / هو شجاع إلا أنه ليس بكريم',
-          words: ['إلا إنهم', 'إلا أنه'],
-          labels: ['إلا الحصر، تأخذ إنّ', 'إلا الاستثناء، تأخذ أنّ'],
-          distractors: ['إلا الزائدة'],
+          instruction: 'Which موضع of إنّ المكسورة does this illustrate?',
+          sentence: 'أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ',
+          translation: 'Unquestionably, it is they who are the corrupters.',
+          cells: ['أَلَا', 'إِنَّهُمْ', 'هُمُ', 'الْمُفْسِدُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'بعد حرف تنبيه (ابتداء حكما)' },
+            ] },
+          ],
+          distractors: ['بعد القسم', 'بعد القول'],
         },
         {
-          title: 'تركيب: إنّ أم أنّ في الخبر',
+          title: 'تركيب: ﴿وَالْقُرْآنِ الْحَكِيمِ إِنَّكَ لَمِنَ الْمُرْسَلِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each خبر: does it call for إنّ (اسم عين) or أنّ (اسم معنى)?',
-          source: '﴿إن الذين آمنوا...إن الله يفصل بينهم﴾ / المرجو أنه مغفور',
-          words: ['إن الله (خبر الذين)', 'أنه مغفور (خبر المرجو)'],
-          labels: ['إنّ، اسم عين', 'أنّ، اسم معنى'],
-          distractors: ['كلاهما اسم معنى'],
+          instruction: 'Which موضع of إنّ المكسورة does this illustrate؟',
+          sentence: 'وَالْقُرْآنِ الْحَكِيمِ إِنَّكَ لَمِنَ الْمُرْسَلِينَ',
+          translation: 'By the wise Quran, indeed you are among the messengers.',
+          cells: ['وَالْقُرْآنِ', 'الْحَكِيمِ', 'إِنَّكَ', 'لَمِنَ', 'الْمُرْسَلِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'بعد القسم' },
+            ] },
+          ],
+          distractors: ['بعد حرف تنبيه', 'بعد القول'],
         },
         {
-          title: 'تركيب: الحروف المشبهة بالفعل الستة',
+          title: 'تركيب: ﴿قَالَ إِنِّي عَبْدُ اللَّهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف: من الحروف المشبهة بالفعل or not?',
-          source: 'إنّ / لكنّ / إلا / كأنّ',
-          words: ['إنّ', 'لكنّ', 'إلا', 'كأنّ'],
-          labels: ['من الستة', 'من الستة', 'ليس منها', 'من الستة'],
-          distractors: ['من الحروف المشبهة بليس'],
+          instruction: 'Which موضع of إنّ المكسورة does this illustrate؟',
+          sentence: 'قَالَ إِنِّي عَبْدُ اللَّهِ',
+          translation: 'He said, "Indeed, I am the servant of Allah."',
+          cells: ['قَالَ', 'إِنِّي', 'عَبْدُ', 'اللَّهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'بعد القول' },
+            ] },
+          ],
+          distractors: ['بعد القسم', 'بعد حرف تنبيه'],
         },
         {
-          title: 'تركيب: عمل الحروف المشبهة بالفعل',
+          title: 'تركيب: نَظَرْتُ إِلَى رَجُلٍ إِنَّهُ صَالِحٌ',
           kind: 'tarkeeb',
-          instruction: "Classify what الحروف المشبهة بالفعل do to each اسم position.",
-          source: 'الاسم الأول / الاسم الثاني (الخبر)',
-          words: ['الاسم الأول', 'الاسم الثاني'],
-          labels: ['نصب', 'رفع'],
-          distractors: ['جر'],
+          instruction: 'Which موضع of إنّ المكسورة does this illustrate؟',
+          sentence: 'نَظَرْتُ إِلَى رَجُلٍ إِنَّهُ صَالِحٌ',
+          translation: 'I looked at a man — indeed he is righteous.',
+          cells: ['نَظَرْتُ', 'إِلَى', 'رَجُلٍ', 'إِنَّهُ', 'صَالِحٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'في النعت' },
+            ] },
+          ],
+          distractors: ['في الصلة', 'بعد القول'],
         },
         {
-          title: 'تركيب: حيث والصلة',
+          title: 'تركيب: جَلَسْتُ حَيْثُ إِنَّ عَلِيًّا جَالِسٌ',
           kind: 'tarkeeb',
-          instruction: 'Classify what follows each of these: إنّ or أنّ.',
-          source: 'جلست حيث إن عليا جالس / ما إن مفاتحه لتنوء بالعصبة',
-          words: ['حيث', 'صلة الموصول'],
-          labels: ['إنّ', 'إنّ'],
+          instruction: 'What follows حيث here: إنّ or أنّ؟',
+          sentence: 'جَلَسْتُ حَيْثُ إِنَّ عَلِيًّا جَالِسٌ',
+          translation: 'I sat where Ali is sitting.',
+          cells: ['جَلَسْتُ', 'حَيْثُ', 'إِنَّ', 'عَلِيًّا', 'جَالِسٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'إنّ' },
+            ] },
+          ],
           distractors: ['أنّ'],
+        },
+        {
+          title: 'تركيب: مَا إِنْ مَفَاتِحَهُ لَتَنُوءُ بِالْعُصْبَةِ',
+          kind: 'tarkeeb',
+          instruction: 'Which موضع of إنّ المكسورة does this illustrate?',
+          sentence: 'مَا إِنْ مَفَاتِحَهُ لَتَنُوءُ بِالْعُصْبَةِ',
+          translation: 'Whose keys would burden a company [of strong men].',
+          cells: ['مَا', 'إِنْ', 'مَفَاتِحَهُ', 'لَتَنُوءُ', 'بِالْعُصْبَةِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'في الصلة' },
+            ] },
+          ],
+          distractors: ['في النعت', 'بعد حيث'],
+        },
+        {
+          title: 'تركيب: ﴿وَمَا أَرْسَلْنَا قَبْلَكَ مِنَ الْمُرْسَلِينَ إِلَّا إِنَّهُمْ لَيَأْكُلُونَ الطَّعَامَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify إلا here by sense, and what it takes after it.',
+          sentence: 'وَمَا أَرْسَلْنَا قَبْلَكَ مِنَ الْمُرْسَلِينَ إِلَّا إِنَّهُمْ لَيَأْكُلُونَ الطَّعَامَ',
+          translation: 'And We did not send before you any of the messengers except that they ate food.',
+          cells: ['أَرْسَلْنَا', 'قَبْلَكَ', 'مِنَ', 'الْمُرْسَلِينَ', 'إِلَّا', 'إِنَّهُمْ', 'لَيَأْكُلُونَ', 'الطَّعَامَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 5, role: 'إلا الحصر، تأخذ إنّ' },
+            ] },
+          ],
+          distractors: ['إلا الاستثناء، تأخذ أنّ'],
+        },
+        {
+          title: 'تركيب: هُوَ شُجَاعٌ إِلَّا أَنَّهُ لَيْسَ بِكَرِيمٍ',
+          kind: 'tarkeeb',
+          instruction: 'Classify إلا here by sense, and what it takes after it.',
+          sentence: 'هُوَ شُجَاعٌ إِلَّا أَنَّهُ لَيْسَ بِكَرِيمٍ',
+          translation: 'He is brave, except that he is not generous.',
+          cells: ['هُوَ', 'شُجَاعٌ', 'إِلَّا', 'أَنَّهُ', 'لَيْسَ', 'بِكَرِيمٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'إلا الاستثناء، تأخذ أنّ' },
+            ] },
+          ],
+          distractors: ['إلا الحصر، تأخذ إنّ'],
+        },
+        {
+          title: 'تركيب: زَيْدٌ إِنَّهُ قَادِمٌ',
+          kind: 'tarkeeb',
+          instruction: 'زَيْدٌ is an اسم عين. Does its خبر call for إنّ or أنّ؟',
+          sentence: 'زَيْدٌ إِنَّهُ قَادِمٌ',
+          translation: 'Zayd — indeed he is coming.',
+          cells: ['زَيْدٌ', 'إِنَّهُ', 'قَادِمٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'إنّ، اسم عين' },
+            ] },
+          ],
+          distractors: ['أنّ، اسم معنى'],
+        },
+        {
+          title: 'تركيب: الْمَرْجُو أَنَّهُ مَغْفُورٌ',
+          kind: 'tarkeeb',
+          instruction: 'الْمَرْجُو is an اسم معنى. Does its خبر call for إنّ or أنّ؟',
+          sentence: 'الْمَرْجُو أَنَّهُ مَغْفُورٌ',
+          translation: 'What is hoped for is that he is forgiven.',
+          cells: ['الْمَرْجُو', 'أَنَّهُ', 'مَغْفُورٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'أنّ، اسم معنى' },
+            ] },
+          ],
+          distractors: ['إنّ، اسم عين'],
         },
       ],
     },
@@ -306,8 +437,10 @@ export default {
       concepts: [
         {
           heading: 'أنّ: تعريفها وطبيعتها',
-          body: `<bdi>أَنَّ</bdi> is a <bdi>حَرْفُ مَصْدَرٍ لِلتَّأْكِيد</bdi>; unlike إنّ, it occurs in the position of a <b>single word</b> (<bdi>مَوْضِعُ الْمُفْرَد</bdi>) — أنّ together with its جملة is interpreted as a <bdi>مَصْدَر</bdi>. In fact, of all six الحروف المشبهة بالفعل, every one forms a <bdi>جُمْلَة</bdi> with its اسم وخبر <b>except</b> أنّ, which alone (with what follows) stands in the <bdi>تَأْوِيل</bdi> of a مصدر.`,
-          sample: `أنّ — حرف مصدر للتأكيد، موضع المفرد<br>الاستثناء — كل الستة جمل إلا أنّ، فهي مع ما بعدها مصدر`,
+          lines: [
+            { html: `<bdi>أَنَّ</bdi> is a <bdi>حَرْفُ مَصْدَرٍ لِلتَّأْكِيد</bdi>; unlike إنّ, it occurs in the position of a <b>single word</b> (<bdi>مَوْضِعُ الْمُفْرَد</bdi>) — أنّ together with its جملة is interpreted as a <bdi>مَصْدَر</bdi>.`, list: false },
+            { html: `In fact, of all six الحروف المشبهة بالفعل, every one forms a <bdi>جُمْلَة</bdi> with its اسم وخبر <b>except</b> أنّ, which alone (with what follows) stands in the <bdi>تَأْوِيل</bdi> of a مصدر.`, list: false },
+          ],
           exercise: {
             prompt: `Which of the الحروف المشبهة بالفعل forms a جملة with its اسم وخبر, and which does not؟`,
             kind: 'mcq',
@@ -317,8 +450,21 @@ export default {
         },
         {
           heading: 'مواضع أنّ المفتوحة العشرة',
-          body: `أنّ المفتوحة occurs in ten مواضع: (1) <bdi>فَاعِل</bdi>, as in <bdi>﴿حَتَّى يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ﴾</bdi> (2) <bdi>نَائِبُ فَاعِل</bdi>, as in <bdi>﴿قُلْ أُوحِيَ إِلَيَّ أَنَّهُ اسْتَمَعَ نَفَرٌ مِنَ الْجِنِّ﴾</bdi> (3) <bdi>مَفْعُول</bdi> (4) <bdi>مُبْتَدَأ</bdi> (5) خبر of an اسم معنى (6) after a <bdi>جَرّ حَرْف</bdi> (7) <bdi>مُضَافٌ إِلَيْه</bdi> (8) after <bdi>مُذْ/مُنْذُ</bdi> (9) after <bdi>مَا الْمَصْدَرِيَّةُ الظَّرْفِيَّة</bdi> (10) as a <bdi>تَابِع</bdi> (عطف on a مفرد, or بدل from a مفرد).`,
-          sample: `مواضع أنّ المفتوحة (١٠) — فاعل، نائب فاعل، مفعول، مبتدأ، خبر اسم معنى، بعد جر، مضاف إليه، بعد مذ/منذ، بعد ما المصدرية الظرفية، تابع (عطف/بدل)<br>فاعل — ﴿حتى يتبين لهم أنه الحق﴾<br>نائب فاعل — ﴿قل أوحي إلي أنه استمع نفر من الجن﴾`,
+          lines: [
+            { html: `أنّ المفتوحة occurs in ten مواضع:`, list: false },
+            { table: { title: 'مواضع أنّ المفتوحة العشرة', headers: ['#', 'Position', 'Example'], rows: [
+              ['1', 'فَاعِل', '﴿حَتَّى يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ﴾'],
+              ['2', 'نَائِبُ فَاعِل', '﴿قُلْ أُوحِيَ إِلَيَّ أَنَّهُ اسْتَمَعَ نَفَرٌ مِنَ الْجِنِّ﴾'],
+              ['3', 'مَفْعُول', '—'],
+              ['4', 'مُبْتَدَأ', '—'],
+              ['5', 'خبر of an اسم معنى', '—'],
+              ['6', 'after a جَرّ حَرْف', '—'],
+              ['7', 'مُضَافٌ إِلَيْه', '—'],
+              ['8', 'after مُذْ/مُنْذُ', '—'],
+              ['9', 'after مَا الْمَصْدَرِيَّةُ الظَّرْفِيَّة', '—'],
+              ['10', 'تَابِع (عطف on a مفرد, or بدل from a مفرد)', '—'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿حَتَّى يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ﴾ shows أنّ in which موضع؟`,
             kind: 'mcq',
@@ -328,8 +474,15 @@ export default {
         },
         {
           heading: 'مواضع يشترك فيها إنّ وأنّ',
-          body: `Five مواضع allow BOTH إنّ and أنّ: (1) as the reason (<bdi>عِلَّة</bdi>) for a preceding جملة, as in <bdi>اسْتَغْفِرُوا اللَّهَ إِنَّهُ</bdi>/<bdi>أَنَّهُ غَفُورٌ رَحِيمٌ</bdi> (2) after <bdi>فَاءُ الْجَزَاء</bdi> (3) after <bdi>لَا جَرَمَ</bdi> (فتح predominant) (4) after a <bdi>وَاو</bdi> preceded by a جملة and a مفرد both suitable for عطف (5) after <bdi>إِذَا الْفُجَائِيَّة</bdi>. The choice still carries a nuance: with إنّ the جملة is a new, independent one giving the reason (<bdi>اسْتِئْنَافِيَّة لِلتَّعْلِيل</bdi>); with أنّ a لام is implied (<bdi>لِأَنَّهُ</bdi>) and the whole thing is a مصدر.`,
-          sample: `المواضع المشتركة (٥) — علة لجملة سابقة، بعد فاء الجزاء، بعد لا جرم، بعد واو عطف جملة+مفرد، بعد إذا الفجائية<br>استغفروا الله إنه/أنه غفور رحيم — إنّ: استئنافية للتعليل، أنّ: لام مقدرة (لأنه) + مصدر`,
+          lines: [
+            { html: `Five مواضع allow BOTH إنّ and أنّ:`, list: false },
+            { html: `as the reason (عِلَّة) for a preceding جملة, as in اسْتَغْفِرُوا اللَّهَ إِنَّهُ/أَنَّهُ غَفُورٌ رَحِيمٌ`, list: true, bullet: true },
+            { html: `after فَاءُ الْجَزَاء`, list: true, bullet: true },
+            { html: `after لَا جَرَمَ (فتح predominant)`, list: true, bullet: true },
+            { html: `after a وَاو preceded by a جملة and a مفرد both suitable for عطف`, list: true, bullet: true },
+            { html: `after إِذَا الْفُجَائِيَّة`, list: true, bullet: true },
+            { html: `The choice still carries a nuance: with إنّ the جملة is a new, independent one giving the reason (<bdi>اسْتِئْنَافِيَّة لِلتَّعْلِيل</bdi>); with أنّ a لام is implied (<bdi>لِأَنَّهُ</bdi>) and the whole thing is a مصدر.`, list: false },
+          ],
           exercise: {
             prompt: `What determines the choice between إنّ and أنّ in اسْتَغْفِرُوا اللَّهَ إِنَّهُ غَفُورٌ رَحِيمٌ؟`,
             kind: 'mcq',
@@ -339,8 +492,14 @@ export default {
         },
         {
           heading: 'شرط الاسم، وموضع الخبر شبه الجملة',
-          body: `The اسم of إنّ/أنّ may not be an اسم that requires <bdi>صَدْرُ الْكَلَام</bdi> — so <bdi>إِنَّ مَنْ صَمَتَ نَجَا</bdi> is invalid. Separately, when the خبر of إنّ is a <bdi>شِبْهُ جُمْلَة</bdi>, its placement between إنّ and its اسم depends on the اسم's definiteness: if the اسم is <b>definite</b>, placing the خبر in the middle is <b>allowed</b>, as in <bdi>﴿إِنَّ إِلَيْنَا إِيَابَهُمْ﴾</bdi>; if the اسم is <b>indefinite</b>, that placement is <b>obligatory</b>, as in <bdi>﴿إِنَّ فِي ذَٰلِكَ لَعِبْرَةً لِأُولِي الْأَبْصَارِ﴾</bdi>.`,
-          sample: `شرط الاسم — لا يكون له صدر الكلام، فلا يصح: إن من صمت نجا<br>خبر شبه جملة، اسم معرفة — يجوز التوسط: ﴿إن إلينا إيابهم﴾<br>خبر شبه جملة، اسم نكرة — يجب التوسط: ﴿إن في ذلك لعبرة لأولي الأبصار﴾`,
+          lines: [
+            { html: `The اسم of إنّ/أنّ may not be an اسم that requires <bdi>صَدْرُ الْكَلَام</bdi> — so إِنَّ مَنْ صَمَتَ نَجَا is invalid.`, list: false },
+            { html: `Separately, when the خبر of إنّ is a <bdi>شِبْهُ جُمْلَة</bdi>, its placement between إنّ and its اسم depends on the اسم's definiteness:`, list: false },
+            { table: { headers: ['اسم', 'Middle placement of شبه جملة خبر', 'Example'], rows: [
+              ['definite', 'allowed (جائز)', '﴿إِنَّ إِلَيْنَا إِيَابَهُمْ﴾'],
+              ['indefinite', 'obligatory (واجب)', '﴿إِنَّ فِي ذَٰلِكَ لَعِبْرَةً لِأُولِي الْأَبْصَارِ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `When the خبر of إنّ is a شبه جملة, when must it come between إنّ and its اسم rather than after it؟`,
             kind: 'mcq',
@@ -350,8 +509,15 @@ export default {
         },
         {
           heading: 'أحكام إضافية: العطف، الباء، ومعنى لعل',
-          body: `A تابع on the اسم of إنّ has two عطف options, whether the خبر is already complete or not: عطف on the <b>لَفْظ</b> (نصب), as in <bdi>﴿إِنَّ وَعْدَ اللَّهِ حَقٌّ وَالسَّاعَةَ لَا رَيْبَ فِيهَا﴾</bdi>, or عطف on the <b>ابْتِدَاء</b> (رفع), as in <bdi>﴿أَئِنَّا لَمَبْعُوثُونَ أَوَآبَاؤُنَا الْأَوَّلُونَ﴾</bdi>. A <bdi>بَاء</bdi> may enter on the خبر of أنّ, as in <bdi>﴿أَوَلَمْ يَرَوْا أَنَّ اللَّهَ</bdi>...<bdi>بِقَادِرٍ عَلَى أَنْ يُحْيِيَ الْمَوْتَىٰ﴾</bdi>. أنّ can also carry the meaning of <bdi>لَعَلَّ</bdi>, as in <bdi>﴿وَمَا يُشْعِرُكُمْ أَنَّهَا إِذَا جَاءَتْ لَا يُؤْمِنُونَ﴾</bdi> (أنّها = لعلّها).`,
-          sample: `عطف على اللفظ (نصب) — ﴿إن وعد الله حق والساعةَ لا ريب فيها﴾<br>عطف على الابتداء (رفع) — ﴿أئنا لمبعوثون أوآباؤنا الأولون﴾<br>الباء في خبر أنّ — ﴿أولم يروا أن الله...بقادر على أن يحيي الموتى﴾<br>أنّ بمعنى لعل — ﴿وما يشعركم أنها إذا جاءت لا يؤمنون﴾`,
+          lines: [
+            { html: `A تابع on the اسم of إنّ has two عطف options, whether the خبر is already complete or not:`, list: false },
+            { table: { headers: ['عطف on', 'إعراب', 'Example'], rows: [
+              ['اللَّفْظ', 'نصب', '﴿إِنَّ وَعْدَ اللَّهِ حَقٌّ وَالسَّاعَةَ لَا رَيْبَ فِيهَا﴾'],
+              ['الِابْتِدَاء', 'رفع', '﴿أَئِنَّا لَمَبْعُوثُونَ أَوَآبَاؤُنَا الْأَوَّلُونَ﴾'],
+            ] } },
+            { html: `A <bdi>بَاء</bdi> may enter on the خبر of أنّ, as in ﴿أَوَلَمْ يَرَوْا أَنَّ اللَّهَ … بِقَادِرٍ عَلَى أَنْ يُحْيِيَ الْمَوْتَىٰ﴾.`, list: false },
+            { html: `أنّ can also carry the meaning of <bdi>لَعَلَّ</bdi>, as in ﴿وَمَا يُشْعِرُكُمْ أَنَّهَا إِذَا جَاءَتْ لَا يُؤْمِنُونَ﴾ (أنّها = لعلّها).`, list: false },
+          ],
           exercise: {
             prompt: `Can أنّ carry the meaning of لعل؟`,
             kind: 'mcq',
@@ -527,40 +693,144 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: مواضع أنّ من الأمثلة',
+          title: 'تركيب: ﴿حَتَّى يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the موضع of أنّ المفتوحة it illustrates.',
-          source: '﴿حتى يتبين لهم أنه الحق﴾ / ﴿قل أوحي إلي أنه استمع نفر من الجن﴾ / ﴿فيعلمون أنه الحق من ربهم﴾ / ﴿ومن آياته أنك ترى الأرض خاشعة﴾',
-          words: ['يتبين...أنه الحق', 'أوحي...أنه استمع', 'فيعلمون أنه', 'ومن آياته أنك'],
-          labels: ['فاعل', 'نائب فاعل', 'مفعول', 'مبتدأ'],
-          distractors: ['خبر'],
+          instruction: 'Which موضع of أنّ المفتوحة does this illustrate؟',
+          sentence: 'حَتَّى يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ',
+          translation: 'Until it becomes clear to them that it is the truth.',
+          cells: ['يَتَبَيَّنَ', 'لَهُمْ', 'أَنَّهُ', 'الْحَقُّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'فاعل' },
+            ] },
+          ],
+          distractors: ['نائب فاعل', 'مفعول'],
         },
         {
-          title: 'تركيب: مواضع مشتركة أم خاصة بأنّ؟',
+          title: 'تركيب: ﴿قُلْ أُوحِيَ إِلَيَّ أَنَّهُ اسْتَمَعَ نَفَرٌ مِنَ الْجِنِّ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each موضع: مشترك بين إنّ وأنّ, or خاص بأنّ المفتوحة فقط؟',
-          source: 'علة لجملة سابقة / بعد فاء الجزاء / فاعل / مضاف إليه',
-          words: ['علة لجملة سابقة', 'بعد فاء الجزاء', 'فاعل', 'مضاف إليه'],
-          labels: ['مشترك', 'مشترك', 'خاص بأنّ', 'خاص بأنّ'],
-          distractors: ['خاص بإنّ فقط'],
+          instruction: 'Which موضع of أنّ المفتوحة does this illustrate؟',
+          sentence: 'قُلْ أُوحِيَ إِلَيَّ أَنَّهُ اسْتَمَعَ نَفَرٌ مِنَ الْجِنِّ',
+          translation: 'Say, "It has been revealed to me that a group of the jinn listened."',
+          cells: ['أُوحِيَ', 'إِلَيَّ', 'أَنَّهُ', 'اسْتَمَعَ', 'نَفَرٌ', 'مِنَ', 'الْجِنِّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 6, role: 'نائب فاعل' },
+            ] },
+          ],
+          distractors: ['فاعل', 'مفعول'],
         },
         {
-          title: 'تركيب: توسط خبر إنّ الشبه جملة',
+          title: 'تركيب: ﴿فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is توسط الخبر جائز أم واجب given the اسم؟',
-          source: '﴿إن إلينا إيابهم﴾ (اسم معرفة) / ﴿إن في ذلك لعبرة لأولي الأبصار﴾ (اسم نكرة)',
-          words: ['اسم معرفة', 'اسم نكرة'],
-          labels: ['جائز', 'واجب'],
-          distractors: ['ممتنع'],
+          instruction: 'Which موضع of أنّ المفتوحة does this illustrate؟',
+          sentence: 'فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ',
+          translation: 'So they will know that it is the truth from their Lord.',
+          cells: ['يَعْلَمُونَ', 'أَنَّهُ', 'الْحَقُّ', 'مِنْ', 'رَبِّهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 4, role: 'مفعول' },
+            ] },
+          ],
+          distractors: ['فاعل', 'نائب فاعل'],
         },
         {
-          title: 'تركيب: أحكام العطف والباء ومعنى لعل',
+          title: 'تركيب: ﴿وَمِنْ آيَاتِهِ أَنَّكَ تَرَى الْأَرْضَ خَاشِعَةً﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to what it illustrates.',
-          source: '﴿إن وعد الله حق والساعةَ لا ريب فيها﴾ / ﴿أولم يروا أن الله...بقادر﴾ / ﴿وما يشعركم أنها...لا يؤمنون﴾',
-          words: ['والساعةَ', 'بقادر', 'أنها'],
-          labels: ['عطف على اللفظ', 'الباء في خبر أنّ', 'أنّ بمعنى لعل'],
+          instruction: 'Which موضع of أنّ المفتوحة does this illustrate؟',
+          sentence: 'وَمِنْ آيَاتِهِ أَنَّكَ تَرَى الْأَرْضَ خَاشِعَةً',
+          translation: 'And of His signs is that you see the earth humbled.',
+          cells: ['مِنْ', 'آيَاتِهِ', 'أَنَّكَ', 'تَرَى', 'الْأَرْضَ', 'خَاشِعَةً'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 5, role: 'مبتدأ' },
+            ] },
+          ],
+          distractors: ['خبر', 'فاعل'],
+        },
+        {
+          title: 'تركيب: اسْتَغْفِرُوا اللَّهَ إِنَّهُ غَفُورٌ رَحِيمٌ',
+          kind: 'tarkeeb',
+          instruction: 'This موضع (علة لجملة سابقة) is shared by both إنّ and أنّ. With إنّ, how is the جملة read؟',
+          sentence: 'اسْتَغْفِرُوا اللَّهَ إِنَّهُ غَفُورٌ رَحِيمٌ',
+          translation: 'Ask forgiveness of Allah — indeed He is Forgiving, Merciful.',
+          cells: ['اسْتَغْفِرُوا', 'اللَّهَ', 'إِنَّهُ', 'غَفُورٌ', 'رَحِيمٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'استئنافية للتعليل' },
+            ] },
+          ],
+          distractors: ['مصدر مؤول (لأنه)'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّ إِلَيْنَا إِيَابَهُمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'إِيَابَهُمْ (اسم إنّ) is معرفة. Is placing the شبه جملة خبر إِلَيْنَا between إنّ and its اسم جائز or واجب هنا؟',
+          sentence: 'إِنَّ إِلَيْنَا إِيَابَهُمْ',
+          translation: 'Indeed, to Us is their return.',
+          cells: ['إِنَّ', 'إِلَيْنَا', 'إِيَابَهُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'جائز' },
+            ] },
+          ],
+          distractors: ['واجب', 'ممتنع'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّ فِي ذَٰلِكَ لَعِبْرَةً لِأُولِي الْأَبْصَارِ﴾',
+          kind: 'tarkeeb',
+          instruction: 'لَعِبْرَةً (اسم إنّ) is نكرة. Is placing the شبه جملة خبر فِي ذَٰلِكَ between إنّ and its اسم جائز or واجب هنا؟',
+          sentence: 'إِنَّ فِي ذَٰلِكَ لَعِبْرَةً لِأُولِي الْأَبْصَارِ',
+          translation: 'Indeed, in that is a lesson for those who have vision.',
+          cells: ['إِنَّ', 'فِي', 'ذَٰلِكَ', 'لَعِبْرَةً', 'لِأُولِي', 'الْأَبْصَارِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'واجب' },
+            ] },
+          ],
+          distractors: ['جائز', 'ممتنع'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّ وَعْدَ اللَّهِ حَقٌّ وَالسَّاعَةَ لَا رَيْبَ فِيهَا﴾',
+          kind: 'tarkeeb',
+          instruction: 'وَالسَّاعَةَ is عطف on the اسم of إنّ — على اللفظ or على الابتداء؟',
+          sentence: 'إِنَّ وَعْدَ اللَّهِ حَقٌّ وَالسَّاعَةَ لَا رَيْبَ فِيهَا',
+          translation: "Indeed, Allah's promise is truth, and the Hour — there is no doubt about it.",
+          cells: ['وَعْدَ', 'اللَّهِ', 'حَقٌّ', 'وَالسَّاعَةَ', 'لَا', 'رَيْبَ', 'فِيهَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'عطف على اللفظ' },
+            ] },
+          ],
           distractors: ['عطف على الابتداء'],
+        },
+        {
+          title: 'تركيب: ﴿أَوَلَمْ يَرَوْا أَنَّ اللَّهَ بِقَادِرٍ عَلَىٰ أَنْ يُحْيِيَ الْمَوْتَىٰ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Identify what enters on the خبر of أنّ here.',
+          sentence: 'أَوَلَمْ يَرَوْا أَنَّ اللَّهَ بِقَادِرٍ عَلَىٰ أَنْ يُحْيِيَ الْمَوْتَىٰ',
+          translation: 'Do they not see that Allah is able to give life to the dead?',
+          cells: ['يَرَوْا', 'أَنَّ', 'اللَّهَ', 'بِقَادِرٍ', 'عَلَىٰ', 'أَنْ', 'يُحْيِيَ', 'الْمَوْتَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 3, role: 'الباء في خبر أنّ' },
+            ] },
+          ],
+          distractors: ['عطف على اللفظ'],
+        },
+        {
+          title: 'تركيب: ﴿وَمَا يُشْعِرُكُمْ أَنَّهَا إِذَا جَاءَتْ لَا يُؤْمِنُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What meaning does أنّها carry here?',
+          sentence: 'وَمَا يُشْعِرُكُمْ أَنَّهَا إِذَا جَاءَتْ لَا يُؤْمِنُونَ',
+          translation: 'And what will make you perceive that when it comes, they will not believe?',
+          cells: ['يُشْعِرُكُمْ', 'أَنَّهَا', 'إِذَا', 'جَاءَتْ', 'لَا', 'يُؤْمِنُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'أنّ بمعنى لعل' },
+            ] },
+          ],
+          distractors: ['الباء في خبر أنّ', 'عطف على اللفظ'],
         },
       ],
     },
@@ -572,8 +842,11 @@ export default {
       concepts: [
         {
           heading: 'كأنّ ولكنّ',
-          body: `<bdi>كَأَنَّ</bdi> carries the meaning of <bdi>التَّشْبِيه</bdi> (comparison), as in <bdi>﴿الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ﴾</bdi>. <bdi>لَكِنَّ</bdi> carries <bdi>الِاسْتِدْرَاك</bdi> — following an initial statement with speech that removes a mistaken inference (of affirmation or نفي) it might suggest, as in <bdi>مَا زَيْدٌ قَوِيًّا</bdi> (might suggest he's not brave) → <bdi>لَكِنَّهُ شُجَاعٌ</bdi>. In the Qurʾān, لكنّ is usually preceded by a <bdi>وَاو</bdi>, as in <bdi>﴿وَمَا كَفَرَ سُلَيْمَانُ وَلَٰكِنَّ الشَّيَاطِينَ كَفَرُوا﴾</bdi>.`,
-          sample: `كأنّ — التشبيه، ﴿الزجاجة كأنها كوكب دري﴾<br>لكنّ — الاستدراك، ما زيد قويا لكنه شجاع<br>لكنّ + واو — ﴿وما كفر سليمان ولكن الشياطين كفروا﴾`,
+          lines: [
+            { html: `<bdi>كَأَنَّ</bdi> carries the meaning of <bdi>التَّشْبِيه</bdi> (comparison), as in ﴿الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ﴾.`, list: false },
+            { html: `<bdi>لَكِنَّ</bdi> carries <bdi>الِاسْتِدْرَاك</bdi> — following an initial statement with speech that removes a mistaken inference (of affirmation or نفي) it might suggest, as in مَا زَيْدٌ قَوِيًّا (might suggest he's not brave) → لَكِنَّهُ شُجَاعٌ.`, list: false },
+            { html: `In the Qurʾān, لكنّ is usually preceded by a <bdi>وَاو</bdi>, as in ﴿وَمَا كَفَرَ سُلَيْمَانُ وَلَٰكِنَّ الشَّيَاطِينَ كَفَرُوا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What does لكنّ mean, and what is الاستدراك؟`,
             kind: 'mcq',
@@ -583,8 +856,15 @@ export default {
         },
         {
           heading: 'لعلّ: التوقع وأحكامها الأخرى',
-          body: `<bdi>لَعَلَّ</bdi> carries <bdi>التَّوَقُّع</bdi> (expectation), in two named senses: (1) <b>الترجي</b>, for something desired, as in <bdi>﴿وَاتَّقُوا لَعَلَّكُمْ تُرْحَمُونَ﴾</bdi> (2) <b>الإشفاق</b>, for something feared, as in <bdi>﴿فَلَعَلَّكَ بَاخِعٌ نَفْسَكَ عَلَىٰ آثَارِهِمْ﴾</bdi>. لعلّ can also carry <b>التعليل</b>, as in <bdi>﴿وَافْعَلُوا الْخَيْرَ لَعَلَّكُمْ تُفْلِحُونَ﴾</bdi>, or the meaning of <b>كأنّ</b>, as in <bdi>﴿وَتَتَّخِذُونَ مَصَانِعَ لَعَلَّكُمْ تَخْلُدُونَ﴾</bdi>. A جملة لعلّ can also be عطف on a <bdi>مَفْعُولٌ لَه</bdi> (explicit or implicit), as in <bdi>﴿وَأَنْزَلْنَا إِلَيْكَ الذِّكْرَ لِتُبَيِّنَ لِلنَّاسِ مَا نُزِّلَ إِلَيْهِمْ وَلَعَلَّهُمْ يَتَفَكَّرُونَ﴾</bdi>. Its lightened form is <bdi>عَلّ</bdi>.`,
-          sample: `لعلّ التوقع — الترجي: ﴿واتقوا لعلكم ترحمون﴾، الإشفاق: ﴿فلعلك باخع نفسك على آثارهم﴾<br>لعلّ التعليل — ﴿وافعلوا الخير لعلكم تفلحون﴾<br>لعلّ بمعنى كأنّ — ﴿وتتخذون مصانع لعلكم تخلدون﴾<br>لعلّ عطف على مفعول له — ﴿وأنزلنا إليك الذكر لتبين...ولعلهم يتفكرون﴾<br>مخففة لعلّ — عَلّ`,
+          lines: [
+            { html: `<bdi>لَعَلَّ</bdi> carries <bdi>التَّوَقُّع</bdi> (expectation), in two named senses:`, list: false },
+            { table: { headers: ['Sense', 'Example'], rows: [
+              ['الترجي — for something desired', '﴿وَاتَّقُوا لَعَلَّكُمْ تُرْحَمُونَ﴾'],
+              ['الإشفاق — for something feared', '﴿فَلَعَلَّكَ بَاخِعٌ نَفْسَكَ عَلَىٰ آثَارِهِمْ﴾'],
+            ] } },
+            { html: `لعلّ can also carry <b>التعليل</b>, as in ﴿وَافْعَلُوا الْخَيْرَ لَعَلَّكُمْ تُفْلِحُونَ﴾, or the meaning of <b>كأنّ</b>, as in ﴿وَتَتَّخِذُونَ مَصَانِعَ لَعَلَّكُمْ تَخْلُدُونَ﴾.`, list: false },
+            { html: `A جملة لعلّ can also be عطف on a <bdi>مَفْعُولٌ لَه</bdi> (explicit or implicit), as in ﴿وَأَنْزَلْنَا إِلَيْكَ الذِّكْرَ لِتُبَيِّنَ لِلنَّاسِ مَا نُزِّلَ إِلَيْهِمْ وَلَعَلَّهُمْ يَتَفَكَّرُونَ﴾. Its lightened form is <bdi>عَلّ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What is the meaning of لعلّ, and what are its two named uses؟`,
             kind: 'mcq',
@@ -594,8 +874,10 @@ export default {
         },
         {
           heading: 'ليت: التمني',
-          body: `<bdi>لَيْتَ</bdi> carries <bdi>التَّمَنِّي</bdi> — requesting that in which there is no realistic hope (<bdi>طَلَبُ مَا لَا طَمَعَ فِيهِ</bdi>), as in <bdi>لَيْتَ الشَّبَابَ يَعُودُ يَوْمًا</bdi>. In the Qurʾān, ليت is usually preceded by <bdi>يَا</bdi>, as in <bdi>﴿يَا لَيْتَنِي لَمْ أُوتَ كِتَابِيَهْ﴾</bdi>.`,
-          sample: `ليت — التمني، ليت الشباب يعود يوما<br>ليت + يا — ﴿يا ليتني لم أوت كتابيه﴾`,
+          lines: [
+            { html: `<bdi>لَيْتَ</bdi> carries <bdi>التَّمَنِّي</bdi> — requesting that in which there is no realistic hope (<bdi>طَلَبُ مَا لَا طَمَعَ فِيهِ</bdi>), as in لَيْتَ الشَّبَابَ يَعُودُ يَوْمًا.`, list: false },
+            { html: `In the Qurʾān, ليت is usually preceded by <bdi>يَا</bdi>, as in ﴿يَا لَيْتَنِي لَمْ أُوتَ كِتَابِيَهْ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `What is التمني, the meaning carried by ليت؟`,
             kind: 'mcq',
@@ -605,8 +887,16 @@ export default {
         },
         {
           heading: 'لماذا سُمّيت مشبهة بالفعل؟',
-          body: `These six حروف — <bdi>إِنّ أَنّ كَأَنّ لَكِنّ لَعَلّ لَيْت</bdi> — are called مشبهة بالفعل because they resemble the فعل in two ways: each carries a verbal meaning within it (<bdi>أُؤَكِّدُ، أَسْتَدْرِكُ، أَتَمَنَّى، أَرْجُو، أُشَبِّهُ</bdi>), and each governs like أفعال do (نصب + رفع). Matched up: إنّ/أنّ → <bdi>أُؤَكِّدُ</bdi>; لكنّ → <bdi>أَسْتَدْرِكُ</bdi>; ليت → <bdi>أَتَمَنَّى</bdi>; لعلّ → <bdi>أَرْجُو</bdi>; كأنّ → <bdi>أُشَبِّهُ</bdi>.`,
-          sample: `سبب التسمية — تحمل معنى فعل (أؤكد، أستدرك، أتمنى، أرجو، أشبه) وتعمل عمل الفعل (نصب+رفع)<br>إنّ/أنّ→أؤكد، لكنّ→أستدرك، ليت→أتمنى، لعلّ→أرجو، كأنّ→أشبه`,
+          lines: [
+            { html: `These six حروف — <bdi>إِنّ أَنّ كَأَنّ لَكِنّ لَعَلّ لَيْت</bdi> — are called مشبهة بالفعل because they resemble the فعل in two ways: each carries a verbal meaning within it, and each governs like أفعال do (نصب + رفع).`, list: false },
+            { table: { headers: ['حرف', 'Verbal meaning'], rows: [
+              ['إنّ / أنّ', 'أُؤَكِّدُ'],
+              ['لكنّ', 'أَسْتَدْرِكُ'],
+              ['ليت', 'أَتَمَنَّى'],
+              ['لعلّ', 'أَرْجُو'],
+              ['كأنّ', 'أُشَبِّهُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `Why are these six حروف called مشبهة بالفعل؟`,
             kind: 'mcq',
@@ -768,40 +1058,111 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: معاني الأربعة الأخيرة',
+          title: 'تركيب: ﴿الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by its core meaning.',
-          source: 'كأنّ / لكنّ / لعلّ / ليت',
-          words: ['كأنّ', 'لكنّ', 'لعلّ', 'ليت'],
-          labels: ['التشبيه', 'الاستدراك', 'التوقع', 'التمني'],
-          distractors: ['التأكيد'],
+          instruction: 'Identify the meaning of كأنّ, and its فعل-equivalent.',
+          sentence: 'الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ',
+          translation: 'The glass, as if it were a pearly [white] star.',
+          cells: ['الزُّجَاجَةُ', 'كَأَنَّهَا', 'كَوْكَبٌ', 'دُرِّيٌّ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'التشبيه' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'أشبه' },
+            ] },
+          ],
+          distractors: ['الاستدراك', 'أستدرك'],
         },
         {
-          title: 'تركيب: معاني لعلّ الأربعة',
+          title: 'تركيب: ﴿وَمَا كَفَرَ سُلَيْمَانُ وَلَٰكِنَّ الشَّيَاطِينَ كَفَرُوا﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the sense of لعلّ it illustrates.',
-          source: '﴿واتقوا لعلكم ترحمون﴾ / ﴿فلعلك باخع نفسك﴾ / ﴿وافعلوا الخير لعلكم تفلحون﴾ / ﴿وتتخذون مصانع لعلكم تخلدون﴾',
-          words: ['لعلكم ترحمون', 'باخع نفسك', 'لعلكم تفلحون', 'لعلكم تخلدون'],
-          labels: ['الترجي', 'الإشفاق', 'التعليل', 'معنى كأنّ'],
-          distractors: ['التمني'],
+          instruction: 'Identify the meaning of لكنّ, and its فعل-equivalent.',
+          sentence: 'وَمَا كَفَرَ سُلَيْمَانُ وَلَٰكِنَّ الشَّيَاطِينَ كَفَرُوا',
+          translation: 'Solomon did not disbelieve, but the devils disbelieved.',
+          cells: ['كَفَرَ', 'سُلَيْمَانُ', 'وَلَٰكِنَّ', 'الشَّيَاطِينَ', 'كَفَرُوا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'الاستدراك' },
+            ] },
+            { position: 'below', labels: [
+              { start: 2, end: 2, role: 'أستدرك' },
+            ] },
+          ],
+          distractors: ['التشبيه', 'أشبه'],
         },
         {
-          title: 'تركيب: كل حرف ومعناه الفعلي',
+          title: 'تركيب: ﴿يَا لَيْتَنِي لَمْ أُوتَ كِتَابِيَهْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each حرف to the فعل-meaning it contains.',
-          source: 'إنّ / لكنّ / ليت / لعلّ / كأنّ',
-          words: ['إنّ', 'لكنّ', 'ليت', 'لعلّ', 'كأنّ'],
-          labels: ['أؤكد', 'أستدرك', 'أتمنى', 'أرجو', 'أشبه'],
-          distractors: ['أصير'],
+          instruction: 'Identify the meaning of ليت, and its فعل-equivalent.',
+          sentence: 'يَا لَيْتَنِي لَمْ أُوتَ كِتَابِيَهْ',
+          translation: 'Oh, I wish I had not been given my record!',
+          cells: ['يَا', 'لَيْتَنِي', 'لَمْ', 'أُوتَ', 'كِتَابِيَهْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'التمني' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'أتمنى' },
+            ] },
+          ],
+          distractors: ['التوقع', 'أرجو'],
         },
         {
-          title: 'تركيب: ما يسبق كل حرف في القرآن',
+          title: 'تركيب: ﴿وَاتَّقُوا لَعَلَّكُمْ تُرْحَمُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what typically precedes each حرف in the Qurʾān.',
-          source: 'لكنّ / ليت',
-          words: ['لكنّ', 'ليت'],
-          labels: ['الواو', 'يا'],
-          distractors: ['الفاء'],
+          instruction: 'Which sense of لعلّ does this illustrate؟',
+          sentence: 'وَاتَّقُوا لَعَلَّكُمْ تُرْحَمُونَ',
+          translation: 'And fear Allah that you may receive mercy.',
+          cells: ['اتَّقُوا', 'لَعَلَّكُمْ', 'تُرْحَمُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 2, role: 'الترجي' },
+            ] },
+          ],
+          distractors: ['الإشفاق', 'التعليل'],
+        },
+        {
+          title: 'تركيب: ﴿فَلَعَلَّكَ بَاخِعٌ نَفْسَكَ عَلَىٰ آثَارِهِمْ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which sense of لعلّ does this illustrate؟',
+          sentence: 'فَلَعَلَّكَ بَاخِعٌ نَفْسَكَ عَلَىٰ آثَارِهِمْ',
+          translation: 'Perhaps you would kill yourself with grief over them.',
+          cells: ['لَعَلَّكَ', 'بَاخِعٌ', 'نَفْسَكَ', 'عَلَىٰ', 'آثَارِهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'الإشفاق' },
+            ] },
+          ],
+          distractors: ['الترجي', 'التعليل'],
+        },
+        {
+          title: 'تركيب: ﴿وَافْعَلُوا الْخَيْرَ لَعَلَّكُمْ تُفْلِحُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which sense of لعلّ does this illustrate؟',
+          sentence: 'وَافْعَلُوا الْخَيْرَ لَعَلَّكُمْ تُفْلِحُونَ',
+          translation: 'And do good that you may succeed.',
+          cells: ['افْعَلُوا', 'الْخَيْرَ', 'لَعَلَّكُمْ', 'تُفْلِحُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'التعليل' },
+            ] },
+          ],
+          distractors: ['الترجي', 'الإشفاق'],
+        },
+        {
+          title: 'تركيب: ﴿وَتَتَّخِذُونَ مَصَانِعَ لَعَلَّكُمْ تَخْلُدُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'What meaning does لعلّكم carry here?',
+          sentence: 'وَتَتَّخِذُونَ مَصَانِعَ لَعَلَّكُمْ تَخْلُدُونَ',
+          translation: 'And you take for yourselves strongholds that you might abide forever.',
+          cells: ['تَتَّخِذُونَ', 'مَصَانِعَ', 'لَعَلَّكُمْ', 'تَخْلُدُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'معنى كأنّ' },
+            ] },
+          ],
+          distractors: ['الترجي', 'الإشفاق'],
         },
       ],
     },
@@ -813,8 +1174,11 @@ export default {
       concepts: [
         {
           heading: 'تخفيف إنّ إلى إنْ',
-          body: `When إنّ is lightened to <bdi>إِنْ</bdi>, its operation is predominantly <b>suspended</b> (<bdi>الْإِهْمَال هُوَ الْغَالِب</bdi>), though operation remains permitted, as in one reading of <bdi>﴿وَإِنْ كُلًّا لَمَّا لَيُوَفِّيَنَّهُمْ رَبُّكَ أَعْمَالَهُمْ﴾</bdi>. A <bdi>لَامٌ فَارِقَة</bdi> is frequent in the خبر after a non-operating lightened إنْ, distinguishing it from <bdi>إِنِ النَّافِيَة</bdi>, as in <bdi>﴿وَإِنْ نَظُنُّكَ لَمِنَ الْكَاذِبِينَ﴾</bdi>. Lightened إنْ can enter a <bdi>الْجُمْلَةُ الِاسْمِيَّة</bdi> whether unmodified — <bdi>﴿وَإِنْ كُلٌّ لَمَّا جَمِيعٌ لَدَيْنَا مُحْضَرُونَ﴾</bdi> — or already governed by a <bdi>نَاسِخ</bdi> — as in the same ﴿وإن نظنك﴾ example.`,
-          sample: `إنّ مخففة إنْ — الإهمال غالب، والإعمال جائز: ﴿وإن كلا لما ليوفينهم ربك أعمالهم﴾<br>اللام الفارقة — ﴿وإن نظنك لمن الكاذبين﴾، تفرق بين إن المخففة وإن النافية<br>تدخل على الجملة الاسمية — منسوخة أو غير منسوخة`,
+          lines: [
+            { html: `When إنّ is lightened to <bdi>إِنْ</bdi>, its operation is predominantly <b>suspended</b> (<bdi>الْإِهْمَال هُوَ الْغَالِب</bdi>), though operation remains permitted, as in one reading of ﴿وَإِنْ كُلًّا لَمَّا لَيُوَفِّيَنَّهُمْ رَبُّكَ أَعْمَالَهُمْ﴾.`, list: false },
+            { html: `A <bdi>لَامٌ فَارِقَة</bdi> is frequent in the خبر after a non-operating lightened إنْ, distinguishing it from <bdi>إِنِ النَّافِيَة</bdi>, as in ﴿وَإِنْ نَظُنُّكَ لَمِنَ الْكَاذِبِينَ﴾.`, list: false },
+            { html: `Lightened إنْ can enter a <bdi>الْجُمْلَةُ الِاسْمِيَّة</bdi> whether unmodified (﴿وَإِنْ كُلٌّ لَمَّا جَمِيعٌ لَدَيْنَا مُحْضَرُونَ﴾) or already governed by a <bdi>نَاسِخ</bdi> (as in the same ﴿وإن نظنك﴾ example).`, list: false },
+          ],
           exercise: {
             prompt: `When إنّ is lightened to إنْ, what happens to its operation؟`,
             kind: 'mcq',
@@ -824,8 +1188,10 @@ export default {
         },
         {
           heading: 'تخفيف أنّ إلى أنْ',
-          body: `When أنّ is lightened to <bdi>أَنْ</bdi>, it still <b>operates</b> after lightening — its اسم is an omitted <bdi>ضَمِيرُ الشَّأْن</bdi>. Its خبر is a جملة, either <bdi>اسْمِيَّة</bdi> or <bdi>فِعْلِيَّة</bdi>, with rules governing whether a separator (<bdi>الْفَصْل</bdi>) comes between أنْ and that خبر depending on the type of فعل involved.`,
-          sample: `أنّ مخففة أنْ — تعمل بعد التخفيف، اسمها ضمير الشأن محذوف<br>خبرها — جملة اسمية أو فعلية، بأحكام فصل تختلف بحسب الفعل`,
+          lines: [
+            { html: `When أنّ is lightened to <bdi>أَنْ</bdi>, it still <b>operates</b> after lightening — its اسم is an omitted <bdi>ضَمِيرُ الشَّأْن</bdi>.`, list: false },
+            { html: `Its خبر is a جملة, either <bdi>اسْمِيَّة</bdi> or <bdi>فِعْلِيَّة</bdi>, with rules governing whether a separator (<bdi>الْفَصْل</bdi>) comes between أنْ and that خبر depending on the type of فعل involved.`, list: false },
+          ],
           exercise: {
             prompt: `When أنّ is lightened to أنْ, does it still operate? What is its اسم؟`,
             kind: 'mcq',
@@ -835,8 +1201,15 @@ export default {
         },
         {
           heading: 'الفصل بين أنْ المخففة وخبرها',
-          body: `No separator comes between lightened أنْ and its خبر in three cases: (1) a <bdi>جُمْلَة اسْمِيَّة</bdi>, as in <bdi>﴿وَآخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾</bdi> (2) a <bdi>جُمْلَة فِعْلِيَّة</bdi> with a <bdi>فِعْل جَامِد</bdi>, as in <bdi>﴿وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ﴾</bdi> (3) a جملة فعلية with a <bdi>فِعْل مُتَصَرِّف</bdi> of <bdi>دُعَاء</bdi>, as in <bdi>﴿وَالْخَامِسَةَ أَنْ غَضِبَ اللَّهُ عَلَيْهَا﴾</bdi> (Nāfiʿ's reading). Otherwise, before a (non-دعاء) خبر فعلي, a separator does appear: <bdi>قَدْ</bdi>, a <bdi>حَرْفُ تَنْفِيس</bdi>, <bdi>لَوْ</bdi>, or a نفي حرف such as <bdi>لَمْ، لَا، لَنْ</bdi>.`,
-          sample: `بلا فصل (٣) — جملة اسمية: ﴿وآخر دعواهم أن الحمد لله﴾؛ فعل جامد: ﴿وأن ليس للإنسان إلا ما سعى﴾؛ فعل متصرف دعاء: ﴿والخامسة أن غضب الله عليها﴾<br>بفصل — قد، حرف تنفيس، لو، نفي (لم/لا/لن)`,
+          lines: [
+            { html: `No separator comes between lightened أنْ and its خبر in three cases:`, list: false },
+            { table: { headers: ['Case', 'Example'], rows: [
+              ['جُمْلَة اسْمِيَّة', '﴿وَآخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾'],
+              ['جُمْلَة فِعْلِيَّة with a فِعْل جَامِد', '﴿وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ﴾'],
+              ['جملة فعلية with a فِعْل مُتَصَرِّف of دُعَاء', '﴿وَالْخَامِسَةَ أَنْ غَضِبَ اللَّهُ عَلَيْهَا﴾ (Nāfiʿ\'s reading)'],
+            ] } },
+            { html: `Otherwise, before a (non-دعاء) خبر فعلي, a separator does appear: <bdi>قَدْ</bdi>, a <bdi>حَرْفُ تَنْفِيس</bdi>, <bdi>لَوْ</bdi>, or a نفي حرف such as <bdi>لَمْ، لَا، لَنْ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `When does NO separator come between lightened أنْ and its خبر؟`,
             kind: 'mcq',
@@ -846,8 +1219,12 @@ export default {
         },
         {
           heading: 'تخفيف كأنّ، وما الكافة',
-          body: `When كأنّ is lightened to <bdi>كَأَنْ</bdi>, it still operates; its اسم is likewise an omitted ضمير الشأن, and it is usually separated from a following فعل by <bdi>لَمْ</bdi> or <bdi>قَدْ</bdi>, as in <bdi>﴿كَأَنْ لَمْ يَلْبَثُوا إِلَّا سَاعَةً﴾</bdi>. Separately, <bdi>مَا الْكَافَّة</bdi> has two effects on الحروف المشبهة بالفعل: it <b>stops their operation</b>, as in <bdi>﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾</bdi>, and it <b>licenses them to enter upon أفعال</b>, as in <bdi>﴿إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ﴾</bdi>.`,
-          sample: `كأنّ مخففة كأنْ — تعمل، اسمها ضمير الشأن محذوف، يفصلها عن الفعل غالبا لم أو قد: ﴿كأن لم يلبثوا إلا ساعة﴾<br>ما الكافة — توقف العمل: ﴿إنما إلهكم الله﴾؛ وتبيح الدخول على الأفعال: ﴿إنما يتقبل الله من المتقين﴾`,
+          lines: [
+            { html: `When كأنّ is lightened to <bdi>كَأَنْ</bdi>, it still operates; its اسم is likewise an omitted ضمير الشأن, and it is usually separated from a following فعل by <bdi>لَمْ</bdi> or <bdi>قَدْ</bdi>, as in ﴿كَأَنْ لَمْ يَلْبَثُوا إِلَّا سَاعَةً﴾.`, list: false },
+            { html: `Separately, <bdi>مَا الْكَافَّة</bdi> has two effects on الحروف المشبهة بالفعل:`, list: false },
+            { html: `it stops their operation, as in ﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾`, list: true, bullet: true },
+            { html: `it licenses them to enter upon أفعال, as in ﴿إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ﴾`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `What two effects does ما الكافة have on الحروف المشبهة بالفعل؟`,
             kind: 'mcq',
@@ -1009,40 +1386,108 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: تخفيف كل حرف',
+          title: 'تركيب: ﴿وَإِنْ كُلًّا لَمَّا لَيُوَفِّيَنَّهُمْ رَبُّكَ أَعْمَالَهُمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each lightened حرف to whether it still operates.',
-          source: 'إنْ (من إنّ) / أنْ (من أنّ) / كأنْ (من كأنّ)',
-          words: ['إنْ', 'أنْ', 'كأنْ'],
-          labels: ['الإهمال غالب، الإعمال جائز', 'تعمل بعد التخفيف', 'تعمل بعد التخفيف'],
-          distractors: ['ممتنعة كليا'],
+          instruction: 'On this reading, lightened إنْ still operates. Classify it.',
+          sentence: 'وَإِنْ كُلًّا لَمَّا لَيُوَفِّيَنَّهُمْ رَبُّكَ أَعْمَالَهُمْ',
+          translation: 'And each — your Lord will fully repay them their deeds.',
+          cells: ['إِنْ', 'كُلًّا', 'لَمَّا', 'لَيُوَفِّيَنَّهُمْ', 'رَبُّكَ', 'أَعْمَالَهُمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'الإعمال جائز' },
+            ] },
+          ],
+          distractors: ['الإهمال واجب', 'ممتنعة كليا'],
         },
         {
-          title: 'تركيب: الفصل بين أنْ وخبرها',
+          title: 'تركيب: ﴿وَآخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: بلا فصل, or بفصل؟',
-          source: '﴿وآخر دعواهم أن الحمد لله﴾ / ﴿وأن ليس للإنسان إلا ما سعى﴾ / ﴿ونعلم أن قد صدقتنا﴾',
-          words: ['أن الحمد لله', 'أن ليس للإنسان', 'أن قد صدقتنا'],
-          labels: ['بلا فصل (جملة اسمية)', 'بلا فصل (فعل جامد)', 'بفصل (قد)'],
-          distractors: ['بفصل (لو)'],
+          instruction: 'Classify أَنِ; then classify the فصل between it and its خبر.',
+          sentence: 'وَآخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+          translation: 'And the last of their call will be, "Praise to Allah, Lord of the worlds."',
+          cells: ['آخِرُ', 'دَعْوَاهُمْ', 'أَنِ', 'الْحَمْدُ', 'لِلَّهِ', 'رَبِّ', 'الْعَالَمِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'تعمل بعد التخفيف' },
+            ] },
+            { position: 'below', labels: [
+              { start: 3, end: 6, role: 'بلا فصل (جملة اسمية)' },
+            ] },
+          ],
+          distractors: ['الإهمال غالب', 'بفصل (قد)'],
         },
         {
-          title: 'تركيب: أثر ما الكافة',
+          title: 'تركيب: ﴿وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ﴾',
           kind: 'tarkeeb',
-          instruction: 'Match each example to the effect of ما الكافة it shows.',
-          source: '﴿إنما إلهكم الله﴾ / ﴿إنما يتقبل الله من المتقين﴾',
-          words: ['إنما إلهكم الله', 'إنما يتقبل الله'],
-          labels: ['توقف العمل', 'تبيح الدخول على فعل'],
-          distractors: ['تبطل المعنى'],
+          instruction: 'Classify the فصل between أَنْ and its خبر here.',
+          sentence: 'وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ',
+          translation: 'And that there is not for man except that [good] for which he strives.',
+          cells: ['أَنْ', 'لَيْسَ', 'لِلْإِنْسَانِ', 'إِلَّا', 'مَا', 'سَعَىٰ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 5, role: 'بلا فصل (فعل جامد)' },
+            ] },
+          ],
+          distractors: ['بلا فصل (جملة اسمية)', 'بفصل (قد)'],
         },
         {
-          title: 'تركيب: اسم الحرف بعد التخفيف',
+          title: 'تركيب: ﴿وَنَعْلَمَ أَنْ قَدْ صَدَقْتَنَا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify what the اسم of each lightened حرف is.',
-          source: 'أنْ (من أنّ) / كأنْ (من كأنّ)',
-          words: ['أنْ', 'كأنْ'],
-          labels: ['ضمير الشأن محذوف', 'ضمير الشأن محذوف'],
-          distractors: ['اسم ظاهر مرفوع'],
+          instruction: 'Classify the فصل between أَنْ and its خبر here.',
+          sentence: 'وَنَعْلَمَ أَنْ قَدْ صَدَقْتَنَا',
+          translation: 'And [that] we know that you have been truthful with us.',
+          cells: ['نَعْلَمَ', 'أَنْ', 'قَدْ', 'صَدَقْتَنَا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 3, role: 'بفصل (قد)' },
+            ] },
+          ],
+          distractors: ['بلا فصل (جملة اسمية)', 'بلا فصل (فعل جامد)'],
+        },
+        {
+          title: 'تركيب: ﴿كَأَنْ لَمْ يَلْبَثُوا إِلَّا سَاعَةً﴾',
+          kind: 'tarkeeb',
+          instruction: 'Classify كأنْ; then identify what separates it from the following فعل.',
+          sentence: 'كَأَنْ لَمْ يَلْبَثُوا إِلَّا سَاعَةً',
+          translation: 'As if they had not remained except an hour.',
+          cells: ['كَأَنْ', 'لَمْ', 'يَلْبَثُوا', 'إِلَّا', 'سَاعَةً'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعمل بعد التخفيف' },
+            ] },
+            { position: 'below', labels: [
+              { start: 1, end: 1, role: 'الفاصل: لم' },
+            ] },
+          ],
+          distractors: ['الإهمال غالب', 'الفاصل: قد'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which effect of ما الكافة does this show؟',
+          sentence: 'إِنَّمَا إِلَٰهُكُمُ اللَّهُ',
+          translation: 'Your god is only Allah.',
+          cells: ['إِنَّمَا', 'إِلَٰهُكُمُ', 'اللَّهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'توقف العمل' },
+            ] },
+          ],
+          distractors: ['تبيح الدخول على فعل'],
+        },
+        {
+          title: 'تركيب: ﴿إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Which effect of ما الكافة does this show؟',
+          sentence: 'إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ',
+          translation: 'Allah only accepts from the righteous.',
+          cells: ['إِنَّمَا', 'يَتَقَبَّلُ', 'اللَّهُ', 'مِنَ', 'الْمُتَّقِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'تبيح الدخول على فعل' },
+            ] },
+          ],
+          distractors: ['توقف العمل'],
         },
       ],
     },
@@ -1054,8 +1499,10 @@ export default {
       concepts: [
         {
           heading: 'لا لنفي الجنس',
-          body: `<bdi>لَا لِنَفْيِ الْجِنْس</bdi> — also called <bdi>لَا التَّبْرِئَة</bdi> — negates the <b>entire genus</b> of its اسم, as in <bdi>لَا فَاعِلَ شَرٍّ فَائِزٌ</bdi>. It does NOT operate, however, when it falls between a <bdi>جَرّ حَرْف</bdi> and its مجرور, as in <bdi>اللَّهُمَّ أَدْخِلْنَا الْجَنَّةَ بِلَا حِسَابٍ</bdi>.`,
-          sample: `لا لنفي الجنس = لا التبرئة — لا فاعل شر فائز<br>لا تعمل بين حرف الجر ومجروره — اللهم أدخلنا الجنة بلا حسابٍ`,
+          lines: [
+            { html: `<bdi>لَا لِنَفْيِ الْجِنْس</bdi> — also called <bdi>لَا التَّبْرِئَة</bdi> — negates the <b>entire genus</b> of its اسم, as in لَا فَاعِلَ شَرٍّ فَائِزٌ.`, list: false },
+            { html: `It does NOT operate, however, when it falls between a <bdi>جَرّ حَرْف</bdi> and its مجرور, as in اللَّهُمَّ أَدْخِلْنَا الْجَنَّةَ بِلَا حِسَابٍ.`, list: false },
+          ],
           exercise: {
             prompt: `What does لا لنفي الجنس do, and what is its other name؟`,
             kind: 'mcq',
@@ -1065,8 +1512,12 @@ export default {
         },
         {
           heading: 'شروط عمل لا، وحكم تكرارها',
-          body: `لا لنفي الجنس operates on two conditions: (1) the نفي must be of the <b>genus</b> — if it negates a single unit (<bdi>الْوَحْدَة</bdi>) instead, it operates like ليس, as in <bdi>لَا رَجُلٌ قَائِمًا بَلْ رَجُلَانِ</bdi> (2) its اسم must be <b>directly attached</b> to it — otherwise it is <bdi>مُهْمَلَة</bdi> and must be repeated, as in <bdi>﴿لَا فِيهَا غَوْلٌ وَلَا هُمْ عَنْهَا يُنْزَفُونَ﴾</bdi>. When لا is repeated without separation, both <b>عمل</b> — as in <bdi>﴿فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ﴾</bdi> — and <b>إهمال</b> — as in <bdi>﴿فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ﴾</bdi> — are possible.`,
-          sample: `شرط١ — النفي للجنس لا للوحدة: لا رجل قائما بل رجلان<br>شرط٢ — الاسم مباشر لها<br>لا مكررة بلا فصل — الإعمال: ﴿فلا رفث ولا فسوق ولا جدال في الحج﴾؛ الإهمال: ﴿فلا خوفٌ عليهم ولا هم يحزنون﴾`,
+          lines: [
+            { html: `لا لنفي الجنس operates on two conditions:`, list: false },
+            { html: `the نفي must be of the genus — if it negates a single unit (الْوَحْدَة) instead, it operates like ليس, as in لَا رَجُلٌ قَائِمًا بَلْ رَجُلَانِ`, list: true, bullet: true },
+            { html: `its اسم must be directly attached to it — otherwise it is مُهْمَلَة and must be repeated, as in ﴿لَا فِيهَا غَوْلٌ وَلَا هُمْ عَنْهَا يُنْزَفُونَ﴾`, list: true, bullet: true },
+            { html: `When لا is repeated without separation, both <b>عمل</b> (﴿فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ﴾) and <b>إهمال</b> (﴿فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ﴾) are possible.`, list: false },
+          ],
           exercise: {
             prompt: `What are the two conditions for لا لنفي الجنس to operate؟`,
             kind: 'mcq',
@@ -1076,8 +1527,14 @@ export default {
         },
         {
           heading: 'الخمسة نواسخ',
-          body: `Five families of عوامل enter upon مبتدأ وخبر — the <bdi>نَوَاسِخ</bdi>: (1) <bdi>أَفْعَالُ الْقُلُوب</bdi> (2) <bdi>الْأَفْعَالُ النَّاقِصَة</bdi> (3) <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi> (4) <bdi>لَا لِنَفْيِ الْجِنْس</bdi> (5) <bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس</bdi>.`,
-          sample: `النواسخ الخمسة — أفعال القلوب، الأفعال الناقصة، الحروف المشبهة بالفعل، لا لنفي الجنس، الحروف المشبهة بليس`,
+          lines: [
+            { html: `Five families of عوامل enter upon مبتدأ وخبر — the <bdi>نَوَاسِخ</bdi>:`, list: false },
+            { html: `<bdi>أَفْعَالُ الْقُلُوب</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْأَفْعَالُ النَّاقِصَة</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِالْفِعْل</bdi>`, list: true, bullet: true },
+            { html: `<bdi>لَا لِنَفْيِ الْجِنْس</bdi>`, list: true, bullet: true },
+            { html: `<bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `List the five نواسخ — عوامل entering upon مبتدأ وخبر.`,
             kind: 'mcq',
@@ -1087,8 +1544,10 @@ export default {
         },
         {
           heading: 'الحروف المشبهة بليس',
-          body: `<bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس</bdi> put the first اسم in <b>رفع</b> (their اسم) and the second in <b>نصب</b> (their خبر) — resembling ليس both in <bdi>النَّفْي</bdi> and in entering upon the مبتدأ وخبر. There are three: <bdi>مَا، لَا، لَاتَ</bdi>.`,
-          sample: `الحروف المشبهة بليس — رفع الاسم، نصب الخبر، تشبه ليس في النفي وفي الدخول على المبتدأ والخبر<br>الثلاثة — ما، لا، لات`,
+          lines: [
+            { html: `<bdi>الْحُرُوفُ الْمُشَبَّهَةُ بِلَيْس</bdi> put the first اسم in <b>رفع</b> (their اسم) and the second in <b>نصب</b> (their خبر) — resembling ليس both in <bdi>النَّفْي</bdi> and in entering upon the مبتدأ وخبر.`, list: false },
+            { html: `There are three: <bdi>مَا، لَا، لَاتَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `What do الحروف المشبهة بليس do, and in what do they resemble ليس؟`,
             kind: 'mcq',
@@ -1098,8 +1557,15 @@ export default {
         },
         {
           heading: 'ما الحجازية، ولا ولات المشبهتان بليس',
-          body: `<bdi>مَا الْحِجَازِيَّة</bdi> operates on three conditions: (1) the اسم precedes the خبر — not <bdi>مَا مُسِيءٌ مَنْ أَعْتَبَ</bdi> (2) it is not joined with the redundant <bdi>إِنْ</bdi> — not <bdi>مَا إِنْ أَنْتُمْ قَائِمُونَ</bdi> (3) its خبر is not accompanied by <bdi>إِلَّا</bdi> — not <bdi>﴿وَمَا مُحَمَّدٌ إِلَّا رَسُولٌ﴾</bdi>. It is called حجازية because the people of الحجاز operate it (given these conditions), while <bdi>بَنُو تَمِيم</bdi> never operate it at all. <bdi>لَا الْمُشَبَّهَةُ بِلَيْس</bdi> predominantly operates only in poetry, as in <bdi>تَعَزَّ فَلَا شَيْءٌ عَلَى الْأَرْضِ بَاقِيًا</bdi>. <bdi>لَاتَ</bdi> is restricted to the word <bdi>حِين</bdi>, with its اسم usually omitted (تقدير: الحين), as in <bdi>﴿وَلَاتَ حِينَ مَنَاصٍ﴾</bdi>.`,
-          sample: `شروط ما الحجازية — تقدم الاسم، عدم اقترانها بإن الزائدة، عدم اقتران خبرها بإلا<br>سبب التسمية حجازية — أهل الحجاز يُعملونها، بنو تميم لا يُعملونها أبدا<br>لا المشبهة بليس — الغالب إعمالها في الشعر: تعز فلا شيء على الأرض باقيا<br>لات — خاصة بحين، اسمها محذوف غالبا: ﴿ولات حين مناص﴾`,
+          lines: [
+            { html: `<bdi>مَا الْحِجَازِيَّة</bdi> operates on three conditions:`, list: false },
+            { html: `the اسم precedes the خبر — not مَا مُسِيءٌ مَنْ أَعْتَبَ`, list: true, bullet: true },
+            { html: `it is not joined with the redundant إِنْ — not مَا إِنْ أَنْتُمْ قَائِمُونَ`, list: true, bullet: true },
+            { html: `its خبر is not accompanied by إِلَّا — not ﴿وَمَا مُحَمَّدٌ إِلَّا رَسُولٌ﴾`, list: true, bullet: true },
+            { html: `It is called حجازية because the people of الحجاز operate it (given these conditions), while <bdi>بَنُو تَمِيم</bdi> never operate it at all.`, list: false },
+            { html: `<bdi>لَا الْمُشَبَّهَةُ بِلَيْس</bdi> predominantly operates only in poetry, as in تَعَزَّ فَلَا شَيْءٌ عَلَى الْأَرْضِ بَاقِيًا.`, list: false },
+            { html: `<bdi>لَاتَ</bdi> is restricted to the word <bdi>حِين</bdi>, with its اسم usually omitted (تقدير: الحين), as in ﴿وَلَاتَ حِينَ مَنَاصٍ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `Why is ما الحجازية called by that name؟`,
             kind: 'mcq',
@@ -1261,40 +1727,88 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: شروط عمل لا لنفي الجنس',
+          title: 'تركيب: لَا فَاعِلَ شَرٍّ فَائِزٌ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: does لا لنفي الجنس operate here or not?',
-          source: 'لا فاعلَ شرٍّ فائز / بلا حسابٍ (بين حرف جر ومجروره) / لا رجلٌ قائما (نفي وحدة)',
-          words: ['لا فاعلَ شر', 'بلا حساب', 'لا رجلٌ قائما'],
-          labels: ['تعمل (نفي جنس، اسم مباشر)', 'لا تعمل (بين جار ومجرور)', 'لا تعمل (نفي وحدة، كليس)'],
-          distractors: ['تعمل عمل كان'],
+          instruction: 'Does لا لنفي الجنس operate here or not?',
+          sentence: 'لَا فَاعِلَ شَرٍّ فَائِزٌ',
+          translation: 'No doer of evil is successful.',
+          cells: ['لَا', 'فَاعِلَ', 'شَرٍّ', 'فَائِزٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'تعمل (نفي جنس، اسم مباشر)' },
+            ] },
+          ],
+          distractors: ['لا تعمل (بين جار ومجرور)', 'لا تعمل (نفي وحدة، كليس)'],
         },
         {
-          title: 'تركيب: النواسخ الخمسة',
+          title: 'تركيب: اللَّهُمَّ أَدْخِلْنَا الْجَنَّةَ بِلَا حِسَابٍ',
           kind: 'tarkeeb',
-          instruction: 'Classify each عامل: من النواسخ الخمسة or not?',
-          source: 'أفعال القلوب / لا لنفي الجنس / حروف الجر / الحروف المشبهة بليس',
-          words: ['أفعال القلوب', 'لا لنفي الجنس', 'حروف الجر', 'الحروف المشبهة بليس'],
-          labels: ['من النواسخ', 'من النواسخ', 'ليست من النواسخ', 'من النواسخ'],
-          distractors: ['أفعال الشروع'],
+          instruction: 'Does لا لنفي الجنس operate here or not?',
+          sentence: 'اللَّهُمَّ أَدْخِلْنَا الْجَنَّةَ بِلَا حِسَابٍ',
+          translation: 'O Allah, admit us to Paradise without reckoning.',
+          cells: ['أَدْخِلْنَا', 'الْجَنَّةَ', 'بِلَا', 'حِسَابٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 3, role: 'لا تعمل (بين جار ومجرور)' },
+            ] },
+          ],
+          distractors: ['تعمل (نفي جنس، اسم مباشر)', 'لا تعمل (نفي وحدة، كليس)'],
         },
         {
-          title: 'تركيب: شروط ما الحجازية',
+          title: 'تركيب: لَا رَجُلٌ قَائِمًا بَلْ رَجُلَانِ',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: does it satisfy ما الحجازية\'s conditions or violate them?',
-          source: 'ما مسيء من أعتب (تأخر الاسم) / ما إن أنتم قائمون (بإن الزائدة) / ﴿وما محمد إلا رسول﴾ (بإلا)',
-          words: ['ما مسيء', 'ما إن أنتم', 'وما محمد إلا رسول'],
-          labels: ['مخالف (تأخر الاسم)', 'مخالف (اقتران بإن)', 'مخالف (خبر بإلا)'],
-          distractors: ['مستوفي الشروط'],
+          instruction: 'Does لا لنفي الجنس operate here or not?',
+          sentence: 'لَا رَجُلٌ قَائِمًا بَلْ رَجُلَانِ',
+          translation: 'Not one man is standing, rather two men.',
+          cells: ['لَا', 'رَجُلٌ', 'قَائِمًا', 'بَلْ', 'رَجُلَانِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'لا تعمل (نفي وحدة، كليس)' },
+            ] },
+          ],
+          distractors: ['تعمل (نفي جنس، اسم مباشر)', 'لا تعمل (بين جار ومجرور)'],
         },
         {
-          title: 'تركيب: الحروف المشبهة بليس الثلاثة',
+          title: 'تركيب: مَا مُسِيءٌ مَنْ أَعْتَبَ',
           kind: 'tarkeeb',
-          instruction: 'Classify each حرف by its typical domain of operation.',
-          source: 'ما الحجازية / لا المشبهة بليس / لات',
-          words: ['ما الحجازية', 'لا المشبهة بليس', 'لات'],
-          labels: ['أهل الحجاز، بشروط', 'الشعر غالبا', 'خاصة بحين'],
-          distractors: ['بنو تميم دائما'],
+          instruction: "Does this satisfy ما الحجازية's conditions, or violate them?",
+          sentence: 'مَا مُسِيءٌ مَنْ أَعْتَبَ',
+          translation: 'Whoever apologizes is not a wrongdoer.',
+          cells: ['مَا', 'مُسِيءٌ', 'مَنْ', 'أَعْتَبَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 3, role: 'مخالف (تأخر الاسم)' },
+            ] },
+          ],
+          distractors: ['مخالف (اقتران بإن)', 'مخالف (خبر بإلا)'],
+        },
+        {
+          title: 'تركيب: مَا إِنْ أَنْتُمْ قَائِمُونَ',
+          kind: 'tarkeeb',
+          instruction: "Does this satisfy ما الحجازية's conditions, or violate them?",
+          sentence: 'مَا إِنْ أَنْتُمْ قَائِمُونَ',
+          translation: 'You are not standing.',
+          cells: ['مَا', 'إِنْ', 'أَنْتُمْ', 'قَائِمُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 3, role: 'مخالف (اقتران بإن)' },
+            ] },
+          ],
+          distractors: ['مخالف (تأخر الاسم)', 'مخالف (خبر بإلا)'],
+        },
+        {
+          title: 'تركيب: ﴿وَمَا مُحَمَّدٌ إِلَّا رَسُولٌ﴾',
+          kind: 'tarkeeb',
+          instruction: "Does this satisfy ما الحجازية's conditions, or violate them؟",
+          sentence: 'وَمَا مُحَمَّدٌ إِلَّا رَسُولٌ',
+          translation: 'Muhammad is not but a messenger.',
+          cells: ['مُحَمَّدٌ', 'إِلَّا', 'رَسُولٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'مخالف (خبر بإلا)' },
+            ] },
+          ],
+          distractors: ['مخالف (تأخر الاسم)', 'مخالف (اقتران بإن)'],
         },
       ],
     },

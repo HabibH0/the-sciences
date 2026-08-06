@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Nahw Trainer — "Classical" design system.
+   The Sciences — "Classical" design system.
    Editorial, book-like: a soft paper ground, serif type, hairline rules
    carrying the structure, colour applied as stroke rather than fill. Five
    colour themes and three Arabic typefaces, switchable at runtime and
@@ -9,12 +9,20 @@
    below, so no rule branches on the active theme directly.
    ========================================================================== */
 
+/* unicode-range deliberately excludes ASCII punctuation (parens, etc.):
+   this particular subset's glyph for the mirrored ")" renders identical
+   to "(" in RTL contexts (e.g. "(هِيَ)" after other content on the line
+   comes out "(هِيَ(" -- both parens showing the same glyph). Restricting
+   the range here makes the browser fall through to the next font in the
+   --font-ar stack (Amiri, serif -- see FACES.uthmani in js/render.js) for
+   those code points, which mirrors correctly. */
 @font-face {
   font-family: 'Amiri';
   src: url('vendor/fonts/Amiri-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 @font-face {
   font-family: 'Amiri';
@@ -22,6 +30,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 @font-face {
   font-family: 'Lora';
@@ -82,7 +91,7 @@
   font-display: swap;
 }
 /* Kufi heading face (the "Kufi headings" typeface option, and the header's
-   نحو wordmark). Arabic-script subset only, single weight. */
+   العلوم wordmark). Arabic-script subset only, single weight. */
 @font-face {
   font-family: 'Reem Kufi';
   src: url('vendor/fonts/ReemKufi-SemiBold.woff2') format('woff2');
@@ -110,51 +119,84 @@
 }
 
 /* ---------- Themes ---------- */
-/* Six variables per theme (--color-divider is the seventh, derived from
-   --color-text so it always follows the active theme's ink). manuscript is
-   both the :root default (in case data-theme hasn't been set yet) and the
-   explicit [data-theme="manuscript"] case. lamp is the only dark theme --
-   its --color-accent-600 is deliberately LIGHTER than its base accent
-   (hover on a dark ground goes up in value, not down); do not "fix" that. */
+/* Background (paper) and accent (ink accent) are independent axes, each its
+   own data-attribute on <html>, so any of the five grounds can be paired
+   with any of the five accents. manuscript/gold are each both the :root
+   default (in case the attributes haven't been set yet) and their own
+   explicit [data-theme="manuscript"]/[data-accent="gold"] case. */
 :root,
 [data-theme='manuscript'] {
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
   --color-text: #201f1d;
-  --color-accent: #b68235;
-  --color-accent-600: #a06f24;
 }
 [data-theme='mushaf'] {
   --color-bg: #f7f1e1;
   --color-surface: #efe7d2;
   --color-text: #22271f;
-  --color-accent: #2f6b4f;
-  --color-accent-600: #24573f;
 }
 [data-theme='lamp'] {
   --color-bg: #16130f;
   --color-surface: #211d16;
   --color-text: #ece3d1;
-  --color-accent: #c9a04a;
-  --color-accent-600: #d8b25c;
 }
 [data-theme='ink'] {
   --color-bg: #eceef1;
   --color-surface: #e0e4ea;
   --color-text: #1b2028;
-  --color-accent: #3d4d80;
-  --color-accent-600: #2f3d68;
 }
 [data-theme='sepia'] {
   --color-bg: #ece0ca;
   --color-surface: #e2d4b9;
   --color-text: #2d2115;
-  --color-accent: #7d5029;
-  --color-accent-600: #653f1e;
 }
 :root {
   --color-divider: color-mix(in srgb, var(--color-text) 18%, transparent);
 }
+
+/* ---------- Accents ---------- */
+:root,
+[data-accent='gold'] {
+  --color-accent: #b68235;
+  --color-accent-600: #a06f24;
+  --color-accent-ink: #201f1d;
+}
+[data-accent='emerald'] {
+  --color-accent: #2f6b4f;
+  --color-accent-600: #24573f;
+  --color-accent-ink: #f3f2f2;
+}
+[data-accent='amber'] {
+  --color-accent: #c9a04a;
+  --color-accent-600: #a3801f;
+  --color-accent-ink: #201f1d;
+}
+[data-accent='indigo'] {
+  --color-accent: #3d4d80;
+  --color-accent-600: #2f3d68;
+  --color-accent-ink: #f3f2f2;
+}
+[data-accent='umber'] {
+  --color-accent: #7d5029;
+  --color-accent-600: #653f1e;
+  --color-accent-ink: #f3f2f2;
+}
+/* lamp is the only dark ground -- hover/active states need to go UP in
+   value there regardless of which accent is paired with it, so this
+   overrides --color-accent-600 with a lightened tint of whatever
+   --color-accent resolves to. Must stay after the [data-accent=...] block
+   above (same specificity, source order decides) so it wins on lamp. */
+[data-theme='lamp'] {
+  --color-accent-600: color-mix(in srgb, var(--color-accent) 82%, white);
+}
+/* --color-accent-ink is a fixed light/dark neutral, one per accent (not
+   per theme) -- text/icons sitting on an --color-accent or --color-accent-
+   600 fill (mastered indicators, the XP toast) need to contrast against
+   the ACCENT's own luminance, which no longer tracks the background theme
+   now that the two are picked independently; var(--color-bg) used to be a
+   passable stand-in for that back when each theme baked in one fixed
+   accent, but breaks the moment a dark accent (e.g. indigo) lands on a
+   light ground, or vice versa. */
 
 /* ---------- Legacy colour aliases ---------- */
 /* Every pre-existing rule in this file (module cards, buttons, tags,
@@ -217,6 +259,88 @@ body {
     radial-gradient(circle at 20% 10%, rgba(182, 130, 53, 0.06), transparent 45%),
     radial-gradient(circle at 85% 30%, rgba(182, 130, 53, 0.04), transparent 40%);
   background-attachment: fixed;
+}
+
+/* The OS title bar's replacement (see main.cjs's frame:false) -- both
+   pieces are position:fixed, so neither reserves its own row in the page
+   layout the way a dedicated strip did (that read as an unwanted extra bar,
+   and orphaned .app-header's own border-bottom into a stray floating line
+   above it). They float over whatever the app is currently rendering
+   instead, present no matter the view (see index.html's comment). */
+
+/* A thin, always-on, invisible drag handle across the very top so the
+   window can still be moved with no native chrome to drag -- thin enough
+   to float above real content's own clickable area on every screen (the
+   header's own buttons/tabs start well below y=8, and the launch screen's
+   brand row does too) without stealing their clicks. */
+#window-drag-region {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  -webkit-app-region: drag;
+  z-index: 500;
+}
+
+/* Pinned to the absolute top-right corner, like an OS title bar's own
+   controls always are -- floats ABOVE whatever's rendered there (a
+   deliberate overlay, not a reserved layout slot), so it needs its own
+   background/shadow "plate" once revealed to stay legible over anything
+   behind it. Hidden until hovered (req) via opacity, not display/
+   visibility, so the corner stays hoverable (and focusable via Tab) the
+   entire time -- :focus-within too, so a keyboard user tabbing to a button
+   reveals the group the same way a mouse hovering it does. */
+#window-controls {
+  position: fixed;
+  top: 6px;
+  right: 6px;
+  z-index: 501;
+  -webkit-app-region: no-drag;
+  display: flex;
+  gap: 1px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+#window-controls:hover,
+#window-controls:focus-within {
+  opacity: 1;
+}
+#window-controls button {
+  width: 32px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+#window-controls button:hover {
+  background: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+#window-close:hover {
+  background: #c4433a;
+  color: #fff;
+}
+/* Only one of the maximize button's two icons is ever shown -- swapped via
+   body.is-maximized (js/main.js listens for main.cjs's
+   'window:maximized-changed', which also fires for an OS-level snap/restore,
+   not just this button's own clicks -- see main.cjs's win.on('maximize')). */
+#window-maximize .restore-icon {
+  display: none;
+}
+body.is-maximized #window-maximize .maximize-icon {
+  display: none;
+}
+body.is-maximized #window-maximize .restore-icon {
+  display: block;
 }
 
 #root {
@@ -313,7 +437,9 @@ button:disabled {
 .app-header-brand {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
   flex: none;
 }
@@ -328,12 +454,6 @@ button:disabled {
   width: 1px;
   height: 22px;
   background: var(--color-divider);
-}
-.app-header-name {
-  font-family: var(--font-heading);
-  font-size: 21px;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
 }
 
 .app-header-left {
@@ -371,6 +491,37 @@ button:disabled {
 .app-header-tab.is-active {
   color: var(--color-accent);
   border-bottom-color: var(--color-accent);
+}
+
+/* Course button -- names the active course, always visible (dashboard,
+   module, lesson, quiz, ...), not just the Home nav's tab slot. Sends the
+   learner back to the launch screen's course picker (data-action
+   "openLaunch") rather than switching in place, so it's an outlined pill
+   button, not .app-header-tab's underline style -- there's no "active"
+   state to show here, it's a single always-available action. */
+.app-header-course-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1;
+  padding: 7px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  background: none;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+.app-header-course-btn:hover,
+.app-header-course-btn:focus-visible {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+.app-header-course-btn .icon {
+  color: var(--color-accent);
 }
 
 /* Breadcrumb mode -- same slot as the tabs, shown instead of them on
@@ -466,8 +617,19 @@ button:disabled {
   display: flex;
   align-items: baseline;
   gap: 14px;
-  padding-left: 20px;
+  padding: 0 0 0 20px;
+  margin: 0;
+  border: none;
   border-left: 1px solid var(--color-divider);
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--dur-fast, 120ms) ease;
+}
+.app-header-stats:hover,
+.app-header-stats:focus-visible {
+  opacity: 0.75;
 }
 .app-header-stat {
   display: flex;
@@ -539,6 +701,40 @@ button:disabled {
   min-height: 0;
   padding: 56px 64px 96px;
   overflow-y: auto;
+}
+
+/* Themed scrollbar for the app's own scroll containers (this and
+   .launch-scroll, see the Launch section below) -- a bare OS scrollbar is
+   the one UI element in the whole app that doesn't follow the "hairline,
+   colour as stroke" language everything else here uses (see
+   .progress-bar/.chapter-card-track: a flat, square-cornered track with a
+   solid-fill bar, no pill/rounded-thumb shape anywhere in this design
+   system). Styled to match that exactly -- a slim hairline track and a
+   flat, sharp-edged accent bar, not the browser's rounded capsule -- and
+   narrow enough (8px) to give the launch screen's corner brackets (see
+   the Launch section's right-corner override) real clearance instead of
+   sitting flush against it. */
+.main-content,
+.launch-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-600) transparent;
+}
+.main-content::-webkit-scrollbar,
+.launch-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.main-content::-webkit-scrollbar-track,
+.launch-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.main-content::-webkit-scrollbar-thumb,
+.launch-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-accent-600);
+  border-radius: 1px;
+}
+.main-content::-webkit-scrollbar-thumb:hover,
+.launch-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-accent);
 }
 
 /* Scroll-driven reveal of the lesson title into the header: a plain fade,
@@ -1073,13 +1269,21 @@ h1 + .card-kicker,
   grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
   gap: 16px;
 }
+/* Fixed, not min-height -- with min-height alone, each row of the grid
+   (a row breaks at every chapter-heading divider, see dashboardHtml in
+   js/render.js) sizes itself off its own tallest card's blurb, so a
+   course whose module blurbs vary a lot in length (fstu's especially)
+   ends up with visibly different card heights from row to row. A fixed
+   height plus the title/body line-clamps below cap every card at the
+   same size regardless of blurb length, at the cost of truncating an
+   unusually long one with an ellipsis rather than growing the row. */
 .chapter-card {
   background: var(--color-bg);
   padding: 28px 26px 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 210px;
+  height: 320px;
   width: 100%;
   text-align: left;
   border: 1px solid var(--color-divider);
@@ -1123,17 +1327,42 @@ h1 + .card-kicker,
   font-family: var(--font-ar-heading);
   font-weight: 500;
   font-size: 23px;
+  line-height: 1.3;
   margin: 4px 0 0;
   color: var(--color-text);
+  /* Caps an unusually long title at 2 lines (with an ellipsis) rather
+     than eating further into the fixed card height above. min-height
+     (not just the clamp) reserves that same 2-line slot even when a
+     title is only 1 line, so .chapter-card-body below always starts at
+     the same offset -- otherwise a short 1-line title handed its flex:1
+     sibling more room than a 2-line title's did, and the body's fixed
+     3-line clamp would sit at a different height card to card. */
+  min-height: 2.6em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .chapter-card-body {
   font-size: 14.5px;
   line-height: 1.65;
-  text-align: justify;
-  hyphens: auto;
   margin: 0;
   flex: 1;
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  /* See .chapter-card's comment -- clamped so a long blurb ellipsizes
+     instead of overflowing the fixed-height card. Left-aligned, not
+     justify: -webkit-line-clamp lays the block out as a -webkit-box (a
+     legacy flex-like display), and justify's per-line word-spacing
+     stretch doesn't compose with that -- it was blowing single words
+     apart on the clamped line into visibly uneven gaps, worse the
+     shorter that final visible line was. hyphens:auto dropped too, same
+     reason: mid-word hyphenation right at the clamp boundary was landing
+     oddly (a trailing "gend-" before the ellipsis) instead of the clean
+     ellipsis the plain unhyphenated line gives. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .chapter-card-footer {
   display: flex;
@@ -1159,19 +1388,474 @@ h1 + .card-kicker,
   white-space: nowrap;
 }
 
-/* Earned badges, shown on the dashboard under the stat row -- only
-   rendered when state.badges has at least one entry. */
+/* Badges teaser, shown on the dashboard under the Chapters grid -- the most
+   recently earned dozen (state.badges.slice(-12)), plus a link through to
+   the full Achievements screen (js/render.js's achievementsHtml). */
+.home-badges-teaser {
+  margin: 4px 0 24px;
+}
+.home-badges-teaser-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.home-badges-teaser-head h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 22px;
+  margin: 0;
+  color: var(--color-text);
+}
+.text-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-accent);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.text-link-btn:hover,
+.text-link-btn:focus-visible {
+  text-decoration: underline;
+}
+.home-badges-empty {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+  margin: 0;
+}
 .badges-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 4px 0 24px;
 }
 .badge-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 5px 12px;
+}
+
+/* ---------- Achievements screen -------------------------------------------
+   Every badge the app can award, earned or locked, grouped into sections
+   (js/render.js's achievementsHtml) -- reused .chapter-card border/hover
+   language at a smaller, denser grid size since there are ~100 of these. */
+.achievements-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.ach-section-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 20px;
+  margin: 0 0 12px;
+  color: var(--color-text);
+}
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.ach-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+}
+.ach-card.earned {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-bg));
+}
+.ach-card.locked {
+  opacity: 0.68;
+}
+.ach-card-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--color-divider);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.ach-card.earned .ach-card-icon {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.ach-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ach-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.ach-card-desc {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+.ach-card-progress {
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  margin-top: 2px;
+}
+
+/* ---------- Launch (course picker) ---------------------------------------
+   The cover screen shown ahead of Home on every boot (js/render.js
+   launchHtml). Deliberately outside #root's normal .app-header/.main/
+   .app-footer column -- this is its own full-viewport screen, not a page
+   inside the app shell -- but reuses Home's hero-panel vocabulary (corner
+   brackets, badge, chapter-card's border/hover language) so it reads as
+   this book's cover rather than a bolted-on splash. */
+
+/* .launch-screen itself never scrolls -- it's just the fixed viewport-sized
+   frame the watermark and corner brackets (both position:absolute) are
+   pinned against. Scrolling happens one level in, on .launch-scroll, so
+   those two stay put at the true four corners/center of the window no
+   matter how far the course grid is scrolled -- an absolutely positioned
+   element scrolls along with whichever ancestor is BOTH its containing
+   block and the actual scroll container, so having .launch-screen do both
+   jobs at once (the previous version) dragged them up out of view, and
+   also inset the right-side ones an extra scrollbar-width because that
+   same element's padding-box-for-positioning shrinks around its own
+   scrollbar. */
+.launch-screen {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  /* clip, not hidden -- hidden still permits scrolling this element
+     programmatically (scrollTop), which would drag the corner brackets
+     along with it same as the original bug; clip forbids scrolling
+     outright, so there's no way for this element to become the thing
+     that's scrolled. */
+  overflow: clip;
+  border: 1px solid var(--color-divider);
+}
+/* .launch-scroll's own scrollbar (styled below, near .main-content) lives
+   just inside .launch-screen's right edge, in the same 10px zone the right
+   corner brackets would otherwise sit in -- pushed out further so there's
+   real clearance between bracket and scrollbar even if the themed
+   scrollbar isn't honoured on some platform and a full-width native one
+   renders instead. Left corners are untouched (nothing sits in their way),
+   so this is deliberately asymmetric. */
+.launch-screen > .home-hero-corner.tr,
+.launch-screen > .home-hero-corner.br {
+  right: 22px;
+}
+/* Top-anchored with a fixed, generous top gap -- NOT flex-centered
+   vertically. Centering was the first cut here, but flexbox's "safe
+   center" fallback for an overflowing item collapses to flush-against-the-
+   top the moment the card grid (esp. the 2-row left column, see
+   .launch-grid) is taller than the window, which reads as the brand mark
+   jammed up under the title bar on anything but a tall window. A fixed
+   padding-top is simple and never does that, at the cost of some empty
+   space below on a very tall window -- an easy trade against the broken
+   case. */
+.launch-scroll {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 96px 56px 64px;
+}
+/* Giant, near-invisible wordmark filling the ground -- same "watermark
+   behind the content" idea as .home-hero-watermark, just centered and
+   scaled to the whole viewport instead of tucked into one panel's corner.
+   A sibling of .launch-scroll, not a child of it, so it stays fixed on
+   screen (see the .launch-screen comment above) instead of scrolling away
+   with the cards. */
+.launch-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Reem Kufi', var(--font-ar-heading);
+  font-size: 44vw;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0.05;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.launch-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+/* Brand mark + the وَالْعِلْمُ نُورٌ badge, as one explicitly-gapped row --
+   they used to be two separate inline-flex elements left to the browser's
+   default (a single collapsed whitespace character, a few px) for the
+   space between them, which read as cramped once "The Sciences" made the
+   line longer. flex-wrap so a narrow window drops the badge to its own
+   centered line instead of clipping/overlapping. */
+.launch-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.launch-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+}
+/* Row above already provides the gap/bottom-margin this badge normally
+   brings on its own (see .home-hero-badge) -- without zeroing them out
+   here, the badge's own margin-bottom would also nudge it off-center
+   against .launch-brand within the row's align-items: center. */
+.launch-brand-row .home-hero-badge {
+  margin-bottom: 0;
+}
+.launch-brand-kicker {
+  font-family: 'Reem Kufi', var(--font-ar-heading);
+  font-size: 30px;
+  color: var(--color-accent);
+  line-height: 1;
+}
+.launch-brand-rule {
+  width: 1px;
+  height: 22px;
+  background: var(--color-divider);
+}
+.launch-brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+/* .home-hero-badge is centered inline here (it's flex-start by default,
+   built for the left-aligned hero panel) -- an inline-flex wrapper on the
+   badge itself would fight its own margin-bottom, so the parent centers it
+   instead via text-align + the badge's own inline-flex display. */
+.launch-head {
+  text-align: center;
+}
+.launch-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 44px;
+  margin: 24px 0 12px;
+  color: var(--color-text);
+}
+.launch-sub {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  max-width: 52ch;
+  margin: 0 auto 28px;
+}
+/* "Sits on top of the courses" -- a slim full-width banner between the
+   subtitle and the course-card grid, leading to My Path rather than one
+   specific course. Accent-bordered (not a plain .launch-card) so it reads
+   as a distinct, cross-course entry point rather than a fourth course. */
+.launch-path-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 22px;
+  margin-bottom: 28px;
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-bg));
+  border: 1px solid var(--color-accent);
+  border-radius: 2px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.launch-path-banner:hover,
+.launch-path-banner:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 13%, var(--color-bg));
+  transform: translateY(-2px);
+}
+.launch-path-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.launch-path-banner-kicker {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.launch-path-banner-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16.5px;
+  color: var(--color-text);
+}
+.launch-path-banner-sub {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+.launch-path-banner-cta {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .launch-path-banner { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+/* Plain 2-column auto-flowing grid, two cards per row in COURSES' own
+   order (see the ordering comment on COURSES in content/index.js): the two
+   introductory courses fill row 1, their advanced continuations fill row 2
+   directly beneath their own column. Collapses to a single stacked column
+   on narrow windows instead (see the max-width: 720px block below). */
+.launch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 18px;
+  text-align: left;
+}
+.launch-card {
+  background: var(--color-bg);
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 250px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  font: inherit;
+  color: inherit;
+}
+.launch-card:hover,
+.launch-card:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+.launch-card.is-current {
+  border-color: var(--color-accent);
+}
+/* An advanced course whose introductory counterpart isn't finished yet (see
+   isCourseUnlocked in content/index.js) -- still clickable (opens the
+   unlock-test prompt, see openUnlockPrompt in js/main.js), just visually
+   dimmed and without the ordinary progress footer. */
+.launch-card.locked {
+  opacity: 0.7;
+}
+.launch-card.locked:hover,
+.launch-card.locked:focus-visible {
+  border-color: var(--color-divider);
+  transform: none;
+  background: var(--color-bg);
+}
+.launch-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.launch-card-kicker {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 52%, transparent);
+}
+/* The card's only title now -- Arabic-only, per course. An <h3> (was a
+   plain <span>, back when a separate English <h3 class="launch-card-title">
+   carried the heading semantics) so it still reads as the card's heading
+   to a screen reader; font-weight/margin overridden since the global
+   h1-h3 rule's bold + 0.3em bottom margin are tuned for prose headings,
+   not this card. */
+.launch-card-arabic {
+  font-family: var(--font-ar-heading);
+  font-weight: 500;
+  font-size: 25px;
+  margin: 0;
+  color: var(--color-accent);
+  line-height: 1.5;
+}
+.launch-card-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
+  margin: 0;
+  flex: 1;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+.launch-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-divider);
+  font-variant-numeric: tabular-nums;
+}
+.launch-card-track {
+  flex: 1;
+  height: 2px;
+  background: color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+.launch-card-fill {
+  display: block;
+  height: 2px;
+  background: var(--color-accent);
+}
+.launch-card-meta {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+  white-space: nowrap;
+}
+.launch-card-cta {
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--color-accent);
+}
+/* Staggered arrival, same treatment as .lesson-list .lesson-row -- a plain
+   entrance via the shared data-anim-key/.anim-in system (see markEntrances
+   in js/main.js), just delayed per card instead of all firing at once. */
+.launch-grid .launch-card:nth-child(1).anim-in { animation-delay: 0.05s; }
+.launch-grid .launch-card:nth-child(2).anim-in { animation-delay: 0.14s; }
+.launch-grid .launch-card:nth-child(3).anim-in { animation-delay: 0.23s; }
+.launch-grid .launch-card:nth-child(4).anim-in { animation-delay: 0.32s; }
+
+@media (max-width: 720px) {
+  .launch-scroll { padding: 56px 24px 40px; }
+  .launch-title { font-size: 34px; }
+  /* Too narrow for 2 columns -- fall back to one plain stacked column, in
+     course order (auto-flow already does this once there's only 1 column,
+     no per-card override needed). */
+  .launch-grid { grid-template-columns: 1fr; }
 }
 
 /* ---------- Settings ---------- */
@@ -1295,6 +1979,41 @@ h1 + .card-kicker,
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--color-text) 52%, transparent);
+}
+
+/* Accent chips -- a separate radio group from the theme cards above, so
+   background and accent can be picked independently. */
+.accent-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.accent-chip {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--color-divider);
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+.accent-chip.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
+}
+.accent-chip-swatch {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent);
+}
+.accent-chip-name {
+  font-size: 13px;
+  color: var(--color-text);
 }
 
 /* Typeface rows -- also a radio group. */
@@ -1586,6 +2305,62 @@ h1 + .card-kicker,
   margin: 0 0 20px;
 }
 
+/* ---------- Advanced-course/path unlock modal ---------------------------
+   Its own shape, deliberately NOT the shared .modal/.modal-backdrop above
+   (badge/lesson-preview modals) -- flat background, hairline divider
+   border, sharp 2px corners, no drop shadow, matching the launch screen's
+   course cards and My Path's group cards (the two places this modal is
+   actually opened from) instead of that rounder legacy shape. */
+.unlock-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 60;
+  cursor: pointer;
+}
+.unlock-modal {
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  padding: 32px 34px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  cursor: default;
+}
+.unlock-modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 16px;
+  border: 1px solid var(--color-accent);
+  border-radius: 2px;
+  color: var(--color-accent);
+}
+.unlock-modal-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--color-accent);
+}
+.unlock-modal-sub {
+  margin: 0 0 22px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+.unlock-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
 /* ---------- XP toast ---------- */
 
 @keyframes toast-float {
@@ -1597,12 +2372,8 @@ h1 + .card-kicker,
   position: fixed;
   bottom: 26px;
   left: 50%;
-  /* --color-bg text on a --color-accent-600 fill: guaranteed-readable pair
-     in every theme, including lamp, where accent-600 is the light one (see
-     the theme block above) -- var(--ink)/light-text pairing would invert
-     there and go unreadable. */
   background: var(--color-accent-600);
-  color: var(--color-bg);
+  color: var(--color-accent-ink);
   padding: 10px 20px;
   border-radius: 20px;
   font-size: 13px;
@@ -1742,6 +2513,49 @@ h1 + .card-kicker,
   left: -0.9em;
   color: var(--gold);
   font-weight: 700;
+}
+
+/* A data table reproduced from the book's own teaching content
+   (content-fstu only -- e.g. an irab table, a letters table). Same
+   hairline-border, no-fill treatment as the rest of the app; scrolls
+   horizontally on its own rather than ever pushing the page wider. */
+.concept-table-wrap {
+  margin: 0 0 1em;
+}
+.concept-table-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-700);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.concept-table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--card-border);
+  border-radius: 2px;
+}
+.concept-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.concept-table th,
+.concept-table td {
+  padding: 8px 14px;
+  text-align: start;
+  border-bottom: 1px solid var(--card-border);
+}
+.concept-table th {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--accent-100);
+}
+.concept-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* A supplementary note on a concept whose prose alone left a gap. Reads
@@ -1896,6 +2710,21 @@ h1 + .card-kicker,
   border-color: var(--maroon-deep);
 }
 
+.practice-tabs-sub {
+  margin-top: 8px;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.practice-tabs-sub .practice-tab {
+  font-size: 12px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+.practice-tabs-sub .practice-tab.active {
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
 .practice-count-grid {
   display: flex;
   flex-wrap: wrap;
@@ -1942,7 +2771,7 @@ h1 + .card-kicker,
   margin-top: 30px;
 }
 
-/* ---------- Schedule tab (Deadline / Revision / Mastery) ---------- */
+/* ---------- Schedule tab (Deadline / Revision) ---------- */
 
 /* Trailing scroll room, same trick as .dashboard-page/.lesson-main: the
    "Up Next" card reveals later than usual (75% down the container instead
@@ -2107,6 +2936,51 @@ select.schedule-input {
   white-space: nowrap;
 }
 
+/* Revision's "Pick a module" list -- each row is a real <button>, unlike
+   the read-only .schedule-upcoming-row above, so it needs its own
+   hover/selected states rather than that row's plain unlocked/locked ones. */
+.revision-module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0 2px;
+}
+.revision-module-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 11px 15px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.revision-module-row:hover {
+  background: var(--paper-deep);
+}
+.revision-module-row.selected {
+  border-color: var(--maroon);
+  background: var(--paper-deep);
+}
+.revision-module-title {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.revision-module-meta {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
 /* ---------- Tarkeeb (drag-and-drop word labeling) ---------- */
 
 .tarkeeb-source {
@@ -2196,13 +3070,18 @@ select.schedule-input {
   border-radius: 8px;
 }
 
+/* Opaque card fill + accent outline, same "stroke not fill" contrast the
+   rest of the app's option/choice buttons use (.mcq-option, .exercise-choice)
+   -- the previous solid --gold-bright fill paired with a fixed dark-brown
+   text colour went low-contrast on darker themes since the text colour
+   never adapted. */
 .tarkeeb-chip {
   padding: 8px 14px;
   border-radius: 20px;
-  background: var(--gold-bright);
-  color: #3b2c1f;
+  background: var(--card);
+  color: var(--ink);
   font-size: 15px;
-  border: 1px solid var(--gold);
+  border: 1.5px solid var(--accent-600);
   cursor: grab;
   user-select: none;
 }
@@ -2216,6 +3095,106 @@ select.schedule-input {
   opacity: 0.3;
   cursor: default;
   pointer-events: none;
+}
+
+/* ---------- تركيب diagram (content-fstu units 2+) ----------
+   The cells[]/rows[] parse-diagram schema -- a CSS grid, one column per
+   sentence cell, label spans stacked in rows above/below the sentence (see
+   flattenTarkeebSlots in content/index.js and tarkeebDiagramGridHtml in
+   js/render.js). Deliberately reuses this file's own card/accent language
+   (not the source book's blue/pink/green scheme) so it reads as part of the
+   app, not a pasted-in textbook image. */
+.tarkeeb-diagram-grid {
+  display: grid;
+  gap: 8px 10px;
+  align-items: stretch;
+  justify-content: center;
+  padding: 20px 16px;
+  background: var(--paper-deep);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.tarkeeb-diagram-cell {
+  align-self: center;
+  justify-self: center;
+  font-size: 20px;
+  color: var(--ink);
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+.tarkeeb-diagram-slot {
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  white-space: normal;
+  word-break: keep-all;
+}
+.tarkeeb-diagram-label {
+  min-height: 30px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--accent-100);
+  border: 1px solid var(--card-border);
+  color: var(--accent-700);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+}
+.tarkeeb-diagram-translation {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 10px;
+}
+.tarkeeb-diagram-wrap {
+  margin: 0 0 1em;
+}
+.tarkeeb-diagram-static .tarkeeb-diagram-grid {
+  padding: 16px 14px;
+}
+/* Row label column (row.label in content) -- names the tier of analysis a
+   row of boxes tests (e.g. "Word class" vs "Sign of الاسم"). Sits in its own
+   grid column past the last cell; LTR/English regardless of the grid's own
+   dir="rtl", since these captions are always short English tags. */
+.tarkeeb-diagram-row-label {
+  align-self: center;
+  justify-self: start;
+  direction: ltr;
+  font-family: var(--font-en);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  padding-inline-start: 4px;
+}
+/* A blank slot (fillBlanks in flattenTarkeebSlots) must look identical to a
+   normal empty slot before submission -- any visible difference here would
+   reveal which words the answer applies to before the learner works it out.
+   Only once checked do the two states below distinguish it. */
+.tarkeeb-slot.blank.blank-ok {
+  border-style: dashed;
+  border-color: var(--accent-600);
+  background: transparent;
+}
+.tarkeeb-slot.blank.blank-ok::after {
+  content: '✓';
+  color: var(--accent-600);
+  font-size: 13px;
+  opacity: 0.7;
+}
+/* Revealed correct answer, shown in place of a wrong (or missing) chip once
+   submitted -- distinct from a learner's own correct pick (.tarkeeb-slot.correct)
+   so it always reads as "here's what it should have been", not as their answer. */
+.tarkeeb-slot-answer {
+  font-style: italic;
+  color: var(--maroon);
 }
 
 /* ---------- Motion: view transitions (page-turn crossfade) ---------- */
@@ -2293,6 +3272,29 @@ select.schedule-input {
   opacity: 0;
   transform: translateY(32px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+/* Left-to-right cascade within a dashboard chapter row, My Path group row,
+   or a Schedule > Revision module row -- js/main.js's assignCascadeDelays
+   sets --reveal-delay per card based on actual grid column position (the
+   auto-fit grid's column count isn't knowable from CSS alone; the
+   single-column revision list just collapses to a top-to-bottom stagger).
+   Scoped to these card types so it never touches the rest of the lesson/
+   schedule reveals, which don't want a per-item stagger. */
+.chapter-card.reveal-on-scroll,
+.path-group-card.reveal-on-scroll,
+.revision-module-row.reveal-on-scroll {
+  transition-delay: var(--reveal-delay, 0s);
+}
+/* .path-group-card.locked's own opacity: 0.65 (below) is two classes, so it
+   outranks plain .reveal-on-scroll's opacity: 0 (one class) -- without this,
+   a locked group card would sit at 0.65 opacity from the moment it mounts,
+   fully visible below the fold, instead of starting fully hidden like every
+   other reveal-on-scroll element and only settling at 0.65 once actually
+   revealed. Bumping this one to three classes beats it pre-reveal; once
+   .is-revealed lands, this no longer matches and .path-group-card.locked's
+   0.65 takes over again as intended. */
+.path-group-card.locked.reveal-on-scroll:not(.is-revealed) {
+  opacity: 0;
 }
 
 .reveal-on-scroll.is-revealed {
@@ -2507,6 +3509,12 @@ select.schedule-input {
   border: 1px solid var(--color-divider);
   border-radius: 2px;
   font: inherit;
+  /* Buttons don't inherit body's `color` in the UA stylesheet (they get
+     their own default, e.g. ButtonText) -- without this, unstyled children
+     like .lesson-row-subtitle fall back to that default instead of the
+     active theme, which happened to still read as a plausible dark grey on
+     the light themes but goes invisible dark-on-dark on lamp. */
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -2528,10 +3536,11 @@ select.schedule-input {
 .lesson-row.locked {
   cursor: not-allowed;
 }
-/* Mastery Mode (Schedule tab) clearing every card in a lesson -- the row
-   itself turns the app's main accent colour rather than staying plain
-   .card white, so a mastered lesson visibly stands apart from a merely
-   "Done" one at a glance, not just via its tag text. */
+/* Mastery (see lessonPreviewHtml/js/state.js's masteryV2) clearing a
+   lesson's whole تركيب+mcq+quiz pool at 100% -- the row itself turns the
+   app's main accent colour rather than staying plain .card white, so a
+   mastered lesson visibly stands apart from a merely "Done" one at a
+   glance, not just via its tag text. */
 .lesson-row.mastered {
   background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
   border-color: var(--color-accent);
@@ -2539,7 +3548,7 @@ select.schedule-input {
 .lesson-row.mastered .lesson-row-indicator {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-accent-ink);
 }
 /* Staggered slide-in on arrival, upper rows first -- plain entrance
    animation via the ordinary data-anim-key/.anim-in system (see
@@ -2613,6 +3622,245 @@ select.schedule-input {
   font-size: 12px;
   opacity: 0.55;
   margin-top: 2px;
+}
+
+/* ---------- My Path (pathMapHtml) ---------------------------------------
+   A vertical node list, deliberately not a winding Duolingo-style SVG for
+   this first pass -- .path-node reuses .lesson-row's own flat,
+   hairline-bordered treatment (row = indicator + body + tag) so lesson
+   nodes read as an obvious sibling of the module page's own lesson rows;
+   checkpoint/revision/milestone nodes are the same shape with their own
+   accent so the list still reads as one continuous path, not two
+   unrelated components glued together. */
+.path-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 28px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-divider);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.path-section-heading:first-child {
+  margin-top: 0;
+}
+.path-section-heading bdi {
+  font-family: var(--font-ar-heading);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 16px;
+  color: var(--color-accent);
+}
+.path-node-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+.path-node {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  font: inherit;
+  /* See .lesson-row's own comment on this -- buttons don't inherit body's
+     `color`, so unstyled children need it set explicitly here. */
+  color: var(--color-text);
+  cursor: pointer;
+  /* The opacity/transform pair has to be spelled out here too, not left to
+     .reveal-on-scroll's own rule (see below) -- .path-node's `transition`
+     shorthand comes later in the cascade at equal specificity, so it would
+     otherwise silently replace (not merge with) that rule's opacity/
+     transform entries and the slide-in would never animate, just pop. */
+  transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+button.path-node:not(.locked):hover {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+.path-node.locked {
+  cursor: not-allowed;
+}
+.path-node.mastered {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+.path-node.mastered .path-node-indicator {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+/* Checkpoint/revision rows get a distinct dashed border instead of the
+   lesson rows' solid one -- a quick visual cue for "test/review", not
+   "content", when scanning the list. */
+.path-node-checkpoint {
+  border-style: dashed;
+}
+.path-node-checkpoint.done {
+  border-style: solid;
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+}
+.path-node-milestone {
+  cursor: default;
+  border-color: var(--gold, var(--color-accent));
+  background: color-mix(in srgb, var(--gold, var(--color-accent)) 10%, var(--color-bg));
+}
+.path-node-milestone .path-node-indicator {
+  border-color: var(--gold, var(--color-accent));
+  color: var(--gold, var(--color-accent));
+}
+.path-node-indicator {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--accent-600);
+  color: var(--accent-700);
+}
+.path-node.locked .path-node-indicator {
+  border-color: var(--neutral-300);
+  color: var(--neutral-500);
+}
+.path-node-body {
+  flex: 1;
+  min-width: 0;
+}
+.path-node-body h3 {
+  font-size: 18px;
+  margin: 0;
+  color: var(--ink);
+  display: inline-block;
+  max-width: 100%;
+}
+.path-node.locked .path-node-body h3 {
+  color: var(--ink-dim);
+}
+.path-node-course-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 2px;
+}
+.path-node-subtitle {
+  font-size: 12px;
+  opacity: 0.55;
+  margin-top: 2px;
+}
+
+/* ---------- My Path: group-selection screen (pathGroupsHtml) -----------
+   A grid of cards, one per Group -- reuses .launch-card's own progress
+   track/fill/meta classes (see js/render.js's pathGroupCardHtml) so a
+   group's progress bar looks like the exact same idiom the course-picker's
+   own cards already use, rather than inventing a second one. */
+.path-group-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+.path-group-card {
+  background: var(--color-bg);
+  padding: 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  /* opacity/transform have to be spelled out here (not left to
+     .reveal-on-scroll's own rule) for the same reason as .path-node's own
+     comment -- this rule comes later in the cascade at equal specificity,
+     so it would otherwise silently replace rather than merge with that
+     rule's entries and the card would never slide in, just pop. transform
+     is shared with the hover lift below, so its duration/easing now match
+     the reveal's own pace rather than the hover's snappier one. */
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.path-group-card:not(.locked):hover {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+.path-group-card.locked {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+/* The Advanced Path's own cards while its whole track is locked (see
+   isTrackUnlocked in content/paths.js) -- unlike an ordinary locked group
+   (locked only until the PREVIOUS group's test passes), these stay
+   clickable, opening the unlock-test prompt rather than being inert. */
+.path-group-card.locked.unlockable {
+  cursor: pointer;
+}
+.path-group-card.locked.unlockable:hover,
+.path-group-card.locked.unlockable:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+.path-track-locked-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  font: inherit;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.path-track-locked-banner:hover,
+.path-track-locked-banner:focus-visible {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));
+}
+.path-track-locked-banner svg {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+.path-group-card.mastered {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+.path-group-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.path-group-card h3 {
+  font-size: 19px;
+  margin: 0;
+  color: var(--ink);
+}
+.path-group-card-body {
+  font-size: 13px;
+  opacity: 0.6;
+  margin: 0;
 }
 
 /* ---------- Lesson page: two-column layout ---------- */
@@ -2731,6 +3979,58 @@ select.schedule-input {
   opacity: 0.6;
 }
 
+/* Lesson Summary card -- content-fstu lessons only (lesson.summary), sits
+   between "In This Lesson" and "Your Progress"; rows fade/slide in one at a
+   time as lessonSummaryCardHtml (js/render.js) admits them, same
+   reveal-on-scroll treatment as the rest of the sidebar. */
+.lesson-summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+.lesson-summary-empty {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+.lesson-summary-row {
+  padding: 10px 10px;
+  margin: 0 -10px;
+  border-radius: var(--radius-sm);
+  border-bottom: 1px solid var(--card-border);
+}
+.lesson-summary-row:last-child {
+  border-bottom: none;
+}
+.lesson-summary-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.lesson-summary-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.lesson-summary-arabic {
+  font-family: var(--font-ar);
+  font-size: 16px;
+  color: var(--maroon-deep);
+}
+.lesson-summary-meaning {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.lesson-summary-examples {
+  font-family: var(--font-ar);
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
 /* ---------- Concept exercise: chip-style choices (was stacked lettered
    options -- concept exercises now read like the handoff's "Try It" cards;
    the lesson quiz and Practice Mode MCQ keep the lettered-circle style,
@@ -2757,6 +4057,15 @@ select.schedule-input {
   line-height: 1.5;
   margin: 0;
   color: var(--ink);
+}
+
+/* The lesson exercise box's framing instructions -- constant across every
+   question it cycles through, sits above the per-question prompt. */
+.lesson-exercise-instructions {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+  line-height: 1.5;
 }
 
 .exercise-left .exercise-feedback {
@@ -2919,6 +4228,15 @@ select.schedule-input {
 .quiz-feedback-line.incorrect {
   color: var(--ink-soft);
 }
+.quiz-feedback-explanation {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  max-width: 46ch;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .quiz-result {
   text-align: center;
@@ -2983,6 +4301,9 @@ select.schedule-input {
 /* ---------- Responsive ---------- */
 
 @media (max-width: 720px) {
+  .path-group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
   .app-header {
     padding: 14px 20px;
     gap: 16px;

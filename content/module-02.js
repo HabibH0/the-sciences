@@ -17,7 +17,7 @@ export default {
   title: 'الفعل القياسي',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
-  blurb: 'The قياسي فعل: transitivity (لازم vs متعدٍ), the multi-object أفعال القلوب and أفعال التحويل, and how التعليق and الإلغاء affect their government.',
+  blurb: 'The قياسي فعل: transitivity, the multi-object أفعال القلوب, and what governs each verb type.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
@@ -27,8 +27,16 @@ export default {
       concepts: [
         {
           heading: 'عامل الفعل: القياسي والسماعي',
-          body: `<bdi>عَامِلُ الْفِعْل</bdi> — how a فعل governs the words around it — divides into two kinds: <bdi>الْقِيَاسِيّ</bdi>, which follows a consistent rule (<bdi>قَاعِدَةٌ مُطَّرِدَة</bdi>), and <bdi>السَّمَاعِيّ</bdi>, which follows no rule and depends purely on how it was transmitted (<bdi>السَّمَاع</bdi>). This module covers القياسي only. Its government runs in two directions: (1) it makes the <bdi>فَاعِل</bdi>, or what substitutes for it (<bdi>نَائِبُهُ</bdi>), <bdi>مَرْفُوع</bdi> (2) it makes the <bdi>مَفَاعِيل</bdi> and the <bdi>حَال</bdi> <bdi>مَنْصُوب</bdi>.`,
-          sample: `القياسي — قاعدة مطردة<br>السماعي — لا قاعدة، يُعتمد فيه على السماع<br>القياسي يرفع الفاعل أو نائبه، وينصب المفاعيل والحال`,
+          lines: [
+            { html: `<bdi>عَامِلُ الْفِعْل</bdi> — how a فعل governs the words around it — divides into two kinds:`, list: false },
+            { table: { headers: ['Kind', 'Rule'], rows: [
+              ['الْقِيَاسِيّ', 'follows a consistent rule (قَاعِدَةٌ مُطَّرِدَة) — this module covers القياسي only'],
+              ['السَّمَاعِيّ', 'follows no rule; depends purely on how it was transmitted (السَّمَاع)'],
+            ] } },
+            { html: `Its government runs in two directions:`, list: false },
+            { html: `it makes the <bdi>فَاعِل</bdi>, or what substitutes for it (<bdi>نَائِبُهُ</bdi>), <bdi>مَرْفُوع</bdi>`, list: true, bullet: true },
+            { html: `it makes the <bdi>مَفَاعِيل</bdi> and the <bdi>حَال</bdi> <bdi>مَنْصُوب</bdi>`, list: true, bullet: true },
+          ],
           exercise: {
             prompt: `Which of these is NOT something the قياسي فعل governs?`,
             kind: 'mcq',
@@ -38,8 +46,10 @@ export default {
         },
         {
           heading: 'الفعل اللازم',
-          body: `<bdi>الفعل اللازم</bdi> — also called <bdi>فِعْلٌ قَاصِر</bdi> or <bdi>فِعْلٌ غَيْرُ مُتَعَدٍّ</bdi> — is one whose effect does not pass beyond its <bdi>فَاعِل</bdi> to a <bdi>مَفْعُولٌ بِهِ</bdi>, as in <bdi>﴿وَلَا هُمْ يَحْزَنُونَ﴾</bdi>. That does not trap its effect entirely inside the فاعل: it can still reach things other than the مفعول به, such as the <bdi>مَفْعُولُ فِيهِ</bdi> and the <bdi>حَال</bdi>, as in <bdi>جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ مُتَأَدِّبًا تَبْجِيلًا لِلْعِلْمِ</bdi>.`,
-          sample: `الفعل اللازم = فعل قاصر = فعل غير متعدٍ<br>﴿وَلَا هُمْ يَحْزَنُونَ﴾ — لا مفعول به<br>جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ مُتَأَدِّبًا — أمامَ: مفعول فيه، متأدبًا: حال`,
+          lines: [
+            { html: `<bdi>الفعل اللازم</bdi> — also called <bdi>فِعْلٌ قَاصِر</bdi> or <bdi>فِعْلٌ غَيْرُ مُتَعَدٍّ</bdi> — is one whose effect does not pass beyond its <bdi>فَاعِل</bdi> to a <bdi>مَفْعُولٌ بِهِ</bdi>, as in ﴿وَلَا هُمْ يَحْزَنُونَ﴾ (no مفعول به).`, list: false },
+            { html: `That doesn't trap its effect entirely inside the فاعل: it can still reach things other than the مفعول به, such as the <bdi>مَفْعُولُ فِيهِ</bdi> and the <bdi>حَال</bdi>, as in جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ مُتَأَدِّبًا (أمامَ = مفعول فيه, متأدبًا = حال).`, list: false },
+          ],
           exercise: {
             prompt: `جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ has no مفعول به, so جَلَسَ is لازم. Does that mean its effect cannot reach anything beyond الفاعل at all?`,
             kind: 'mcq',
@@ -49,8 +59,15 @@ export default {
         },
         {
           heading: 'طرق التعدي: بنفسه وبحرف الجر',
-          body: `<bdi>الفعل المتعدي</bdi> — also called <bdi>فِعْلٌ وَاقِع</bdi> (falling upon the object) or <bdi>فِعْلٌ مُجَاوِز</bdi> (whose effect crosses over) — reaches its مفعول به in one of two ways: (1) <bdi>بِنَفْسِهِ</bdi>, directly, as in <bdi>﴿الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنَّا الْحَزَنَ﴾</bdi> (2) <bdi>بِوَاسِطَةِ حَرْفِ جَرٍّ</bdi>, as in <bdi>﴿ذَهَبَ اللَّهُ بِنُورِهِمْ﴾</bdi>. In the second case that جار ومجرور is itself called <bdi>مَفْعُولٌ بِهِ بِوَاسِطَةِ حَرْفِ الْجَرِّ</bdi> — or <bdi>مُتَعَلِّقٌ بِمَعْنَى الْمَفْعُولِ بِهِ</bdi>, or <bdi>مَفْعُولٌ بِهِ غَيْرُ صَرِيح</bdi>. Some أفعال take both routes: <bdi>هَدَى</bdi> is متعدٍ بنفسه in <bdi>﴿اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ﴾</bdi> but متعدٍ بحرف الجر in <bdi>﴿وَهَدَاهُ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾</bdi>.`,
-          sample: `متعدٍ بنفسه — ﴿الحمد لله الذي أذهب عنا الحزن﴾<br>متعدٍ بحرف جر — ﴿ذهب الله بنورهم﴾<br>هدى بالطريقتين — ﴿اهدنا الصراط المستقيم﴾ / ﴿وهداه إلى صراط مستقيم﴾`,
+          lines: [
+            { html: `<bdi>الفعل المتعدي</bdi> — also called <bdi>فِعْلٌ وَاقِع</bdi> (falling upon the object) or <bdi>فِعْلٌ مُجَاوِز</bdi> (whose effect crosses over) — reaches its مفعول به in one of two ways:`, list: false },
+            { table: { headers: ['Way', 'Example'], rows: [
+              ['بِنَفْسِهِ, directly', '﴿الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنَّا الْحَزَنَ﴾'],
+              ['بِوَاسِطَةِ حَرْفِ جَرٍّ', '﴿ذَهَبَ اللَّهُ بِنُورِهِمْ﴾'],
+            ] } },
+            { html: `In the second case that جار ومجرور is itself called <bdi>مَفْعُولٌ بِهِ بِوَاسِطَةِ حَرْفِ الْجَرِّ</bdi> — or <bdi>مُتَعَلِّقٌ بِمَعْنَى الْمَفْعُولِ بِهِ</bdi>, or <bdi>مَفْعُولٌ بِهِ غَيْرُ صَرِيح</bdi>.`, list: false },
+            { html: `Some أفعال take both routes: <bdi>هَدَى</bdi> is متعدٍ بنفسه in ﴿اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ﴾ but متعدٍ بحرف الجر in ﴿وَهَدَاهُ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾.`, list: false },
+          ],
           exercise: {
             prompt: `In ﴿ذَهَبَ اللَّهُ بِنُورِهِمْ﴾, بِنُورِهِمْ is the مفعول به of ذَهَبَ — but not بنفسه. What is this way of being متعدٍ called?`,
             kind: 'mcq',
@@ -60,8 +77,20 @@ export default {
         },
         {
           heading: 'أضرب المتعدي الثلاثة',
-          body: `A متعدي فعل falls into one of three <bdi>أَضْرُب</bdi> by how many مفاعيل it takes: (1) <bdi>مُتَعَدٍّ إِلَى مَفْعُولٍ وَاحِد</bdi>, as in <bdi>﴿خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ﴾</bdi> (2) <bdi>مُتَعَدٍّ إِلَى مَفْعُولَيْنِ</bdi> (3) <bdi>مُتَعَدٍّ إِلَى ثَلَاثَةِ مَفَاعِيل</bdi>. The أفعال taking two مفعولين themselves split in two: those whose مفعولان are NOT originally a <bdi>مُبْتَدَأٌ وَخَبَر</bdi> — mostly أفعال of giving like <bdi>أَعْطَى، مَنَحَ، وَهَبَ، كَسَا</bdi>, called <bdi>أَفْعَالُ الْجَارِحَة</bdi> — and those whose مفعولان ARE originally مبتدأ وخبر, called <bdi>أَفْعَالُ الْقَلْبِ</bdi> or <bdi>أَفْعَالُ التَّحْوِيل</bdi>. The next two lessons are built entirely on this second kind.`,
-          sample: `مفعول واحد — ﴿خلق السماوات والأرض﴾<br>مفعولان (أفعال الجارحة) — أعطى، منح، وهب، كسا<br>مفعولان أصلهما مبتدأ وخبر (أفعال القلب/التحويل) — ﴿وما أظن الساعة قائمة﴾`,
+          lines: [
+            { html: `A متعدي فعل falls into one of three <bdi>أَضْرُب</bdi> by how many مفاعيل it takes:`, list: false },
+            { table: { headers: ['#', 'ضرب', 'Example'], rows: [
+              ['1', 'مُتَعَدٍّ إِلَى مَفْعُولٍ وَاحِد', '﴿خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ﴾'],
+              ['2', 'مُتَعَدٍّ إِلَى مَفْعُولَيْنِ', '—'],
+              ['3', 'مُتَعَدٍّ إِلَى ثَلَاثَةِ مَفَاعِيل', '—'],
+            ] } },
+            { html: `The أفعال taking two مفعولين themselves split in two:`, list: false },
+            { table: { headers: ['Class', 'Condition', 'Examples'], rows: [
+              ['أَفْعَالُ الْجَارِحَة', 'مفعولان NOT originally a مُبْتَدَأٌ وَخَبَر — mostly أفعال of giving', 'أَعْطَى، مَنَحَ، وَهَبَ، كَسَا'],
+              ['أَفْعَالُ الْقَلْبِ / أَفْعَالُ التَّحْوِيل', 'مفعولان ARE originally مبتدأ وخبر', 'ظَنَّ، حَسِبَ… (next two lessons)'],
+            ] } },
+            { html: `The next two lessons are built entirely on this second kind.`, list: false },
+          ],
           exercise: {
             prompt: `أَعْطَى takes two مفاعيل, and so does ظَنَّ. What separates the class أَعْطَى belongs to from the class ظَنَّ belongs to?`,
             kind: 'mcq',
@@ -205,7 +234,7 @@ export default {
           title: 'حذف مفاعيل أفعال الإعطاء',
           kind: 'mcq',
           prompt: '﴿وَإِنَّكَ لَتَهْدِي إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ﴾ deletes one مفعول of هدى. Can the مفعولان of a giving-type فعل be deleted?',
-          options: ['نعم، يجوز حذف أحدهما أو كليهما', 'لا يجوز حذف أي منهما', 'يجوز حذف الأول فقط', 'يجوز حذف الثاني فقط'],
+          options: ['Yes — either one, or both, may be deleted', 'No — neither may be deleted', 'Only the first may be deleted', 'Only the second may be deleted'],
           correct: 0,
         },
         {
@@ -230,58 +259,78 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: لازم أم متعدٍ؟',
+          title: 'تركيب: جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ مُتَأَدِّبًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: لازم or متعدٍ?',
-          source: 'ولا هم يحزنون / خلق السماوات والأرض / جلس الطالب / أذهب الله عنا الحزن',
-          words: ['يحزنون', 'خلق', 'جلس', 'أذهب'],
-          labels: ['لازم', 'متعدٍ', 'لازم', 'متعدٍ'],
-          distractors: ['فعل قلب'],
+          instruction: 'Classify جَلَسَ, and identify أَمَامَ الْمُعَلِّمِ and مُتَأَدِّبًا.',
+          sentence: 'جَلَسَ الطَّالِبُ أَمَامَ الْمُعَلِّمِ مُتَأَدِّبًا',
+          translation: 'The student sat in front of the teacher, well-mannered.',
+          cells: ['جَلَسَ', 'الطَّالِبُ', 'أَمَامَ', 'الْمُعَلِّمِ', 'مُتَأَدِّبًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'لازم' },
+              { start: 2, end: 3, role: 'مفعول فيه' },
+              { start: 4, end: 4, role: 'حال' },
+            ] },
+          ],
+          distractors: ['متعدٍ', 'مفعول به'],
         },
         {
-          title: 'تركيب: بنفسه أم بحرف جر؟',
+          title: 'تركيب: ﴿ذَهَبَ اللَّهُ بِنُورِهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify how each فعل reaches its مفعول: بنفسه or بحرف جر?',
-          source: 'أذهب الله عنا الحزن / ذهب الله بنورهم / اهدنا الصراط المستقيم / وهداه إلى صراط مستقيم',
-          words: ['أذهب', 'ذهب', 'اهدنا', 'هداه'],
-          labels: ['متعدٍ بنفسه', 'متعدٍ بحرف جر', 'متعدٍ بنفسه', 'متعدٍ بحرف جر'],
-          distractors: ['لازم'],
+          instruction: 'Identify how ذَهَبَ reaches its مفعول.',
+          sentence: 'ذَهَبَ اللَّهُ بِنُورِهِمْ',
+          translation: 'Allah has taken away their light.',
+          cells: ['ذَهَبَ', 'اللَّهُ', 'بِنُورِهِمْ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'متعدٍ بحرف الجر' },
+            ] },
+          ],
+          distractors: ['متعدٍ بنفسه', 'لازم'],
         },
         {
-          title: 'تركيب: أفعال الجارحة أم أفعال القلب؟',
+          title: 'تركيب: ﴿أَذْهَبَ عَنَّا الْحَزَنَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each two-مفعول فعل: أفعال الجارحة or أفعال القلب?',
-          source: 'وهديناهما الصراط المستقيم / وما أظن الساعة قائمة / أعطى كل شيء خلقه / منحه الأمير مالاً',
-          words: ['وهديناهما', 'أظن', 'أعطى', 'منحه'],
-          labels: ['أفعال الجارحة', 'أفعال القلب', 'أفعال الجارحة', 'أفعال الجارحة'],
-          distractors: ['أفعال ناقصة'],
+          instruction: 'Identify how أَذْهَبَ reaches its مفعول.',
+          sentence: 'أَذْهَبَ عَنَّا الْحَزَنَ',
+          translation: 'He has removed from us [our] sorrow.',
+          cells: ['أَذْهَبَ', 'عَنَّا', 'الْحَزَنَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 2, role: 'متعدٍ بنفسه' },
+            ] },
+          ],
+          distractors: ['متعدٍ بحرف الجر', 'لازم'],
         },
         {
-          title: 'تركيب: ماذا يرفع وينصب القياسي؟',
+          title: 'تركيب: ﴿خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ﴾',
           kind: 'tarkeeb',
-          instruction: "Identify each word's grammatical role under الفعل القياسي's government.",
-          source: 'ضَرَبَ الْوَلَدُ الْكَلْبَ مُسْرِعًا',
-          words: ['الْوَلَدُ', 'الْكَلْبَ', 'مُسْرِعًا'],
-          labels: ['فاعل مرفوع', 'مفعول به منصوب', 'حال منصوب'],
-          distractors: ['مضاف إليه مجرور'],
+          instruction: 'Classify خَلَقَ by its number of مفاعيل.',
+          sentence: 'خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ',
+          translation: 'He created the heavens and the earth.',
+          cells: ['خَلَقَ', 'السَّمَاوَاتِ', 'وَالْأَرْضَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'متعدٍ إلى مفعول واحد' },
+            ] },
+          ],
+          distractors: ['متعدٍ إلى مفعولين', 'لازم'],
         },
         {
-          title: 'تركيب: لازم أم متعدٍ؟ (٢)',
+          title: 'تركيب: أَعْطَى الْأَمِيرُ الْفَقِيرَ مَالًا',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: لازم or متعدٍ?',
-          source: 'فَاصْبِرْ صَبْرًا جَمِيلًا / وَاللَّهُ بَصِيرٌ بِمَا تَعْمَلُونَ / خَرَجَ الرَّجُلُ / أَكَلَ الْوَلَدُ التُّفَّاحَةَ',
-          words: ['اصْبِرْ', 'تَعْمَلُونَ', 'خَرَجَ', 'أَكَلَ'],
-          labels: ['لازم', 'متعدٍ', 'لازم', 'متعدٍ'],
-          distractors: ['فعل تحويل'],
-        },
-        {
-          title: 'تركيب: عدد المفاعيل',
-          kind: 'tarkeeb',
-          instruction: 'Classify each فعل by its number of مفاعيل: مفعول واحد or مفعولان?',
-          source: '﴿خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ﴾ / ﴿وَهَدَيْنَاهُمَا الصِّرَاطَ الْمُسْتَقِيمَ﴾ / مَنَحَ الْأَمِيرُ الْفَقِيرَ مَالًا / ﴿أَذْهَبَ عَنَّا الْحَزَنَ﴾',
-          words: ['خَلَقَ', 'هَدَيْنَاهُمَا', 'مَنَحَ', 'أَذْهَبَ'],
-          labels: ['مفعول واحد', 'مفعولان', 'مفعولان', 'مفعول واحد'],
-          distractors: ['ثلاثة مفاعيل'],
+          instruction: 'Classify أَعْطَى and identify its two مفعولين.',
+          sentence: 'أَعْطَى الْأَمِيرُ الْفَقِيرَ مَالًا',
+          translation: 'The prince gave the poor man money.',
+          cells: ['أَعْطَى', 'الْأَمِيرُ', 'الْفَقِيرَ', 'مَالًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'أفعال الجارحة' },
+              { start: 2, end: 2, role: 'مفعول أول' },
+              { start: 3, end: 3, role: 'مفعول ثانٍ' },
+            ] },
+          ],
+          distractors: ['أفعال القلب', 'أفعال التحويل'],
         },
       ],
     },
@@ -294,8 +343,14 @@ export default {
       concepts: [
         {
           heading: 'أفعال القلوب: اليقين والظن',
-          body: `<bdi>أَفْعَالُ الْقُلُوب</bdi> — the فعل قلب class introduced last lesson — split into two groups: (1) أفعال of certainty (<bdi>الْيَقِين</bdi>): <bdi>وَجَدَ، أَلْفَى، رَأَى، عَلِمَ، عَرَفَ، دَرَى، تَعَلَّمَ</bdi> (2) أفعال of preponderant opinion (<bdi>الظَّنّ</bdi>), also called <bdi>أَفْعَالُ الرُّجْحَان</bdi>: <bdi>ظَنَّ، حَسِبَ، زَعَمَ، جَعَلَ، حَجَا، عَدَّ، وَهَبَ، خَالَ</bdi>. Every one of them takes two مفاعيل that were originally a <bdi>مُبْتَدَأٌ وَخَبَر</bdi> — that's what makes it a فعل قلب rather than a plain متعدٍ لمفعولين.`,
-          sample: `اليقين (٧) — وجد، ألفى، رأى، علم، عرف، درى، تعلَّم<br>الظن/الرجحان (٨) — ظن، حسب، زعم، جعل، حجا، عد، وهب، خال`,
+          lines: [
+            { html: `<bdi>أَفْعَالُ الْقُلُوب</bdi> — the فعل قلب class introduced last lesson — split into two groups:`, list: false },
+            { table: { title: 'The Two Groups of أفعال القلوب', headers: ['Group', 'أفعال'], rows: [
+              ['الْيَقِين (certainty)', 'وَجَدَ، أَلْفَى، رَأَى، عَلِمَ، عَرَفَ، دَرَى، تَعَلَّمَ'],
+              ['الظَّنّ (preponderant opinion), also called أَفْعَالُ الرُّجْحَان', 'ظَنَّ، حَسِبَ، زَعَمَ، جَعَلَ، حَجَا، عَدَّ، وَهَبَ، خَالَ'],
+            ] } },
+            { html: `Every one of them takes two مفاعيل that were originally a <bdi>مُبْتَدَأٌ وَخَبَر</bdi> — that's what makes it a فعل قلب rather than a plain متعدٍ لمفعولين.`, list: false },
+          ],
           exercise: {
             prompt: `عَلِمَ and ظَنَّ are both أفعال القلوب, but from different groups. Which group does ظَنَّ belong to?`,
             kind: 'mcq',
@@ -305,8 +360,14 @@ export default {
         },
         {
           heading: 'أمثلة قرآنية على أفعال القلوب',
-          body: `﴿وَإِنْ وَجَدْنَا أَكْثَرَهُمْ لَفَاسِقِينَ﴾ — <bdi>وَجَدَ</bdi> here is a فعل قلب of اليقين, taking two مفعولين (<bdi>أَكْثَرَهُمْ</bdi> and <bdi>لَفَاسِقِينَ</bdi>). ﴿وَيَحْسَبُونَ أَنَّهُمْ مُهْتَدُونَ﴾ — <bdi>حَسِبَ</bdi> here is a فعل قلب of الظن. ﴿وَجَعَلُوا الْمَلَائِكَةَ الَّذِينَ هُمْ عِبَادُ الرَّحْمَٰنِ إِنَاثًا﴾ — <bdi>جَعَلَ</bdi> here is a فعل قلب of الظن as well: they merely *supposed* the angels female.`,
-          sample: `وجد (يقين) — ﴿وإن وجدنا أكثرهم لفاسقين﴾<br>حسب (ظن) — ﴿ويحسبون أنهم مهتدون﴾<br>جعل (ظن) — ﴿وجعلوا الملائكة...إناثا﴾`,
+          lines: [
+            { table: { headers: ['Verse', 'Verb', 'Group'], rows: [
+              ['﴿وَإِنْ وَجَدْنَا أَكْثَرَهُمْ لَفَاسِقِينَ﴾', 'وَجَدَ', 'اليقين'],
+              ['﴿وَيَحْسَبُونَ أَنَّهُمْ مُهْتَدُونَ﴾', 'حَسِبَ', 'الظن'],
+              ['﴿وَجَعَلُوا الْمَلَائِكَةَ الَّذِينَ هُمْ عِبَادُ الرَّحْمَٰنِ إِنَاثًا﴾', 'جَعَلَ', 'الظن'],
+            ] } },
+            { html: `In the first آية, وَجَدَ takes two مفعولين — <bdi>أَكْثَرَهُمْ</bdi> and <bdi>لَفَاسِقِينَ</bdi>. And جَعَلَ in the third آية is الظن, not اليقين: they merely *supposed* the angels female.`, list: false },
+          ],
           exercise: {
             prompt: `In ﴿وَجَعَلُوا الْمَلَائِكَةَ...إِنَاثًا﴾, جَعَلَ takes الملائكة and إناثًا as two مفاعيل. What category of أفعال القلوب is this?`,
             kind: 'mcq',
@@ -316,8 +377,13 @@ export default {
         },
         {
           heading: 'حذف مفاعيل أفعال القلوب: الاختصار والاقتصار',
-          body: `The two مفاعيل of a فعل قلب can sometimes drop out of the wording. <bdi>الِاخْتِصَار</bdi> — deleting BOTH مفعولين while other evidence in the جملة still points to what they were — is permitted, as in <bdi>﴿أَيْنَ شُرَكَائِيَ الَّذِينَ كُنْتُمْ تَزْعُمُونَ﴾</bdi>, meaning <bdi>تَزْعُمُونَهُمْ شُرَكَائِي</bdi>. <bdi>الِاقْتِصَار</bdi> — deleting only ONE مفعول with nothing in the جملة pointing to what was meant — is not permitted; a bare <bdi>ظَنَنْتُهُ</bdi> with nothing else said cannot stand.`,
-          sample: `الاختصار (جائز) — ﴿أين شركائي الذين كنتم تزعمون﴾ = تزعمونهم شركائي<br>الاقتصار (غير جائز) — ظننتُه (بلا قرينة)`,
+          lines: [
+            { html: `The two مفاعيل of a فعل قلب can sometimes drop out of the wording.`, list: false },
+            { table: { headers: ['Term', 'What it deletes', 'Allowed?', 'Example'], rows: [
+              ['الِاخْتِصَار', 'BOTH مفعولين, while other evidence in the جملة still points to what they were', 'جائز', '﴿أَيْنَ شُرَكَائِيَ الَّذِينَ كُنْتُمْ تَزْعُمُونَ﴾ (= تَزْعُمُونَهُمْ شُرَكَائِي)'],
+              ['الِاقْتِصَار', 'only ONE مفعول, with nothing in the جملة pointing to what was meant', 'غير جائز', 'a bare ظَنَنْتُهُ with nothing else said'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿أَيْنَ شُرَكَائِيَ الَّذِينَ كُنْتُمْ تَزْعُمُونَ﴾ deletes both مفعولا زعم, yet the sentence still stands. What licenses deleting both together?`,
             kind: 'mcq',
@@ -327,8 +393,12 @@ export default {
         },
         {
           heading: 'معانٍ خاصة: ألم تر وأرأيت وكاف الخطاب',
-          body: `A few أفعال قلوب carry idiomatic senses worth knowing on their own. <bdi>أَلَمْ تَرَ</bdi> means <bdi>أَلَمْ تَعْلَمْ</bdi>, with an added sense of <bdi>التَّعَجُّب</bdi> — knowledge is expressed through "seeing" because sight is the strongest cause of knowledge. <bdi>أَرَأَيْتَ</bdi>, as in <bdi>﴿أَرَأَيْتَ مَنِ اتَّخَذَ إِلَٰهَهُ هَوَاهُ﴾</bdi>, means <bdi>أَخْبِرْنِي</bdi> ("tell me") in situations of astonishment; its <bdi>ضَمِيرٌ مَرْفُوع</bdi> changes with the addressee (<bdi>أَرَأَيْتِ، أَرَأَيْتُم</bdi>...). When a <bdi>كَاف</bdi> is added, as in <bdi>أَرَأَيْتَكَ / أَرَأَيْتَكُمْ</bdi>, it is a <bdi>كَافُ الْخِطَاب</bdi> added only to emphasise the address (<bdi>تَوْكِيدُ الْخِطَاب</bdi>) — the ضمير مرفوع stays fixed at <bdi>تَ</bdi>, and only that كاف changes: <bdi>أَرَأَيْتَكِ، أَرَأَيْتَكُمْ</bdi>.`,
-          sample: `ألم تر = ألم تعلم (+ تعجب)<br>أرأيت = أخبرني، نحو ﴿أرأيت من اتخذ إلهه هواه﴾<br>كاف الخطاب — أرأيتَك، أرأيتَكم (التاء ثابتة، الكاف هي التي تتغير)`,
+          lines: [
+            { html: `A few أفعال قلوب carry idiomatic senses worth knowing on their own.`, list: false },
+            { html: `<bdi>أَلَمْ تَرَ</bdi> means <bdi>أَلَمْ تَعْلَمْ</bdi>, with an added sense of <bdi>التَّعَجُّب</bdi> — knowledge is expressed through "seeing" because sight is the strongest cause of knowledge.`, list: false },
+            { html: `<bdi>أَرَأَيْتَ</bdi>, as in ﴿أَرَأَيْتَ مَنِ اتَّخَذَ إِلَٰهَهُ هَوَاهُ﴾, means <bdi>أَخْبِرْنِي</bdi> ("tell me") in situations of astonishment; its <bdi>ضَمِيرٌ مَرْفُوع</bdi> changes with the addressee (<bdi>أَرَأَيْتِ، أَرَأَيْتُم</bdi>…).`, list: false },
+            { html: `When a <bdi>كَاف</bdi> is added, as in <bdi>أَرَأَيْتَكَ / أَرَأَيْتَكُمْ</bdi>, it is a <bdi>كَافُ الْخِطَاب</bdi> added only to emphasise the address (<bdi>تَوْكِيدُ الْخِطَاب</bdi>) — the ضمير مرفوع stays fixed at <bdi>تَ</bdi>, and only that كاف changes: <bdi>أَرَأَيْتَكِ، أَرَأَيْتَكُمْ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `In أَرَأَيْتَكَ, which part is the ضمير مرفوع of رأى, and which part is only there for توكيد الخطاب?`,
             kind: 'mcq',
@@ -338,8 +408,17 @@ export default {
         },
         {
           heading: 'أفعال القلوب خارج معنى القلب',
-          body: `When one of these أفعال is used in a sense OTHER than قلب, it drops back to taking a single مفعول, like any ordinary متعدٍ. <bdi>﴿لَا تَعْلَمُونَ شَيْئًا﴾</bdi> means <bdi>لَا تَعْرِفُونَ</bdi>; <bdi>﴿لَاتَّخَذْتَ عَلَيْهِ أَجْرًا﴾</bdi> means <bdi>طَلَبْتَ</bdi>; <bdi>﴿وَأَلْفَيَا سَيِّدَهَا لَدَى الْبَابِ﴾</bdi> means <bdi>صَادَفَا</bdi>; <bdi>وَجَدْتُ الضَّالَّةَ</bdi> means <bdi>أَصَبْتُهَا</bdi>; <bdi>ظَنَنْتُ زَيْدًا</bdi> means <bdi>اتَّهَمْتُهُ</bdi>; <bdi>رَأَيْتُ زَيْدًا</bdi> means <bdi>أَبْصَرْتُهُ</bdi>.`,
-          sample: `وجدت الضالة = أصبتها (مفعول واحد)<br>رأيت زيدًا = أبصرته (مفعول واحد)<br>ظننت زيدًا = اتهمته (مفعول واحد)`,
+          lines: [
+            { html: `When one of these أفعال is used in a sense OTHER than قلب, it drops back to taking a single مفعول, like any ordinary متعدٍ:`, list: false },
+            { table: { headers: ['Phrase', 'Meaning'], rows: [
+              ['﴿لَا تَعْلَمُونَ شَيْئًا﴾', 'لَا تَعْرِفُونَ'],
+              ['﴿لَاتَّخَذْتَ عَلَيْهِ أَجْرًا﴾', 'طَلَبْتَ'],
+              ['﴿وَأَلْفَيَا سَيِّدَهَا لَدَى الْبَابِ﴾', 'صَادَفَا'],
+              ['وَجَدْتُ الضَّالَّةَ', 'أَصَبْتُهَا'],
+              ['ظَنَنْتُ زَيْدًا', 'اتَّهَمْتُهُ'],
+              ['رَأَيْتُ زَيْدًا', 'أَبْصَرْتُهُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `رَأَيْتُ زَيْدًا, meaning أَبْصَرْتُهُ, takes only one مفعول. Why does رأى not take two مفاعيل here the way it does as a فعل قلب?`,
             kind: 'mcq',
@@ -508,58 +587,110 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: اليقين أم الظن؟',
+          title: 'تركيب: ﴿وَإِنْ وَجَدْنَا أَكْثَرَهُمْ لَفَاسِقِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل قلب: أفعال اليقين or أفعال الظن?',
-          source: 'وجد / علم / ظن / حسب',
-          words: ['وجد', 'علم', 'ظن', 'حسب'],
-          labels: ['اليقين', 'اليقين', 'الظن', 'الظن'],
-          distractors: ['التحويل'],
+          instruction: 'Classify وَجَدْنَا, identify its two مفعولين, and its معنى.',
+          sentence: 'وَإِنْ وَجَدْنَا أَكْثَرَهُمْ لَفَاسِقِينَ',
+          translation: 'And indeed, We found most of them defiantly disobedient.',
+          cells: ['وَجَدْنَا', 'أَكْثَرَهُمْ', 'لَفَاسِقِينَ'],
+          rows: [
+            { position: 'above', label: 'أفعال اليقين or الظن؟', labels: [
+              { start: 0, end: 0, role: 'أفعال اليقين' },
+              { start: 1, end: 1, role: 'مفعول أول' },
+              { start: 2, end: 2, role: 'مفعول ثانٍ' },
+            ] },
+            { position: 'below', label: 'معنى', labels: [
+              { start: 0, end: 0, role: 'بمعنى القلب' },
+            ] },
+          ],
+          distractors: ['أفعال الظن', 'أفعال التحويل'],
         },
         {
-          title: 'تركيب: أمثلة قرآنية',
+          title: 'تركيب: ﴿وَيَحْسَبُونَ أَنَّهُمْ مُهْتَدُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل قلب in the آيات: اليقين or الظن?',
-          source: '﴿وإن وجدنا أكثرهم لفاسقين﴾ / ﴿ويحسبون أنهم مهتدون﴾ / ﴿وجعلوا الملائكة...إناثا﴾',
-          words: ['وجدنا', 'يحسبون', 'جعلوا'],
-          labels: ['اليقين', 'الظن', 'الظن'],
-          distractors: ['التحويل'],
+          instruction: 'Classify يَحْسَبُونَ as one of أفعال اليقين or أفعال الظن.',
+          sentence: 'وَيَحْسَبُونَ أَنَّهُمْ مُهْتَدُونَ',
+          translation: 'And they think that they are [rightly] guided.',
+          cells: ['يَحْسَبُونَ', 'أَنَّهُمْ', 'مُهْتَدُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'أفعال الظن' },
+            ] },
+          ],
+          distractors: ['أفعال اليقين', 'أفعال التحويل'],
         },
         {
-          title: 'تركيب: بمعنى القلب أم خارج معناه؟',
+          title: 'تركيب: ﴿وَجَعَلُوا الْمَلَائِكَةَ الَّذِينَ هُمْ عِبَادُ الرَّحْمَٰنِ إِنَاثًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each usage: بمعنى القلب (مفعولان) or خارج معنى القلب (مفعول واحد)?',
-          source: 'وجدتُ الضالةَ / وإن وجدنا أكثرهم لفاسقين / رأيتُ زيدًا / ويحسبون أنهم مهتدون',
-          words: ['وجدتُ', 'وجدنا', 'رأيتُ', 'يحسبون'],
-          labels: ['خارج معنى القلب', 'بمعنى القلب', 'خارج معنى القلب', 'بمعنى القلب'],
-          distractors: ['فعل تحويل'],
+          instruction: 'Classify جَعَلُوا as one of أفعال اليقين or أفعال الظن; then identify its two مفعولين.',
+          sentence: 'وَجَعَلُوا الْمَلَائِكَةَ الَّذِينَ هُمْ عِبَادُ الرَّحْمَٰنِ إِنَاثًا',
+          translation: 'And they have made the angels, who are servants of the Most Merciful, females.',
+          cells: ['جَعَلُوا', 'الْمَلَائِكَةَ', 'الَّذِينَ', 'هُمْ', 'عِبَادُ', 'الرَّحْمَٰنِ', 'إِنَاثًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'أفعال الظن' },
+              { start: 1, end: 1, role: 'مفعول أول' },
+              { start: 6, end: 6, role: 'مفعول ثانٍ' },
+            ] },
+          ],
+          distractors: ['أفعال اليقين', 'أفعال التحويل'],
         },
         {
-          title: 'تركيب: الاختصار أم الاقتصار؟',
+          title: 'تركيب: ﴿أَيْنَ شُرَكَائِيَ الَّذِينَ كُنْتُمْ تَزْعُمُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each deletion: اختصار جائز or اقتصار غير جائز?',
-          source: '﴿أين شركائي الذين كنتم تزعمون﴾ / ظننتُه (بلا قرينة)',
-          words: ['تزعمون', 'ظننتُه'],
-          labels: ['اختصار', 'اقتصار'],
-          distractors: ['إلغاء'],
+          instruction: 'Identify whether the deletion of both مفعولا تَزْعُمُونَ here is اختصار (permitted) or اقتصار (not permitted).',
+          sentence: 'أَيْنَ شُرَكَائِيَ الَّذِينَ كُنْتُمْ تَزْعُمُونَ',
+          translation: 'Where are My "partners" that you used to claim?',
+          cells: ['أَيْنَ', 'شُرَكَائِيَ', 'الَّذِينَ', 'كُنْتُمْ', 'تَزْعُمُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 4, end: 4, role: 'اختصار' },
+            ] },
+          ],
+          distractors: ['اقتصار', 'إلغاء'],
         },
         {
-          title: 'تركيب: عدد المفاعيل بعد تغيّر المعنى',
+          title: 'تركيب: ظَنَنْتُهُ (بلا قرينة)',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل by its number of مفاعيل in this usage.',
-          source: '﴿لا تعلمون شيئا﴾ / ﴿وألفيا سيدها لدى الباب﴾ / ﴿وإن وجدنا أكثرهم لفاسقين﴾ / ﴿ويحسبون أنهم مهتدون﴾',
-          words: ['تعلمون', 'ألفيا', 'وجدنا', 'يحسبون'],
-          labels: ['مفعول واحد', 'مفعول واحد', 'مفعولان', 'مفعولان'],
-          distractors: ['ثلاثة مفاعيل'],
+          instruction: 'With no قرينة anywhere pointing to the deleted second مفعول, is this اختصار or اقتصار؟',
+          sentence: 'ظَنَنْتُهُ',
+          translation: '"I thought him..." (with nothing else said).',
+          cells: ['ظَنَنْتُهُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'اقتصار' },
+            ] },
+          ],
+          distractors: ['اختصار', 'إلغاء'],
         },
         {
-          title: 'تركيب: تصنيف عام لأفعال القلوب',
+          title: 'تركيب: رَأَيْتُ زَيْدًا (بمعنى أَبْصَرْتُهُ)',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: أفعال اليقين or أفعال الظن?',
-          source: 'درى / تعلَّم / زعم / خال',
-          words: ['درى', 'تعلَّم', 'زعم', 'خال'],
-          labels: ['اليقين', 'اليقين', 'الظن', 'الظن'],
-          distractors: ['الجارحة'],
+          instruction: 'رأى here takes only one مفعول. Is it used بمعنى القلب or خارج معنى القلب؟',
+          sentence: 'رَأَيْتُ زَيْدًا',
+          translation: 'I saw Zayd (with my eyes).',
+          cells: ['رَأَيْتُ', 'زَيْدًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 1, role: 'خارج معنى القلب' },
+            ] },
+          ],
+          distractors: ['بمعنى القلب'],
+        },
+        {
+          title: 'تركيب: وَجَدْتُ الضَّالَّةَ (بمعنى أَصَبْتُهَا)',
+          kind: 'tarkeeb',
+          instruction: 'وجد here takes how many مفعول, and is it بمعنى القلب or خارج معناه؟',
+          sentence: 'وَجَدْتُ الضَّالَّةَ',
+          translation: 'I found the stray animal.',
+          cells: ['وَجَدْتُ', 'الضَّالَّةَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'خارج معنى القلب' },
+              { start: 1, end: 1, role: 'مفعول واحد' },
+            ] },
+          ],
+          distractors: ['بمعنى القلب', 'مفعولان'],
         },
       ],
     },
@@ -572,8 +703,16 @@ export default {
       concepts: [
         {
           heading: 'أفعال التحويل: تعريفها وأمثلتها',
-          body: `<bdi>أَفْعَالُ التَّحْوِيل</bdi> are the other branch of the two-مفعول class from Lesson 1 — أفعال bearing the meaning of <bdi>صَيَّرَ</bdi> (to transform something into something else). There are six: <bdi>صَيَّرَ، رَدَّ، تَرَكَ، تَخِذَ/اتَّخَذَ، جَعَلَ، وَهَبَ</bdi>. In <bdi>﴿وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا﴾</bdi>, <bdi>اتَّخَذَ</bdi> is بمعنى صيّر, and its two مفاعيل are <bdi>إِبْرَاهِيمَ</bdi> and <bdi>خَلِيلًا</bdi>.`,
-          sample: `أفعال التحويل (٦) — صيّر، رد، ترك، تخذ/اتخذ، جعل، وهب<br>﴿واتخذ الله إبراهيم خليلا﴾ — إبراهيم وخليلا: مفعولا اتخذ`,
+          lines: [
+            { html: `<bdi>أَفْعَالُ التَّحْوِيل</bdi> are the other branch of the two-مفعول class from Lesson 1 — أفعال bearing the meaning of <bdi>صَيَّرَ</bdi> (to transform something into something else). There are six:`, list: false },
+            { html: `<bdi>صَيَّرَ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>رَدَّ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>تَرَكَ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>تَخِذَ / اتَّخَذَ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>جَعَلَ</bdi>`, list: true, bullet: true },
+            { html: `<bdi>وَهَبَ</bdi>`, list: true, bullet: true },
+            { html: `In ﴿وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا﴾, <bdi>اتَّخَذَ</bdi> is بمعنى صيّر, and its two مفاعيل are <bdi>إِبْرَاهِيمَ</bdi> and <bdi>خَلِيلًا</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `جَعَلَ and وَهَبَ each appear in TWO different lists across this module. Which two classes do they straddle?`,
             kind: 'mcq',
@@ -583,8 +722,14 @@ export default {
         },
         {
           heading: 'أفعال التحويل خارج معنى التحويل',
-          body: `Just like أفعال القلوب, when one of these أفعال is used OUTSIDE the meaning of تحويل, it takes only a single مفعول. <bdi>﴿إِنِّي تَرَكْتُ مِلَّةَ قَوْمٍ لَا يُؤْمِنُونَ بِاللَّهِ﴾</bdi> — تَرَكَ here is ordinary "leaving", one مفعول. <bdi>﴿ثُمَّ يُرَدُّ إِلَىٰ رَبِّهِ﴾</bdi> means <bdi>يُصَار</bdi> — a plain "return", not transformation. <bdi>﴿وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ﴾</bdi> means <bdi>خَلَقَ</bdi> or <bdi>أَوْجَدَ</bdi> — "created" — again one مفعول (the three coordinated أسماء together, not three separate مفاعيل).`,
-          sample: `تركت ملة قوم — مفعول واحد (ليس بمعنى صيّر)<br>يُرد إلى ربه = يُصار — مفعول واحد<br>جعل لكم السمع والأبصار = خلق/أوجد — مفعول واحد`,
+          lines: [
+            { html: `Just like أفعال القلوب, when one of these أفعال is used OUTSIDE the meaning of تحويل, it takes only a single مفعول:`, list: false },
+            { table: { headers: ['Phrase', 'Meaning', 'مفاعيل'], rows: [
+              ['﴿إِنِّي تَرَكْتُ مِلَّةَ قَوْمٍ لَا يُؤْمِنُونَ بِاللَّهِ﴾', 'ordinary "leaving"', 'مفعول واحد'],
+              ['﴿ثُمَّ يُرَدُّ إِلَىٰ رَبِّهِ﴾', 'يُصَار — plain "return"', 'مفعول واحد'],
+              ['﴿وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ﴾', 'خَلَقَ / أَوْجَدَ — "created"', 'مفعول واحد (the three coordinated أسماء together, not three مفاعيل)'],
+            ] } },
+          ],
           exercise: {
             prompt: `﴿وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ﴾ — جَعَلَ here means خَلَقَ. Does it take one مفعول or two, and why؟`,
             kind: 'mcq',
@@ -594,8 +739,10 @@ export default {
         },
         {
           heading: 'الفعل الآخذ لثلاثة مفاعيل',
-          body: `A فعل can take up to three مفاعيل — but only ever a <bdi>فِعْلُ قَلْب</bdi>, such as <bdi>أَرَى</bdi>. Its second and third مفاعيل are, just like a two-object فعل قلب, originally a <bdi>مُبْتَدَأٌ وَخَبَر</bdi>: <bdi>﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾</bdi> — <bdi>أَعْمَالَهُمْ</bdi> and <bdi>حَسَرَاتٍ</bdi> are the second and third مفعولان, standing where a مبتدأ وخبر would.`,
-          sample: `أرى — فعل قلب يأخذ ثلاثة مفاعيل<br>﴿كذلك يريهم الله أعمالهم حسرات عليهم﴾ — هم: مفعول أول، أعمالهم: مفعول ثانٍ، حسرات: مفعول ثالث`,
+          lines: [
+            { html: `A فعل can take up to three مفاعيل — but only ever a <bdi>فِعْلُ قَلْب</bdi>, such as <bdi>أَرَى</bdi>.`, list: false },
+            { html: `Its second and third مفاعيل are, just like a two-object فعل قلب, originally a <bdi>مُبْتَدَأٌ وَخَبَر</bdi>: ﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾ — <bdi>أَعْمَالَهُمْ</bdi> and <bdi>حَسَرَاتٍ</bdi> are the second and third مفعولان, standing where a مبتدأ وخبر would.`, list: false },
+          ],
           exercise: {
             prompt: `يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ takes three مفاعيل. What class of فعل can ever reach three مفاعيل?`,
             kind: 'mcq',
@@ -605,8 +752,13 @@ export default {
         },
         {
           heading: 'ما يسد مسد مفعولي فعل القلب',
-          body: `The two مفاعيل of a فعل قلب don't always show up as two plain أسماء — something else can stand in their place (<bdi>يَسُدُّ مَسَدَّ</bdi> them). Two things can do this: (1) an <bdi>اسْمٌ مُؤَوَّل</bdi>, as in <bdi>﴿وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ﴾</bdi>, where <bdi>أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ</bdi> stands for both مفعولا اعلموا (2) a <bdi>جُمْلَة</bdi>, as in <bdi>﴿وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ﴾</bdi>.`,
-          sample: `اسم مؤول يسد مسد المفعولين — ﴿واعلموا أن الله مع المتقين﴾<br>جملة تسد مسد المفعولين — ﴿والله يشهد إن المنافقين لكاذبون﴾`,
+          lines: [
+            { html: `The two مفاعيل of a فعل قلب don't always show up as two plain أسماء — something else can stand in their place (<bdi>يَسُدُّ مَسَدَّ</bdi> them). Two things can do this:`, list: false },
+            { table: { headers: ['Stand-in', 'Example'], rows: [
+              ['اسْمٌ مُؤَوَّل', '﴿وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ﴾ — أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ stands for both مفعولا اعلموا'],
+              ['جُمْلَة', '﴿وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ﴾'],
+            ] } },
+          ],
           exercise: {
             prompt: `In ﴿وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ﴾, اعلموا is a فعل قلب needing two مفاعيل — yet only one اسم مؤول follows it. How is that possible?`,
             kind: 'mcq',
@@ -775,58 +927,108 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: بمعنى التحويل أم لا؟',
+          title: 'تركيب: ﴿وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is the فعل here بمعنى التحويل (مفعولان) or not?',
-          source: 'واتخذ الله إبراهيم خليلا / إني تركت ملة قوم / ثم يُرد إلى ربه / وجعل لكم السمع والأبصار',
-          words: ['اتخذ', 'تركت', 'يُرد', 'جعل'],
-          labels: ['بمعنى التحويل', 'خارج معنى التحويل', 'خارج معنى التحويل', 'خارج معنى التحويل'],
-          distractors: ['فعل لازم'],
+          instruction: 'Classify اتَّخَذَ and identify its two مفعولين.',
+          sentence: 'وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا',
+          translation: 'And Allah took Abraham as a devoted friend.',
+          cells: ['اتَّخَذَ', 'اللَّهُ', 'إِبْرَاهِيمَ', 'خَلِيلًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'أفعال التحويل' },
+              { start: 2, end: 2, role: 'مفعول أول' },
+              { start: 3, end: 3, role: 'مفعول ثانٍ' },
+            ] },
+          ],
+          distractors: ['أفعال القلب', 'أفعال الجارحة'],
         },
         {
-          title: 'تركيب: قائمة أفعال التحويل',
+          title: 'تركيب: ﴿إِنِّي تَرَكْتُ مِلَّةَ قَوْمٍ لَا يُؤْمِنُونَ بِاللَّهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is it one of أفعال التحويل or not?',
-          source: 'صيّر / رد / درى / علم',
-          words: ['صيّر', 'رد', 'درى', 'علم'],
-          labels: ['من أفعال التحويل', 'من أفعال التحويل', 'ليس من أفعال التحويل', 'ليس من أفعال التحويل'],
-          distractors: ['التعليق'],
+          instruction: 'Classify تَرَكْتُ here: بمعنى التحويل or خارج معناه؟ Then identify its مفعول.',
+          sentence: 'إِنِّي تَرَكْتُ مِلَّةَ قَوْمٍ لَا يُؤْمِنُونَ بِاللَّهِ',
+          translation: 'Indeed, I have left the religion of a people who do not believe in Allah.',
+          cells: ['إِنِّي', 'تَرَكْتُ', 'مِلَّةَ', 'قَوْمٍ', 'لَا', 'يُؤْمِنُونَ', 'بِاللَّهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 1, role: 'خارج معنى التحويل' },
+              { start: 2, end: 3, role: 'مفعول واحد' },
+            ] },
+          ],
+          distractors: ['بمعنى التحويل', 'مفعولان'],
         },
         {
-          title: 'تركيب: كم مفعولاً؟',
+          title: 'تركيب: ﴿ثُمَّ يُرَدُّ إِلَىٰ رَبِّهِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل by its number of مفاعيل in the given context.',
-          source: 'واتخذ الله إبراهيم خليلا / يريهم الله أعمالهم حسرات / إني تركت ملة قوم',
-          words: ['اتخذ', 'يريهم', 'تركت'],
-          labels: ['مفعولان', 'ثلاثة مفاعيل', 'مفعول واحد'],
-          distractors: ['لا مفعول له'],
+          instruction: 'Classify يُرَدُّ here: بمعنى التحويل or خارج معناه؟',
+          sentence: 'ثُمَّ يُرَدُّ إِلَىٰ رَبِّهِ',
+          translation: 'Then he is returned to his Lord.',
+          cells: ['يُرَدُّ', 'إِلَىٰ', 'رَبِّهِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'خارج معنى التحويل' },
+            ] },
+          ],
+          distractors: ['بمعنى التحويل'],
         },
         {
-          title: 'تركيب: ما الذي يسد مسد المفعولين؟',
+          title: 'تركيب: ﴿وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: اسم مؤول or جملة?',
-          source: 'واعلموا أن الله مع المتقين / والله يشهد إن المنافقين لكاذبون',
-          words: ['أن الله مع المتقين', 'إن المنافقين لكاذبون'],
-          labels: ['اسم مؤول', 'جملة'],
-          distractors: ['حال'],
+          instruction: 'Classify جَعَلَ here: بمعنى التحويل or خارج معناه؟ Then identify its مفعول.',
+          sentence: 'وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ',
+          translation: 'And He made for you hearing, sight, and hearts.',
+          cells: ['جَعَلَ', 'لَكُمُ', 'السَّمْعَ', 'وَالْأَبْصَارَ', 'وَالْأَفْئِدَةَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'خارج معنى التحويل' },
+              { start: 2, end: 4, role: 'مفعول واحد' },
+            ] },
+          ],
+          distractors: ['بمعنى التحويل', 'مفعولان'],
         },
         {
-          title: 'تركيب: أفعال مشتركة',
+          title: 'تركيب: ﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each فعل: أفعال الظن, أفعال التحويل, or both?',
-          source: 'جعل / وهب / زعم / صيّر',
-          words: ['جعل', 'وهب', 'زعم', 'صيّر'],
-          labels: ['كلتيهما', 'كلتيهما', 'الظن فقط', 'التحويل فقط'],
-          distractors: ['اليقين فقط'],
+          instruction: 'Classify يُري: فعل قلب or فعل تحويل؟ Then identify its second and third مفعولين.',
+          sentence: 'كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ',
+          translation: 'Thus Allah shows them their deeds as regrets.',
+          cells: ['يُرِيهِمُ', 'اللَّهُ', 'أَعْمَالَهُمْ', 'حَسَرَاتٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'فعل قلب' },
+              { start: 2, end: 2, role: 'مفعول ثانٍ' },
+              { start: 3, end: 3, role: 'مفعول ثالث' },
+            ] },
+          ],
+          distractors: ['فعل تحويل', 'مفعول أول'],
         },
         {
-          title: 'تركيب: فعل قلب أم فعل تحويل؟',
+          title: 'تركيب: ﴿وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: is the فعل here فعل قلب or فعل تحويل?',
-          source: 'يريهم الله أعمالهم حسرات / واتخذ الله إبراهيم خليلا',
-          words: ['يريهم', 'اتخذ'],
-          labels: ['فعل قلب', 'فعل تحويل'],
-          distractors: ['فعل جارحة'],
+          instruction: 'اعْلَمُوا needs two مفاعيل. What stands in for both of them here?',
+          sentence: 'وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ',
+          translation: 'And know that Allah is with the righteous.',
+          cells: ['اعْلَمُوا', 'أَنَّ', 'اللَّهَ', 'مَعَ', 'الْمُتَّقِينَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 1, end: 4, role: 'اسم مؤول يسد مسد المفعولين' },
+            ] },
+          ],
+          distractors: ['جملة', 'مفعول واحد'],
+        },
+        {
+          title: 'تركيب: ﴿وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'يَشْهَدُ needs two مفاعيل. What stands in for both of them here?',
+          sentence: 'وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ',
+          translation: 'And Allah testifies that the hypocrites are liars.',
+          cells: ['اللَّهُ', 'يَشْهَدُ', 'إِنَّ', 'الْمُنَافِقِينَ', 'لَكَاذِبُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 2, end: 4, role: 'جملة تسد مسد المفعولين' },
+            ] },
+          ],
+          distractors: ['اسم مؤول', 'مفعول واحد'],
         },
       ],
     },
@@ -839,19 +1041,27 @@ export default {
       concepts: [
         {
           heading: 'التعليق: العمل محلاً لا لفظاً',
-          body: `When a <bdi>جُمْلَة</bdi> stands in the place of the two مفعولين of a فعل قلب, the فعل still operates on it <bdi>مَحَلًّا</bdi> (in grammatical position) but not <bdi>لَفْظًا</bdi> (in wording) — this suspension of the wording-level operation is called <bdi>التَّعْلِيق</bdi>. The جملة itself is then called a <bdi>جُمْلَةٌ مُعَلَّقٌ عَنْهَا الْعَمَل</bdi> (a جملة from which the operation is suspended).`,
-          sample: `التعليق — الفعل يعمل محلاً لا لفظًا في الجملة بعده<br>جملة معلَّق عنها العمل — الجملة التي عُلِّق عنها عمل الفعل`,
+          lines: [
+            { html: `When a <bdi>جُمْلَة</bdi> stands in the place of the two مفعولين of a فعل قلب, the فعل still operates on it <bdi>مَحَلًّا</bdi> (in grammatical position) but not <bdi>لَفْظًا</bdi> (in wording) — this suspension of the wording-level operation is called <bdi>التَّعْلِيق</bdi>.`, list: false },
+            { html: `The جملة itself is then called a <bdi>جُمْلَةٌ مُعَلَّقٌ عَنْهَا الْعَمَل</bdi> (a جملة from which the operation is suspended).`, list: false },
+          ],
           exercise: {
             prompt: `A فعل قلب's مفعولان are replaced by a whole جملة, and التعليق applies. Does the فعل still govern that جملة at all?`,
             kind: 'mcq',
-            options: ['نعم، محلاً لا لفظًا', 'لا، لا يعمل فيها بتاتًا', 'نعم، لفظًا ومحلاً معًا', 'لا يُعرف حتى يُعرب الفعل'],
+            options: ['Yes — محلاً, but not لفظًا', 'No — it does not operate on it at all', 'Yes — both لفظًا and محلاً together', "It can't be known until the فعل is parsed"],
             correct: 0,
           },
         },
         {
           heading: 'ما يقبل التعليق من الأفعال',
-          body: `التعليق isn't limited to أفعال القلوب. It's also accepted by every فعل resembling them — any فعل indicating <bdi>إِخْبَار</bdi> (informing) or <bdi>اسْتِفْهَام</bdi> (asking), as in <bdi>﴿لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا﴾</bdi> and <bdi>﴿سَلْهُمْ أَيُّهُمْ بِذَٰلِكَ زَعِيمٌ﴾</bdi>. Even a فعل that normally takes only ONE مفعول can be معلَّق, so long as the جملة after it opens with استفهام: <bdi>﴿فَلْيَنْظُرْ أَيُّهَا أَزْكَىٰ طَعَامًا﴾</bdi>.`,
-          sample: `يبلوكم أيكم أحسن عملا — فعل إخبار يقبل التعليق<br>سلهم أيهم بذلك زعيم — فعل استفهام يقبل التعليق<br>فلينظر أيها أزكى طعاما — فعل بمفعول واحد يُعلَّق لأن الجملة استفهامية`,
+          lines: [
+            { html: `التعليق isn't limited to أفعال القلوب. It's also accepted by every فعل resembling them — any فعل indicating <bdi>إِخْبَار</bdi> (informing) or <bdi>اسْتِفْهَام</bdi> (asking):`, list: false },
+            { table: { headers: ['Example', 'Why'], rows: [
+              ['﴿لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا﴾', 'فعل إخبار'],
+              ['﴿سَلْهُمْ أَيُّهُمْ بِذَٰلِكَ زَعِيمٌ﴾', 'فعل استفهام'],
+            ] } },
+            { html: `Even a فعل that normally takes only ONE مفعول can be معلَّق, so long as the جملة after it opens with استفهام: ﴿فَلْيَنْظُرْ أَيُّهَا أَزْكَىٰ طَعَامًا﴾.`, list: false },
+          ],
           exercise: {
             prompt: `يَنْظُرُ normally takes only one مفعول, yet ﴿فَلْيَنْظُرْ أَيُّهَا أَزْكَىٰ طَعَامًا﴾ shows it suspended (معلَّق) before a whole جملة. What licenses treating a single-مفعول فعل this way؟`,
             kind: 'mcq',
@@ -861,8 +1071,18 @@ export default {
         },
         {
           heading: 'المعلِّقات السبع',
-          body: `Seven items are known to suspend a فعل قلب's لفظي operation (<bdi>الْمُعَلِّقَات</bdi>): (1) <bdi>إِنْ</bdi> النافية: ﴿وَتَظُنُّونَ إِنْ لَبِثْتُمْ إِلَّا قَلِيلًا﴾ (2) <bdi>مَا</bdi> النافية: ﴿لَقَدْ عَلِمْتَ مَا أَنْزَلَ هَٰؤُلَاءِ إِلَّا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ﴾ (3) <bdi>لَامُ الِابْتِدَاء</bdi>: ﴿وَلَقَدْ عَلِمُوا لَمَنِ اشْتَرَاهُ مَا لَهُ فِي الْآخِرَةِ مِنْ خَلَاقٍ﴾ (4) <bdi>اللَّامُ الْمُزَحْلَقَة</bdi>: ﴿قَدْ نَعْلَمُ إِنَّهُ لَيَحْزُنُكَ الَّذِي يَقُولُونَ﴾ (5) <bdi>لَعَلَّ</bdi>: ﴿وَإِنْ أَدْرِي لَعَلَّهُ فِتْنَةٌ﴾ (6) حرف/اسم <bdi>الِاسْتِفْهَام</bdi>: ﴿لَنَبْلُوَنَّ أَأَشْكُرُ أَمْ أَكْفُرُ﴾، ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾ (7) <bdi>لَامُ جَوَابِ الْقَسَم</bdi>: وَلَقَدْ عَلِمْتُ لَتَأْتِيَنَّ مَنِيَّتِي.`,
-          sample: `المعلقات السبع — إن النافية، ما النافية، لام الابتداء، اللام المزحلقة، لعل، الاستفهام، لام جواب القسم`,
+          lines: [
+            { html: `Seven items are known to suspend a فعل قلب's لفظي operation (<bdi>الْمُعَلِّقَات</bdi>):`, list: false },
+            { table: { title: 'المعلِّقات السبع', headers: ['#', 'المعلِّق', 'Example'], rows: [
+              ['1', 'إِنْ النافية', '﴿وَتَظُنُّونَ إِنْ لَبِثْتُمْ إِلَّا قَلِيلًا﴾'],
+              ['2', 'مَا النافية', '﴿لَقَدْ عَلِمْتَ مَا أَنْزَلَ هَٰؤُلَاءِ إِلَّا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ﴾'],
+              ['3', 'لَامُ الِابْتِدَاء', '﴿وَلَقَدْ عَلِمُوا لَمَنِ اشْتَرَاهُ مَا لَهُ فِي الْآخِرَةِ مِنْ خَلَاقٍ﴾'],
+              ['4', 'اللَّامُ الْمُزَحْلَقَة', '﴿قَدْ نَعْلَمُ إِنَّهُ لَيَحْزُنُكَ الَّذِي يَقُولُونَ﴾'],
+              ['5', 'لَعَلَّ', '﴿وَإِنْ أَدْرِي لَعَلَّهُ فِتْنَةٌ﴾'],
+              ['6', 'حرف/اسم الِاسْتِفْهَام', '﴿لَنَبْلُوَنَّ أَأَشْكُرُ أَمْ أَكْفُرُ﴾ / ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾'],
+              ['7', 'لَامُ جَوَابِ الْقَسَم', 'وَلَقَدْ عَلِمْتُ لَتَأْتِيَنَّ مَنِيَّتِي'],
+            ] } },
+          ],
           exercise: {
             prompt: `In ﴿قَدْ نَعْلَمُ إِنَّهُ لَيَحْزُنُكَ الَّذِي يَقُولُونَ﴾, which معلِّق suspends نَعْلَمُ's لفظي operation؟`,
             kind: 'mcq',
@@ -872,23 +1092,30 @@ export default {
         },
         {
           heading: 'لماذا لا يعمل الفعل فيما له صدر الكلام',
-          body: `In ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾, <bdi>أَيَّ مُنْقَلَبٍ</bdi> looks like it could be a <bdi>مَعْمُول</bdi> of <bdi>سَيَعْلَمُ</bdi> — but it isn't. <bdi>الِاسْتِفْهَام</bdi> has <bdi>صَدْرُ الْكَلَام</bdi> (the right to open its own sentence), so nothing before it may govern it; it is <bdi>مَنْصُوب</bdi> instead by the فعل that comes AFTER it, <bdi>يَنْقَلِبُونَ</bdi>.`,
-          sample: `أي منقلب — منصوب بينقلبون بعده، لا بسيعلم قبله، لأن للاستفهام صدر الكلام`,
+          lines: [
+            { html: `In ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾, <bdi>أَيَّ مُنْقَلَبٍ</bdi> looks like it could be a <bdi>مَعْمُول</bdi> of <bdi>سَيَعْلَمُ</bdi> — but it isn't.`, list: false },
+            { html: `<bdi>الِاسْتِفْهَام</bdi> has <bdi>صَدْرُ الْكَلَام</bdi> (the right to open its own sentence), so nothing before it may govern it; it is <bdi>مَنْصُوب</bdi> instead by the فعل that comes AFTER it, <bdi>يَنْقَلِبُونَ</bdi>.`, list: false },
+          ],
           exercise: {
             prompt: `أَيَّ مُنْقَلَبٍ in ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾ is منصوب by which فعل؟`,
             kind: 'mcq',
-            options: ['ينقلبون، الفعل بعده', 'سيعلم، الفعل قبله', 'كلا الفعلين معًا', 'لا ناصب له، فهو مرفوع'],
+            options: ['يَنْقَلِبُونَ — the فعل after it', 'سَيَعْلَمُ — the فعل before it', 'Both أفعال together', 'No ناصب at all — it is مرفوع'],
             correct: 0,
           },
         },
         {
           heading: 'الإلغاء: إعمال أم إلغاء؟',
-          body: `<bdi>الْإِلْغَاء</bdi> cancels a فعل قلب's operation both <bdi>لَفْظًا</bdi> AND <bdi>مَحَلًّا</bdi> — unlike التعليق, which only suspends the لفظي side. Between the two, <bdi>الْإِعْمَال</bdi> (letting the فعل operate) is preferred when the فعل sits BETWEEN its مفعولين: <bdi>مُحَمَّدًا عَلِمْتُ صَادِقًا</bdi>. الإلغاء is preferred when the فعل comes AFTER its مفاعيل: <bdi>مُحَمَّدٌ صَادِقٌ عَلِمْتُ</bdi>.`,
-          sample: `محمداً علمتُ صادقاً — الإعمال مفضَّل (الفعل بين مفعوليه)<br>محمدٌ صادقٌ علمتُ — الإلغاء مفضَّل (الفعل بعد مفعوليه)`,
+          lines: [
+            { html: `<bdi>الْإِلْغَاء</bdi> cancels a فعل قلب's operation both <bdi>لَفْظًا</bdi> AND <bdi>مَحَلًّا</bdi> — unlike التعليق, which only suspends the لفظي side.`, list: false },
+            { table: { headers: ['Preferred', 'Condition', 'Example'], rows: [
+              ['الْإِعْمَال (letting the فعل operate)', 'فعل sits BETWEEN its مفعولين', 'مُحَمَّدًا عَلِمْتُ صَادِقًا'],
+              ['الْإِلْغَاء', 'فعل comes AFTER its مفاعيل', 'مُحَمَّدٌ صَادِقٌ عَلِمْتُ'],
+            ] } },
+          ],
           exercise: {
             prompt: `مُحَمَّدٌ صَادِقٌ عَلِمْتُ places عَلِمْتُ AFTER both مفعولين. Which is preferred here, الإعمال or الإلغاء؟`,
             kind: 'mcq',
-            options: ['الإلغاء', 'الإعمال', 'التعليق', 'كلاهما ممتنع'],
+            options: ['الإلغاء', 'الإعمال', 'التعليق', 'Both are forbidden here'],
             correct: 0,
           },
         },
@@ -1042,7 +1269,7 @@ export default {
           title: 'ما الأفعال التي تقبل التعليق؟',
           kind: 'mcq',
           prompt: 'Which أفعال accept التعليق alongside أفعال القلوب?',
-          options: ['كل فعل يدل على إخبار أو استفهام', 'كل فعل لازم', 'كل فعل تحويل فقط', 'كل فعل ماضٍ'],
+          options: ['Every فعل indicating إخبار or استفهام', 'كل فعل لازم', 'كل فعل تحويل فقط', 'كل فعل ماضٍ'],
           correct: 0,
         },
         {
@@ -1053,58 +1280,193 @@ export default {
           correct: 0,
         },
         {
-          title: 'تركيب: المعلِّقات (١)',
+          title: 'تركيب: ﴿وَتَظُنُّونَ إِنْ لَبِثْتُمْ إِلَّا قَلِيلًا﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the معلِّق in each تركيب.',
-          source: '﴿وتظنون إن لبثتم إلا قليلا﴾ / ﴿قد نعلم إنه ليحزنك الذي يقولون﴾ / ﴿وإن أدري لعله فتنة﴾ / ﴿لنبلونّ أأشكر أم أكفر﴾',
-          words: ['إن', 'ليحزنك', 'لعله', 'أأشكر'],
-          labels: ['إن النافية', 'اللام المزحلقة', 'لعل', 'حرف الاستفهام'],
-          distractors: ['ما النافية'],
+          instruction: 'Identify which معلِّق suspends تَظُنُّونَ.',
+          sentence: 'وَتَظُنُّونَ إِنْ لَبِثْتُمْ إِلَّا قَلِيلًا',
+          translation: 'And you assume that you had remained only a little.',
+          cells: ['تَظُنُّونَ', 'إِنْ', 'لَبِثْتُمْ', 'إِلَّا', 'قَلِيلًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'إن النافية' },
+            ] },
+          ],
+          distractors: ['ما النافية', 'لعل'],
         },
         {
-          title: 'تركيب: المعلِّقات (٢)',
+          title: 'تركيب: ﴿لَقَدْ عَلِمْتَ مَا أَنْزَلَ هَٰؤُلَاءِ إِلَّا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ﴾',
           kind: 'tarkeeb',
-          instruction: 'Identify the معلِّق in each تركيب.',
-          source: '﴿لقد علمت ما أنزل هؤلاء إلا رب السماوات والأرض﴾ / ﴿ولقد علموا لمن اشتراه ما له في الآخرة من خلاق﴾ / ولقد علمتُ لتأتينّ منيتي',
-          words: ['ما', 'لمن', 'لتأتينّ'],
-          labels: ['ما النافية', 'لام الابتداء', 'لام جواب القسم'],
-          distractors: ['اللام المزحلقة'],
+          instruction: 'Identify which معلِّق suspends عَلِمْتَ.',
+          sentence: 'لَقَدْ عَلِمْتَ مَا أَنْزَلَ هَٰؤُلَاءِ إِلَّا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ',
+          translation: 'You have already known that none has sent these down except the Lord of the heavens and earth.',
+          cells: ['عَلِمْتَ', 'مَا', 'أَنْزَلَ', 'هَٰؤُلَاءِ', 'إِلَّا', 'رَبُّ', 'السَّمَاوَاتِ', 'وَالْأَرْضِ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'ما النافية' },
+            ] },
+          ],
+          distractors: ['إن النافية', 'اللام المزحلقة'],
         },
         {
-          title: 'تركيب: أفعال تقبل التعليق',
+          title: 'تركيب: ﴿وَلَقَدْ عَلِمُوا لَمَنِ اشْتَرَاهُ مَا لَهُ فِي الْآخِرَةِ مِنْ خَلَاقٍ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify: an original فعل قلب, or a resembling فعل (إخبار/استفهام)?',
-          source: 'يبلوكم أيكم أحسن عملا / سلهم أيهم بذلك زعيم / علمتُ أن الحق ظاهرٌ',
-          words: ['يبلوكم', 'سلهم', 'علمتُ'],
-          labels: ['فعل إخبار مشابه', 'فعل استفهام مشابه', 'فعل قلب أصلي'],
-          distractors: ['فعل تحويل'],
+          instruction: 'Identify which معلِّق suspends عَلِمُوا.',
+          sentence: 'وَلَقَدْ عَلِمُوا لَمَنِ اشْتَرَاهُ مَا لَهُ فِي الْآخِرَةِ مِنْ خَلَاقٍ',
+          translation: 'And they had already known that whoever buys it would have no share in the Hereafter.',
+          cells: ['عَلِمُوا', 'لَمَنِ', 'اشْتَرَاهُ', 'مَا', 'لَهُ', 'فِي', 'الْآخِرَةِ', 'مِنْ', 'خَلَاقٍ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'لام الابتداء' },
+            ] },
+          ],
+          distractors: ['اللام المزحلقة', 'ما النافية'],
         },
         {
-          title: 'تركيب: الإعمال أم الإلغاء؟',
+          title: 'تركيب: ﴿قَدْ نَعْلَمُ إِنَّهُ لَيَحْزُنُكَ الَّذِي يَقُولُونَ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify the إعراب of "محمد" in each تركيب: أعمل الفعل or أُلغي?',
-          source: 'محمداً علمتُ صادقاً / محمدٌ صادقٌ علمتُ',
-          words: ['محمداً', 'محمدٌ'],
-          labels: ['الإعمال', 'الإلغاء'],
-          distractors: ['التعليق'],
+          instruction: 'Identify which معلِّق suspends نَعْلَمُ.',
+          sentence: 'قَدْ نَعْلَمُ إِنَّهُ لَيَحْزُنُكَ الَّذِي يَقُولُونَ',
+          translation: 'We already know that what they say grieves you.',
+          cells: ['نَعْلَمُ', 'إِنَّهُ', 'لَيَحْزُنُكَ', 'الَّذِي', 'يَقُولُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 2, end: 2, role: 'اللام المزحلقة' },
+            ] },
+          ],
+          distractors: ['لام الابتداء', 'لعل'],
         },
         {
-          title: 'تركيب: تعليق أم إلغاء؟',
+          title: 'تركيب: ﴿وَإِنْ أَدْرِي لَعَلَّهُ فِتْنَةٌ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each case: did تعليق or إلغاء occur?',
-          source: '﴿وتظنون إن لبثتم إلا قليلا﴾ / محمدٌ صادقٌ علمتُ',
-          words: ['تظنون', 'علمتُ'],
-          labels: ['تعليق', 'إلغاء'],
-          distractors: ['إعمال'],
+          instruction: 'Identify which معلِّق suspends أَدْرِي.',
+          sentence: 'وَإِنْ أَدْرِي لَعَلَّهُ فِتْنَةٌ',
+          translation: 'And I do not know; perhaps it is a trial for you.',
+          cells: ['أَدْرِي', 'لَعَلَّهُ', 'فِتْنَةٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'لعل' },
+            ] },
+          ],
+          distractors: ['إن النافية', 'ما النافية'],
         },
         {
-          title: 'تركيب: مراجعة عامة',
+          title: 'تركيب: ﴿لَنَبْلُوَنَّ أَأَشْكُرُ أَمْ أَكْفُرُ﴾',
           kind: 'tarkeeb',
-          instruction: 'Classify each example: تعليق, إعمال, إلغاء, or له صدر الكلام?',
-          source: '﴿سلهم أيهم بذلك زعيم﴾ / محمداً علمتُ صادقاً / محمدٌ صادقٌ علمتُ / ﴿وسيعلم الذين ظلموا أي منقلب ينقلبون﴾',
-          words: ['سلهم', 'صادقاً', 'صادقٌ', 'منقلب'],
-          labels: ['تعليق', 'إعمال', 'إلغاء', 'له صدر الكلام'],
-          distractors: ['اختصار'],
+          instruction: 'Identify which معلِّق suspends لَنَبْلُوَنَّ.',
+          sentence: 'لَنَبْلُوَنَّ أَأَشْكُرُ أَمْ أَكْفُرُ',
+          translation: 'We will surely test [him to see] whether he is grateful or ungrateful.',
+          cells: ['لَنَبْلُوَنَّ', 'أَأَشْكُرُ', 'أَمْ', 'أَكْفُرُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'حرف الاستفهام' },
+            ] },
+          ],
+          distractors: ['لعل', 'ما النافية'],
+        },
+        {
+          title: 'تركيب: وَلَقَدْ عَلِمْتُ لَتَأْتِيَنَّ مَنِيَّتِي',
+          kind: 'tarkeeb',
+          instruction: 'Identify which معلِّق suspends عَلِمْتُ.',
+          sentence: 'وَلَقَدْ عَلِمْتُ لَتَأْتِيَنَّ مَنِيَّتِي',
+          translation: 'And I have already known that my death will surely come to me.',
+          cells: ['عَلِمْتُ', 'لَتَأْتِيَنَّ', 'مَنِيَّتِي'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+              { start: 1, end: 1, role: 'لام جواب القسم' },
+            ] },
+          ],
+          distractors: ['اللام المزحلقة', 'لام الابتداء'],
+        },
+        {
+          title: 'تركيب: ﴿لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is لِيَبْلُوَكُمْ an original فعل قلب, or a resembling فعل (إخبار/استفهام) that has accepted التعليق؟',
+          sentence: 'لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا',
+          translation: 'That He may test you as to which of you is best in deed.',
+          cells: ['لِيَبْلُوَكُمْ', 'أَيُّكُمْ', 'أَحْسَنُ', 'عَمَلًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'فعل إخبار مشابه' },
+            ] },
+          ],
+          distractors: ['فعل قلب أصلي', 'فعل استفهام مشابه'],
+        },
+        {
+          title: 'تركيب: ﴿سَلْهُمْ أَيُّهُمْ بِذَٰلِكَ زَعِيمٌ﴾',
+          kind: 'tarkeeb',
+          instruction: 'Is سَلْهُمْ an original فعل قلب, or a resembling فعل (إخبار/استفهام)؟',
+          sentence: 'سَلْهُمْ أَيُّهُمْ بِذَٰلِكَ زَعِيمٌ',
+          translation: 'Ask them which of them, for that, is responsible.',
+          cells: ['سَلْهُمْ', 'أَيُّهُمْ', 'بِذَٰلِكَ', 'زَعِيمٌ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'فعل استفهام مشابه' },
+            ] },
+          ],
+          distractors: ['فعل قلب أصلي', 'فعل إخبار مشابه'],
+        },
+        {
+          title: 'تركيب: ﴿فَلْيَنْظُرْ أَيُّهَا أَزْكَىٰ طَعَامًا﴾',
+          kind: 'tarkeeb',
+          instruction: 'يَنْظُرْ normally takes one مفعول, yet a whole استفهامية جملة follows it here. Is this تعليق, إعمال, or إلغاء؟',
+          sentence: 'فَلْيَنْظُرْ أَيُّهَا أَزْكَىٰ طَعَامًا',
+          translation: 'So let him look to which is the purest food.',
+          cells: ['يَنْظُرْ', 'أَيُّهَا', 'أَزْكَىٰ', 'طَعَامًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 0, role: 'تعليق' },
+            ] },
+          ],
+          distractors: ['إلغاء', 'إعمال'],
+        },
+        {
+          title: 'تركيب: مُحَمَّدًا عَلِمْتُ صَادِقًا',
+          kind: 'tarkeeb',
+          instruction: 'عَلِمْتُ falls between its two مفعولين here. Is الإعمال or الإلغاء preferred؟',
+          sentence: 'مُحَمَّدًا عَلِمْتُ صَادِقًا',
+          translation: 'Muhammad, I knew [to be] truthful.',
+          cells: ['مُحَمَّدًا', 'عَلِمْتُ', 'صَادِقًا'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'الإعمال' },
+            ] },
+          ],
+          distractors: ['الإلغاء', 'التعليق'],
+        },
+        {
+          title: 'تركيب: مُحَمَّدٌ صَادِقٌ عَلِمْتُ',
+          kind: 'tarkeeb',
+          instruction: 'عَلِمْتُ falls after both مفعولين here. Is الإعمال or الإلغاء preferred؟',
+          sentence: 'مُحَمَّدٌ صَادِقٌ عَلِمْتُ',
+          translation: 'Muhammad [is] truthful, I knew.',
+          cells: ['مُحَمَّدٌ', 'صَادِقٌ', 'عَلِمْتُ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 0, end: 2, role: 'الإلغاء' },
+            ] },
+          ],
+          distractors: ['الإعمال', 'التعليق'],
+        },
+        {
+          title: 'تركيب: ﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾',
+          kind: 'tarkeeb',
+          instruction: 'أَيَّ مُنْقَلَبٍ looks like a معمول of سَيَعْلَمُ but is not — identify what governs it instead.',
+          sentence: 'وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ',
+          translation: 'And those who have wronged are going to know to what return they will return.',
+          cells: ['سَيَعْلَمُ', 'الَّذِينَ', 'ظَلَمُوا', 'أَيَّ', 'مُنْقَلَبٍ', 'يَنْقَلِبُونَ'],
+          rows: [
+            { position: 'above', labels: [
+              { start: 3, end: 4, role: 'له صدر الكلام' },
+            ] },
+          ],
+          distractors: ['تعليق', 'مفعول به'],
         },
       ],
     },
