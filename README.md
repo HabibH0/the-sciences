@@ -14,6 +14,14 @@ npm install
 npm start
 ```
 
+**Windows/PowerShell:** if this fails with `running scripts is disabled on
+this system`, PowerShell's default execution policy is blocking `npm`'s
+`.ps1` wrapper. Either run `npm.cmd start` instead, or fix it for good with:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
 ## Building a packaged app
 
 There's no pre-built download — build it yourself for your platform:
