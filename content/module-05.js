@@ -538,7 +538,7 @@ export default {
           correct: 0,
         },
         {
-          q: 'How many شared مواضع allow both إنّ and أنّ؟',
+          q: 'How many shared مواضع allow both إنّ and أنّ؟',
           options: ['خمسة', 'ثلاثة', 'سبعة', 'اثنان'],
           correct: 0,
         },

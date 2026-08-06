@@ -33,7 +33,7 @@ export default {
               ['مُتَعَدٍّ', 'مُجاوِزًا'],
               ['لازِم', 'قاصِرًا'],
             ] } },
-            { html: `<bdi>فالمُتَعَدِّي عِنْدَ الإطْلاقِ: ما يُجاوِزُ الفاعِلَ إلى المَفْعُولِ بِهِ بِنَفْسِهِ</bdi> — <bdi>نحو: حَفِظَ مُحَمَّدٌ الدَّرْسَ</bdi>.`, list: false },
+            { html: `<bdi>فالمُتَعَدِّي عِنْدَ الإطْلاقِ: ما يُجاوِزُ الفاعِلَ إلى المَفْعُولِ بِهِ بِنَفْسِهِ</bdi> — المتعدي, unqualified, is what passes from the فاعل to the مفعول به by itself — <bdi>نحو: حَفِظَ مُحَمَّدٌ الدَّرْسَ</bdi>.`, list: false },
             { html: `The qualifier <bdi>بِنَفْسِهِ</bdi> is doing work: a verb that reaches its object only through a حرف جر is not متعدٍّ in this unqualified sense.`, list: false },
           ],
           exercise: {
@@ -46,9 +46,9 @@ export default {
         {
           heading: 'العلامة الأولى: هاء تعود إلى غير المصدر',
           lines: [
-            { html: `<bdi>أن تَتَّصِلَ بِهِ هاءٌ تَعُودُ إلى غَيْرِ المَصْدَرِ</bdi> — <bdi>نحو زَيْدٌ ضَرَبَهُ عَمْرٌو</bdi>.`, list: false },
+            { html: `<bdi>أن تَتَّصِلَ بِهِ هاءٌ تَعُودُ إلى غَيْرِ المَصْدَرِ</bdi> — that a هاء attaches to it referring to something other than the مصدر — <bdi>نحو زَيْدٌ ضَرَبَهُ عَمْرٌو</bdi>.`, list: false },
             { html: `The words <bdi>إلى غَيْرِ المَصْدَرِ</bdi> are the whole point, because a هاء referring back to the مصدر attaches to both kinds alike.`, list: false },
-            { table: { title: 'الهاء العائدة على المصدر', headers: ['المثال', 'نوع الفعل'], rows: [
+            { table: { title: 'الهاء العائدة على المصدر (The هاء Referring Back to the مصدر)', headers: ['المثال (Example)', 'نوع الفعل (Type of Verb)'], rows: [
               ['الضَّرْبُ ضَرَبَهُ زَيْدٌ', 'الفعل المُتَعَدِّي'],
               ['الفَرْحُ فَرِحَهُ زَيْدٌ', 'الفعل اللازِم'],
             ] } },
@@ -65,7 +65,7 @@ export default {
         {
           heading: 'العلامة الثانية: اسم المفعول التام',
           lines: [
-            { html: `<bdi>وأن يُصاغَ منه اسْمُ مَفْعُولٍ تامٌّ (أي مَعْنًى)، أي غَيْرُ مُقْتَرِنٍ بِحَرْفِ جَرٍّ أو ظَرْفٍ</bdi>.`, list: false },
+            { html: `<bdi>وأن يُصاغَ منه اسْمُ مَفْعُولٍ تامٌّ (أي مَعْنًى)، أي غَيْرُ مُقْتَرِنٍ بِحَرْفِ جَرٍّ أو ظَرْفٍ</bdi> — and that a تامّ (complete) اسم مفعول can be formed from it, i.e. one not needing a حرف جر or ظرف attached.`, list: false },
             { html: `<bdi>نحو: مَضْرُوب</bdi>`, list: false },
             { html: `The condition <bdi>تام</bdi> is what does the sorting. A لازم verb can yield an اسم مفعول too, but only one that needs propping up — <bdi>مَذْهُوبٌ بِهِ</bdi> rather than a bare <bdi>مَذْهُوب</bdi>. Only a متعدٍّ verb gives a form complete in itself.`, list: false },
           ],
@@ -80,10 +80,10 @@ export default {
           heading: 'أقسام المتعدي',
           lines: [
             { html: `<bdi>وهو على ثَلاثَةِ أَقْسامٍ</bdi>, by how many objects the verb takes.`, list: false },
-            { table: { headers: ['القسم', 'البيان'], rows: [
-              ['ما يَتَعَدَّى إلى مَفْعُولٍ واحِدٍ', 'وهو كَثِيرٌ'],
-              ['ما يَتَعَدَّى إلى مَفْعُولَيْنِ', 'إما أن يكونَ أَصْلُهُما المُبْتَدَأَ والخَبَرَ، وإمَّا لا'],
-              ['ما يَتَعَدَّى إلى ثَلاثَةِ مَفاعِيلَ', 'وهو بابُ أَعْلَمَ وأَرَى'],
+            { table: { headers: ['القسم (Division)', 'البيان (Explanation)'], rows: [
+              ['ما يَتَعَدَّى إلى مَفْعُولٍ واحِدٍ — what takes a single مفعول', 'وهو كَثِيرٌ — this is common'],
+              ['ما يَتَعَدَّى إلى مَفْعُولَيْنِ — what takes two مفعولين', 'إما أن يكونَ أَصْلُهُما المُبْتَدَأَ والخَبَرَ، وإمَّا لا — either their أصل is المبتدأ والخبر, or not'],
+              ['ما يَتَعَدَّى إلى ثَلاثَةِ مَفاعِيلَ — what takes three مفاعيل', 'وهو بابُ أَعْلَمَ وأَرَى — this is باب أعلم وأرى'],
             ] } },
             { html: `The middle category splits again, and that split is the substance of the next lesson.`, list: false },
           ],
@@ -279,7 +279,7 @@ export default {
         {
           heading: 'المتعدي إلى مفعول واحد',
           lines: [
-            { html: `<bdi>ما يَتَعَدَّى إلى مَفْعُولٍ واحِدٍ، وهو كَثِيرٌ</bdi>.`, list: false },
+            { html: `<bdi>ما يَتَعَدَّى إلى مَفْعُولٍ واحِدٍ، وهو كَثِيرٌ</bdi> — what takes a single مفعول, and this is common.`, list: false },
             { html: `<bdi>نحو: حَفِظَ مُحَمَّدٌ الدَّرْسَ، وفَهِمَ المَسْأَلَةَ</bdi>`, list: false },
             { html: `This is the default case and needs no further machinery: one فاعل, one مفعول به, and the action passes from the first to the second.`, list: false },
           ],
@@ -294,11 +294,11 @@ export default {
           heading: 'أفعال القلوب',
           lines: [
             { html: `The first sort of two-object verb is the one <bdi>يكونُ أَصْلُهُما المُبْتَدَأَ والخَبَرَ</bdi> — <bdi>وهو ظَنَّ وأَخَواتُها</bdi>. These fall into two families, and the first is <bdi>أفعال القلوب</bdi>.`, list: false },
-            { html: `<bdi>أفعال القلوب — وهي أفعالٌ تَدُلُّ على الاعْتِقادِ أو الظَّنِّ أو اليَقِينِ، وتَنْصِبُ مفعولين</bdi>.`, list: false },
-            { table: { title: 'أهمّها', headers: ['الفعل', 'المعنى'], rows: [
-              ['ظَنَّ، حَسِبَ، خالَ، زَعَمَ', 'للظَّنّ'],
-              ['عَلِمَ، رَأَى، وَجَدَ', 'العِلْمِيَّة'],
-              ['دَرَى', 'لليَقِين'],
+            { html: `<bdi>أفعال القلوب — وهي أفعالٌ تَدُلُّ على الاعْتِقادِ أو الظَّنِّ أو اليَقِينِ، وتَنْصِبُ مفعولين</bdi> — أفعال القلوب are verbs indicating belief, supposition, or certainty, and they put two مفعولين in the accusative.`, list: false },
+            { table: { title: 'أهمّها (The Most Important)', headers: ['الفعل (Verb)', 'المعنى (Meaning)'], rows: [
+              ['ظَنَّ، حَسِبَ، خالَ، زَعَمَ', 'for الظَّنّ (supposition)'],
+              ['عَلِمَ، رَأَى، وَجَدَ', 'العِلْمِيَّة (certainty, knowledge)'],
+              ['دَرَى', 'for اليَقِين (certainty)'],
             ] } },
             { html: `<bdi>نحو: ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا ، عَلِمْتُ الطالِبَ مُجْتَهِدًا ، وَجَدْتُ النَّصَّ واضِحًا</bdi>`, list: false },
           ],
@@ -312,10 +312,10 @@ export default {
         {
           heading: 'أفعال التصيير وأعطى وأخواتها',
           lines: [
-            { html: `<bdi>أفعال التَّصْيِير — وهي أفعالٌ تَجْعَلُ المَفْعُولَ يَتَحَوَّلُ من حالَةٍ إلى أُخْرَى، وتَنْصِبُ مَفْعُولَيْنِ كذلك</bdi>.`, list: false },
+            { html: `<bdi>أفعال التَّصْيِير — وهي أفعالٌ تَجْعَلُ المَفْعُولَ يَتَحَوَّلُ من حالَةٍ إلى أُخْرَى، وتَنْصِبُ مَفْعُولَيْنِ كذلك</bdi> — أفعال التصيير are verbs that make the مفعول transform from one state into another, and they too put two مفعولين in the accusative.`, list: false },
             { html: `<bdi>أَشْهَرُها: جَعَلَ، صَيَّرَ، اتَّخَذَ، رَدَّ، تَرَكَ</bdi>`, list: false },
             { html: `<bdi>نحو: جَعَلْتُ التُّرابَ ذَهَبًا ، صَيَّرَ المُعَلِّمُ الدَّرْسَ سَهْلًا ، تَرَكَ الرَّجُلُ البابَ مَفْتُوحًا</bdi>`, list: false },
-            { html: `<bdi>وإمَّا لا، وهو أَعْطَى وأَخَواتُها</bdi> — the second sort of two-object verb, whose objects were <em>not</em> originally a مبتدأ and خبر: <bdi>نحو: أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا</bdi>.`, list: false },
+            { html: `<bdi>وإمَّا لا، وهو أَعْطَى وأَخَواتُها</bdi> — or not, and that is أَعْطَى and its sisters — the second sort of two-object verb, whose objects were <em>not</em> originally a مبتدأ and خبر: <bdi>نحو: أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا</bdi>.`, list: false },
           ],
           clarification: `The test for which sort you have is simple: strip the verb and see whether the two objects still make a sentence. In ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا, dropping ظَنَّ leaves الدَّرْسُ سَهْلٌ — a complete جملة اسمية, which is exactly what أصلهما المبتدأ والخبر means. Do the same to أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا and you get عَمْرٌو دِرْهَمٌ, which asserts nothing: Amr is not a dirham. That is why أعطى وأخواتها are the "وإمَّا لا" branch — their two objects are simply two separate things the giving involved, a recipient and a thing given.`,
           exercise: {
@@ -328,7 +328,7 @@ export default {
         {
           heading: 'المتعدي إلى ثلاثة مفاعيل',
           lines: [
-            { html: `<bdi>وما يَتَعَدَّى إلى ثَلاثَةِ مَفاعِيلَ، وهو بابُ أَعْلَمَ وأَرَى</bdi>.`, list: false },
+            { html: `<bdi>وما يَتَعَدَّى إلى ثَلاثَةِ مَفاعِيلَ، وهو بابُ أَعْلَمَ وأَرَى</bdi> — and what takes three مفاعيل, which is باب أعلم وأرى.`, list: false },
             { html: `<bdi>نحو: أَعْلَمَ زَيدٌ عَمْرًا الدَّرْسَ سَهْلًا</bdi>`, list: false },
             { html: `<bdi>﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾ [البقرة: ١٦٧]</bdi>`, list: false },
             { html: `أَعْلَمَ and أَرَى are the أَفْعَلَ forms of عَلِمَ and رَأَى — the same pair singled out earlier as the only two that the همزة raises from two objects to three.`, list: false },
@@ -525,12 +525,12 @@ export default {
         {
           heading: 'اللازم، والأسباب الثلاثة الأولى',
           lines: [
-            { html: `<bdi>واللازِم: ما لَمْ يُجاوِزِ الفاعِلَ إلى المَفْعُولِ بِهِ</bdi> — <bdi>كقَعَدَ مُحَمَّدٌ، وخَرَجَ عَلِيٌّ</bdi>.`, list: false },
+            { html: `<bdi>واللازِم: ما لَمْ يُجاوِزِ الفاعِلَ إلى المَفْعُولِ بِهِ</bdi> — اللازم is what does not pass from the فاعل to a مفعول به — <bdi>كقَعَدَ مُحَمَّدٌ، وخَرَجَ عَلِيٌّ</bdi>.`, list: false },
             { html: `<bdi>وأَسْبابُ تَعَدِّي الفِعْلِ اللازِمِ أَصالَةً ثَمانِيَةٌ</bdi>. The first three are all additions of a letter.`, list: false },
-            { table: { headers: ['#', 'السبب', 'المثال'], rows: [
+            { table: { headers: ['#', 'السبب (Cause)', 'المثال (Example)'], rows: [
               ['١', 'الهَمْزَةُ', 'أَكْرَمَ زَيدٌ عَمْرًا'],
               ['٢', 'التَّضْعِيفُ', 'فَرَّحْتُ زَيْدًا'],
-              ['٣', 'زِيادَةُ أَلِفِ المُفاعَلَةِ — وقد تَقَدَّمَتْ', 'جالَسَ زَيْدٌ العُلَماءَ'],
+              ['٣', 'زِيادَةُ أَلِفِ المُفاعَلَةِ — adding the ألف of المفاعلة, covered earlier', 'جالَسَ زَيْدٌ العُلَماءَ'],
             ] } },
             { html: `These three are the أَفْعَلَ، فَعَّلَ and فَاعَلَ patterns met earlier, now seen from the angle of what they do to transitivity.`, list: false },
           ],
@@ -544,9 +544,9 @@ export default {
         {
           heading: 'السببان الرابع والخامس',
           lines: [
-            { table: { headers: ['#', 'السبب', 'المثال', 'ملاحظة'], rows: [
-              ['٤', 'زِيادَةُ حَرْفِ الجَرِّ', 'ذَهَبْتُ بِعَلِيٍّ', 'مُتَعَدٍّ مَعْنًى'],
-              ['٥', 'زِيادَةُ الهَمْزَةِ والسِّينِ والتاءِ', 'اسْتَخْرَجَ زَيْدٌ المالَ', '—'],
+            { table: { headers: ['#', 'السبب (Cause)', 'المثال (Example)', 'ملاحظة (Note)'], rows: [
+              ['٤', 'زِيادَةُ حَرْفِ الجَرِّ — adding a حرف جر', 'ذَهَبْتُ بِعَلِيٍّ', 'مُتَعَدٍّ مَعْنًى'],
+              ['٥', 'زِيادَةُ الهَمْزَةِ والسِّينِ والتاءِ — adding الهمزة والسين والتاء', 'اسْتَخْرَجَ زَيْدٌ المالَ', '—'],
             ] } },
             { html: `The note on the fourth matters: adding a حرف جر makes the verb transitive <bdi>معنًى</bdi> — in sense — but not <bdi>بنفسه</bdi>, which is what the unqualified definition required. The fifth is the اسْتَفْعَلَ pattern.`, list: false },
           ],
@@ -560,9 +560,9 @@ export default {
         {
           heading: 'السادس: التضمين النحوي',
           lines: [
-            { html: `<bdi>التَّضْمِينُ النَّحْوِيُّ: وهو أن تُشْرَبَ كَلِمَةٌ لازِمَةٌ مَعْنَى كَلِمَةٍ مُتَعَدِّيَةٍ، لِتَتَعَدَّى تَعْدِيَتَها</bdi>.`, list: false },
-            { html: `<bdi>﴿ولا تَعْزِمُوا عُقْدَةَ النِّكاحِ حَتَّى يَبْلُغَ الْكِتابُ أَجَلَهُ﴾ [البقرة: ٢٣٥]</bdi> — <bdi>ضُمِّنَ (تَعْزِمُوا) مَعْنَى (تَنْوُوا)، فعُدِّيَ تَعْدِيَتَهُ</bdi>.`, list: false },
-            { html: `<bdi>ومنه (رَحُبَتْكُمُ الطاعَةُ) أي وَسِعَتْكُمُ الطاعَةُ</bdi>.`, list: false },
+            { html: `<bdi>التَّضْمِينُ النَّحْوِيُّ: وهو أن تُشْرَبَ كَلِمَةٌ لازِمَةٌ مَعْنَى كَلِمَةٍ مُتَعَدِّيَةٍ، لِتَتَعَدَّى تَعْدِيَتَها</bdi> — التضمين النحوي is infusing a لازم word with the meaning of a متعدٍّ word, so that it takes on that word's transitivity.`, list: false },
+            { html: `<bdi>﴿ولا تَعْزِمُوا عُقْدَةَ النِّكاحِ حَتَّى يَبْلُغَ الْكِتابُ أَجَلَهُ﴾ [البقرة: ٢٣٥]</bdi> — <bdi>ضُمِّنَ (تَعْزِمُوا) مَعْنَى (تَنْوُوا)، فعُدِّيَ تَعْدِيَتَهُ</bdi> — تَعْزِمُوا was infused with the meaning of تَنْوُوا, and so took on its transitivity.`, list: false },
+            { html: `<bdi>ومنه (رَحُبَتْكُمُ الطاعَةُ) أي وَسِعَتْكُمُ الطاعَةُ</bdi> — and from this: رَحُبَتْكُمُ الطَّاعَةُ, meaning وَسِعَتْكُمُ الطَّاعَةُ (obedience encompassed you).`, list: false },
             { html: `The mechanism is that one verb is made to carry a second verb's meaning, and with it that verb's grammar. عَزَمَ does not ordinarily take a direct object; here it has absorbed the sense of نَوَى, which does.`, list: false },
           ],
           exercise: {
@@ -575,14 +575,14 @@ export default {
         {
           heading: 'السابع والثامن، والحق في المسألة',
           lines: [
-            { html: `<bdi>السابع: حَذْفُ حَرْفِ الجَرِّ تَوَسُّعًا</bdi> — <bdi>كقولِهِ: تَمُرُّونَ الدِّيارَ ولَمْ تَعُوجُوا ... كَلامُكُم عَلَيَّ إذَنْ حَرامُ</bdi>, i.e. <bdi>تَمُرُّونَ بالدِّيارِ</bdi>. <bdi>يُسَمَّى النَصْبُ بِنَزْعِ الخافِضِ</bdi>.`, list: false },
-            { html: `<bdi>ويَطَّرِدُ حَذْفُهُ مع (أَنَّ) و(أَنْ)</bdi>:`, list: false },
-            { table: { headers: ['الشاهد', 'التقدير'], rows: [
-              ['﴿شَهِدَ اللَّهُ أَنَّهُ لا إلَهَ إلاَّ هُوَ﴾ [آل عمران: ١٨]', 'أي شَهِدَ اللهُ بِأَنَّهُ'],
-              ['﴿أَوَعَجِبْتُمْ أَنْ جَاءَكُمْ ذِكْرٌ مِنْ رَبِّكُمْ﴾ [الأعراف: ٦٣، ٦٩]', 'أي عَجِبْتُمْ مِنْ أَنْ جَاءَكُمْ'],
+            { html: `<bdi>السابع: حَذْفُ حَرْفِ الجَرِّ تَوَسُّعًا</bdi> — the seventh: dropping the حرف جر for stylistic expansiveness (تَوَسُّعًا) — <bdi>كقولِهِ: تَمُرُّونَ الدِّيارَ ولَمْ تَعُوجُوا ... كَلامُكُم عَلَيَّ إذَنْ حَرامُ</bdi>, i.e. <bdi>تَمُرُّونَ بالدِّيارِ</bdi>. <bdi>يُسَمَّى النَصْبُ بِنَزْعِ الخافِضِ</bdi> — this نصب is called نَزْع الخافض (removal of the governing preposition).`, list: false },
+            { html: `<bdi>ويَطَّرِدُ حَذْفُهُ مع (أَنَّ) و(أَنْ)</bdi>: and dropping it is regular with أَنَّ and أَنْ:`, list: false },
+            { table: { headers: ['الشاهد (Evidence)', 'التقدير (Implied Reading)'], rows: [
+              ['﴿شَهِدَ اللَّهُ أَنَّهُ لا إلَهَ إلاَّ هُوَ﴾ [آل عمران: ١٨]', 'i.e. شَهِدَ اللهُ بِأَنَّهُ — Allah testified that...'],
+              ['﴿أَوَعَجِبْتُمْ أَنْ جَاءَكُمْ ذِكْرٌ مِنْ رَبِّكُمْ﴾ [الأعراف: ٦٣، ٦٩]', 'i.e. عَجِبْتُمْ مِنْ أَنْ جَاءَكُمْ — you were amazed that...'],
             ] } },
-            { html: `<bdi>الثامن: تَحْوِيلُ اللازِمِ إلى بابِ (نَصَرَ) لِقَصْدِ المُغالَبَةِ</bdi> — <bdi>قاعَدْتُهُ فَقَعَدْتُهُ فأنا أَقْعُدُهُ</bdi>.`, list: false },
-            { html: `<bdi>والحَقُّ أنَّ تَعْدِيَةَ الفِعْلِ سَماعِيَّةٌ، فما سُمِعَتْ تَعْدِيَتُهُ بِحَرْفٍ لا يَجُوزُ تَعْدِيَتُهُ بِغَيْرِهِ، وما لم تُسْمَعْ تَعْدِيَتُهُ، لا يَجُوزُ أن يُعَدَّى بِهذه الأَسْبابِ</bdi>. <bdi>وبَعْضُهُم جَعَلَ زِيادَةَ الهَمْزَةِ في الثُلاثِيِّ اللازِمِ لِقَصْدِ تَعْدِيَتِهِ قِياسًا مُطَّرِدًا</bdi>.`, list: false },
+            { html: `<bdi>الثامن: تَحْوِيلُ اللازِمِ إلى بابِ (نَصَرَ) لِقَصْدِ المُغالَبَةِ</bdi> — the eighth: converting the لازم verb to باب نصر for the purpose of المغالبة — <bdi>قاعَدْتُهُ فَقَعَدْتُهُ فأنا أَقْعُدُهُ</bdi>.`, list: false },
+            { html: `<bdi>والحَقُّ أنَّ تَعْدِيَةَ الفِعْلِ سَماعِيَّةٌ، فما سُمِعَتْ تَعْدِيَتُهُ بِحَرْفٍ لا يَجُوزُ تَعْدِيَتُهُ بِغَيْرِهِ، وما لم تُسْمَعْ تَعْدِيَتُهُ، لا يَجُوزُ أن يُعَدَّى بِهذه الأَسْبابِ</bdi> — the correct view is that a verb's transitivity is سَماعِيَّة (learned only from attested usage): whatever has been heard taking its object with a particular حرف may not be made transitive with another, and whatever has never been heard taking an object at all may not be made transitive by any of these means. <bdi>وبَعْضُهُم جَعَلَ زِيادَةَ الهَمْزَةِ في الثُلاثِيِّ اللازِمِ لِقَصْدِ تَعْدِيَتِهِ قِياسًا مُطَّرِدًا</bdi> — and some scholars treat adding the همزة to a لازم ثلاثي, for the purpose of transitivizing it, as a regular, generalizable pattern (قياسًا مُطَّرِدًا).`, list: false },
           ],
           clarification: `The closing remark reframes everything before it. The eight أسباب are a description of how transitivity has in fact been produced in attested Arabic — not a licence to apply them at will. So if a verb is heard taking its object with a particular حرف, you may not swap that حرف for another; and if a verb has never been heard taking an object at all, none of the eight entitles you to make it do so. The one partial exception, and it is only "بعضهم", is the همزة on a ثلاثي لازم, which some treat as قياسي مطرد — which is the same exception noted at the end of the third division.`,
           exercise: {
@@ -777,10 +777,10 @@ export default {
         {
           heading: 'التضمين',
           lines: [
-            { html: `<bdi>وأَسْبابُ لُزُومِ الفِعْلِ المُتَعَدِّي أَصالَةً خَمْسَةٌ</bdi> — <bdi>هذه الأسبابُ عَكْسُ ما تَقَدَّمَ، فإنَّها تَجْعَلُ الفِعْلَ المُتَعَدِّي لازِمًا</bdi>.`, list: false },
-            { html: `<bdi>الأوَّل: التَّضْمِينُ، وهو أن تُشْرَبَ كَلِمَةٌ مُتَعَدِّيَةٌ مَعْنَى كَلِمَةٍ لازِمَةٍ، لِتَصِيرَ مِثْلَها</bdi>.`, list: false },
-            { html: `<bdi>﴿فَلْيَحْذَرِ الَّذِينَ يُخَالِفُونَ عَنْ أَمْرِهِ﴾ [النور: ٦٣]</bdi> — <bdi>ضُمِّنَ يُخالِفُ مَعْنَى يَخْرُجُ، فصارَ لازِمًا مِثْلَهُ</bdi>.`, list: false },
-            { html: `<bdi>والشاهِدُ دُخُولُ (عَنْ) بَعْدَ الفِعْلِ يُخالِفُ</bdi> — the tell is the preposition, since خالَفَ would otherwise take its object directly.`, list: false },
+            { html: `<bdi>وأَسْبابُ لُزُومِ الفِعْلِ المُتَعَدِّي أَصالَةً خَمْسَةٌ</bdi> — <bdi>هذه الأسبابُ عَكْسُ ما تَقَدَّمَ، فإنَّها تَجْعَلُ الفِعْلَ المُتَعَدِّي لازِمًا</bdi> — the reasons a verb that is originally متعدٍّ comes to be لازم are five; these reasons are the reverse of what preceded, since they make the متعدٍّ verb لازم.`, list: false },
+            { html: `<bdi>الأوَّل: التَّضْمِينُ، وهو أن تُشْرَبَ كَلِمَةٌ مُتَعَدِّيَةٌ مَعْنَى كَلِمَةٍ لازِمَةٍ، لِتَصِيرَ مِثْلَها</bdi> — the first: التضمين — infusing a متعدٍّ word with the meaning of a لازم word, so that it becomes like it.`, list: false },
+            { html: `<bdi>﴿فَلْيَحْذَرِ الَّذِينَ يُخَالِفُونَ عَنْ أَمْرِهِ﴾ [النور: ٦٣]</bdi> — <bdi>ضُمِّنَ يُخالِفُ مَعْنَى يَخْرُجُ، فصارَ لازِمًا مِثْلَهُ</bdi> — يُخالِفُ was infused with the meaning of يَخْرُجُ (to go out), and so became لازم like it.`, list: false },
+            { html: `<bdi>والشاهِدُ دُخُولُ (عَنْ) بَعْدَ الفِعْلِ يُخالِفُ</bdi> — the evidence is عَنْ entering after the verb يُخالِفُ — the tell is the preposition, since خالَفَ would otherwise take its object directly.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿يُخَالِفُونَ عَنْ أَمْرِهِ﴾, what is the شاهد that التضمين has occurred?`,
@@ -792,8 +792,8 @@ export default {
         {
           heading: 'التحويل إلى فَعُلَ',
           lines: [
-            { html: `<bdi>الثاني: تَحْوِيلُ الفِعْلِ المُتَعَدِّي إلى (فَعُلَ) بِضَمِّ العَيْنِ، لِقَصْدِ التَعَجُّبِ والمُبالَغَةِ</bdi>.`, list: false },
-            { html: `<bdi>نحو: ضَرُبَ زَيدٌ: أي ما أَضْرَبَهُ</bdi>`, list: false },
+            { html: `<bdi>الثاني: تَحْوِيلُ الفِعْلِ المُتَعَدِّي إلى (فَعُلَ) بِضَمِّ العَيْنِ، لِقَصْدِ التَعَجُّبِ والمُبالَغَةِ</bdi> — the second: converting the متعدٍّ verb to فَعُلَ, with a ضمة on the عين, for التعجب (expressing amazement) and المبالغة (intensification).`, list: false },
+            { html: `<bdi>نحو: ضَرُبَ زَيدٌ: أي ما أَضْرَبَهُ</bdi> — e.g. ضَرُبَ زَيدٌ, meaning ما أَضْرَبَهُ (how capable he is of striking!).`, list: false },
             { html: `ضَرَبَ takes an object; recast as ضَرُبَ on الباب الخامس it takes none, because it is no longer reporting a striking but exclaiming at the man's capacity for it.`, list: false },
           ],
           clarification: `This is the same operation met earlier under الباب الخامس, where فَعُلَ was described as the باب of الأوصاف الخِلْقِيَّة and it was noted that a verb moved there for التعجب <bdi>تَنْسَلِخُ عن الحَدَثِ</bdi> — sheds its event. That shedding is exactly why transitivity goes with it. An object is something the event lands on; once the form has stopped naming an event and started naming a quality of the subject, there is nothing left for an object to attach to. So the loss of transitivity here is not a separate rule but a consequence of what فَعُلَ does.`,
@@ -807,9 +807,9 @@ export default {
         {
           heading: 'صيرورته مطاوعًا، وضعف العامل',
           lines: [
-            { table: { headers: ['#', 'السبب', 'الشاهد أو المثال'], rows: [
-              ['٣', 'صَيْرُورَتُهُ مُطاوِعًا', 'كَسَرْتُهُ فانْكَسَرَ — كما تَقَدَّمَ'],
-              ['٤', 'ضَعْفُ العامِلِ بِتَأْخِيرِهِ', '﴿إِنْ كُنْتُمْ لِلرُّؤْيَا تَعْبُرُونَ﴾ [يوسف: ٤٣] — والشاهِدُ زِيادَةُ اللامِ'],
+            { table: { headers: ['#', 'السبب (Cause)', 'الشاهد أو المثال (Evidence or Example)'], rows: [
+              ['٣', 'صَيْرُورَتُهُ مُطاوِعًا — its becoming a مطاوع', 'كَسَرْتُهُ فانْكَسَرَ — as covered earlier'],
+              ['٤', 'ضَعْفُ العامِلِ بِتَأْخِيرِهِ — the weakening of the عامل by its being delayed', '﴿إِنْ كُنْتُمْ لِلرُّؤْيَا تَعْبُرُونَ﴾ [يوسف: ٤٣] — the evidence being the added لام'],
             ] } },
             { html: `The third is the مطاوعة met under انْفَعَلَ: the verb that accepts an effect has no object of its own, since it <em>is</em> what was acted upon.`, list: false },
             { html: `The fourth is subtler: عَبَرَ الرُّؤْيَا would take its object directly, but with the object fronted and the verb pushed to the end, the verb's governing power is weakened and a لام is supplied to carry the noun.`, list: false },
@@ -824,9 +824,9 @@ export default {
         {
           heading: 'الضرورة الشعرية',
           lines: [
-            { html: `<bdi>الخامس: الضَّرُورَةُ (الشِعْرِيَّة)</bdi>.`, list: false },
+            { html: `<bdi>الخامس: الضَّرُورَةُ (الشِعْرِيَّة)</bdi> — the fifth: الضرورة الشعرية (poetic necessity).`, list: false },
             { html: `<bdi>كقولِهِ: تَبَلَتْ فُؤادَكَ في المَنامِ خَرِيدَةٌ ... تَسْقِي الضَّجِيعَ بِبارِدٍ بَسَّامِ</bdi>`, list: false },
-            { html: `<bdi>أي تَسْقِي رِيقًا بارِدًا</bdi> — تَسْقِي would take its object directly, and the باء is there only because the metre required it.`, list: false },
+            { html: `<bdi>أي تَسْقِي رِيقًا بارِدًا</bdi> — meaning تَسْقِي رِيقًا بارِدًا (giving cool saliva to drink) — تَسْقِي would take its object directly, and the باء is there only because the metre required it.`, list: false },
             { html: `This last سبب differs in kind from the other four: it is not a fact about the language but a licence taken by a poet, and nothing follows from it for ordinary usage.`, list: false },
           ],
           exercise: {

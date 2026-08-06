@@ -28,12 +28,12 @@ export default {
         {
           heading: 'تعريف الجامد وقسماه',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الفِعْلُ إلى جامِدٍ ومُتَصَرِّفٍ</bdi>.`, list: false },
+            { html: `<bdi>يَنْقَسِمُ الفِعْلُ إلى جامِدٍ ومُتَصَرِّفٍ</bdi> — الفعل divides into جامد (frozen) and مُتَصَرِّف (inflecting).`, list: false },
             { html: `<bdi>فالجامِدُ: ما لازَمَ صُورَةً واحِدَةً</bdi> — it never leaves the one form it has.`, list: false },
-            { table: { title: 'أقسام الجامد', headers: ['القسم', 'ما يترتب عليه', 'أمثلة'], rows: [
-              ['ما يكونُ مُلازِمًا لِلْمُضِيِّ', 'فليس له مُضارِعٌ ولا أَمْرٌ', 'لَيْسَ، عَسَى، نِعْمَ، خَلا'],
-              ['ما يكونُ مُلازِمًا لِلْمُضارَعَةِ', 'فليس له ماضٍ ولا أَمْرٌ', 'يَبْغِي، يَسْوِي، يَهِيطُ (to cry out)'],
-              ['ما يكونُ مُلازِمًا لِلْأَمْرِيَّةِ', 'فليس له ماضٍ ولا مُضارِعٌ', 'هَبْ، تَعَلَّمْ'],
+            { table: { title: 'أقسام الجامد (Divisions of الجامد)', headers: ['القسم (Division)', 'ما يترتب عليه (What Follows From It)', 'أمثلة (Examples)'], rows: [
+              ['ما يكونُ مُلازِمًا لِلْمُضِيِّ — locked into the ماضي', 'فليس له مُضارِعٌ ولا أَمْرٌ — so it has no مضارع and no أمر', 'لَيْسَ، عَسَى، نِعْمَ، خَلا'],
+              ['ما يكونُ مُلازِمًا لِلْمُضارَعَةِ — locked into the مضارع', 'فليس له ماضٍ ولا أَمْرٌ — so it has no ماضي and no أمر', 'يَبْغِي، يَسْوِي، يَهِيطُ (to cry out)'],
+              ['ما يكونُ مُلازِمًا لِلْأَمْرِيَّةِ — locked into the أمر', 'فليس له ماضٍ ولا مُضارِعٌ — so it has no ماضي and no مضارع', 'هَبْ، تَعَلَّمْ'],
             ] } },
             { html: `The first group is much the larger of the three; the other two hold only a handful of verbs each.`, list: false },
             { html: `The two definitions in the prose treat only the first and third of these — <bdi>إمَّا أن يكونَ مُلازِمًا لِلْمُضِيِّ … وإمَّا أن يكونَ مُلازِمًا لِلْأَمْرِيَّةِ</bdi> — but the summary table adds a middle column of verbs frozen in the مضارع, so the fuller picture is three.`, list: false },
@@ -48,11 +48,11 @@ export default {
         {
           heading: 'الملازم للمضي: النواسخ والمقاربة والرجاء والشروع',
           lines: [
-            { table: { headers: ['الفعل', 'بابه', 'البيان'], rows: [
-              ['لَيْسَ', 'من أخوات (كان)', '—'],
-              ['كَرَبَ', 'من أفعال المُقارَبَة', 'كَرَبَ الأَمْرُ يَنْتَهِي، أي كادَ'],
-              ['عَسَى، حَرَى، اخْلَوْلَقَ', 'من أفعال الرَّجاء', '—'],
-              ['أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'من أفعال الشُّرُوع', 'أَخَذَ الرَّجُلُ يَقْرَأُ — <bdi>لا يُقالُ يَأْخُذُ الرَّجُلُ يَقْرَأُ</bdi>'],
+            { table: { headers: ['الفعل (Verb)', 'بابه (Its Category)', 'البيان (Explanation)'], rows: [
+              ['لَيْسَ', 'one of أخوات كان (kān’s sisters)', '—'],
+              ['كَرَبَ', 'one of أفعال المُقارَبَة (verbs of imminence)', 'كَرَبَ الأَمْرُ يَنْتَهِي — the matter was about to end, meaning كادَ'],
+              ['عَسَى، حَرَى، اخْلَوْلَقَ', 'one of أفعال الرَّجاء (verbs of hope)', '—'],
+              ['أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'one of أفعال الشُّرُوع (verbs of commencement)', 'أَخَذَ الرَّجُلُ يَقْرَأُ — <bdi>لا يُقالُ يَأْخُذُ الرَّجُلُ يَقْرَأُ</bdi>, one does not say يَأْخُذُ الرَّجُلُ يَقْرَأُ'],
             ] } },
             { html: `The note on أَخَذَ is the test in miniature: the verb exists in the ماضي and there is simply no مضارع of it in this sense to be had.`, list: false },
           ],
@@ -66,12 +66,12 @@ export default {
         {
           heading: 'الملازم للمضي: المدح والذم والاستثناء',
           lines: [
-            { table: { headers: ['الفعل', 'بابه', 'المثال'], rows: [
-              ['نِعْمَ، حَبَّذَا', 'في المَدْح', 'نِعْمَ الرَّجُلُ زَيْدٌ'],
-              ['بِئْسَ، ساءَ', 'في الذَّمّ', '—'],
-              ['خَلا، عَدا، حاشا', 'في الاسْتِثْناء', 'جاءَ القَوْمُ خَلا زَيدٍ'],
+            { table: { headers: ['الفعل (Verb)', 'بابه (Its Category)', 'المثال (Example)'], rows: [
+              ['نِعْمَ، حَبَّذَا', 'used for المَدْح (praise)', 'نِعْمَ الرَّجُلُ زَيْدٌ'],
+              ['بِئْسَ، ساءَ', 'used for الذَّمّ (blame)', '—'],
+              ['خَلا، عَدا، حاشا', 'used for الاسْتِثْناء (exception)', 'جاءَ القَوْمُ خَلا زَيدٍ'],
             ] } },
-            { html: `<bdi>على خِلافٍ في بَعْضِها؛ فإنَّ بَعْضَهُم يَعُدُّونَ (خَلا) و(عَدا) و(حاشا) حُرُوفًا، ويَعُدُّ الكُوفِيُّونَ (نِعْمَ) و(بِئْسَ) اسْمَيْنِ</bdi>.`, list: false },
+            { html: `<bdi>على خِلافٍ في بَعْضِها؛ فإنَّ بَعْضَهُم يَعُدُّونَ (خَلا) و(عَدا) و(حاشا) حُرُوفًا، ويَعُدُّ الكُوفِيُّونَ (نِعْمَ) و(بِئْسَ) اسْمَيْنِ</bdi> — there is disagreement over some of these: some scholars count خَلا, عَدا and حاشا as حروف, and the الكوفيون (Kufans) count نِعْمَ and بِئْسَ as أسماء.`, list: false },
             { html: `So the list is not agreed in full: three of its members are held by some to be حروف rather than أفعال at all, and two more are held by the Kūfans to be أسماء.`, list: false },
           ],
           clarification: `The dispute is worth understanding, because it is not about these words' meaning but about their class. A word can only be called جامد if it is a فعل to begin with — a حرف has no forms to inflect through, so calling it "frozen" says nothing. Those who count خلا، عدا and حاشا as حروف are therefore removing them from this باب altogether, not disagreeing about their behaviour. The same holds for the Kūfan view of نِعْمَ and بِئْسَ: classing them as أسماء takes them out of the question. On the view followed here all six are أفعال, and their never leaving the ماضي is what makes them جامدة.`,
@@ -288,8 +288,8 @@ export default {
         {
           heading: 'تعريف المتصرف وقسماه',
           lines: [
-            { html: `<bdi>والمُتَصَرِّف: ما لا يُلازِمُ صُورَةً واحِدَةً</bdi>.`, list: false },
-            { table: { title: 'قسما المتصرف', headers: ['القسم', 'ما يأتي منه'], rows: [
+            { html: `<bdi>والمُتَصَرِّف: ما لا يُلازِمُ صُورَةً واحِدَةً</bdi> — المتصرف is what does not stay locked into a single form.`, list: false },
+            { table: { title: 'قسما المتصرف (The Two Divisions of المتصرف)', headers: ['القسم (Division)', 'ما يأتي منه (What Comes From It)'], rows: [
               ['تامُّ التَّصَرُّف', 'الماضي والمُضارِع والأَمْر'],
               ['ناقِصُ التَّصَرُّف', 'الماضي والمُضارِع فقط'],
             ] } },
@@ -305,7 +305,7 @@ export default {
         {
           heading: 'تام التصرف',
           lines: [
-            { html: `<bdi>وهو يَأْتِي منه الماضي والمُضارِعُ والأَمْرُ، كنَصَرَ ودَحْرَجَ</bdi>.`, list: false },
+            { html: `<bdi>وهو يَأْتِي منه الماضي والمُضارِعُ والأَمْرُ، كنَصَرَ ودَحْرَجَ</bdi> — from it come the ماضي, المضارع, and الأمر, as in نَصَرَ and دَحْرَجَ.`, list: false },
             { html: `<bdi>وهو أَغْلَبُ الأَفْعالِ</bdi> — the ordinary case, and by far the commonest.`, list: false },
             { html: `نَصَرَ is a ثلاثي مجرد and دَحْرَجَ a رباعي مجرد, and both inflect fully — so both bases of the earlier division are covered.`, list: false },
           ],
@@ -319,7 +319,7 @@ export default {
         {
           heading: 'ناقص التصرف: أفعال الاستمرار',
           lines: [
-            { html: `<bdi>وهو ما يَأْتِي منه الماضي والمُضارِعُ فقط</bdi>.`, list: false },
+            { html: `<bdi>وهو ما يَأْتِي منه الماضي والمُضارِعُ فقط</bdi> — it is that from which only the ماضي and المضارع come.`, list: false },
             { table: { title: 'أفعال الاستمرار', headers: ['الماضي', 'المضارع'], rows: [
               ['زالَ', 'يَزالُ'],
               ['بَرِحَ', 'يَبْرَحُ'],
@@ -555,7 +555,7 @@ export default {
         {
           heading: 'المضارع من الثلاثي',
           lines: [
-            { html: `<bdi>إن كان الماضي ثُلاثِيًّا، سُكِّنَتْ فاؤُهُ، وحُرِّكَتْ عَيْنُهُ بِضَمَّةٍ أو فَتْحَةٍ أو كَسْرَةٍ، حَسَبَما يَقْتَضِيهِ نَصُّ اللُغَةِ</bdi>.`, list: false },
+            { html: `<bdi>إن كان الماضي ثُلاثِيًّا، سُكِّنَتْ فاؤُهُ، وحُرِّكَتْ عَيْنُهُ بِضَمَّةٍ أو فَتْحَةٍ أو كَسْرَةٍ، حَسَبَما يَقْتَضِيهِ نَصُّ اللُغَةِ</bdi> — if the ماضي is ثلاثي, its فاء becomes ساكنة, and its عين takes a ضمة, فتحة, or كسرة, according to what نَصّ اللغة (attested usage) requires.`, list: false },
             { html: `<bdi>كيَنْصُرُ ويَفْتَحُ ويَضْرِبُ</bdi>`, list: false },
             { html: `Two operations, then: the فاء is silenced, and the عين takes whichever of the three vowels the language has fixed for that verb — which is exactly the باب the verb belongs to.`, list: false },
           ],
@@ -570,10 +570,10 @@ export default {
           heading: 'المضارع من غير الثلاثي',
           lines: [
             { html: `<bdi>وإن كان غَيْرَ ثُلاثِيٍّ</bdi>, three rules apply in turn.`, list: false },
-            { table: { headers: ['القاعدة', 'أمثلة'], rows: [
-              ['<bdi>بَقِيَ على حالِهِ إن كان مَبْدُوءًا بِتاءٍ زائِدَةٍ</bdi>', 'يَتَشارَك، يَتَعَلَّم، يَتَدَحْرَج'],
-              ['<bdi>وإلَّا كُسِرَ ما قَبْلَ آخِرِهِ</bdi>', 'يُعَظِّم، يُقاتِل'],
-              ['<bdi>وحُذِفَتِ الهَمْزَةُ الزائِدَةُ في أَوَّلِهِ إن كانَتْ</bdi>', 'يُكْرِم، يَسْتَخْرِج'],
+            { table: { headers: ['القاعدة (Rule)', 'أمثلة (Examples)'], rows: [
+              ['<bdi>بَقِيَ على حالِهِ إن كان مَبْدُوءًا بِتاءٍ زائِدَةٍ</bdi> — it stays as it is, if it begins with an added تاء', 'يَتَشارَك، يَتَعَلَّم، يَتَدَحْرَج'],
+              ['<bdi>وإلَّا كُسِرَ ما قَبْلَ آخِرِهِ</bdi> — otherwise, the letter before its last one takes a كسرة', 'يُعَظِّم، يُقاتِل'],
+              ['<bdi>وحُذِفَتِ الهَمْزَةُ الزائِدَةُ في أَوَّلِهِ إن كانَتْ</bdi> — and the added همزة at its start, if any, is dropped', 'يُكْرِم، يَسْتَخْرِج'],
             ] } },
             { html: `The first rule is the exception and the second the default: a verb beginning with a زائدة تاء keeps its vowelling untouched, everything else takes a kasra before its last letter.`, list: false },
           ],
@@ -588,8 +588,8 @@ export default {
           heading: 'الأمر من المضارع',
           lines: [
             { html: `Two steps.`, list: false },
-            { html: `<bdi>أن يُحْذَفَ حَرْفُ المُضارَعَةِ</bdi> — <bdi>كعَظِّمْ، تَشارَكْ، تَعَلَّمْ</bdi>.`, list: true, bullet: true },
-            { html: `<bdi>فإن كان أَوَّلُ الباقي ساكِنًا زِيدَ في أَوَّلِهِ هَمْزَةٌ</bdi> — <bdi>كانْصُرْ، افْتَحْ، اضْرِبْ، وأَكْرِمْ، انْطَلِقْ، اسْتَغْفِرْ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>أن يُحْذَفَ حَرْفُ المُضارَعَةِ</bdi> — the حرف مضارعة is dropped — <bdi>كعَظِّمْ، تَشارَكْ، تَعَلَّمْ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>فإن كان أَوَّلُ الباقي ساكِنًا زِيدَ في أَوَّلِهِ هَمْزَةٌ</bdi> — if the first letter of what remains is ساكن, a همزة is added at the start — <bdi>كانْصُرْ، افْتَحْ، اضْرِبْ، وأَكْرِمْ، انْطَلِقْ، اسْتَغْفِرْ</bdi>.`, list: true, bullet: true },
             { html: `The condition explains the split in the examples: عَظِّمْ and تَشارَكْ begin with a vowelled letter once the حرف مضارعة is gone, so nothing is added; انْصُرْ and اسْتَغْفِرْ would begin with a sukūn, which Arabic cannot start a word on, so a همزة is supplied.`, list: false },
           ],
           clarification: `Why can a word not begin on a sukūn? Because a سَاكِن letter carries no vowel of its own to be pronounced with, and Arabic has no way of voicing one at the very start of an utterance — there is nothing before it to lean on. Strip يَنْصُرُ of its ياء and you are left with نْصُرْ, whose first letter is silent and therefore unpronounceable in isolation. The همزة supplied at the front of انْصُرْ، افْتَحْ، انْطَلِقْ and اسْتَغْفِرْ is a هَمْزَة وَصْل: it carries a vowel, gets the word started, and drops away in pronunciation as soon as something precedes it. أَكْرِمْ is the odd one in that list — its همزة is the همزة of أَفْعَلَ, a هَمْزَة قَطْع, which never drops.`,

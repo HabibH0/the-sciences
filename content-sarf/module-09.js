@@ -29,10 +29,10 @@ export default {
         {
           heading: 'التقسيم',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الاسْمُ إلى مُجَرَّدٍ ومَزِيدٍ</bdi>.`, list: false },
-            { html: `<bdi>والمُجَرَّدُ إلى ثُلاثِيٍّ، ورُباعِيٍّ، وخُماسِيٍّ</bdi>.`, list: false },
+            { html: `<bdi>يَنْقَسِمُ الاسْمُ إلى مُجَرَّدٍ ومَزِيدٍ</bdi> — الاسم divides into مجرد and مزيد.`, list: false },
+            { html: `<bdi>والمُجَرَّدُ إلى ثُلاثِيٍّ، ورُباعِيٍّ، وخُماسِيٍّ</bdi> — and المجرد divides into ثلاثي, رباعي, and خماسي.`, list: false },
             { html: `Note the contrast with الفعل, whose مجرد stopped at four letters. A noun's bare root may run to five — سَفَرْجَل, قِرْطَعْب — which is why الخماسي appears here and did not there.`, list: false },
-            { html: `<bdi>فَأَوْزانُ الثُّلاثِيِّ المُتَّفَقِ عليها عَشَرَةٌ</bdi>.`, list: false },
+            { html: `<bdi>فَأَوْزانُ الثُّلاثِيِّ المُتَّفَقِ عليها عَشَرَةٌ</bdi> — the agreed-upon أوزان of the ثلاثي are ten.`, list: false },
           ],
           exercise: {
             prompt: `Into how many kinds does the مجرد of الاسم divide, as against that of الفعل؟`,
@@ -44,7 +44,7 @@ export default {
         {
           heading: 'الأوزان المفتوحة الفاء',
           lines: [
-            { table: { headers: ['الوزن', 'الضبط', 'اسم', 'صفة'], rows: [
+            { table: { headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'اسم (Noun)', 'صفة (Adjective)'], rows: [
               ['فَعْل', 'بفتح فسكون', 'سَهْم', 'سَهْل'],
               ['فَعَل', 'بفتحتين', 'قَمَر', 'بَطَل'],
               ['فَعِل', 'بفتح فكسر', 'كَتِف', 'حَذِر (cautious, wary)'],
@@ -62,7 +62,7 @@ export default {
         {
           heading: 'الأوزان المكسورة الفاء',
           lines: [
-            { table: { headers: ['الوزن', 'الضبط', 'اسم', 'صفة'], rows: [
+            { table: { headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'اسم (Noun)', 'صفة (Adjective)'], rows: [
               ['فِعْل', 'بكسر فسكون', 'حِمْل', 'نِكْس'],
               ['فِعَل', 'بكسر ففتح', 'عِنَب', 'زِيَم (أي مُتَفَرِّق)'],
               ['فِعِل', 'بكسرتين', 'إبِل', 'بِلِز'],
@@ -79,10 +79,10 @@ export default {
         {
           heading: 'الأوزان المضمومة الفاء',
           lines: [
-            { table: { headers: ['الوزن', 'الضبط', 'اسم', 'صفة'], rows: [
+            { table: { headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'اسم (Noun)', 'صفة (Adjective)'], rows: [
               ['فُعْل', 'بضم فسكون', 'قُفْل (lock)', 'حُلْو'],
               ['فُعَل', 'بضم ففتح', 'صُرَد (a bird)', 'حُطَم (one who breaks rank)'],
-              ['فُعُل', 'بضمتين', 'عُنُق', 'ناقة سُرُح (أي سَرِيعة)'],
+              ['فُعُل', 'بضمتين', 'عُنُق', 'ناقة سُرُح — a swift she-camel (سَرِيعة)'],
             ] } },
             { html: `Four with a fatḥa on the فاء, three with a kasra, three with a ḍamma — ten in all, which is the count the باب opens with.`, list: false },
           ],
@@ -306,10 +306,10 @@ export default {
         {
           heading: 'القسمة العقلية تقتضي اثني عشر',
           lines: [
-            { html: `<bdi>وكانَتِ القِسْمَةُ العَقْلِيَّةُ تَقْتَضِي اثْنَيْ عَشَرَ وَزْنًا</bdi>, and the arithmetic is worth doing.`, list: false },
-            { html: `<bdi>لأنَّ حَرَكاتِ الفاءِ ثَلاثٌ، وهي: الفَتْحُ والضَّمُّ والكَسْرُ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>وكانَتِ القِسْمَةُ العَقْلِيَّةُ تَقْتَضِي اثْنَيْ عَشَرَ وَزْنًا</bdi> — the theoretical division would call for twelve أوزان, and the arithmetic is worth doing.`, list: false },
+            { html: `<bdi>لأنَّ حَرَكاتِ الفاءِ ثَلاثٌ، وهي: الفَتْحُ والضَّمُّ والكَسْرُ</bdi> — because the vowels of the فاء are three: الفتح, الضم, and الكسر.`, list: true, bullet: true },
             { html: `<bdi>ويَجْرِي ذلك في العَيْنِ أيضًا، ويَزِيدُ السُّكُونَ</bdi> — so the عين has four possibilities, not three.`, list: true, bullet: true },
-            { html: `<bdi>والثَّلاثَةُ في الأَرْبَعَةِ باثْنَيْ عَشَرَ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>والثَّلاثَةُ في الأَرْبَعَةِ باثْنَيْ عَشَرَ</bdi> — and three times four is twelve.`, list: true, bullet: true },
             { html: `Twelve in theory, ten agreed in use — so two are missing, and the next two concepts account for them.`, list: false },
           ],
           clarification: `Why does the عين get four possibilities where the فاء gets three? Because a sukūn is available to it and not to the فاء. The first letter of an Arabic word cannot be ساكن — there is nothing before it for the voice to lean on — so the فاء must carry one of the three vowels. The عين is inside the word, so it may carry any of the three or none at all. Three times four is twelve, and that twelve is what the language then whittles down to ten.`,
@@ -323,8 +323,8 @@ export default {
         {
           heading: 'فُعِل: قليل',
           lines: [
-            { html: `<bdi>يَقِلُّ فُعِل بِضَمٍّ فَكَسْرٍ، كدُئِل: اسْمٌ لِدُوَيْبةٍ، أو اسْمُ قَبِيلَةٍ</bdi>.`, list: false },
-            { html: `<bdi>لأنَّ هذا الوَزْنَ قُصِدَ تَخْصِيصُهُ بِالفِعْلِ المَبْنِيِّ لِلْمَجْهُولِ</bdi>.`, list: false },
+            { html: `<bdi>يَقِلُّ فُعِل بِضَمٍّ فَكَسْرٍ، كدُئِل: اسْمٌ لِدُوَيْبةٍ، أو اسْمُ قَبِيلَةٍ</bdi> — فُعِل, with ضمة then كسرة, is rare, as in دُئِل: the name of a small animal, or the name of a tribe.`, list: false },
+            { html: `<bdi>لأنَّ هذا الوَزْنَ قُصِدَ تَخْصِيصُهُ بِالفِعْلِ المَبْنِيِّ لِلْمَجْهُولِ</bdi> — because this وزن was intentionally reserved for the فعل المبني للمجهول (the passive verb).`, list: false },
             { html: `So فُعِل is not impossible, only rare — and rare for a reason: the pattern was reserved for the passive verb, which is exactly the shape ضُرِبَ takes.`, list: false },
           ],
           exercise: {
@@ -337,11 +337,11 @@ export default {
         {
           heading: 'فِعُل: غير موجود',
           lines: [
-            { html: `<bdi>وأمَّا فِعُل، بِكَسْرٍ فَضَمٍّ، فغَيْرُ مَوْجُودٍ، وذلك لِعُسْرِ الانْتِقالِ من كَسْرٍ إلى ضَمٍّ</bdi>.`, list: false },
+            { html: `<bdi>وأمَّا فِعُل، بِكَسْرٍ فَضَمٍّ، فغَيْرُ مَوْجُودٍ، وذلك لِعُسْرِ الانْتِقالِ من كَسْرٍ إلى ضَمٍّ</bdi> — as for فِعُل, with كسرة then ضمة, it does not exist at all, because of the difficulty of moving from a كسرة to a ضمة.`, list: false },
             { html: `The one apparent counter-example is a قراءة of <bdi>﴿وَالسَّمَاءِ ذَاتِ الْحِبُكِ﴾</bdi> read <bdi>بكسر فضم</bdi>, and two answers are given.`, list: false },
-            { table: { headers: ['الجواب', 'البيان'], rows: [
-              ['تَداخُلُ اللُّغَتَيْنِ في جُزْأَيِ الكَلِمَةِ', 'إذ يُقالُ حُبُكٌ بِضَمَّتَيْنِ، وحِبِكٌ بِكَسْرَتَيْنِ — فالكَسْرُ في الفاءِ من الثانِيَةِ، والضَّمُّ في العَيْنِ من الأُولَى'],
-              ['وقيل: الإتْباع', 'كُسِرَتِ الحاءُ إتْباعًا لِكَسْرَةِ تاءِ ذاتِ'],
+            { table: { headers: ['الجواب (Answer)', 'البيان (Explanation)'], rows: [
+              ['تَداخُلُ اللُّغَتَيْنِ في جُزْأَيِ الكَلِمَةِ — the overlap of two dialects across the two halves of the word', 'إذ يُقالُ حُبُكٌ بِضَمَّتَيْنِ، وحِبِكٌ بِكَسْرَتَيْنِ — one says حُبُكٌ with two ضمات, and حِبِكٌ with two كسرات: the كسرة on the فاء from the second dialect, the ضمة on the عين from the first'],
+              ['وقيل: الإتْباع — or it is said: الإتباع (vowel assimilation)', 'كُسِرَتِ الحاءُ إتْباعًا لِكَسْرَةِ تاءِ ذاتِ — the حاء took a كسرة in agreement with the كسرة on the تاء of ذاتِ'],
             ] } },
           ],
           exercise: {
@@ -354,13 +354,13 @@ export default {
         {
           heading: 'التخفيف',
           lines: [
-            { html: `<bdi>ثمَّ إنَّ بَعْضَ هذه الأَوْزانِ قد يُخَفَّفُ</bdi>.`, list: false },
-            { table: { headers: ['الحالة', 'التخفيف', 'المثال'], rows: [
-              ['نحو كَتِف', 'بِإسْكانِ العَيْنِ فقط، أو بِهِ مع كَسْرِ الفاءِ', 'كَتْف ، كِتْف'],
-              ['إذا كان ثانيَهُ حَرْفُ حَلْقٍ', 'خُفِّفَ أيضًا مع هذين بِكَسْرَتَيْنِ، فيكونُ فيه أَرْبَعُ لُغاتٍ', 'كفَخِذ'],
-              ['نحو عَضُد وإبِل وعُنُق', 'يُخَفَّفُ بِإسْكانِ العَيْنِ', 'عَضْد ، إبْل ، عُنْق'],
+            { html: `<bdi>ثمَّ إنَّ بَعْضَ هذه الأَوْزانِ قد يُخَفَّفُ</bdi> — then, some of these أوزان may be lightened (تخفيف).`, list: false },
+            { table: { headers: ['الحالة (Case)', 'التخفيف (The Lightening)', 'المثال (Example)'], rows: [
+              ['نحو كَتِف — as in كَتِف', 'بِإسْكانِ العَيْنِ فقط، أو بِهِ مع كَسْرِ الفاءِ — by making the عين ساكن only, or that together with a كسرة on the فاء', 'كَتْف ، كِتْف'],
+              ['إذا كان ثانيَهُ حَرْفُ حَلْقٍ — if its second letter is a حرف حلق', 'خُفِّفَ أيضًا مع هذين بِكَسْرَتَيْنِ، فيكونُ فيه أَرْبَعُ لُغاتٍ — it is also lightened, alongside those two, with two كسرات, giving four dialectal forms in all', 'كفَخِذ'],
+              ['نحو عَضُد وإبِل وعُنُق — as in عَضُد, إبِل, and عُنُق', 'يُخَفَّفُ بِإسْكانِ العَيْنِ — lightened by making the عين ساكن', 'عَضْد ، إبْل ، عُنْق'],
             ] } },
-            { html: `<bdi>ومِثْلُ الاسْمِ في ذلك الفِعْلُ كشَهِد</bdi> — the verb lightens in the same way.`, list: false },
+            { html: `<bdi>ومِثْلُ الاسْمِ في ذلك الفِعْلُ كشَهِد</bdi> — the verb behaves like the noun in this respect, as in شَهِد — the verb lightens in the same way.`, list: false },
           ],
           exercise: {
             prompt: `فَخِذ is said to have four لغات. What earns it the extra one?`,
@@ -582,13 +582,13 @@ export default {
         {
           heading: 'أوزان الرباعي الخمسة',
           lines: [
-            { html: `<bdi>وأَوْزانُ الاسْمِ الرُّباعِيِّ المُجَرَّدِ المُتَّفَقِ عليها خَمْسَةٌ</bdi>.`, list: false },
-            { table: { headers: ['الوزن', 'الضبط', 'المثال'], rows: [
-              ['فَعْلَل', 'بفتح أوَّلِهِ وثالِثِهِ وسُكونِ ثانيهِ', 'جَعْفَر'],
-              ['فِعْلِل', 'بكسرهما وسكون ثانيهِ', 'زِبْرِج — للزينة'],
-              ['فُعْلُل', 'بضمِّهما وسكون ثانيهِ', 'بُرْثُن (claw) — لِمَخْلِب الأسَد'],
-              ['فِعَلّ', 'بكسر ففتح فلامٍ مُشَدَّدَة', 'قِمَطْر (satchel for books) — لِوِعاءِ الكُتُبِ'],
-              ['فِعْلَل', 'بكسر فسكون ففتح', 'دِرْهَم'],
+            { html: `<bdi>وأَوْزانُ الاسْمِ الرُّباعِيِّ المُجَرَّدِ المُتَّفَقِ عليها خَمْسَةٌ</bdi> — the agreed-upon أوزان of the bare رباعي noun are five.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'المثال (Example)'], rows: [
+              ['فَعْلَل', 'فتحة on its first and third letters, سكون on its second', 'جَعْفَر'],
+              ['فِعْلِل', 'كسرة on both, سكون on the second', 'زِبْرِج — للزينة'],
+              ['فُعْلُل', 'ضمة on both, سكون on the second', 'بُرْثُن (claw) — لِمَخْلِب الأسَد'],
+              ['فِعَلّ', 'كسرة then فتحة, with a doubled لام', 'قِمَطْر (satchel for books) — لِوِعاءِ الكُتُبِ'],
+              ['فِعْلَل', 'كسرة, then سكون, then فتحة', 'دِرْهَم'],
             ] } },
             { html: `Note that three of the five are named by their first and third vowels running together — فَعْلَل، فِعْلِل، فُعْلُل — and the remaining two break that symmetry.`, list: false },
           ],
@@ -602,8 +602,8 @@ export default {
         {
           heading: 'زيادة الأخفش',
           lines: [
-            { html: `<bdi>وزادَ الأَخْفَشُ وَزْنَ فُعْلَل، بِضَمٍّ فَسُكُونٍ فَفَتْحٍ، كجُخْدَب: اسْمٌ لِلْأَسَدِ</bdi>.`, list: false },
-            { html: `<bdi>وبَعْضُهُم يَقُولُ إنَّهُ فَرْعُ جُخْدُب بِالضَّمِّ. والصَّحِيحُ أنَّهُ أَصْلٌ ولكنَّهُ قَلِيلٌ</bdi>.`, list: false },
+            { html: `<bdi>وزادَ الأَخْفَشُ وَزْنَ فُعْلَل، بِضَمٍّ فَسُكُونٍ فَفَتْحٍ، كجُخْدَب: اسْمٌ لِلْأَسَدِ</bdi> — الأخفش added the وزن فُعْلَل — ضمة, then سكون, then فتحة — as in جُخْدَب, a name for the lion.`, list: false },
+            { html: `<bdi>وبَعْضُهُم يَقُولُ إنَّهُ فَرْعُ جُخْدُب بِالضَّمِّ. والصَّحِيحُ أنَّهُ أَصْلٌ ولكنَّهُ قَلِيلٌ</bdi> — some say it is a variant (فرع) of جُخْدُب with a ضمة; but the correct view is that it is an أصل in its own right, though rare.`, list: false },
             { html: `So the count of رباعي أوزان is five agreed, or six once الأخفش's addition is admitted.`, list: false },
           ],
           exercise: {
@@ -616,12 +616,12 @@ export default {
         {
           heading: 'أوزان الخماسي الأربعة',
           lines: [
-            { html: `<bdi>وأَوْزانُ الخُماسِيِّ أَرْبَعَةٌ</bdi>.`, list: false },
-            { table: { headers: ['الوزن', 'الضبط', 'المثال'], rows: [
-              ['فَعَلَّل', 'فَتَحاتٌ، مُشَدَّدُ اللامِ الأُولَى', 'سَفَرْجَل (a fruit)'],
-              ['فَعْلَلِل', 'بفتح أوَّلِهِ وثالِثِهِ، وكسر رابِعِهِ', 'جَحْمَرِش — للمرأة العجوز'],
-              ['فِعْلَلّ', 'بكسر فسكون ففتح، مُشَدَّدُ اللامِ الثانِيَةِ', 'قِرْطَعْب — للشيء القليل'],
-              ['فُعَلِّل', 'بضم ففتح فتشديد اللامِ الأُولَى مَكْسُورَة', 'قُذَعْمِل — وهو الشيء القليل'],
+            { html: `<bdi>وأَوْزانُ الخُماسِيِّ أَرْبَعَةٌ</bdi> — the أوزان of the خماسي are four.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'المثال (Example)'], rows: [
+              ['فَعَلَّل', 'all فتحات, with the first لام doubled', 'سَفَرْجَل (a fruit)'],
+              ['فَعْلَلِل', 'فتحة on its first and third letters, كسرة on its fourth', 'جَحْمَرِش — a word for an old woman'],
+              ['فِعْلَلّ', 'كسرة, then سكون, then فتحة, with the second لام doubled', 'قِرْطَعْب — a word for a small, trifling thing'],
+              ['فُعَلِّل', 'ضمة, then فتحة, then a doubled first لام carrying a كسرة', 'قُذَعْمِل — likewise, a small, trifling thing'],
             ] } },
             { html: `Three of the four carry a shadda, and they differ in which لام it falls on — the first in فَعَلَّل and فُعَلِّل, the second in فِعْلَلّ. Only فَعْلَلِل is free of one.`, list: false },
           ],
@@ -635,10 +635,10 @@ export default {
         {
           heading: 'التنبيه',
           lines: [
-            { html: `<bdi>قد عَلِمْتَ مما تَقَدَّمَ أنَّ الاسْمَ المُتَمَكِّنَ لا تَقِلُّ حُرُوفُهُ الأَصْلِيَّةُ عن ثَلاثَةٍ، إلَّا إذا دَخَلَهُ الحَذْفُ</bdi>.`, list: false },
+            { html: `<bdi>قد عَلِمْتَ مما تَقَدَّمَ أنَّ الاسْمَ المُتَمَكِّنَ لا تَقِلُّ حُرُوفُهُ الأَصْلِيَّةُ عن ثَلاثَةٍ، إلَّا إذا دَخَلَهُ الحَذْفُ</bdi> — you have learned from what preceded that an اسم متمكن's root letters never fall below three, unless حذف has entered it.`, list: false },
             { html: `<bdi>كيَد ودَم، وعِدَة وسِنَة (sleep, slumber)</bdi>`, list: false },
-            { html: `<bdi>وأنَّ أَوْزانَ المُجَرَّدِ منه عِشْرُونَ، أو واحِدٌ وعِشْرُونَ</bdi>.`, list: false },
-            { html: `<bdi>وأمَّا المَزِيدُ فيه فأَوْزانُهُ كَثِيرَةٌ، ولا يَتَجاوَزُ بِالزِيادَةِ سَبْعَةَ أَحْرُفٍ، كما أنَّ الفِعْلَ لا يَتَجاوَزُ بِالزِيادَةِ سِتَّةً</bdi>.`, list: false },
+            { html: `<bdi>وأنَّ أَوْزانَ المُجَرَّدِ منه عِشْرُونَ، أو واحِدٌ وعِشْرُونَ</bdi> — and that the أوزان of its مجرد forms are twenty, or twenty-one.`, list: false },
+            { html: `<bdi>وأمَّا المَزِيدُ فيه فأَوْزانُهُ كَثِيرَةٌ، ولا يَتَجاوَزُ بِالزِيادَةِ سَبْعَةَ أَحْرُفٍ، كما أنَّ الفِعْلَ لا يَتَجاوَزُ بِالزِيادَةِ سِتَّةً</bdi> — as for the مزيد فيه, its أوزان are many, and it never exceeds seven letters through augmentation, just as الفعل never exceeds six.`, list: false },
           ],
           clarification: `The figure عشرون أو واحد وعشرون is the running total, and it is worth assembling. Take the ten agreed ثلاثي أوزان, add the rare فُعِل, and the ثلاثي gives eleven; add five for the رباعي and four for the خماسي and the total is twenty. Admit الأخفش's فُعْلَل as well and it becomes twenty-one. The two figures are not a vagueness but a record of the one point still argued over.`,
           exercise: {

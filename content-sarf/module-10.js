@@ -34,7 +34,7 @@ export default {
             { html: `The <bdi>مُشْتَقّ</bdi> is <bdi>ما أُخِذَ من غيره، ودلَّ على ذاتٍ مع ملاحظة صفة</bdi> — taken from something else, and pointing to a <bdi>ذات</bdi> while a quality is kept in view. So it names the <bdi>صاحب المعنى</bdi>, not the معنى on its own.`, list: false },
             { html: `<bdi>عالِم</bdi>, <bdi>ظَريف</bdi>, <bdi>مَضْروب</bdi>.`, list: true, bullet: true },
             { html: `And it is <bdi>يُشْتَقُّ غالبًا من معقولات</bdi> — most often taken from the معنوي side, not from names of perceptible things.`, list: false },
-            { html: `<bdi>ومن أسماء الأجناس المعنوية المصدرية يكون الاشتقاق، كفَهِمَ من الفهم، ونَصَرَ من النصر.</bdi>`, list: false },
+            { html: `<bdi>ومن أسماء الأجناس المعنوية المصدرية يكون الاشتقاق، كفَهِمَ من الفهم، ونَصَرَ من النصر.</bdi> — derivation occurs from أسماء الأجناس المعنوية المصدرية (abstract, مصدر-type nouns): فَهِمَ is derived from الفهم, and نَصَرَ from النصر.`, list: false },
           ],
           clarification: `The contrast is not between abstract and concrete words but between naming a quality and naming its bearer. <bdi>عِلْم</bdi> is the quality; <bdi>عالِم</bdi> is the one who has it, and that extra ملاحظة صفة is what makes the second مشتق.`,
           exercise: {
@@ -54,9 +54,9 @@ export default {
               rows: [
                 ['أَوْرَقَتِ الأشجارُ', 'الوَرَق', 'the trees put out leaves'],
                 ['أَسْبَعَتِ الأرضُ', 'السَّبُع', 'the land came to abound in beasts of prey'],
-                ['عَقْرَبْتُ الصُّدْغَ', 'العَقْرَب', 'جعلتُ شَعَرَ الصُّدْغِ كالعقرب'],
-                ['نَرْجَسْتُ الدواءَ', 'النَّرْجِس', 'وجعلتُ النَّرْجِسَ في الدواء'],
-                ['فَلْفَلْتُ الطعامَ', 'الفُلْفُل', 'وجعلتُ الفُلْفُلَ في الطعام'],
+                ['عَقْرَبْتُ الصُّدْغَ', 'العَقْرَب', 'I made the hair of the temple like a scorpion (عَقْرَب)'],
+                ['نَرْجَسْتُ الدواءَ', 'النَّرْجِس', 'I put نَرْجِس (narcissus) into the medicine'],
+                ['فَلْفَلْتُ الطعامَ', 'الفُلْفُل', 'I put فُلْفُل (pepper) into the food'],
               ],
             } },
           ],
@@ -70,18 +70,18 @@ export default {
         {
           heading: 'الاشتقاق وأقسامه الثلاثة',
           lines: [
-            { html: `<bdi>والاشتقاق: أَخْذُ كَلِمَةٍ من أُخْرَى، مع تَناسُبٍ بينهما في المعنى وتَغْيِيرٍ في اللَّفْظ.</bdi>`, list: false },
-            { html: `<bdi>وينقسم إلى ثلاثة أقسام.</bdi>`, list: false },
+            { html: `<bdi>والاشتقاق: أَخْذُ كَلِمَةٍ من أُخْرَى، مع تَناسُبٍ بينهما في المعنى وتَغْيِيرٍ في اللَّفْظ.</bdi> — الاشتقاق is taking one word from another, with a correspondence in meaning between them and a change in wording.`, list: false },
+            { html: `<bdi>وينقسم إلى ثلاثة أقسام.</bdi> — it divides into three kinds.`, list: false },
             { table: {
               title: 'أقسام الاشتقاق',
-              headers: ['القسم', 'الضابط', 'المثال'],
+              headers: ['القسم (Kind)', 'الضابط (Criterion)', 'المثال (Example)'],
               rows: [
-                ['صغير', 'ما اتَّحَدَتْ فيه الكلمتان حروفًا وترتيبًا', 'عَلِمَ وعالِم من العلم، وفَهِم من الفهم'],
-                ['كبير', 'ما اتَّحَدَتا فيه حروفًا لا ترتيبًا', 'جَبَذَ من الجَذْب — بعد القلب'],
-                ['أكبر', 'ما اتَّحَدَتا فيه أكثر الحروف، مع تناسب في الباقي', 'نَعَقَ من النَّهْق — لتناسب العين والهاء في المخرج'],
+                ['صغير', 'ما اتَّحَدَتْ فيه الكلمتان حروفًا وترتيبًا — where the two words share the same letters in the same order', 'عَلِمَ وعالِم من العلم، وفَهِم من الفهم'],
+                ['كبير', 'ما اتَّحَدَتا فيه حروفًا لا ترتيبًا — where they share the same letters but not the same order', 'جَبَذَ من الجَذْب — after قَلْب (metathesis)'],
+                ['أكبر', 'ما اتَّحَدَتا فيه أكثر الحروف، مع تناسب في الباقي — where most letters are shared, with the rest merely corresponding', 'نَعَقَ من النَّهْق — because the ع and ه correspond in مخرج (place of articulation)'],
               ],
             } },
-            { html: `<bdi>وأهمّ الأقسام عند الصرفيّ هو الصغير.</bdi> الكبير and الأكبر belong to the study of the lexicon rather than to الصرف.`, list: false },
+            { html: `<bdi>وأهمّ الأقسام عند الصرفيّ هو الصغير.</bdi> — the most important of the three, for the صرفي, is الصغير. الكبير and الأكبر belong to the study of the lexicon rather than to الصرف.`, list: false },
           ],
           exercise: {
             prompt: `<bdi>نَعَقَ</bdi> from <bdi>النَّهْق</bdi> is an example of which قسم?`,
@@ -93,9 +93,9 @@ export default {
         {
           heading: 'أصل المشتقّات: المصدر أم الفعل',
           lines: [
-            { html: `<bdi>وأصل المشتقّات عند البصريين: المصدر</bdi> — because it is <bdi>بسيط</bdi>, pointing to the <bdi>حَدَث</bdi> alone, whereas the verb <bdi>يَدُلُّ على الحدث والزمن</bdi> together, and the simpler is prior.`, list: false },
-            { html: `<bdi>وعند الكوفيين: الأصل الفعل</bdi> — because the مصدر <bdi>يجيء بعده في التصريف</bdi>.`, list: false },
-            { html: `<bdi>والذي عليه الصرفيّون: الأوّل.</bdi>`, list: false },
+            { html: `<bdi>وأصل المشتقّات عند البصريين: المصدر</bdi> — for the البصريون, the أصل of derived forms is المصدر — because it is <bdi>بسيط</bdi>, pointing to the <bdi>حَدَث</bdi> alone, whereas the verb <bdi>يَدُلُّ على الحدث والزمن</bdi> together, and the simpler is prior.`, list: false },
+            { html: `<bdi>وعند الكوفيين: الأصل الفعل</bdi> — while for the الكوفيون, the أصل is الفعل — because the مصدر <bdi>يجيء بعده في التصريف</bdi>.`, list: false },
+            { html: `<bdi>والذي عليه الصرفيّون: الأوّل.</bdi> — and what the صرفيّون hold to is the first view.`, list: false },
           ],
           clarification: `Each side argues from a different kind of priority. The بصريون argue from simplicity of meaning — one component rather than two. The كوفيون argue from order in تصريف, where the مصدر is listed after the verb. The صرفيون settle on the بصري view.`,
           exercise: {
@@ -145,7 +145,7 @@ export default {
         {
           heading: 'العشرة',
           lines: [
-            { html: `<bdi>ويُشْتَقُّ من المصدر عشرةُ أشياء</bdi> — ثلاثةٌ من الأفعال وسبعةٌ من الأسماء.`, list: false },
+            { html: `<bdi>ويُشْتَقُّ من المصدر عشرةُ أشياء</bdi> — ten things are derived from the مصدر — ثلاثةٌ من الأفعال وسبعةٌ من الأسماء (three from the أفعال and seven from the أسماء).`, list: false },
             { html: `The three verbs: <bdi>الماضي، والمضارع، والأمر</bdi>, <bdi>وقد تَقَدَّمَتْ</bdi>.`, list: false },
             { html: `The seven nouns: <bdi>اسم الفاعل</bdi> (and with it <bdi>اسم المبالغة</bdi>), <bdi>واسم المفعول، والصفة المشبهة، واسم التفضيل، واسما الزمان والمكان، واسم الآلة</bdi>.`, list: false },
           ],
@@ -189,7 +189,7 @@ export default {
           heading: 'الملحقان: المنسوب والمُصَغَّر',
           lines: [
             { html: `<bdi>ويَلْحَقُ بها شيئان</bdi>, and they are expressly <bdi>ليس من المشتقّات</bdi>.`, list: false },
-            { html: `<bdi>المنسوب</bdi> — <bdi>نحو رجلٌ مِصْرِيٌّ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>المنسوب</bdi> (the relational adjective) — <bdi>نحو رجلٌ مِصْرِيٌّ</bdi> (e.g. an Egyptian man).`, list: true, bullet: true },
             { html: `<bdi>المُصَغَّر</bdi>.`, list: true, bullet: true },
             { html: `<bdi>وكلٌّ يحتاج إلى البيان</bdi> — each is treated in its own place.`, list: false },
           ],
@@ -253,15 +253,15 @@ export default {
         {
           heading: 'أبنية الماضي الثلاثي الثلاثة',
           lines: [
-            { html: `<bdi>قد عَلِمْتَ أن أبنية الفعل ثُلاثيةً ورُباعيةً وخُماسيةً وسُداسيةً؛ ولكل بناء منها مصدر.</bdi>`, list: false },
-            { html: `<bdi>وقد تقدَّم أن للماضي الثلاثيّ ثلاثةَ أوزان.</bdi>`, list: false },
+            { html: `<bdi>قد عَلِمْتَ أن أبنية الفعل ثُلاثيةً ورُباعيةً وخُماسيةً وسُداسيةً؛ ولكل بناء منها مصدر.</bdi> — you have learned that the forms of the verb are ثلاثي, رباعي, خماسي, and سداسي, and each form has a مصدر.`, list: false },
+            { html: `<bdi>وقد تقدَّم أن للماضي الثلاثيّ ثلاثةَ أوزان.</bdi> — and it has already been established that the ثلاثي ماضي has three أوزان.`, list: false },
             { table: {
               title: 'أوزان الماضي الثلاثي',
-              headers: ['الوزن', 'الضبط', 'اللزوم والتعدّي'],
+              headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'اللزوم والتعدّي (Transitivity)'],
               rows: [
-                ['فَعَلَ', 'بفتح العين', 'يكون متعدِّيًا كضَرَبَه، ولازمًا كقَعَدَ'],
-                ['فَعِلَ', 'بكسر العين', 'يكون متعدِّيًا أيضًا كفَهِمَ الدَّرسَ، ولازمًا كرَضِيَ'],
-                ['فَعُلَ', 'بضم العين', 'ولا يكون إلا لازمًا'],
+                ['فَعَلَ', 'بفتح العين', 'it may be متعدٍّ, as in ضَرَبَه, or لازم, as in قَعَدَ'],
+                ['فَعِلَ', 'بكسر العين', 'it too may be متعدٍّ, as in فَهِمَ الدَّرسَ, or لازم, as in رَضِيَ'],
+                ['فَعُلَ', 'بضم العين', 'and it is always لازم'],
               ],
             } },
           ],
@@ -297,9 +297,9 @@ export default {
         {
           heading: 'مصدر فَعَلَ وفَعِلَ المتعدِّيَيْن',
           lines: [
-            { html: `<bdi>فأما فَعَلَ بالفتح، وفَعِلَ بالكسر المتعدِّيان، فقياس مصدرهما: فَعْل، بفتح فسكون.</bdi>`, list: false },
+            { html: `<bdi>فأما فَعَلَ بالفتح، وفَعِلَ بالكسر المتعدِّيان، فقياس مصدرهما: فَعْل، بفتح فسكون.</bdi> — as for فَعَلَ with فتحة, and فَعِلَ with كسرة, when transitive, their قياسي مصدر is فَعْل — فتحة then سكون.`, list: false },
             { html: `<bdi>كضَرَبَ ضَرْبًا، وَرَدَّ رَدًّا، وفَهِمَ فَهْمًا، وأَمِنَ أَمْنًا.</bdi>`, list: false },
-            { html: `<bdi>إلا إن دَلَّ الأول على حِرْفَةٍ، فقياسه فِعَالَة بكسر أوَّله، كالخِياطة والحِياكة والتجارة.</bdi>`, list: false },
+            { html: `<bdi>إلا إن دَلَّ الأول على حِرْفَةٍ، فقياسه فِعَالَة بكسر أوَّله، كالخِياطة والحِياكة والتجارة.</bdi> — unless the first pattern indicates a حِرْفَة (trade), in which case its قياس is فِعَالَة, كسرة at the start, as in الخِياطة (sewing), الحِياكة (weaving), and التجارة (trading).`, list: false },
           ],
           clarification: `Note the scope of the exception: it is worded <bdi>الأول</bdi>, so it lifts فَعَلَ المتعدِّي out of فَعْل when the sense is a trade, and leaves فَعِلَ where it was. الحِياكة is weaving; الحِرْفَة is an occupation, trade or handicraft.`,
           exercise: {
@@ -312,16 +312,16 @@ export default {
         {
           heading: 'مصدر فَعِلَ اللازم',
           lines: [
-            { html: `<bdi>وأما فَعِلَ بكسر العين اللازم، فمصدره القياسيّ: فَعَل، بفتحتين.</bdi>`, list: false },
+            { html: `<bdi>وأما فَعِلَ بكسر العين اللازم، فمصدره القياسيّ: فَعَل، بفتحتين.</bdi> — as for فَعِلَ with كسرة on the عين, when لازم, its قياسي مصدر is فَعَل — two فتحات.`, list: false },
             { html: `<bdi>كفَرِحَ فَرَحًا، وجَوِيَ جَوًى، وشَلَّ شَلَلًا</bdi> — <bdi>شَلَّ</bdi> is to dry up, be lame, be paralysed.`, list: false },
             { html: `Three exceptions carry it off that وزن.`, list: false },
             { table: {
               title: 'ما خرج عن فَعَل',
-              headers: ['إن دلَّ على', 'فقياسه', 'المثال'],
+              headers: ['إن دلَّ على (If It Indicates)', 'فقياسه (Its قياس Is)', 'المثال (Example)'],
               rows: [
-                ['حِرْفَةٍ أو وِلايَةٍ', 'فِعَالَة، بكسر الفاء', 'وَلِيَ عليهم وِلَايَة'],
-                ['لَوْنٍ', 'فُعْلَة، بضم فسكون', 'حَوِيَ حُوَّة، وحَمِرَ حُمْرة'],
-                ['عِلاجٍ ووصفُه على فاعِل', 'الفُعُول، بضم الفاء', 'أَزِفَ الوقتُ أُزُوفا، وقَدِمَ من السفر قُدُومًا، وصَعِدَ في السُّلَّمِ والدَّرَجِ صُعُودًا'],
+                ['حِرْفَةٍ أو وِلايَةٍ — a trade or a governorship', 'فِعَالَة، بكسر الفاء — فِعَالَة, with كسرة on the ف', 'وَلِيَ عليهم وِلَايَة'],
+                ['لَوْنٍ — a color', 'فُعْلَة، بضم فسكون — فُعْلَة: ضمة then سكون', 'حَوِيَ حُوَّة، وحَمِرَ حُمْرة'],
+                ['عِلاجٍ ووصفُه على فاعِل — a physical action, when its وصف is on the pattern فاعِل', 'الفُعُول، بضم الفاء — الفُعُول, ضمة on the ف', 'أَزِفَ الوقتُ أُزُوفا، وقَدِمَ من السفر قُدُومًا، وصَعِدَ في السُّلَّمِ والدَّرَجِ صُعُودًا'],
               ],
             } },
             { html: `<bdi>الحُوَّة</bdi> is a red inclining to black; <bdi>أَزِفَ</bdi> is to draw near, approach; <bdi>الوِلاية</bdi> here is to be in charge of something, to govern.`, list: false },
@@ -373,10 +373,10 @@ export default {
         {
           heading: 'فَعَلَ اللازم: الأصل وأول شعبتين',
           lines: [
-            { html: `<bdi>وأما فَعَل بالفتح اللازم فقياس مصدره: فُعُول، بضم الفاء.</bdi>`, list: false },
+            { html: `<bdi>وأما فَعَل بالفتح اللازم فقياس مصدره: فُعُول، بضم الفاء.</bdi> — as for فَعَل with فتحة, when لازم, its قياسي مصدر is فُعُول — ضمة on the ف.`, list: false },
             { html: `<bdi>كقَعَدَ قُعُودًا، وجَلَسَ جُلُوسًا، ونَهَضَ نُهُوضًا</bdi>.`, list: false },
-            { html: `<bdi>ما لم تعتلّ عينه، وإلا فيكون على فَعْل بفتح فسكون كسَيْر، أو فِعَال كقِيَام، أو فِعَالَة كنِيَاحَة.</bdi>`, list: false },
-            { html: `<bdi>وما لم يَدُلَّ على امتناعٍ، وإلا فقياس مصدره فِعَال بالكسر، كأَبَى إِباءً، ونَفَر نِفَارًا، وجَمَعَ جِمَاعًا، وأَبَقَ إِبَاقًا.</bdi>`, list: false },
+            { html: `<bdi>ما لم تعتلّ عينه، وإلا فيكون على فَعْل بفتح فسكون كسَيْر، أو فِعَال كقِيَام، أو فِعَالَة كنِيَاحَة.</bdi> — unless its عين is معتلّ (weak), in which case it comes on فَعْل — فتحة then سكون, as in سَيْر; or فِعَال, as in قِيَام; or فِعَالَة, as in نِيَاحَة (wailing).`, list: false },
+            { html: `<bdi>وما لم يَدُلَّ على امتناعٍ، وإلا فقياس مصدره فِعَال بالكسر، كأَبَى إِباءً، ونَفَر نِفَارًا، وجَمَعَ جِمَاعًا، وأَبَقَ إِبَاقًا.</bdi> — and unless it indicates امتناع (refusal), in which case its قياسي مصدر is فِعَال with كسرة, as in أَبَى إِباءً (he refused), نَفَر نِفَارًا, جَمَعَ جِمَاعًا, and أَبَقَ إِباقًا.`, list: false },
             { html: `<bdi>النِّفَار</bdi> is shunning or avoiding; <bdi>الإباق</bdi> is to escape, run away.`, list: false },
           ],
           exercise: {
@@ -392,13 +392,13 @@ export default {
             { html: `Beyond اعتلال العين and الامتناع, five further senses each carry their own قياس.`, list: false },
             { table: {
               title: 'شُعَب فَعَلَ اللازم',
-              headers: ['إن دلَّ على', 'فقياسه', 'المثال'],
+              headers: ['إن دلَّ على (If It Indicates)', 'فقياسه (Its قياس Is)', 'المثال (Example)'],
               rows: [
-                ['تَقَلُّب', 'فَعَلَان، بفتحات', 'جَالَ جَوَلَانًا، وغَلَى غَلَيَانًا'],
-                ['داءٍ', 'فُعَال، بالضم', 'مَشَى بَطْنُه مُشَاء'],
-                ['سَيْر', 'فَعِيل', 'رَحَلَ رَحِيلًا، وذَمَلَ ذَمِيلًا'],
-                ['صَوْت', 'الفُعَال بالضمّ والفَعِيل', 'صَرَخَ صُرَاخًا، وعَوَى الكلبُ عُوَاءً، وصَهَلَ الفرسُ صَهِيلًا، ونَهَقَ الحمارُ نَهِيقًا، وزَأَرَ الأسدُ زَئِيرًا'],
-                ['حِرْفَةٍ أو وِلاية', 'فِعَالَة بالكسر', 'تَجَرَ تِجَارَة، وعَرَفَ على القوم عِرَافَة، وسَفَرَ بينهم سِفَارَة'],
+                ['تَقَلُّب — turning, tossing about', 'فَعَلَان، بفتحات — فَعَلَان, all فتحات', 'جَالَ جَوَلَانًا، وغَلَى غَلَيَانًا'],
+                ['داءٍ — a sickness', 'فُعَال، بالضم — فُعَال, with ضمة', 'مَشَى بَطْنُه مُشَاء'],
+                ['سَيْر — traveling', 'فَعِيل', 'رَحَلَ رَحِيلًا، وذَمَلَ ذَمِيلًا'],
+                ['صَوْت — a sound', 'الفُعَال بالضمّ والفَعِيل — الفُعَال with ضمة, or الفَعِيل', 'صَرَخَ صُرَاخًا، وعَوَى الكلبُ عُوَاءً، وصَهَلَ الفرسُ صَهِيلًا، ونَهَقَ الحمارُ نَهِيقًا، وزَأَرَ الأسدُ زَئِيرًا'],
+                ['حِرْفَةٍ أو وِلاية — a trade or governorship', 'فِعَالَة بالكسر — فِعَالَة, with كسرة', 'تَجَرَ تِجَارَة، وعَرَفَ على القوم عِرَافَة، وسَفَرَ بينهم سِفَارَة'],
               ],
             } },
             { html: `<bdi>عَرَفَ على القوم عِرَافَة</bdi> is <bdi>إذا تكلم عليهم</bdi>; <bdi>سَفَرَ بينهم سِفَارَة</bdi> is <bdi>إذا أصلح</bdi>. <bdi>غَلَى</bdi> is to boil; <bdi>مَشَى</bdi> here is to inflate; <bdi>الذَّمِيل</bdi> is a type of walking.`, list: false },
@@ -414,9 +414,9 @@ export default {
         {
           heading: 'مصدر فَعُل',
           lines: [
-            { html: `<bdi>وأما فَعُل بضم العين فقياس مصدره: فُعُولَة.</bdi>`, list: false },
+            { html: `<bdi>وأما فَعُل بضم العين فقياس مصدره: فُعُولَة.</bdi> — as for فَعُل with ضمة on the عين, its قياسي مصدر is فُعُولَة.`, list: false },
             { html: `<bdi>كصَعُبَ الشيءُ صُعُوبة، وعَذُبَ الماءُ عُذُوبة</bdi> — <bdi>عَذُبَ</bdi> is to be sweet.`, list: false },
-            { html: `<bdi>وفَعَالَة بالفتح، كبَلُغَ بَلَاغة، وفَصُحَ فَصَاحَة، وصَرُحَ صَرَاحَة.</bdi>`, list: false },
+            { html: `<bdi>وفَعَالَة بالفتح، كبَلُغَ بَلَاغة، وفَصُحَ فَصَاحَة، وصَرُحَ صَرَاحَة.</bdi> — or فَعَالَة with فتحة, as in بَلُغَ بَلاغة, فَصُحَ فَصاحة, and صَرُحَ صَراحة.`, list: false },
           ],
           exercise: {
             prompt: `<bdi>فَصُحَ فَصَاحَة</bdi> is on which of the two مصادر of <bdi>فَعُل</bdi>?`,
@@ -428,7 +428,7 @@ export default {
         {
           heading: 'السماعيّ',
           lines: [
-            { html: `<bdi>وما جاء مخالفًا لما تقدَّم فليس بقياسيّ؛ وإنما هو سماعيّ، يُحْفَظ ولا يُقاس عليه.</bdi>`, list: false },
+            { html: `<bdi>وما جاء مخالفًا لما تقدَّم فليس بقياسيّ؛ وإنما هو سماعيّ، يُحْفَظ ولا يُقاس عليه.</bdi> — whatever comes contrary to what preceded is not قياسي; it is سماعي — memorized, not generalized upon.`, list: false },
             { html: `<bdi>فمن الأول</bdi> — that is, from فَعَلَ: <bdi>طَلَبَ طَلَبًا، ونَبَتَ نَبَاتًا، وكَتَبَ كِتَابًا، وحَرَسَ حِرَاسَة، وشَكَرَ شُكْرًا، وحَسَبَ حُسْبَانًا، وذَكَرَ ذِكْرًا، وكَتَمَ كِتْمَانًا، وكَذَبَ كَذِبًا، وغَلَبَ غَلَبَة، وحَمَى حِمَايَة، وغَفَرَ غُفْرَانًا، وعَصَى عِصْيَانًا، وقَضَى قَضَاءً، وهَدَى هِدَايَة، ورَأَى رُؤْيَة.</bdi>`, list: false },
             { html: `<bdi>ومن الثاني</bdi> — from فَعِلَ: <bdi>لَعِبَ لَعِبًا، ونَضِجَ نُضْجًا، وكَرِهَ كَرَاهِيَة، وسَمِنَ سِمَنًا، وقَوِيَ قُوَّة، وقَبِلَ قَبُولًا، ورَحِمَ رَحْمَةً.</bdi>`, list: false },
             { html: `<bdi>ومن الثالث</bdi> — from فَعُل: <bdi>كَرُمَ كَرَمًا، وعَظُمَ عِظَمًا، ومَجُدَ مَجْدًا، وحَسُنَ حُسْنًا، وحَلُمَ حِلْمًا، وجَمُلَ جَمَالًا.</bdi>`, list: false },
@@ -527,10 +527,10 @@ export default {
         {
           heading: 'مصدر فَعَّلَ',
           lines: [
-            { html: `<bdi>فمصدر فَعَّل بتشديد العين: التفعيل</bdi>, <bdi>كطَهَّر تطهيرًا، ويَسَّر تيسيرًا</bdi> — <bdi>هذا إذا كان الفعل صحيحَ اللام</bdi>.`, list: false },
-            { html: `<bdi>وأما إذا كان مُعْتَلَّها فيكون على وزن تَفْعِلَة، بحذف ياء التَّفْعِيل، وتعويضها بتاء في الآخر، كزكَّى تَزْكِيَة، ورَبَّى تَرْبِيَة.</bdi>`, list: false },
-            { html: `<bdi>ونَدَرَ مجيءُ الصحيح على تَفْعِلَة، كجَرَّبَ تَجْرِبَة، وذَكَّرَ تَذْكِرَة، وبَصَّرَ تَبْصِرَة، وفَكَّرَ تَفْكِرَة، وكَمَّلَ تَكْمِلَة، وفَرَّقَ تَفْرِقَةً، وكَرَّمَ تَكْرِمَةً.</bdi>`, list: false },
-            { html: `<bdi>وقد يُعَامَلُ مهموزُ اللام معاملةَ مُعْتَلِّها في المصدر، كبَرَّأً تبرئة، وجزَّأً تجزئة، والقياس تبريئًا وتجزيئًا.</bdi>`, list: false },
+            { html: `<bdi>فمصدر فَعَّل بتشديد العين: التفعيل</bdi>, <bdi>كطَهَّر تطهيرًا، ويَسَّر تيسيرًا</bdi> — <bdi>هذا إذا كان الفعل صحيحَ اللام</bdi> — the مصدر of فَعَّل, with a doubled عين, is التفعيل, as in طَهَّر تطهيرًا, يَسَّر تيسيرًا — this when the verb's لام is صحيح.`, list: false },
+            { html: `<bdi>وأما إذا كان مُعْتَلَّها فيكون على وزن تَفْعِلَة، بحذف ياء التَّفْعِيل، وتعويضها بتاء في الآخر، كزكَّى تَزْكِيَة، ورَبَّى تَرْبِيَة.</bdi> — but if its لام is معتلّ, the مصدر comes on the pattern تَفْعِلَة, by dropping the ياء of تفعيل and compensating for it with a تاء at the end, as in زكَّى تَزْكِيَة, رَبَّى تَرْبِيَة.`, list: false },
+            { html: `<bdi>ونَدَرَ مجيءُ الصحيح على تَفْعِلَة، كجَرَّبَ تَجْرِبَة، وذَكَّرَ تَذْكِرَة، وبَصَّرَ تَبْصِرَة، وفَكَّرَ تَفْكِرَة، وكَمَّلَ تَكْمِلَة، وفَرَّقَ تَفْرِقَةً، وكَرَّمَ تَكْرِمَةً.</bdi> — it is rare for a صحيح verb to come on تَفْعِلَة, as in جَرَّبَ تَجْرِبَة, ذَكَّرَ تَذْكِرَة, بَصَّرَ تَبْصِرَة, فَكَّرَ تَفْكِرَة, كَمَّلَ تَكْمِلَة, فَرَّقَ تَفْرِقَة, and كَرَّمَ تَكْرِمَة.`, list: false },
+            { html: `<bdi>وقد يُعَامَلُ مهموزُ اللام معاملةَ مُعْتَلِّها في المصدر، كبَرَّأً تبرئة، وجزَّأً تجزئة، والقياس تبريئًا وتجزيئًا.</bdi> — a verb whose لام is a همزة may sometimes be treated like a معتلّ اللام verb in its مصدر, as in بَرَّأَ تبرئة and جزَّأَ تجزئة, though the قياس would be تبريئًا and تجزيئًا.`, list: false },
           ],
           clarification: `The تاء at the end of تَفْعِلَة is a compensation: the ياء of تَفْعِيل is dropped and the تاء put in its place, which is why the two أوزان never both apply at once.`,
           exercise: {
@@ -543,11 +543,11 @@ export default {
         {
           heading: 'مصدر أَفْعَلَ',
           lines: [
-            { html: `<bdi>ومصدر أَفْعَلَ: الإفْعَال، كأكرم إكرامًا، وأحسن إحسانًا، هذا إذا كان صحيحَ العين.</bdi>`, list: false },
-            { html: `<bdi>أما إذا كان معتلَّها، فتُنْقَلُ حركتُها إلى الفاء، وتُقْلَبُ ألفا، لتحركها بحسب الأصل، وانفتاح ما قبلها بحسب الآن، ثم تحذف الألف الثانية لالتقاء الساكنين، وتُعَوَّضُ عنها التاء.</bdi>`, list: false },
+            { html: `<bdi>ومصدر أَفْعَلَ: الإفْعَال، كأكرم إكرامًا، وأحسن إحسانًا، هذا إذا كان صحيحَ العين.</bdi> — the مصدر of أَفْعَلَ is الإفعال, as in أَكْرَمَ إكرامًا, أَحْسَنَ إحسانًا — this when its عين is صحيح.`, list: false },
+            { html: `<bdi>أما إذا كان معتلَّها، فتُنْقَلُ حركتُها إلى الفاء، وتُقْلَبُ ألفا، لتحركها بحسب الأصل، وانفتاح ما قبلها بحسب الآن، ثم تحذف الألف الثانية لالتقاء الساكنين، وتُعَوَّضُ عنها التاء.</bdi> — but if its عين is weak, its vowel is transferred to the فاء and it is turned into an ألف, since it originally carried a vowel and the letter before it is now open (فتحة); then the second ألف is dropped to avoid two ساكن letters meeting, and a تاء is put in its place as compensation.`, list: false },
             { html: `<bdi>كأقام إقامَة، وأناب إنابة.</bdi>`, list: false },
-            { html: `<bdi>وقد تُحْذَفُ التاءُ إذا كان مضافًا، على ما اختاره ابن مالك، نحو ﴿وَإِقَامِ الصَّلَاةِ﴾ [النور: ٣٧]. وبعضهم يُحْذِفُها مطلقًا.</bdi>`, list: false },
-            { html: `<bdi>وقد يجيء على فَعَال بفتح الفاء، كأَنْبَتَ نَبَاتًا، وأَعْطَى عَطَاء، ويُسَمُّوْنَه حينئذ اسمَ مصدر</bdi> — so called because it points towards the sense of the مصدر though some of its letters have been dropped and not replaced.`, list: false },
+            { html: `<bdi>وقد تُحْذَفُ التاءُ إذا كان مضافًا، على ما اختاره ابن مالك، نحو ﴿وَإِقَامِ الصَّلَاةِ﴾ [النور: ٣٧]. وبعضهم يُحْذِفُها مطلقًا.</bdi> — the تاء may be dropped when the word is مضاف, as ابن مالك held, e.g. ﴿وَإِقَامِ الصَّلَاةِ﴾; and some drop it unconditionally.`, list: false },
+            { html: `<bdi>وقد يجيء على فَعَال بفتح الفاء، كأَنْبَتَ نَبَاتًا، وأَعْطَى عَطَاء، ويُسَمُّوْنَه حينئذ اسمَ مصدر</bdi> — and it may sometimes come on فَعَال with فتحة on the ف, as in أَنْبَتَ نَبَاتًا, أَعْطَى عَطَاء, at which point it is called اسم مصدر — so called because it points towards the sense of the مصدر though some of its letters have been dropped and not replaced.`, list: false },
           ],
           exercise: {
             prompt: `In <bdi>أقام إقامَة</bdi>, the تاء at the end is:`,
@@ -559,12 +559,12 @@ export default {
         {
           heading: 'ما أوَّله همزة وصل، وما بُدِئ بتاء زائدة',
           lines: [
-            { html: `<bdi>وقياس مصدر ما أوله همزة وَصْلٍ قياسية: أن يُكْسَرَ ثالثُ حرفٍ منه، ويُزادُ قبل آخره ألف، فيصير مصدرًا.</bdi>`, list: false },
+            { html: `<bdi>وقياس مصدر ما أوله همزة وَصْلٍ قياسية: أن يُكْسَرَ ثالثُ حرفٍ منه، ويُزادُ قبل آخره ألف، فيصير مصدرًا.</bdi> — the قياس for the مصدر of a verb beginning with a قياسي همزة وصل is: its third letter takes a كسرة, and an ألف is added before its last letter.`, list: false },
             { html: `<bdi>كانطلق انطلاقًا، واقتدر اقتدارًا، واصطفى اصطفاءً، واستغفر استغفارًا.</bdi>`, list: false },
-            { html: `<bdi>فخَرَجَ نحو اطَّايَرَ واطَّيَّرَ، فمصدرها التَّفَاعُل والتَّفَعُّل، لعدم قياسية الهمزة.</bdi>`, list: false },
-            { html: `<bdi>وإنِ كان اسْتَفْعَلَ معتلَّ العين، عُمِلَ في مصدره ما عُمِلَ في مصدر أَفْعَلَ معتلّ العين، كاستقام استقامة، واستعاذ استعاذة.</bdi>`, list: false },
-            { html: `<bdi>وقياس مصدر ما بُدِئَ بتاءٍ زائدةٍ: أن يُضَمَّ رابعُه</bdi>, <bdi>نحو تَدَحْرَجَ تَدَحْرُجًا، وتَشَيْطَنَ تَشَيْطُنًا، وتَجَوْرَبَ تَجَوْرُبًا</bdi>.`, list: false },
-            { html: `<bdi>لكن إذا كانت اللامُ ياءً كُسِر الحرفُ المضمومُ، ليناسب الياء، كتوانَى توانِيًا، وتغالَى تغالِيًا.</bdi>`, list: false },
+            { html: `<bdi>فخَرَجَ نحو اطَّايَرَ واطَّيَّرَ، فمصدرها التَّفَاعُل والتَّفَعُّل، لعدم قياسية الهمزة.</bdi> — excepted from this are verbs like اطَّايَرَ and اطَّيَّرَ, whose مصادر are التفاعل and التفعُّل, because their همزة is not the قياسي kind.`, list: false },
+            { html: `<bdi>وإنِ كان اسْتَفْعَلَ معتلَّ العين، عُمِلَ في مصدره ما عُمِلَ في مصدر أَفْعَلَ معتلّ العين، كاستقام استقامة، واستعاذ استعاذة.</bdi> — and if اسْتَفْعَلَ has a weak عين, its مصدر is treated the same way as the مصدر of a weak-عين أَفْعَلَ, as in استقام استقامة, استعاذ استعاذة.`, list: false },
+            { html: `<bdi>وقياس مصدر ما بُدِئَ بتاءٍ زائدةٍ: أن يُضَمَّ رابعُه</bdi> — the قياس for the مصدر of a verb beginning with an added تاء is: its fourth letter takes a ضمة — <bdi>نحو تَدَحْرَجَ تَدَحْرُجًا، وتَشَيْطَنَ تَشَيْطُنًا، وتَجَوْرَبَ تَجَوْرُبًا</bdi>.`, list: false },
+            { html: `<bdi>لكن إذا كانت اللامُ ياءً كُسِر الحرفُ المضمومُ، ليناسب الياء، كتوانَى توانِيًا، وتغالَى تغالِيًا.</bdi> — but if the لام is a ياء, the letter carrying the ضمة takes a كسرة instead, to match the ياء, as in تَوَانَى تَوَانِيًا, تَغَالَى تَغَالِيًا.`, list: false },
           ],
           clarification: `The two rules are mirror images: for همزة الوصل you break the third letter and insert an ألف before the last; for the زائدة تاء you simply raise the fourth letter to a ḍamma. Only the second is disturbed by a final ياء, and then only to a kasra.`,
           exercise: {
@@ -577,11 +577,11 @@ export default {
         {
           heading: 'مصدر فَعْلَلَ ومصدر فَاعَلَ',
           lines: [
-            { html: `<bdi>وقياس مصدر فَعْلَلَ وما أُلْحِقَ به: فَعْلَلَة، كدَحْرَج دَحْرَجة، وزَلْزَل زَلْزَلة، ووَسْوَسَ وَسْوَسَة، وبَيْطَرَ بَيْطَرَة.</bdi>`, list: false },
-            { html: `<bdi>وفِعْلَال بكسر الفاء، إن كان مضاعفًا، نحو زَلْزَلَ زِلْزَالًا، ووَسْوَسَ وِسْوَاسًا؛ وهو في غير المضعف سَماعيّ كدَحْرَجَ دِحْرَاجًا.</bdi>`, list: false },
-            { html: `<bdi>وإنْ فُتِحَ أولُ مصدر المضاعف، فالكثير أن يُراد به اسم الفاعل، نحو قوله تعالى: ﴿مِنْ شَرِّ الْوَسْوَاسِ﴾ [الناس: ٤] أى المُوَسْوِس.</bdi>`, list: false },
-            { html: `<bdi>وقياس مصدر فَاعَلَ: الفِعَال بالكسر والمُفَاعَلَة، كقاتل قتالًا ومُقاتلة، وخاصَم خِصامًا ومُخاصمة.</bdi>`, list: false },
-            { html: `<bdi>وما كانت فاؤُه ياءً من هذا الوزن يمتنع فيه الفِعَال، كيَاسَر مُيَاسرة، ويَامن مُيَامنة، هذا هو القياس. وما جاء على غير ما ذُكِرَ فشاذٌّ، نحو كذَّبَ كِذَّابًا، والقياس تكْذِيبًا.</bdi>`, list: false },
+            { html: `<bdi>وقياس مصدر فَعْلَلَ وما أُلْحِقَ به: فَعْلَلَة، كدَحْرَج دَحْرَجة، وزَلْزَل زَلْزَلة، ووَسْوَسَ وَسْوَسَة، وبَيْطَرَ بَيْطَرَة.</bdi> — the قياس for the مصدر of فَعْلَلَ and its ملحقات is فَعْلَلَة, as in دَحْرَجَ دَحْرَجة, زَلْزَلَ زَلْزَلة, وَسْوَسَ وَسْوَسة, بَيْطَرَ بَيْطَرة.`, list: false },
+            { html: `<bdi>وفِعْلَال بكسر الفاء، إن كان مضاعفًا، نحو زَلْزَلَ زِلْزَالًا، ووَسْوَسَ وِسْوَاسًا؛ وهو في غير المضعف سَماعيّ كدَحْرَجَ دِحْرَاجًا.</bdi> — or فِعْلَال, with كسرة on the ف, if the verb is مضاعف, as in زَلْزَلَ زِلْزَالًا, وَسْوَسَ وِسْوَاسًا; in a non-doubled verb this pattern is سماعي, as in دَحْرَجَ دِحْراجًا.`, list: false },
+            { html: `<bdi>وإنْ فُتِحَ أولُ مصدر المضاعف، فالكثير أن يُراد به اسم الفاعل، نحو قوله تعالى: ﴿مِنْ شَرِّ الْوَسْوَاسِ﴾ [الناس: ٤] أى المُوَسْوِس.</bdi> — and if the first letter of the doubled verb's مصدر carries a فتحة, it is commonly meant as the اسم الفاعل, as in ﴿مِنْ شَرِّ الْوَسْوَاسِ﴾, meaning المُوَسْوِس (the whisperer).`, list: false },
+            { html: `<bdi>وقياس مصدر فَاعَلَ: الفِعَال بالكسر والمُفَاعَلَة، كقاتل قتالًا ومُقاتلة، وخاصَم خِصامًا ومُخاصمة.</bdi> — the قياس for the مصدر of فَاعَلَ is الفِعَال with كسرة, and المُفَاعَلَة, as in قَاتَلَ قتالًا ومقاتلة, خَاصَمَ خِصامًا ومخاصمة.`, list: false },
+            { html: `<bdi>وما كانت فاؤُه ياءً من هذا الوزن يمتنع فيه الفِعَال، كيَاسَر مُيَاسرة، ويَامن مُيَامنة، هذا هو القياس. وما جاء على غير ما ذُكِرَ فشاذٌّ، نحو كذَّبَ كِذَّابًا، والقياس تكْذِيبًا.</bdi> — and where the فاء of this pattern is a ياء, الفِعَال is disallowed, as in يَاسَرَ مُيَاسرة, يَامَنَ مُيَامنة — this is the قياس; whatever comes contrary to it is شاذّ, as in كذَّبَ كِذَّابًا, though the قياس would be تكذيبًا.`, list: false },
           ],
           exercise: {
             prompt: `<bdi>يَاسَر</bdi> takes only <bdi>مُيَاسرة</bdi> and not <bdi>يِسَار</bdi> because:`,
@@ -631,7 +631,7 @@ export default {
           heading: 'تعريفه وبناؤه من الثلاثيّ',
           lines: [
             { html: `<bdi>هو ما اشْتُقَّ من المصدر المبنيّ للفاعل، لِمَن وقع منه الفعل، أو تَعَلَّقَ به</bdi> — the second clause covers a case like <bdi>مثلا ساقط</bdi>, where the thing did not act but the act attached to it.`, list: false },
-            { html: `<bdi>وهو من الثلاثيّ على وزن فاعِل غالبًا، نحو نَاصِر، وضَارِب، وقَابِل، ومَادّ، وراق، وطاو، وبائع.</bdi>`, list: false },
+            { html: `<bdi>وهو من الثلاثيّ على وزن فاعِل غالبًا، نحو نَاصِر، وضَارِب، وقَابِل، ومَادّ، وراق، وطاو، وبائع.</bdi> — from the ثلاثي, it is mostly on the pattern فاعِل, as in نَاصِر, ضَارِب, قَابِل, مَادّ, رَاقٍ, طَاوٍ, بَائِع.`, list: false },
             { html: `<bdi>فإن كان فعلُه مُعَلًّا أجوف قُلِبَتْ ألفُه همزةً</bdi>, as will come in باب الإعلال.`, list: false },
           ],
           exercise: {
@@ -653,10 +653,10 @@ export default {
                 ['فَعِلَ', 'متعدٍّ', 'فاعِل', 'فاهِم'],
                 ['فَعِلَ', 'لازم', 'فَعِلٌ / أَفْعَلُ / فَعْلَان', 'فَرِحٌ، أَحْمَرُ، عَطْشَان، ضَرْبَان'],
                 ['فَعُلَ', 'لازم', 'فَعَلٌ / فَعِيْلٌ', 'بَطَلٌ، كَرِيْمٌ'],
-                ['غير الثلاثيّ', '—', 'على وزن فعله المضارع مع قلب حرف المضارعة ميمًا مضمومة وكسر ما قبل الآخر ولو تقديرًا', 'مُكْرِمٌ، مُنْطَلِقٌ، مُشْتَدٌّ، مُحْتَاجٌ'],
+                ['غير الثلاثيّ', '—', 'على وزن فعله المضارع مع قلب حرف المضارعة ميمًا مضمومة وكسر ما قبل الآخر ولو تقديرًا — on the pattern of its مضارع, with the حرف المضارعة turned into a ضمة-carrying ميم, and the letter before the last taking a كسرة, even if only تقديرًا', 'مُكْرِمٌ، مُنْطَلِقٌ، مُشْتَدٌّ، مُحْتَاجٌ'],
               ],
             } },
-            { html: `<bdi>و من غير الثلاثيّ على زِنَة مضارعه، بإبدال حرف المضارعة ميمًا مَضْمُومَةً، وكَسر ما قبل الآخر، كمُدَحْرِج ومُنْطَلِق ومُسْتَخْرِج.</bdi>`, list: false },
+            { html: `<bdi>و من غير الثلاثيّ على زِنَة مضارعه، بإبدال حرف المضارعة ميمًا مَضْمُومَةً، وكَسر ما قبل الآخر، كمُدَحْرِج ومُنْطَلِق ومُسْتَخْرِج.</bdi> — from other than the ثلاثي, it is on the pattern of its مضارع, replacing the حرف المضارعة with a ضمة-carrying ميم, and giving a كسرة to the letter before the last, as in مُدَحْرِج, مُنْطَلِق, مُسْتَخْرِج.`, list: false },
             { html: `Whatever comes outside these scales is <bdi>سماعي</bdi>.`, list: false },
           ],
           clarification: `The <bdi>ولو تقديرًا</bdi> matters. In <bdi>مُشْتَدٌّ</bdi> and <bdi>مُحْتَاجٌ</bdi> you cannot hear a kasra before the last letter, because the one is مضاعف and the other أجوف; the kasra is there in estimation, and the rule still holds.`,
@@ -670,9 +670,9 @@ export default {
         {
           heading: 'الشاذّ والوارد على أَفْعَلَ',
           lines: [
-            { html: `<bdi>وقد شَذَّ من ذلك ثلاثةُ ألفاظ، وهى: أَسْهَبَ فهو مُسْهَب، وأَحْصَنَ فهو مُحْصَن، وأَلْفَجَ بمعنى أَفْلَسَ فهو مُلْفَج، بفتح ما قبل الآخر فيها.</bdi>`, list: false },
+            { html: `<bdi>وقد شَذَّ من ذلك ثلاثةُ ألفاظ، وهى: أَسْهَبَ فهو مُسْهَب، وأَحْصَنَ فهو مُحْصَن، وأَلْفَجَ بمعنى أَفْلَسَ فهو مُلْفَج، بفتح ما قبل الآخر فيها.</bdi> — three words depart from this, anomalously: أَسْهَبَ, whose اسم فاعل is مُسْهَب; أَحْصَنَ, whose is مُحْصَن; and أَلْفَجَ meaning أَفْلَسَ (to go bankrupt), whose is مُلْفَج — with فتحة on the letter before the last in all three.`, list: false },
             { html: `<bdi>أَسْهَبَ</bdi> is to talk in detail, at length; <bdi>أَحْصَنَ</bdi> is to fortify, to be chaste or pure.`, list: false },
-            { html: `<bdi>وقد جاء من أفعل على فاعِل، نحو أَعْشَبَ المكانُ فهو عَاشِب، وأَوْرَسَ فهو وارس، وأَيْفَعَ الغلامُ فهو يافع، ولا يقال فيها مُفْعِل.</bdi>`, list: false },
+            { html: `<bdi>وقد جاء من أفعل على فاعِل، نحو أَعْشَبَ المكانُ فهو عَاشِب، وأَوْرَسَ فهو وارس، وأَيْفَعَ الغلامُ فهو يافع، ولا يقال فيها مُفْعِل.</bdi> — and from أَفْعَلَ it has also come on فاعِل, as in أَعْشَبَ المكانُ (the place grew abundant grass), whose اسم فاعل is عَاشِب; أَوْرَسَ, whose is وَارِس; and أَيْفَعَ الغلامُ (the boy reached puberty), whose is يَافِع — مُفْعِل is not said for these.`, list: false },
             { html: `<bdi>أَوْرَسَ</bdi> is to produce the plant that gives the yellow dye called <bdi>وَرْس</bdi>; <bdi>أَيْفَعَ</bdi> is to reach puberty.`, list: false },
           ],
           exercise: {
@@ -685,7 +685,7 @@ export default {
         {
           heading: 'صيغ المبالغة الخمسة',
           lines: [
-            { html: `<bdi>وقد تُحَوَّلُ صيغة فاعل للدلالة على الكثرة والمبالغة في الحَدَث، إلى أوزان خمسة مشهورة، تُسَمَّى صِيَغُ المبالغة.</bdi>`, list: false },
+            { html: `<bdi>وقد تُحَوَّلُ صيغة فاعل للدلالة على الكثرة والمبالغة في الحَدَث، إلى أوزان خمسة مشهورة، تُسَمَّى صِيَغُ المبالغة.</bdi> — the صيغة فاعل may be converted, to indicate abundance and intensity in the الحدث, into five well-known أوزان, called صِيَغ المبالغة (forms of intensification).`, list: false },
             { table: {
               title: 'الخمسة المشهورة',
               headers: ['الوزن', 'الضبط', 'المثال'],
@@ -694,7 +694,7 @@ export default {
                 ['مِفْعال', '—', 'مِنْحار'],
                 ['فَعُول', '—', 'غَفُور'],
                 ['فَعِيل', '—', 'سميع'],
-                ['فَعِل', 'بفتح الفاء وكسر العين', 'حَذِرٌ'],
+                ['فَعِل', 'بفتح الفاء وكسر العين — فتحة on the ف, كسرة on the ع', 'حَذِرٌ'],
               ],
             } },
           ],
@@ -708,22 +708,22 @@ export default {
         {
           heading: 'السماعيّ من المبالغة، ومسائل اللفظ',
           lines: [
-            { html: `<bdi>وقد سُمِعَتْ ألفاظ للمبالغة غير تلك الخمسة (سماعية)، منها:</bdi>`, list: false },
+            { html: `<bdi>وقد سُمِعَتْ ألفاظ للمبالغة غير تلك الخمسة (سماعية)، منها:</bdi> — words for intensification other than those five have also been heard (سماعية), among them:`, list: false },
             { table: {
               title: 'السماعيّ',
-              headers: ['الوزن', 'الضبط', 'المثال'],
+              headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'المثال (Example)'],
               rows: [
-                ['فِعِّيل', 'بكسر الفاء وتشديد العين مكسورة', 'سِكِّير'],
+                ['فِعِّيل', 'بكسر الفاء وتشديد العين مكسورة — كسرة on the ف, a doubled ع carrying a كسرة', 'سِكِّير'],
                 ['مِفْعِيل', 'بكسر فسكون', 'مِعْطير'],
                 ['فُعَلَة', 'بضم ففتح', 'هُمَزَة، لُمَزَة'],
                 ['فاعُول', '—', 'فاروق'],
-                ['فُعَال', 'بضم الفاء وتخفيف العين أو تشديدها', 'طُوّال، كُبّار'],
+                ['فُعَال', 'بضم الفاء وتخفيف العين أو تشديدها — ضمة on the ف, with the ع either single or doubled', 'طُوّال، كُبّار'],
               ],
             } },
             { html: `<bdi>سِكِّير</bdi> is intoxicated; <bdi>هُمَزَة</bdi> one who goads a great deal; <bdi>لُمَزَة</bdi> one who defames and mocks a great deal.`, list: false },
             { html: `<bdi>وبهما قُرِئ قوله تعالى: ﴿وَمَكَرُوا مَكْرًا كُبَّارًا﴾ [نوح: ٢٢]</bdi> — with تشديد and with تخفيف alike.`, list: false },
-            { html: `<bdi>وقد يأتى اسم الفاعل مرادًا به اسم المفعول قليلًا، كقوله تعالى: ﴿فِي عِيشَةٍ رَاضِيَةٍ﴾ [الحاقة: ٢١] أى مَرْضِيَّة.</bdi>`, list: false },
-            { html: `<bdi>وقد يأتى فَعِيل مرادًا به فاعِل، كقدير بمعنى قادر. وكذا فَعُول بفتح الفاء، كغفور بمعنى غافر.</bdi>`, list: false },
+            { html: `<bdi>وقد يأتى اسم الفاعل مرادًا به اسم المفعول قليلًا، كقوله تعالى: ﴿فِي عِيشَةٍ رَاضِيَةٍ﴾ [الحاقة: ٢١] أى مَرْضِيَّة.</bdi> — اسم الفاعل sometimes comes meaning اسم المفعول, rarely, as in ﴿فِي عِيشَةٍ رَاضِيَةٍ﴾, meaning مَرْضِيَّة (pleasing, contented).`, list: false },
+            { html: `<bdi>وقد يأتى فَعِيل مرادًا به فاعِل، كقدير بمعنى قادر. وكذا فَعُول بفتح الفاء، كغفور بمعنى غافر.</bdi> — فَعِيل sometimes comes meaning فاعِل, as in قدير meaning قادر; likewise فَعُول with فتحة on the ف, as in غفور meaning غافر.`, list: false },
           ],
           clarification: `The last two notes run in opposite directions. In ﴿عِيشَةٍ رَاضِيَةٍ﴾ a فاعِل form carries a مفعول sense; in قدير and غفور a مبالغة form carries a plain فاعِل sense. Neither is the norm — the first is expressly قليل.`,
           exercise: {
@@ -773,11 +773,11 @@ export default {
         {
           heading: 'اسم المفعول: تعريفه وزنته من الثلاثيّ',
           lines: [
-            { html: `<bdi>هو ما اشْتُقَّ من مصدر المبنيّ للمجهول، لِمَن وقع عليه الفعل.</bdi>`, list: false },
-            { html: `<bdi>وهو من الثلاثيّ على زنة مَفْعُول، كمَنْصُور، ومَوعود، ومَقُول، ومَبِيع، ومَرْمِيّ، ومَوْقِيّ، ومَطْوِيّ.</bdi>`, list: false },
-            { html: `<bdi>أصل ما عدا الأولين: مَقْوُول، ومَبْيُوع، ومَرْمُوي، ومَطْوُوي</bdi>, as will come in باب الإعلال.`, list: false },
-            { html: `<bdi>وقد يكون على وزن فَعِيل، كقَتِيل</bdi> (أي مقتول) <bdi>وجريح</bdi> (أي مجروح).`, list: false },
-            { html: `<bdi>وقد يجيء مفعول مرادًا به المصدر، كقولهم: ليس لفلان مَعْقُول، وما عنده مَعْلوم: أى عَقْل وعِلم.</bdi>`, list: false },
+            { html: `<bdi>هو ما اشْتُقَّ من مصدر المبنيّ للمجهول، لِمَن وقع عليه الفعل.</bdi> — it is what is derived from the مصدر of the المبني للمجهول (passive), for the one upon whom the action fell.`, list: false },
+            { html: `<bdi>وهو من الثلاثيّ على زنة مَفْعُول، كمَنْصُور، ومَوعود، ومَقُول، ومَبِيع، ومَرْمِيّ، ومَوْقِيّ، ومَطْوِيّ.</bdi> — from the ثلاثي it is on the pattern مَفْعُول, as in مَنْصُور, مَوعود, مَقُول, مَبِيع, مَرْمِيّ, مَوْقِيّ, مَطْوِيّ.`, list: false },
+            { html: `<bdi>أصل ما عدا الأولين: مَقْوُول، ومَبْيُوع، ومَرْمُوي، ومَطْوُوي</bdi> — the original form of all but the first two is مَقْوُول, مَبْيُوع, مَرْمُوي, مَطْوُوي — as will come in باب الإعلال.`, list: false },
+            { html: `<bdi>وقد يكون على وزن فَعِيل، كقَتِيل</bdi> (أي مقتول) <bdi>وجريح</bdi> (أي مجروح) — it may also come on the pattern فَعِيل, as in قَتِيل (i.e. مقتول, killed) and جريح (i.e. مجروح, wounded).`, list: false },
+            { html: `<bdi>وقد يجيء مفعول مرادًا به المصدر، كقولهم: ليس لفلان مَعْقُول، وما عنده مَعْلوم: أى عَقْل وعِلم.</bdi> — مفعول sometimes comes meaning the مصدر itself, as in the saying ليس لفلان مَعْقُول, and ما عنده مَعْلوم, meaning عَقْل (intellect) and عِلم (knowledge).`, list: false },
           ],
           exercise: {
             prompt: `<bdi>ليس لفلان مَعْقُول</bdi> illustrates that <bdi>مفعول</bdi> may be used for:`,
@@ -789,9 +789,9 @@ export default {
         {
           heading: 'اسم المفعول من غير الثلاثيّ، وبناؤه من اللازم',
           lines: [
-            { html: `<bdi>وأما من غير الثلاثيّ، فيكون كاسم فاعله ولكن بفتح ما قبل الآخِر، نحو مُكْرَم، ومُعَظَّم، ومُسْتَعَان به.</bdi>`, list: false },
-            { html: `<bdi>وأما نحو مُخْتار ومُعْتَدّ ومُنْصَب ومُحَابّ ومُتَحَابّ، فصالح لاسمَى الفاعل والمفعول، بحسب التقدير.</bdi>`, list: false },
-            { html: `<bdi>ولا يُصاغ اسم المفعول من اللازم إلا مَعَ الظرف أو الجار والمجرور أو المصدر، بالشروط المتقدمة في المبنيّ للمجهول.</bdi>`, list: false },
+            { html: `<bdi>وأما من غير الثلاثيّ، فيكون كاسم فاعله ولكن بفتح ما قبل الآخِر، نحو مُكْرَم، ومُعَظَّم، ومُسْتَعَان به.</bdi> — as for other than the ثلاثي, it takes the same form as its اسم فاعل but with a فتحة on the letter before the last, as in مُكْرَم, مُعَظَّم, مُسْتَعَان به.`, list: false },
+            { html: `<bdi>وأما نحو مُخْتار ومُعْتَدّ ومُنْصَب ومُحَابّ ومُتَحَابّ، فصالح لاسمَى الفاعل والمفعول، بحسب التقدير.</bdi> — forms like مُخْتار, مُعْتَدّ, مُنْصَب, مُحَابّ, مُتَحَابّ can serve as either اسم الفاعل or اسم المفعول, depending on the intended reading (التقدير).`, list: false },
+            { html: `<bdi>ولا يُصاغ اسم المفعول من اللازم إلا مَعَ الظرف أو الجار والمجرور أو المصدر، بالشروط المتقدمة في المبنيّ للمجهول.</bdi> — اسم المفعول is not formed from a لازم verb except together with a ظرف, or a جار ومجرور, or a مصدر, under the same conditions given earlier for the المبني للمجهول.`, list: false },
             { html: `<bdi>نحو: جُلِسَ \\ مجلوس يومَ الخميس، جُلِسَ \\ مجلوس في المسجد، جُلِسَ \\ مجلوس جلوسٌ طويلٌ.</bdi>`, list: false },
           ],
           clarification: `مُخْتار and its like are ambiguous for a plain reason: in these forms the letter before the last is neither audibly kasra nor audibly fatḥa, so nothing in the pronunciation decides between فاعل and مفعول — only the تقدير does.`,
@@ -805,9 +805,9 @@ export default {
         {
           heading: 'الصفة المشبهة: تعريفها وبناؤها',
           lines: [
-            { html: `<bdi>هى لفظٌ مَصُوغٌ من مصدر اللازم، للدلالة على الثُّبوت في صاحبها.</bdi>`, list: false },
-            { html: `<bdi>ويغلِب بناؤها من لازم باب فرح (فَعِل)، ومن باب شَرُف (فَعُل).</bdi>`, list: false },
-            { html: `<bdi>ومن غير الغالب نحو سَيِّد ومَيِّت: من ساد يسود ومات يموت، وشَيْخ: من شاخ يشيخ.</bdi>`, list: false },
+            { html: `<bdi>هى لفظٌ مَصُوغٌ من مصدر اللازم، للدلالة على الثُّبوت في صاحبها.</bdi> — it is a word formed from the مصدر of a لازم verb, indicating a settled quality (ثُبوت) in its bearer.`, list: false },
+            { html: `<bdi>ويغلِب بناؤها من لازم باب فرح (فَعِل)، ومن باب شَرُف (فَعُل).</bdi> — it is most often built from the لازم of باب فَرِح (فَعِل), and from باب شَرُف (فَعُل).`, list: false },
+            { html: `<bdi>ومن غير الغالب نحو سَيِّد ومَيِّت: من ساد يسود ومات يموت، وشَيْخ: من شاخ يشيخ.</bdi> — outside the most common case there is سَيِّد and مَيِّت, from سَاد يَسُود and مَاتَ يَمُوت, and شَيْخ, from شَاخَ يَشِيخ.`, list: false },
           ],
           clarification: `Two things separate the صفة مشبهة from اسم الفاعل, and both are in the definition. It is built only from a لازم, so a متعدٍّ verb like ضَرَبَ yields none; and it points to ثبوت — the quality settled in its bearer — rather than to the act happening.`,
           exercise: {
@@ -833,22 +833,22 @@ export default {
               title: 'أربعة مختصة بباب شَرُفَ',
               headers: ['الوزن', 'الضبط', 'المثال'],
               rows: [
-                ['فَعَل', 'بفتحتين', 'حَسَن، بَطَل'],
-                ['فُعُل', 'بضمتين', 'جُنُب — وهو قليل'],
-                ['فُعال', 'بالضم', 'شُجاع، فُرات'],
-                ['فَعَال', 'بالفتح والتخفيف', 'رجل جَبَان، وامرأة حَصَان — وهى العفيفة'],
+                ['فَعَل', 'بفتحتين — two فتحات', 'حَسَن، بَطَل'],
+                ['فُعُل', 'بضمتين — two ضمات', 'جُنُب — وهو قليل'],
+                ['فُعال', 'بالضم — with a ضمة', 'شُجاع، فُرات'],
+                ['فَعَال', 'بالفتح والتخفيف — with a فتحة, undoubled', 'رجل جَبَان، وامرأة حَصَان — وهى العفيفة'],
               ],
             } },
             { table: {
               title: 'ستة مشتركة بين البابين',
-              headers: ['الوزن', 'المثالان', 'من أين جاء كلٌّ منهما'],
+              headers: ['الوزن (Pattern)', 'المثالان (The Two Examples)', 'من أين جاء كلٌّ منهما (Where Each Comes From)'],
               rows: [
-                ['فَعْل', 'سَبْط، ضَخْم', 'الأول من سَبِط بالكسر، والثاني من ضَخُم بالضم'],
-                ['فِعْل', 'صِفْر، مِلْح', 'الأول من صَفِر بالكسر، والثاني من مَلُح بالضم'],
-                ['فُعْلٌ', 'حُرّ، صُلْب', 'الأول من حَرَّ وأصله حَرِر بالكسر، والثاني من صَلُبَ بالضم'],
-                ['فَعِل', 'فَرِح، نَجِس', 'الأول من فَرِح بالكسر، والثاني من نَجُس بالضم'],
-                ['فاعل', 'صَاحب، طاهر', 'الأول من صَحِب بالكسر، والثاني من طَهُر بالضم'],
-                ['فَعِيل', 'بَخِيل، كريم', 'الأول من بَخِل بالكسر، والثاني من كَرُم بالضم'],
+                ['فَعْل', 'سَبْط، ضَخْم', 'the first from سَبِط with كسرة, the second from ضَخُم with ضمة'],
+                ['فِعْل', 'صِفْر، مِلْح', 'the first from صَفِر with كسرة, the second from مَلُح with ضمة'],
+                ['فُعْلٌ', 'حُرّ، صُلْب', 'the first from حَرَّ, originally حَرِر with كسرة; the second from صَلُبَ with ضمة'],
+                ['فَعِل', 'فَرِح، نَجِس', 'the first from فَرِح with كسرة, the second from نَجُس with ضمة'],
+                ['فاعل', 'صَاحب، طاهر', 'the first from صَحِب with كسرة, the second from طَهُر with ضمة'],
+                ['فَعِيل', 'بَخِيل، كريم', 'the first from بَخِل with كسرة, the second from كَرُم with ضمة'],
               ],
             } },
             { html: `<bdi>سَبْط</bdi> is tall; <bdi>ضَخْم</bdi> large; <bdi>صَفِر</bdi> to be empty; <bdi>مَلُح</bdi> to be salty; <bdi>صَلُبَ</bdi> to be hard; <bdi>بَطَل</bdi> brave; <bdi>فُرات</bdi> sweet.`, list: false },
@@ -863,10 +863,10 @@ export default {
         {
           heading: 'أحكامها',
           lines: [
-            { html: `<bdi>وربما اشترك فاعل وفعيل فى بناءٍ واحد، كماجد ومجيد، ونابه ونبيه.</bdi>`, list: false },
-            { html: `<bdi>وقد جاءت على غير ذلك (قليل)، كشَكُسٍ بفتح فضم، لسَيِّء الخُلُقِ.</bdi>`, list: false },
-            { html: `<bdi>ويطرّد قياسُها من غير الثلاثيّ على زنة اسم الفاعل إذا أُرِيدَ به الثبوت، كمعتدِل القامة، ومنطلِق اللسان.</bdi>`, list: false },
-            { html: `<bdi>كما أنها قد تُحَوَّل فى الثلاثيّ إلى زنة فاعل إذا أريد بها التجدُّد والحدوث: نحو زيد شاجعٌ أمسِ، وشارِفٌ غدًا، وحاسِنٌ وجهُهُ، لاستعمال الأغذية الجيدة والنظافة مثلًا.</bdi>`, list: false },
+            { html: `<bdi>وربما اشترك فاعل وفعيل فى بناءٍ واحد، كماجد ومجيد، ونابه ونبيه.</bdi> — فاعل and فعيل sometimes share one and the same form, as in ماجد and مجيد, نابه and نبيه.`, list: false },
+            { html: `<bdi>وقد جاءت على غير ذلك (قليل)، كشَكُسٍ بفتح فضم، لسَيِّء الخُلُقِ.</bdi> — it has also come on other patterns, rarely, as in شَكُس — فتحة then ضمة — for someone of bad character.`, list: false },
+            { html: `<bdi>ويطرّد قياسُها من غير الثلاثيّ على زنة اسم الفاعل إذا أُرِيدَ به الثبوت، كمعتدِل القامة، ومنطلِق اللسان.</bdi> — its قياس from other than the ثلاثي regularly follows the pattern of اسم الفاعل when ثبوت is intended, as in مُعْتَدِل القامة (well-proportioned in stature), مُنْطَلِق اللسان (fluent of tongue).`, list: false },
+            { html: `<bdi>كما أنها قد تُحَوَّل فى الثلاثيّ إلى زنة فاعل إذا أريد بها التجدُّد والحدوث: نحو زيد شاجعٌ أمسِ، وشارِفٌ غدًا، وحاسِنٌ وجهُهُ، لاستعمال الأغذية الجيدة والنظافة مثلًا.</bdi> — and in the ثلاثي it may be recast onto the pattern فاعِل when تجدُّد (renewal) and حدوث (occurring anew) are intended: e.g. زيد شاجعٌ أمسِ (Zayd was brave yesterday), شارِفٌ غدًا (will be on the verge tomorrow), حاسِنٌ وجهُهُ (his face has become good-looking) — from using good food and cleanliness, for instance.`, list: false },
             { html: `<bdi>يطرّد</bdi> here is to flow or be consecutive; <bdi>الأغذية</bdi> is nourishment.`, list: false },
           ],
           clarification: `The last two rules move in opposite directions along the same axis. Going up from the ثلاثي, a غير ثلاثي form on the زنة of اسم الفاعل becomes a صفة مشبهة once ثبوت is intended. Going the other way, a ثلاثي صفة مشبهة is recast on فاعِل once تجدّد and حدوث are intended — so <bdi>حاسِنٌ وجهُهُ</bdi> says the face has been made good by care, not that it is settled in beauty.`,
@@ -917,13 +917,13 @@ export default {
         {
           heading: 'تعريفه ووزنه وما خالف القياس',
           lines: [
-            { html: `<bdi>هو الاسم المَصُوغ من المصدر للدلالة على أن شيئين اشتركا في صفة، وزاد أحدهما على الآخر في تلك الصفة.</bdi>`, list: false },
-            { html: `<bdi>وقياسه أن يأتي على أَفْعَل، كزيد أكرم من عمرو، وهو أعظم منه.</bdi>`, list: false },
-            { html: `<bdi>وخرج عن ذلك ثلاثة ألفاظ، أَتَتْ بغير همزة، وهى خَيْرٌ وشَرٌّ وحَبٌّ، نحو خيرٌ منه، وشرٌّ منه، وقولُه:</bdi>`, list: false },
+            { html: `<bdi>هو الاسم المَصُوغ من المصدر للدلالة على أن شيئين اشتركا في صفة، وزاد أحدهما على الآخر في تلك الصفة.</bdi> — it is the noun formed from the مصدر to indicate that two things share a quality, and one of them exceeds the other in that quality.`, list: false },
+            { html: `<bdi>وقياسه أن يأتي على أَفْعَل، كزيد أكرم من عمرو، وهو أعظم منه.</bdi> — its قياس is to come on أَفْعَل, as in زيد أكرم من عمرو (Zayd is more generous than Amr), وهو أعظم منه (he is greater than him).`, list: false },
+            { html: `<bdi>وخرج عن ذلك ثلاثة ألفاظ، أَتَتْ بغير همزة، وهى خَيْرٌ وشَرٌّ وحَبٌّ، نحو خيرٌ منه، وشرٌّ منه، وقولُه:</bdi> — three words depart from this, coming without a همزة: خَيْر, شَرّ, and حَبّ, as in خيرٌ منه, شرٌّ منه, and the poet's line:`, list: false },
             { html: `<bdi>وَحَبُّ شَيْءٍ إلى الإنسان ما مُنِعَا</bdi>`, list: false },
-            { html: `<bdi>وحُذِفَتْ همزتهن لكثرة الاستعمال، وقد ورد استعمالهن بالهمزة إلى الأصل كقوله: بِلَالُ خَيْرُ النَّاسِ وابْنُ الأَخْيَرِ.</bdi>`, list: false },
+            { html: `<bdi>وحُذِفَتْ همزتهن لكثرة الاستعمال، وقد ورد استعمالهن بالهمزة إلى الأصل كقوله: بِلَالُ خَيْرُ النَّاسِ وابْنُ الأَخْيَرِ.</bdi> — their همزة was dropped due to frequency of use, though they have also been used with the همزة restored to the original, as in the line: بِلَالُ خَيْرُ النَّاسِ وابْنُ الأَخْيَرِ.`, list: false },
             { html: `<bdi>وكقراءة بعضهم ﴿يَعْلَمُونَ غَدًا مَنِ الْكَذَّابُ الْأَشَرُّ﴾ [القمر: ٢٦] بفتح الهمزة والشين، وتشديد الراء، وكقوله صلى الله عليه وسلم: "أَحَبُّ الأعمال إلى الله أدْوَمُها وإن قَلَّ".</bdi>`, list: false },
-            { html: `<bdi>وقيل: حذفُها ضرورة في الأخير، وفى الأولين، لأنهما لا فعلَ لهما، ففيهما شذوذان.</bdi>`, list: false },
+            { html: `<bdi>وقيل: حذفُها ضرورة في الأخير، وفى الأولين، لأنهما لا فعلَ لهما، ففيهما شذوذان.</bdi> — and it is said: their همزة is dropped out of poetic necessity (ضرورة) in the last one, and in the first two because they have no فعل at all — so those two carry a double anomaly.`, list: false },
           ],
           exercise: {
             prompt: `Which three words come as اسم تفضيل without a همزة?`,
@@ -935,12 +935,12 @@ export default {
         {
           heading: 'الشروط: الأول إلى الثالث',
           lines: [
-            { html: `<bdi>وله ثمانية شروط.</bdi>`, list: false },
-            { html: `<bdi>الأول: أن يكون له فِعْلٌ.</bdi> <bdi>وشذّ مما لا فعل له: كهو أَقْمَنُ بكذا</bdi> أى أَحَقُّ به, <bdi>وأَلَصُّ مِنْ شِظَاظٍ</bdi> — <bdi>بَنَوْه من قولهم: هو لِصٌّ أي سارق</bdi>. <bdi>شِظَاظ</bdi> was a famous thief of Banī Dhibah.`, list: false },
-            { html: `<bdi>الثاني: أن يكون الفعل ثلاثيًّا.</bdi> <bdi>وشذّ: هذا الكلام أَخْصَرُ من غيره، مِنْ اخْتُصِرَ المبنيّ للمجهول، وفيه شذوذ آخر</bdi> — it is also built from a مبنيّ للمجهول, against the eighth شرط.`, list: false },
-            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه الحقيقيَّ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ إنطلاقًا.</bdi>`, list: false },
-            { html: `<bdi>وسُمِعَ هو أعطاهم بالدَّراهم، وأولاهم للمعروف، وهذا المكان أَقْفَرُ من غيره</bdi> — <bdi>أَقْفَر</bdi> is emptier. <bdi>وبعضهم جوَّز بناءَه من أفعل مطلقًا، وبعضهم جوّزه إن كانت الهمزة لغير النَّقْل</bdi>, that is, where the همزة does not come for تعدية.`, list: false },
-            { html: `<bdi>الثالث: أن يكون الفعل متصرفًا، فخرج عَسَى ولَيْسَ، فليس له أفعل تفضيل.</bdi>`, list: false },
+            { html: `<bdi>وله ثمانية شروط.</bdi> — it has eight conditions.`, list: false },
+            { html: `<bdi>الأول: أن يكون له فِعْلٌ.</bdi> — the first: that it have a فعل. <bdi>وشذّ مما لا فعل له: كهو أَقْمَنُ بكذا</bdi> أى أَحَقُّ به, <bdi>وأَلَصُّ مِنْ شِظَاظٍ</bdi> — <bdi>بَنَوْه من قولهم: هو لِصٌّ أي سارق</bdi> — anomalous against this, having no فعل: هو أَقْمَنُ بكذا (he is fitter for it), meaning أَحَقُّ به; and أَلَصُّ مِنْ شِظَاظٍ, formed from هو لِصٌّ, i.e. a thief. <bdi>شِظَاظ</bdi> was a famous thief of Banī Dhibah.`, list: false },
+            { html: `<bdi>الثاني: أن يكون الفعل ثلاثيًّا.</bdi> — the second: that the فعل be ثلاثي. <bdi>وشذّ: هذا الكلام أَخْصَرُ من غيره، مِنْ اخْتُصِرَ المبنيّ للمجهول، وفيه شذوذ آخر</bdi> — anomalous: هذا الكلام أَخْصَرُ من غيره, from اخْتُصِرَ, the passive verb — it is also built from a مبنيّ للمجهول, against the eighth شرط.`, list: false },
+            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه الحقيقيَّ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ إنطلاقًا.</bdi> — if this condition is missing, we mention its actual مصدر after أَكْثَر or أَشَدّ — i.e. هو أَكْثَرُ انطلاقًا.`, list: false },
+            { html: `<bdi>وسُمِعَ هو أعطاهم بالدَّراهم، وأولاهم للمعروف، وهذا المكان أَقْفَرُ من غيره</bdi> — <bdi>أَقْفَر</bdi> is emptier. <bdi>وبعضهم جوَّز بناءَه من أفعل مطلقًا، وبعضهم جوّزه إن كانت الهمزة لغير النَّقْل</bdi> — some scholars permit forming it from أَفْعَلَ unconditionally, and some permit it when the همزة is not for تعدية (transitivization).`, list: false },
+            { html: `<bdi>الثالث: أن يكون الفعل متصرفًا، فخرج عَسَى ولَيْسَ، فليس له أفعل تفضيل.</bdi> — the third: that the فعل be مُتَصَرِّف, excluding عَسَى and لَيْسَ, which have no أفعل تفضيل.`, list: false },
           ],
           clarification: `The repair for a missing شرط is the same device throughout — bring the مصدر after أَكْثَر or أَشَدّ — with one variable: whether that مصدر is حقيقي or مؤوَّل. The حقيقي serves for the second and seventh شرطين (أَكْثَرُ إنطلاقًا، أَشَدُّ حُمْرَةً); the مؤوَّل with أَنْ serves for the sixth and eighth (أَكْثَرُ أَنْ لا يذهبَ، أَكْثَرُ أَنْ يُضْرَبَ).`,
           exercise: {
@@ -953,10 +953,10 @@ export default {
         {
           heading: 'الشروط: الرابع إلى السادس',
           lines: [
-            { html: `<bdi>الرابع: أن يكون حَدَثُهُ قابلًا للتفاوت: فخرج نحو مات وفَنِى، فليس له أفعل تفضيل.</bdi>`, list: false },
-            { html: `<bdi>الخامس: أن يكون تامًّا، فخرجت الأفعال الناقصة، لأنها لا تدلّ على الحدث.</bdi>`, list: false },
-            { html: `<bdi>السادس: ألّا يكون مَنْفِيًّا، ولو كان النفى لازمًا. نحو ما عاج زيد بالدواء</bdi> أى ما انتفع به, <bdi>لئلا يلتبس المَنْفِيُّ بالمُثْبِت.</bdi>`, list: false },
-            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه المُؤَوَّلَ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ أَنْ لا يذهبَ إلى المدرسة.</bdi>`, list: false },
+            { html: `<bdi>الرابع: أن يكون حَدَثُهُ قابلًا للتفاوت: فخرج نحو مات وفَنِى، فليس له أفعل تفضيل.</bdi> — the fourth: that its حَدَث be capable of variation in degree — excluding verbs like مَاتَ and فَنِيَ, which have no أفعل تفضيل.`, list: false },
+            { html: `<bdi>الخامس: أن يكون تامًّا، فخرجت الأفعال الناقصة، لأنها لا تدلّ على الحدث.</bdi> — the fifth: that it be تامّ (complete), excluding الأفعال الناقصة, since they do not indicate an حَدَث.`, list: false },
+            { html: `<bdi>السادس: ألّا يكون مَنْفِيًّا، ولو كان النفى لازمًا. نحو ما عاج زيد بالدواء</bdi> أى ما انتفع به, <bdi>لئلا يلتبس المَنْفِيُّ بالمُثْبِت.</bdi> — the sixth: that it not be negated, even if the negation is inherent — as in ما عاج زيد بالدواء, meaning he got no benefit from the medicine — so the negated is not confused with the affirmed.`, list: false },
+            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه المُؤَوَّلَ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ أَنْ لا يذهبَ إلى المدرسة.</bdi> — if this condition is missing, we mention its مصدر مُؤَوَّل after أَكْثَر or أَشَدّ — i.e. هو أَكْثَرُ أَنْ لا يذهبَ إلى المدرسة.`, list: false },
           ],
           exercise: {
             prompt: `Why do <bdi>مات</bdi> and <bdi>فَنِيَ</bdi> have no اسم تفضيل?`,
@@ -968,13 +968,13 @@ export default {
         {
           heading: 'الشرطان السابع والثامن',
           lines: [
-            { html: `<bdi>والسابع: ألّا يكون الوصف منه على أَفْعَل الذى مؤنثه فَعْلَاء، بأن يكون دالًّا على لون، أو عيب، أو حِلْيَة، لأن الصيغة مشغولة بالوصف عن التفضيل.</bdi>`, list: false },
-            { html: `<bdi>وأهل الكوفة يصوغونه من الأفعال التي الوصف منها أَفْعَل مطلقًا، وعليه دَرَجَ المتنبى يخاطب الشيب قال:</bdi>`, list: false },
+            { html: `<bdi>والسابع: ألّا يكون الوصف منه على أَفْعَل الذى مؤنثه فَعْلَاء، بأن يكون دالًّا على لون، أو عيب، أو حِلْيَة، لأن الصيغة مشغولة بالوصف عن التفضيل.</bdi> — the seventh: that its وصف not already be on the pattern أَفْعَل whose feminine is فَعْلَاء — i.e. indicating a color, a defect, or an ornament — because the صيغة is already occupied with that description, leaving no room for التفضيل.`, list: false },
+            { html: `<bdi>وأهل الكوفة يصوغونه من الأفعال التي الوصف منها أَفْعَل مطلقًا، وعليه دَرَجَ المتنبى يخاطب الشيب قال:</bdi> — the people of الكوفة form it unconditionally from verbs whose وصف is أَفْعَل, and المتنبي followed this usage when addressing gray hair, saying:`, list: false },
             { html: `<bdi>ابْعَدْ بَعِدْتَ بَيَاضًا لا بياضَ لَهُ … لأنت أسودُ في عَيْنِي مِنَ الظُّلَمِ</bdi>`, list: false },
-            { html: `<bdi>وقال الرَّضِيّ في شرح القافية: ينبغى المنع في العيوب والألوان الظاهرة، بخلاف الباطنة، فقد يُصاغ من مصدرها، نحو فلان أَبْلَهُ من فلان، وأَرْعَنُ، وأَحْمَقُ منه.</bdi>`, list: false },
-            { html: `<bdi>أَبْلَه</bdi> is more stupid; <bdi>أَرْعَن</bdi> more light-headed or frivolous; <bdi>أَحْمَق</bdi> more foolish. <bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه الحقيقيَّ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَشَدُّ حُمْرَةً.</bdi>`, list: false },
-            { html: `<bdi>والثامن: لا يكون مبنيًّا للمجهول ولو صورةً، لئلا يلتبس بالآتى من المبنى للفاعل، وسُمِعَ شذوذا: هو أَزْهَى من دِيك، وأَشْغَلُ مِنْ ذَاتِ النَّحْيَيْنِ، وكلامٌ أَخْصَرُ من غيره، من زُهِيَ بمعنى تكبر، واخْتُصِرَ، بالبناء للمجهول فيهن.</bdi>`, list: false },
-            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه المُؤَوَّلَ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ أَنْ يُضْرَبَ.</bdi>`, list: false },
+            { html: `<bdi>وقال الرَّضِيّ في شرح القافية: ينبغى المنع في العيوب والألوان الظاهرة، بخلاف الباطنة، فقد يُصاغ من مصدرها، نحو فلان أَبْلَهُ من فلان، وأَرْعَنُ، وأَحْمَقُ منه.</bdi> — الرَّضِيّ said in شرح القافية: the prohibition should hold for outward defects and colors, but not for inward ones — from their مصدر it may be formed, as in فلان أَبْلَهُ من فلان, وأَرْعَنُ, وأَحْمَقُ منه.`, list: false },
+            { html: `<bdi>أَبْلَه</bdi> is more stupid; <bdi>أَرْعَن</bdi> more light-headed or frivolous; <bdi>أَحْمَق</bdi> more foolish. <bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه الحقيقيَّ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَشَدُّ حُمْرَةً.</bdi> — if this condition is missing, we mention its actual مصدر after أَكْثَر or أَشَدّ — i.e. هو أَشَدُّ حُمْرَةً.`, list: false },
+            { html: `<bdi>والثامن: لا يكون مبنيًّا للمجهول ولو صورةً، لئلا يلتبس بالآتى من المبنى للفاعل، وسُمِعَ شذوذا: هو أَزْهَى من دِيك، وأَشْغَلُ مِنْ ذَاتِ النَّحْيَيْنِ، وكلامٌ أَخْصَرُ من غيره، من زُهِيَ بمعنى تكبر، واخْتُصِرَ، بالبناء للمجهول فيهن.</bdi> — the eighth: that it not be built from a passive verb, even in appearance only, lest it be confused with the form coming from the active. It has been heard anomalously: هو أَزْهَى من دِيك (prouder than a rooster), وأَشْغَلُ مِنْ ذَاتِ النَّحْيَيْنِ (busier than the woman with the two water-skins), وكلامٌ أَخْصَرُ من غيره — from زُهِيَ meaning he became proud, and اخْتُصِرَ, both passive in form.`, list: false },
+            { html: `<bdi>إن فُقِدَ هذا الشرط، ذَكَرْنا مصدرَه المُؤَوَّلَ بعد (أَكْثَرَ) أو (أَشَدَّ). أي هو أَكْثَرُ أَنْ يُضْرَبَ.</bdi> — if this condition is missing, we mention its مصدر مُؤَوَّل after أَكْثَر or أَشَدّ — i.e. هو أَكْثَرُ أَنْ يُضْرَبَ.`, list: false },
           ],
           clarification: `The الرَّضِيّ note draws a line inside the seventh شرط itself: the ban is fully in force for outward عيوب and ألوان, but inward ones — foolishness, frivolity, stupidity — do yield an أفعل تفضيل. The كوفيون drop the شرط altogether, and المتنبي's <bdi>لأنت أسودُ في عَيْنِي</bdi> is their شاهد.`,
           exercise: {
@@ -987,21 +987,21 @@ export default {
         {
           heading: 'أحواله باعتبار اللفظ',
           lines: [
-            { html: `<bdi>ولاسم التفضيل باعتبار اللفظ ثلاثُ حالات.</bdi>`, list: false },
+            { html: `<bdi>ولاسم التفضيل باعتبار اللفظ ثلاثُ حالات.</bdi> — considered by its لفظ (wording), اسم التفضيل has three states.`, list: false },
             { table: {
               title: 'الحالات الثلاث',
-              headers: ['الحال', 'الحكم', 'المثال'],
+              headers: ['الحال (State)', 'الحكم (Ruling)', 'المثال (Example)'],
               rows: [
-                ['مُجَرَّدٌ من أل والإضافة', 'يجب أن يكون مُفْرَدًا مُذَكَّرًا، وأن يُؤْتَى بعده بمِنْ', 'زيدٌ أفضلُ مِنْ عمرو؛ الهنداتُ أفضلُ مِنْ …'],
-                ['مضافًا إلى نَكِرَةٍ', 'يجب أن يكون مفردًا مذكرًا، وتلزم المطابقةُ في المضاف إليه', 'زيدٌ أفضلُ طالبٍ؛ الزيدونَ أفضلُ طُلَّابٍ'],
-                ['مضافًا إلى مَعْرِفَةٍ', 'يجوز إفرادُه وتذكيرُه، ويجوز مطابقتُه', 'الزيدانِ أفضلُ الطلاب / أفضلا الطلاب'],
-                ['مُعَرَّفًا بِأل', 'يكون مطابقًا لموصوفه، وألّا يُؤْتَى معه بمِنْ', 'زيدٌ الأفضلُ؛ الزيدونَ الأفضلونَ / الأفاضلُ'],
+                ['مُجَرَّدٌ من أل والإضافة — stripped of أل and إضافة', 'يجب أن يكون مُفْرَدًا مُذَكَّرًا، وأن يُؤْتَى بعده بمِنْ — it must be مُفْرَد and مُذَكَّر, and followed by مِنْ', 'زيدٌ أفضلُ مِنْ عمرو؛ الهنداتُ أفضلُ مِنْ …'],
+                ['مضافًا إلى نَكِرَةٍ — مضاف to an indefinite noun', 'يجب أن يكون مفردًا مذكرًا، وتلزم المطابقةُ في المضاف إليه — it must be مفرد and مذكر, and agreement with the مضاف إليه is required', 'زيدٌ أفضلُ طالبٍ؛ الزيدونَ أفضلُ طُلَّابٍ'],
+                ['مضافًا إلى مَعْرِفَةٍ — مضاف to a definite noun', 'يجوز إفرادُه وتذكيرُه، ويجوز مطابقتُه — it may be مفرد and مذكر, or it may agree with what it describes', 'الزيدانِ أفضلُ الطلاب / أفضلا الطلاب'],
+                ['مُعَرَّفًا بِأل — defined by أل', 'يكون مطابقًا لموصوفه، وألّا يُؤْتَى معه بمِنْ — it agrees with what it describes, and مِنْ is not used with it', 'زيدٌ الأفضلُ؛ الزيدونَ الأفضلونَ / الأفاضلُ'],
               ],
             } },
             { html: `<bdi>نحو قوله تعالى: ﴿لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَى أَبِينَا﴾ [يوسف: ٨]</bdi>, and <bdi>﴿أَحَبَّ إِلَيْكُمْ مِنَ اللهِ وَرَسُولِهِ﴾ [التوبة: ٢٤]</bdi>.`, list: false },
-            { html: `<bdi>وقد تُحْذَفُ (من) ومَدْخُولُها نحو ﴿وَالْآخِرَةُ خَيْرٌ وَأَبْقَى﴾ [الأعلى: ١٧]، وقد جاء الحذف والإثبات في ﴿أَنَا أَكْثَرُ مِنْكَ مَالًا وَأَعَزُّ نَفَرًا﴾ [الكهف: ٣٤].</bdi>`, list: false },
-            { html: `<bdi>وأما قوله تعالى: ﴿وَلَا تَكُونُوا أَوَّلَ كَافِرٍ بِهِ﴾ [البقرة: ٤١] فعلى تقدير موصوف محذوف، أى: أولَ فريق.</bdi>`, list: false },
-            { html: `<bdi>وإن كانت إضافته لمعرفة: جازت المطابقةُ وعدمُها، كقوله تعالى: ﴿وَكَذَلِكَ جَعَلْنَا فِي كُلِّ قَرْيَةٍ أَكَابِرَ مُجْرِمِيهَا﴾ [الأنعام: ١٢٣]، وقوله: ﴿وَلَتَجِدَنَّهُمْ أَحْرَصَ النَّاسِ عَلَى حَيَاةٍ﴾ [البقرة: ٩٦] بالمطابقة في الأول، وعدمها في الثاني.</bdi>`, list: false },
+            { html: `<bdi>وقد تُحْذَفُ (من) ومَدْخُولُها نحو ﴿وَالْآخِرَةُ خَيْرٌ وَأَبْقَى﴾ [الأعلى: ١٧]، وقد جاء الحذف والإثبات في ﴿أَنَا أَكْثَرُ مِنْكَ مَالًا وَأَعَزُّ نَفَرًا﴾ [الكهف: ٣٤].</bdi> — مِنْ and its object may be dropped, as in ﴿وَالْآخِرَةُ خَيْرٌ وَأَبْقَى﴾; both the dropping and the retaining occur together in ﴿أَنَا أَكْثَرُ مِنْكَ مَالًا وَأَعَزُّ نَفَرًا﴾.`, list: false },
+            { html: `<bdi>وأما قوله تعالى: ﴿وَلَا تَكُونُوا أَوَّلَ كَافِرٍ بِهِ﴾ [البقرة: ٤١] فعلى تقدير موصوف محذوف، أى: أولَ فريق.</bdi> — as for ﴿وَلَا تَكُونُوا أَوَّلَ كَافِرٍ بِهِ﴾, it rests on an implied, dropped موصوف, i.e. أوّلَ فريق (the first group).`, list: false },
+            { html: `<bdi>وإن كانت إضافته لمعرفة: جازت المطابقةُ وعدمُها، كقوله تعالى: ﴿وَكَذَلِكَ جَعَلْنَا فِي كُلِّ قَرْيَةٍ أَكَابِرَ مُجْرِمِيهَا﴾ [الأنعام: ١٢٣]، وقوله: ﴿وَلَتَجِدَنَّهُمْ أَحْرَصَ النَّاسِ عَلَى حَيَاةٍ﴾ [البقرة: ٩٦] بالمطابقة في الأول، وعدمها في الثاني.</bdi> — and if its إضافة is to a definite noun, both agreement and its absence are allowed, as in ﴿وَكَذَلِكَ جَعَلْنَا فِي كُلِّ قَرْيَةٍ أَكَابِرَ مُجْرِمِيهَا﴾ and ﴿وَلَتَجِدَنَّهُمْ أَحْرَصَ النَّاسِ عَلَى حَيَاةٍ﴾ — with agreement in the first, and without it in the second.`, list: false },
           ],
           exercise: {
             prompt: `When اسم التفضيل is <bdi>مجرَّدٌ من أل والإضافة</bdi>, it must be:`,
@@ -1013,10 +1013,10 @@ export default {
         {
           heading: 'أحواله باعتبار المعنى',
           lines: [
-            { html: `<bdi>وله باعتبار المعنى ثلاثُ حالاتٍ أيضًا.</bdi>`, list: false },
-            { html: `<bdi>الأولى: ما تَقَدَّمَ شَرْحُهُ: وهو الدلالة على أن شيئين اشتركا في صفة وزاد أحدهما على الآخر فيها.</bdi>`, list: true, bullet: true },
-            { html: `<bdi>الثانية: أن يُرادَ به أن شيئًا زاد في صفة نفسه، على شيء آخر في صفته، فلا يكون بينهما وصف مشترك</bdi> — <bdi>كقولهم: العسلُ أَحْلَى من الخَلّ، والصيفُ أحرُّ من الشتاء</bdi>. <bdi>والمعنى: أن العسل زائد في حلاوته على الخَلّ في حُموضَتِه، والصيف زائد في حره، على الشتاء في برده.</bdi>`, list: true, bullet: true },
-            { html: `<bdi>الثالثة: أن يراد به ثبوتُ الوصف لمحلّه، من غير نظرٍ إلى تفضيل</bdi> — <bdi>كقولهم: الناقصُ والأَشَجُّ أعدلا بنى مَرْوان: أى: هما العادلان، ولا عدلَ في غيرهما، وفى هذه الحالة تجب المطابقة.</bdi>`, list: true, bullet: true },
+            { html: `<bdi>وله باعتبار المعنى ثلاثُ حالاتٍ أيضًا.</bdi> — considered by its معنى, it also has three states.`, list: false },
+            { html: `<bdi>الأولى: ما تَقَدَّمَ شَرْحُهُ: وهو الدلالة على أن شيئين اشتركا في صفة وزاد أحدهما على الآخر فيها.</bdi> — the first: what was already explained — indicating that two things share a quality, and one of them exceeds the other in it.`, list: true, bullet: true },
+            { html: `<bdi>الثانية: أن يُرادَ به أن شيئًا زاد في صفة نفسه، على شيء آخر في صفته، فلا يكون بينهما وصف مشترك</bdi> — the second: meaning that one thing exceeds in its own quality over another thing in a different quality, so there is no shared وصف between them — <bdi>كقولهم: العسلُ أَحْلَى من الخَلّ، والصيفُ أحرُّ من الشتاء</bdi>. <bdi>والمعنى: أن العسل زائد في حلاوته على الخَلّ في حُموضَتِه، والصيف زائد في حره، على الشتاء في برده.</bdi> — i.e. honey exceeds in its sweetness over vinegar's sourness, and summer exceeds in its heat over winter's cold.`, list: true, bullet: true },
+            { html: `<bdi>الثالثة: أن يراد به ثبوتُ الوصف لمحلّه، من غير نظرٍ إلى تفضيل</bdi> — the third: meaning the settled presence of the quality in its bearer, with no comparison intended — <bdi>كقولهم: الناقصُ والأَشَجُّ أعدلا بنى مَرْوان: أى: هما العادلان، ولا عدلَ في غيرهما، وفى هذه الحالة تجب المطابقة.</bdi> — meaning: they are the two just ones, and there is no justice in anyone else; in this state, agreement (المطابقة) is obligatory.`, list: true, bullet: true },
             { html: `<bdi>الناقص</bdi> is Yazīd ibn ʿAbd al-Walīd, so called because he cut the army's pay; <bdi>الأَشَجّ</bdi> is ʿUmar ibn ʿAbd al-ʿAzīz, so called from a head wound.`, list: false },
           ],
           clarification: `In the third state the form has stopped comparing altogether — <bdi>أعدلا بني مروان</bdi> says these two are the just ones, and there is no justice in anyone else. That is exactly why المطابقة becomes obligatory there: nothing is being measured against anything.`,
@@ -1067,20 +1067,20 @@ export default {
         {
           heading: 'تعريفهما وزنتهما من الثلاثيّ',
           lines: [
-            { html: `<bdi>هما اسمان مَصُوغَان لزمان وقوع الفعل أو مكانِه.</bdi>`, list: false },
-            { html: `<bdi>وهما من الثلاثيّ على وزن مَفْعَل بفتح الميم والعين، وسكون ما بينهما، إن كان المضارع مضمومَ العين، أو مفتوحَها، أو معتلَّ اللام مطلقًا.</bdi>`, list: false },
+            { html: `<bdi>هما اسمان مَصُوغَان لزمان وقوع الفعل أو مكانِه.</bdi> — these are two nouns formed for the time or place of the فعل's occurrence.`, list: false },
+            { html: `<bdi>وهما من الثلاثيّ على وزن مَفْعَل بفتح الميم والعين، وسكون ما بينهما، إن كان المضارع مضمومَ العين، أو مفتوحَها، أو معتلَّ اللام مطلقًا.</bdi> — from the ثلاثي, they are on the pattern مَفْعَل — فتحة on the ميم and the عين, سكون between them — if the مضارع carries a ضمة or فتحة on its عين, or if the verb is معتلّ اللام, regardless.`, list: false },
             { html: `<bdi>كمَنْصَرَ، ومَذْهَبَ، ومَرْمًى، ومَوْقًى، ومَسْعًى، ومَقَام، ومَخَاف، ومَرْضَى.</bdi>`, list: false },
-            { html: `<bdi>وعلى مَفْعِل بكسر العين، إن كانت عين مضارعه مكسورة، أو كان مثالًا مطلقًا في غير معتلّ اللام.</bdi>`, list: false },
-            { html: `<bdi>كمَجْلِس، ومَبِيع، ومَوْعِد، ومَيْسِر، ومَوْجِل. وقيل إن صحّت الواو في المضارع، كوَجِلَ يَوْجَلُ، فهو من القياس الأوّل.</bdi>`, list: false },
+            { html: `<bdi>وعلى مَفْعِل بكسر العين، إن كانت عين مضارعه مكسورة، أو كان مثالًا مطلقًا في غير معتلّ اللام.</bdi> — or on مَفْعِل with كسرة on the عين, if the مضارع's عين carries a كسرة, or if the verb is مثال (weak-فاء), regardless, so long as it is not also معتلّ اللام.`, list: false },
+            { html: `<bdi>كمَجْلِس، ومَبِيع، ومَوْعِد، ومَيْسِر، ومَوْجِل. وقيل إن صحّت الواو في المضارع، كوَجِلَ يَوْجَلُ، فهو من القياس الأوّل.</bdi> — as in مَجْلِس, مَبِيع, مَوْعِد, مَيْسِر, مَوْجِل. It is said that if the واو stays sound in the مضارع, as in وَجِلَ يَوْجَلُ, it follows the first قياس instead.`, list: false },
             { table: {
               title: 'اسم الظرف من الثلاثيّ',
-              headers: ['المضارع', 'الوزن', 'المثال'],
+              headers: ['المضارع (Present Tense)', 'الوزن (Pattern)', 'المثال (Example)'],
               rows: [
                 ['يَفْعَلُ', 'مَفْعَل', 'مَذْهَب'],
                 ['يَفْعُلُ', 'مَفْعَل', 'مَدْخَل'],
                 ['يَفْعِلُ', 'مَفْعِل', 'مَجْلِس، مَضْرِب'],
-                ['معتلّ اللام', 'مَفْعَل', 'مَرْمًى، مَوْقًى'],
-                ['مثال', 'مَفْعِل', 'مَوْعِد، مَيْسِر'],
+                ['معتلّ اللام — weak لام', 'مَفْعَل', 'مَرْمًى، مَوْقًى'],
+                ['مثال — weak فاء', 'مَفْعِل', 'مَوْعِد، مَيْسِر'],
               ],
             } },
           ],
@@ -1094,9 +1094,9 @@ export default {
         {
           heading: 'زنتهما من غير الثلاثيّ، والتمييز بالقرائن',
           lines: [
-            { html: `<bdi>ومن غير الثلاثيّ: على زنة اسم مفعول، كمُكْرَم ومُسْتَخْرَج ومُسْتَعَان.</bdi>`, list: false },
-            { html: `<bdi>ومن هذا يُعْلَمُ أن صيغة الزمان والمكان والمصدر الميميّ واحدة في غير الثلاثيّ، وكذا في بعض أوزان الثلاثيّ.</bdi>`, list: false },
-            { html: `<bdi>والتمييز بينها بالقرائن، فإن لم توجد قرينة، فهو صالح للزمان، والمكان والمصدر.</bdi>`, list: false },
+            { html: `<bdi>ومن غير الثلاثيّ: على زنة اسم مفعول، كمُكْرَم ومُسْتَخْرَج ومُسْتَعَان.</bdi> — from other than the ثلاثي: on the pattern of the اسم مفعول, as in مُكْرَم, مُسْتَخْرَج, مُسْتَعَان.`, list: false },
+            { html: `<bdi>ومن هذا يُعْلَمُ أن صيغة الزمان والمكان والمصدر الميميّ واحدة في غير الثلاثيّ، وكذا في بعض أوزان الثلاثيّ.</bdi> — from this it is known that the صيغة of الزمان, المكان, and المصدر الميميّ is one and the same in other than the ثلاثي, and likewise in some patterns of the ثلاثي.`, list: false },
+            { html: `<bdi>والتمييز بينها بالقرائن، فإن لم توجد قرينة، فهو صالح للزمان، والمكان والمصدر.</bdi> — the distinction between them is made by context (القرائن); if none is found, the word is valid for الزمان, المكان, and المصدر all at once.`, list: false },
             { html: `<bdi>مُنْقَلَب</bdi> and <bdi>مُغْتَسَل</bdi> are the pair given for the مزيد فيه.`, list: false },
           ],
           clarification: `This is the same ambiguity met with مُخْتار under اسم المفعول, one level up: there the single form served فاعل and مفعول; here it serves زمان, مكان and مصدر ميميّ at once, and only a قرينة separates them.`,
@@ -1110,10 +1110,10 @@ export default {
         {
           heading: 'مَفْعَلَة من الجامد، والمسموع بالكسر',
           lines: [
-            { html: `<bdi>وكثيرًا ما يُصاغ من الاسم الجامد اسم مكان على وزن مَفْعَلَة، بفتح فسكون ففتح، للدلالة على كثرة ذلك الشيء في ذلك المكان.</bdi>`, list: false },
-            { html: `<bdi>كمَأْسَدَة، ومَسْبَعَة، ومَطْبَخَة، ومَقْثَأَة، من الأسد، والسَّبُع، والبطِّيخ، والقِثَّاء.</bdi> <bdi>البطِّيخ</bdi> is water melon; <bdi>القِثَّاء</bdi> cucumber.`, list: false },
-            { html: `<bdi>وقد سُمِعت ألفاظٌ بالكسر وقياسها الفتح، كالمَسْجِد: للمكان الذى بُنى للعبادة وإن لم يُسْجَد فيه، والمَطْلِع، والمَسْكِن، والمَنْسِك، والمَنْبِت، والمَرْفِق، والمَسْقِط، والمَفْرِق، والمَحْشِر، والمَجْزِر، والمَظِنّة، والمَشْرِق، والمَغْرِب.</bdi>`, list: false },
-            { html: `<bdi>وسُمع الفتح في بعضها، قالوا: مَسْكَن، ومَنْسَك، ومَفْرَق، ومَطْلَع. وقد جاء من المفتوح العين: المَجْمِع بالكسر. قالوا: والفتح في كلِّها جائز وإن لم يُسمع.</bdi>`, list: false },
+            { html: `<bdi>وكثيرًا ما يُصاغ من الاسم الجامد اسم مكان على وزن مَفْعَلَة، بفتح فسكون ففتح، للدلالة على كثرة ذلك الشيء في ذلك المكان.</bdi> — an اسم مكان is often formed from a جامد noun on the pattern مَفْعَلَة — فتحة, then سكون, then فتحة — to indicate the abundance of that thing in that place.`, list: false },
+            { html: `<bdi>كمَأْسَدَة، ومَسْبَعَة، ومَطْبَخَة، ومَقْثَأَة، من الأسد، والسَّبُع، والبطِّيخ، والقِثَّاء.</bdi> — as in مَأْسَدَة, مَسْبَعَة, مَطْبَخَة, مَقْثَأَة, from الأسد (lion), السَّبُع (beast of prey), البطِّيخ (water melon), and القِثَّاء (cucumber).`, list: false },
+            { html: `<bdi>وقد سُمِعت ألفاظٌ بالكسر وقياسها الفتح، كالمَسْجِد: للمكان الذى بُنى للعبادة وإن لم يُسْجَد فيه، والمَطْلِع، والمَسْكِن، والمَنْسِك، والمَنْبِت، والمَرْفِق، والمَسْقِط، والمَفْرِق، والمَحْشِر، والمَجْزِر، والمَظِنّة، والمَشْرِق، والمَغْرِب.</bdi> — words have also been heard with a كسرة though their قياس would be a فتحة, such as المَسْجِد (for the place built for worship, even if no one prostrates in it), المَطْلِع, المَسْكِن, المَنْسِك, المَنْبِت, المَرْفِق, المَسْقِط, المَفْرِق, المَحْشِر, المَجْزِر, المَظِنّة, المَشْرِق, and المَغْرِب.`, list: false },
+            { html: `<bdi>وسُمع الفتح في بعضها، قالوا: مَسْكَن، ومَنْسَك، ومَفْرَق، ومَطْلَع. وقد جاء من المفتوح العين: المَجْمِع بالكسر. قالوا: والفتح في كلِّها جائز وإن لم يُسمع.</bdi> — the فتحة has also been heard in some of them: مَسْكَن, مَنْسَك, مَفْرَق, مَطْلَع. And from words whose عين is normally open, المَجْمِع has come with a كسرة. They say the فتحة is permissible in all of them even where it has not actually been heard.`, list: false },
           ],
           exercise: {
             prompt: `<bdi>مَسْبَعَة</bdi>, on the وزن <bdi>مَفْعَلَة</bdi>, means a place:`,
@@ -1130,9 +1130,9 @@ export default {
         {
           heading: 'مسألة المَسْجِد',
           lines: [
-            { html: `<bdi>قال أستاذنا المرحوم الشيخ حسين المَرْصَفِيّ في الوسيلة: هذا إذ لم يكن اسم المكان مضبوطًا، وإلا صحّ الفتح.</bdi>`, list: false },
-            { html: `<bdi>كقولك: اسجُد مَسْجَدَ زَيدٍ تَعُدْ عليكَ بَرَكَتُه، بفتح الجيم، أى في الموضع الذى سجَد فيه.</bdi>`, list: false },
-            { html: `<bdi>وقال سيبويه: وأما موضعُ السجود فالمسجَد بالفتح لا غير. كأنه أوجب الفتح فيه.</bdi>`, list: false },
+            { html: `<bdi>قال أستاذنا المرحوم الشيخ حسين المَرْصَفِيّ في الوسيلة: هذا إذ لم يكن اسم المكان مضبوطًا، وإلا صحّ الفتح.</bdi> — our late teacher الشيخ حسين المَرْصَفِيّ said in الوسيلة: this applies when the اسم المكان is not fixed as a proper name; otherwise the فتحة is valid.`, list: false },
+            { html: `<bdi>كقولك: اسجُد مَسْجَدَ زَيدٍ تَعُدْ عليكَ بَرَكَتُه، بفتح الجيم، أى في الموضع الذى سجَد فيه.</bdi> — as in your saying اسجُد مَسْجَدَ زَيدٍ تَعُدْ عليكَ بَرَكَتُه (prostrate at Zayd's place of prostration, and his blessing will return to you) — with a فتحة on the ج, meaning in the very spot where he prostrated.`, list: false },
+            { html: `<bdi>وقال سيبويه: وأما موضعُ السجود فالمسجَد بالفتح لا غير. كأنه أوجب الفتح فيه.</bdi> — and سيبويه said: as for the place of prostration itself, it is المسجَد with a فتحة, and nothing else — as though he made the فتحة obligatory there.`, list: false },
           ],
           clarification: `The kasra form المَسْجِد has become the proper name of the building, whether or not anyone prostrates in it. Once you mean simply the spot where prostration happened, the قياس reasserts itself and the fatḥa returns — which is what سيبويه makes obligatory.`,
           exercise: {
@@ -1145,11 +1145,11 @@ export default {
         {
           heading: 'اسم الآلة: تعريفه وأوزانه',
           lines: [
-            { html: `<bdi>هو اسم مَصُوغٌ من مصدر ثلاثيّ، لِما وقع الفعل بواسطته.</bdi>`, list: false },
-            { html: `<bdi>وله ثلاثة أوزان</bdi> (مسموعة قديمة): <bdi>مِفْعَال، ومِفْعَل، ومِفْعَلَة، بكسر الميم فيها</bdi> (سماعي).`, list: false },
-            { html: `<bdi>نحو: مِفْتاح، ومِنشار، ومِقْراض، ومِخْلَب، ومِبْرَد، ومِشْرَط، ومِكْنَسَة، ومِقْرَعَة. وقيل: إن الوَزْن الأخير فرعُ ما قبله.</bdi>`, list: false },
+            { html: `<bdi>هو اسم مَصُوغٌ من مصدر ثلاثيّ، لِما وقع الفعل بواسطته.</bdi> — it is a noun formed from a ثلاثي مصدر, for that by means of which the فعل occurred.`, list: false },
+            { html: `<bdi>وله ثلاثة أوزان</bdi> (مسموعة قديمة): <bdi>مِفْعَال، ومِفْعَل، ومِفْعَلَة، بكسر الميم فيها</bdi> (سماعي) — it has three old, attested أوزان: مِفْعَال, مِفْعَل, and مِفْعَلَة, all with كسرة on the ميم (سماعي).`, list: false },
+            { html: `<bdi>نحو: مِفْتاح، ومِنشار، ومِقْراض، ومِخْلَب، ومِبْرَد، ومِشْرَط، ومِكْنَسَة، ومِقْرَعَة. وقيل: إن الوَزْن الأخير فرعُ ما قبله.</bdi> — as in مِفْتاح, مِنشار, مِقْراض, مِخْلَب, مِبْرَد, مِشْرَط, مِكْنَسَة, مِقْرَعَة. Some say the last pattern is a variant of the one before it.`, list: false },
             { html: `<bdi>مِقْراض</bdi> scissors, <bdi>مِبْرَد</bdi> a tool cutter, <bdi>مِشْرَط</bdi> a scalpel, <bdi>مِكْنَسَة</bdi> a broom, <bdi>مِقْرَعَة</bdi> a door knocker.`, list: false },
-            { html: `<bdi>أوزان الجديدة: كفَعَّالَة نحو نَظَّارَة، غَسَّالَة، ثَلَّاجَة. وفَعَّال نحو عَدَّاد و سَخَّان. و فاعول نحو حاسوب.</bdi>`, list: false },
+            { html: `<bdi>أوزان الجديدة: كفَعَّالَة نحو نَظَّارَة، غَسَّالَة، ثَلَّاجَة. وفَعَّال نحو عَدَّاد و سَخَّان. و فاعول نحو حاسوب.</bdi> — the new أوزان: فَعَّالَة, as in نَظَّارَة (eyeglasses), غَسَّالَة (washing machine), ثَلَّاجَة (refrigerator); فَعَّال, as in عَدَّاد (meter) and سَخَّان (heater); and فاعول, as in حاسوب (computer).`, list: false },
           ],
           exercise: {
             prompt: `The three old أوزان of اسم الآلة share:`,
@@ -1161,9 +1161,9 @@ export default {
         {
           heading: 'ما خرج عن القياس، والجموع',
           lines: [
-            { html: `<bdi>وقد خرج عن القياس ألفاظ منها: مُسْعُط، ومُنْخُل، ومُنْصُل، ومُدُقّ، ومُدْهُن، ومُكْحُلَة، ومُحْرُضَة، بضم الميم والعين في الجميع.</bdi>`, list: false },
+            { html: `<bdi>وقد خرج عن القياس ألفاظ منها: مُسْعُط، ومُنْخُل، ومُنْصُل، ومُدُقّ، ومُدْهُن، ومُكْحُلَة، ومُحْرُضَة، بضم الميم والعين في الجميع.</bdi> — words departing from the قياس include: مُسْعُط, مُنْخُل, مُنْصُل, مُدُقّ, مُدْهُن, مُكْحُلَة, مُحْرُضَة — all with ضمة on the ميم and the عين.`, list: false },
             { html: `<bdi>مُسْعُط</bdi> a vessel for pouring medicine into the nose, <bdi>مُنْخُل</bdi> a sieve, <bdi>مُنْصُل</bdi> a blade, <bdi>مُدُقّ</bdi> a crusher or pounder, <bdi>مُدْهُن</bdi> a container for oil, <bdi>مُكْحُلَة</bdi> an applicator for kohl, <bdi>مُحْرُضَة</bdi> a container for a type of soap.`, list: false },
-            { html: `<bdi>وقد أتى جامدًا على أوزان شتَّى، لا ضابط لها، كالفَأْس، والقَدُوم، والسِّكِّين وهَلُمَّ جَرًّا.</bdi> <bdi>القَدُوم</bdi> is a tool used by a carpenter to clean wood.`, list: false },
+            { html: `<bdi>وقد أتى جامدًا على أوزان شتَّى، لا ضابط لها، كالفَأْس، والقَدُوم، والسِّكِّين وهَلُمَّ جَرًّا.</bdi> — it has also come جامد, on various patterns with no fixed rule, like الفَأْس (axe), القَدُوم, السِّكِّين (knife), and so on. <bdi>القَدُوم</bdi> is a tool used by a carpenter to clean wood.`, list: false },
             { table: {
               title: 'التثنية والجمع',
               headers: ['مُفْرَد', 'مُثَنَّى', 'جَمْع'],

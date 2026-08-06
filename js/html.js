@@ -57,9 +57,16 @@ export function escAttr(str) {
 // a bare "/" between two RTL isolates reverses the pair exactly like the
 // dash did. "+" shows up the same way for a "combine these" notation
 // (كسرة+ياء ← فتحة+ألف).
+//
+// Quranic quotations elided mid-ayah with "..." or "…" (e.g. ﴿وَلَوْ أَنَّمَا
+// فِي الْأَرْضِ...مَا نَفِدَتْ كَلِمَاتُ اللَّهِ﴾) hit the exact same bug: without
+// "." and "…" in CONNECTOR, the two Arabic halves become separate isolates
+// with the ellipsis stranded between them, and since ﴿/﴾ (Arabic ornate
+// parens, in the AR ranges) end up split one per isolate, the bracket pair
+// itself gets torn apart on top of the reordering risk.
 
 const AR = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF';
-const CONNECTOR = ' \\t\\u200f:\\-\\u2013/+';
+const CONNECTOR = ' \\t\\u200f:\\-\\u2013/+.\\u2026';
 const AR_WORD = `[${AR}](?:[${AR}${CONNECTOR}]*[${AR}])?`;
 const AR_RUN = new RegExp(`\\(${AR_WORD}\\)|${AR_WORD}`, 'g');
 

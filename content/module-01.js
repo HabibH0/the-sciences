@@ -868,7 +868,7 @@ export default {
       quiz: [
         {
           q: 'What is the definition of الجملة?',
-          options: ['ما تضمّن مسندًا ومسندًا إليه', 'قول مفيد يحسن السكوت عليه', 'كل لفظ دلّ على معنى', 'كل قول رُكّب من كلمتين'],
+          options: ['That which contains a مسند and a مسند إليه', 'Any قول مفيد fit to be stopped at', 'Any لفظ that indicates a meaning', 'Any قول composed of two كلمتين'],
           correct: 0,
         },
         {

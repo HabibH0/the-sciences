@@ -33,8 +33,8 @@ export default {
         {
           heading: 'تعريف المجرد والمزيد',
           lines: [
-            { html: `<bdi>المُجَرَّد: ما كانَتْ جَمِيعُ حُرُوفِهِ أَصْلِيَّةً، لا يَسْقُطُ حَرْفٌ منها في تَصارِيفِ الكَلِمَةِ بِغَيْرِ عِلَّةٍ</bdi>.`, list: false },
-            { html: `<bdi>المَزِيد: ما زِيدَ فيه حَرْفٌ أو أَكْثَرُ على حُرُوفِهِ الأَصْلِيَّةِ</bdi>.`, list: false },
+            { html: `<bdi>المُجَرَّد: ما كانَتْ جَمِيعُ حُرُوفِهِ أَصْلِيَّةً، لا يَسْقُطُ حَرْفٌ منها في تَصارِيفِ الكَلِمَةِ بِغَيْرِ عِلَّةٍ</bdi> — المجرد is a verb all of whose letters are original (أَصْلِيَّة), none of them dropping out in the word's conjugations without a cause.`, list: false },
+            { html: `<bdi>المَزِيد: ما زِيدَ فيه حَرْفٌ أو أَكْثَرُ على حُرُوفِهِ الأَصْلِيَّةِ</bdi> — المزيد is a verb in which one or more letters have been added beyond its original letters.`, list: false },
             { html: `The qualifier <bdi>بِغَيْرِ عِلَّةٍ</bdi> in the first definition matters: a مجرد verb may still lose a letter — قَالَ becomes قُلْتُ — but only for a reason belonging to إعلال, never because the letter was an add-on to begin with.`, list: false },
           ],
           exercise: {
@@ -82,9 +82,9 @@ export default {
           heading: 'ستة أبواب بالماضي مع المضارع',
           lines: [
             { html: `Bring the مضارع in and the count rises — but not to nine. The عين المضارع is likewise <bdi>إما مضمومة أو مفتوحة أو مكسورة</bdi>, and <bdi>ثلاثة في ثلاثة بتسعة</bdi>; two combinations are then refused.`, list: false },
-            { table: { title: 'The Two Refusals', headers: ['الممتنع', 'التفصيل'], rows: [
-              ['كسر العين في الماضي مع ضمها في المضارع', 'فَعِلَ يَفْعُل'],
-              ['ضم العين في الماضي مع كسرها أو فتحها في المضارع', 'فَعُلَ يَفْعِل ، فَعُلَ يَفْعَل'],
+            { table: { title: 'The Two Refusals', headers: ['الممتنع (What’s Disallowed)', 'التفصيل (Detail)'], rows: [
+              ['كسرة on the عين in the ماضي together with ضمة on it in the مضارع', 'فَعِلَ يَفْعُل'],
+              ['ضمة on the عين in the ماضي together with كسرة or فتحة on it in the مضارع', 'فَعُلَ يَفْعِل ، فَعُلَ يَفْعَل'],
             ] } },
             { html: `Nine minus three leaves <bdi>ستة</bdi>, and those six are the أبواب الثلاثي.`, list: false },
           ],
@@ -281,9 +281,9 @@ export default {
         {
           heading: 'البابان الأول والثاني',
           lines: [
-            { table: { title: 'فَعَلَ يَفْعُل و فَعَلَ يَفْعِل', headers: ['الباب', 'الضبط', 'أمثلة'], rows: [
-              ['الأول: فَعَلَ يَفْعُل', 'بفتح العين في الماضي وضمها في المضارع', 'نَصَرَ يَنْصُر، قَعَدَ يَقْعُد، أَخَذَ يَأْخُذ، بَرَأَ يَبْرُؤ، قَالَ يَقُول، غَزَا يَغْزُو، مَرَّ يَمُرُّ'],
-              ['الثاني: فَعَلَ يَفْعِل', 'بفتح العين في الماضي وكسرها في المضارع', 'ضَرَبَ يَضْرِب، جَلَسَ يَجْلِس، وَعَدَ يَعِد، بَاعَ يَبِيع، رَمَى يَرْمِي، وَقَى يَقِي، طَوَى يَطْوِي، فَرَّ يَفِرُّ، أَتَى يَأْتِي، جَاءَ يَجِيء'],
+            { table: { title: 'فَعَلَ يَفْعُل و فَعَلَ يَفْعِل', headers: ['الباب (Door)', 'الضبط (Vowelling)', 'أمثلة (Examples)'], rows: [
+              ['الأول: فَعَلَ يَفْعُل', 'فتحة on the عين in the ماضي, ضمة on it in the مضارع', 'نَصَرَ يَنْصُر، قَعَدَ يَقْعُد، أَخَذَ يَأْخُذ، بَرَأَ يَبْرُؤ، قَالَ يَقُول، غَزَا يَغْزُو، مَرَّ يَمُرُّ'],
+              ['الثاني: فَعَلَ يَفْعِل', 'فتحة on the عين in the ماضي, كسرة on it in the مضارع', 'ضَرَبَ يَضْرِب، جَلَسَ يَجْلِس، وَعَدَ يَعِد، بَاعَ يَبِيع، رَمَى يَرْمِي، وَقَى يَقِي، طَوَى يَطْوِي، فَرَّ يَفِرُّ، أَتَى يَأْتِي، جَاءَ يَجِيء'],
             ] } },
             { html: `Both open on a fatḥa in the ماضي and differ only in the مضارع. Notice how each list runs deliberately through the categories of the previous division — صحيح, مهموز, أجوف, ناقص, مضاعف — to show that the باب is fixed by vowelling, not by the letters involved.`, list: false },
           ],
@@ -297,11 +297,11 @@ export default {
         {
           heading: 'الباب الثالث وحروف الحلق',
           lines: [
-            { html: `<bdi>الباب الثالث: فَعَلَ يَفْعَل</bdi> — <bdi>بالفتح فيهما</bdi>.`, list: false },
+            { html: `<bdi>الباب الثالث: فَعَلَ يَفْعَل</bdi> — <bdi>بالفتح فيهما</bdi> — the third باب: فَعَلَ يَفْعَل, فتحة in both.`, list: false },
             { html: `<bdi>كفَتَحَ يَفْتَح، وذَهَبَ يَذْهَب، وسَعَى يَسْعَى، ووَضَعَ يَضَع، وسَأَلَ يَسْأَل، وقَرَأَ يَقْرَأ</bdi>`, list: false },
-            { html: `<bdi>وكُلُّ ما كانَتْ عَيْنُهُ مَفْتُوحَةً في الماضي والمُضارِعِ، فهو حَلْقِيُّ العَيْنِ أو اللَّامِ. وليس كُلُّ ما كان حَلْقِيًّا مَفْتُوحًا فيهما</bdi> — the implication runs one way only.`, list: false },
-            { html: `<bdi>وحُرُوفُ الحَلْقِ سِتَّةٌ: الهَمْزَةُ والهاءُ، والحاءُ والخاءُ، والعَيْنُ والغَيْنُ</bdi>.`, list: false },
-            { html: `<bdi>وما جاءَ من هذا البابِ بِدُونِ حَرْفٍ حَلْقِيٍّ فشاذٌّ</bdi> — أَبَى يَأْبَى، هَلَكَ يَهْلَك (in one of its two dialects), رَكَنَ يَرْكَن and قَلَى يَقْلَى (from تداخُل اللغات, and not فصيح), and بَقَى يَبْقَى (the dialect of طَيِّئ, who turn the original kasra to a fatḥa for lightness — <bdi>وهذا قياسٌ عندهم</bdi>).`, list: false },
+            { html: `<bdi>وكُلُّ ما كانَتْ عَيْنُهُ مَفْتُوحَةً في الماضي والمُضارِعِ، فهو حَلْقِيُّ العَيْنِ أو اللَّامِ. وليس كُلُّ ما كان حَلْقِيًّا مَفْتُوحًا فيهما</bdi> — everything whose عين is فتحة in both the ماضي and المضارع has a حرف حَلْق (throat letter) in its عين or its لام, but not everything with a throat letter is فتحة in both — the implication runs one way only.`, list: false },
+            { html: `<bdi>وحُرُوفُ الحَلْقِ سِتَّةٌ: الهَمْزَةُ والهاءُ، والحاءُ والخاءُ، والعَيْنُ والغَيْنُ</bdi> — the حروف الحلق (throat letters) are six: الهمزة and الهاء, الحاء and الخاء, العين and الغين.`, list: false },
+            { html: `<bdi>وما جاءَ من هذا البابِ بِدُونِ حَرْفٍ حَلْقِيٍّ فشاذٌّ</bdi> — whatever comes in this باب without a throat letter is شاذّ (anomalous) — أَبَى يَأْبَى, هَلَكَ يَهْلَك (in one of its two dialects), رَكَنَ يَرْكَن and قَلَى يَقْلَى (from تداخُل اللغات, and not فصيح), and بَقَى يَبْقَى (the dialect of طَيِّئ, who turn the original kasra to a fatḥa for lightness — <bdi>وهذا قياسٌ عندهم</bdi>, this being a regular pattern for them).`, list: false },
           ],
           clarification: `Read the direction of the rule carefully, because it is one-way. Every verb in this باب has a حرف حلق in its عين or its لام — that much holds without exception among the sound cases. But the converse fails: a verb may contain a حرف حلق and still belong to another باب entirely. So the presence of a throat letter does not put a verb here; it is only that its absence from a verb which is here marks that verb as شاذ. أَبَى يَأْبَى is the standing example: مفتوح in both, yet neither its عين nor its لام is a throat letter — its همزة sits in the فاء, which the rule does not count.`,
           exercise: {
@@ -314,14 +314,14 @@ export default {
         {
           heading: 'الباب الرابع ومعانيه',
           lines: [
-            { html: `<bdi>الباب الرابع: فَعِلَ يَفْعَل</bdi> — <bdi>بكسر العين في الماضي وفتحها في المضارع</bdi>.`, list: false },
+            { html: `<bdi>الباب الرابع: فَعِلَ يَفْعَل</bdi> — <bdi>بكسر العين في الماضي وفتحها في المضارع</bdi> — the fourth باب: فَعِلَ يَفْعَل, كسرة on the عين in the ماضي, فتحة on it in the مضارع.`, list: false },
             { html: `<bdi>كفَرِحَ يَفْرَح، وعَلِمَ يَعْلَم، ووَجِلَ يَوْجَل، ويَبِسَ يَيْبَس، وخَافَ يَخَاف، وهَابَ يَهَاب، ورَضِيَ يَرْضَى، وقَوِيَ يَقْوَى، وعَضَّ يَعَضّ، وأَمِنَ يَأْمَن، وسَئِمَ يَسْأَم، وصَدِئَ يَصْدَأ</bdi>`, list: false },
             { html: `Four families of meaning gather in this باب.`, list: false },
-            { table: { title: 'ما يأتي من هذا الباب', headers: ['المعنى', 'أمثلة'], rows: [
-              ['الفَرَح وتَوابِعُه', 'فَرِحَ، طَرِبَ، بَطِرَ، أَشِرَ، غَضِبَ، حَزِنَ'],
-              ['الامْتِلاء والخُلُو', 'شَبِعَ، رَوِيَ، سَكِرَ'],
-              ['الأَلْوان والعُيُوب', 'عَطِشَ، ظَمِئَ، صَدِيَ، هَيِمَ، حَمِرَ، سَوِدَ، عَوِرَ، عَمِشَ، جَهِرَ'],
-              ['الخِلَق الظاهرة (تُذكَر للتَخْلِيَة في الغَزَل)', 'غَيِدَ، هَيِفَ، لَمِيَ'],
+            { table: { title: 'ما يأتي من هذا الباب (What Comes from This باب)', headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
+              ['الفَرَح وتَوابِعُه — joy, and what follows from it', 'فَرِحَ، طَرِبَ، بَطِرَ، أَشِرَ، غَضِبَ، حَزِنَ'],
+              ['الامْتِلاء والخُلُو — fullness and emptiness', 'شَبِعَ، رَوِيَ، سَكِرَ'],
+              ['الأَلْوان والعُيُوب — colors and physical defects', 'عَطِشَ، ظَمِئَ، صَدِيَ، هَيِمَ، حَمِرَ، سَوِدَ، عَوِرَ، عَمِشَ، جَهِرَ'],
+              ['الخِلَق الظاهرة — visible physical traits (mentioned in تَخْلِيَة, physical description within غَزَل poetry)', 'غَيِدَ، هَيِفَ، لَمِيَ'],
             ] } },
           ],
           exercise: {
@@ -334,7 +334,7 @@ export default {
         {
           heading: 'الباب الخامس',
           lines: [
-            { html: `<bdi>الباب الخامس: فَعُلَ يَفْعُل</bdi> — <bdi>بضم العين فيهما</bdi>.`, list: false },
+            { html: `<bdi>الباب الخامس: فَعُلَ يَفْعُل</bdi> — <bdi>بضم العين فيهما</bdi> — the fifth باب: فَعُلَ يَفْعُل, ضمة in both.`, list: false },
             { html: `<bdi>كشَرُفَ يَشْرُف، وحَسُنَ يَحْسُن، ووَسُمَ يَوْسُم، ويَمُنَ يَيْمُن، ولَؤُمَ يَلْؤُم، وجَرُؤَ يَجْرُؤ، وسَرُوَ يَسْرُو</bdi>`, list: false },
             { html: `Three restrictions hold here and nowhere else:`, list: false },
             { html: `Nothing يائِيّ العين came from this باب except the single word <bdi>هَيُؤَ</bdi> — <bdi>صار ذا هَيْئَةٍ</bdi>.`, list: true, bullet: true },
@@ -353,9 +353,9 @@ export default {
         {
           heading: 'الباب السادس',
           lines: [
-            { html: `<bdi>الباب السادس: فَعِلَ يَفْعِل</bdi> — <bdi>بالكسر فيهما</bdi>.`, list: false },
+            { html: `<bdi>الباب السادس: فَعِلَ يَفْعِل</bdi> — <bdi>بالكسر فيهما</bdi> — the sixth باب: فَعِلَ يَفْعِل, كسرة in both.`, list: false },
             { html: `<bdi>كحَسِبَ يَحْسِب، ونَعِمَ يَنْعِم</bdi>`, list: false },
-            { html: `<bdi>وهو قَلِيلٌ في الصَحِيحِ، كَثِيرٌ في المُعْتَلِّ (٢٤ فِعْلًا)</bdi>.`, list: false },
+            { html: `<bdi>وهو قَلِيلٌ في الصَحِيحِ، كَثِيرٌ في المُعْتَلِّ (٢٤ فِعْلًا)</bdi> — it is rare among الصحيح, common among المعتل (24 verbs).`, list: false },
             { html: `So the six أبواب are: <bdi>فَعَلَ يَفْعُل</bdi>، <bdi>فَعَلَ يَفْعِل</bdi>، <bdi>فَعَلَ يَفْعَل</bdi>، <bdi>فَعِلَ يَفْعَل</bdi>، <bdi>فَعُلَ يَفْعُل</bdi>، <bdi>فَعِلَ يَفْعِل</bdi>.`, list: false },
           ],
           exercise: {
@@ -550,7 +550,7 @@ export default {
         {
           heading: 'وزن الرباعي المجرد',
           lines: [
-            { html: `<bdi>وللرُّبَاعِيِّ المُجَرَّدِ وَزْنٌ واحِدٌ، وهو فَعْلَلَ</bdi>.`, list: false },
+            { html: `<bdi>وللرُّبَاعِيِّ المُجَرَّدِ وَزْنٌ واحِدٌ، وهو فَعْلَلَ</bdi> — the bare رباعي has a single وزن, and it is فَعْلَل.`, list: false },
             { html: `<bdi>كدَحْرَجَ يُدَحْرِج (to roll something)، ودَرْبَخَ يُدَرْبِخ، وبَعْثَرَ يُبَعْثِر</bdi>`, list: false },
             { html: `<bdi>ومنه الرُّبَاعِيُّ المُضاعَفُ، كزَلْزَلَ وعَسْعَسَ وحَصْحَصَ</bdi> — the doubled رباعي is not a separate وزن but a case of this one.`, list: false },
           ],
@@ -565,16 +565,16 @@ export default {
           heading: 'الأفعال المنحوتة',
           lines: [
             { html: `<bdi>ومنه أَفْعالٌ نَحَتَتْها العَرَبُ من مُرَكَّباتٍ، فتُحْفَظُ ولا يُقاسُ عليها</bdi> — verbs carved out of whole phrases by taking a letter or more from each word. They are memorised, not generated.`, list: false },
-            { table: { title: 'الأفعال المنحوتة', headers: ['الفعل', 'إذا قال'], rows: [
-              ['بَسْمَلَ', 'بسم الله'],
-              ['حَوْقَلَ', 'لا حول ولا قوة إلا بالله'],
-              ['طَلْبَقَ', 'أطالَ اللهُ بَقاءَك'],
-              ['دَمْعَزَ', 'أدامَ اللهُ عِزَّكَ'],
-              ['جَعْفَلَ', 'جَعَلَني اللهُ فِداءَك'],
-              ['سَبْحَلَ', 'سبحان الله'],
-              ['هَلَّلَ', 'لا إله إلا الله'],
-              ['سَمْعَلَ', 'السلام عليكم'],
-              ['حَمْدَلَ', 'الحمد لله'],
+            { table: { title: 'الأفعال المنحوتة', headers: ['الفعل (Verb)', 'إذا قال... (If He Said...)'], rows: [
+              ['بَسْمَلَ', 'بسم الله — "In the name of Allah"'],
+              ['حَوْقَلَ', 'لا حول ولا قوة إلا بالله — "There is no power nor strength except with Allah"'],
+              ['طَلْبَقَ', 'أطالَ اللهُ بَقاءَك — "May Allah prolong your life"'],
+              ['دَمْعَزَ', 'أدامَ اللهُ عِزَّكَ — "May Allah perpetuate your might"'],
+              ['جَعْفَلَ', 'جَعَلَني اللهُ فِداءَك — "May Allah make me a ransom for you"'],
+              ['سَبْحَلَ', 'سبحان الله — "Glory be to Allah"'],
+              ['هَلَّلَ', 'لا إله إلا الله — "There is no god but Allah"'],
+              ['سَمْعَلَ', 'السلام عليكم — "Peace be upon you"'],
+              ['حَمْدَلَ', 'الحمد لله — "Praise be to Allah"'],
             ] } },
           ],
           exercise: {
@@ -588,14 +588,14 @@ export default {
           heading: 'ملحقات الرباعي السبعة',
           lines: [
             { html: `<bdi>ومُلْحَقاتُهُ سَبْعَةٌ، وهي أَفْعالٌ ثُلاثِيَّةٌ مَزِيدَةٌ</bdi> — three-letter roots padded out to four so that they conjugate like a رباعي.`, list: false },
-            { table: { title: 'The Seven', headers: ['#', 'الوزن', 'المثال', 'المعنى'], rows: [
-              ['١', 'فَعْلَلَ (بتضعيف اللام)', 'جَلْبَبَ', 'أَلْبَسَهُ الجِلْبابَ'],
-              ['٢', 'فَوْعَلَ', 'جَوْرَبَ', 'أَلْبَسَهُ الجَوْرَبَ'],
-              ['٣', 'فَعْوَلَ', 'رَهْوَكَ في مِشْيَتِهِ', 'أَسْرَعَ'],
-              ['٤', 'فَيْعَلَ', 'بَيْطَرَ ، شَيْطَنَ', 'أَصْلَحَ الدَّوابَّ (أو مُعالِجُ الدَّوابِّ)'],
-              ['٥', 'فَعْيَلَ', 'شَرْيَفَ الزَّرْعَ', 'قَطَعَ شِرْيافَه'],
-              ['٦', 'فَعْلَى', 'سَلْقَى', 'أَلْقاهُ على ظَهْرِهِ'],
-              ['٧', 'فَعْنَلَ', 'قَلْنَسَهُ', 'أَلْبَسَهُ القَلَنْسُوَة'],
+            { table: { title: 'The Seven', headers: ['#', 'الوزن (Pattern)', 'المثال (Example)', 'المعنى (Meaning)'], rows: [
+              ['١', 'فَعْلَلَ (بتضعيف اللام)', 'جَلْبَبَ', 'he dressed him in the جِلْباب (garment)'],
+              ['٢', 'فَوْعَلَ', 'جَوْرَبَ', 'he dressed him in the جَوْرَب (sock)'],
+              ['٣', 'فَعْوَلَ', 'رَهْوَكَ في مِشْيَتِهِ', 'he hurried, in his gait'],
+              ['٤', 'فَيْعَلَ', 'بَيْطَرَ ، شَيْطَنَ', 'he treated the animals (or: a veterinarian — مُعالِجُ الدَّوابّ)'],
+              ['٥', 'فَعْيَلَ', 'شَرْيَفَ الزَّرْعَ', 'he cut its شِرْياف (the crop’s tassel)'],
+              ['٦', 'فَعْلَى', 'سَلْقَى', 'he threw him onto his back'],
+              ['٧', 'فَعْنَلَ', 'قَلْنَسَهُ', 'he dressed him in the قَلَنْسُوَة (cap)'],
             ] } },
             { html: `<bdi>جَلْبَبَ</bdi> shows the mechanism plainly: the أصول are <bdi>جلب</bdi>, a second باء is added so the verb stands on four letters, and it is then built on فَعْلَل <bdi>كي يَتَصَرَّفَ مِثْلَهُ</bdi> — <bdi>جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً</bdi>, exactly like <bdi>دَحْرَجَ يُدَحْرِجُ دَحْرَجَةً</bdi>.`, list: false },
           ],
@@ -609,9 +609,9 @@ export default {
         {
           heading: 'معنى الإلحاق والفرق بين الملحق والمزيد',
           lines: [
-            { html: `<bdi>والإلْحاقُ: أن تَزِيدَ في البِناءِ زِيادَةً، لِتُلْحِقَهُ بِآخَرَ أَكْثَرَ منه، فَيَتَصَرَّفَ تَصَرُّفَهُ</bdi>.`, list: false },
-            { html: `Put practically: you take a ثلاثي word, add a letter to it, and set it on the وزن of the رباعي <bdi>لِتُعامِلَهُ مُعامَلَةَ الرُّباعِي</bdi>.`, list: false },
-            { html: `<bdi>والمُلْحَقُ يَخْتَلِفُ عن المَزِيدِ، بأنَّ المُلْحَقَ فائِدَتُهُ لَفْظِيَّةٌ لا مَعْنَوِيَّةٌ، فلا يكونُ لِمَعْنًى جَدِيدٍ كالمَزِيدِ</bdi>.`, list: false },
+            { html: `<bdi>والإلْحاقُ: أن تَزِيدَ في البِناءِ زِيادَةً، لِتُلْحِقَهُ بِآخَرَ أَكْثَرَ منه، فَيَتَصَرَّفَ تَصَرُّفَهُ</bdi> — الإلحاق is to add an augment to the بِناء (form), so as to liken it to another, longer بناء, such that it then conjugates the way that one does.`, list: false },
+            { html: `Put practically: you take a ثلاثي word, add a letter to it, and set it on the وزن of the رباعي <bdi>لِتُعامِلَهُ مُعامَلَةَ الرُّباعِي</bdi> — so as to treat it the way you treat the رباعي.`, list: false },
+            { html: `<bdi>والمُلْحَقُ يَخْتَلِفُ عن المَزِيدِ، بأنَّ المُلْحَقَ فائِدَتُهُ لَفْظِيَّةٌ لا مَعْنَوِيَّةٌ، فلا يكونُ لِمَعْنًى جَدِيدٍ كالمَزِيدِ</bdi> — the مُلْحَق differs from the مَزِيد in that the ملحق's benefit is لَفْظِيَّة (formal), not مَعْنَوِيَّة (semantic): it is not there for a new meaning, unlike the مزيد.`, list: false },
             { html: `That is the whole distinction. Both add letters; the مزيد adds them to buy a new meaning, the ملحق adds them only to buy a new conjugation pattern.`, list: false },
           ],
           clarification: `The pair to hold in mind is جَلْبَبَ against أَكْرَمَ. Both are ثلاثي roots with a letter added, and both end up longer than they began. But أَكْرَمَ's added همزة does semantic work — it makes a لازم verb متعدٍّ, which is a meaning the bare كَرُمَ did not carry. جَلْبَبَ's added باء does no such work: جَلْبَبَ means "he clothed him in a جلباب", and there is no shorter form whose meaning it modifies. What the addition bought was purely formal — the right to conjugate جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً on the pattern of دَحْرَجَ. Hence فائدته لفظية لا معنوية.`,
@@ -808,13 +808,13 @@ export default {
           heading: 'الأقسام الثلاثة والغاية',
           lines: [
             { html: `<bdi>الفِعْلُ الثُلاثِيُّ المَزِيدُ فيه ثَلاثَةُ أقسامٍ</bdi>, and the count of أبنية is twelve in all.`, list: false },
-            { table: { headers: ['القسم', 'عدد الأبنية'], rows: [
-              ['ما زِيدَ فيه حَرْفٌ واحِدٌ', 'ثلاثة'],
-              ['ما زِيدَ فيه حَرْفانِ', 'خمسة'],
-              ['ما زِيدَ فيه ثَلاثَةُ أَحْرُفٍ', 'أربعة'],
+            { table: { headers: ['القسم (Division)', 'عدد الأبنية (Number of Patterns)'], rows: [
+              ['ما زِيدَ فيه حَرْفٌ واحِدٌ — what has had one letter added', 'Three'],
+              ['ما زِيدَ فيه حَرْفانِ — what has had two letters added', 'Five'],
+              ['ما زِيدَ فيه ثَلاثَةُ أَحْرُفٍ — what has had three letters added', 'Four'],
             ] } },
-            { html: `<bdi>وغايَةُ ما يَبْلُغُ الفِعْلُ بالزِيادَةِ سِتَّةٌ؛ بِخِلافِ الاسْمِ، فإنَّه يَبْلُغُ بالزِيادَةِ سَبْعَةً (نحو اسْتِخْراج) لِثِقَلِ الفِعْلِ، وخِفَّةِ الاسْمِ</bdi>.`, list: false },
-            { html: `The reason given for the weight: <bdi>لأنَّ الفِعْلَ يَدُلُّ على شَيْئَيْنِ: الحَدَثِ وزَمانِهِ، وأمَّا الاسْمُ فَيَدُلُّ على مُسَمَّاهُ فقط دُونَ دَلالَةٍ على زَمانٍ</bdi>.`, list: false },
+            { html: `<bdi>وغايَةُ ما يَبْلُغُ الفِعْلُ بالزِيادَةِ سِتَّةٌ؛ بِخِلافِ الاسْمِ، فإنَّه يَبْلُغُ بالزِيادَةِ سَبْعَةً (نحو اسْتِخْراج) لِثِقَلِ الفِعْلِ، وخِفَّةِ الاسْمِ</bdi> — the maximum a verb reaches through augmentation is six letters; unlike the noun, which reaches seven (e.g. اسْتِخْراج), because of the verb's weight and the noun's lightness.`, list: false },
+            { html: `The reason given for the weight: <bdi>لأنَّ الفِعْلَ يَدُلُّ على شَيْئَيْنِ: الحَدَثِ وزَمانِهِ، وأمَّا الاسْمُ فَيَدُلُّ على مُسَمَّاهُ فقط دُونَ دَلالَةٍ على زَمانٍ</bdi> — the verb indicates two things, الحدث (the event) and its time, while the noun indicates only its referent (مسماه), with no indication of time.`, list: false },
           ],
           exercise: {
             prompt: `A verb may reach six letters and a noun seven. What reason is given?`,
@@ -826,8 +826,8 @@ export default {
         {
           heading: 'المزيد بحرف واحد',
           lines: [
-            { html: `<bdi>فالذي زِيدَ فيه حَرْفٌ واحِدٌ يَأْتِي على ثَلاثَةِ أَوْزانٍ</bdi>.`, list: false },
-            { table: { headers: ['الوزن', 'أمثلة'], rows: [
+            { html: `<bdi>فالذي زِيدَ فيه حَرْفٌ واحِدٌ يَأْتِي على ثَلاثَةِ أَوْزانٍ</bdi> — what has had one letter added comes on three أوزان.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'أمثلة (Examples)'], rows: [
               ['أَفْعَلَ', 'أَكْرَمَ، أَوْلَى، أَعْطَى، أَقامَ، آتَى، آمَنَ، أَقَرَّ'],
               ['فَاعَلَ', 'قَاتَلَ، آخَذَ، وَالَى'],
               ['فَعَّلَ (بالتَضْعِيفِ — العين)', 'فَرَّحَ، زَكَّى، وَلَّى، بَرَّأَ'],
@@ -844,15 +844,15 @@ export default {
         {
           heading: 'المزيد بحرفين',
           lines: [
-            { html: `<bdi>والذي زِيدَ فيه حَرْفانِ يَأْتِي على خَمْسَةِ أَوْزانٍ</bdi>.`, list: false },
-            { table: { headers: ['الوزن', 'أمثلة'], rows: [
+            { html: `<bdi>والذي زِيدَ فيه حَرْفانِ يَأْتِي على خَمْسَةِ أَوْزانٍ</bdi> — what has had two letters added comes on five أوزان.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'أمثلة (Examples)'], rows: [
               ['انْفَعَلَ', 'انْكَسَرَ، انْشَقَّ، انْقادَ، انْمَحَى'],
               ['افْتَعَلَ', 'اجْتَمَعَ، اشْتَقَّ، احْتارَ، ادَّعَى، اتَّصَلَ، اتَّقَى، اصْطَبَرَ، اضْطَرَبَ'],
               ['افْعَلَّ', 'احْمَرَّ، اصْفَرَّ، اعْوَرَّ'],
               ['تَفَعَّلَ', 'تَعَلَّمَ، تَزَكَّى'],
               ['تَفَاعَلَ', 'تَبَاعَدَ، تَشَاوَرَ'],
             ] } },
-            { html: `<bdi>افْعَلَّ</bdi> is noted as <bdi>غالِبًا في الأَلْوانِ والعُيُوبِ</bdi>; it is rare elsewhere — <bdi>ارْفَضَّ عَرَقًا</bdi>, <bdi>اخْضَلَّ الرَّوْضُ</bdi>, and <bdi>ارْعَوَى</bdi>.`, list: false },
+            { html: `<bdi>افْعَلَّ</bdi> is noted as <bdi>غالِبًا في الأَلْوانِ والعُيُوبِ</bdi> — mostly for colors and defects; it is rare elsewhere — <bdi>ارْفَضَّ عَرَقًا</bdi>, <bdi>اخْضَلَّ الرَّوْضُ</bdi>, and <bdi>ارْعَوَى</bdi>.`, list: false },
             { html: `Two forms of تَفَعَّلَ undergo إدغام because the تاء is close in مَخْرَج to what follows: <bdi>اذَّكَرَ</bdi> (originally تَذَكَّرَ — تَذَكَّرَ ← ذَذَكَّرَ ← ذَّكَّرَ ← اذَّكَر) and <bdi>اطَّهَّرَ</bdi> (originally تَطَهَّرَ). Under تَفَاعَلَ the same happens in <bdi>اثَّاقَلَ</bdi> and <bdi>ادَّارَكَ</bdi>; and <bdi>تَبارَكَ</bdi> and <bdi>تَعالَى</bdi> belong here too.`, list: false },
           ],
           exercise: {
@@ -865,12 +865,12 @@ export default {
         {
           heading: 'المزيد بثلاثة أحرف',
           lines: [
-            { html: `<bdi>والذي زِيدَ فيه ثَلاثَةُ أَحْرُفٍ يَأْتِي على أَرْبَعَةِ أَوْزانٍ</bdi>.`, list: false },
-            { table: { headers: ['الوزن', 'المثال', 'المعنى'], rows: [
+            { html: `<bdi>والذي زِيدَ فيه ثَلاثَةُ أَحْرُفٍ يَأْتِي على أَرْبَعَةِ أَوْزانٍ</bdi> — what has had three letters added comes on four أوزان.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'المثال (Example)', 'المعنى (Meaning)'], rows: [
               ['اسْتَفْعَلَ', 'اسْتَخْرَجَ، اسْتَقامَ', '—'],
-              ['افْعَوْعَلَ', 'اغْدَوْدَنَ الشَّعْرُ ، اعْشَوْشَبَ المَكانُ', 'إذا طالَ ، إذا كَثُرَ عُشْبُهُ'],
-              ['افْعَالَّ', 'احْمارَّ ، اشْهابَّ', 'قَوِيَتْ حُمْرَتُهُ وشُهْبَتُهُ'],
-              ['افْعَوَّلَ', 'اجْلَوَّذَ ، اعْلَوَّطَ', 'إذا أَسْرَعَ ، تَعَلَّقَ بِعُنُقِ البَعِيرِ فَرَكِبَهُ'],
+              ['افْعَوْعَلَ', 'اغْدَوْدَنَ الشَّعْرُ ، اعْشَوْشَبَ المَكانُ', 'when it grew long; when its grass became abundant'],
+              ['افْعَالَّ', 'احْمارَّ ، اشْهابَّ', 'its redness or greyness intensified'],
+              ['افْعَوَّلَ', 'اجْلَوَّذَ ، اعْلَوَّطَ', 'when he hurried; he clung to the camel’s neck and rode it'],
             ] } },
             { html: `Three plus five plus four is twelve — the full count of أوزان for the ثلاثي مزيد فيه.`, list: false },
           ],
@@ -1066,13 +1066,13 @@ export default {
         {
           heading: 'أوزان الرباعي المزيد فيه',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الرُّباعِيُّ المَزِيدُ إلى قِسْمَيْنِ: ما زِيدَ فيه حَرْفٌ واحِدٌ، وما زِيدَ فيه حَرْفانِ</bdi>.`, list: false },
-            { table: { headers: ['القسم', 'الوزن', 'المثال'], rows: [
-              ['المزيد بحرف واحد — وزن واحد', 'تَفَعْلَلَ', 'تَدَحْرَجَ ، تَزَلْزَلَ'],
-              ['المزيد بحرفين — وزنان', 'افْعَنْلَلَ', 'احْرَنْجَمَ, بمعنى اجْتَمَعَ, من حَرْجَمَ بمعنى جَمَعَ'],
-              ['', 'افْعَلَلَّ (بِهَمْزَةِ وَصْلٍ في أَوَّلِهِ وبِتَضْعِيفِ لامِهِ الثانِيَة)', 'اقْشَعَرَّ ، اطْمَأَنَّ'],
+            { html: `<bdi>يَنْقَسِمُ الرُّباعِيُّ المَزِيدُ إلى قِسْمَيْنِ: ما زِيدَ فيه حَرْفٌ واحِدٌ، وما زِيدَ فيه حَرْفانِ</bdi> — الرباعي المزيد divides into two: what has had one letter added, and what has had two letters added.`, list: false },
+            { table: { headers: ['القسم (Division)', 'الوزن (Pattern)', 'المثال (Example)'], rows: [
+              ['المزيد بحرف واحد — وزن واحد — augmented by one letter, one وزن', 'تَفَعْلَلَ', 'تَدَحْرَجَ ، تَزَلْزَلَ'],
+              ['المزيد بحرفين — وزنان — augmented by two letters, two أوزان', 'افْعَنْلَلَ', 'احْرَنْجَمَ, meaning اجْتَمَعَ (to gather), from حَرْجَمَ meaning جَمَعَ'],
+              ['', 'افْعَلَلَّ — with a هَمْزَة وَصْل at its start, and doubling of its second لام', 'اقْشَعَرَّ ، اطْمَأَنَّ'],
             ] } },
-            { html: `<bdi>اقْشَعَرَّ</bdi> comes <bdi>من قَشْعَر، وهو غَيْرُ مُسْتَعْمَل</bdi>; the form actually in use is the مزيد <bdi>تَقَشْعَرَ</bdi>.`, list: false },
+            { html: `<bdi>اقْشَعَرَّ</bdi> comes <bdi>من قَشْعَر، وهو غَيْرُ مُسْتَعْمَل</bdi> — from قَشْعَر, which is not itself in use; the form actually in use is the مزيد <bdi>تَقَشْعَرَ</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `How many أوزان does the رباعي مزيد have in all?`,
@@ -1084,8 +1084,8 @@ export default {
         {
           heading: 'ملحقات الرباعي المزيد',
           lines: [
-            { html: `<bdi>والمُلْحَقُ بما زِيدَ فيه حَرْفٌ واحِدٌ يَأْتِي على سِتَّةِ أَوْزانٍ</bdi> — each formed by prefixing a تاء to a ملحق pattern of فَعْلَلَ. Four of the six answer directly to patterns met earlier; تَمَفْعَلَ (تَمَسْكَنَ) answers to مَفْعَلَ, which was not among them.`, list: false },
-            { table: { headers: ['الوزن', 'المثال'], rows: [
+            { html: `<bdi>والمُلْحَقُ بما زِيدَ فيه حَرْفٌ واحِدٌ يَأْتِي على سِتَّةِ أَوْزانٍ</bdi> — the ملحق to what has had one letter added comes on six أوزان — each formed by prefixing a تاء to a ملحق pattern of فَعْلَلَ. Four of the six answer directly to patterns met earlier; تَمَفْعَلَ (تَمَسْكَنَ) answers to مَفْعَلَ, which was not among them.`, list: false },
+            { table: { headers: ['الوزن (Pattern)', 'المثال (Example)'], rows: [
               ['تَفَعْلَلَ', 'تَجَلْبَبَ'],
               ['تَفَعْوَلَ', 'تَرَهْوَكَ'],
               ['تَفَيْعَلَ', 'تَشَيْطَنَ'],
@@ -1093,7 +1093,7 @@ export default {
               ['تَمَفْعَلَ', 'تَمَسْكَنَ'],
               ['تَفَعْلَى', 'تَسَلْقَى'],
             ] } },
-            { html: `<bdi>والمُلْحَقُ بما زِيدَ فيه حَرْفانِ، وَزْنانِ</bdi>: <bdi>افْعَنْلَلَ</bdi> as in <bdi>اقْعَنْسَسَ</bdi>, and <bdi>افْعَنْلَى</bdi> as in <bdi>اسْلَنْقَى</bdi>.`, list: false },
+            { html: `<bdi>والمُلْحَقُ بما زِيدَ فيه حَرْفانِ، وَزْنانِ</bdi> — the ملحق to what has had two letters added has two أوزان: <bdi>افْعَنْلَلَ</bdi> as in <bdi>اقْعَنْسَسَ</bdi>, and <bdi>افْعَنْلَى</bdi> as in <bdi>اسْلَنْقَى</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `How are the six ملحقات of the singly-augmented رباعي formed?`,
@@ -1106,11 +1106,11 @@ export default {
           heading: 'الفرق بين احرنجم واقعنسس',
           lines: [
             { html: `<bdi>احْرَنْجَمَ</bdi> and <bdi>اقْعَنْسَسَ</bdi> both weigh <bdi>افْعَنْلَلَ</bdi>, yet one is a رباعي مزيد and the other a ملحق. The difference lies in the لامان.`, list: false },
-            { table: { headers: ['الفعل', 'التصنيف', 'لاماه'], rows: [
-              ['احْرَنْجَمَ', 'الرباعي المزيد', 'أَصْلِيَّتانِ'],
-              ['اقْعَنْسَسَ', 'المُلْحَق بما زِيدَ فيه حَرْفانِ', 'إحْداهُما زائِدَةٌ لِلْإِلْحاقِ'],
+            { table: { headers: ['الفعل (Verb)', 'التصنيف (Classification)', 'لاماه (Its Two لام Letters)'], rows: [
+              ['احْرَنْجَمَ', 'الرباعي المزيد', 'Both original (أَصْلِيَّتان)'],
+              ['اقْعَنْسَسَ', 'ملحق to what has had two letters added', 'One of them added for الإلحاق'],
             ] } },
-            { html: `<bdi>وهذا كالفَرْقِ بَيْنَ بَعْثَرَ وجَلْبَبَ</bdi> — the same distinction one level down, where بعثر has four أصول and جلبب three with a repetition added.`, list: false },
+            { html: `<bdi>وهذا كالفَرْقِ بَيْنَ بَعْثَرَ وجَلْبَبَ</bdi> — this is like the difference between بَعْثَرَ and جَلْبَبَ — the same distinction one level down, where بعثر has four أصول and جلبب three with a repetition added.`, list: false },
           ],
           clarification: `The pattern repeats at every level, which is why the comparison to بَعْثَرَ and جَلْبَبَ is exact. In both pairs, two verbs arrive at the same وزن by different routes: one because its root genuinely has that many أصول, the other because a letter was repeated to reach the count. The وزن alone cannot tell you which — you have to know the root. حَرْجَمَ exists as a رباعي meaning جَمَعَ, so احْرَنْجَمَ's four consonants are all أصول; قَعِسَ is a ثلاثي, so the second سين in اقْعَنْسَسَ is a repetition put there for الإلحاق.`,
           exercise: {
@@ -1123,9 +1123,9 @@ export default {
         {
           heading: 'التنبيه الأول: أقسام الفعل',
           lines: [
-            { html: `<bdi>ظَهَرَ لك مما تَقَدَّمَ أنَّ الفِعْلَ باعْتِبارِ مادَّتِهِ أَرْبَعَةُ أَقْسامٍ: ثُلاثِيّ، ورُباعِيّ، وخُماسِيّ، وسُداسِيّ</bdi>.`, list: false },
+            { html: `<bdi>ظَهَرَ لك مما تَقَدَّمَ أنَّ الفِعْلَ باعْتِبارِ مادَّتِهِ أَرْبَعَةُ أَقْسامٍ: ثُلاثِيّ، ورُباعِيّ، وخُماسِيّ، وسُداسِيّ</bdi> — it should now be clear that الفعل, considered by its مادّة (its letters), has four divisions: ثلاثي, رباعي, خماسي, and سداسي.`, list: false },
             { html: `<bdi>أي: باعْتِبارِ عَدَدِ حُرُوفِهِ مُطْلَقًا الأَصْلِيَّةِ والزائِدَةِ</bdi> — counting every letter, root and added alike.`, list: false },
-            { html: `<bdi>وباعْتِبارِ هَيْئَتِهِ الحاصِلَةِ من الحَرَكاتِ والسَّكَناتِ سَبْعَةٌ وثَلاثُونَ بابًا</bdi>.`, list: false },
+            { html: `<bdi>وباعْتِبارِ هَيْئَتِهِ الحاصِلَةِ من الحَرَكاتِ والسَّكَناتِ سَبْعَةٌ وثَلاثُونَ بابًا</bdi> — considered by its هيئة (the form its vowels and sukūns produce), it has thirty-seven أبواب.`, list: false },
             { html: `So the same verb is counted twice over: once by <bdi>المادَّة</bdi> (how many letters it has) and once by <bdi>الهَيْئَة</bdi> (how those letters are vowelled).`, list: false },
           ],
           exercise: {
@@ -1139,11 +1139,11 @@ export default {
           heading: 'التنبيه الثاني: السماع والاستثناء',
           lines: [
             { html: `Three things are <em>not</em> guaranteed:`, list: false },
-            { html: `<bdi>لا يَلْزَمُ في كُلِّ مُجَرَّدٍ أن يُسْتَعْمَلَ له مَزِيدٌ</bdi>.`, list: true, bullet: true },
-            { html: `<bdi>ولا في كُلِّ مَزِيدٍ أن يُسْتَعْمَلَ له مُجَرَّدٌ</bdi> — نحو <bdi>افْتَقَرَ</bdi>, and there is no فَقَرَ.`, list: true, bullet: true },
-            { html: `<bdi>ولا فيما اسْتُعْمِلَ فيه بَعْضُ المَزِيداتِ، أن يُسْتَعْمَلَ فيه البَعْضُ الآخَرُ</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>لا يَلْزَمُ في كُلِّ مُجَرَّدٍ أن يُسْتَعْمَلَ له مَزِيدٌ</bdi> — it is not necessary that every مجرد have a مزيد in use for it.`, list: true, bullet: true },
+            { html: `<bdi>ولا في كُلِّ مَزِيدٍ أن يُسْتَعْمَلَ له مُجَرَّدٌ</bdi> — nor is it necessary that every مزيد have a مجرد in use for it — نحو <bdi>افْتَقَرَ</bdi>, and there is no فَقَرَ.`, list: true, bullet: true },
+            { html: `<bdi>ولا فيما اسْتُعْمِلَ فيه بَعْضُ المَزِيداتِ، أن يُسْتَعْمَلَ فيه البَعْضُ الآخَرُ</bdi> — nor, where some of the مزيد forms are in use, is it necessary that the rest be in use too.`, list: true, bullet: true },
             { html: `<bdi>بَلِ المَدارُ في كُلِّ ذلك السَّماعُ</bdi> — the whole matter turns on what has actually been heard.`, list: false },
-            { html: `<bdi>ويُسْتَثْنَى من ذلك الثُلاثِيُّ اللازِمُ، فَتَطَّرِدُ زِيادَةُ الهَمْزَةِ في أَوَّلِهِ لِلتَعْدِيَةِ، فيُقالُ في ذَهَبَ أَذْهَبَ، وفي خَرَجَ أَخْرَجَ</bdi>.`, list: false },
+            { html: `<bdi>ويُسْتَثْنَى من ذلك الثُلاثِيُّ اللازِمُ، فَتَطَّرِدُ زِيادَةُ الهَمْزَةِ في أَوَّلِهِ لِلتَعْدِيَةِ، فيُقالُ في ذَهَبَ أَذْهَبَ، وفي خَرَجَ أَخْرَجَ</bdi> — excepted from this is the لازم ثلاثي verb: adding a همزة at its start for تعدية (transitivization) is regular, so from ذَهَبَ one says أَذْهَبَ, and from خَرَجَ, أَخْرَجَ.`, list: false },
           ],
           exercise: {
             prompt: `What does افْتَقَرَ illustrate?`,
@@ -1337,9 +1337,9 @@ export default {
         {
           heading: 'المراد بمعاني صيغ الزوائد',
           lines: [
-            { html: `<bdi>المُرادُ بِمَعاني صِيَغِ الزَّوائِدِ هي المَعاني الَّتِي تَدُلُّ عليها الكَلِمَةُ بِصِيغَتِها وبِنائِها لا بِحُرُوفِها</bdi>.`, list: false },
-            { html: `<bdi>فالصِّيَغُ المُجَرَّدَةُ الأَصْلُ في مَعْناها فِعْلُ الفاعِلِ لِلْفِعْلِ</bdi> — <bdi>ذَهَبْتُ، وضَرَبْتُ زَيدًا</bdi>, i.e. <bdi>فَعَلْتُ الذَهابَ والضَرْبَ بِزَيدٍ</bdi>.`, list: false },
-            { html: `<bdi>وتَحْوِيلُ الفِعْلِ من مُجَرَّدٍ إلى مَزِيدٍ، وذلك بِزِيادَةِ حَرْفٍ أو أَكْثَرَ، إنَّها يكونُ ذلك طَلَبًا لِمَعْنًى جَدِيدٍ</bdi>.`, list: false },
+            { html: `<bdi>المُرادُ بِمَعاني صِيَغِ الزَّوائِدِ هي المَعاني الَّتِي تَدُلُّ عليها الكَلِمَةُ بِصِيغَتِها وبِنائِها لا بِحُرُوفِها</bdi> — what is meant by معاني صيغ الزوائد is the meanings a word indicates through its صيغة (pattern) and بناء (form), not through its individual letters.`, list: false },
+            { html: `<bdi>فالصِّيَغُ المُجَرَّدَةُ الأَصْلُ في مَعْناها فِعْلُ الفاعِلِ لِلْفِعْلِ</bdi> — the bare patterns' basic meaning is the doer's performing of the action — <bdi>ذَهَبْتُ، وضَرَبْتُ زَيدًا</bdi> (I went; I struck Zayd), i.e. <bdi>فَعَلْتُ الذَهابَ والضَرْبَ بِزَيدٍ</bdi> — I performed the going, and the striking, upon Zayd.`, list: false },
+            { html: `<bdi>وتَحْوِيلُ الفِعْلِ من مُجَرَّدٍ إلى مَزِيدٍ، وذلك بِزِيادَةِ حَرْفٍ أو أَكْثَرَ، إنَّها يكونُ ذلك طَلَبًا لِمَعْنًى جَدِيدٍ</bdi> — and converting the verb from مجرد to مزيد, by adding a letter or more, is always done seeking a new meaning.`, list: false },
             { html: `So the question this فصل answers is: when the Arab moves فَعَلَ to أَفْعَلَ, or to انْفَعَلَ, or to اسْتَفْعَلَ — what new meaning is being bought?`, list: false },
           ],
           exercise: {
@@ -1352,15 +1352,15 @@ export default {
         {
           heading: 'التعدية ودرجاتها',
           lines: [
-            { html: `<bdi>الأوَّل: التَّعْدِيَة (هذا المَعْنَى الأَكْثَر)، وهي تَصْيِيرُ الفاعِلِ بِالهَمْزَةِ مَفْعُولًا</bdi>.`, list: false },
-            { html: `<bdi>كأَقَمْتُ زَيدًا، وأَقْعَدْتُهُ، وأَقْرَأْتُهُ</bdi> — <bdi>الأَصْلُ: قامَ زَيدٌ وقَعَدَ وقَرَأَ. فلمَّا دَخَلَتْ عليه الهَمْزَةُ صارَ زَيدٌ مُقامًا مُقْعَدًا مُقْرَأً</bdi>.`, list: false },
+            { html: `<bdi>الأوَّل: التَّعْدِيَة (هذا المَعْنَى الأَكْثَر)، وهي تَصْيِيرُ الفاعِلِ بِالهَمْزَةِ مَفْعُولًا</bdi> — the first: التَّعْدِيَة (transitivization, the most common meaning) — turning the فاعل, by means of the همزة, into a مفعول.`, list: false },
+            { html: `<bdi>كأَقَمْتُ زَيدًا، وأَقْعَدْتُهُ، وأَقْرَأْتُهُ</bdi> — <bdi>الأَصْلُ: قامَ زَيدٌ وقَعَدَ وقَرَأَ. فلمَّا دَخَلَتْ عليه الهَمْزَةُ صارَ زَيدٌ مُقامًا مُقْعَدًا مُقْرَأً</bdi> — e.g. أَقَمْتُ زَيدًا (I made Zayd stand), أَقْعَدْتُهُ, أَقْرَأْتُهُ. Originally: قامَ زَيدٌ, قَعَدَ, قَرَأَ (Zayd stood, sat, read); once the همزة entered on it, زيد became مُقام, مُقْعَد, مُقْرَأ — made to stand, made to sit, made to read.`, list: false },
             { html: `The همزة moves the verb up one rung of transitivity, whatever rung it started on.`, list: false },
-            { table: { title: 'درجات التعدية', headers: ['الأصل', 'بعد الهمزة', 'المثال'], rows: [
+            { table: { title: 'درجات التعدية (Degrees of Transitivity)', headers: ['الأصل (Original)', 'بعد الهمزة (After the همزة)', 'المثال (Example)'], rows: [
               ['لازِم', 'مُتَعَدٍّ لِواحِدٍ', 'قامَ زَيدٌ ← أَقَمْتُ زَيدًا'],
               ['مُتَعَدٍّ لِواحِدٍ', 'مُتَعَدٍّ لاثْنَيْنِ', 'قَرَأَ زَيدٌ الكِتابَ ← أَقْرَأْتُهُ إيَّاهُ'],
               ['مُتَعَدٍّ لاثْنَيْنِ', 'مُتَعَدٍّ لِثَلاثَةٍ', 'عَلِمَ الطالِبُ المَسْأَلَةَ سَهْلَةً ← أَعْلَمْتُ الطالِبَ المَسْأَلَةَ سَهْلَةً'],
             ] } },
-            { html: `<bdi>ولم يُوجَدْ في اللُغَةِ ما هو مُتَعَدٍّ لاثْنَيْنِ، صارَ بالهَمْزَةِ مُتَعَدِّيًا لِثَلاثَةٍ، إلَّا رَأَى وعَلِمَ</bdi> — أَرَيْتُ or أَعْلَمْتُ زَيدًا بَكْرًا قائِمًا.`, list: false },
+            { html: `<bdi>ولم يُوجَدْ في اللُغَةِ ما هو مُتَعَدٍّ لاثْنَيْنِ، صارَ بالهَمْزَةِ مُتَعَدِّيًا لِثَلاثَةٍ، إلَّا رَأَى وعَلِمَ</bdi> — and nothing transitive to two objects becomes, by the همزة, transitive to three, except رَأَى and عَلِمَ — أَرَيْتُ or أَعْلَمْتُ زَيدًا بَكْرًا قائِمًا.`, list: false },
           ],
           exercise: {
             prompt: `Only two verbs in the language go from two objects to three by the همزة. Which?`,
@@ -1372,10 +1372,10 @@ export default {
         {
           heading: 'الصيرورة والدخول والسلب',
           lines: [
-            { table: { headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['الثاني: صَيْرُورَةُ شَيْءٍ ذا شَيْءٍ', 'تَحَوُّلُ شَيْءٍ من حالٍ إلى حالٍ', 'أَلْبَنَ الرَّجُلُ، أَتْمَرَ، أَفْلَسَ — صارَ ذا لَبَنٍ وتَمْرٍ وفُلُوسٍ'],
-              ['الثالث: الدُّخُولُ في شَيْءٍ', 'مَكانًا كان أو زَمانًا', 'أَشْأَمَ، أَعْرَقَ، أَصْبَحَ، أَمْسَى — دَخَلَ في الشامِ والعِراقِ والصَباحِ والمَساءِ (وكذا أَفْجَرَ وأَظْهَرَ وأَعْصَرَ وأَضْحَى وأَشْهَرَ)'],
-              ['الرابع: السَّلْبُ والإزالَةُ', '—', 'أَقْذَيْتُ عَيْنَ فُلانٍ، وأَعْجَمْتُ الكِتابَ — أَزَلْتُ القَذَى عن عَيْنِهِ، وأَزَلْتُ عُجْمَةَ الكِتابِ بِنُقَطِهِ'],
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['الثاني: صَيْرُورَةُ شَيْءٍ ذا شَيْءٍ — becoming possessed of a thing', 'تَحَوُّلُ شَيْءٍ من حالٍ إلى حالٍ — a thing’s transformation from one state to another', 'أَلْبَنَ الرَّجُلُ، أَتْمَرَ، أَفْلَسَ — he became possessed of milk, of dates, of money'],
+              ['الثالث: الدُّخُولُ في شَيْءٍ — entering into something', 'مَكانًا كان أو زَمانًا — whether a place or a time', 'أَشْأَمَ، أَعْرَقَ، أَصْبَحَ، أَمْسَى — he entered الشام, العراق, the morning, the evening (and likewise أَفْجَرَ، أَظْهَرَ، أَعْصَرَ، أَضْحَى، أَشْهَرَ)'],
+              ['الرابع: السَّلْبُ والإزالَةُ — removal, stripping away', '—', 'أَقْذَيْتُ عَيْنَ فُلانٍ، وأَعْجَمْتُ الكِتابَ — I removed the القَذَى (speck) from his eye, and I removed the عُجْمَة (ambiguity) of the book by dotting it'],
             ] } },
             { html: `Note that the fourth is the exact reverse of what a naive reading would suggest: أَعْجَمْتُ الكِتابَ does not mean "I made the book obscure" but "I removed its obscurity by dotting it".`, list: false },
           ],
@@ -1389,10 +1389,10 @@ export default {
         {
           heading: 'المصادفة والاستحقاق والتعريض',
           lines: [
-            { table: { headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['الخامس: مُصادَفَةُ الشَّيْءِ على صِفَةٍ', 'مُوافَقَتُهُ على حالٍ أو صِفَةٍ مُعَيَّنَةٍ حِينَ اللِقاءِ بِهِ', 'أَحْمَدْتُ زَيدًا، وأَكْرَمْتُهُ، وأَبْخَلْتُهُ — صادَفْتُهُ مَحْمُودًا، أو كَرِيمًا، أو بَخِيلًا'],
-              ['السادس: الاسْتِحْقاق', 'أنَّ الفاعِلَ صارَ مُسْتَحِقًّا وأَهْلًا لِلْفِعْلِ', 'أَحْصَدَ الزَّرْعُ، أَزْوَجَتْ هِنْدٌ — اسْتَحَقَّ الزَّرْعُ الحَصادَ، وهِنْدٌ الزَّواجَ'],
-              ['السابع: التَعْرِيض', '—', 'أَرْهَنْتُ المَتاعَ، أَبَعْتُهُ — عَرَّضْتُهُ لِلرَّهْنِ والبَيْعِ'],
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['الخامس: مُصادَفَةُ الشَّيْءِ على صِفَةٍ — finding a thing to be of a certain description', 'مُوافَقَتُهُ على حالٍ أو صِفَةٍ مُعَيَّنَةٍ حِينَ اللِقاءِ بِهِ — finding it matches a particular state or quality upon encountering it', 'أَحْمَدْتُ زَيدًا، وأَكْرَمْتُهُ، وأَبْخَلْتُهُ — I found him praiseworthy, or generous, or miserly'],
+              ['السادس: الاسْتِحْقاق — deserving, becoming fit for', 'أنَّ الفاعِلَ صارَ مُسْتَحِقًّا وأَهْلًا لِلْفِعْلِ — that the فاعل became deserving and fit for the action', 'أَحْصَدَ الزَّرْعُ، أَزْوَجَتْ هِنْدٌ — the crop became fit for reaping, and هند became fit for marriage'],
+              ['السابع: التَعْرِيض — offering, exposing to', '—', 'أَرْهَنْتُ المَتاعَ، أَبَعْتُهُ — I offered the goods for pawning, for selling'],
             ] } },
             { html: `أَكْرَمْتُهُ is worth pausing on: under التعدية it would mean "I honoured him", but under المصادفة it means "I found him to be generous". The وزن alone does not decide — context does.`, list: false },
           ],
@@ -1406,14 +1406,14 @@ export default {
         {
           heading: 'بمعنى استفعل، والمطاوعة، والتمكين',
           lines: [
-            { table: { headers: ['المعنى', 'البيان', 'المثال'], rows: [
-              ['الثامن: أن يكونَ بِمَعْنَى (اسْتَفْعَلَ)', 'اعْتَقَدْتُ أنَّهُ عَظِيمٌ', 'أَعْظَمْتُهُ — اسْتَعْظَمْتُهُ'],
-              ['التاسع: أن يكونَ مُطاوِعًا لِـ(فَعَّلَ)', 'قَبُولُ أَثَرِ فِعْلٍ سابِقٍ — والمُطاوَعَةُ عَكْسُ التَعْدِيَةِ', 'فَطَّرْتُهُ فأَفْطَرَ، وبَشَّرْتُهُ فأَبْشَرَ'],
-              ['العاشر: التَمْكِين', 'أنَّ الفاعِلَ يُمَكِّنُ المَفْعُولَ بِهِ من الفِعْلِ', 'أَحْفَرْتُهُ النَّهَرَ — مَكَّنْتُهُ مِنْ حَفْرِهِ'],
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'المثال (Example)'], rows: [
+              ['الثامن: أن يكونَ بِمَعْنَى (اسْتَفْعَلَ) — to carry the meaning of اسْتَفْعَلَ', 'اعْتَقَدْتُ أنَّهُ عَظِيمٌ — I believed him to be great', 'أَعْظَمْتُهُ — اسْتَعْظَمْتُهُ'],
+              ['التاسع: أن يكونَ مُطاوِعًا لِـ(فَعَّلَ) — to serve as the مُطاوِع (undergoing counterpart) of فَعَّلَ', 'قَبُولُ أَثَرِ فِعْلٍ سابِقٍ — والمُطاوَعَةُ عَكْسُ التَعْدِيَةِ — accepting the effect of a prior action; المطاوعة is the reverse of التعدية', 'فَطَّرْتُهُ فأَفْطَرَ، وبَشَّرْتُهُ فأَبْشَرَ'],
+              ['العاشر: التَمْكِين — enabling', 'أنَّ الفاعِلَ يُمَكِّنُ المَفْعُولَ بِهِ من الفِعْلِ — that the فاعل enables the مفعول به to perform the action', 'أَحْفَرْتُهُ النَّهَرَ — I enabled him to dig the river'],
             ] } },
-            { html: `Two further notes. <bdi>ورُبَّما جاءَ المَهْمُوزُ كأَصْلِهِ</bdi> — أَفْعَلَ and the bare فَعَلَ carrying one meaning: <bdi>سَرَى وأَسْرَى، سَقَى وأَسْقَى، طافَ وأَطافَ، ضاءَ وأَضاءَ</bdi>. Some scholars hold the meaning is one but أَفْعَلَ adds <bdi>التوكيد أو المبالغة</bdi>.`, list: false },
-            { html: `<bdi>أو أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — أَفْلَحَ meaning فازَ, where no فَلَحَ with that sense exists; likewise أَقْسَمَ باللهِ and أَدْرَكَ الشَيْءَ.`, list: false },
-            { html: `<bdi>ونَدَرَ مَجِيءُ الفِعْلِ مُتَعَدِّيًا بِلا هَمْزَةٍ، ولازِمًا بِها</bdi> — i.e. أَفْعَلَ acting as the مطاوع of the bare فَعَلَ: <bdi>نَسَلْتُ رِيشَ الطائِرِ وأَنْسَلَ الرِّيشُ</bdi>، <bdi>عَرَضْتُ الشَيْءَ وأَعْرَضَ الشَيْءُ</bdi>، <bdi>كَبَبْتُ زَيدًا على وَجْهِهِ وأَكَبَّ زَيدٌ على وَجْهِهِ</bdi>، <bdi>قَشَعَتِ الرِّيحُ السَّحابَ وأَقْشَعَ السَّحابُ</bdi>.`, list: false },
+            { html: `Two further notes. <bdi>ورُبَّما جاءَ المَهْمُوزُ كأَصْلِهِ</bdi> — and sometimes the مَهْمُوز form (with همزة) comes carrying the same meaning as its أصل — أَفْعَلَ and the bare فَعَلَ carrying one meaning: <bdi>سَرَى وأَسْرَى، سَقَى وأَسْقَى، طافَ وأَطافَ، ضاءَ وأَضاءَ</bdi>. Some scholars hold the meaning is one but أَفْعَلَ adds <bdi>التوكيد أو المبالغة</bdi> (emphasis or intensification).`, list: false },
+            { html: `<bdi>أو أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — or it came to stand in for its أصل, that root not being attested at all — أَفْلَحَ meaning فازَ, where no فَلَحَ with that sense exists; likewise أَقْسَمَ باللهِ and أَدْرَكَ الشَيْءَ.`, list: false },
+            { html: `<bdi>ونَدَرَ مَجِيءُ الفِعْلِ مُتَعَدِّيًا بِلا هَمْزَةٍ، ولازِمًا بِها</bdi> — and it is rare for the verb to come transitive without the همزة, and intransitive with it — i.e. أَفْعَلَ acting as the مطاوع of the bare فَعَلَ: <bdi>نَسَلْتُ رِيشَ الطائِرِ وأَنْسَلَ الرِّيشُ</bdi>، <bdi>عَرَضْتُ الشَيْءَ وأَعْرَضَ الشَيْءُ</bdi>، <bdi>كَبَبْتُ زَيدًا على وَجْهِهِ وأَكَبَّ زَيدٌ على وَجْهِهِ</bdi>، <bdi>قَشَعَتِ الرِّيحُ السَّحابَ وأَقْشَعَ السَّحابُ</bdi>.`, list: false },
           ],
           clarification: `أَكَبَّ is the case most often stumbled over, because it inverts the usual expectation. Ordinarily the همزة is what makes a verb transitive — أَذْهَبَ from ذَهَبَ. Here the reverse holds: كَبَبْتُ زَيدًا is the transitive one, and أَكَبَّ زَيدٌ, with the همزة, is intransitive. What أفعل is doing in these four pairs is not التعدية but المطاوعة — accepting the effect of the bare verb. That is why these four pairs are marked نادر: they run against the dominant use of the same صيغة.`,
           exercise: {
@@ -1608,8 +1608,8 @@ export default {
         {
           heading: 'فاعل: التشارك',
           lines: [
-            { html: `<bdi>يَكْثُرُ اسْتِعْمالُهُ في مَعْنَيَيْنِ. أَحَدُهُما: التَشارُك (أو المُشارَكَة) بَيْنَ اثْنَيْنِ فأَكْثَرَ</bdi>.`, list: false },
-            { html: `<bdi>وهو أن يَفْعَلَ أَحَدُهُما بِصاحِبِهِ فِعْلًا، فيُقابِلَهُ الآخَرُ بِمِثْلِهِ، وحِينَئِذٍ فيُنْسَبُ لِلْبادِئِ نِسْبَةُ الفاعِلِيَّةِ، ولِلْمُقابِلِ نِسْبَةُ المَفْعُولِيَّةِ</bdi>.`, list: false },
+            { html: `<bdi>يَكْثُرُ اسْتِعْمالُهُ في مَعْنَيَيْنِ. أَحَدُهُما: التَشارُك (أو المُشارَكَة) بَيْنَ اثْنَيْنِ فأَكْثَرَ</bdi> — its use is common for two meanings; one of them is التشارك (or المشاركة) — mutual action between two or more.`, list: false },
+            { html: `<bdi>وهو أن يَفْعَلَ أَحَدُهُما بِصاحِبِهِ فِعْلًا، فيُقابِلَهُ الآخَرُ بِمِثْلِهِ، وحِينَئِذٍ فيُنْسَبُ لِلْبادِئِ نِسْبَةُ الفاعِلِيَّةِ، ولِلْمُقابِلِ نِسْبَةُ المَفْعُولِيَّةِ</bdi> — that is, one of the two performs an action upon his companion, and the other meets it with the same in return; the one who began is then assigned the role of فاعل, and the one who answered in kind, the role of مفعول.`, list: false },
             { html: `<bdi>فإذا كان أَصْلُ الفِعْلِ لازِمًا صارَ بِهذه الصِّيغَةِ مُتَعَدِّيًا</bdi> — <bdi>مَاشَيْتُهُ</bdi>, whose أصل is <bdi>مَشَيْتُ ومَشَى</bdi>; likewise <bdi>كَرُمَ</bdi> and <bdi>كارَمْتُهُ</bdi>.`, list: false },
           ],
           exercise: {
@@ -1622,9 +1622,9 @@ export default {
         {
           heading: 'فاعل: المغالبة',
           lines: [
-            { html: `<bdi>وفي هذه الصِّيغَةِ مَعْنَى المُغالَبَةِ (مع المُفاعَلَة)، ويَدُلُّ على غَلَبَةِ أَحَدِهِما، بِصِيغَةِ (فَعَل) من بابِ (نَصَرَ)</bdi>.`, list: false },
-            { html: `<bdi>ما لم يَكُنْ واوِيَّ الفاءِ، أو يائِيَّ العَيْنِ أو اللامِ، فإنَّه يَدُلُّ على الغَلَبَةِ من بابِ ضَرَبَ</bdi>.`, list: false },
-            { html: `<bdi>ومَتَى كان (فَعَلَ) لِلدَلالَةِ على الغَلَبَةِ كان مُتَعَدِّيًا، وإنْ كان أَصْلُهُ لازِمًا، وكان من بابِ (نَصَرَ) أو (ضَرَبَ) على ما تَقَدَّمَ من أَيِّ بابٍ كان</bdi>.`, list: false },
+            { html: `<bdi>وفي هذه الصِّيغَةِ مَعْنَى المُغالَبَةِ (مع المُفاعَلَة)، ويَدُلُّ على غَلَبَةِ أَحَدِهِما، بِصِيغَةِ (فَعَل) من بابِ (نَصَرَ)</bdi> — this صيغة also carries the meaning of المُغالَبَة (overcoming, alongside المفاعلة), indicating that one of the two prevailed, expressed by the bare صيغة فَعَلَ from باب نصر.`, list: false },
+            { html: `<bdi>ما لم يَكُنْ واوِيَّ الفاءِ، أو يائِيَّ العَيْنِ أو اللامِ، فإنَّه يَدُلُّ على الغَلَبَةِ من بابِ ضَرَبَ</bdi> — unless the root is واويّ الفاء (weak و in the فاء) or يائيّ العين أو اللام (weak ي in the عين or لام), in which case المغالبة is expressed from باب ضرب instead.`, list: false },
+            { html: `<bdi>ومَتَى كان (فَعَلَ) لِلدَلالَةِ على الغَلَبَةِ كان مُتَعَدِّيًا، وإنْ كان أَصْلُهُ لازِمًا، وكان من بابِ (نَصَرَ) أو (ضَرَبَ) على ما تَقَدَّمَ من أَيِّ بابٍ كان</bdi> — and whenever فَعَلَ is used to indicate المغالبة, it becomes transitive even if its original أصل was intransitive, and it is from باب نصر or باب ضرب as above, regardless of which باب it originally belonged to.`, list: false },
             { html: `So المغالبة is not expressed by فَاعَلَ itself but by dropping back to a bare فَعَلَ — and that bare form is always باب نصر, except where the root is واوي الفاء or يائي العين أو اللام, in which case it is باب ضرب.`, list: false },
           ],
           clarification: `The mechanism is easy to state and easy to get backwards. فَاعَلَ says two parties did something to each other; it says nothing about who won. To say that one of them prevailed, you do not stay on فَاعَلَ — you go back to a bare فَعَلَ and read it as المغالبة. So كَارَمْتُهُ means "I vied with him in generosity", while كَرَمْتُهُ (bare, on باب نصر) means "I outdid him in it". And note the consequence stated at the end: a verb used for المغالبة is transitive whatever its original أصل was, even if that أصل was لازم.`,
@@ -1638,12 +1638,12 @@ export default {
         {
           heading: 'فاعل: الموالاة وبقية معانيه',
           lines: [
-            { html: `<bdi>وثانِيهِما: المُوالاة (وُقُوعُ الفِعْلِ بَعْضُهُ في أَثَرِ بَعْضٍ)، فيكونُ بِمَعْنَى (أَفْعَلَ) المُتَعَدِّي</bdi>.`, list: false },
-            { html: `<bdi>كوالَيْتُ الصَومَ وتابَعْتُهُ، بِمَعْنَى أَوْلَيْتُ وأَتْبَعْتُ، بَعْضَهُ بَعْضًا</bdi>`, list: false },
-            { table: { title: 'استعمالات أخرى', headers: ['الاستعمال', 'المثال'], rows: [
-              ['بِمَعْنَى (فَعَّلَ) المُضَعَّفِ لِلتَكْثِير', 'ضاعَفْتُ الشَيْءَ وضَعَّفْتُهُ'],
-              ['بِمَعْنَى (فَعَلَ)', 'دافَعَ ودَفَعَ ، سافَرَ وسَفَرَ — وقيل نَجْعَلُ المَزِيدَ لِلْمُبالَغَةِ والتَوْكِيدِ، فسَفَرَ لِكُلِّ خُرُوجٍ وسافَرَ لِلْخُرُوجِ البَعِيدِ'],
-              ['المُفاعَلَةُ بِتَنْزِيلِ غَيْرِ الفِعْلِ مَنْزِلَتَهُ', '﴿يُخادِعُونَ اللهَ﴾ — جُعِلَتْ مُعامَلَتُهُم للهِ بما انْطَوَتْ عليه نُفُوسُهُم من إخْفاءِ الكُفْرِ وإظْهارِ الإسْلامِ، ومُجازاتُهُ لَهُمْ، مُخادَعَةً'],
+            { html: `<bdi>وثانِيهِما: المُوالاة (وُقُوعُ الفِعْلِ بَعْضُهُ في أَثَرِ بَعْضٍ)، فيكونُ بِمَعْنَى (أَفْعَلَ) المُتَعَدِّي</bdi> — and the second meaning: المُوالاة (succession — one part of the action following right after another), in which case it carries the meaning of the transitive أَفْعَلَ.`, list: false },
+            { html: `<bdi>كوالَيْتُ الصَومَ وتابَعْتُهُ، بِمَعْنَى أَوْلَيْتُ وأَتْبَعْتُ، بَعْضَهُ بَعْضًا</bdi> — e.g. وَالَيْتُ الصَومَ and تَابَعْتُهُ, meaning أَوْلَيْتُ and أَتْبَعْتُ — doing one part right after another.`, list: false },
+            { table: { title: 'استعمالات أخرى (Other Uses)', headers: ['الاستعمال (Use)', 'المثال (Example)'], rows: [
+              ['بِمَعْنَى (فَعَّلَ) المُضَعَّفِ لِلتَكْثِير — the meaning of doubled فَعَّلَ, for intensification', 'ضاعَفْتُ الشَيْءَ وضَعَّفْتُهُ'],
+              ['بِمَعْنَى (فَعَلَ) — the meaning of the bare فَعَلَ', 'دافَعَ ودَفَعَ ، سافَرَ وسَفَرَ — it is said we take the augmented form for emphasis and intensity: سَفَرَ for any going-out, سافَرَ for a distant going-out (traveling)'],
+              ['المُفاعَلَةُ بِتَنْزِيلِ غَيْرِ الفِعْلِ مَنْزِلَتَهُ — المفاعلة by treating something that is not really a mutual action as though it were', '﴿يُخادِعُونَ اللهَ﴾ — their dealing with الله, through what their souls concealed of كُفْر while outwardly showing إسلام, and His repaying them for it, was cast as مُخادَعَة (mutual deception)'],
             ] } },
           ],
           exercise: {
@@ -1656,12 +1656,12 @@ export default {
         {
           heading: 'فعَّل: ما تشارك فيه أفعل',
           lines: [
-            { html: `<bdi>يَكْثُرُ اسْتِعْمالُها في ثَمانِيَةِ مَعانٍ، تُشارِكُ (أَفْعَلَ) في اثْنَيْنِ منها</bdi>.`, list: false },
-            { table: { headers: ['المعنى المشترك', 'البيان', 'أمثلة'], rows: [
+            { html: `<bdi>يَكْثُرُ اسْتِعْمالُها في ثَمانِيَةِ مَعانٍ، تُشارِكُ (أَفْعَلَ) في اثْنَيْنِ منها</bdi> — its use is common for eight meanings, sharing two of them with أَفْعَلَ.`, list: false },
+            { table: { headers: ['المعنى المشترك (Shared Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
               ['التَعْدِيَة', 'لازِم ← مُتَعَدٍّ لِواحِدٍ ؛ مُتَعَدٍّ لِواحِدٍ ← مُتَعَدٍّ لاثْنَيْنِ', 'قَوَّمْتُ زَيدًا وقَعَّدْتُهُ ؛ فَهِمَ زَيدٌ الدَرْسَ ← فَهَّمْتُهُ الدَرْسَ'],
-              ['الإزالَة', '—', 'جَرَّبْتُ البَعِيرَ، وقَشَّرْتُ الفاكِهَةَ — أَزَلْتُ جَرَبَهُ، وأَزَلْتُ قِشْرَهُ'],
+              ['الإزالَة (removal)', '—', 'جَرَّبْتُ البَعِيرَ، وقَشَّرْتُ الفاكِهَةَ — I removed its mange (جَرَب); I removed its peel (قِشْر)'],
             ] } },
-            { html: `<bdi>وتَنْفَرِدُ بِسِتَّةٍ</bdi> — six meanings belong to فَعَّلَ alone, and they follow.`, list: false },
+            { html: `<bdi>وتَنْفَرِدُ بِسِتَّةٍ</bdi> — and it is unique in six — six meanings belong to فَعَّلَ alone, and they follow.`, list: false },
           ],
           exercise: {
             prompt: `Which two meanings do فَعَّلَ and أَفْعَلَ share?`,
@@ -1673,17 +1673,17 @@ export default {
         {
           heading: 'فعَّل: ما تنفرد به',
           lines: [
-            { table: { title: 'الستة التي تنفرد بها', headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['التَكْثِير (المُبالَغَة) — وهو أَغْلَبُ المَعاني', 'في الفِعْلِ', 'جَوَّلَ وطَوَّفَ — أَكْثَرَ الجَوَلانَ والطَوَفانَ'],
-              ['', 'أو في المَفْعُولِ', 'غَلَّقَتِ الأبوابَ — أَغْلَقَتْ أَبْوابًا كَثِيرَةً'],
-              ['', 'أو في الفاعِلِ', 'مَوَّتَتِ الإبِلُ ، وبَرَّكَتْ'],
-              ['صَيْرُورَةُ شَيْءٍ شِبْهَ شَيْءٍ', '—', 'قَوَّسَ زَيدٌ وحَجَّرَ الطِّينُ — صارَ شِبْهَ القَوْسِ في الانْحِناءِ، والحَجَرِ في الجُمُودِ'],
-              ['نِسْبَةُ الشَيْءِ إلى أَصْلِ الفِعْلِ', '—', 'فَسَّقْتُ زَيدًا، أو كَفَّرْتُهُ — نِسْبَتُهُ إلى الفِسْقِ أو الكُفْرِ'],
-              ['التَوَجُّهُ إلى الشَيْءِ', '—', 'شَرَّقْتُ أو غَرَّبْتُ — تَوَجَّهْتُ إلى الشَرْقِ أو الغَرْبِ'],
-              ['اخْتِصارُ حِكايَةِ الشَيْءِ', '—', 'هَلَّلَ، سَبَّحَ، لَبَّى، أَمَّنَ، كَبَّرَ، سَلَّمَ'],
-              ['قَبُولُ الشَيْءِ (قَبُولُ فِعْلِ الفاعِلِ)', '—', 'شَفَّعْتُ زَيدًا — قَبِلْتُ شَفاعَتَهُ'],
+            { table: { title: 'الستة التي تنفرد بها (The Six It Has Alone)', headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['التَكْثِير (المُبالَغَة) — intensification, the most common meaning', 'في الفِعْلِ — in the action itself', 'جَوَّلَ وطَوَّفَ — he did much wandering and circling about'],
+              ['', 'أو في المَفْعُولِ — or in the مفعول (the object)', 'غَلَّقَتِ الأبوابَ — she closed many doors'],
+              ['', 'أو في الفاعِلِ — or in the فاعل (the subject)', 'مَوَّتَتِ الإبِلُ ، وبَرَّكَتْ — many of the camels died; many of them knelt down'],
+              ['صَيْرُورَةُ شَيْءٍ شِبْهَ شَيْءٍ — a thing becoming similar to another thing', '—', 'قَوَّسَ زَيدٌ وحَجَّرَ الطِّينُ — he became bow-like in his curve; the clay became stone-like in its hardness'],
+              ['نِسْبَةُ الشَيْءِ إلى أَصْلِ الفِعْلِ — attributing something to the root meaning of the verb', '—', 'فَسَّقْتُ زَيدًا، أو كَفَّرْتُهُ — I attributed him to الفِسْق (moral corruption) or الكُفْر (disbelief)'],
+              ['التَوَجُّهُ إلى الشَيْءِ — turning toward something', '—', 'شَرَّقْتُ أو غَرَّبْتُ — I turned toward the east or the west'],
+              ['اخْتِصارُ حِكايَةِ الشَيْءِ — abbreviating the telling of something', '—', 'هَلَّلَ، سَبَّحَ، لَبَّى، أَمَّنَ، كَبَّرَ، سَلَّمَ'],
+              ['قَبُولُ الشَيْءِ (قَبُولُ فِعْلِ الفاعِلِ) — accepting something (accepting the فاعل’s action)', '—', 'شَفَّعْتُ زَيدًا — I accepted his intercession (شَفاعَة)'],
             ] } },
-            { html: `Three further uses are noted: <bdi>ورُبَّما وَرَدَ بِمَعْنَى أَصْلِهِ</bdi> — ﴿زُيِّنَ لِلناسِ حُبُّ الشَّهَواتِ﴾, where زَيَّنَ and زانَ are one; <bdi>أو بِمَعْنَى تَفَعَّلَ</bdi> — وَلَّى وتَوَلَّى، فَكَّرَ وتَفَكَّرَ; and <bdi>ورُبَّما أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — عَيَّرَهُ إذا عابَهُ، وعَجَّزَتِ المَرْأَةُ: بَلَغَتِ السِّنَّ العالِيَةَ.`, list: false },
+            { html: `Three further uses are noted: <bdi>ورُبَّما وَرَدَ بِمَعْنَى أَصْلِهِ</bdi> — and sometimes it comes carrying the meaning of its bare أصل — ﴿زُيِّنَ لِلناسِ حُبُّ الشَّهَواتِ﴾, where زَيَّنَ and زانَ are one; <bdi>أو بِمَعْنَى تَفَعَّلَ</bdi> — or the meaning of تَفَعَّلَ — وَلَّى وتَوَلَّى، فَكَّرَ وتَفَكَّرَ; and <bdi>ورُبَّما أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — and sometimes it came to stand in for its أصل, that root not being attested at all — عَيَّرَهُ إذا عابَهُ (he reproached him, meaning he faulted him), وعَجَّزَتِ المَرْأَةُ (the woman reached old age).`, list: false },
           ],
           exercise: {
             prompt: `Which meaning of فَعَّلَ is described as أغلب المعاني؟`,
@@ -1877,14 +1877,14 @@ export default {
         {
           heading: 'انفعل: المطاوعة',
           lines: [
-            { html: `<bdi>يَأْتِي لِمَعْنًى واحِدٍ، وهو المُطاوَعَة</bdi>. <bdi>المُطاوَعَة: هي قَبُولُ تَأْثِيرِ الغَيْرِ (عَكْسُ التَعْدِيَة)</bdi>.`, list: false },
+            { html: `<bdi>يَأْتِي لِمَعْنًى واحِدٍ، وهو المُطاوَعَة</bdi>. <bdi>المُطاوَعَة: هي قَبُولُ تَأْثِيرِ الغَيْرِ (عَكْسُ التَعْدِيَة)</bdi> — it comes for a single meaning, المطاوعة; المطاوعة is accepting the effect of another (the reverse of التعدية).`, list: false },
             { html: `<bdi>ولِهذا لا يكونُ إلَّا لازِمًا</bdi>, and it occurs only in <bdi>الأفعال العِلاجِيَّة</bdi>.`, list: false },
             { html: `<bdi>الفِعْلُ العِلاجِيُّ هو الذي يُفْعَلُ بِالجَوارِحِ، لا يُفْعَلُ بِالقَلْبِ أو العَقْلِ</bdi> — done with the limbs, not with the heart or the mind.`, list: false },
-            { table: { headers: ['الحالة', 'أمثلة'], rows: [
-              ['لِمُطاوَعَةِ الثُلاثِيّ — كثيرًا', 'قَطَعْتُهُ فانْقَطَعَ ، كَسَرْتُهُ فانْكَسَرَ ، فَتَحْتُهُ فانْفَتَحَ'],
-              ['ولِمُطاوَعَةِ غَيْرِهِ — قَلِيلًا', 'أَطْلَقْتُهُ فانْطَلَقَ ، عَدَّلْتُهُ (بالتضعيف) فانْعَدَلَ'],
+            { table: { headers: ['الحالة (Case)', 'أمثلة (Examples)'], rows: [
+              ['لِمُطاوَعَةِ الثُلاثِيّ — كثيرًا — as the مطاوع of the ثلاثي, common', 'قَطَعْتُهُ فانْقَطَعَ ، كَسَرْتُهُ فانْكَسَرَ ، فَتَحْتُهُ فانْفَتَحَ'],
+              ['ولِمُطاوَعَةِ غَيْرِهِ — قَلِيلًا — as the مطاوع of something else, rare', 'أَطْلَقْتُهُ فانْطَلَقَ ، عَدَّلْتُهُ (بالتضعيف) فانْعَدَلَ'],
             ] } },
-            { html: `<bdi>ولِكَوْنِهِ مُخْتَصًّا بِالعِلاجِيَّاتِ، لا يُقالُ: عَلَّمْتُهُ فانْعَلَمَ، ولا فَهَّمْتُهُ فانْفَهَمَ</bdi>.`, list: false },
+            { html: `<bdi>ولِكَوْنِهِ مُخْتَصًّا بِالعِلاجِيَّاتِ، لا يُقالُ: عَلَّمْتُهُ فانْعَلَمَ، ولا فَهَّمْتُهُ فانْفَهَمَ</bdi> — and because it is confined to الأفعال العلاجيّة, one does not say عَلَّمْتُهُ فانْعَلَمَ, nor فَهَّمْتُهُ فانْفَهَمَ.`, list: false },
           ],
           clarification: `Two restrictions fall out of the one meaning, and it is worth seeing that they are not separate rules. المطاوعة is the acceptance of another's effect — so the subject of انفعل is by definition the thing acted upon, and a verb whose subject is being acted upon cannot itself take an object. That is why انفعل is لازم without exception. The second restriction is about which verbs can be "accepted" in a physical sense at all: breaking, cutting and opening are done to a thing with the limbs, and the thing visibly undergoes them. Teaching and making-understand are not, which is why عَلَّمْتُهُ فانْعَلَمَ and فَهَّمْتُهُ فانْفَهَمَ are simply not said.`,
           exercise: {
@@ -1897,11 +1897,11 @@ export default {
         {
           heading: 'افتعل: الاتخاذ والاجتهاد والتشارك',
           lines: [
-            { html: `<bdi>اشْتَهَرَ في سِتَّةِ مَعانٍ</bdi>. The first three:`, list: false },
-            { table: { headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['الاتِّخاذ', '—', 'اخْتَتَمَ زَيدٌ، واخْتَدَمَ — اتَّخَذَ له خاتَمًا وخادِمًا'],
-              ['الاجْتِهادُ والطَّلَب', 'التَكَلُّفُ في الفِعْلِ والاجْتِهادُ فيه', 'اكْتَسَبَ، واكْتَتَبَ — اجْتَهَدَ وطَلَبَ الكَسْبَ والكِتابَةَ. فهو أَكْثَرُ جُهْدًا من كَسَبَ وكَتَبَ (وكذا سَمِعَ واسْتَمَعَ)'],
-              ['التَّشارُك (أي المُفاعَلَة)', '—', 'اخْتَصَمَ زَيدٌ وعَمْرٌو — اخْتَلَفَا'],
+            { html: `<bdi>اشْتَهَرَ في سِتَّةِ مَعانٍ</bdi> — it is well known for six meanings. The first three:`, list: false },
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['الاتِّخاذ — adopting, taking for oneself', '—', 'اخْتَتَمَ زَيدٌ، واخْتَدَمَ — he took for himself a ring (خاتَم) and a servant (خادِم)'],
+              ['الاجْتِهادُ والطَّلَب — effort and seeking', 'التَكَلُّفُ في الفِعْلِ والاجْتِهادُ فيه — exerting effort in the action, striving at it', 'اكْتَسَبَ، واكْتَتَبَ — he strove and sought الكَسْب (earning) and الكِتابة (writing); it carries more effort than كَسَبَ and كَتَبَ (likewise سَمِعَ and اسْتَمَعَ)'],
+              ['التَّشارُك (أي المُفاعَلَة) — mutual action, i.e. المفاعلة', '—', 'اخْتَصَمَ زَيدٌ وعَمْرٌو — they disputed with each other'],
             ] } },
           ],
           exercise: {
@@ -1914,13 +1914,13 @@ export default {
         {
           heading: 'افتعل: الإظهار والمبالغة والمطاوعة',
           lines: [
-            { table: { headers: ['المعنى', 'أمثلة'], rows: [
-              ['الإظْهار (إظْهارُ الفِعْلِ)', 'اعْتَذَرَ واعْتَظَمَ — أَظْهَرَ العُذْرَ والعَظَمَةَ'],
-              ['المُبالَغَةُ في مَعْنَى الفِعْلِ', 'اقْتَدَرَ وارْتَدَّ — بالَغَ في القُدْرَةِ والرِّدَّةِ ؛ ونحو اشْتَدَّ وشَدَّ، واقْتَرَأَ وقَرَأَ ؛ ﴿اقْتَرَبَ لِلناسِ حِسابُهُم﴾ و﴿اقْتَرَبَتِ الساعَةُ﴾ — المُبالَغَةُ في قَرُبَ'],
-              ['مُطاوَعَةُ الثُلاثِيّ — كثيرًا', 'عَدَلْتُهُ فاعْتَدَلَ ، جَمَعْتُهُ فاجْتَمَعَ'],
+            { table: { headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
+              ['الإظْهار (إظْهارُ الفِعْلِ) — displaying the action', 'اعْتَذَرَ واعْتَظَمَ — he displayed an excuse, displayed greatness'],
+              ['المُبالَغَةُ في مَعْنَى الفِعْلِ — intensification in the verb’s meaning', 'اقْتَدَرَ وارْتَدَّ — he intensified in قُدْرَة (ability) and رِدَّة (apostasy); likewise اشْتَدَّ vs. شَدَّ, and اقْتَرَأَ vs. قَرَأَ; ﴿اقْتَرَبَ لِلناسِ حِسابُهُم﴾ and ﴿اقْتَرَبَتِ الساعَةُ﴾ — intensifying قَرُبَ (to be near)'],
+              ['مُطاوَعَةُ الثُلاثِيّ — كثيرًا — as the مطاوع of the ثلاثي, common', 'عَدَلْتُهُ فاعْتَدَلَ ، جَمَعْتُهُ فاجْتَمَعَ'],
             ] } },
-            { html: `<bdi>ورُبَّما أَتَى مُطاوِعًا لِلْمُضَعَّفِ (أي فَعَّلَ) ومَهْمُوزِ الثُلاثِيّ (أي أَفْعَلَ)</bdi> — <bdi>قَرَّبْتُهُ فاقْتَرَبَ</bdi>، <bdi>بَعَّدْتُهُ فابْتَعَدَ</bdi>، <bdi>أَنْصَفْتُهُ فانْتَصَفَ</bdi>.`, list: false },
-            { html: `<bdi>وقد يَجِيءُ بِمَعْنَى أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — <bdi>ارْتَجَلَ الخُطْبَةَ</bdi>، <bdi>اشْتَمَلَ الثَوْبَ</bdi>، and نحو <bdi>افْتَقَرَ</bdi>، <bdi>اسْتَلَمَ الحَجَرَ</bdi>، <bdi>انْتَهَى</bdi>.`, list: false },
+            { html: `<bdi>ورُبَّما أَتَى مُطاوِعًا لِلْمُضَعَّفِ (أي فَعَّلَ) ومَهْمُوزِ الثُلاثِيّ (أي أَفْعَلَ)</bdi> — and sometimes it comes as the مطاوع of the doubled form (فَعَّلَ) or the مهموز ثلاثي (أَفْعَلَ) — <bdi>قَرَّبْتُهُ فاقْتَرَبَ</bdi>، <bdi>بَعَّدْتُهُ فابْتَعَدَ</bdi>، <bdi>أَنْصَفْتُهُ فانْتَصَفَ</bdi>.`, list: false },
+            { html: `<bdi>وقد يَجِيءُ بِمَعْنَى أَصْلِهِ لِعَدَمِ وُرُودِهِ</bdi> — and it may come carrying the meaning of its أصل, that root not being attested — <bdi>ارْتَجَلَ الخُطْبَةَ</bdi>، <bdi>اشْتَمَلَ الثَوْبَ</bdi>، and نحو <bdi>افْتَقَرَ</bdi>، <bdi>اسْتَلَمَ الحَجَرَ</bdi>، <bdi>انْتَهَى</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `Which meaning of افتعل does ﴿اقْتَرَبَ لِلناسِ حِسابُهُم﴾ display?`,
@@ -1932,8 +1932,8 @@ export default {
         {
           heading: 'افعلَّ',
           lines: [
-            { html: `<bdi>يَأْتِي غالِبًا لِمَعْنًى واحِدٍ: وهو قُوَّةُ اللَوْنِ أو العَيْبِ، ولا يكونُ إلَّا لازِمًا</bdi>.`, list: false },
-            { html: `<bdi>كاحْمَرَّ وابْيَضَّ واعْوَرَّ واعْمَشَّ: قَوِيَتْ حُمْرَتُهُ وبَياضُهُ وعَوَرُهُ وعَمَشُهُ</bdi>`, list: false },
+            { html: `<bdi>يَأْتِي غالِبًا لِمَعْنًى واحِدٍ: وهو قُوَّةُ اللَوْنِ أو العَيْبِ، ولا يكونُ إلَّا لازِمًا</bdi> — it mostly comes for a single meaning: the intensification of a color or a defect, and it is always لازم (intransitive).`, list: false },
+            { html: `<bdi>كاحْمَرَّ وابْيَضَّ واعْوَرَّ واعْمَشَّ: قَوِيَتْ حُمْرَتُهُ وبَياضُهُ وعَوَرُهُ وعَمَشُهُ</bdi> — e.g. احْمَرَّ, ابْيَضَّ, اعْوَرَّ, اعْمَشَّ: his redness, whiteness, one-eyedness, or blear-eyedness intensified.`, list: false },
             { html: `Set beside the earlier note that افْعَالَّ (احْمارَّ) is stronger still, the three-way ladder runs: <bdi>حَمِرَ</bdi> ← <bdi>احْمَرَّ</bdi> ← <bdi>احْمارَّ</bdi>, each step intensifying the colour further.`, list: false },
           ],
           exercise: {
@@ -2128,15 +2128,15 @@ export default {
         {
           heading: 'تفعَّل: خمسة معان',
           lines: [
-            { table: { headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['مُطاوَعَةُ فَعَّلَ مُضَعَّفِ العَيْنِ', '—', 'نَبَّهْتُهُ فَتَنَبَّهَ ، كَسَّرْتُهُ فَتَكَسَّرَ ، عَلَّمْتُهُ فَتَعَلَّمَ ، أَدَّبْتُهُ فَتَأَدَّبَ'],
-              ['الاتِّخاذ', '—', 'تَوَسَّدَ ثَوْبَهُ — اتَّخَذَهُ وِسادَةً ؛ تَبَنَّى الوَلَدَ — اتَّخَذَهُ ابْنًا'],
-              ['التَكَلُّف', 'الاجْتِهادُ في الفِعْلِ ومُعاناتُهُ', 'تَصَبَّرَ وتَحَلَّمَ — تَكَلَّفَ الصَبْرَ والحِلْمَ'],
-              ['التَجَنُّب', 'أي تَجَنُّبُ الفِعْلِ', 'تَحَرَّجَ وتَهَجَّدَ — تَجَنَّبَ الحَرَجَ والهُجُودَ، أي النَوْمَ'],
-              ['التَدْرِيج', 'أي فِعْلُ الفِعْلِ مَرْحَلَةً بِمَرْحَلَةٍ', 'تَجَرَّعْتُ الماءَ وتَحَفَّظْتُ العِلْمَ — شَرِبْتُ الماءَ جُرْعَةً بَعْدَ أُخْرَى، وحَفِظْتُ العِلْمَ مَسْأَلَةً بَعْدَ أُخْرَى'],
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['مُطاوَعَةُ فَعَّلَ مُضَعَّفِ العَيْنِ — the مطاوع of doubled-عين فَعَّلَ', '—', 'نَبَّهْتُهُ فَتَنَبَّهَ ، كَسَّرْتُهُ فَتَكَسَّرَ ، عَلَّمْتُهُ فَتَعَلَّمَ ، أَدَّبْتُهُ فَتَأَدَّبَ'],
+              ['الاتِّخاذ — adopting for oneself', '—', 'تَوَسَّدَ ثَوْبَهُ — اتَّخَذَهُ وِسادَةً ؛ تَبَنَّى الوَلَدَ — he took his garment as a pillow (وِسادَة); he adopted the child as a son'],
+              ['التَكَلُّف — exerting effort, forcing oneself', 'الاجْتِهادُ في الفِعْلِ ومُعاناتُهُ — striving at the action and enduring its difficulty', 'تَصَبَّرَ وتَحَلَّمَ — he forced himself to be patient (صَبْر) and forbearing (حِلْم)'],
+              ['التَجَنُّب — avoidance', 'أي تَجَنُّبُ الفِعْلِ — i.e. avoiding the action', 'تَحَرَّجَ وتَهَجَّدَ — he avoided الحَرَج (wrongdoing) and الهُجُود, i.e. sleep'],
+              ['التَدْرِيج — gradualness', 'أي فِعْلُ الفِعْلِ مَرْحَلَةً بِمَرْحَلَةٍ — doing the action stage by stage', 'تَجَرَّعْتُ الماءَ وتَحَفَّظْتُ العِلْمَ — I drank the water gulp after gulp, and memorized the knowledge point after point'],
             ] } },
-            { html: `التكلف is what stands behind the ḥadīth <bdi>«إنَّما العِلْمُ بِالتَعَلُّمِ، وإنَّما الحِلْمُ بِالتَحَلُّمِ، وإنَّما الفِقْهُ بِالتَفَقُّهِ»</bdi> — <bdi>أي الاجْتِهادُ فيه</bdi>.`, list: false },
-            { html: `<bdi>ورُبَّما أَغْنَتْ هذه الصِّيغَةُ عن الثُلاثِيِّ لِعَدَمِ وُرُودِهِ</bdi> — <bdi>تَكَلَّمَ</bdi> و<bdi>تَصَدَّى</bdi>.`, list: false },
+            { html: `التكلف is what stands behind the ḥadīth <bdi>«إنَّما العِلْمُ بِالتَعَلُّمِ، وإنَّما الحِلْمُ بِالتَحَلُّمِ، وإنَّما الفِقْهُ بِالتَفَقُّهِ»</bdi> — <bdi>أي الاجْتِهادُ فيه</bdi>, meaning striving at it.`, list: false },
+            { html: `<bdi>ورُبَّما أَغْنَتْ هذه الصِّيغَةُ عن الثُلاثِيِّ لِعَدَمِ وُرُودِهِ</bdi> — and sometimes this صيغة stood in for the ثلاثي, that root not being attested — <bdi>تَكَلَّمَ</bdi> و<bdi>تَصَدَّى</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `تَحَرَّجَ and تَهَجَّدَ are glossed تَجَنَّبَ الحَرَجَ والهُجُودَ. Which meaning of تفعَّل is that?`,
@@ -2148,10 +2148,10 @@ export default {
         {
           heading: 'تفاعل: التشريك وما بعده',
           lines: [
-            { html: `<bdi>اشْتَهَرَتْ في أَرْبَعَةِ مَعانٍ. أَوَّلُها: التَشْرِيكُ بَيْنَ اثْنَيْنِ فَأَكْثَرَ، كُلٌّ منهما فاعِلًا في اللَفْظِ، مَفْعُولًا في المَعْنَى</bdi>.`, list: false },
-            { html: `<bdi>وذلك بِجَعْلِ طَرَفَيِ الفِعْلِ فاعِلَيْنِ في اللَفْظِ، بِجَعْلِ الأَوَّلِ فاعِلًا والآخَرِ مَعْطُوفًا عليه</bdi> — <bdi>تَخَاصَمَ زَيدٌ وعَمْرٌو</bdi>.`, list: false },
-            { html: `<bdi>بِخِلافِ (فَاعَلَ) المُتَقَدِّمِ</bdi>: in <bdi>خَاصَمَ زَيدٌ عَمْرًا</bdi> one party is فاعل and the other مفعول به, <bdi>مع أنَّهُما في المَعْنَى فاعِلانِ</bdi>.`, list: false },
-            { table: { title: 'أثر ذلك على التعدية', headers: ['فَاعَلَ', 'تَفَاعَلَ'], rows: [
+            { html: `<bdi>اشْتَهَرَتْ في أَرْبَعَةِ مَعانٍ. أَوَّلُها: التَشْرِيكُ بَيْنَ اثْنَيْنِ فَأَكْثَرَ، كُلٌّ منهما فاعِلًا في اللَفْظِ، مَفْعُولًا في المَعْنَى</bdi> — it is well known for four meanings. The first: التشريك, making two or more parties share, each of them a فاعل in wording but a مفعول in meaning.`, list: false },
+            { html: `<bdi>وذلك بِجَعْلِ طَرَفَيِ الفِعْلِ فاعِلَيْنِ في اللَفْظِ، بِجَعْلِ الأَوَّلِ فاعِلًا والآخَرِ مَعْطُوفًا عليه</bdi> — that is, by making both sides of the action فاعل in wording: the first as فاعل, the other as a معطوف upon it — <bdi>تَخَاصَمَ زَيدٌ وعَمْرٌو</bdi>.`, list: false },
+            { html: `<bdi>بِخِلافِ (فَاعَلَ) المُتَقَدِّمِ</bdi> — unlike the earlier فَاعَلَ: in <bdi>خَاصَمَ زَيدٌ عَمْرًا</bdi> one party is فاعل and the other مفعول به, <bdi>مع أنَّهُما في المَعْنَى فاعِلانِ</bdi> — even though both are فاعل in meaning.`, list: false },
+            { table: { title: 'أثر ذلك على التعدية (The Effect of That on Transitivity)', headers: ['فَاعَلَ', 'تَفَاعَلَ'], rows: [
               ['جَاذَبَ زَيدٌ عَمْرًا ثَوْبًا — متعدٍّ لاثنين', 'تَجَاذَبَ زَيدٌ وعَمْرٌو ثَوْبًا — متعدٍّ لواحد'],
               ['خَاصَمَ زَيدٌ عَمْرًا — متعدٍّ لواحد', 'تَخَاصَمَ زَيدٌ وعَمْرٌو — لازم'],
             ] } },
@@ -2167,10 +2167,10 @@ export default {
         {
           heading: 'تفاعل: بقية معانيه',
           lines: [
-            { table: { headers: ['المعنى', 'أمثلة'], rows: [
-              ['التَظاهُرُ بِالفِعْلِ دُونَ حَقِيقَتِهِ', 'تَنَاوَمَ، تَغافَلَ، تَعامَى — أَظْهَرَ النَوْمَ والغَفْلَةَ والعَمَى، وهي مُنْتَفِيَةٌ عنه'],
-              ['حُصُولُ الشَيْءِ تَدْرِيجِيًّا', 'تَزايَدَ النِيلُ، تَوارَدَتِ الإبِلُ — حَصَلَتِ الزِيادَةُ بِالتَدْرِيجِ شَيْئًا فَشَيْئًا'],
-              ['مُطاوَعَةُ (فَاعَلَ)', 'باعَدْتُهُ فَتَباعَدَ'],
+            { table: { headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
+              ['التَظاهُرُ بِالفِعْلِ دُونَ حَقِيقَتِهِ — feigning the action without its reality', 'تَنَاوَمَ، تَغافَلَ، تَعامَى — he displayed sleep, heedlessness, or blindness, none of which was really true of him'],
+              ['حُصُولُ الشَيْءِ تَدْرِيجِيًّا — a thing occurring gradually', 'تَزايَدَ النِيلُ، تَوارَدَتِ الإبِلُ — the increase happened gradually, bit by bit'],
+              ['مُطاوَعَةُ (فَاعَلَ) — the مطاوع of فَاعَلَ', 'باعَدْتُهُ فَتَباعَدَ'],
             ] } },
             { html: `التظاهر is the point of the verse <bdi>لَيْسَ الغَبِيُّ بِسَيِّدٍ في قَوْمِهِ ... لَكِنَّ سَيِّدَ قَوْمِهِ المُتَغابِي</bdi> — the truly foolish man is not the leader; the leader is the one who <em>feigns</em> foolishness.`, list: false },
           ],
@@ -2184,12 +2184,12 @@ export default {
         {
           heading: 'استفعل: ستة معان',
           lines: [
-            { table: { headers: ['المعنى', 'البيان', 'أمثلة'], rows: [
-              ['الطَّلَب — وهو أَغْلَبُ مَعانِيهِ', 'حَقِيقَةً', 'اسْتَغْفَرْتُ اللهَ — طَلَبْتُ مَغْفِرَتَهُ'],
-              ['', 'أو مَجازًا', 'اسْتَخْرَجْتُ الذَهَبَ من المَعْدِنِ — سُمِّيَتِ المُمارَسَةُ في إخْراجِهِ والاجْتِهادُ في الحُصُولِ عليه طَلَبًا، حَيْثُ لا يُمْكِنُ الطَلَبُ الحَقِيقِيُّ'],
-              ['الصَّيْرُورَة', 'تَحَوُّلُ شَيْءٍ من حالَةٍ إلى حالَةٍ — حَقِيقَةً', 'اسْتَحْجَرَ الطِّينُ، اسْتَحْصَنَ المُهْرُ — صارَ حَجَرًا وحِصانًا'],
-              ['', 'أو مَجازًا', '«إنَّ البُغاثَ بِأَرْضِنا يَسْتَنْسِرُ» — أي يَصِيرُ كالنِّسْرِ في القُوَّةِ. والبُغاثُ: طائِرٌ ضَعِيفُ الطَيَرانِ'],
-              ['اعْتِقادُ صِفَةِ الشَيْءِ', '—', 'اسْتَحْسَنْتُ كذا، واسْتَصْوَبْتُهُ — اعْتَقَدْتُ حُسْنَهُ وصَوابَهُ'],
+            { table: { headers: ['المعنى (Meaning)', 'البيان (Explanation)', 'أمثلة (Examples)'], rows: [
+              ['الطَّلَب — seeking, its most common meaning', 'حَقِيقَةً — literally', 'اسْتَغْفَرْتُ اللهَ — I sought His forgiveness'],
+              ['', 'أو مَجازًا — or figuratively', 'اسْتَخْرَجْتُ الذَهَبَ من المَعْدِنِ — the effort of extracting it and striving to obtain it was called طَلَب, where a literal request is not possible'],
+              ['الصَّيْرُورَة — becoming', 'تَحَوُّلُ شَيْءٍ من حالَةٍ إلى حالَةٍ — حَقِيقَةً — a thing’s transformation from one state to another, literally', 'اسْتَحْجَرَ الطِّينُ، اسْتَحْصَنَ المُهْرُ — the clay became stone; the colt became a stallion'],
+              ['', 'أو مَجازًا — or figuratively', '«إنَّ البُغاثَ بِأَرْضِنا يَسْتَنْسِرُ» (the weak-flying bird becomes an eagle in our land) — i.e. becomes like an eagle in strength. البُغاث is a weak-flying bird.'],
+              ['اعْتِقادُ صِفَةِ الشَيْءِ — believing a thing to have a certain quality', '—', 'اسْتَحْسَنْتُ كذا، واسْتَصْوَبْتُهُ — I believed it to be good, or correct'],
             ] } },
           ],
           exercise: {
@@ -2202,17 +2202,17 @@ export default {
         {
           heading: 'استفعل: بقية معانيه، وباقي الصيغ',
           lines: [
-            { table: { headers: ['المعنى', 'أمثلة'], rows: [
-              ['اخْتِصارُ حِكايَةِ الشَيْءِ', 'اسْتَرْجَعَ — إذا قال إنَّا للهِ وإنَّا إليه راجِعُونَ'],
-              ['القُوَّة', 'اسْتُهْتِرَ، اسْتَكْبَرَ — قَوِيَ هِتْرُهُ وكِبْرُهُ'],
-              ['المُصادَفَة', 'اسْتَكْرَمْتُ زَيدًا أو اسْتَبْخَلْتُهُ — صادَفْتُهُ كَرِيمًا أو بَخِيلًا'],
+            { table: { headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
+              ['اخْتِصارُ حِكايَةِ الشَيْءِ — abbreviating the telling of something', 'اسْتَرْجَعَ — said when someone says إنَّا لله وإنَّا إليه راجعون ("Truly we belong to Allah, and truly to Him we return")'],
+              ['القُوَّة — intensity', 'اسْتُهْتِرَ، اسْتَكْبَرَ — his foolish talk, his arrogance, intensified'],
+              ['المُصادَفَة — finding to be', 'اسْتَكْرَمْتُ زَيدًا أو اسْتَبْخَلْتُهُ — I found him to be generous, or miserly'],
             ] } },
-            { html: `<bdi>ورُبَّما كان بِمَعْنَى (أَفْعَلَ)</bdi> — أَجابَ واسْتَجابَ; <bdi>ولِمُطاوَعَتِهِ</bdi> — أَحْكَمْتُهُ فاسْتَحْكَمَ، وأَقَمْتُهُ فاسْتَقامَ.`, list: false },
-            { html: `<bdi>ثُمَّ إنَّ باقِيَ الصِّيَغِ</bdi> — meaning only <bdi>افْعَوْعَلَ</bdi> and <bdi>افْعَوَّلَ</bdi> and <bdi>افْعَالَّ</bdi> — <bdi>تَدُلُّ على قُوَّةِ المَعْنَى، زِيادَةً على أَصْلِهِ</bdi>.`, list: false },
-            { table: { title: 'قوة المعنى في باقي الصيغ', headers: ['الصيغة', 'المقارنة'], rows: [
-              ['اعْشَوْشَبَ المَكانُ', 'زِيادَةُ عُشْبِهِ أَكْثَرَ من عَشُبَ'],
-              ['اخْشَوْشَنَ', 'قُوَّةُ الخُشُونَةِ أَكْثَرَ من خَشُنَ'],
-              ['احْمارَّ', 'قُوَّةُ اللَوْنِ أَكْثَرَ من حَمِرَ واحْمَرَّ'],
+            { html: `<bdi>ورُبَّما كان بِمَعْنَى (أَفْعَلَ)</bdi> — and sometimes it carries the meaning of أَفْعَلَ — أَجابَ واسْتَجابَ; <bdi>ولِمُطاوَعَتِهِ</bdi> — or serves as its مطاوع — أَحْكَمْتُهُ فاسْتَحْكَمَ، وأَقَمْتُهُ فاسْتَقامَ.`, list: false },
+            { html: `<bdi>ثُمَّ إنَّ باقِيَ الصِّيَغِ</bdi> — meaning only <bdi>افْعَوْعَلَ</bdi> and <bdi>افْعَوَّلَ</bdi> and <bdi>افْعَالَّ</bdi> — <bdi>تَدُلُّ على قُوَّةِ المَعْنَى، زِيادَةً على أَصْلِهِ</bdi> — indicate an intensification of the meaning, beyond its أصل.`, list: false },
+            { table: { title: 'قوة المعنى في باقي الصيغ (Intensified Meaning in the Remaining Patterns)', headers: ['الصيغة (Pattern)', 'المقارنة (Comparison)'], rows: [
+              ['اعْشَوْشَبَ المَكانُ', 'its grass increased more than the bare عَشُبَ'],
+              ['اخْشَوْشَنَ', 'the coarseness intensified more than the bare خَشُنَ'],
+              ['احْمارَّ', 'the color intensified more than the bare حَمِرَ or the augmented احْمَرَّ'],
             ] } },
           ],
           exercise: {

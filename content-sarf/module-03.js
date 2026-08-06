@@ -62,9 +62,9 @@ export default {
           heading: 'حرف اللين وحرف المد',
           lines: [
             { html: `A حرف علة picks up a further name from its own vowelling and from the vowel before it.`, list: false },
-            { table: { title: 'The Two Further Names', headers: ['الاسم', 'الشرط', 'المثال'], rows: [
-              ['حَرْفُ لِين', 'ساكن، وانْفَتَحَ ما قبله', 'ثَوْب، سَيْف'],
-              ['حَرْفُ مَدّ', 'ساكن، وجانَسَهُ ما قبله من الحركات', 'قَالَ، يَقُولُ، قِيلَا'],
+            { table: { title: 'The Two Further Names', headers: ['الاسم (Name)', 'الشرط (Condition)', 'المثال (Example)'], rows: [
+              ['حَرْفُ لِين', 'ساكن (quiescent), preceded by a fatḥa', 'ثَوْب، سَيْف'],
+              ['حَرْفُ مَدّ', 'ساكن, with the vowel before it matching it in kind (مُجَانَسَة)', 'قَالَ، يَقُولُ، قِيلَا'],
             ] } },
             { html: `<bdi>المُجَانَسَة</bdi> means the preceding vowel matches the letter in kind: fatḥa before ألف, ḍamma before واو, kasra before ياء.`, list: false },
             { html: `<bdi>فَعَلَى ذلك لا تَنْفَكُّ الأَلِفُ عن كَوْنِهَا حَرْفَ عِلَّةٍ، ومَدٍّ، ولِينٍ، لِسُكُونِهَا وفَتْحِ ما قَبْلَهَا دَائِمًا، بِخِلَافِ أُخْتَيْهَا</bdi> — the ألف is never anything but all three at once, because it is always ساكنة with a fatḥa before it. الواو and الياء can be one without the other.`, list: false },
@@ -305,8 +305,8 @@ export default {
         {
           heading: 'السالم',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الصَّحِيحُ إلى سَالِمٍ، ومُضَعَّفٍ، ومَهْمُوزٍ</bdi>.`, list: false },
-            { html: `<bdi>السَّالِم: ما سَلِمَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّةِ والهَمْزَةِ والتَّضْعِيفِ</bdi>.`, list: false },
+            { html: `<bdi>يَنْقَسِمُ الصَّحِيحُ إلى سَالِمٍ، ومُضَعَّفٍ، ومَهْمُوزٍ</bdi> — الصحيح divides into سَالِم, مُضَعَّف, and مَهْمُوز.`, list: false },
+            { html: `<bdi>السَّالِم: ما سَلِمَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّةِ والهَمْزَةِ والتَّضْعِيفِ</bdi> — السالم is a verb whose root letters are free of أحرف العلة, الهمزة, and doubling (التَّضْعِيف).`, list: false },
             { html: `<bdi>كَضَرَبَ، ونَصَرَ، وقَعَدَ، وجَلَسَ</bdi>`, list: false },
             { html: `<bdi>فإِذَنْ يَكُونُ كُلُّ سَالِمٍ صَحِيحًا، ولا عَكْسَ</bdi> — every سالم is صحيح, but not every صحيح is سالم. السالم clears three hurdles; الصحيح only clears the first.`, list: false },
           ],
@@ -321,7 +321,7 @@ export default {
           heading: 'المضعَّف وقسماه',
           lines: [
             { html: `<bdi>المُضَعَّف: ويُقَالُ له الأَصَمُّ لِشِدَّتِهِ</bdi> — "the deaf one", from the density of the doubled letter.`, list: false },
-            { html: `<bdi>يَنْقَسِمُ إلى قِسْمَيْنِ: مُضَعَّفُ الثُّلَاثِيِّ ومَزِيدُه، ومُضَعَّفُ الرُّبَاعِيِّ</bdi>.`, list: false },
+            { html: `<bdi>يَنْقَسِمُ إلى قِسْمَيْنِ: مُضَعَّفُ الثُّلَاثِيِّ ومَزِيدُه، ومُضَعَّفُ الرُّبَاعِيِّ</bdi> — it divides into two: مُضَعَّفُ الثُّلَاثِيّ ومَزِيدُه, and مُضَعَّفُ الرُّبَاعِيّ.`, list: false },
             { html: `The two are defined by which positions match, so they never overlap.`, list: false },
           ],
           exercise: {
@@ -349,7 +349,7 @@ export default {
         {
           heading: 'مضعَّف الرباعي',
           lines: [
-            { html: `<bdi>ما كانَتْ فَاؤُهُ ولَامُهُ الأُولَى مِنْ جِنْسٍ، وعَيْنُهُ ولَامُهُ الثَّانِيَةُ مِنْ جِنْسٍ</bdi>.`, list: false },
+            { html: `<bdi>ما كانَتْ فَاؤُهُ ولَامُهُ الأُولَى مِنْ جِنْسٍ، وعَيْنُهُ ولَامُهُ الثَّانِيَةُ مِنْ جِنْسٍ</bdi> — its فاء and first لام are the same letter, and its عين and second لام are the same letter.`, list: false },
             { html: `<bdi>كَزَلْزَلَ، وعَسْعَسَ، وقَلْقَلَ</bdi>`, list: false },
             { html: `Read against the ميزان: a رباعي weighs فَعْلَلَ, so its four positions are ف ع ل ل. Here ف matches the first ل, and ع matches the second — the whole first half repeats as the second half.`, list: false },
           ],
@@ -363,7 +363,7 @@ export default {
         {
           heading: 'المهموز',
           lines: [
-            { html: `<bdi>المَهْمُوز: ما كانَ أَحَدُ أُصُولِهِ هَمْزَةً</bdi>.`, list: false },
+            { html: `<bdi>المَهْمُوز: ما كانَ أَحَدُ أُصُولِهِ هَمْزَةً</bdi> — المهموز is a verb one of whose root letters is a هَمْزَة.`, list: false },
             { html: `<bdi>نحو: أَخَذَ، وسَأَلَ، وقَرَأَ</bdi>`, list: false },
             { html: `As with المعتل, the three cover the three positions — أَخَذَ is مهموز الفاء, سَأَلَ مهموز العين, and قَرَأَ مهموز اللام.`, list: false },
             { html: `Note that the همزة is a حرف صحيح, not a حرف علة. That is why المهموز sits inside الصحيح and not beside المعتل, even though it is excluded from السالم.`, list: false },
@@ -588,8 +588,8 @@ export default {
         {
           heading: 'أقسام المعتل الأربعة',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ المُعْتَلُّ إلى مِثَالٍ، وأَجْوَفَ، ونَاقِصٍ، ولَفِيفٍ</bdi>.`, list: false },
-            { table: { title: 'The Four Kinds at a Glance', headers: ['القسم', 'الموضع المعتل'], rows: [
+            { html: `<bdi>يَنْقَسِمُ المُعْتَلُّ إلى مِثَالٍ، وأَجْوَفَ، ونَاقِصٍ، ولَفِيفٍ</bdi> — المعتل divides into مِثَال, أَجْوَف, نَاقِص, and لَفِيف.`, list: false },
+            { table: { title: 'The Four Kinds at a Glance', headers: ['القسم (Kind)', 'الموضع المعتل (The Weak Position)'], rows: [
               ['المِثَال', 'الفاء'],
               ['الأَجْوَف', 'العين'],
               ['النَّاقِص', 'اللام'],
@@ -607,12 +607,12 @@ export default {
         {
           heading: 'المثال',
           lines: [
-            { html: `<bdi>المِثَال: ما اعْتَلَّتْ فَاؤُهُ</bdi>.`, list: false },
+            { html: `<bdi>المِثَال: ما اعْتَلَّتْ فَاؤُهُ</bdi> — المثال is a verb whose فاء is weak.`, list: false },
             { html: `<bdi>نحو: وَعَدَ ويَسَرَ</bdi>`, list: false },
             { html: `<bdi>وسُمِّيَ بذلك لأنَّهُ يُمَاثِلُ الصَّحِيحَ في عَدَمِ إِعْلَالِ مَاضِيهِ</bdi> — it is called مثال because it "resembles" the صحيح in that its ماضي undergoes no إعلال.`, list: false },
-            { table: { title: 'Why the resemblance holds only for المثال', headers: ['القسم', 'ماضيه', 'ما وقع فيه'], rows: [
-              ['الأجوف', 'قَالَ / قُلْتُ', 'إعلال — بالقلب في قال، وبالحذف في قلت'],
-              ['الناقص', 'رَمَى / رَمَوْا', 'إعلال — بالقلب في رمى، وبالحذف في رموا'],
+            { table: { title: 'Why the resemblance holds only for المثال', headers: ['القسم (Kind)', 'ماضيه (Its ماضي Form)', 'ما وقع فيه (What Happened to It)'], rows: [
+              ['الأجوف', 'قَالَ / قُلْتُ', 'إعلال — by قَلْب (substitution) in قَالَ, and by حَذْف (deletion) in قُلْتُ'],
+              ['الناقص', 'رَمَى / رَمَوْا', 'إعلال — by قَلْب in رَمَى, and by حَذْف in رَمَوْا'],
               ['المثال', 'وَعَدَ / وَعَدْتُ / وَعَدُوا', 'لا إعلال في الماضي — no حذف and no قلب'],
             ] } },
           ],
@@ -626,10 +626,10 @@ export default {
         {
           heading: 'الأجوف',
           lines: [
-            { html: `<bdi>الأَجْوَف: ما اعْتَلَّتْ عَيْنُهُ</bdi>.`, list: false },
+            { html: `<bdi>الأَجْوَف: ما اعْتَلَّتْ عَيْنُهُ</bdi> — الأجوف is a verb whose عين is weak.`, list: false },
             { html: `<bdi>نحو: قَالَ وبَاعَ</bdi>`, list: false },
             { html: `<bdi>وسُمِّيَ بذلك لِخُلُوِّ جَوْفِهِ، أي وَسَطِهِ، مِنَ الحَرْفِ الصَّحِيحِ</bdi> — "hollow", because its middle is empty of a sound letter.`, list: false },
-            { html: `<bdi>ويُسَمَّى أيضًا ذَا الثَّلَاثَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على ثَلَاثَةِ أَحْرُفٍ</bdi> — <bdi>كَقُلْتُ وبِعْتُ، في قَالَ وبَاعَ</bdi>.`, list: false },
+            { html: `<bdi>ويُسَمَّى أيضًا ذَا الثَّلَاثَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على ثَلَاثَةِ أَحْرُفٍ</bdi> — it is also called ذُو الثَّلَاثَة, because attaching تاء الفاعل to it brings it to three letters — <bdi>كَقُلْتُ وبِعْتُ، في قَالَ وبَاعَ</bdi> (e.g. قُلْتُ and بِعْتُ, from قَالَ and بَاعَ).`, list: false },
             { html: `The second name is a counting test, not a description: attach تاء الفاعل and see how many letters are left. The عين drops, so قَالَ becomes قُلْتُ — three letters in all.`, list: false },
           ],
           exercise: {
@@ -642,9 +642,9 @@ export default {
         {
           heading: 'ضمائر الرفع المتحركة المتصلة',
           lines: [
-            { html: `The ذو الثلاثة test works with تاء الفاعل, but the ruling is wider: <bdi>هذا الحُكْمُ يَشْمَلُ ضَمَائِرَ الرَّفْعِ المُتَحَرِّكَةِ، المُتَّصِلَةِ</bdi>.`, list: false },
-            { html: `<bdi>وهي ثَلَاثَةٌ: تَاءُ الفَاعِلِ، ونَا المُتَكَلِّمِينَ، ونُونُ النِّسْوَةِ</bdi>.`, list: false },
-            { table: { headers: ['الضمير', 'المثال'], rows: [
+            { html: `The ذو الثلاثة test works with تاء الفاعل, but the ruling is wider: <bdi>هذا الحُكْمُ يَشْمَلُ ضَمَائِرَ الرَّفْعِ المُتَحَرِّكَةِ، المُتَّصِلَةِ</bdi> — this ruling covers the ضَمَائِر الرَّفْع المُتَحَرِّكَة, المُتَّصِلَة, i.e. the vowelled, attached subject pronouns.`, list: false },
+            { html: `<bdi>وهي ثَلَاثَةٌ: تَاءُ الفَاعِلِ، ونَا المُتَكَلِّمِينَ، ونُونُ النِّسْوَةِ</bdi> — and they are three: تَاءُ الفَاعِل, نَا المُتَكَلِّمِين, and نُونُ النِّسْوَة.`, list: false },
+            { table: { headers: ['الضمير (Pronoun)', 'المثال (Example)'], rows: [
               ['تاء الفاعل', 'قُلْتُ'],
               ['نا المتكلمين', 'نحن قُلْنَا'],
               ['نون النسوة', 'هُنَّ قُلْنَ شيئًا'],
@@ -871,10 +871,10 @@ export default {
         {
           heading: 'الناقص',
           lines: [
-            { html: `<bdi>النَّاقِص: ما اعْتَلَّتْ لَامُهُ</bdi>.`, list: false },
+            { html: `<bdi>النَّاقِص: ما اعْتَلَّتْ لَامُهُ</bdi> — الناقص is a verb whose لام is weak.`, list: false },
             { html: `<bdi>نحو: غَزَا ورَمَى</bdi>`, list: false },
             { html: `<bdi>وسُمِّيَ بذلك لِنُقْصَانِهِ، بِحَذْفِ آخِرِهِ في بَعْضِ التَّصَارِيفِ، كَغَزَتْ ورَمَتْ</bdi> — "deficient", because its last letter is dropped in some of its conjugations.`, list: false },
-            { html: `<bdi>ويُسَمَّى أيضًا ذَا الأَرْبَعَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على أَرْبَعَةِ أَحْرُفٍ، نحو غَزَوْتُ ورَمَيْتُ</bdi>.`, list: false },
+            { html: `<bdi>ويُسَمَّى أيضًا ذَا الأَرْبَعَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على أَرْبَعَةِ أَحْرُفٍ، نحو غَزَوْتُ ورَمَيْتُ</bdi> — it is also called ذُو الأَرْبَعَة, because attaching تاء الفاعل to it brings it to four letters, as in غَزَوْتُ and رَمَيْتُ.`, list: false },
             { html: `Set the two counting names side by side: with تاء الفاعل attached, the أجوف comes to three letters and the ناقص to four. The أجوف loses its weak letter; the ناقص keeps it and merely un-does its قلب.`, list: false },
           ],
           clarification: `Why does the ناقص come to four letters where the أجوف comes to three? Because the two lose different things. In قُلْتُ the عين has genuinely been dropped, leaving ق + ل + ت. In غَزَوْتُ nothing has been dropped at all: the لام is still there — it simply reverts from the ألف of غَزَا to its underlying واو, giving غ + ز + و + ت. The name ذو الأربعة is therefore a way of stating that the ناقص retains all three أصول under إسناد, in contrast to the أجوف. Note that the حذف mentioned in its own naming (غَزَتْ, رَمَتْ) happens in a different context — with تاء التأنيث الساكنة, not with تاء الفاعل.`,

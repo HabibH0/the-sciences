@@ -15,10 +15,10 @@ export default {
         {
           heading: 'المذكَّر والمؤنَّث، والحقيقيّ والمجازيّ',
           lines: [
-            { html: `<bdi>ينقسم الاسم إلى مذكر ومؤنث: فالمذكر كرجل، وكتاب، وكرسيّ.</bdi>`, list: false },
-            { html: `<bdi>والمؤنث نوعان.</bdi>`, list: false },
-            { html: `<bdi>حقيقيّ، وهو ما دلَّ على ذات حِرٍ، كفاطمة وهند.</bdi>`, list: true, bullet: true },
-            { html: `<bdi>ومجازيّ، وهو ما ليس كذلك، كأُذُن، ونار، وشمس.</bdi>`, list: true, bullet: true },
+            { html: `<bdi>ينقسم الاسم إلى مذكر ومؤنث: فالمذكر كرجل، وكتاب، وكرسيّ.</bdi> — الاسم divides into مذكَّر and مؤنَّث: المذكَّر is like رجل, كتاب, كرسيّ.`, list: false },
+            { html: `<bdi>والمؤنث نوعان.</bdi> — and المؤنث is of two kinds.`, list: false },
+            { html: `<bdi>حقيقيّ، وهو ما دلَّ على ذات حِرٍ، كفاطمة وهند.</bdi> — حقيقيّ (real): what indicates an entity with a female body, as in فاطمة and هند.`, list: true, bullet: true },
+            { html: `<bdi>ومجازيّ، وهو ما ليس كذلك، كأُذُن، ونار، وشمس.</bdi> — مجازيّ (figurative): what is not that, as in أُذُن (ear), نار (fire), شمس (sun).`, list: true, bullet: true },
           ],
           clarification: `The line runs through nature, not through language: a حقيقيّ feminine has a female body, a مجازيّ one is treated as feminine by the Arabs without being female at all. That is why the second kind needs evidence, and the first does not.`,
           exercise: {
@@ -38,9 +38,9 @@ export default {
               rows: [
                 ['بضمير المؤنث', 'الشمس رأيتُها'],
                 ['أو إشارته', 'هذه الشمس'],
-                ['أو لحوق تاء التأنيث في الفعل', 'طلعتْ'],
-                ['أو ظهور التاء في تصغيره', 'أُذَيْنَة'],
-                ['أو حذفها من اسم عدده', 'ثلاث آبار'],
+                ['أو لحوق تاء التأنيث في الفعل — or the تاء التأنيث attaching to its verb', 'طلعتْ'],
+                ['أو ظهور التاء في تصغيره — or the تاء appearing in its diminutive', 'أُذَيْنَة'],
+                ['أو حذفها من اسم عدده — or its dropping from the عدد counting it', 'ثلاث آبار'],
               ],
             } },
             { html: `The last is the surest of them for a word whose gender is otherwise silent: the عدد drops its تاء before a feminine مَعْدُود, so <bdi>ثلاث آبار</bdi> settles that <bdi>بئر</bdi> is مؤنث.`, list: false },
@@ -55,16 +55,16 @@ export default {
         {
           heading: 'اللفظيّ والمعنويّ',
           lines: [
-            { html: `<bdi>وينقسم المؤنث إلى لفظيّ: وهو ما وُضِع لِمُذَكَّر وفيه علامة من علامات التأنيث، كطلحة وزكريَّاء.</bdi>`, list: false },
-            { html: `<bdi>وإلى مَعْنَوي، وهو ما كان عَلَمًا لمؤنث وليس فيه علامة، كمَرْيم وهند وزينب.</bdi>`, list: false },
-            { html: `<bdi>وإلى لفظيّ ومعنويّ، وهو ما كان عَلَمًا لمؤنث وفيه علامة كفاطمةَ، وسَلْمَى، وعاشُوراء، مُسمَّى به مؤنث.</bdi>`, list: false },
+            { html: `<bdi>وينقسم المؤنث إلى لفظيّ: وهو ما وُضِع لِمُذَكَّر وفيه علامة من علامات التأنيث، كطلحة وزكريَّاء.</bdi> — المؤنث divides into لفظيّ: what was coined for a مذكَّر yet carries one of the marks of التأنيث, as in طلحة and زكريَّاء.`, list: false },
+            { html: `<bdi>وإلى مَعْنَوي، وهو ما كان عَلَمًا لمؤنث وليس فيه علامة، كمَرْيم وهند وزينب.</bdi> — and معنويّ: what is a عَلَم for a female and carries no mark, as in مَرْيم, هند, زينب.`, list: false },
+            { html: `<bdi>وإلى لفظيّ ومعنويّ، وهو ما كان عَلَمًا لمؤنث وفيه علامة كفاطمةَ، وسَلْمَى، وعاشُوراء، مُسمَّى به مؤنث.</bdi> — and لفظيّ ومعنويّ together: what is a عَلَم for a female and carries a mark, as in فاطمة, سَلْمَى, عاشُوراء, when used to name a female.`, list: false },
             { table: {
               title: 'الأقسام الثلاثة',
-              headers: ['القسم', 'الضابط', 'المثال'],
+              headers: ['القسم (Kind)', 'الضابط (Criterion)', 'المثال (Example)'],
               rows: [
-                ['لفظيّ', 'وُضِع لمذكَّر وفيه علامة تأنيث', 'طلحة، زكريَّاء'],
-                ['معنويّ', 'عَلَم لمؤنث ولا علامة فيه', 'مَرْيم، هند، زينب'],
-                ['لفظيّ ومعنويّ', 'عَلَم لمؤنث وفيه علامة', 'فاطمة، سَلْمَى، عاشُوراء'],
+                ['لفظيّ', 'وُضِع لمذكَّر وفيه علامة تأنيث — coined for a مذكَّر, yet carrying a mark of تأنيث', 'طلحة، زكريَّاء'],
+                ['معنويّ', 'عَلَم لمؤنث ولا علامة فيه — a عَلَم for a female, with no mark', 'مَرْيم، هند، زينب'],
+                ['لفظيّ ومعنويّ', 'عَلَم لمؤنث وفيه علامة — a عَلَم for a female, carrying a mark', 'فاطمة، سَلْمَى، عاشُوراء'],
               ],
             } },
           ],
@@ -79,7 +79,7 @@ export default {
         {
           heading: 'أصالة التذكير',
           lines: [
-            { html: `<bdi>ولكون المذكر هو الأصل (في الأسماء)، لم يُحْتَجْ فيه إلى علامة، بخلاف المؤنث فله علامتان.</bdi>`, list: false },
+            { html: `<bdi>ولكون المذكر هو الأصل (في الأسماء)، لم يُحْتَجْ فيه إلى علامة، بخلاف المؤنث فله علامتان.</bdi> — since المذكَّر is the أصل (default) among nouns, it needs no mark; unlike المؤنث, which has two marks.`, list: false },
             { html: `The two are <bdi>التاء</bdi> and <bdi>الألف</bdi>, and the rest of this division is taken up with them.`, list: false },
           ],
           exercise: {
@@ -133,9 +133,9 @@ export default {
         {
           heading: 'التاء في الفعل وفي الاسم',
           lines: [
-            { html: `<bdi>الأولى: التاء، وتكون ساكنة في الفعل، نحو قامتْ هند، ومتحركة فيه، نحو هى تَقوم.</bdi>`, list: false },
+            { html: `<bdi>الأولى: التاء، وتكون ساكنة في الفعل، نحو قامتْ هند، ومتحركة فيه، نحو هى تَقوم.</bdi> — the first: التاء, which is ساكنة in the verb, as in قامتْ هند, or متحركة in it, as in هى تَقوم.`, list: false },
             { html: `<bdi>وفي الاسم، نحو صائمة وظريفة</bdi> — <bdi>ظريفة</bdi> is elegant.`, list: false },
-            { html: `<bdi>وأصل وضع التاء في الاسم: للفَرْق بين المذكر والمؤنث.</bdi>`, list: false },
+            { html: `<bdi>وأصل وضع التاء في الاسم: للفَرْق بين المذكر والمؤنث.</bdi> — the original purpose of putting the تاء in the noun is to distinguish المذكَّر from المؤنث.`, list: false },
           ],
           exercise: {
             prompt: `In <bdi>هى تَقوم</bdi>, the تاء is:`,
@@ -147,9 +147,9 @@ export default {
         {
           heading: 'موضعها من الأوصاف والجوامد',
           lines: [
-            { html: `<bdi>وفي الأوصاف المشتقة المشتركة بينهما، فلا تدخل في الوصف المختص بالنساء، كحائِضٍ، وحائِلٍ، وفارك، ومُرْضِع وعانِس.</bdi>`, list: false },
+            { html: `<bdi>وفي الأوصاف المشتقة المشتركة بينهما، فلا تدخل في الوصف المختص بالنساء، كحائِضٍ، وحائِلٍ، وفارك، ومُرْضِع وعانِس.</bdi> — in derived أوصاف shared between the two, it does not enter on a وصف specific to women, as in حائِض, حائِل, فارك, مُرْضِع, and عانِس.`, list: false },
             { html: `<bdi>حائِل</bdi> is a woman who is not pregnant; <bdi>فارك</bdi> a woman who hates her husband; <bdi>عانِس</bdi> a middle-aged unmarried woman.`, list: false },
-            { html: `<bdi>أما دخولها على الجامد المشترَكِ معناه بينهما، فسماعيّ، كرجل ورَجُلة، وإنسانة، وَفتَى وفتاة.</bdi>`, list: false },
+            { html: `<bdi>أما دخولها على الجامد المشترَكِ معناه بينهما، فسماعيّ، كرجل ورَجُلة، وإنسانة، وَفتَى وفتاة.</bdi> — as for its entry on a جامد noun whose meaning is shared between the two, that is سماعي, as in رجل and رَجُلة, إنسانة, فتى and فتاة.`, list: false },
           ],
           clarification: `The rule follows from why the تاء was put there in the first place. Its work is to mark off feminine from masculine, so where a وصف belongs to women alone there is nothing to mark off, and the تاء stays away. On a جامد there is no such reasoning to run, which is why entry there is سماعيّ.`,
           exercise: {
@@ -162,9 +162,9 @@ export default {
         {
           heading: 'الخمسة المستثناة: الأول والثاني',
           lines: [
-            { html: `<bdi>ويُستثنى من دخولها في الوصف المشترك خمسةُ ألفاظ، فلا تدخل فيها.</bdi>`, list: false },
+            { html: `<bdi>ويُستثنى من دخولها في الوصف المشترك خمسةُ ألفاظ، فلا تدخل فيها.</bdi> — five patterns are excepted from taking it in a shared وصف — the تاء does not enter on them.`, list: false },
             { html: `<bdi>أحدها: فَعُول بمعنى فاعل، كرجل صَبُور، وامرأة صَبُور، ومنه ﴿وَمَا كَانَتْ أُمُّكِ بَغِيًّا﴾ [مريم: ٢٨]، أصله بَغُويًا.</bdi>`, list: false },
-            { html: `<bdi>ثانيها: فَعِيل بمعنى مَفعُول إن تَبِعَ موصوفه، كرجل جَريح، وامرأة جَريح، فإن كان بمعنى فاعِل، أوْ لَمْ يَتْبَع موصوفه، لَحِقَتْه، كامرأة رحيمة، ورأيت قَتِيلة.</bdi>`, list: false },
+            { html: `<bdi>ثانيها: فَعِيل بمعنى مَفعُول إن تَبِعَ موصوفه، كرجل جَريح، وامرأة جَريح، فإن كان بمعنى فاعِل، أوْ لَمْ يَتْبَع موصوفه، لَحِقَتْه، كامرأة رحيمة، ورأيت قَتِيلة.</bdi> — the second: فَعِيل meaning مَفعُول, when it follows its موصوف, as in رجل جَريح, امرأة جَريح; but if it carries the meaning فاعِل, or does not follow its موصوف, the تاء attaches to it, as in امرأة رحيمة, رأيت قَتِيلة.`, list: false },
           ],
           clarification: `The second exception has two conditions, and both must hold. فَعِيل keeps the تاء off only where it carries a مفعول sense and follows its موصوف. Turn either one and the تاء returns: رحيمة is فَعِيل بمعنى فاعِل, and قَتِيلة stands without a موصوف before it.`,
           exercise: {
@@ -178,11 +178,11 @@ export default {
           heading: 'الخمسة المستثناة: الثالث إلى الخامس',
           lines: [
             { table: {
-              title: 'بقية الخمسة',
-              headers: ['الوزن', 'المثال', 'الشاذّ'],
+              title: 'بقية الخمسة (The Remaining Three of the Five)',
+              headers: ['الوزن (Pattern)', 'المثال (Example)', 'الشاذّ (Anomaly)'],
               rows: [
-                ['مِفْعال', 'مِهْذار', 'وشذَّ مِيقَانة'],
-                ['مِفْعِيل', 'مِعْطير', 'وشذَّ مِسْكِينة — وقد سُمِع حذفها على القياس'],
+                ['مِفْعال', 'مِهْذار', 'anomalously, مِيقَانة'],
+                ['مِفْعِيل', 'مِعْطير', 'anomalously, مِسْكِينة — though dropping the تاء on قياس has also been heard'],
                 ['مِفْعَل', 'مِغْشَم', '—'],
               ],
             } },
@@ -242,16 +242,16 @@ export default {
             { html: `<bdi>وقد تُزاد التاء</bdi> for purposes other than التأنيث.`, list: false },
             { table: {
               title: 'الأغراض',
-              headers: ['الغرض', 'المثال'],
+              headers: ['الغرض (Purpose)', 'المثال (Example)'],
               rows: [
-                ['لتمييز الواحد من جنسه', 'لَبِن ولَبِنَة، وتَمر وتَمْرة، ونَمل ونَمْلة'],
-                ['ولعكسه', 'كَمْء وكَمْأة'],
-                ['وللمبالغة', 'راوية'],
-                ['ولزيادتها', 'عَلَّامَة'],
-                ['ولتعويض فاء الكلمة', 'عِدة'],
-                ['أو عينها', 'إقامة'],
-                ['أو لامها', 'سَنَة'],
-                ['أو مَدّة', 'تَزْكِية'],
+                ['لتمييز الواحد من جنسه — to distinguish a single item from its جنس (kind)', 'لَبِن ولَبِنَة، وتَمر وتَمْرة، ونَمل ونَمْلة'],
+                ['ولعكسه — or the reverse of that', 'كَمْء وكَمْأة'],
+                ['وللمبالغة — or for المبالغة (intensification)', 'راوية'],
+                ['ولزيادتها — or simply as an addition', 'عَلَّامَة'],
+                ['ولتعويض فاء الكلمة — or to compensate for the word’s فاء', 'عِدة'],
+                ['أو عينها — or its عين', 'إقامة'],
+                ['أو لامها — or its لام', 'سَنَة'],
+                ['أو مَدّة — or a مَدّة (long vowel)', 'تَزْكِية'],
               ],
             } },
             { html: `<bdi>اللَّبِن</bdi> is bricks; <bdi>الكَمْء</bdi> is truffle.`, list: false },
@@ -267,9 +267,9 @@ export default {
         {
           heading: 'العلامة الثانية: الألف وقسماها',
           lines: [
-            { html: `<bdi>العلامة الثانية: الألف. وهي قسمان.</bdi>`, list: false },
-            { html: `<bdi>مفردة، وهي المقصورة، كجُبْلَى وبُشْرى.</bdi>`, list: true, bullet: true },
-            { html: `<bdi>وغير مفردة (الممدودة)، وهى التى قبلها ألف، فتُقْلَب هي همزة، كحمْراء وعَذْراء.</bdi>`, list: true, bullet: true },
+            { html: `<bdi>العلامة الثانية: الألف. وهي قسمان.</bdi> — the second mark: الألف, of two kinds.`, list: false },
+            { html: `<bdi>مفردة، وهي المقصورة، كجُبْلَى وبُشْرى.</bdi> — مفردة (single) — this is the مقصورة, as in جُبْلَى and بُشْرى.`, list: true, bullet: true },
+            { html: `<bdi>وغير مفردة (الممدودة)، وهى التى قبلها ألف، فتُقْلَب هي همزة، كحمْراء وعَذْراء.</bdi> — and غير مفردة (not single) — the ممدودة — this is when an ألف precedes it, so it is turned into a همزة, as in حمْراء and عَذْراء.`, list: true, bullet: true },
           ],
           clarification: `The ممدودة is not a different letter but the same ألف preceded by another ألف. Two ألفs cannot stand together, so the second turns into a همزة — which is why حمراء ends in a همزة you can hear and جُبْلَى does not.`,
           exercise: {
@@ -285,12 +285,12 @@ export default {
             { html: `<bdi>وللمقصورة أوزان، منها</bdi> — eight are listed.`, list: false },
             { table: {
               title: 'الأربعة الأولى',
-              headers: ['الوزن', 'الضبط', 'الأمثلة'],
+              headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'الأمثلة (Examples)'],
               rows: [
-                ['فُعَلَى', 'بضم ففتح', 'أُرَبَى: للدَّاهية، وأُدَمَى: لموضع، وكذا شُعَبَى لموضع'],
-                ['فُعْلَى', 'بضم فسكون', 'بُهْمَى لنَبْتٍ، وحُبْلَى صفة، وبُشْرَى مصدرًا'],
-                ['فَعَلَى', 'بفتحات', 'بَرَدى اسم لنهر، وحَيَدَى للحمار السريع في مشيه، وبَشَكَى للناقة السريعة'],
-                ['فَعْلَى', 'بفتح فسكون', 'مَرْضَى جمعًا، ونَجْوَى مصدرًا، وسَبْعَى صفةً'],
+                ['فُعَلَى', 'بضم ففتح — ضمة then فتحة', 'أُرَبَى: للدَّاهية، وأُدَمَى: لموضع، وكذا شُعَبَى لموضع'],
+                ['فُعْلَى', 'بضم فسكون — ضمة then سكون', 'بُهْمَى لنَبْتٍ، وحُبْلَى صفة، وبُشْرَى مصدرًا'],
+                ['فَعَلَى', 'بفتحات — all فتحات', 'بَرَدى اسم لنهر، وحَيَدَى للحمار السريع في مشيه، وبَشَكَى للناقة السريعة'],
+                ['فَعْلَى', 'بفتح فسكون — فتحة then سكون', 'مَرْضَى جمعًا، ونَجْوَى مصدرًا، وسَبْعَى صفةً'],
               ],
             } },
             { html: `<bdi>أُرَبَى</bdi> is calamity.`, list: false },
@@ -307,16 +307,16 @@ export default {
           lines: [
             { table: {
               title: 'الأربعة الأخيرة',
-              headers: ['الوزن', 'الضبط', 'الأمثلة'],
+              headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'الأمثلة (Examples)'],
               rows: [
-                ['فُعَالى', 'بالضم والتخفيف', 'حُبَارَى لطائر، وسُكَارَى جمعًا، وعُلَادَى صفة للشديد من الإبل'],
-                ['فُعَّلى', 'بضم ففتح العين المشددة', 'سُمَّهَى: للباطل'],
-                ['فِعَلَّى', 'بكسر ففتح، فلام مشددة', 'سِبَطْرَى: لمِشية فيها تبخْتُر'],
-                ['فِعْلَى', 'بكسر فسكون', 'حِجْلَى جمع حَجَلَة، وظِرْبَى جمع ظِرْبان'],
+                ['فُعَالى', 'بالضم والتخفيف — ضمة, undoubled', 'حُبَارَى لطائر، وسُكَارَى جمعًا، وعُلَادَى صفة للشديد من الإبل'],
+                ['فُعَّلى', 'بضم ففتح العين المشددة — ضمة then فتحة, with a doubled عين', 'سُمَّهَى: للباطل'],
+                ['فِعَلَّى', 'بكسر ففتح، فلام مشددة — كسرة then فتحة, with a doubled لام', 'سِبَطْرَى: لمِشية فيها تبخْتُر'],
+                ['فِعْلَى', 'بكسر فسكون — كسرة then سكون', 'حِجْلَى جمع حَجَلَة، وظِرْبَى جمع ظِرْبان'],
               ],
             } },
             { html: `<bdi>حِجْلَى</bdi> is the plural of <bdi>حَجَلَة</bdi> بفتحات, a bird; <bdi>ظِرْبَى</bdi> is the plural of <bdi>ظِرْبان</bdi> بفتح فكسر, <bdi>اسم لدُوَيْبَة مُنتنة الرائحة</bdi>. <bdi>سِبَطْرَى</bdi> is a gait done with pride.`, list: false },
-            { html: `<bdi>ولم يوجد في اللغة جمع على هذا الوزن إلا هذان اللفظان وذِكرى مصدرًا.</bdi>`, list: false },
+            { html: `<bdi>ولم يوجد في اللغة جمع على هذا الوزن إلا هذان اللفظان وذِكرى مصدرًا.</bdi> — no plural has been found in the language on this pattern except these two words, and ذِكرى as a مصدر.`, list: false },
           ],
           exercise: {
             prompt: `What is said about <bdi>فِعْلَى</bdi> as a plural pattern?`,
@@ -374,9 +374,9 @@ export default {
               title: 'الثلاثة الأولى',
               headers: ['الوزن', 'الضبط', 'الأمثلة'],
               rows: [
-                ['فَعْلاء', 'بفتح فسكون', 'صحراء اسمًا، ورَغْباء مصدرًا، وحمراء صفة لمؤنث أَفْعَل'],
-                ['أَفْعِلاء', 'بفتح وسكون، ومثلَّث العين، مخفَّف اللام', 'أَربِعاء لليوم المعروف'],
-                ['فُعْلُلاء', 'بضمتين بينهما ساكن', 'قُرْفُصاء لهيئة مخصوصة في القُعود'],
+                ['فَعْلاء', 'بفتح فسكون — فتحة then سكون', 'صحراء اسمًا، ورَغْباء مصدرًا، وحمراء صفة لمؤنث أَفْعَل'],
+                ['أَفْعِلاء', 'بفتح وسكون، ومثلَّث العين، مخفَّف اللام — فتحة then سكون, the عين taking any of the three vowels, لام undoubled', 'أَربِعاء لليوم المعروف'],
+                ['فُعْلُلاء', 'بضمتين بينهما ساكن — two ضمات with a ساكن letter between them', 'قُرْفُصاء لهيئة مخصوصة في القُعود'],
               ],
             } },
           ],
@@ -395,8 +395,8 @@ export default {
               headers: ['الوزن', 'الضبط', 'الأمثلة'],
               rows: [
                 ['فاعُولاء', '—', 'تاسوعاء وعاشوراء: التاسع والعاشر من المحرَّم'],
-                ['فاعِلاء', 'بكسر العين', 'قاصِعاء ونافِقاء: لِبابَيْ حُجْر اليَرْبُوْع'],
-                ['فِعْلِياء', 'بكسرتين بينهما سكون، مخفَّف الياء', 'كِبْرِياء'],
+                ['فاعِلاء', 'بكسر العين — with كسرة on the عين', 'قاصِعاء ونافِقاء: لِبابَيْ حُجْر اليَرْبُوْع'],
+                ['فِعْلِياء', 'بكسرتين بينهما سكون، مخفَّف الياء — two كسرات with a سكون between them, ياء undoubled', 'كِبْرِياء'],
               ],
             } },
             { html: `<bdi>كِبْرِياء</bdi> is greatness. <bdi>قاصِعاء</bdi> and <bdi>نافِقاء</bdi> are the two mouths of the jerboa's burrow.`, list: false },
@@ -421,7 +421,7 @@ export default {
                 ['بضم ففتح', 'نُفَساء', '—'],
               ],
             } },
-            { html: `<bdi>وفُنْعُلاء: بضمتين بينهما سكون، كخُنْفُساء: للحيوان المعروف.</bdi>`, list: false },
+            { html: `<bdi>وفُنْعُلاء: بضمتين بينهما سكون، كخُنْفُساء: للحيوان المعروف.</bdi> — and فُنْعُلاء: two ضمات with a سكون between them, as in خُنْفُساء (beetle), the well-known creature.`, list: false },
           ],
           clarification: `The seventh entry is really three: the عين is fixed on a fatḥa while the فاء takes fatḥa, kasra and ḍamma in turn, giving جَنَفاء، سِيَراء، نُفَساء. That is what <bdi>تثليث الفاء</bdi> means.`,
           exercise: {
@@ -438,7 +438,7 @@ export default {
               title: 'الأخيران',
               headers: ['الوزن', 'الضبط', 'المثال'],
               rows: [
-                ['فَعِيلاء', 'بفتح فكسر', 'قَرِيثاء بالثاء المثلثة: لنوع من التمر'],
+                ['فَعِيلاء', 'بفتح فكسر — فتحة then كسرة', 'قَرِيثاء بالثاء المثلثة: لنوع من التمر'],
                 ['مَفْعولاء', '—', 'مَشْيوخاء: جمع شيخ'],
               ],
             } },

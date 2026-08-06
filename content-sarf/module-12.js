@@ -15,18 +15,18 @@ export default {
         {
           heading: 'المنقوص',
           lines: [
-            { html: `<bdi>ينقسم الاسم إلى منقوص، ومقصور، وممدود، وصحيح.</bdi>`, list: false },
-            { html: `<bdi>فالمنقوص: هو الاسمُ المُعْرَبُ الذى آخره ياءٌ لازمةٌ مَكْسُورٌ ما قبلها، كالداعِى والمُنادِي.</bdi>`, list: false },
+            { html: `<bdi>ينقسم الاسم إلى منقوص، ومقصور، وممدود، وصحيح.</bdi> — الاسم divides into مَنْقُوص, مَقْصُور, مَمْدُود, and صَحِيح.`, list: false },
+            { html: `<bdi>فالمنقوص: هو الاسمُ المُعْرَبُ الذى آخره ياءٌ لازمةٌ مَكْسُورٌ ما قبلها، كالداعِى والمُنادِي.</bdi> — المنقوص is the مُعْرَب noun ending in a fixed ياء, with a كسرة on the letter before it, as in الداعِي and المُنادِي.`, list: false },
             { html: `Every قيد in that definition throws something out.`, list: false },
             { table: {
               title: 'قيود المنقوص',
-              headers: ['القيد', 'يَخْرُج به', 'المثال'],
+              headers: ['القيد (Qualifier)', 'يَخْرُج به (Excluded By It)', 'المثال (Example)'],
               rows: [
                 ['بالاسم', 'الفعل', 'كرَضِيَ'],
                 ['وبالمعرب', 'المبنيّ', 'كالذى'],
                 ['وبالذى آخره ياءٌ', 'المقصور', '—'],
-                ['وبلازمةٍ', 'الأسماء الخمسة في حالة الجرّ', '—'],
-                ['وبمكسورٍ ما قبلها', 'ما سكن ما قبل يائه', 'نحو ظَبْيٌ ورَمْيٌ — فإنه مُلْحَقٌ بالصحيح'],
+                ['وبلازمةٍ — and by "fixed"', 'الأسماء الخمسة في حالة الجرّ — the أسماء الخمسة in the جرّ case', '—'],
+                ['وبمكسورٍ ما قبلها — and by "the letter before it carrying a كسرة"', 'ما سكن ما قبل يائه — what has a ساكن letter before its ياء', 'نحو ظَبْيٌ ورَمْيٌ — as in ظَبْيٌ and رَمْيٌ, which attach to الصحيح instead'],
               ],
             } },
             { html: `<bdi>ظَبْيٌ</bdi> and <bdi>رَمْيٌ</bdi> are <bdi>مُلْحَقٌ بالصحيح، لسكون ما قبل يائه</bdi>.`, list: false },
@@ -42,15 +42,15 @@ export default {
         {
           heading: 'المقصور',
           lines: [
-            { html: `<bdi>والمقصور: هو الاسم المُعْرَبُ الذى آخره ألفٌ لازمةٌ، كالهُدَى والمصطفى.</bdi>`, list: false },
+            { html: `<bdi>والمقصور: هو الاسم المُعْرَبُ الذى آخره ألفٌ لازمةٌ، كالهُدَى والمصطفى.</bdi> — المقصور is the مُعرَب noun ending in a fixed ألف, as in الهُدَى and المصطفى.`, list: false },
             { table: {
               title: 'قيود المقصور',
-              headers: ['القيد', 'يَخْرُج به', 'المثال'],
+              headers: ['القيد (Qualifier)', 'يَخْرُج به (Excluded By It)', 'المثال (Example)'],
               rows: [
                 ['بالاسم', 'الفعل والحرف', 'كدَعا وإلى'],
                 ['وبالمعرَب', 'المبنيّ', 'كأنا وهذا'],
                 ['وبما آخره ألف', 'المنقوص', '—'],
-                ['وبلازمةٍ', 'الأسماء الخمسة في حالة النصب، والمثنى في حالة الرفع', '—'],
+                ['وبلازمةٍ — and by "fixed"', 'الأسماء الخمسة في حالة النصب، والمثنى في حالة الرفع — the أسماء الخمسة in the نصب case, and the مثنى in the رفع case', '—'],
               ],
             } },
           ],
@@ -65,8 +65,8 @@ export default {
         {
           heading: 'الممدود والصحيح',
           lines: [
-            { html: `<bdi>والممدود: هو الاسم المعرب الذى آخِرُهُ همزةٌ تَلِى ألفًا زائدةً، كصحراء وحمراء.</bdi>`, list: false },
-            { html: `<bdi>والصحيح: ما عَدَا ذلك، كرجل وكتاب</bdi> — <bdi>آخره صحيح أو شبيهٌ بصحيح، لامه حرف علّة وقبله سكون، نحو: دَلْوٌ</bdi>.`, list: false },
+            { html: `<bdi>والممدود: هو الاسم المعرب الذى آخِرُهُ همزةٌ تَلِى ألفًا زائدةً، كصحراء وحمراء.</bdi> — الممدود is the مُعرَب noun ending in a همزة following an added ألف, as in صحراء and حمراء.`, list: false },
+            { html: `<bdi>والصحيح: ما عَدَا ذلك، كرجل وكتاب</bdi> — <bdi>آخره صحيح أو شبيهٌ بصحيح، لامه حرف علّة وقبله سكون، نحو: دَلْوٌ</bdi> — الصحيح is whatever else remains, as in رجل and كتاب: ending in a sound letter, or resembling one — its لام is a حرف علّة preceded by a سكون, as in دَلْو.`, list: false },
           ],
           clarification: `The صحيح is the residue: whatever is left once the other three are taken out. It covers two things at once — a word whose last letter is a sound consonant, like رجل and كتاب, and a word whose لام is a حرف علّة but is preceded by a سكون, like دَلْو, which is why ظَبْي and رَمْي were attached to it above.`,
           exercise: {
@@ -79,7 +79,7 @@ export default {
         {
           heading: 'القياسيّ والسماعيّ',
           lines: [
-            { html: `<bdi>وكل من المقصور والممدود: قياسيّ، وهو مَوْضِعُ نَظَرِ الصرفيّ، وسماعيّ، وهو موضع نظر اللُّغَوِيّ، الذى يَسْرُدُ ألفاظَ العرب، ويضع معانيها بإزائها.</bdi>`, list: false },
+            { html: `<bdi>وكل من المقصور والممدود: قياسيّ، وهو مَوْضِعُ نَظَرِ الصرفيّ، وسماعيّ، وهو موضع نظر اللُّغَوِيّ، الذى يَسْرُدُ ألفاظَ العرب، ويضع معانيها بإزائها.</bdi> — each of المقصور and الممدود has a قياسي form, which is what the صرفي studies, and a سماعي form, which is what the لغوي studies — the one who catalogs the words of the Arabs and sets down their meanings against them.`, list: false },
             { html: `<bdi>يَسْرُدُ</bdi> is to detail out, one by one; <bdi>بإزائها</bdi> is by itself, set against them.`, list: false },
           ],
           exercise: {
@@ -133,10 +133,10 @@ export default {
         {
           heading: 'الضابط، والأول والثاني',
           lines: [
-            { html: `<bdi>والمقصور القياسيّ: هو كلّ اسمٍ معتلِّ اللام، له نظيرٌ من الصحيح، مُلْتَزَمٌ فتحُ ما قبل آخره.</bdi>`, list: false },
-            { html: `<bdi>وذلك كمصدر الفعل المعتلِ اللام، الذى على وزن</bdi>:`, list: false },
-            { html: `<bdi>فَعِلَ (باب سمع)، بفتح فكسر، كالجَوَى والهَوَى والعَمَى، فإنه نظيرُ الفرَح والأَشَرِ والطَّرَب.</bdi>`, list: true, bullet: true },
-            { html: `<bdi>وكفِعَل بكسر ففتح، في جمع فِعْلَة، بكسر فسكون، نحو فِرْيَة وفِرىً، ومِرْيَة ومِرىً</bdi> — <bdi>الفِرْيَة</bdi> is falsehood, <bdi>المِرْيَة</bdi> doubt or argument, <bdi>نحو: لِحْيَة لِحًى</bdi>.`, list: true, bullet: true },
+            { html: `<bdi>والمقصور القياسيّ: هو كلّ اسمٍ معتلِّ اللام، له نظيرٌ من الصحيح، مُلْتَزَمٌ فتحُ ما قبل آخره.</bdi> — the قياسي مقصور is every noun with a weak لام that has a counterpart (نظير) among sound words, in which the letter before the last is fixed with a فتحة.`, list: false },
+            { html: `<bdi>وذلك كمصدر الفعل المعتلِ اللام، الذى على وزن</bdi>: — that is, like the مصدر of a weak-لام verb on the pattern:`, list: false },
+            { html: `<bdi>فَعِلَ (باب سمع)، بفتح فكسر، كالجَوَى والهَوَى والعَمَى، فإنه نظيرُ الفرَح والأَشَرِ والطَّرَب.</bdi> — فَعِلَ (باب سَمِعَ), فتحة then كسرة, as in الجَوَى, الهَوَى, العَمَى — the counterpart of الفرَح, الأَشَر, and الطَّرَب.`, list: true, bullet: true },
+            { html: `<bdi>وكفِعَل بكسر ففتح، في جمع فِعْلَة، بكسر فسكون، نحو فِرْيَة وفِرىً، ومِرْيَة ومِرىً</bdi> — and like فِعَل, كسرة then فتحة, in the plural of فِعْلَة (كسرة then سكون), as in فِرْيَة and فِرًى, مِرْيَة and مِرًى — <bdi>الفِرْيَة</bdi> is falsehood, <bdi>المِرْيَة</bdi> doubt or argument, <bdi>نحو: لِحْيَة لِحًى</bdi>.`, list: true, bullet: true },
           ],
           clarification: `The whole rule turns on the نظير. A word is مقصور بالقياس only if the same pattern, run on a صحيح root, would keep a fatḥa on the letter before the last — الفرَح، الأَشَر، الطَّرَب beside الجَوَى، الهَوَى، العَمَى. Where that counterpart does not exist, the قياس has nothing to stand on and the word is سماعيّ. Of the eight entries, only the second is set out without a نظير named beside it.`,
           exercise: {
@@ -149,9 +149,9 @@ export default {
         {
           heading: 'الثالث والرابع',
           lines: [
-            { html: `<bdi>وفُعَل، بضم ففتح، في جمع فُعْلَة، بضم فسكون، نحو ومُدْيَة ومُدىً، وزُبْيَة وزُبىً، فإن نظيرهما قِرَب بالكسر، وقُرَب بالضم، في جمع قِرْبة بالكسر وقُرْبَة بالضم.</bdi>`, list: false },
+            { html: `<bdi>وفُعَل، بضم ففتح، في جمع فُعْلَة، بضم فسكون، نحو ومُدْيَة ومُدىً، وزُبْيَة وزُبىً، فإن نظيرهما قِرَب بالكسر، وقُرَب بالضم، في جمع قِرْبة بالكسر وقُرْبَة بالضم.</bdi> — and فُعَل, ضمة then فتحة, in the plural of فُعْلَة (ضمة then سكون), as in مُدْيَة and مُدًى, زُبْيَة and زُبًى — their counterpart is قِرَب with كسرة, and قُرَب with ضمة, in the plural of قِرْبة (كسرة) and قُرْبَة (ضمة).`, list: false },
             { html: `<bdi>المُدْيَة</bdi> is a knife, <bdi>الزُّبْيَة</bdi> a high place, <bdi>القِرَب</bdi> waterskins.`, list: false },
-            { html: `<bdi>وكذا كل اسم مفعولٍ معتل اللام، زائد على الثلاثة، كمُعْطًى ومُسْتَدعًى، فإن نظيرَه مُكْرَم ومستخْرَج.</bdi>`, list: false },
+            { html: `<bdi>وكذا كل اسم مفعولٍ معتل اللام، زائد على الثلاثة، كمُعْطًى ومُسْتَدعًى، فإن نظيرَه مُكْرَم ومستخْرَج.</bdi> — and likewise every اسم مفعول with a weak لام, exceeding three letters, as in مُعْطًى and مُسْتَدعًى — its counterpart is مُكْرَم and مُسْتَخْرَج.`, list: false },
           ],
           exercise: {
             prompt: `<bdi>مُعْطًى</bdi> and <bdi>مُسْتَدعًى</bdi> are مقصور قياسيّ as:`,
@@ -163,9 +163,9 @@ export default {
         {
           heading: 'الخامس والسادس',
           lines: [
-            { html: `<bdi>وكذا أفعل صيغة تفضيل كالأَقْصَى، أو لغيره كالأعمى (صفة مشبهة)، ونظيرهما من الصحيح الأبعدُ والأعمش.</bdi>`, list: false },
+            { html: `<bdi>وكذا أفعل صيغة تفضيل كالأَقْصَى، أو لغيره كالأعمى (صفة مشبهة)، ونظيرهما من الصحيح الأبعدُ والأعمش.</bdi> — and likewise أَفْعَل as a صيغة تفضيل, as in الأَقْصَى, or as something else, as in الأعمى (a صفة مشبهة) — their counterpart among sound words is الأبعد and الأعمش.`, list: false },
             { html: `<bdi>الأَقْصَى</bdi> is the remotest; <bdi>الأعمش</bdi> is one affected by an eye disease.`, list: false },
-            { html: `<bdi>وكذا ما كان جمعا لفُعْلَى أنثى أفعل (تفضيل)، كالدُّنيا والدُّنا. ونظيره الأُخْرَى والأُخَر.</bdi>`, list: false },
+            { html: `<bdi>وكذا ما كان جمعا لفُعْلَى أنثى أفعل (تفضيل)، كالدُّنيا والدُّنا. ونظيره الأُخْرَى والأُخَر.</bdi> — and likewise the plural of فُعْلَى, the feminine of أَفْعَل التفضيل, as in الدُّنيا and الدُّنا — its counterpart is الأُخْرَى and الأُخَر.`, list: false },
           ],
           clarification: `The fifth entry covers أَفْعَل in both of its senses at once — as a تفضيل in الأَقْصَى and as a صفة مشبهة in الأعمى — and gives one نظير for each: الأبعد against the first, الأعمش against the second.`,
           exercise: {
@@ -178,7 +178,7 @@ export default {
         {
           heading: 'السابع والثامن',
           lines: [
-            { html: `<bdi>وكذا ما كان من أسماء الأجناس دالًّا على الجَمْعِيَّة بالتَّجَرُّد من التاء، على وزن فَعَل بفتحتين، وعلى الوحدة بالتاء، كحَصَاة وحَصًى، ونظيره مَدَرَة ومَدَر.</bdi>`, list: false },
+            { html: `<bdi>وكذا ما كان من أسماء الأجناس دالًّا على الجَمْعِيَّة بالتَّجَرُّد من التاء، على وزن فَعَل بفتحتين، وعلى الوحدة بالتاء، كحَصَاة وحَصًى، ونظيره مَدَرَة ومَدَر.</bdi> — and likewise, among أسماء الأجناس (collective nouns), what indicates plurality when stripped of the تاء — on the pattern فَعَل, two فتحات — and indicates a single unit with the تاء, as in حَصَاة and حَصًى — its counterpart is مَدَرَة and مَدَر.`, list: false },
             { html: `<bdi>المَدَر</bdi> is pieces of clay.`, list: false },
             { html: `<bdi>وكذا المَفْعَل مدلولًا به على مصدر أو زمان أو مكان، نحو: مَلْهًى ومَسْعًى ونظيرُه مَذْهَب ومَسْرَح</bdi> — <bdi>المَسْرَح</bdi> is pasture.`, list: false },
           ],
@@ -233,8 +233,8 @@ export default {
         {
           heading: 'الضابط، والأول',
           lines: [
-            { html: `<bdi>والممدود القياسي: كل اسم معتل اللام نظير من الصحيح الآخر، مُلْتَزَمٌ فيه زيادة ألف قبل آخره.</bdi>`, list: false },
-            { html: `<bdi>وذلك: كمصدر ما أوَّله همزةُ وصلٍ، نحو: ارْعَوَى ارْعِواء، وابتغَى ابْتِغاء، واستَقْصَى استِقْصاء، فإن نظيرها من الصحيح: احمرَّ احمرارًا، واقتدر اقتدارًا، واستخرج استخراجًا.</bdi>`, list: false },
+            { html: `<bdi>والممدود القياسي: كل اسم معتل اللام نظير من الصحيح الآخر، مُلْتَزَمٌ فيه زيادة ألف قبل آخره.</bdi> — the قياسي ممدود is every weak-لام noun with a counterpart among sound words, in which an added ألف before the last letter is fixed.`, list: false },
+            { html: `<bdi>وذلك: كمصدر ما أوَّله همزةُ وصلٍ، نحو: ارْعَوَى ارْعِواء، وابتغَى ابْتِغاء، واستَقْصَى استِقْصاء، فإن نظيرها من الصحيح: احمرَّ احمرارًا، واقتدر اقتدارًا، واستخرج استخراجًا.</bdi> — that is, like the مصدر of a verb beginning with a همزة وصل, as in ارْعَوَى ارْعِواء, ابتغَى ابْتِغاء, استَقْصَى استِقْصاء — their counterpart among sound words is احمرَّ احمرارًا, اقتدر اقتدارًا, استخرج استخراجًا.`, list: false },
           ],
           clarification: `The ممدود rule is the mirror of the مقصور one. There the نظير had to keep a fatḥa before the last letter; here it has to carry an added ألف in the same slot. So احمرار decides ارْعِواء, and اقتدار decides ابْتِغاء.`,
           exercise: {
@@ -247,8 +247,8 @@ export default {
         {
           heading: 'الثاني والثالث',
           lines: [
-            { html: `<bdi>كذا مصدر كل فعل معتل اللام يُوازِن أفعل، كأعطى إعْطاء وأمْلَى إملاء، فإن نظيره من الصحيح أكرم إكرامًا، وأحسن إحسانًا.</bdi>`, list: false },
-            { html: `<bdi>وكذا كل ما كان مفردَ الأفْعِلة، ككِساء وأَكْسِية، ورداء وأَرْدِيَة، فإن نظيره من الصحيح حِمَارٌ وأَحْمِرَة، وسلاحٌ وأَسْلِحة.</bdi>`, list: false },
+            { html: `<bdi>كذا مصدر كل فعل معتل اللام يُوازِن أفعل، كأعطى إعْطاء وأمْلَى إملاء، فإن نظيره من الصحيح أكرم إكرامًا، وأحسن إحسانًا.</bdi> — likewise the مصدر of every weak-لام verb matching the pattern of أَفْعَلَ, as in أعطى إعْطاء and أمْلَى إملاء — its counterpart among sound words is أكرم إكرامًا, and أحسن إحسانًا.`, list: false },
+            { html: `<bdi>وكذا كل ما كان مفردَ الأفْعِلة، ككِساء وأَكْسِية، ورداء وأَرْدِيَة، فإن نظيره من الصحيح حِمَارٌ وأَحْمِرَة، وسلاحٌ وأَسْلِحة.</bdi> — and likewise every singular whose plural is on الأفْعِلة, as in كِساء and أَكْسِية, رداء and أَرْدِيَة — its counterpart among sound words is حِمَار and أَحْمِرَة, سلاح and أَسْلِحة.`, list: false },
             { html: `<bdi>الكِساء</bdi> is a garment.`, list: false },
           ],
           exercise: {
@@ -261,9 +261,9 @@ export default {
         {
           heading: 'الرابع، وحدّ السماعيّ',
           lines: [
-            { html: `<bdi>وكذا كل مصدر لفَعَل بفتحتين دالًّا على صوت أو داء، كالرُّغاء: لصوت البعير، والثُّغاء: لصوت الشاة، فإن نظيره الصُّراخ، وكالمُشاء، فإن نظيره الزُّكام.</bdi>`, list: false },
+            { html: `<bdi>وكذا كل مصدر لفَعَل بفتحتين دالًّا على صوت أو داء، كالرُّغاء: لصوت البعير، والثُّغاء: لصوت الشاة، فإن نظيره الصُّراخ، وكالمُشاء، فإن نظيره الزُّكام.</bdi> — and likewise every مصدر of فَعَل (two فتحات) indicating a sound or a sickness, as in الرُّغاء (the sound of a camel) and الثُّغاء (the sound of a sheep), whose counterpart is الصُّراخ; and المُشاء, whose counterpart is الزُّكام (a cold).`, list: false },
             { html: `<bdi>المُشاء</bdi> is a stomach illness.`, list: false },
-            { html: `<bdi>والسماعيّ منهما ما فقد ذلك النظير.</bdi>`, list: false },
+            { html: `<bdi>والسماعيّ منهما ما فقد ذلك النظير.</bdi> — the سماعي of the two is whatever lacks that counterpart.`, list: false },
           ],
           clarification: `The last sentence closes the whole division: whatever مقصور or ممدود has no such counterpart in the صحيح is سماعيّ, and belongs to the lexicographer rather than to the صرفيّ. The two lists that follow are simply what that leaves over.`,
           exercise: {

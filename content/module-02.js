@@ -1138,12 +1138,12 @@ export default {
         },
         {
           q: '﴿وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنْقَلَبٍ يَنْقَلِبُونَ﴾ — what makes أَيَّ مُنْقَلَبٍ منصوب?',
-          options: ['بينقلبون، الفعل بعده', 'بسيعلم، الفعل قبله', 'بالذين، اسم الموصول', 'لا ناصب له'],
+          options: ['يَنْقَلِبُونَ — the فعل after it', 'سَيَعْلَمُ — the فعل before it', 'الَّذِينَ — the اسم الموصول', 'No ناصب at all — it is مرفوع'],
           correct: 0,
         },
         {
           q: 'What is the definition of الإلغاء?',
-          options: ['إبطال عمل الفعل لفظًا ومحلاً معًا', 'تعليق عمل الفعل لفظًا فقط', 'حذف الفعل من الجملة', 'تقديم المفعول على الفاعل'],
+          options: ["Cancelling the فعل's operation both لفظًا and محلاً together", "Suspending the فعل's operation لفظًا only", 'Deleting the فعل from the جملة', 'Fronting the مفعول before the فاعل'],
           correct: 0,
         },
         {

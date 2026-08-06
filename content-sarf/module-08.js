@@ -27,7 +27,7 @@ export default {
         {
           heading: 'التعريفان ونونا التوكيد',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الفِعْلُ إلى مُؤَكَّدٍ بِالنُّونِ، وغَيْرِ مُؤَكَّدٍ</bdi>.`, list: false },
+            { html: `<bdi>يَنْقَسِمُ الفِعْلُ إلى مُؤَكَّدٍ بِالنُّونِ، وغَيْرِ مُؤَكَّدٍ</bdi> — الفعل divides into مُؤَكَّد بالنون (emphasized with the نون) and غير مؤكَّد.`, list: false },
             { table: { headers: ['القسم', 'التعريف', 'أمثلة'], rows: [
               ['المُؤَكَّد', 'ما لَحِقَتْهُ نُونُ التَّوْكِيدِ، ثَقِيلَةً كانَتْ أو خَفِيفَةً', '﴿لَيُسْجَنَنَّ وَلَيَكُونًا مِنَ الصَّاغِرِينَ﴾ [يوسف: ٣٢]'],
               ['غَيْرُ المُؤَكَّد', 'ما لم تَلْحَقْهُ', 'يُسْجَنُ ، يَكُونُ'],
@@ -44,13 +44,13 @@ export default {
         {
           heading: 'التوكيد بغير النون',
           lines: [
-            { html: `<bdi>وتَوْكِيدُ الفِعْلِ قد يَكُونُ بِغَيْرِ نُونِ التَّوْكِيدِ</bdi>.`, list: false },
+            { html: `<bdi>وتَوْكِيدُ الفِعْلِ قد يَكُونُ بِغَيْرِ نُونِ التَّوْكِيدِ</bdi> — and a verb's emphasis may also come by means other than نون التوكيد.`, list: false },
             { table: { headers: ['الأداة', 'الشاهد'], rows: [
               ['قَدْ', '﴿قَدْ أَفْلَحَ الْمُؤْمِنُونَ﴾'],
               ['اللام', '﴿وإنَّ رَبَّكَ لَيَحْكُمُ بَيْنَهُمْ﴾'],
               ['القَسَم', 'واللهِ لَسَوْفَ أَذْهَبُ'],
             ] } },
-            { html: `<bdi>ولكنَّ هذا البابَ مَعْقُودٌ لِلْكَلامِ على تَوْكِيدِ الفِعْلِ بِالنُّونِ</bdi> — the other three are noted and set aside.`, list: false },
+            { html: `<bdi>ولكنَّ هذا البابَ مَعْقُودٌ لِلْكَلامِ على تَوْكِيدِ الفِعْلِ بِالنُّونِ</bdi> — but this باب is devoted to discussing the verb's emphasis specifically by the نون — the other three are noted and set aside.`, list: false },
           ],
           exercise: {
             prompt: `﴿قَدْ أَفْلَحَ الْمُؤْمِنُونَ﴾ is an instance of emphasis. By what means?`,
@@ -77,9 +77,9 @@ export default {
         {
           heading: 'الشاذ في الماضي والاسم، والأمر',
           lines: [
-            { html: `<bdi>وأمَّا قَوْلُهُ: دامَنَّ سَعْدُكِ لو رَحِمْتِ مُتَيَّمًا</bdi> — <bdi>فضَرُورَةٌ شاذَّةٌ، سَهَّلَها ما في الفِعْلِ من مَعْنَى الطَّلَبِ، فعُومِلَ مُعامَلَةَ الأَمْرِ</bdi>.`, list: false },
-            { html: `<bdi>كما شَذَّ تَوْكِيدُ الاسْمِ في قَوْلِ رُؤْبَةَ بنِ العَجَّاجِ: أَقائِلُنَّ (أنتَ) أَحْضِرُوا الشُّهُودا</bdi>.`, list: false },
-            { html: `<bdi>والأَمْرُ يَجُوزُ تَوْكِيدُهُ مُطْلَقًا، الأَمْرُ يُطْلَبُ بِهِ حُدُوثُ الفِعْلِ في المُسْتَقْبَلِ دائِمًا</bdi> — <bdi>نحو: اكْتُبَنَّ واجْتَهِدَنْ</bdi>.`, list: false },
+            { html: `<bdi>وأمَّا قَوْلُهُ: دامَنَّ سَعْدُكِ لو رَحِمْتِ مُتَيَّمًا</bdi> — <bdi>فضَرُورَةٌ شاذَّةٌ، سَهَّلَها ما في الفِعْلِ من مَعْنَى الطَّلَبِ، فعُومِلَ مُعامَلَةَ الأَمْرِ</bdi> — as for the line دامَنَّ سَعْدُكِ لو رَحِمْتِ مُتَيَّمًا, that is an anomalous poetic necessity, made easier by the sense of الطلب (request) present in the verb, so it was treated as though it were an أمر.`, list: false },
+            { html: `<bdi>كما شَذَّ تَوْكِيدُ الاسْمِ في قَوْلِ رُؤْبَةَ بنِ العَجَّاجِ: أَقائِلُنَّ (أنتَ) أَحْضِرُوا الشُّهُودا</bdi> — just as the emphasis of a noun is likewise anomalous in the line of رُؤْبَة بن العَجَّاج: أَقائِلُنَّ (أنتَ) أَحْضِرُوا الشُّهُودا.`, list: false },
+            { html: `<bdi>والأَمْرُ يَجُوزُ تَوْكِيدُهُ مُطْلَقًا، الأَمْرُ يُطْلَبُ بِهِ حُدُوثُ الفِعْلِ في المُسْتَقْبَلِ دائِمًا</bdi> — and the أمر may always be emphasized, unconditionally: the أمر always seeks the action's occurrence in the future — <bdi>نحو: اكْتُبَنَّ واجْتَهِدَنْ</bdi>.`, list: false },
             { html: `So the ماضي and the أمر sit at the two extremes: the first can never take the نون, the second always can. Only the مضارع varies.`, list: false },
           ],
           exercise: {
@@ -274,8 +274,8 @@ export default {
         {
           heading: 'الحالات الست',
           lines: [
-            { html: `<bdi>وأمَّا المُضارِعُ فله سِتُّ حالاتٍ</bdi>: <bdi>واجِبًا</bdi>، <bdi>قَرِيبًا من الواجِبِ</bdi>، <bdi>كَثِيرًا</bdi>، <bdi>قَلِيلًا</bdi>، <bdi>أَقَلَّ</bdi>، <bdi>مُمْتَنِعًا</bdi>.`, list: false },
-            { html: `<bdi>الأَصْلُ في المُضارِعِ أنَّهُ يَأْتِي في الحالِ أو الاسْتِقْبالِ، فإن كان في الحالِ فلا تَدْخُلُهُ نُونُ التَّوْكِيدِ</bdi>.`, list: false },
+            { html: `<bdi>وأمَّا المُضارِعُ فله سِتُّ حالاتٍ</bdi>: <bdi>واجِبًا</bdi>، <bdi>قَرِيبًا من الواجِبِ</bdi>، <bdi>كَثِيرًا</bdi>، <bdi>قَلِيلًا</bdi>، <bdi>أَقَلَّ</bdi>، <bdi>مُمْتَنِعًا</bdi> — the مضارع has six states: واجِب (obligatory), قَرِيب من الواجِب (near-obligatory), كَثِير (common), قَلِيل (rare), أَقَلّ (rarer still), and مُمْتَنِع (impossible).`, list: false },
+            { html: `<bdi>الأَصْلُ في المُضارِعِ أنَّهُ يَأْتِي في الحالِ أو الاسْتِقْبالِ، فإن كان في الحالِ فلا تَدْخُلُهُ نُونُ التَّوْكِيدِ</bdi> — the default for the مضارع is that it comes for الحال (the present) or الاستقبال (the future); if it is for الحال, نون التوكيد does not enter on it.`, list: false },
             { html: `The six run as a single scale from obligatory to impossible, and what moves a verb along it is how firmly its context has fixed it to the future.`, list: false },
           ],
           exercise: {
@@ -307,8 +307,8 @@ export default {
         {
           heading: 'الحالة الثانية: القريب من الواجب',
           lines: [
-            { html: `<bdi>ويكونُ قَرِيبًا من الواجِبِ إذا كان شَرْطًا لِإِنِ المُؤَكَّدَةِ بِما الزائِدَةِ، أي (إمَّا) الشَّرْطِيَّة</bdi>.`, list: false },
-            { table: { title: 'شواهد إمَّا الشرطية', headers: ['الشاهد', 'السورة'], rows: [
+            { html: `<bdi>ويكونُ قَرِيبًا من الواجِبِ إذا كان شَرْطًا لِإِنِ المُؤَكَّدَةِ بِما الزائِدَةِ، أي (إمَّا) الشَّرْطِيَّة</bdi> — it is قريب من الواجب when it is the شرط of إنْ reinforced with the added ما — that is, إمَّا الشرطية.`, list: false },
+            { table: { title: 'شواهد إمَّا الشرطية (Evidence for إمَّا الشرطية)', headers: ['الشاهد (Evidence)', 'السورة (Sūrah)'], rows: [
               ['﴿وَإِمَّا تَخَافَنَّ مِنْ قَوْمٍ خِيَانَةً﴾', 'الأنفال: ٥٨'],
               ['﴿فَإِمَّا نَذْهَبَنَّ بِكَ﴾', 'الزخرف: ٤١'],
               ['﴿فَإِمَّا تَرَيِنَّ مِنَ الْبَشَرِ أَحَدًا فَقُولِي إِنِّي نَذَرْتُ لِلرَّحْمَنِ صَوْمًا﴾', 'مريم: ٢٦'],
@@ -325,14 +325,14 @@ export default {
         {
           heading: 'الحالة الثالثة: الكثير',
           lines: [
-            { html: `<bdi>ويكونُ كَثِيرًا إذا وَقَعَ بعد أَداةِ طَلَبٍ</bdi>, and six of them are named.`, list: false },
-            { table: { headers: ['أداة الطلب', 'الشاهد'], rows: [
-              ['أَمْر (بعد لامِ الأمرِ)', 'لِيَقُومَنَّ زَيْدٌ'],
-              ['نَهْي', '﴿وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ﴾ [إبراهيم: ٤٢]'],
-              ['دُعاء', 'لا يَبْعَدَنْ قَوْمِيَ الَّذِينَ هُمُ ... سَمُّ العُداةِ وآفَةُ الجُزُرِ — لخِرْنِقَ بنتِ هَفَّانَ'],
-              ['عَرْض', 'هَلَّا تَمُنِنْ بِوَعْدٍ غَيْرَ مُخْلِفَةٍ ... كما عَهِدْتُكِ في أَيَّامِ ذِي سَلَمِ'],
-              ['تَمَنٍّ', 'فَلَيْتَكِ يَوْمَ المُلْتَقَى تَرَيِنَّنِي ... لِكَيْ تَعْلَمِي أَنِّي امْرُؤٌ بِكِ هائِمُ'],
-              ['اسْتِفْهام', 'أَفَبَعْدَ كِنْدَةَ تَمْدَحَنَّ قَبِيلًا'],
+            { html: `<bdi>ويكونُ كَثِيرًا إذا وَقَعَ بعد أَداةِ طَلَبٍ</bdi> — it is كثير when it follows an أداة طلب (particle of request), and six of them are named.`, list: false },
+            { table: { headers: ['أداة الطلب (Particle of Request)', 'الشاهد (Evidence)'], rows: [
+              ['أَمْر (بعد لامِ الأمرِ) — command (after لام الأمر)', 'لِيَقُومَنَّ زَيْدٌ'],
+              ['نَهْي — prohibition', '﴿وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ﴾ [إبراهيم: ٤٢]'],
+              ['دُعاء — supplication', 'لا يَبْعَدَنْ قَوْمِيَ الَّذِينَ هُمُ ... سَمُّ العُداةِ وآفَةُ الجُزُرِ — لخِرْنِقَ بنتِ هَفَّانَ'],
+              ['عَرْض — gentle suggestion', 'هَلَّا تَمُنِنْ بِوَعْدٍ غَيْرَ مُخْلِفَةٍ ... كما عَهِدْتُكِ في أَيَّامِ ذِي سَلَمِ'],
+              ['تَمَنٍّ — wishing', 'فَلَيْتَكِ يَوْمَ المُلْتَقَى تَرَيِنَّنِي ... لِكَيْ تَعْلَمِي أَنِّي امْرُؤٌ بِكِ هائِمُ'],
+              ['اسْتِفْهام — questioning', 'أَفَبَعْدَ كِنْدَةَ تَمْدَحَنَّ قَبِيلًا'],
             ] } },
             { html: `What unites the six is that each seeks something not yet realised — which is exactly the futurity the نون requires.`, list: false },
           ],
@@ -528,9 +528,9 @@ export default {
         {
           heading: 'الحالة الرابعة: القليل',
           lines: [
-            { html: `<bdi>ويكونُ قَلِيلًا إذا كان بَعْدَ: (لا) النافِيَةِ، أو (ما) الزائِدَةِ، التي لم تُسْبَقْ بِإِنِ الشَّرْطِيَّةِ</bdi>.`, list: false },
+            { html: `<bdi>ويكونُ قَلِيلًا إذا كان بَعْدَ: (لا) النافِيَةِ، أو (ما) الزائِدَةِ، التي لم تُسْبَقْ بِإِنِ الشَّرْطِيَّةِ</bdi> — it is قليل when it follows لا النافية (the negating لا), or ما الزائدة (the added ما) not preceded by إنْ الشرطية.`, list: false },
             { html: `<bdi>كقولِهِ تعالى: ﴿وَاتَّقُوا فِتْنَةً لَا تُصِيبَنَّ الَّذِينَ ظَلَمُوا مِنْكُمْ خَاصَّةً﴾ [الأنفال: ٢٥]</bdi>.`, list: false },
-            { html: `<bdi>وإنَّما أُكِّدَ مع النافي: لأنَّهُ يُشْبِهُ أَداةَ النَهْيِ صُورَةً</bdi> — the negating لا looks exactly like the prohibiting لا, and the resemblance in form is what licenses the نون.`, list: false },
+            { html: `<bdi>وإنَّما أُكِّدَ مع النافي: لأنَّهُ يُشْبِهُ أَداةَ النَهْيِ صُورَةً</bdi> — and it is emphasized with the negator because it resembles the prohibiting particle in form — the negating لا looks exactly like the prohibiting لا, and the resemblance in form is what licenses the نون.`, list: false },
             { html: `<bdi>وقولِهِ: إذا ماتَ مِنْهُم سَيِّدٌ سَرَقَ ابْنُهُ ... ومِنْ عِضَةٍ ما يَنْبُتَنَّ شَكِيرُها</bdi>`, list: false },
           ],
           exercise: {
@@ -543,7 +543,7 @@ export default {
         {
           heading: '(ما) الزائدة و(ما) بعد رُبَّ',
           lines: [
-            { html: `<bdi>وما زائِدَةٌ في الجَمِيعِ، وشَمَلَ قَوْلُنا (ما) الزائِدَةُ (ما) الواقِعَةَ بعدَ رُبَّ</bdi>.`, list: false },
+            { html: `<bdi>وما زائِدَةٌ في الجَمِيعِ، وشَمَلَ قَوْلُنا (ما) الزائِدَةُ (ما) الواقِعَةَ بعدَ رُبَّ</bdi> — ما is زائدة (added) in all these cases, and our phrase "ما الزائدة" includes the ما that occurs after رُبَّ.`, list: false },
             { html: `<bdi>كقولِ جَذِيمَةَ الأَبْرَشِ: رُبَّما أَوْفَيْتُ في عَلَمٍ ... تَرْفَعَنْ ثَوْبِي شَمالاتُ</bdi>`, list: false },
             { html: `So the ما that follows رُبَّ counts as a زائدة ما for this purpose, and a verb after it may take the نون on the same footing.`, list: false },
           ],
@@ -557,10 +557,10 @@ export default {
         {
           heading: 'الحالة الخامسة: الأقلّ',
           lines: [
-            { html: `<bdi>ويكونُ أَقَلَّ إذا كان بعدَ (لَمْ)، وبعدَ أَداةِ جَزاءٍ غَيْرِ (إمَّا)، شَرْطًا كان المُؤَكَّدُ أو جَزاءً</bdi>.`, list: false },
-            { table: { headers: ['الحالة', 'المثال'], rows: [
-              ['بعدَ (لَمْ)', 'يَحْسَبُهُ الجاهِلُ ما لَمْ يَعْلَمَا ... شَيْخًا عَلَى كُرْسِيِّهِ مُعَمَّمَا — أي يَعْلَمَنْ ، يَصِفُ جَبَلًا'],
-              ['بعدَ أَداةِ جَزاءٍ غَيْرِ (إمَّا)', 'مَتَى تَجْتَهِدَنَّ تَنْجَحْ'],
+            { html: `<bdi>ويكونُ أَقَلَّ إذا كان بعدَ (لَمْ)، وبعدَ أَداةِ جَزاءٍ غَيْرِ (إمَّا)، شَرْطًا كان المُؤَكَّدُ أو جَزاءً</bdi> — it is أقلّ when it follows لَمْ, and when it follows a جزاء particle other than إمّا, whether the emphasized verb is the شرط or the جزاء.`, list: false },
+            { table: { headers: ['الحالة (Case)', 'المثال (Example)'], rows: [
+              ['بعدَ (لَمْ) — after لَمْ', 'يَحْسَبُهُ الجاهِلُ ما لَمْ يَعْلَمَا ... شَيْخًا عَلَى كُرْسِيِّهِ مُعَمَّمَا — أي يَعْلَمَنْ ، يَصِفُ جَبَلًا'],
+              ['بعدَ أَداةِ جَزاءٍ غَيْرِ (إمَّا) — after a جزاء particle other than إمّا', 'مَتَى تَجْتَهِدَنَّ تَنْجَحْ'],
             ] } },
             { html: `The second row shows the نون on the شرط; the rule allows it equally on the جزاء.`, list: false },
             { html: `Note the contrast with the second state: after إمَّا the نون is nearly obligatory, after any other جزاء particle it is the rarest case but one.`, list: false },

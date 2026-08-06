@@ -39,7 +39,7 @@ export default {
           exercise: {
             prompt: `Which of these is the definition of الصرف بالمعنى العِلْمي؟`,
             kind: 'mcq',
-            options: ['تحويل الأصل الواحد إلى أمثلة مختلفة لمعان مقصودة', 'علم بأصول يُعرف بها أحوال أبنية الكلمة', 'التغيير، ومنه تصريف الرياح', 'صون اللسان عن الخطأ في المفردات'],
+            options: ['Turning the one أصل into different أمثلة, for intended meanings', 'A body of أصول by which the أحوال of أبنية الكلمة are known', 'التَّغْيِير — change, as in تَصْرِيفُ الرِّيَاح', 'Guarding the tongue from error in vocabulary'],
             correct: 1,
           },
         },
@@ -63,11 +63,11 @@ export default {
           heading: 'الواضع والثمرة والاستمداد والحكم',
           lines: [
             { html: `The remaining مبادئ are given briefly and are worth memorising as a block.`, list: false },
-            { table: { title: 'مبادئ علم الصرف', headers: ['المبدأ', 'What it is'], rows: [
-              ['الوَاضِع', 'مُعَاذ بن مُسْلِم الهَرَّاء — with a shadda on the راء; and it is said, سَيِّدُنا عليٌّ كرَّم الله وجهه'],
-              ['الثَّمَرَة', 'صَوْنُ اللِّسَانِ عن الخطأِ في المفرداتِ، ومراعاةُ قانونِ اللغةِ في الكِتَابَة'],
-              ['الاسْتِمْدَاد', 'من كلامِ اللهِ تعالى، وكلامِ رسولِه ﷺ، وكلامِ العربِ'],
-              ['حُكْمُ الشَّارِعِ فيه', 'الوُجُوبُ الكِفَائي'],
+            { table: { title: 'مبادئ علم الصرف (The Principles of علم الصرف)', headers: ['المبدأ (Principle)', 'What it is'], rows: [
+              ['الوَاضِع (its founder)', 'مُعَاذ بن مُسْلِم الهَرَّاء — with a shadda on the راء; and it is said, سَيِّدُنا عليٌّ كرَّم الله وجهه (our master عَلِيّ, may الله ennoble his face)'],
+              ['الثَّمَرَة (its fruit)', 'Guarding the tongue from error in مُفْرَدَات (individual words), and observing the rules of the language in writing'],
+              ['الاسْتِمْدَاد (its source)', 'From the speech of الله تعالى, the speech of His Messenger ﷺ, and the speech of the العرب'],
+              ['حُكْمُ الشَّارِعِ فيه (the Lawgiver’s ruling on it)', 'الوُجُوبُ الكِفَائي — a communal obligation (binding on the community as a whole, lifted from the rest once some undertake it)'],
             ] } },
             { html: `Note the division of labour the ثمرة implies: النحو guards the end of the word against error, while الصرف guards the word itself — its <bdi>مُفْرَدَات</bdi>.`, list: false },
           ],
@@ -309,10 +309,10 @@ export default {
           heading: 'أقسام الكلمة الثلاثة',
           lines: [
             { html: `<bdi>تَنْقَسِمُ الكَلِمَةُ إلى اسْمٍ وفِعْلٍ وحَرْفٍ</bdi> — three classes, and no fourth.`, list: false },
-            { table: { title: 'The Three Divisions', headers: ['القسم', 'ما وُضِع ليدل على...', 'أمثلة'], rows: [
-              ['الاسْم', 'معنًى مستقلٍّ بالفهم، ليس الزمنُ جزءًا منه', 'رَجُل، كِتَاب'],
-              ['الفِعْل', 'معنًى مستقلٍّ بالفهم، والزمنُ جزءٌ منه', 'كَتَبَ، يَقْرَأُ، احْفَظْ'],
-              ['الحَرْف', 'معنًى غيرِ مستقلٍّ بالفهم', 'هَلْ، فِي، لَمْ'],
+            { table: { title: 'The Three Divisions', headers: ['القسم (Class)', 'What it was coined to indicate', 'أمثلة (Examples)'], rows: [
+              ['الاسْم', 'A meaning independently understood (مستقلّ بالفهم), with time not part of it', 'رَجُل، كِتَاب'],
+              ['الفِعْل', 'A meaning independently understood, with time part of it', 'كَتَبَ، يَقْرَأُ، احْفَظْ'],
+              ['الحَرْف', 'A meaning not independently understood on its own', 'هَلْ، فِي، لَمْ'],
             ] } },
             { html: `Two tests run through all three: does the meaning stand on its own in the mind (<bdi>الاسْتِقْلَال بِالفَهْم</bdi>), and is time built into it? الاسم and الفعل both pass the first and split on the second; الحرف fails the first outright.`, list: false },
             { html: `Of الحرف it is added: <bdi>ولا دَخْلَ لَهُ هُنَا كما مَرَّ</bdi> — it has no place in علم الصرف at all.`, list: false },
@@ -338,7 +338,7 @@ export default {
             { table: { headers: ['الكلمة', 'العلامة'], rows: [
               ['الحَمْدُ', 'أَلْ — and it is also مُسْنَدٌ إليه'],
               ['لِلَّهِ', 'preceded by حرف الجر (اللام)'],
-              ['عَدَمِ', 'مجرور بِمِنْ — قَبُولُ حرف الجر'],
+              ['عَدَمِ', 'مجرور by مِنْ — an instance of قَبُولُ حرف الجر, accepting the حرف الجر'],
             ] } },
             { html: `<bdi>مُنْشِئ</bdi> here is an اسم فاعل governing <bdi>الخَلْقَ</bdi> as its مفعول به, and <bdi>عَدَمِ</bdi> stands in pause, so its تنوين is not sounded.`, list: false },
             { html: `And <bdi>﴿يَا إِبْرَاهِيمُ ۝ قَدْ صَدَّقْتَ الرُّؤْيَا﴾</bdi> supplies النداء (يا إبراهيمُ) and أل (الرُّؤْيَا).`, list: false },
@@ -636,8 +636,8 @@ export default {
             { html: `With three letters and nothing added, the ميزان differs from word to word only in its vowelling.`, list: false },
             { table: { headers: ['الموزون', 'الوزن', 'الضبط'], rows: [
               ['قَمَر', 'فَعَل', 'بالتَّحْرِيك — فاء and عين both vowelled'],
-              ['جِمْل', 'فِعْل', 'بكسر الفاء وسكون العين'],
-              ['كَرُمَ', 'فَعُل', 'بفتح الفاء وضم العين'],
+              ['جِمْل', 'فِعْل', 'بكسر الفاء وسكون العين — فاء carries كسرة, عين is ساكن'],
+              ['كَرُمَ', 'فَعُل', 'بفتح الفاء وضم العين — فاء carries فتحة, عين carries ضمة'],
             ] } },
             { html: `<bdi>وهَلُمَّ جَرًّا</bdi> — and so on through the rest of the ثلاثي patterns.`, list: false },
             { html: `All three have identical letters in the ميزان. What is being recorded here is purely الحركات والسكنات — the first of the four فوائد, in isolation.`, list: false },

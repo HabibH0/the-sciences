@@ -1059,7 +1059,7 @@ export default {
         },
         {
           q: 'لولا is defined as:',
-          options: ['امتناع الجواب لوجود الشرط', 'امتناع الجواب لامتناع الشرط', 'وجوب الجواب لوجود الشرط', 'وجوب الشرط لوجود الجواب'],
+          options: ['Absence of the جواب due to existence of the شرط', 'Absence of the جواب due to absence of the شرط', 'Necessity of the جواب due to existence of the شرط', 'Necessity of the شرط due to existence of the جواب'],
           correct: 0,
         },
         {
@@ -1078,7 +1078,7 @@ export default {
           title: 'التعريف التقليدي للو',
           kind: 'mcq',
           prompt: 'The classical one-line definition of لو is:',
-          options: ['امتناع الجواب لامتناع الشرط', 'امتناع الجواب لوجود الشرط', 'وجوب الجواب لوجود الشرط', 'تحقق الجواب والشرط معا'],
+          options: ['Absence of the جواب due to absence of the شرط', 'Absence of the جواب due to existence of the شرط', 'Necessity of the جواب due to existence of the شرط', 'Both the جواب and the شرط being realized together'],
           correct: 0,
         },
         {

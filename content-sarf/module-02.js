@@ -302,8 +302,8 @@ export default {
         {
           heading: 'تعريف المضارع',
           lines: [
-            { html: `<bdi>المضارع</bdi> is <bdi>ما دَلَّ على حُدُوثِ شيءٍ في زَمَنِ التَّكَلُّمِ أو بَعْدَهُ غالِبًا، أو لِلاسْتِمْرَارِ</bdi>.`, list: false },
-            { html: `<bdi>نحو: يَقْرَأُ ويَكْتُبُ — فهو صَالِحٌ لِلْحَالِ والاسْتِقْبَالِ</bdi>.`, list: false },
+            { html: `<bdi>المضارع</bdi> is <bdi>ما دَلَّ على حُدُوثِ شيءٍ في زَمَنِ التَّكَلُّمِ أو بَعْدَهُ غالِبًا، أو لِلاسْتِمْرَارِ</bdi> — what indicates something happening at, or after, زَمَن التَّكَلُّم (the moment of speaking), usually, or for الاسْتِمْرَار (continuation).`, list: false },
+            { html: `<bdi>نحو: يَقْرَأُ ويَكْتُبُ</bdi> — e.g. يَقْرَأُ and يَكْتُبُ — <bdi>فهو صَالِحٌ لِلْحَالِ والاسْتِقْبَالِ</bdi>, i.e. valid for both الحال (the present) and الاسْتِقْبَال (the future).`, list: false },
             { html: `That last clause is the point of the whole section: on its own, a مضارع is ambiguous between now and later. Everything that follows is about what removes that ambiguity.`, list: false },
           ],
           exercise: {
@@ -610,11 +610,11 @@ export default {
         {
           heading: 'علامة الأمر',
           lines: [
-            { html: `<bdi>وعَلَامَتُهُ أن يَقْبَلَ نُونَ التَّوْكِيدِ ويَاءَ المُخَاطَبَةِ: مع دَلَالَتِهِ على الطَّلَبِ</bdi>.`, list: false },
+            { html: `<bdi>وعَلَامَتُهُ أن يَقْبَلَ نُونَ التَّوْكِيدِ ويَاءَ المُخَاطَبَةِ: مع دَلَالَتِهِ على الطَّلَبِ</bdi> — its sign is that it accepts نون التوكيد and ياء المخاطبة, together with its indicating الطَّلَب (a request).`, list: false },
             { html: `The final clause is not decorative. نون التوكيد and ياء المخاطبة both attach to المضارع as well, so on their own they prove only that the word is a verb — not which kind.`, list: false },
-            { table: { headers: ['الصيغة', 'العلامتان', 'دلالة الطلب'], rows: [
-              ['اجْتَهِدْ / اجْتَهِدِي / اجْتَهِدَنَّ', 'تقبلهما', 'نعم — فهو أمر'],
-              ['تَجْتَهِدِينَ / تَجْتَهِدَنَّ', 'تقبلهما', 'لا — فهو مضارع'],
+            { table: { headers: ['الصيغة (Form)', 'العلامتان (The Two Signs)', 'دلالة الطلب؟ (Indicates a Request?)'], rows: [
+              ['اجْتَهِدْ / اجْتَهِدِي / اجْتَهِدَنَّ', 'Accepts both', 'Yes — so it is أمر'],
+              ['تَجْتَهِدِينَ / تَجْتَهِدَنَّ', 'Accepts both', 'No — so it is مضارع'],
             ] } },
             { html: `So the test for الأمر is the two signs <em>and</em> the طلب together — either alone is insufficient.`, list: false },
           ],
@@ -629,7 +629,7 @@ export default {
         {
           heading: 'تعريف اسم الفعل',
           lines: [
-            { html: `<bdi>وأمَّا ما يَدُلُّ على مَعَانِي الأفْعَالِ ولا يَقْبَلُ عَلَامَاتِهَا، فيُقَالُ له اسْمُ فِعْلٍ</bdi>.`, list: false },
+            { html: `<bdi>وأمَّا ما يَدُلُّ على مَعَانِي الأفْعَالِ ولا يَقْبَلُ عَلَامَاتِهَا، فيُقَالُ له اسْمُ فِعْلٍ</bdi> — as for what indicates the meanings of الأفعال but does not accept their علامات, it is called اسْمُ فِعْلٍ.`, list: false },
             { html: `Two halves to the definition, and both are required: it must carry a verb's meaning, and it must refuse the verb's signs. A word that carries the meaning <em>and</em> takes the signs is simply a verb.`, list: false },
             { html: `This is why they are called أسماء and not أفعال: the meaning is verbal, but the word behaves as a noun.`, list: false },
           ],

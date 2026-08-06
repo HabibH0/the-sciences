@@ -28,9 +28,9 @@ export default {
         {
           heading: 'التعريفان',
           lines: [
-            { table: { title: 'قسما الفعل', headers: ['القسم', 'ويُسَمَّى', 'التعريف'], rows: [
-              ['مَبْنِيٌّ لِلْفاعِل', 'مَعْلُومًا', 'ما ذُكِرَ معه فاعِلُهُ'],
-              ['مَبْنِيٌّ لِلْمَفْعُول', 'مَجْهُولًا', 'ما حُذِفَ فاعِلُهُ — أي غَيْرُ مَذْكُورٍ — وأُنِيبَ عنه غَيْرُهُ، نحو: حُفِظَ الدَّرْسُ'],
+            { table: { title: 'قسما الفعل (The Two Divisions of الفعل)', headers: ['القسم (Division)', 'ويُسَمَّى (Also Called)', 'التعريف (Definition)'], rows: [
+              ['مَبْنِيٌّ لِلْفاعِل', 'مَعْلُومًا', 'that with which its فاعل is mentioned'],
+              ['مَبْنِيٌّ لِلْمَفْعُول', 'مَجْهُولًا', 'that whose فاعل has been dropped — i.e. not mentioned — and something else put in its place, e.g. حُفِظَ الدَّرْسُ'],
             ] } },
             { html: `<bdi>نحو: حَفِظَ مُحَمَّدٌ الدَّرْسَ</bdi> for the first.`, list: false },
             { html: `Note the precision of <bdi>غَيْرُ مَذْكُورٍ</bdi>: the doer is not absent from the event, only from the sentence. Something did the deed; the speaker has simply chosen not to name it.`, list: false },
@@ -45,10 +45,10 @@ export default {
         {
           heading: 'أغراض حذف الفاعل',
           lines: [
-            { html: `<bdi>قد يُحْذَفُ الفاعِلُ لِغَرَضٍ لَفْظِيٍّ أو مَعْنَوِيٍّ، ومنها</bdi>:`, list: false },
-            { table: { headers: ['الغرض', 'المثال'], rows: [
-              ['الجَهْلُ بِهِ', 'سُرِقَ المَتاعُ'],
-              ['العِلْمُ بِهِ', 'أُنْزِلَ المَطَرُ'],
+            { html: `<bdi>قد يُحْذَفُ الفاعِلُ لِغَرَضٍ لَفْظِيٍّ أو مَعْنَوِيٍّ، ومنها</bdi>: the فاعل may be dropped for a stylistic or semantic purpose, among them:`, list: false },
+            { table: { headers: ['الغرض (Purpose)', 'المثال (Example)'], rows: [
+              ['الجَهْلُ بِهِ — not knowing who it is', 'سُرِقَ المَتاعُ'],
+              ['العِلْمُ بِهِ — it being already known', 'أُنْزِلَ المَطَرُ'],
             ] } },
             { html: `The first two are opposites and both work: you drop the doer because you do not know who it was, or because everyone already knows who it was and naming him would be redundant.`, list: false },
           ],
@@ -63,9 +63,9 @@ export default {
         {
           heading: 'الأصل في النيابة والخلاف فيه',
           lines: [
-            { html: `<bdi>الأَصْلُ في بابِ النِّيابَةِ المَفْعُولُ بِهِ</bdi>.`, list: false },
-            { html: `<bdi>ولا تَصِحُّ نِيابَةُ غَيْرِهِ، وهذا مَذْهَبُ سِيبَوَيْهِ، ومَنْ وافَقَهُ</bdi>.`, list: false },
-            { html: `<bdi>وذَهَبَ الكُوفِيُّونَ إلى جَوازِ نِيابَةِ غَيْرِ المَفْعُولِ بِهِ مُطْلَقًا</bdi>.`, list: false },
+            { html: `<bdi>الأَصْلُ في بابِ النِّيابَةِ المَفْعُولُ بِهِ</bdi> — the default in باب النيابة (standing-in) is the مفعول به.`, list: false },
+            { html: `<bdi>ولا تَصِحُّ نِيابَةُ غَيْرِهِ، وهذا مَذْهَبُ سِيبَوَيْهِ، ومَنْ وافَقَهُ</bdi> — and nothing else may validly stand in; this is the position of سيبويه, and those who agree with him.`, list: false },
+            { html: `<bdi>وذَهَبَ الكُوفِيُّونَ إلى جَوازِ نِيابَةِ غَيْرِ المَفْعُولِ بِهِ مُطْلَقًا</bdi> — while الكوفيّون (the Kufans) held that something other than the مفعول به may stand in, unconditionally.`, list: false },
             { html: `So the question is not whether a مفعول به may stand in for the dropped فاعل — everyone allows that — but whether anything else may.`, list: false },
           ],
           exercise: {
@@ -78,13 +78,13 @@ export default {
         {
           heading: 'ما ينوب عن الفاعل',
           lines: [
-            { html: `<bdi>ويَنُوبُ عن الفاعِلِ</bdi>:`, list: false },
-            { table: { headers: ['النائب', 'الشاهد أو المثال'], rows: [
+            { html: `<bdi>ويَنُوبُ عن الفاعِلِ</bdi>: and standing in for the فاعل:`, list: false },
+            { table: { headers: ['النائب (The Stand-in)', 'الشاهد أو المثال (Evidence or Example)'], rows: [
               ['الجارُّ والمَجْرُور', '﴿لَمَّا سُقِطَ في أَيْدِيهِمْ﴾'],
               ['المَصْدَر', '﴿فإذا نُفِخَ في الصُّورِ نَفْخَةٌ واحِدَةٌ﴾'],
               ['الظَّرْف', 'صِيمَ رَمَضانُ ، جُلِسَ أمامُ الأميرِ'],
             ] } },
-            { html: `<bdi>وفي هذه الحالَةِ يَجِبُ أن تُغَيَّرَ صُورَةُ الفِعْلِ عن أَصْلِها</bdi> — whichever of these — or the مفعول به — stands in, the verb itself must change shape. That change is the subject of the next two lessons.`, list: false },
+            { html: `<bdi>وفي هذه الحالَةِ يَجِبُ أن تُغَيَّرَ صُورَةُ الفِعْلِ عن أَصْلِها</bdi> — and in this case, the verb’s form must be changed from its original — whichever of these — or the مفعول به — stands in, the verb itself must change shape. That change is the subject of the next two lessons.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿فإذا نُفِخَ في الصُّورِ نَفْخَةٌ واحِدَةٌ﴾, what stands in for the dropped فاعل؟`,
@@ -278,7 +278,7 @@ export default {
         {
           heading: 'القاعدة العامة',
           lines: [
-            { html: `<bdi>فإن كان ماضِيًا غَيْرَ مَبْدُوءٍ بِهَمْزَةِ وَصْلٍ ولا تاءٍ زائِدَةٍ، ولَيْسَتْ عَيْنُهُ أَلِفًا، ضُمَّ أَوَّلُهُ وكُسِرَ ما قَبْلَ آخِرِهِ</bdi>.`, list: false },
+            { html: `<bdi>فإن كان ماضِيًا غَيْرَ مَبْدُوءٍ بِهَمْزَةِ وَصْلٍ ولا تاءٍ زائِدَةٍ، ولَيْسَتْ عَيْنُهُ أَلِفًا، ضُمَّ أَوَّلُهُ وكُسِرَ ما قَبْلَ آخِرِهِ</bdi> — if it is a ماضي not beginning with a همزة وصل or an added تاء, and its عين is not an ألف, its first letter takes a ضمة and the letter before its last takes a كسرة.`, list: false },
             { html: `<bdi>نحو: ضُرِبَ عَلِيٌّ</bdi>`, list: false },
             { html: `<bdi>ولو تَقْدِيرًا</bdi> — even where the kasra is only understood: <bdi>رُدَّ المَبِيعُ</bdi>, whose أصل is <bdi>رُدِدَ</bdi>.`, list: false },
             { html: `<bdi>الأَصْلُ فيها مع فَكِّ الإدْغامِ: رُدِدَ ومُدِدَ وعُدِدَ</bdi> — undo the doubling and the kasra becomes visible.`, list: false },
@@ -293,9 +293,9 @@ export default {
         {
           heading: 'المبدوء بتاء زائدة وبهمزة وصل',
           lines: [
-            { table: { headers: ['الحالة', 'القاعدة', 'أمثلة'], rows: [
-              ['مَبْدُوءًا بِتاءٍ زائِدَةٍ', 'ضُمَّ الثاني مع الأوَّلِ', 'تُعُلِّمَ الحِسابُ ، تُقُوتِلَ مع زَيْدٍ'],
-              ['مَبْدُوءًا بِهَمْزَةِ وَصْلٍ', 'ضُمَّ الثالثُ مع الأوَّلِ', 'انْطُلِقَ بِزَيْدٍ ، اسْتُخْرِجَ المَعْدِنُ'],
+            { table: { headers: ['الحالة (Case)', 'القاعدة (Rule)', 'أمثلة (Examples)'], rows: [
+              ['مَبْدُوءًا بِتاءٍ زائِدَةٍ — beginning with an added تاء', 'ضُمَّ الثاني مع الأوَّلِ — the second letter takes a ضمة along with the first', 'تُعُلِّمَ الحِسابُ ، تُقُوتِلَ مع زَيْدٍ'],
+              ['مَبْدُوءًا بِهَمْزَةِ وَصْلٍ — beginning with a همزة وصل', 'ضُمَّ الثالثُ مع الأوَّلِ — the third letter takes a ضمة along with the first', 'انْطُلِقَ بِزَيْدٍ ، اسْتُخْرِجَ المَعْدِنُ'],
             ] } },
             { html: `Both rules add a second ḍamma to the general one, and they differ only in which letter receives it — the second in one case, the third in the other. The general rule's kasra before the last letter still applies in both.`, list: false },
           ],
@@ -310,10 +310,10 @@ export default {
         {
           heading: 'ما عينه ألف',
           lines: [
-            { html: `<bdi>وإن كانَتْ عَيْنُهُ أَلِفًا قُلِبَتْ ياءً، وكُسِرَ أَوَّلُهُ، بِإخْلاصِ الكَسْرِ، أو إشْمامِهِ الضَّمَّ</bdi>.`, list: false },
-            { html: `<bdi>كما في قالَ وباعَ واخْتارَ وانْقادَ، تَقُولُ: بِيعَ الثَّوْبُ، وقِيلَ القَوْلُ، واخْتِيرَ هذا، وانْقِيدَ لَهُ</bdi>.`, list: false },
+            { html: `<bdi>وإن كانَتْ عَيْنُهُ أَلِفًا قُلِبَتْ ياءً، وكُسِرَ أَوَّلُهُ، بِإخْلاصِ الكَسْرِ، أو إشْمامِهِ الضَّمَّ</bdi> — if its عين is an ألف, it turns into a ياء, and its first letter takes a كسرة — either a pure كسرة, or one tinged with a hint of ضمة (إشمام).`, list: false },
+            { html: `<bdi>كما في قالَ وباعَ واخْتارَ وانْقادَ، تَقُولُ: بِيعَ الثَّوْبُ، وقِيلَ القَوْلُ، واخْتِيرَ هذا، وانْقِيدَ لَهُ</bdi> — as in قَالَ, بَاعَ, اخْتَارَ, and انْقَادَ: you say بِيعَ الثَّوْبُ, قِيلَ القَوْلُ, اخْتِيرَ هذا, انْقِيدَ لَهُ.`, list: false },
             { html: `<bdi>إشْمامُهُ الضَّمَّ</bdi> means giving that kasra a hint of ḍamma — a single blended sound lying between the two.`, list: false },
-            { html: `<bdi>وبَعْضُهُم يُبْقِي الضَّمَّ، ويَقْلِبُ الأَلِفَ واوًا</bdi>, as in the verse: <bdi>لَيْتَ وهل يَنْفَعُ شَيْئًا لَيْتُ ... لَيْتَ شَبابًا بُوعَ فاشْتَرَيْتُ</bdi>.`, list: false },
+            { html: `<bdi>وبَعْضُهُم يُبْقِي الضَّمَّ، ويَقْلِبُ الأَلِفَ واوًا</bdi> — and some keep the ضمة, and turn the ألف into a واو, as in the verse: <bdi>لَيْتَ وهل يَنْفَعُ شَيْئًا لَيْتُ ... لَيْتَ شَبابًا بُوعَ فاشْتَرَيْتُ</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `قالَ becomes قِيلَ. What has happened to the ألف؟`,
@@ -325,10 +325,10 @@ export default {
         {
           heading: 'الثلاثي المضعَّف',
           lines: [
-            { html: `<bdi>وأَوْجَبَ الجُمْهُورُ ضَمَّ فاءِ الثُّلاثِيِّ المُضَعَّفِ</bdi> — <bdi>نحو: شُدَّ ومُدَّ</bdi>.`, list: false },
-            { html: `<bdi>والكُوفِيُّونَ أَجازُوا الكَسْرَ، وهي لُغَةُ بَنِي ضَبَّةَ</bdi>.`, list: false },
+            { html: `<bdi>وأَوْجَبَ الجُمْهُورُ ضَمَّ فاءِ الثُّلاثِيِّ المُضَعَّفِ</bdi> — the majority of scholars require a ضمة on the فاء of the doubled ثلاثي — <bdi>نحو: شُدَّ ومُدَّ</bdi>.`, list: false },
+            { html: `<bdi>والكُوفِيُّونَ أَجازُوا الكَسْرَ، وهي لُغَةُ بَنِي ضَبَّةَ</bdi> — while الكوفيّون permitted a كسرة, this being the dialect of بَنِي ضَبَّة.`, list: false },
             { html: `<bdi>وقد قُرِئَ ﴿هَذِهِ بِضَاعَتُنَا رِدَّتْ إِلَيْنَا﴾، ﴿وَلَوْ رِدُّوا لَعَادُوا لِمَا نُهُوا عَنْهُ﴾ بالكَسْرِ فيهما</bdi>.`, list: false },
-            { html: `<bdi>وذلك بِنَقْلِ حَرَكَةِ العَيْنِ إلى الفاءِ، بعد تَوَهُّمِ سَلْبِ حَرَكَتِها</bdi>. <bdi>وجَوَّزَ ابنُ مالِكٍ الإشْمامَ في المُضَعَّفِ أيضًا حيثُ قال: «وَمَا لِبَاعَ قَدْ يُرَى لِنَحْوِ حَبّ»</bdi>.`, list: false },
+            { html: `<bdi>وذلك بِنَقْلِ حَرَكَةِ العَيْنِ إلى الفاءِ، بعد تَوَهُّمِ سَلْبِ حَرَكَتِها</bdi> — that is done by moving the عين's vowel onto the فاء, after treating its own vowel as though stripped away. <bdi>وجَوَّزَ ابنُ مالِكٍ الإشْمامَ في المُضَعَّفِ أيضًا حيثُ قال: «وَمَا لِبَاعَ قَدْ يُرَى لِنَحْوِ حَبّ»</bdi> — Ibn Mālik also permitted إشمام in the doubled verb, saying: «وَمَا لِبَاعَ قَدْ يُرَى لِنَحْوِ حَبّ» (what is seen for بَاعَ may also be seen for the like of حَبّ).`, list: false },
           ],
           exercise: {
             prompt: `The reading رِدَّتْ with a kasra is explained by نقل حركة العين إلى الفاء. What is the sequence?`,
@@ -522,7 +522,7 @@ export default {
         {
           heading: 'قاعدة المضارع',
           lines: [
-            { html: `<bdi>وإن كان مُضارِعًا ضُمَّ أَوَّلُهُ، وفُتِحَ ما قَبْلَ آخِرِهِ ولو تَقْدِيرًا</bdi>.`, list: false },
+            { html: `<bdi>وإن كان مُضارِعًا ضُمَّ أَوَّلُهُ، وفُتِحَ ما قَبْلَ آخِرِهِ ولو تَقْدِيرًا</bdi> — if it is a مضارع, its first letter takes a ضمة, and the letter before its last takes a فتحة, even if only تقديرًا (understood).`, list: false },
             { html: `<bdi>نحو: يُضْرَبُ عَلِيٌّ، ويُرَدُّ المَبِيعُ</bdi> — the أصل of the second being <bdi>يُرْدَدُ</bdi>.`, list: false },
             { html: `Set the two rules side by side and only the second half differs: the ماضي takes a kasra before its last letter, the مضارع a fatḥa. The ḍamma on the first letter is common to both.`, list: false },
           ],
@@ -536,7 +536,7 @@ export default {
         {
           heading: 'ما قبل آخره مدّ',
           lines: [
-            { html: `<bdi>فإن كان ما قَبْلَ آخِرِ المُضارِعِ مَدًّا، كيَقُولُ ويَبِيعُ، قُلِبَ أَلِفًا</bdi>.`, list: false },
+            { html: `<bdi>فإن كان ما قَبْلَ آخِرِ المُضارِعِ مَدًّا، كيَقُولُ ويَبِيعُ، قُلِبَ أَلِفًا</bdi> — if the letter before the مضارع's last letter is a مَدّ, as in يَقُولُ and يَبِيعُ, it is turned into an ألف.`, list: false },
             { table: { headers: ['المعلوم', 'المجهول'], rows: [
               ['يَقُولُ', 'يُقالُ'],
               ['يَبِيعُ', 'يُباعُ'],
@@ -553,8 +553,8 @@ export default {
         {
           heading: 'شرط بناء اللازم للمجهول',
           lines: [
-            { html: `<bdi>ولا يُبْنَى الفِعْلُ اللازِمُ لِلْمَجْهُولِ إلَّا مع الظَّرْفِ أو المَصْدَرِ المُتَصَرِّفَيْنِ المُخْتَصَّيْنِ</bdi>.`, list: false },
-            { table: { headers: ['النائب', 'أمثلة'], rows: [
+            { html: `<bdi>ولا يُبْنَى الفِعْلُ اللازِمُ لِلْمَجْهُولِ إلَّا مع الظَّرْفِ أو المَصْدَرِ المُتَصَرِّفَيْنِ المُخْتَصَّيْنِ</bdi> — a لازم verb is not built للمجهول except together with a ظرف or مصدر that are مُتَصَرِّف (inflecting) and مُخْتَصّ (narrowed/specified).`, list: false },
+            { table: { headers: ['النائب (The Stand-in)', 'أمثلة (Examples)'], rows: [
               ['الظَّرْف', 'سِيرَ يَوْمُ الجُمْعَةِ ، وُقِفَ أمامُ الأميرِ'],
               ['المَصْدَر', 'جُلِسَ جُلُوسٌ حَسَنٌ'],
             ] } },
@@ -571,12 +571,12 @@ export default {
           heading: 'التصرف والاختصاص، والمجرور',
           lines: [
             { html: `Two conditions qualify the ظرف and the مصدر.`, list: false },
-            { table: { headers: ['الشرط', 'معناه', 'أمثلة'], rows: [
-              ['المُتَصَرِّفَيْنِ', 'ما يَخْرُجُ عن النَّصْبِ على الظَّرْفِيَّةِ أو المَصْدَرِيَّةِ', '—'],
-              ['المُخْتَصَّيْنِ', 'ما خُصَّ بِإضافَةٍ ، أو بِوَصْفٍ ، أو دَلَّ على نَوْعٍ', 'صِيمَ يَوْمُ الجُمْعَةِ ، ضُرِبَ ضَرْبٌ شَدِيدٌ ، عُمِلَ عَمَلُ الصالِحِينَ'],
+            { table: { headers: ['الشرط (Condition)', 'معناه (Its Meaning)', 'أمثلة (Examples)'], rows: [
+              ['المُتَصَرِّفَيْنِ', 'ما يَخْرُجُ عن النَّصْبِ على الظَّرْفِيَّةِ أو المَصْدَرِيَّةِ — what can leave the accusative of الظرفية or المصدرية', '—'],
+              ['المُخْتَصَّيْنِ', 'ما خُصَّ بِإضافَةٍ ، أو بِوَصْفٍ ، أو دَلَّ على نَوْعٍ — what is narrowed by إضافة, by a وصف, or by naming a specific kind', 'صِيمَ يَوْمُ الجُمْعَةِ ، ضُرِبَ ضَرْبٌ شَدِيدٌ ، عُمِلَ عَمَلُ الصالِحِينَ'],
             ] } },
-            { html: `<bdi>أو المَجْرُورُ الذي لم يَلْزَمِ الجارُّ لهُ طَرِيقَةً واحِدَةً</bdi> — <bdi>نحو: وفُرِحَ بِقُدُومِ مُحَمَّدٍ</bdi>.`, list: false },
-            { html: `<bdi>بِخِلافِ اللازِمِ حالَةً واحِدَةً، نحو: عِنْدَ، وإذا، وسُبْحانَ، ومَعاذَ</bdi> — words locked into a single construction, which therefore cannot stand in for a فاعل.`, list: false },
+            { html: `<bdi>أو المَجْرُورُ الذي لم يَلْزَمِ الجارُّ لهُ طَرِيقَةً واحِدَةً</bdi> — or the مجرور whose حرف جر is not locked into a single fixed pattern — <bdi>نحو: وفُرِحَ بِقُدُومِ مُحَمَّدٍ</bdi>.`, list: false },
+            { html: `<bdi>بِخِلافِ اللازِمِ حالَةً واحِدَةً، نحو: عِنْدَ، وإذا، وسُبْحانَ، ومَعاذَ</bdi> — unlike what is locked into a single state, such as عِنْدَ, إذا, سُبْحانَ, and مَعاذَ — words locked into a single construction, which therefore cannot stand in for a فاعل.`, list: false },
           ],
           clarification: `The two conditions are asking the same question from two sides: can this word behave like an ordinary noun? المتصرف tests whether it can ever leave the accusative — عِنْدَ and سُبْحانَ never can, so they are frozen and unavailable. المختص tests whether it names something definite enough to be the subject of a statement — a bare ظرف like "a time" is too vague to be what a sentence is about, so it must be narrowed, by إضافة (يومُ الجمعة), by a وصف (ضَرْبٌ شديدٌ), or by naming a kind (عملُ الصالحين). Only a word that passes both can carry the weight the فاعل has set down.`,
           exercise: {
