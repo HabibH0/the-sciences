@@ -8,13 +8,78 @@
   "scripts": {
     "start": "electron .",
     "validate": "node scripts/validate-content.mjs",
-    "package": "electron-packager . \"An-Nahw\" --platform=win32 --arch=x64 --out=dist --overwrite --ignore=\"^/dist($|/)\""
+    "prepackage": "npm run validate",
+    "package": "electron-builder --win",
+    "prepackage:mac": "npm run validate",
+    "package:mac": "electron-builder --mac",
+    "prepackage:linux": "npm run validate",
+    "package:linux": "electron-builder --linux",
+    "prepackage:all": "npm run validate",
+    "package:all": "electron-builder --win --mac --linux"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "electron": "^43.2.0",
-    "electron-packager": "^17.1.2"
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.habibh0.thesciences",
+    "productName": "The Sciences",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!.claude/**",
+      "!save-data.json",
+      "!scripts/generate-icon.cjs",
+      "!assets/icon-source.html"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "category": "Education"
+    }
   }
 }
