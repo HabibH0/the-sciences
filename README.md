@@ -16,11 +16,20 @@ npm start
 
 ## Building a packaged app
 
+There's no pre-built download — build it yourself for your platform:
+
 ```
-npm run package
+npm run package        # Windows installer (.exe)
+npm run package:mac    # macOS (.zip)
+npm run package:linux  # Linux (.AppImage)
 ```
 
-This produces a standalone Windows build in `dist/The Sciences-win32-x64/`. The `dist/` folder is a build artifact and isn't tracked in git — run the command above to generate it locally.
+Output lands in `dist/` (a build artifact, not tracked in git). These builds
+are unsigned, so your OS will warn about an unrecognized publisher/developer
+the first time you run the result — that's expected for a self-built,
+unsigned app. On Windows, click **More info → Run anyway** on the SmartScreen
+prompt. On macOS, right-click the app → **Open** → **Open** to get past
+Gatekeeper the first time.
 
 ## Progress data
 

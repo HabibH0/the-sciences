@@ -9,13 +9,13 @@
     "start": "electron .",
     "validate": "node scripts/validate-content.mjs",
     "prepackage": "npm run validate",
-    "package": "electron-builder --win",
+    "package": "electron-builder --win nsis:x64 && electron-builder --win nsis:arm64",
     "prepackage:mac": "npm run validate",
     "package:mac": "electron-builder --mac",
     "prepackage:linux": "npm run validate",
     "package:linux": "electron-builder --linux",
     "prepackage:all": "npm run validate",
-    "package:all": "electron-builder --win --mac --linux"
+    "package:all": "electron-builder --win nsis:x64 && electron-builder --win nsis:arm64 && electron-builder --mac && electron-builder --linux"
   },
   "keywords": [],
   "author": "",
@@ -42,11 +42,7 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
+          "target": "nsis"
         }
       ],
       "icon": "assets/icon.ico"
@@ -55,7 +51,8 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "artifactName": "${productName} Setup ${version}-${arch}.${ext}"
     },
     "mac": {
       "target": [
