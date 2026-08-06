@@ -6881,7 +6881,7 @@ export default {
           "explanation": "ه = s.o. (see the نَصَرَ entry); هـ = s.th. (see the فَتَحَ entry)."
         },
         {
-          "q": "Which statement matches Note 1 on p. 105?",
+          "q": "Which statement is true of a root's مَزِيْدٌ فِيْهِ forms across the ten أَبْوَاب?",
           "options": [
             "Every set of root letters does not occur in each of the مَزِيْدٌ فِيْهِ forms",
             "Every root occurs in all ten أَبْوَاب",

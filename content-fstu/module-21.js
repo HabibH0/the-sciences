@@ -228,7 +228,7 @@ export default {
           "explanation": "As though an unspoken إِنْ stood before it."
         },
         {
-          "q": "How may these two sentences be joined in English?",
+          "q": "أُعْبُدِ اللهَ تَدْخُلِ الْجَنَّةَ — how may these two sentences be joined in English?",
           "options": [
             "with a comma, or with the word 'and'",
             "with 'unless'",
@@ -1636,7 +1636,7 @@ export default {
           "explanation": "The جَوَاب depends on the prohibition being kept."
         },
         {
-          "q": "Which of these belongs to this lesson's shape rather than the next?",
+          "q": "Which of these is a جَوَابُ النَّهْيِ WITHOUT a فَ (no فَ, second verb مَجْزُوْمٌ) rather than the فَاءٌ سَبَبِيَّةٌ shape?",
           "options": [
             "لَا تَكْسَلْ فَتَنْدَمَ",
             "لَا تَكْسَلْ تَنْجَحْ",
@@ -2896,7 +2896,7 @@ export default {
           "explanation": "The fatḥah on تَنْدَمَ is the surest sign on the page."
         },
         {
-          "q": "What is this فَ called in tarkeeb?",
+          "q": "In لَا تَكْسَلْ فَتَنْدَمَ, what is the فَ before تَنْدَمَ called in tarkeeb?",
           "options": [
             "فَاءٌ رَابِطَةٌ",
             "فَاءٌ زَائِدَةٌ",
@@ -7140,7 +7140,7 @@ export default {
           "explanation": "Attached to the particle and مَنْصُوْبٌ in place."
         },
         {
-          "q": "What is تُفْلِحُوْنَ in that sentence?",
+          "q": "In لَعَلَّكُمْ تُفْلِحُوْنَ, what is تُفْلِحُوْنَ?",
           "options": [
             "the اِسْمُ لَعَلَّ",
             "a نَعْتٌ",
@@ -7162,7 +7162,7 @@ export default {
           "explanation": "Unlike لِ or حَتَّى, لَعَلَّ governs a noun, not a verb."
         },
         {
-          "q": "What is the natural English for لَعَلَّ in this construction?",
+          "q": "When لَعَلَّ opens a جُمْلَةٌ تَعْلِيْلِيَّةٌ (as in لَعَلَّكُمْ تُفْلِحُوْنَ), what is the natural English for it?",
           "options": [
             "'unless'",
             "'so that… may' / 'perhaps'",
@@ -8591,7 +8591,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "What is the فَ of this construction called?",
+          "q": "In أُعْبُدُوا اللهَ فَإِنَّهُ خَلَقَكَ (a جُمْلَةٌ تَعْلِيْلِيَّةٌ joining two whole sentences), what is this فَ called?",
           "options": [
             "فَاءٌ رَابِطَةٌ",
             "فَاءٌ زَائِدَةٌ",

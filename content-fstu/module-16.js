@@ -3881,7 +3881,7 @@ export default {
           "explanation": "The حَرْفٌ مَوْصُوْلٌ with its صِلَةٌ forms the اِسْمٌ مُؤَوَّلٌ which does the action of يَجِبُ."
         },
         {
-          "q": "What does the book call عَلَيْكَ in that sentence?",
+          "q": "In يَجِبُ عَلَيْكَ أَنْ تَصْدُقَ, what does the book call عَلَيْكَ?",
           "options": [
             "حَالٌ",
             "مَفْعُوْلٌ فِيْهِ",
@@ -3925,7 +3925,7 @@ export default {
           "explanation": "يَنْبَغِيْ لَكَ أَنْ تَجْتَهِدَ becomes 'you should work hard'."
         },
         {
-          "q": "Which pair of verbs both take an اِسْمٌ مُؤَوَّلٌ as their فَاعِلٌ in this lesson's exercises?",
+          "q": "Like يَجِبُ, which pair of verbs can each take a whole اِسْمٌ مُؤَوَّلٌ (أَنْ + مُضَارِعٌ) as their فَاعِلٌ?",
           "options": [
             "يَحِلُّ and يَجُوْزُ",
             "يَقْتُلُ and يَشْرَبُ",
@@ -4774,7 +4774,7 @@ export default {
         {
           "title": "Book Exercise 1 (Section 3, Part 3)",
           "kind": "mcq",
-          "prompt": "Why is يَغْتَابَ مَنْصُوْبٌ in that sentence?",
+          "prompt": "In لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَغْتَابَ أَخَاهُ, why is يَغْتَابَ مَنْصُوْبٌ?",
           "options": [
             "Because it follows a negation",
             "Because أَنْ is a حَرْفُ نَصْبٍ governing the مُضَارِع",
@@ -5557,7 +5557,7 @@ export default {
           "explanation": "The whole اِسْمٌ مُؤَوَّلٌ receives the action of أَرْجُوْ."
         },
         {
-          "q": "What does the book label لِيْ in that sentence?",
+          "q": "In أَرْجُوْ أَنْ يَغْفِرَ اللهُ لِيْ, what does the book label لِيْ?",
           "options": [
             "حَالٌ",
             "نَعْتٌ",
@@ -5568,7 +5568,7 @@ export default {
           "explanation": "It is an object reached through a preposition, inside the صِلَةٌ."
         },
         {
-          "q": "According to the Notes, what happens to the حَرْفٌ جَارٌّ when the object is an اِسْمٌ مُؤَوَّلٌ?",
+          "q": "What happens to the حَرْفٌ جَارٌّ when the object is an اِسْمٌ مُؤَوَّلٌ, as in يَأْمُرُكُمْ بِالصِّدْقِ ← يَأْمُرُكُمْ أَنْ تَصْدُقُوْا?",
           "options": [
             "It must be repeated",
             "It is commonly omitted",

@@ -2135,7 +2135,7 @@ export default {
           "explanation": "إِنَّ's خَبَر is a كَانَ sentence, and كَانَ's خَبَر is a مُضَارِع sentence."
         },
         {
-          "q": "In that sentence, where is the اِسْمُ كَانَ?",
+          "q": "In إِنَّ زَيْدًا كَانَ يَذْهَبُ إِلَى الْمَسْجِدِ, where is the اِسْمُ كَانَ?",
           "options": [
             "It is زَيْدًا",
             "It is a hidden هُوَ inside كَانَ, referring back to زَيْدًا",

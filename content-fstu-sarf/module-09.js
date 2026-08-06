@@ -5615,7 +5615,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "Which of the six أَبْوَابٌ of this lesson has a complete مَجْهُوْلٌ (passive)?",
+          "q": "Of Abwāb VII–XI and اِفْعِلَّال, which أَبْوَاب have a complete مَجْهُوْلٌ (passive)?",
           "options": [
             "بَاب اِفْتِعَال (VIII) — and بَاب اِسْتِفْعَال (X)",
             "بَاب اِنْفِعَال (VII) only",

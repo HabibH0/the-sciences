@@ -25150,7 +25150,7 @@ export default {
           "explanation": "﴿مَا قَتَلُوْهُ يَقِيْنًا﴾ — 'They certainly did not kill him.'"
         },
         {
-          "q": "What form do all three of these words share?",
+          "q": "What form do جِدًّا, حَقًّا and يَقِيْنًا all share?",
           "options": [
             "مَعْرِفَة and مَرْفُوْع",
             "نَكِرَة and مَنْصُوْب",

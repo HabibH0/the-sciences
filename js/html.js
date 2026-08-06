@@ -40,9 +40,26 @@ export function escAttr(str) {
 // has nothing to anchor its direction and gets pulled into whichever RTL
 // neighbour is adjacent (the reversed-bracket bug this is guarding
 // against).
+//
+// Same failure mode hits the hyphen/en-dash used throughout the content to
+// join a pair of terms into one compound label -- مُضَافٌ–مُضَافٌ إِلَيْهِ,
+// جَارٌّ–مَجْرُوْرٌ, مَنْعُوْتٌ–نَعْتٌ. Left out of CONNECTOR, "-"/"–" splits
+// the pair into two separate isolates with a bare dash between them; with
+// both neighbours RTL, the dash resolves RTL too and the whole thing forms
+// one bidi run that gets reversed as a unit, swapping which term reads
+// first ("مُضَافٌ إِلَيْهِ–مُضَافٌ" instead of "مُضَافٌ–مُضَافٌ إِلَيْهِ").
+// The em dash ("—", U+2014) is deliberately NOT included: that one is used
+// to separate an Arabic example from its English translation, where the
+// two sides should NOT be pulled into one isolate.
+//
+// "/" is the same story again: an "either/or" pair of Arabic alternatives
+// (مذ/منذ, أخص/أعني, لولا/لوما) is extremely common across the content, and
+// a bare "/" between two RTL isolates reverses the pair exactly like the
+// dash did. "+" shows up the same way for a "combine these" notation
+// (كسرة+ياء ← فتحة+ألف).
 
 const AR = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF';
-const CONNECTOR = ' \\t\\u200f:';
+const CONNECTOR = ' \\t\\u200f:\\-\\u2013/+';
 const AR_WORD = `[${AR}](?:[${AR}${CONNECTOR}]*[${AR}])?`;
 const AR_RUN = new RegExp(`\\(${AR_WORD}\\)|${AR_WORD}`, 'g');
 

@@ -2706,7 +2706,7 @@ export default {
         {
           "title": "Book p. 440 (Section 1, Part 5)",
           "kind": "mcq",
-          "prompt": "Which two words together are the مُبْدَلٌ مِنْهُ in that sentence?",
+          "prompt": "In إِنَّ اللّٰهَ أَنْعَمَ عَلَيْكَ جَعَلَكَ مُؤْمِنًا, which two words together are the مُبْدَلٌ مِنْهُ?",
           "options": [
             "إِنَّ اللّٰهَ",
             "أَنْعَمَ عَلَيْكَ",
@@ -8649,7 +8649,7 @@ export default {
         {
           "title": "Book Exercise 5 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that same sentence, what is دَرَجَةً?",
+          "prompt": "In كُلَّمَا سَجَدْتَ سَجْدَةً رَفَعَكَ اللهُ بِهَا دَرَجَةً, what is دَرَجَةً?",
           "options": [
             "A تَمْيِيْز, specifying by how much He raises you",
             "A second مَفْعُوْلٌ مُطْلَقٌ",
@@ -10835,7 +10835,7 @@ export default {
         {
           "title": "Book Exercise 6 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that same sentence, what kind of sentence follows إِذْ?",
+          "prompt": "In إِنَّهُ قَدْ نَصَرَنِيْ نَصْرًا إِذْ كُنْتُ فَقِيْرًا, what kind of sentence follows إِذْ?",
           "options": [
             "A nominal sentence",
             "A verbal sentence, since كَانَ is a verb",
@@ -10887,7 +10887,7 @@ export default {
         {
           "title": "Book Exercise 6 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that sentence, what is فِيْ بُيُوْتِهِمْ وَأَسْوَاقِهِمْ?",
+          "prompt": "In كَانَ النَّاسُ فِيْ بُيُوْتِهِمْ وَأَسْوَاقِهِمْ إِذْ زُلْزِلَتِ الْأَرْضُ, what is فِيْ بُيُوْتِهِمْ وَأَسْوَاقِهِمْ?",
           "options": [
             "The خَبَرُ كَانَ, غَيْرُ صَرِيْحٍ",
             "The مُضَافٌ إِلَيْهِ of إِذْ",
@@ -11490,7 +11490,7 @@ export default {
           "explanation": "يَوْمَ الْعِيْدِ already holds the object slot; the إِذْ phrase restates it."
         },
         {
-          "q": "In that same sentence, what is كُلُّهُمْ?",
+          "q": "In لَا أَنْسَى يَوْمَ الْعِيْدِ إِذِ اجْتَمَعَ النَّاسُ كُلُّهُمْ, what is كُلُّهُمْ?",
           "options": [
             "The تَأْكِيْد of النَّاسُ",
             "A بَدَل of النَّاسُ",
@@ -11523,7 +11523,7 @@ export default {
           "explanation": "The removal is common enough that a bare وَإِذْ at the head of an āyah should prompt you to supply it."
         },
         {
-          "q": "Which earlier structure does this removal most closely parallel?",
+          "q": "Dropping أُذْكُرْ before وَإِذْ قُلْنَا لِلْمَلَائِكَةِ اسْجُدُوْا لِآدَمَ most closely parallels which earlier structure?",
           "options": [
             "كَانَ with a مُضَارِع for the habitual past",
             "يَوْمَ as the مَفْعُوْلٌ بِهِ of a removed أُذْكُرْ",
@@ -18843,7 +18843,7 @@ export default {
         {
           "title": "Book Exercise 10 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that same sentence, what is لَا?",
+          "prompt": "In إِذَا سَمِعْتَ أَحَدًا يَغْتَابُ آخَرَ فَلَا تَجْلِسْ مَعَهُ, what is لَا?",
           "options": [
             "A حَرْفُ نَفْيٍ",
             "A حَرْفُ نَهْيٍ, since تَجْلِسْ is مَجْزُوْم",
@@ -18895,7 +18895,7 @@ export default {
         {
           "title": "Book Exercise 10 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that same āyah, what is الرَّجِيْمِ?",
+          "prompt": "In ﴿فَإِذَا قَرَأْتَ الْقُرْآنَ فَاسْتَعِذْ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيْمِ﴾, what is الرَّجِيْمِ?",
           "options": [
             "A بَدَل of الشَّيْطَانِ",
             "A نَعْت of الشَّيْطَانِ",
@@ -23090,7 +23090,7 @@ export default {
         {
           "title": "Book Exercise 12 (Section 1, Part 6)",
           "kind": "mcq",
-          "prompt": "In that same sentence, what does the أَلِف on فَمَنَعَاهُ tell you?",
+          "prompt": "In بَيْنَمَا هَذَا الْوَلَدُ يَضْرِبُ أُخْتَهُ إِذْ دَخَلَ أَبُوْهُمَا وَأُمُّهُمَا الْغُرْفَةَ فَمَنَعَاهُ, what does the أَلِف on فَمَنَعَاهُ tell you?",
           "options": [
             "The verb is مَجْهُوْل",
             "The doers are dual — the father and the mother",

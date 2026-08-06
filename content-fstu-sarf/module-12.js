@@ -1242,7 +1242,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "Why does the word مِعْبَدٌ not exist in Arabic, according to the book's note?",
+          "prompt": "Why does the word مِعْبَدٌ not exist in Arabic?",
           "options": [
             "Because عَبَدَ is not a صَحِيْحٌ verb",
             "Because not every مَصْدَرٌ has an اِسْمُ الْآلَةِ that is used in standard Arabic",

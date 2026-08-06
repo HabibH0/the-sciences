@@ -370,7 +370,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "According to the book's note, which of the following is NOT one of the ways of writing a دْ followed by a ت (as in وَعَدْتَ)?",
+          "prompt": "Which of the following is NOT one of the ways of writing a دْ followed by a ت (as in وَعَدْتَ)?",
           "options": [
             "Placing a سُكُوْنٌ on the د",
             "Placing a سُكُوْنٌ on the د and a شَدَّةٌ on the ت",

@@ -4053,7 +4053,7 @@ export default {
         {
           "title": "Book Exercise 2 (p. 294)",
           "kind": "mcq",
-          "prompt": "﴿يَسُوْءُوْنَ﴾ is built on which verb of this lesson's vocab?",
+          "prompt": "﴿يَسُوْءُوْنَ﴾ is built on which verb?",
           "options": [
             "سَاءَ يَسُوْءُ سُوْءًا (أجوف ومهموز اللام, باب نصر)",
             "شَاءَ يَشَاءُ مَشِيْئَةً (باب سمع)",

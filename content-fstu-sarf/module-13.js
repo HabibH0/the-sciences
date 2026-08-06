@@ -597,7 +597,7 @@ export default {
           "explanation": "The نَ of الْغَائِبَاتُ and الْمُخَاطَبَاتُ is the feminine plural pronoun. Only the نُوْنُ الْإِعْرَابِ drops in نَصْبٌ."
         },
         {
-          "q": "According to the Note on p. 324, when does إِدْغَامٌ take place with لَنْ?",
+          "q": "When does إِدْغَامٌ take place with لَنْ?",
           "options": [
             "Between the نُوْنٌ of لَنْ and a حَرْفُ الْمُضَارِعِ of ت or أ",
             "Between the نُوْنٌ of لَنْ and a حَرْفُ الْمُضَارِعِ of ن or ي",

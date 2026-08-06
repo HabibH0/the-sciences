@@ -502,7 +502,7 @@ export default {
           "explanation": "The other two slots are non-essential and one or more of them may appear."
         },
         {
-          "q": "What does إِعْرَابٌ مَحَلِّيٌّ mean here?",
+          "q": "Grammarians call الطَّالِبِ in فَهْمُ الطَّالِبِ an إِعْرَابٌ مَحَلِّيٌّ. What does that mean?",
           "options": [
             "The noun has no case at all",
             "The noun is مَجْرُوْرٌ in form but carries the meaning of another slot",
@@ -1148,7 +1148,7 @@ export default {
         {
           "title": "Book Exercise 1 (Section 3, Supplement)",
           "kind": "mcq",
-          "prompt": "Why does the Note single out اِحْتِرَامُ الْعُلَمَاءِ?",
+          "prompt": "Unlike شُرْبُ الْخَمْرِ, the مُضَافٌ إِلَيْهِ of اِحْتِرَامُ الْعُلَمَاءِ could be read as either فَاعِلٌ or مَفْعُوْلٌ بِهِ. Why?",
           "options": [
             "Because الْعُلَمَاء is plural",
             "Because scholars can both honour and be honoured, so either reading works",
@@ -3611,7 +3611,7 @@ export default {
           "explanation": "حَرَامٌ is the خَبَرٌ; the phrase before it is the subject."
         },
         {
-          "q": "Within that phrase, what is الْخَمْرِ?",
+          "q": "Within شُرْبُ الْخَمْرِ, what is الْخَمْرِ?",
           "options": [
             "فَاعِلٌ",
             "مَفْعُوْلٌ فِيْهِ",
@@ -10087,7 +10087,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "What does Note 1 permit that the ordinary rule of إِضَافَة forbids?",
+          "q": "اَلْمُقِيْمِي الصَّلَاةِ keeps the ال on the مُضَافٌ. What does this permit that the ordinary rule of إِضَافَة forbids?",
           "options": [
             "a مُضَافٌ that keeps its ال",
             "a مُضَافٌ إِلَيْهِ with tanwīn",
@@ -10098,7 +10098,7 @@ export default {
           "explanation": "اَلْمُقِيْمِي الصَّلَاةِ keeps the ال on the first word."
         },
         {
-          "q": "Why is this exception allowed?",
+          "q": "Why is اَلْمُقِيْمِي الصَّلَاةِ allowed to keep the ال on its مُضَافٌ, against the ordinary rule?",
           "options": [
             "Because the phrase is definite",
             "Because the إِضَافَة is only formal — the second word is really the object",
@@ -10120,7 +10120,7 @@ export default {
           "explanation": "اَلْمُقِيْمُوْنَ becomes اَلْمُقِيْمِي, so the إِضَافَة is still visible."
         },
         {
-          "q": "According to Note 2, the ال before an اِسْمُ فَاعِلٍ may be…",
+          "q": "اَلْمُجْتَهِدُوْنَ can mean either 'those (particular) people' or 'anyone who strives'. So the ال before an اِسْمُ فَاعِلٍ may be…",
           "options": [
             "only specific",
             "only general",
@@ -11551,7 +11551,7 @@ export default {
           "explanation": "The إِضَافَة is a shorter way of saying اَللهُ سَرِيْعٌ حِسَابُهُ."
         },
         {
-          "q": "According to the Notes, what does this مُضَافٌ–مُضَافٌ إِلَيْهِ structure mean?",
+          "q": "In اَللهُ سَرِيْعُ الْحِسَابِ, what does this مُضَافٌ–مُضَافٌ إِلَيْهِ structure mean?",
           "options": [
             "ownership",
             "possession of a quality by a person",
@@ -12802,7 +12802,7 @@ export default {
           "explanation": "The second word is a مُضَافٌ إِلَيْهِ and stays مَجْرُوْرٌ whatever the phrase's role."
         },
         {
-          "q": "In a possessive structure, what can the مُضَافٌ be, according to the Note?",
+          "q": "In a صِفَةٌ مُشَبَّهَةٌ built as a possessive إِضَافَة (like شَدِيْدَةَ الرَّحْمَةِ), what can the مُضَافٌ itself be, in relation to the noun before it?",
           "options": [
             "the فَاعِلٌ",
             "the مَنْعُوْتٌ",
@@ -14190,7 +14190,7 @@ export default {
           "explanation": "The مُبْتَدَأٌ plays no part in the agreement."
         },
         {
-          "q": "Which rule already learned does this Note repeat?",
+          "q": "اَلْغِيْبَةُ مَنْهِيٌّ عَنْهَا stays masculine because its نَائِبُ الْفَاعِلِ is a غَيْرُ صَرِيْحٍ جَارٌّ وَمَجْرُوْرٌ. Which rule already learned does this repeat?",
           "options": [
             "the same rule for the فِعْلٌ مَجْهُوْلٌ with a غَيْرُ صَرِيْحٍ نَائِبُ الْفَاعِلِ",
             "the rule of the مُضَافٌ dropping its ال",
@@ -15563,7 +15563,7 @@ export default {
           "explanation": "The اِسْمُ التَّفْضِيْلِ slot and the فَاعِلٌ slot."
         },
         {
-          "q": "Which of these is a non-essential slot in this phrase?",
+          "q": "Which of these is a non-essential slot in an اِسْمُ التَّفْضِيْلِ verbal phrase?",
           "options": [
             "the فَاعِلٌ slot",
             "the مَفْعُوْلٌ بِهِ slot",
@@ -19845,7 +19845,7 @@ export default {
           "explanation": "The book makes the point explicitly: اَلصَّلَاة is feminine, yet أَفْضَلُ does not change."
         },
         {
-          "q": "What is بَعْدَ الْإِيْمَانِ in that sentence?",
+          "q": "In اَلصَّلَاةُ أَفْضَلُ عَمَلٍ بَعْدَ الْإِيْمَانِ, what is بَعْدَ الْإِيْمَانِ?",
           "options": [
             "the fourth slot — a مَفْعُوْلٌ فِيْهِ",
             "the مَفْعُوْلٌ بِهِ",

@@ -427,7 +427,7 @@ export default {
           "explanation": "مَنْ، مَا، أَيْنَ، مَتَى، أَيَّانَ، كَيْفَ، أَنَّى، كَمْ، أَيُّ."
         },
         {
-          "q": "What else are these nine nouns used as?",
+          "q": "Besides building conditionals, what else are the أَسْمَاءُ الشَّرْطِ (مَنْ، مَا، أَيْنَ…) commonly used as?",
           "options": [
             "أَسْمَاءُ الْمَوْصُوْلِ",
             "أَسْمَاءُ الْإِشَارَةِ",
@@ -6382,7 +6382,7 @@ export default {
           "explanation": "The جَوَاب has moved out of its reach."
         },
         {
-          "q": "What are the two labels used in the tarkeeb of this shape?",
+          "q": "In أَجْتَهِدُ إِنِ اجْتَهَدتَّ, where the جَوَاب comes before the شَرْط, what are the two tarkeeb labels used?",
           "options": [
             "شَرْطٌ and جَوَابُ الشَّرْطِ",
             "قَسَمٌ and جَوَابُ الْقَسَمِ",
@@ -6393,7 +6393,7 @@ export default {
           "explanation": "'Brought forward' and 'placed later'."
         },
         {
-          "q": "Is a فَاءٌ رَابِطَةٌ ever needed in this order?",
+          "q": "When the جَوَاب comes before the شَرْط (جَوَابُ شَرْطٍ مُقَدَّمٌ), is a فَاءٌ رَابِطَةٌ ever needed?",
           "options": [
             "Yes, always",
             "No — the فَ joins a جَوَاب that follows the شَرْط",
@@ -9269,7 +9269,7 @@ export default {
           "explanation": "'If you worked hard…' — a past form with a future sense."
         },
         {
-          "q": "What does that past tense indicate, according to the Note?",
+          "q": "In an unreal لَوْ conditional, both الشَّرْطُ and الْجَوَابُ use a مَاضٍ verb. What does that past-tense form actually indicate?",
           "options": [
             "distance from reality, not past events",
             "a completed action",
@@ -10995,7 +10995,7 @@ export default {
           "explanation": "It is an اِسْمٌ مُؤَوَّلٌ standing as the subject of the شَرْط."
         },
         {
-          "q": "What happens to the خَبَر of that مُبْتَدَأ?",
+          "q": "In لَوْ أَنَّكَ اجْتَهَدتَّ لَنَجَحْتَ, what happens to the خَبَر of the مُبْتَدَأ أَنَّكَ اجْتَهَدتَّ؟",
           "options": [
             "It is the جَوَابُ الشَّرْطِ",
             "It is hidden — مَحْذُوْفٌ",
@@ -11006,7 +11006,7 @@ export default {
           "explanation": "The book draws it as an empty box in the diagram."
         },
         {
-          "q": "In the lower rows of that diagram, what is أَنَّ called?",
+          "q": "In the deeper tarkeeb analysis of لَوْ أَنَّكَ اجْتَهَدتَّ لَنَجَحْتَ, what is أَنَّ called?",
           "options": [
             "a حَرْفٌ مَوْصُوْلٌ, with كَ اجْتَهَدتَّ as its صِلَة",
             "a حَرْفُ شَرْطٍ",
@@ -14148,7 +14148,7 @@ export default {
           "explanation": "The same wāw that introduces a حَالٌ sentence elsewhere."
         },
         {
-          "q": "What does the clause after that wāw become?",
+          "q": "In أَنْصِفُوا النَّاسَ وَلَوْ ظَلَمُوْكُمْ, what does the conditional clause after the وَاوٌ حَالِيَّةٌ become?",
           "options": [
             "a حَالٌ",
             "a نَعْتٌ",
@@ -14159,7 +14159,7 @@ export default {
           "explanation": "The whole conditional sits inside a حَال slot."
         },
         {
-          "q": "What happens to the جَوَابُ الشَّرْطِ of that inner conditional?",
+          "q": "In أَنْصِفُوا النَّاسَ وَلَوْ ظَلَمُوْكُمْ, what happens to the جَوَابُ الشَّرْطِ of the inner لَوْ conditional?",
           "options": [
             "It comes first",
             "It is مَحْذُوْفٌ — left unsaid",
@@ -14170,7 +14170,7 @@ export default {
           "explanation": "The result has already been stated at the head of the sentence."
         },
         {
-          "q": "Why is that hidden جَوَاب what produces the 'even though' sense?",
+          "q": "Why does the hidden جَوَاب of the inner لَوْ/إِنْ clause produce the 'even though' / 'even if' sense?",
           "options": [
             "Because لَوْ means 'even'",
             "Because the wāw means 'though'",
@@ -14181,7 +14181,7 @@ export default {
           "explanation": "'Even if they wronged you, [be fair to them]' — no need to say it twice."
         },
         {
-          "q": "Which meaning does وَإِنْ usually carry in this construction?",
+          "q": "After a وَاوٌ حَالِيَّةٌ (as in وَإِنْ كُنْتُ مُتَوَضِّئًا), which meaning does وَإِنْ usually carry?",
           "options": [
             "'when'",
             "'unless'",
@@ -14192,7 +14192,7 @@ export default {
           "explanation": "وَلَوْ tends towards 'even though'; وَإِنْ towards 'even if'."
         },
         {
-          "q": "Which wāw is this NOT?",
+          "q": "The وَاوٌ حَالِيَّةٌ of وَلَوْ / وَإِنْ is easy to confuse with two other wāws. Which is it NOT?",
           "options": [
             "the وَاوُ الْعَطْفِ or the وَاوُ الْقَسَمِ",
             "the وَاوُ الْحَالِيَّةُ",
@@ -15385,7 +15385,7 @@ export default {
           "explanation": "لَوْ جَلَسْتَ هُنَاكَ."
         },
         {
-          "q": "What happens to the جَوَابُ الشَّرْطِ in this use?",
+          "q": "When لَوْ جَلَسْتَ هُنَاكَ makes a polite request rather than a real condition, what happens to the جَوَابُ الشَّرْطِ?",
           "options": [
             "It takes a فَ",
             "It comes first",
@@ -15407,7 +15407,7 @@ export default {
           "explanation": "A polite request, not a statement of consequence."
         },
         {
-          "q": "What is the second use of لَوْ taught on this page?",
+          "q": "Besides a polite request, what other use of لَوْ does لَوْ لَمْ أُضَيِّعْ وَقْتِيْ show?",
           "options": [
             "a command",
             "a question",

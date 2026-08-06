@@ -6835,7 +6835,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "What does Note 1 permit?",
+          "q": "The verb of a قَسَمٌ is normally hidden, as in وَاللهِ. What does أُقْسِمُ بِاللهِ show is also permitted?",
           "options": [
             "dropping the جَوَابُ الْقَسَمِ",
             "stating the verb of the oath explicitly",

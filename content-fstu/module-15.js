@@ -2554,7 +2554,7 @@ export default {
           "explanation": "عَلَيْهِ is the خَبَرٌ مُقَدَّمٌ and دَيْنٌ the مُبْتَدَأٌ مُؤَخَّرٌ that follows it."
         },
         {
-          "q": "What distinguishes this slot from the مَجْرُوْرٌ slot of the previous lesson?",
+          "q": "اَلَّذِيْ فِيْهِ قِصَصٌ differs from اَلَّذِيْ قَرَأْتُ مِنْهُ in that:",
           "options": [
             "The عَائِدٌ is a noun rather than a pronoun",
             "The مَوْصُوْلٌ must be dual",
@@ -4122,7 +4122,7 @@ export default {
           "explanation": "Arabic verbs agree in gender but not number with a following فَاعِلٌ."
         },
         {
-          "q": "The two English renderings the book gives for that sentence differ in…",
+          "q": "The book gives two English renderings of لَمْ يَفْهَمِ الدَّرْسَ الَّذِيْنَ غَابُوْا أَمْسِ. They differ in…",
           "options": [
             "the tense of the verb",
             "which word is the object",
@@ -6264,7 +6264,7 @@ export default {
         {
           "title": "Book Exercise 1 (Section 2, Part 2)",
           "kind": "mcq",
-          "prompt": "Which of these could NOT stand as a مُشَارٌ إِلَيْهِ according to the rule the book restates here?",
+          "prompt": "A مُشَارٌ إِلَيْهِ must carry ال, or be a مَوْصُوْلٌ phrase. Which of these could NOT stand as a مُشَارٌ إِلَيْهِ?",
           "options": [
             "اَلْكِتَابُ",
             "اَلَّذِيْ جَاءَ",

@@ -11047,7 +11047,7 @@ export default {
           "explanation": "The مُضَافٌ إِلَيْهِ of the first بَعْض is translated as the subject: 'The children helped each other.'"
         },
         {
-          "q": "According to the Note, how should بَعْض be translated when the first بَعْض is NOT the فَاعِل?",
+          "q": "How should بَعْض be translated when the first بَعْض is NOT the فَاعِل?",
           "options": [
             "As 'each other' regardless",
             "As 'all of them'",
@@ -11151,7 +11151,7 @@ export default {
         {
           "title": "Book Exercise 8 (Section 1, Supplement)",
           "kind": "mcq",
-          "prompt": "Which translation fits ﴿فَضَّلَ اللّٰهُ بَعْضَهُمْ عَلَى بَعْضٍ﴾, given the Note on p. 346?",
+          "prompt": "In ﴿فَضَّلَ اللّٰهُ بَعْضَهُمْ عَلَى بَعْضٍ﴾ the first بَعْض is the مَفْعُوْلٌ بِهِ rather than the فَاعِل (اللّٰهُ is). Which translation fits?",
           "options": [
             "Allah preferred them to each other.",
             "Allah preferred some of them over others.",

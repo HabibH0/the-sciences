@@ -4269,7 +4269,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "Which بَابٌ has NO مَهْمُوْزٌ verb in this lesson (its row is left blank in the unit Summary)?",
+          "prompt": "Of Forms II, III, IV, V, VI, VIII and X, which بَابٌ has NO مَهْمُوْزٌ verb example (its row is left blank in the unit Summary)?",
           "options": [
             "اِنْفِعَال (VII)",
             "تَفَاعُل (VI)",

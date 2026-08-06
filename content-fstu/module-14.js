@@ -316,7 +316,7 @@ export default {
           "explanation": "Arabic has no word for 'who' here, so the link is carried by a pronoun inside the sentence."
         },
         {
-          "q": "What must be true of the مَنْعُوْت in this construction?",
+          "q": "What must be true of the مَنْعُوْت of a نَعْتٌ that is itself a whole sentence (e.g. رَجُلٌ سَقَطَ)?",
           "options": [
             "It must be نَكِرَة",
             "It must be مَعْرِفَة",
@@ -349,7 +349,7 @@ export default {
           "explanation": "A فَاعِل عَائِد gives 'who fell'; a مَفْعُوْلٌ بِهِ عَائِد gives 'whom I saw'."
         },
         {
-          "q": "In the four-step method, what happens at step 3?",
+          "q": "When رَجُلٌ رَأَيْتُهُ is translated as 'a man whom I saw', what happens to the translation of the عَائِد (هُ)?",
           "options": [
             "The مَنْعُوْت is added",
             "The relative pronoun is added",
@@ -3849,7 +3849,7 @@ export default {
           "explanation": "It carries the possessive relationship of the إِضَافَة."
         },
         {
-          "q": "Does it matter whether the referent is a person or a thing in this case?",
+          "q": "When the عَائِد is a مُضَافٌ إِلَيْهِ (translated 'whose'), does it matter whether the referent is a person or a thing?",
           "options": [
             "No — 'whose' serves for both",
             "Yes — 'whose' for a person, 'of which' for a thing",
@@ -4921,7 +4921,7 @@ export default {
         {
           "title": "Book Exercise 3 (Section 1, Part 7)",
           "kind": "mcq",
-          "prompt": "What distinguishes this lesson's عَائِد from the previous lesson's?",
+          "prompt": "How does an عَائِد that is a مُضَافٌ إِلَيْهِ differ from one that is a مَفْعُوْلٌ بِهِ?",
           "options": [
             "It is attached to a noun rather than to a verb",
             "It is always hidden",
@@ -5800,7 +5800,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "Which two slots does this lesson group together?",
+          "q": "Which two عَائِد slots does the book group together as behaving alike in English?",
           "options": [
             "The فَاعِل and the مَفْعُوْلٌ بِهِ",
             "The مَجْرُوْر of a حَرْفُ جَرٍّ and the مُضَافٌ إِلَيْهِ of a ظَرْف",
@@ -5833,7 +5833,7 @@ export default {
           "explanation": "مِنْ is a حَرْفُ جَرٍّ; مَعَ is a ظَرْف and takes a مُضَافٌ إِلَيْهِ."
         },
         {
-          "q": "In the book's Note, why does the preposition vanish in كِتَابٌ كَفَرُوْا بِهِ?",
+          "q": "Why does the preposition vanish in the English translation of كِتَابٌ كَفَرُوْا بِهِ?",
           "options": [
             "Because بِ is always dropped",
             "Because the جَارّ وَمَجْرُوْر is the verb's object, and English 'reject' needs no preposition",
@@ -6990,7 +6990,7 @@ export default {
         {
           "title": "Book Exercise 4 (Section 1, Part 7)",
           "kind": "mcq",
-          "prompt": "Which of the book's Exercise 4 phrases follows the Note rather than the main rule?",
+          "prompt": "The Note says that when the جَارّ وَمَجْرُوْر is the verb's own object, translate the عَائِد as a plain object instead of keeping the preposition. Which of these phrases follows that Note rather than the main rule?",
           "options": [
             "بَيْتٌ نَطُوْفُ بِهِ",
             "رَبٌّ لَا نُشْرِكُ بِهِ",
@@ -7756,7 +7756,7 @@ export default {
           "explanation": "The جَارّ وَمَجْرُوْر عَلَيْهِ is the fronted خَبَر, and دَيْنٌ the delayed مُبْتَدَأ."
         },
         {
-          "q": "Why is the خَبَر brought forward in this construction?",
+          "q": "In رَجُلٌ عَلَيْهِ دَيْنٌ, why is the خَبَر (عَلَيْهِ) brought forward before the مُبْتَدَأ (دَيْنٌ)?",
           "options": [
             "Because the عَائِد must come first",
             "Because an indefinite مُبْتَدَأ cannot open a sentence",
@@ -7767,7 +7767,7 @@ export default {
           "explanation": "دَيْنٌ, قِصَصٌ and مَالٌ are all نَكِرَة, so the order is forced."
         },
         {
-          "q": "What does step 3 do in this lesson's method?",
+          "q": "In رَجُلٌ عَلَيْهِ دَيْنٌ ('a man who has a loan on him'), what does the translation method do instead of removing the عَائِد's translation?",
           "options": [
             "Removes the translation of the عَائِد",
             "Adds the relative pronoun",
@@ -10025,7 +10025,7 @@ export default {
         {
           "title": "Book Exercise 6 (Section 1, Part 7)",
           "kind": "mcq",
-          "prompt": "In that same phrase, what does مِنْ خَشْيَةِ اللهِ express?",
+          "prompt": "In صُلَحَاءُ تَفِيْضُ أَعْيُنُهُمْ دُمُوْعًا مِنْ خَشْيَةِ اللهِ, what does مِنْ خَشْيَةِ اللهِ express?",
           "options": [
             "The place of the overflowing",
             "The time of the overflowing",

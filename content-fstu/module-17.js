@@ -5586,7 +5586,7 @@ export default {
           "explanation": "كَيْ is a governing حَرْفٌ مَوْصُوْلٌ, like أَنْ."
         },
         {
-          "q": "What does the Note add about كَيْ?",
+          "q": "Besides governing a plain مُضَارِعٌ, what else can كَيْ do?",
           "options": [
             "It can be replaced by حَتَّى",
             "It can be preceded by لِ or followed by لَا",
@@ -7288,7 +7288,7 @@ export default {
           "explanation": "ذَهَبْتُ إِلَى الْمَسْجِدِ لِئَلَّا يَفُوْتَنِيْ أَجْرُ الْجَمَاعَةِ."
         },
         {
-          "q": "What does Note 4 say may be removed?",
+          "q": "In لِئَلَّا يَفُوْتَنِيْ أَجْرُ الْجَمَاعَةِ, what part can sometimes be dropped, when context makes the negative clear?",
           "options": [
             "the لِ",
             "the أَنْ",
@@ -7299,7 +7299,7 @@ export default {
           "explanation": "أَنْ يَفُوْتَنِيْ still carries the sense 'lest I miss out'."
         },
         {
-          "q": "In this Part, حَتَّى expresses…",
+          "q": "In أَقْرَأُ … حَتَّى أَعْرِفَ رَسُوْلَ اللهِ, حَتَّى + مُضَارِعٌ مَنْصُوْبٌ expresses…",
           "options": [
             "a purpose as well as a time limit",
             "a time limit only",
@@ -10428,7 +10428,7 @@ export default {
           "explanation": "'As the reciters recite' says how the reciting was done."
         },
         {
-          "q": "Which حَرْفٌ مَوْصُوْلٌ is used in this construction?",
+          "q": "In the مِثْلَ مَا / كَمَا comparison (e.g. كَمَا يَقْرَأُ الْقُرَّاءُ), which حَرْفٌ مَوْصُوْلٌ is used?",
           "options": [
             "أَنْ",
             "أَنَّ",
@@ -12011,7 +12011,7 @@ export default {
           "explanation": "'Unless' usually reads better in English, since a whole clause follows."
         },
         {
-          "q": "What is the مُسْتَثْنَى مِنْهُ in this construction?",
+          "q": "In إِلَّا أَنْ يَكُوْنَ مَرِيْضًا, what is the مُسْتَثْنَى مِنْهُ?",
           "options": [
             "the مَفْعُوْلٌ بِهِ",
             "the فَاعِلٌ",
@@ -13558,7 +13558,7 @@ export default {
           "explanation": "It restricts the statement to one thing rather than excepting one case from it."
         },
         {
-          "q": "How is this restriction rendered in English?",
+          "q": "How is the حَصْرٌ of لَا أَرْجُوْ إِلَّا أَنْ يَغْفِرَ اللهُ لِيْ rendered in English?",
           "options": [
             "by 'except' after the verb",
             "by adding 'only', 'the only thing' or 'all that' at the start",
@@ -15047,7 +15047,7 @@ export default {
           "explanation": "The adverb is the مُضَافٌ and the whole clause its possessor."
         },
         {
-          "q": "Which two particles can build the unit here?",
+          "q": "For an adverb like قَبْلَ or بَعْدَ joined to a حَرْفٌ مَوْصُوْلٌ (e.g. قَبْلَ أَنْ / بَعْدَ مَا), which two particles can build the اِسْمٌ مُؤَوَّلٌ unit?",
           "options": [
             "أَنَّ and كَيْ",
             "لِ and حَتَّى",
