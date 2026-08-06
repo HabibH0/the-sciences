@@ -1603,7 +1603,7 @@ export default {
           "explanation": "'Do not disbelieve, you will enter Jannah.'"
         },
         {
-          "q": "What state is its verb in?",
+          "q": "What state is the verb of the جَوَابُ النَّهْيِ WITHOUT a فَ in?",
           "options": [
             "مَرْفُوْعٌ",
             "مَنْصُوْبٌ",
@@ -2885,7 +2885,7 @@ export default {
           "explanation": "It is a warning, not a promise."
         },
         {
-          "q": "What state is its verb in?",
+          "q": "What state is the verb of the جَوَابُ النَّهْيِ WITH a فَ in?",
           "options": [
             "مَجْزُوْمٌ",
             "مَرْفُوْعٌ",
@@ -5139,7 +5139,7 @@ export default {
         {
           "title": "Book Summary table (Unit 6, Part 4, p. 592)",
           "kind": "mcq",
-          "prompt": "Which of the three rows describes لَا تَكْسَلْ فَتَنْدَمَ?",
+          "prompt": "Which of these describes لَا تَكْسَلْ فَتَنْدَمَ?",
           "options": [
             "أَمْر, result of adhering",
             "نَهْي, result of adhering",
@@ -5750,7 +5750,7 @@ export default {
           "explanation": "It is comparable to a مَفْعُوْلٌ لَهُ, but as a whole sentence rather than a single word."
         },
         {
-          "q": "Which construction from an earlier unit does it resemble?",
+          "q": "Which construction from an earlier unit does a جُمْلَةٌ تَعْلِيْلِيَّةٌ resemble?",
           "options": [
             "the مَفْعُوْلٌ مُطْلَق",
             "the حَال",
@@ -10665,7 +10665,7 @@ export default {
         {
           "title": "Book Summary (Unit 6, Part 5, p. 597)",
           "kind": "mcq",
-          "prompt": "Which row of the summary does اِتَّقُوا اللهَ لَعَلَّكُمْ تُفْلِحُوْنَ belong to?",
+          "prompt": "Which pattern does اِتَّقُوا اللهَ لَعَلَّكُمْ تُفْلِحُوْنَ follow?",
           "options": [
             "Without Additions, Action – Reason",
             "With لَعَلَّ, Action – Reason",
@@ -10678,7 +10678,7 @@ export default {
         {
           "title": "Book Summary (Unit 6, Part 5, p. 597)",
           "kind": "mcq",
-          "prompt": "Which row does اللهُ رَبِّيْ وَرَبُّكُمْ فَاعْبُدُوْهُ belong to?",
+          "prompt": "Which pattern does اللهُ رَبِّيْ وَرَبُّكُمْ فَاعْبُدُوْهُ follow?",
           "options": [
             "With فَ, Reason – Action",
             "With فَ, Action – Reason",
@@ -11292,7 +11292,7 @@ export default {
           "explanation": "Hence the name اِسْتِدْرَاك — 'setting straight'."
         },
         {
-          "q": "How is it translated?",
+          "q": "How is a جُمْلَةٌ اسْتِدْرَاكِيَّةٌ translated?",
           "options": [
             "'because', 'for'",
             "'so that', 'perhaps'",
@@ -12727,7 +12727,7 @@ export default {
           "explanation": "And in the exercises the wāw is present far more often than not."
         },
         {
-          "q": "According to the Part 6 summary, what are the two rows?",
+          "q": "What is the two-way grammatical distinction between لٰكِنَّ and لٰكِنْ?",
           "options": [
             "لٰكِنَّ as a حَرْفٌ مُشَبَّهٌ بِالْفِعْلِ, and لٰكِنْ as a حَرْفُ عَطْفٍ",
             "لٰكِنَّ for the past and لٰكِنْ for the present",

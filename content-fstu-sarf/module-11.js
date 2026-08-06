@@ -947,7 +947,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "The مَصْدَرٌ of رَأَى given in the table is…",
+          "prompt": "The مَصْدَرٌ of رَأَى is…",
           "options": [
             "رُؤْيَةً",
             "رَأْيًا",
@@ -999,7 +999,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "The اِسْمُ الْمَفْعُوْلِ of بَاعَ given in the table is…",
+          "prompt": "The اِسْمُ الْمَفْعُوْلِ of بَاعَ is…",
           "options": [
             "مَبِيْعٌ",
             "مَبْيُوْعٌ",
@@ -2403,7 +2403,7 @@ export default {
         {
           "title": "Lesson content",
           "kind": "mcq",
-          "prompt": "The مَصْدَرٌ of اِسْتَقَامَ given in the table is…",
+          "prompt": "The مَصْدَرٌ of اِسْتَقَامَ is…",
           "options": [
             "اِسْتِقَامَةً",
             "اِسْتِقْوَامًا",

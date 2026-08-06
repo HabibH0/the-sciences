@@ -3643,7 +3643,7 @@ export default {
           "explanation": "يَا رَجُلُ — one ḍammah, never two."
         },
         {
-          "q": "Why is اَللّٰهُمَّ listed in the حَرْفُ النِّدَاءِ row of the table?",
+          "q": "Why is اَللّٰهُمَّ itself classified as a حَرْفُ النِّدَاءِ (alongside يَا، أَيُّهَا، أَيَّتُهَا)?",
           "options": [
             "Because it is a particle",
             "Because it always needs a يَا",

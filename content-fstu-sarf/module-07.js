@@ -7957,7 +7957,7 @@ export default {
           "explanation": "يَتَلَقَّى and يَتَلَاقَى end in an أَلِفٌ. All six other verbs end in a يَاءٌ: يُصَلِّيْ، يُنَادِيْ، يُبْقِيْ، يَنْقَضِيْ، يَبْتَلِيْ، يَسْتَعْلِيْ."
         },
         {
-          "q": "Which column of the review is left completely blank?",
+          "q": "اِنْقَضَى (بَاب اِنْفِعَال) is لَازِمٌ. Which of these is entirely missing for it as a result?",
           "options": [
             "الْمَاضِيْ الْمَجْهُوْلُ and الْمُضَارِعُ الْمَجْهُوْلُ of اِنْقَضَى",
             "اَلْأَمْرُ of اِنْقَضَى",

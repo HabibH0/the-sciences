@@ -3882,7 +3882,7 @@ export default {
           "explanation": "The adjustment produces natural English without changing the analysis."
         },
         {
-          "q": "Why is it recommended to do the four steps before adjusting?",
+          "q": "Why is it recommended to do the four translation steps before adjusting the English into something more natural?",
           "options": [
             "Because the adjustment is optional",
             "Because the literal version keeps the مُبْتَدَأ and خَبَر visible",
@@ -9182,7 +9182,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "Which row of the summary table uses the same relative pronoun for humans and non-humans?",
+          "q": "Of the five نَعْتٌ-sentence عَائِد slots (فَاعِلٌ، مَفْعُوْلٌ بِهِ، مُضَافٌ إِلَيْهِ، مَجْرُوْرٌ، خَبَرٌ مُقَدَّمٌ), which one uses the same relative pronoun for humans and non-humans?",
           "options": [
             "فَاعِلٌ",
             "مَفْعُوْلٌ بِهِ",
@@ -9193,7 +9193,7 @@ export default {
           "explanation": "'whose' serves for people and things alike."
         },
         {
-          "q": "What is constant across every row of the table?",
+          "q": "What is constant across all five نَعْتٌ-sentence عَائِد slots?",
           "options": [
             "The relative pronoun",
             "The verb tense",

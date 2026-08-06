@@ -3108,7 +3108,11 @@ select.schedule-input {
   display: grid;
   gap: 8px 10px;
   align-items: stretch;
-  justify-content: center;
+  /* "safe center": centers short sentences that fit, but falls back to
+     start-alignment once the grid overflows its scrollable box -- plain
+     "center" here left both ends of a long sentence cut off with the
+     default scroll position stranded in the unreachable middle. */
+  justify-content: safe center;
   padding: 20px 16px;
   background: var(--paper-deep);
   border-radius: 8px;

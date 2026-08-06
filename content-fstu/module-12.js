@@ -2988,7 +2988,7 @@ export default {
         {
           "title": "Book Exercise 5 (Section 1, Part 1 Supplement)",
           "kind": "mcq",
-          "prompt": "In كَانَ رَسُوْلُ اللّٰهِ ﷺ يَخْطُبُ قَائِمًا, what is قَائِمًا?",
+          "prompt": "In كَانَ رَسُوْلُ اللّٰهِ ﷺ يَخْطُبُ قَائِمًا, what role does the final word play?",
           "options": [
             "خَبَرُ كَانَ",
             "A حَال describing the state of the subject while delivering the sermon",
@@ -6811,7 +6811,7 @@ export default {
       },
       "quiz": [
         {
-          "q": "Which two verbs take their quotation with no additions?",
+          "q": "Which two قَوْل-type verbs take their quoted sentence with no أَنْ التَّفْسِيْرِيَّةُ or other particle at all?",
           "options": [
             "أَوْحَى and نَادَى",
             "قَالَ and سَأَلَ",
@@ -6833,7 +6833,7 @@ export default {
           "explanation": "نَادَيْتُ أَنِ انْصُرْنِيْ."
         },
         {
-          "q": "What is the difference between the quoted words in the two rows of the table?",
+          "q": "قُلْتُ: اُنْصُرْنِيْ and نَادَيْتُ أَنِ انْصُرْنِيْ quote the same words. What is the difference between the two quotations themselves?",
           "options": [
             "There is none — only the particle before them differs",
             "The second row's verb becomes مَنْصُوْب",

@@ -63,8 +63,22 @@ const CONNECTOR = ' \\t\\u200f:\\-\\u2013/+';
 const AR_WORD = `[${AR}](?:[${AR}${CONNECTOR}]*[${AR}])?`;
 const AR_RUN = new RegExp(`\\(${AR_WORD}\\)|${AR_WORD}`, 'g');
 
+// RLI/PDI (U+2067/U+2069): real Unicode bidi-isolate control characters,
+// not just the CSS approximation (unicode-bidi: isolate on .ar/bdi below).
+// Confirmed by direct testing: when the same word appears twice in one
+// string -- once as the trailing word of a multi-word Arabic run, once
+// again later as its own run (e.g. "In كَانَ رَسُوْلُ اللّٰهِ يَخْطُبُ
+// قَائِمًا, what is قَائِمًا?") -- Chromium's bidi reordering for
+// CSS-isolated spans corrupts word order WITHIN the first run, silently
+// swapping قَائِمًا to the front ("In قَائِمًا كَانَ..."). The literal
+// Unicode isolate characters don't have this bug, even wrapped in the same
+// span/dir="auto" markup, so they're added here as the real isolation
+// mechanism; the CSS property stays as a harmless second layer.
+const RLI = '\u2067';
+const PDI = '\u2069';
+
 export function isolateArabic(text) {
-  return String(text ?? '').replace(AR_RUN, (run) => `<span class="ar" dir="auto">${run}</span>`);
+  return String(text ?? '').replace(AR_RUN, (run) => `<span class="ar" dir="auto">${RLI}${run}${PDI}</span>`);
 }
 
 // esc() plus isolation -- for plain strings that mix English and Arabic.

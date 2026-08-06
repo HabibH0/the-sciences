@@ -17646,7 +17646,7 @@ export default {
           "explanation": "The فَ marks the seam between the fronted adverbial and the rest of the sentence."
         },
         {
-          "q": "With which kind of verb is it most common?",
+          "q": "With which kind of main verb is the فَاءٌ رَابِطَةٌ most common?",
           "options": [
             "فِعْلٌ أَمْرٌ",
             "فِعْلٌ مَاضٍ",
@@ -19904,7 +19904,7 @@ export default {
           "explanation": "In tarkib that فَ is labelled a حَرْفُ عَطْفٍ."
         },
         {
-          "q": "What kind of sentence must follow it?",
+          "q": "What kind of sentence must follow إِذَا الْفُجَائِيَّةُ?",
           "options": [
             "A جُمْلَةٌ فِعْلِيَّةٌ with a مَاضٍ verb",
             "A جُمْلَةٌ فِعْلِيَّةٌ with a مُضَارِع verb",
@@ -26015,7 +26015,7 @@ export default {
           "explanation": "The noun after them is then مَجْرُوْر, and the green row reads جَارٌّ / مَجْرُوْرٌ."
         },
         {
-          "q": "How are they translated when followed by an indefinite word?",
+          "q": "How are مُذْ and مُنْذُ translated when followed by an indefinite word?",
           "options": [
             "'since'",
             "'when'",
@@ -26026,7 +26026,7 @@ export default {
           "explanation": "مُذْ يَوْمَيْنِ — 'for two days'. An indefinite noun names a length of time."
         },
         {
-          "q": "How are they translated when followed by the name of a day?",
+          "q": "How are مُذْ and مُنْذُ translated when followed by the name of a day?",
           "options": [
             "'since'",
             "'for'",

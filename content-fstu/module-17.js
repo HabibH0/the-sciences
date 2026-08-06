@@ -17400,7 +17400,7 @@ export default {
         {
           "title": "Book Summary (Section 3, p. 533)",
           "kind": "mcq",
-          "prompt": "Which two examples in the table both fill the مَفْعُوْلٌ لَهُ slot but differ in mood?",
+          "prompt": "Which two of these اِسْمٌ مُؤَوَّلٌ examples both fill the مَفْعُوْلٌ لَهُ slot but differ in mood?",
           "options": [
             "كَيْ يَهْدُوا and لِتُصَلُّوْا",
             "لِتُصَلُّوْا and لِأَنَّهُ خَلَقَنِيْ",
@@ -17413,7 +17413,7 @@ export default {
         {
           "title": "Book Summary (Section 3, p. 533)",
           "kind": "mcq",
-          "prompt": "Which slot has the most entries in the table?",
+          "prompt": "Across all the اِسْمٌ مُؤَوَّلٌ slots this Section covers, which one(s) have the most possible particles/forms?",
           "options": [
             "مَفْعُوْلٌ بِهِ",
             "فَاعِلٌ",
