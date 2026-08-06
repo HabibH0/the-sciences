@@ -573,14 +573,18 @@ function prepPracticeQuestion(key) {
 // 'revision', 'path') -- Revision Mode and My Path deliberately read and
 // write this SAME store rather than keeping a separate "last seen" memory,
 // so answering a question here also resets its due countdown everywhere else.
-function recordPracticeAnswer(key, title, pass) {
+// `label` is what the end-of-session review row shows for this question --
+// the question's own text (prompt/sentence), never entry.item's "title"
+// field, which is an internal book/page/exercise citation for content
+// authoring and was never meant to reach a learner's screen.
+function recordPracticeAnswer(key, label, pass) {
   const h = state.practiceHistory[key] || { timesSeen: 0, timesWrong: 0 };
   h.timesSeen += 1;
   if (!pass) h.timesWrong += 1;
   h.lastSeen = Date.now();
   h.lastCorrect = pass;
   state.practiceHistory[key] = h;
-  state.practice.log.push({ key, title, correct: pass });
+  state.practice.log.push({ key, title: label, correct: pass });
   if (pass) {
     state.practiceCorrectTotal = (state.practiceCorrectTotal || 0) + 1;
     checkPracticeVolumeBadges(state);
@@ -1214,7 +1218,7 @@ const actions = {
     p.selected = selected;
     p.submitted = true;
     p.correct = pass;
-    recordPracticeAnswer(key, entry.title, pass);
+    recordPracticeAnswer(key, entry.item.prompt, pass);
     if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
       if (node) recordPathRepAnswer(key, entry.item.kind, pass, node);
@@ -1718,7 +1722,7 @@ const actions = {
     // p.kind === 'tarkeeb' guard -- see selectPracticeOption's matching
     // comment on why a My Path revision node needs this.
     if (p && p.queue[p.index] === key) {
-      recordPracticeAnswer(key, entry.title, allPass);
+      recordPracticeAnswer(key, entry.item.sentence, allPass);
       if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);

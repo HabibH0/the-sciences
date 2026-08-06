@@ -1804,7 +1804,6 @@ function practiceHtml(state, MODULES) {
         <p class="lede">Question ${p.index + 1} of ${p.queue.length} ${p.combo > 1 ? `<span class="tag tag-accent">Combo ×${p.combo}</span>` : ''}</p>
         ${progressBar(progressPct)}
         <div class="card exercise-card" data-anim-key="practice:${p.startedAt}:${p.index}">
-          <div class="card-kicker">${escBidi(entry.title)}</div>
           ${body}
           ${cornerBracketsHtml()}
         </div>
@@ -1835,7 +1834,6 @@ function practiceHtml(state, MODULES) {
           <span class="quiz-gamify-stat">${icon('star', 14, 1.8)} ${p.xpGained || 0} XP</span>
         </div>
         <div class="card-kicker" style="text-align:center;">Question ${p.index + 1} of ${p.queue.length}</div>
-        ${entry.item.kind === 'mcq' && entry.title ? `<div class="card-kicker" style="text-align:center;">${escBidi(entry.title)}</div>` : ''}
         <h2>${escBidi(entry.item.prompt)}</h2>
         ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', animScope: scope, order: state.optionOrder[key] })}
         ${feedback}
