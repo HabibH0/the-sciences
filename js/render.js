@@ -35,8 +35,6 @@ import {
   getModule,
   courseUnlockTestPool,
   moduleSkipTestPool,
-  moduleSkipTestSourceModules,
-  MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
 import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
@@ -604,10 +602,8 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
     // land in row 1 is a real-layout question, not something this string
     // render can know (auto-fit column count depends on window width, and
     // courses vary in how many modules share a first heading).
-    // A locked module can still be skipped to early via its own unlock
-    // test (see moduleSkipTestPool) -- same "locked card opens the unlock
-    // prompt instead of just sitting disabled" treatment as a locked course
-    // card on the launch screen.
+    // A locked module opens a confirmation prompt instead of just sitting
+    // disabled, matching locked course/path cards without writing progress.
     const clickAttrs = unlocked
       ? `data-action="openModule" data-module-id="${escAttr(m.id)}"`
       : `data-action="openUnlockPrompt" data-target-type="module" data-target-id="${escAttr(m.id)}"`;
@@ -621,7 +617,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
         <p class="chapter-card-body">${escBidi(m.blurb)}</p>
         <div class="chapter-card-footer">
           <span class="chapter-card-track"><span class="chapter-card-fill" style="width:${m.lessons.length ? Math.round((done / m.lessons.length) * 100) : 0}%"></span></span>
-          <span class="chapter-card-meta">${done} of ${m.lessons.length}</span>
+          <span class="chapter-card-meta">${unlocked ? `${done} of ${m.lessons.length}` : 'Unlock module'}</span>
         </div>
       </button>`;
   }).join('');
@@ -798,10 +794,8 @@ function forceUnlockPromptHtml(state) {
 // --- Advanced-course/path/module unlock prompt -----------------------------
 // Opened from a locked launch-screen course card, a locked My Path
 // advanced-track card, or a locked module's dashboard card (all use
-// data-action="openUnlockPrompt", see the actions in js/main.js). Advanced
-// courses/path are now direct, confirmed access overrides; locked modules
-// still offer a skip-ahead test because that flow backfills earlier lessons
-// inside the same course.
+// data-action="openUnlockPrompt", see the actions in js/main.js). These are
+// direct, confirmed access overrides; they do not mark progress complete.
 function unlockPromptLabel(state) {
   const p = state.unlockPrompt;
   if (!p) return null;
@@ -825,11 +819,10 @@ function unlockPromptLabel(state) {
   }
   const mod = getModule(p.id);
   if (!mod) return null;
-  const sourceNames = moduleSkipTestSourceModules(p.id).map((m) => m.title).join(' and ');
   return {
     name: mod.title, message: 'Locked until the previous module is complete.',
-    pool: moduleSkipTestPool(p.id), length: MODULE_SKIP_TEST_LENGTH,
-    sourceDescription: sourceNames || 'the modules before it',
+    directUnlock: true,
+    noun: 'module',
   };
 }
 
@@ -856,13 +849,16 @@ function unlockPromptHtml(state) {
   const label = unlockPromptLabel(state);
   if (!label) return '';
   if (label.directUnlock) {
+    const consequence = label.noun === 'module'
+      ? 'It does not mark previous modules or lessons complete.'
+      : `It does not mark any lessons complete, award badges, or unlock the matching advanced ${label.noun === 'path' ? 'courses' : 'path'}.`;
     return `
     <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
       <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" aria-label="Unlock ${escAttr(label.noun)}">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
         <h3 class="unlock-modal-title">Unlock ${esc(label.name)}?</h3>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
-        <p class="unlock-modal-sub">This opens only this ${esc(label.noun)}. It does not mark any lessons complete, award badges, or unlock the matching advanced ${label.noun === 'path' ? 'courses' : 'path'}.</p>
+        <p class="unlock-modal-sub">This opens only this ${esc(label.noun)}. ${esc(consequence)}</p>
         <div class="unlock-modal-buttons">
           <button class="ds-btn ds-btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
           <button class="ds-btn ds-btn-primary" data-action="confirmIndividualUnlock">Unlock ${esc(label.noun)}</button>

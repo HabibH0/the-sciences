@@ -814,11 +814,9 @@ function completePreviousModulesInCourse(targetModuleId) {
   }
 }
 
-// Module skip-ahead unlock test: passes at UNLOCK_TEST_PASS_RATIO, writing
-// to unlockedModules and backfilling that course's earlier lessons as
-// complete (see completePreviousModulesInCourse) rather than leaving a gap.
-// Advanced course/path unlocks no longer use tests; those are direct,
-// confirmed access overrides handled by confirmIndividualUnlock below.
+// Legacy module skip-ahead unlock test support. New module unlocks are
+// direct confirmations handled by confirmIndividualUnlock below, but this
+// remains as a safe resolver for any already-running unlock-test session.
 function finalizeUnlockTest() {
   const p = state.practice;
   const total = p.log.length;
@@ -1217,17 +1215,21 @@ const actions = {
   closeUnlockPrompt() {
     state.unlockPrompt = null;
   },
-  // Advanced courses/path are direct confirmed unlocks. Locked modules keep
-  // the old skip-ahead test because that one backfills earlier lessons in
-  // the same course.
+  // Course/path/module locks are direct confirmed unlocks. This writes only
+  // the chosen item's own override flag; it never marks lessons complete or
+  // backfills earlier modules.
   confirmIndividualUnlock() {
     const p = state.unlockPrompt;
-    if (!p || (p.type !== 'course' && p.type !== 'track')) return false;
+    if (!p || !['course', 'track', 'module'].includes(p.type)) return false;
     if (p.type === 'course') state.unlockedCourses[p.id] = true;
-    else state.unlockedTracks[p.id] = true;
+    else if (p.type === 'track') state.unlockedTracks[p.id] = true;
+    else state.unlockedModules[p.id] = true;
     state.unlockPrompt = null;
     queueAutoUpload('direct-unlock');
   },
+  // Legacy path for already-running module skip-ahead unlock tests. The
+  // current UI no longer starts new ones; module cards use
+  // confirmIndividualUnlock instead.
   // Builds the module skip-ahead unlock test's pool (see
   // moduleSkipTestPool) and enters it as an ordinary graded practice
   // session (source: 'unlockTest') -- passing it at UNLOCK_TEST_PASS_RATIO
