@@ -1,22 +1,9 @@
 import { exportProgress, importProgress } from './storageManager.js';
 
-const BACKEND_URL_KEY = 'the-sciences-backend-url';
 const DEFAULT_BACKEND_URL = 'https://the-sciences.onrender.com';
 
 export function getBackendUrl() {
-  return (
-    localStorage.getItem(BACKEND_URL_KEY)
-    || globalThis.THE_SCIENCES_BACKEND_URL
-    || DEFAULT_BACKEND_URL
-  ).replace(/\/$/, '');
-}
-
-export function setBackendUrl(url) {
-  const cleaned = (url || '').trim().replace(/\/$/, '');
-  if (cleaned) localStorage.setItem(BACKEND_URL_KEY, cleaned);
-  else localStorage.removeItem(BACKEND_URL_KEY);
-  globalThis.THE_SCIENCES_BACKEND_URL = cleaned || DEFAULT_BACKEND_URL;
-  return getBackendUrl();
+  return (globalThis.THE_SCIENCES_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, '');
 }
 
 async function request(path, options = {}) {

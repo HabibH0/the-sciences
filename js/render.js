@@ -2938,31 +2938,19 @@ function accountHtml(state) {
   const account = state.account || {};
   const working = account.status === 'working';
   const signedIn = !!account.user;
-  const backendUrl = account.backendUrl || '';
   const message = account.message
     ? `<div class="account-message" role="status">${esc(account.message)}</div>`
     : '';
 
   return `
-    <div class="settings-page account-page">
-      <div class="settings-col">
+    <div class="account-page">
+      <div class="account-card">
         <span class="settings-kicker">Account</span>
-        <h1 class="settings-title">Sync across devices</h1>
-        <p class="settings-lede">Use the app offline on any device, then sign in to sync progress through your Render backend.</p>
+        <h1 class="settings-title">${signedIn ? 'Your account' : 'Sign in'}</h1>
+        <p class="settings-lede">${signedIn ? 'Your progress is connected to your account.' : 'Sign in or create an account to sync your progress across devices.'}</p>
 
         <hr class="settings-hr">
 
-        <h2 class="settings-group-title">Sync server</h2>
-        <p class="settings-group-sub">The default sync server is already set. Change this only if you are testing another backend.</p>
-        <label class="account-label" for="account-backend-url">Advanced server override</label>
-        <div class="account-row">
-          <input id="account-backend-url" class="schedule-input account-input" type="url" value="${escAttr(backendUrl)}" placeholder="https://your-service.onrender.com">
-          <button class="ds-btn ds-btn-secondary" data-action="saveBackendUrl" ${working ? 'disabled' : ''}>Save</button>
-        </div>
-
-        <hr class="settings-hr">
-
-        <h2 class="settings-group-title">${signedIn ? 'Signed in' : 'Login'}</h2>
         ${signedIn ? `
           <div class="account-signed-in">
             <span class="settings-group-sub">Current account</span>
@@ -2983,17 +2971,6 @@ function accountHtml(state) {
           </div>`}
         ${message}
       </div>
-
-      <aside class="settings-col account-rail">
-        <span class="settings-kicker">Offline first</span>
-        <h2 class="settings-group-title">No account required</h2>
-        <p class="settings-group-sub">Progress is saved locally first. Sync only copies that save to your account when the backend is reachable.</p>
-        <div class="account-facts">
-          <div><strong>Desktop</strong><span>%APPDATA%\\The Sciences\\save-data.json</span></div>
-          <div><strong>Browser</strong><span>localStorage: the-sciences-progress</span></div>
-          <div><strong>Cloud</strong><span>Render backend /api/progress</span></div>
-        </div>
-      </aside>
     </div>`;
 }
 

@@ -47,7 +47,7 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, todayISO } from './persistence.js';
-import { getBackendUrl, setBackendUrl, register, login, logout, me, syncProgress } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, syncProgress } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -1453,11 +1453,6 @@ const actions = {
     state.accent = 'gold';
     state.arabicFace = 'naskh';
     state.kufiHeadings = false;
-  },
-  saveBackendUrl() {
-    const input = document.getElementById('account-backend-url');
-    state.account.backendUrl = setBackendUrl(input?.value || '');
-    state.account.message = input?.value ? 'Backend URL saved.' : 'Using the default sync server.';
   },
   async registerAccount() {
     const email = document.getElementById('account-email')?.value || '';
