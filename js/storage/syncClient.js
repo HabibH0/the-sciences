@@ -59,6 +59,12 @@ export async function pushRemoteProgress(data) {
   });
 }
 
+export async function uploadLocalProgress() {
+  const local = await exportProgress();
+  await pushRemoteProgress(local);
+  return { synced: true, direction: 'upload', reason: 'manual-upload' };
+}
+
 function objectHasEntries(value) {
   return !!value && typeof value === 'object' && Object.keys(value).length > 0;
 }

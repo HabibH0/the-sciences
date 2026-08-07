@@ -2958,6 +2958,7 @@ function accountHtml(state) {
           </div>
           <div class="account-actions">
             <button class="ds-btn ds-btn-primary" data-action="syncAccount" ${working ? 'disabled' : ''}>Sync now</button>
+            <button class="ds-btn ds-btn-secondary" data-action="uploadAccountProgress" ${working ? 'disabled' : ''}>Upload this device</button>
             <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
           </div>`
         : `

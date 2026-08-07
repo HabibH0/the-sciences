@@ -47,7 +47,7 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, todayISO } from './persistence.js';
-import { getBackendUrl, register, login, logout, me, syncProgress } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, syncProgress, uploadLocalProgress } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -1534,6 +1534,19 @@ const actions = {
       }
     } catch (e) {
       state.account.message = e.message || 'Could not sync.';
+    } finally {
+      state.account.status = 'idle';
+    }
+  },
+  async uploadAccountProgress() {
+    state.account.status = 'working';
+    state.account.message = 'Uploading this device...';
+    rerender();
+    try {
+      await uploadLocalProgress();
+      state.account.message = 'Uploaded this device to your account.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not upload this device.';
     } finally {
       state.account.status = 'idle';
     }
