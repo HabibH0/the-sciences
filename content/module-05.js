@@ -26,6 +26,7 @@ export default {
       id: 'l1',
       title: 'إلا وإنّ',
       subtitle: 'The Verb-Like Letters — الحروف المشبهة بالفعل, إنّ, and where المكسورة occurs',
+      sourceRef: 'pp. 60–62',
       concepts: [
         {
           heading: 'إلا، ومدخل الحروف المشبهة بالفعل',
@@ -434,6 +435,7 @@ export default {
       id: 'l2',
       title: 'أنّ والقواعد المشتركة',
       subtitle: "أnna's Positions — أنّ المفتوحة's ten مواضع, and rules إنّ and أنّ share",
+      sourceRef: 'pp. 62–64',
       concepts: [
         {
           heading: 'أنّ: تعريفها وطبيعتها',
@@ -839,6 +841,7 @@ export default {
       id: 'l3',
       title: 'كأنّ ولكنّ ولعلّ وليت',
       subtitle: 'Comparison, Contrast, Expectation, and Wishing — the last four أخوات إنّ',
+      sourceRef: 'pp. 65–66',
       concepts: [
         {
           heading: 'كأنّ ولكنّ',
@@ -1171,6 +1174,7 @@ export default {
       id: 'l4',
       title: 'التخفيف وما الكافة',
       subtitle: 'Lightening the Load — إنْ, أنْ, and كأنْ once lightened, and ما الكافة',
+      sourceRef: 'pp. 66–69',
       concepts: [
         {
           heading: 'تخفيف إنّ إلى إنْ',
@@ -1496,6 +1500,7 @@ export default {
       id: 'l5',
       title: 'لا لنفي الجنس والمشبهات بليس',
       subtitle: "Two More نواسخ Families — لا التبرئة, and the three حروف مشبهة بليس",
+      sourceRef: 'pp. 70–72',
       concepts: [
         {
           heading: 'لا لنفي الجنس',

@@ -28,6 +28,7 @@ export default {
       id: 'l1',
       title: 'نواصب المضارع: أنْ وكي',
       subtitle: 'Subjunctive Particles — the two categories of حروف تعمل في الفعل, أنْ الناصبة, and كي',
+      sourceRef: 'pp. 73–77',
       concepts: [
         {
           heading: 'حروف تعمل في الفعل: نواصب وجوازم',
@@ -303,6 +304,7 @@ export default {
       id: 'l2',
       title: 'إذن، وإضمار أنْ',
       subtitle: "Iḏan, and Hidden أنْ — إذن's three conditions, and where أنْ is implied جوازا or وجوبا",
+      sourceRef: 'pp. 74–77',
       concepts: [
         {
           heading: 'إذن: تعريفها وشروطها',
@@ -624,6 +626,7 @@ export default {
       id: 'l3',
       title: 'جوازم المضارع',
       subtitle: 'Jussive Particles — لم ولما ولام الأمر ولا الناهية, and إنْ وإذما governing a شرط',
+      sourceRef: 'pp. 77–80',
       concepts: [
         {
           heading: 'ضربا جوازم المضارع',

@@ -23,6 +23,7 @@ export default {
       id: 'l1',
       title: 'الجملة ذات المحل: تعريفها ومواضعها',
       subtitle: 'The Sentence with a Grammatical Position — where it is مرفوعة and where منصوبة',
+      sourceRef: 'p. 164',
       concepts: [
         {
           heading: 'تعريف الجملة ذات المحل',
@@ -174,6 +175,7 @@ export default {
       id: 'l2',
       title: 'الجملة الحالية: أحكام الواو',
       subtitle: "The حال Clause — when واو is obligatory, forbidden, or optional",
+      sourceRef: 'pp. 164–166',
       concepts: [
         {
           heading: 'مواضع وجوب واو الحال الثلاثة',
@@ -362,6 +364,7 @@ export default {
       id: 'l3',
       title: 'الجملة المجرورة والمجزومة',
       subtitle: 'The جر and جزم Positions, and when فاء the جواب needs is obligatory, optional, or forbidden',
+      sourceRef: 'pp. 166–168',
       concepts: [
         {
           heading: 'الجملة المجرورة: مضافا إليه',
@@ -523,6 +526,7 @@ export default {
       id: 'l4',
       title: 'الجملة معمولة بالتبعية',
       subtitle: 'The Sentence as a تابع, and the First of the Eight محل-less Types',
+      sourceRef: 'pp. 168–169',
       concepts: [
         {
           heading: 'الجملة معمولة بالتبعية: طرقها الثلاث، وشرطا النعتية',
@@ -708,6 +712,7 @@ export default {
       id: 'l5',
       title: 'الجملة التفسيرية والقسم',
       subtitle: 'The Explanatory Clause, and القسم — its أركان, ما يُصدَّر به جوابه, and نون التوكيد',
+      sourceRef: 'pp. 169–171',
       concepts: [
         {
           heading: 'الجملة التفسيرية وصورتاها',
@@ -874,6 +879,7 @@ export default {
       id: 'l6',
       title: 'بقية غير المعمولة وشبه الجملة',
       subtitle: 'The Remaining محل-less Types, and شبه الجملة — الظرف اللغو, المستقر, and المنصوب بنزع الخافض',
+      sourceRef: 'pp. 171–174',
       concepts: [
         {
           heading: 'جوابا الشرط بلا محل، والتابعة لما لا محل له',

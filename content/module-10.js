@@ -24,6 +24,7 @@ export default {
       id: 'l1',
       title: 'مقدمة: المعمول وغير المعمول',
       subtitle: 'Operated-Upon and Not — the five مسائل, الاسم الصريح vs المؤول, and المرفوع/المنصوب/المجرور',
+      sourceRef: 'p. 132',
       concepts: [
         {
           heading: 'المسائل الخمس في المعمول وغير المعمول',
@@ -193,6 +194,7 @@ export default {
       id: 'l2',
       title: 'الفاعل ونائب الفاعل',
       subtitle: 'The Agent and Its Deputy — تعريفهما، ترتيبهما مع المفعول به، and جر الفاعل لفظا',
+      sourceRef: 'pp. 132–134',
       concepts: [
         {
           heading: 'تعريف الفاعل',
@@ -459,6 +461,7 @@ export default {
       id: 'l3',
       title: 'المبتدأ',
       subtitle: 'The Topic — its two kinds, لام الابتداء, تنكيره, and حذفه جائزا وواجبا',
+      sourceRef: 'pp. 134–136',
       concepts: [
         {
           heading: 'نوعا المبتدأ',
@@ -740,6 +743,7 @@ export default {
       id: 'l4',
       title: 'الخبر وبقية المرفوعات',
       subtitle: 'The Predicate and the Rest of the المرفوعات — تعدد الخبر، مطابقته، حذفه، ومرفوعات النواسخ',
+      sourceRef: 'pp. 136–138',
       concepts: [
         {
           heading: 'تعريف الخبر وتعدده',
@@ -1046,6 +1050,7 @@ export default {
       id: 'l5',
       title: 'المفعول المطلق',
       subtitle: "The Absolute Object — why it's named that, what stands for its مصدر, and its three أنواع",
+      sourceRef: 'pp. 138–140',
       concepts: [
         {
           heading: 'لماذا سُمي المفعول المطلق بهذا الاسم، وما يُعد منه',
@@ -1358,6 +1363,7 @@ export default {
       id: 'l6',
       title: 'المفعولات الأربعة',
       subtitle: 'Four More Objects — رتبة المفعول به، الظرف وإعرابه، المفعول له بلا لام، and المفعول معه',
+      sourceRef: 'pp. 140–143',
       concepts: [
         {
           heading: 'المفعول به: تعريفه ورتبته',
@@ -1650,6 +1656,7 @@ export default {
       id: 'l7',
       title: 'الحال',
       subtitle: "The Circumstantial — صاحبها, تنكيرها, اشتقاقها, and الحال's many paired types",
+      sourceRef: 'pp. 144–147',
       concepts: [
         {
           heading: 'تعريف الحال وصاحبها وترتيبهما',
@@ -1962,6 +1969,7 @@ export default {
       id: 'l8',
       title: 'التمييز',
       subtitle: 'The Specifier — removing ambiguity from a مفرد مبهم or a نسبة مبهمة, and its numeral uses',
+      sourceRef: 'pp. 147–149',
       concepts: [
         {
           heading: 'تعريف التمييز',

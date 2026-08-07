@@ -25,6 +25,7 @@ export default {
       id: 'l1',
       title: 'كان ومعانيها',
       subtitle: 'Kāna and Its Meanings — the ناقص فعل, كان\'s six senses, and حذف النون / حذف كان واسمها',
+      sourceRef: 'pp. 29–31',
       concepts: [
         {
           heading: 'السماعي، والفعل الناقص',
@@ -405,6 +406,7 @@ export default {
       id: 'l2',
       title: 'أخوات كان',
       subtitle: 'Kāna\'s Sisters — أصبح، ظل، وصار for time and transformation, ما زال for continuation, and ما دام / ليس',
+      sourceRef: 'pp. 31–33',
       concepts: [
         {
           heading: 'أصبح وأضحى وأمسى وظل وبات: أخوات الوقت',
@@ -837,6 +839,7 @@ export default {
       id: 'l3',
       title: 'الرجاء والمقاربة والشروع',
       subtitle: 'Hope, Nearness, and Onset — عسى وكاد وطفق, and how أنّ behaves in each خبر',
+      sourceRef: 'pp. 34–36',
       concepts: [
         {
           heading: 'أفعال الرجاء: عسى وأخواتها',
@@ -1174,6 +1177,7 @@ export default {
       id: 'l4',
       title: 'أفعال المدح والذم',
       subtitle: 'Praise and Blame — نعم وبئس وحبذا, their فاعل, and the مخصوص',
+      sourceRef: 'pp. 37–38',
       concepts: [
         {
           heading: 'تعريف أفعال المدح والذم، والقائمة الخمسة',
@@ -1610,6 +1614,7 @@ export default {
       id: 'l5',
       title: 'صيغ التعجب',
       subtitle: 'Forms of Wonder — ما أفعله وأفعل به, the قياسي forms, and what\'s سماعي among them',
+      sourceRef: 'pp. 39–40',
       concepts: [
         {
           heading: 'صيغ التعجب: ضرباها والصيغ القياسية الثلاث',

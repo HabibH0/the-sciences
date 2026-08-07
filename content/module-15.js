@@ -29,6 +29,7 @@ export default {
       id: 'l1',
       title: 'الماضي والمضارع والأمر',
       subtitle: 'The Three Verb Tenses — definitions, the علامة of المضارع, and what forces الحال or الاستقبال',
+      sourceRef: 'p. 220',
       concepts: [
         {
           heading: 'تعريف الفعل الماضي',
@@ -241,6 +242,7 @@ export default {
       id: 'l2',
       title: 'المبني للفاعل والمبني للمفعول',
       subtitle: 'Active & Passive — how المجهول is built from الماضي and from المضارع',
+      sourceRef: 'p. 221',
       concepts: [
         {
           heading: 'نوعا الفعل باعتبار ذكر الفاعل: المعلوم والمجهول',
@@ -418,6 +420,7 @@ export default {
       id: 'l3',
       title: 'التصرف والجمود',
       subtitle: 'Conjugability — التام, الناقص, and الجامد, and which فعل accepts the doer pronoun',
+      sourceRef: 'p. 222',
       concepts: [
         {
           heading: 'نوعا الفعل من حيث التصرف',
@@ -569,6 +572,7 @@ export default {
       id: 'l4',
       title: 'نفي الفعل',
       subtitle: 'Negating the Verb — ما and لا for الماضي; لم, لما, ما, لا, and لن for المضارع',
+      sourceRef: 'pp. 222–223',
       concepts: [
         {
           heading: 'نوعا نفي الفعل، وحرفا نفي الماضي',
@@ -755,6 +759,7 @@ export default {
       id: 'l5',
       title: 'توكيد الفعل',
       subtitle: 'Emphasising the Verb — قد for الماضي; نون التوكيد for المضارع and الأمر',
+      sourceRef: 'pp. 224–225',
       concepts: [
         {
           heading: 'نوعا توكيد الفعل، وتوكيد الماضي بقد',
@@ -953,6 +958,7 @@ export default {
       id: 'l6',
       title: 'تاء التأنيث في الفعل',
       subtitle: 'The Feminine Marker on the Verb — الإلحاق الممتنع, الواجب, and الجائز',
+      sourceRef: 'pp. 225–226',
       concepts: [
         {
           heading: 'علامات التأنيث الثلاث الملحقة بالفعل وشبهه',
@@ -1181,6 +1187,7 @@ export default {
       id: 'l7',
       title: 'إفراد الفعل مع الفاعل',
       subtitle: 'Keeping the Verb Singular — the explicit doer versus the pronoun doer',
+      sourceRef: 'p. 227',
       concepts: [
         {
           heading: 'إفراد الفعل مع الفاعل الظاهر',

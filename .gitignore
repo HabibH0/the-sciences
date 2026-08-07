@@ -3,6 +3,7 @@ node_modules/
 save-data.json
 save-data.backup.json
 dist/
+web/
 .module-gen/
 .claude/
 /CLAUDE.md

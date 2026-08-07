@@ -17,6 +17,7 @@ export default {
       id: 'l1',
       title: 'الكلمة',
       subtitle: 'The Word — utterance, meaning, and the three divisions of speech',
+      sourceRef: 'pp. 6–10',
       concepts: [
         {
           heading: 'اللفظ، القول، والكلمة',
@@ -384,6 +385,7 @@ export default {
       id: 'l2',
       title: 'علامات الكلمة',
       subtitle: 'Signs of the Word — how to tell اسم, فعل, and حرف apart in practice',
+      sourceRef: 'pp. 6–10',
       concepts: [
         {
           heading: 'علامات الاسم الست',
@@ -736,6 +738,7 @@ export default {
       id: 'l3',
       title: 'الجملة والكلام',
       subtitle: 'The Sentence and Speech — from a bare predication to a complete, useful utterance',
+      sourceRef: 'pp. 10–13, 16',
       concepts: [
         {
           heading: 'تعريف الجملة: المسند والمسند إليه',
@@ -1214,6 +1217,7 @@ export default {
       id: 'l4',
       title: 'شبه الجملة',
       subtitle: 'The Quasi-Sentence — the جار والمجرور and الظرف that hang inside a جملة',
+      sourceRef: 'pp. 13–15',
       concepts: [
         {
           heading: 'تعريف شبه الجملة ومعاني الظرف',
@@ -1625,6 +1629,7 @@ export default {
       id: 'l5',
       title: 'العامل والمعمول والإعراب',
       subtitle: 'The Governor, the Governed, and the Grammatical Inflection they produce',
+      sourceRef: 'pp. 17–19',
       concepts: [
         {
           heading: 'العامل وغير العامل',

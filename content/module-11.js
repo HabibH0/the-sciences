@@ -24,6 +24,7 @@ export default {
       id: 'l1',
       title: 'المستثنى: تعريفه وأنواعه',
       subtitle: 'The Excepted — أركان الاستثناء, تام vs مفرغ, متصل vs منقطع, and its أدوات',
+      sourceRef: 'pp. 149–151',
       concepts: [
         {
           heading: 'تعريف المستثنى وأركان الاستثناء الثلاثة',
@@ -258,6 +259,7 @@ export default {
       id: 'l2',
       title: 'إعراب المستثنى وأدواته',
       subtitle: "Parsing the Excepted — نصبه، بدله، إعراب غير وحاشا, and إلا used as صفة",
+      sourceRef: 'pp. 151–152',
       concepts: [
         {
           heading: 'إعراب المستثنى المتصل في كلام موجب وغير موجب',
@@ -504,6 +506,7 @@ export default {
       id: 'l3',
       title: 'تتمة النواسخ والمجروران',
       subtitle: 'The Rest of the النواسخ Cases, and the Two المجرورات',
+      sourceRef: 'pp. 153–155',
       concepts: [
         {
           heading: 'خبر الأفعال الناقصة: مثاله وترتيبه',
@@ -830,6 +833,7 @@ export default {
       id: 'l4',
       title: 'التوابع: مقدمة والنعت',
       subtitle: 'Followers — the five أنواع التوابع, and النعت الحقيقي vs السببي',
+      sourceRef: 'pp. 155–157',
       concepts: [
         {
           heading: 'المعمول بالتبعية، وأنواع التوابع الخمسة',
@@ -1055,6 +1059,7 @@ export default {
       id: 'l5',
       title: 'البدل وعطف البيان',
       subtitle: 'Substitute and Clarifying Apposition — أربعة أنواع البدل، والفرق بينه وبين عطف البيان',
+      sourceRef: 'pp. 157–159',
       concepts: [
         {
           heading: 'تعريف البدل وأنواعه الأربعة',
@@ -1247,6 +1252,7 @@ export default {
       id: 'l6',
       title: 'المعطوف بحرف العطف',
       subtitle: 'Conjunction — the three أقسام العطف, conjoining to attached pronouns, and قطع المعطوف',
+      sourceRef: 'pp. 159–160',
       concepts: [
         {
           heading: 'تعريف المعطوف بحرف العطف',
@@ -1450,6 +1456,7 @@ export default {
       id: 'l7',
       title: 'التأكيد',
       subtitle: 'Emphasis — التأكيد اللفظي across verbs, nouns, pronouns, particles, and sentences, and المعنوي',
+      sourceRef: 'pp. 160–161',
       concepts: [
         {
           heading: 'تعريف التأكيد ونوعاه',
@@ -1784,6 +1791,7 @@ export default {
       id: 'l8',
       title: 'أحكام التوابع ومعمول الفعل',
       subtitle: "Rules Spanning the التوابع, and المعمول of الفعل — its three أقسام, and what stays غير معمول",
+      sourceRef: 'pp. 162–163',
       concepts: [
         {
           heading: 'اتباع اللفظ أو المحل',

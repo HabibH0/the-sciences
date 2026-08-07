@@ -2,8 +2,8 @@ import { bootProgress } from './persistence.js';
 import { getLesson, getModule, getBankPool, bankKey, quizKey, isLessonComplete } from '../content/index.js';
 import { pathPoolForNode, pathFullPool, pathSkipAheadPoolForNode } from '../content/paths.js';
 
-export function createInitialState() {
-  const boot = bootProgress();
+export async function createInitialState() {
+  const boot = await bootProgress();
   const nav = boot.nav || {};
   return {
     // Which course is active -- 'annahw' | 'fstu' | 'sarf' (see
@@ -261,6 +261,12 @@ export function createInitialState() {
     toast: null,
     badgeModal: null,
     badgeQueue: [],
+    account: {
+      user: null,
+      status: 'idle',
+      message: '',
+      backendUrl: '',
+    },
   };
 }
 

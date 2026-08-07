@@ -2,24 +2,67 @@
 // this app is ES modules (package.json has "type": "module"), but Electron's
 // main process is simplest as plain CommonJS.
 //
-// nodeIntegration is enabled deliberately: this is a fully local, trusted,
-// single-user app (no remote or untrusted content is ever loaded), and the
-// renderer needs direct filesystem access for one thing Chromium's normal
-// fetch() can't do from a file:// origin: reading/writing the plain-JSON
-// save file living in this same folder (see js/persistence.js).
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { randomUUID } = require('crypto');
+const fs = require('fs');
 const path = require('path');
 
 // This is a single-purpose app, not a document editor -- the default
 // File/Edit/View/Window menu bar exposes Chromium devtools/reload commands
 // that have no use here and just add visual clutter.
-Menu.setApplicationMenu(null);
+Menu?.setApplicationMenu(null);
 
 // BrowserWindow's `icon` option is Windows/Linux-only (it sets the
 // window/taskbar icon); on macOS it's ignored entirely -- the dock icon
 // comes from the app bundle's icon at packaging time instead. .ico only
 // renders correctly on Windows, so Linux needs the .png fallback.
 const WINDOW_ICON = path.join(__dirname, 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png');
+const SAVE_DIR = path.join(app.getPath('appData'), 'The Sciences');
+const SAVE_PATH = path.join(SAVE_DIR, 'save-data.json');
+const DEVICE_ID_PATH = path.join(SAVE_DIR, 'device-id.txt');
+
+function readJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch (e) {
+    return {};
+  }
+}
+
+function writeJson(filePath, data) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+function migrateLegacySave() {
+  if (fs.existsSync(SAVE_PATH)) return;
+  const legacyPath = path.join(__dirname, 'save-data.json');
+  if (!fs.existsSync(legacyPath)) return;
+  fs.mkdirSync(SAVE_DIR, { recursive: true });
+  fs.copyFileSync(legacyPath, SAVE_PATH);
+}
+
+function migrateRenamedSave() {
+  if (fs.existsSync(SAVE_PATH) || process.platform !== 'win32') return;
+  const oldDir = path.join(process.env.APPDATA || app.getPath('appData'), 'An-Nahw');
+  const oldPath = path.join(oldDir, 'save-data.json');
+  if (!fs.existsSync(oldPath)) return;
+  fs.mkdirSync(SAVE_DIR, { recursive: true });
+  fs.copyFileSync(oldPath, SAVE_PATH);
+}
+
+function getDeviceId() {
+  fs.mkdirSync(SAVE_DIR, { recursive: true });
+  try {
+    const existing = fs.readFileSync(DEVICE_ID_PATH, 'utf-8').trim();
+    if (existing) return existing;
+  } catch (e) {}
+  const id = typeof randomUUID === 'function'
+    ? randomUUID()
+    : `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  fs.writeFileSync(DEVICE_ID_PATH, id);
+  return id;
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -34,12 +77,12 @@ function createWindow() {
     // No native title bar -- js/main.js draws its own drag strip (see
     // index.html's #window-titlebar) with custom minimize/maximize/close
     // buttons that stay invisible until hovered, wired up below over IPC
-    // since this window has no preload script (nodeIntegration handles
-    // everything else the renderer needs directly).
+    // through the safe preload bridge below.
     frame: false,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.cjs'),
+      nodeIntegration: false,
+      contextIsolation: true,
       sandbox: false,
     },
   });
@@ -87,6 +130,29 @@ ipcMain.on('window:close', (event) => {
   BrowserWindow.fromWebContents(event.sender)?.close();
 });
 ipcMain.handle('window:is-maximized', (event) => !!BrowserWindow.fromWebContents(event.sender)?.isMaximized());
+
+ipcMain.handle('storage:load-progress', () => {
+  migrateRenamedSave();
+  migrateLegacySave();
+  return readJson(SAVE_PATH);
+});
+ipcMain.handle('storage:save-progress', (event, data) => {
+  writeJson(SAVE_PATH, data || {});
+  return data || {};
+});
+ipcMain.handle('storage:clear-progress', () => {
+  if (fs.existsSync(SAVE_PATH)) fs.unlinkSync(SAVE_PATH);
+});
+ipcMain.handle('storage:export-progress', () => {
+  migrateRenamedSave();
+  migrateLegacySave();
+  return readJson(SAVE_PATH);
+});
+ipcMain.handle('storage:import-progress', (event, data) => {
+  writeJson(SAVE_PATH, data || {});
+  return data || {};
+});
+ipcMain.handle('storage:get-device-id', () => getDeviceId());
 
 app.whenReady().then(() => {
   createWindow();

@@ -329,6 +329,12 @@ export function pathFullPool(node) {
   return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.tarkeebPool || [])];
 }
 
+// See content/path.js's own pathSkipAheadFullPool for the full rationale.
+export function pathSkipAheadFullPool(node) {
+  const p = pathSkipAheadPoolForNode(node);
+  return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.tarkeebPool || [])];
+}
+
 // See content/path.js's own nodesBefore/pathSkipAheadPoolForNode for the
 // full rationale -- this course pair mirrors those exactly, just without a
 // vocab pool (no vocab content in the advanced courses).

@@ -76,6 +76,10 @@ export function pathFullPool(node) {
   return trackModuleFor(node).pathFullPool(node);
 }
 
+export function pathSkipAheadFullPool(node) {
+  return trackModuleFor(node).pathSkipAheadFullPool(node);
+}
+
 export function pathPoolForNode(node) {
   return trackModuleFor(node).pathPoolForNode(node);
 }

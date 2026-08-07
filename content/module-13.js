@@ -23,6 +23,7 @@ export default {
       id: 'l1',
       title: 'الإعراب: المعرب والمبني',
       subtitle: 'The Three Kinds of الإعراب — لفظي, تقديري, محلي — and which words take each',
+      sourceRef: 'p. 176',
       concepts: [
         {
           heading: 'الأقسام الثلاثة للإعراب',
@@ -154,6 +155,7 @@ export default {
       id: 'l2',
       title: 'إعراب الاسم: بالحركة والحرف',
       subtitle: 'The Noun Declined by حركة and by حرف — الصحيح, المقصور, المنقوص, الأسماء الخمسة, المثنى, and جمعا التذكير والتأنيث السالمان',
+      sourceRef: 'pp. 177–180',
       concepts: [
         {
           heading: 'تعريف الصحيح، الجاري مجرى الصحيح، المقصور، والمنقوص',
@@ -369,6 +371,7 @@ export default {
       id: 'l3',
       title: 'الإعراب التقديري والمحلي',
       subtitle: 'The Noun with تقديري Iʿrāb, and the Noun with محلي Iʿrāb — المؤول, المشغول الآخر, and المبني',
+      sourceRef: 'pp. 180–182',
       concepts: [
         {
           heading: 'أقسام الإعراب التقديري الستة للاسم',
@@ -651,6 +654,7 @@ export default {
       id: 'l4',
       title: 'الظروف المبنية وأقسام المبني',
       subtitle: 'The Mabnī الظروف in Full — استفهام, شرط, and neither — plus الكنايات, المركب مزجا, and المحكي',
+      sourceRef: 'pp. 182–186',
       concepts: [
         {
           heading: 'المجموعات السبع للظروف المبنية، والغايات: قبل وبعد',
@@ -950,6 +954,7 @@ export default {
       id: 'l5',
       title: 'غير المنصرف: تعريفه وأسبابه',
       subtitle: 'The Diptote Noun — what it loses, and the الصفة/العلم causes that bar it from صرف',
+      sourceRef: 'pp. 187–189',
       concepts: [
         {
           heading: 'ما يمتنع من غير المنصرف، ومعنى التنوين والصرف، وأنواع أسبابه الأربعة',
@@ -1203,6 +1208,7 @@ export default {
       id: 'l6',
       title: 'غير المنصرف: أسبابه وأحكامه',
       subtitle: 'The Nine Causes of منع الصرف Together, and When the Bar Lifts',
+      sourceRef: 'pp. 190–192',
       concepts: [
         {
           heading: 'الأسباب التسعة الجامعة لمنع الصرف',
@@ -1373,6 +1379,7 @@ export default {
       id: 'l7',
       title: 'علامات إعراب وبناء الفعل',
       subtitle: 'The Verb\'s إعراب/بناء Markers, and the Forms of الماضي, المضارع, and الأمر',
+      sourceRef: 'pp. 192–195',
       concepts: [
         {
           heading: 'علامات إعراب الفعل الثلاث، وعلامتا بنائه',
@@ -1593,6 +1600,7 @@ export default {
       id: 'l8',
       title: 'إعراب الفعل تقديريا ومحليا',
       subtitle: 'The Verb\'s تقديري and محلي Iʿrāb, and What الماضي, المضارع, and الأمر Are Built On',
+      sourceRef: 'pp. 195–197',
       concepts: [
         {
           heading: 'الإعراب التقديري للمضارع المعتل الآخر',

@@ -24,6 +24,7 @@ export default {
       id: 'l1',
       title: 'اللازم والمتعدي',
       subtitle: 'Transitivity — تعريف اللازم والمتعدي, and the two ways a فعل reaches its مفعول',
+      sourceRef: 'pp. 22–23',
       concepts: [
         {
           heading: 'عامل الفعل: القياسي والسماعي',
@@ -340,6 +341,7 @@ export default {
       id: 'l2',
       title: 'أفعال القلوب',
       subtitle: 'Verbs of the Heart — اليقين and الظن, and how their two objects behave',
+      sourceRef: 'pp. 24–27',
       concepts: [
         {
           heading: 'أفعال القلوب: اليقين والظن',
@@ -700,6 +702,7 @@ export default {
       id: 'l3',
       title: 'أفعال التحويل',
       subtitle: 'Verbs of Conversion — التحويل, the three-مفعول فعل, and ما يسد مسد المفعولين',
+      sourceRef: 'pp. 27–28',
       concepts: [
         {
           heading: 'أفعال التحويل: تعريفها وأمثلتها',
@@ -1038,6 +1041,7 @@ export default {
       id: 'l4',
       title: 'التعليق والإلغاء',
       subtitle: 'Suspension and Cancellation — how a قلب فعل loses its لفظي government',
+      sourceRef: 'pp. 28–29',
       concepts: [
         {
           heading: 'التعليق: العمل محلاً لا لفظاً',

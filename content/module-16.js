@@ -20,6 +20,7 @@ export default {
       id: 'l1',
       title: 'رسم الحروف',
       subtitle: 'Orthography — where the Uthmanic script writes a letter that isn’t pronounced, or drops one that is',
+      sourceRef: 'pp. 228–229',
       concepts: [
         {
           heading: 'موضوع خاتمة النحو، ومجالا الرسم',
@@ -391,6 +392,7 @@ export default {
       id: 'l2',
       title: 'الوصل',
       subtitle: 'Connected Speech — همزة الوصل and how to resolve two sākins meeting',
+      sourceRef: 'pp. 230–231',
       concepts: [
         {
           heading: 'الوصل: تعريفه ومجالا دراسته',
@@ -776,6 +778,7 @@ export default {
       id: 'l3',
       title: 'الوقف',
       subtitle: 'Stopping — how to correctly stop on a word ending in a سكون, تاء مربوطة, منقوص, or تنوين',
+      sourceRef: 'p. 232',
       concepts: [
         {
           heading: 'تعريف الوقف، والوقف على الساكن والمتحرك',

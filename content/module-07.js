@@ -29,6 +29,7 @@ export default {
       id: 'l1',
       title: 'أحرف العطف',
       subtitle: 'Conjunctions — what each of the nine أحرف العطف signifies',
+      sourceRef: 'pp. 81–86',
       concepts: [
         {
           heading: 'أحرف العطف التسعة، ومعنى الواو',
@@ -423,6 +424,7 @@ export default {
       id: 'l2',
       title: 'أحرف الجواب',
       subtitle: 'Response Particles — نعم وبلى, and the two-sided كلا',
+      sourceRef: 'pp. 86–87',
       concepts: [
         {
           heading: 'فئتا أحرف الجواب',
@@ -675,6 +677,7 @@ export default {
       id: 'l3',
       title: 'أحرف التأكيد',
       subtitle: 'Emphasis Particles — لام الابتداء, اللام المزحلقة, نونا التوكيد, and قد',
+      sourceRef: 'pp. 88–89',
       concepts: [
         {
           heading: 'الخمسة، ولام الابتداء',
@@ -949,6 +952,7 @@ export default {
       id: 'l4',
       title: 'أحرف الشرط غير العاملة',
       subtitle: 'Non-Governing Conditionals — لو, لولا, لوما, and أمّا',
+      sourceRef: 'pp. 89–92',
       concepts: [
         {
           heading: 'الأربعة، وتعريف لو',

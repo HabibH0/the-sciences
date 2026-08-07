@@ -23,6 +23,7 @@ export default {
       id: 'l1',
       title: 'التنازع وحذف العامل',
       subtitle: "Contending Governors and the Two Kinds of Deletion — التنازع, الحذف الجائز, and الحذف الواجب's three أضرب",
+      sourceRef: 'p. 121',
       concepts: [
         {
           heading: 'التنازع: تعريفه ومن يتولى العمل',
@@ -177,6 +178,7 @@ export default {
       id: 'l2',
       title: 'حذف عامل المفعول المطلق',
       subtitle: 'Deleting the Governor of the Absolute Object — سماعي and قياسي deletion, and قياسي’s four places',
+      sourceRef: 'pp. 121–122',
       concepts: [
         {
           heading: 'نوعا حذف عامل المفعول المطلق: سماعي وقياسي',
@@ -348,6 +350,7 @@ export default {
       id: 'l3',
       title: 'التحذير والإغراء',
       subtitle: 'Warning and Urging — التحذير and الإغراء, their أركان, and how the عامل is dropped',
+      sourceRef: 'pp. 122–124',
       concepts: [
         {
           heading: 'التحذير: تعريفه وأركانه',
@@ -532,6 +535,7 @@ export default {
       id: 'l4',
       title: 'الاختصاص والاشتغال',
       subtitle: 'Specification and Preoccupation — الاختصاص and الاشتغال, and how المشغول عنه is declined',
+      sourceRef: 'pp. 124–125',
       concepts: [
         {
           heading: 'الاختصاص: تعريفه ومثاله',
@@ -709,6 +713,7 @@ export default {
       id: 'l5',
       title: 'النداء: أركانه وأحكامه',
       subtitle: 'The Vocative — النداء’s أركان, its seven particles, when they’re deleted, and how المنادى is declined',
+      sourceRef: 'pp. 125–127',
       concepts: [
         {
           heading: 'تعريف النداء وأركانه',
@@ -919,6 +924,7 @@ export default {
       id: 'l6',
       title: 'ملحقات النداء',
       subtitle: 'Truncation, Appeals, and Lament — الترخيم, الاستغاثة, نداء التعجب, الندبة, and deleting عامل الحال',
+      sourceRef: 'pp. 127–129',
       concepts: [
         {
           heading: 'الترخيم: تعريفه وما يجوز ترخيمه',

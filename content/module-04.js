@@ -25,6 +25,7 @@ export default {
       id: 'l1',
       title: 'أضرب حروف الجر',
       subtitle: 'Foundations — عامل حروف that govern الاسم and الفعل, and the three أضرب of حروف الجر',
+      sourceRef: 'p. 41',
       concepts: [
         {
           heading: 'الحروف العاملة: في الاسم وفي الفعل',
@@ -331,6 +332,7 @@ export default {
       id: 'l2',
       title: 'الباء ومِن',
       subtitle: 'The Two Most Frequent حروف — معنى ووظائف الباء ومِن across the Quran',
+      sourceRef: 'pp. 42–45',
       concepts: [
         {
           heading: 'الباء: معناها الأصلي ووظائفها',
@@ -773,6 +775,7 @@ export default {
       id: 'l3',
       title: 'إلى وعن وعلى',
       subtitle: 'Extent and Elevation — معنى ووظائف إلى، عن، and على',
+      sourceRef: 'pp. 45–47',
       concepts: [
         {
           heading: 'إلى: معناها ووظائفها',
@@ -1200,6 +1203,7 @@ export default {
       id: 'l4',
       title: 'اللام وفي والكاف وحتى',
       subtitle: 'Ownership, Containment, and Comparison — اللام، في، الكاف، and حتى',
+      sourceRef: 'pp. 48–50',
       concepts: [
         {
           heading: 'اللام: معانيها الثلاثة',
@@ -1616,6 +1620,7 @@ export default {
       id: 'l5',
       title: 'أحرف القسم ومذ ومنذ',
       subtitle: 'Oaths and Duration — the three أحرف القسم, and مذ/منذ for elapsed time',
+      sourceRef: 'pp. 51–53',
       concepts: [
         {
           heading: 'أحرف القسم الثلاثة، وإعرابها',
@@ -1991,6 +1996,7 @@ export default {
       id: 'l6',
       title: 'الشبيه بالزائد والزائد',
       subtitle: 'Beyond the Thirteen — حروف شبيهة بالزائد, حروف زائدة, and when a حرف الجر disappears',
+      sourceRef: 'pp. 53–60',
       concepts: [
         {
           heading: 'حروف الشبيه بالزائد الثلاثة: رُبَّ',

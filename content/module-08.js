@@ -27,6 +27,7 @@ export default {
       id: 'l1',
       title: 'التوبيخ والتحضيض والعرض',
       subtitle: 'Rebuke, Insistence, and Gentle Request — هلّا، ألا، لولا، لوما، ألّا, and the three حروف العرض',
+      sourceRef: 'pp. 92–94',
       concepts: [
         {
           heading: 'التوبيخ والتحضيض: تعريفهما وحروفهما',
@@ -274,6 +275,7 @@ export default {
       id: 'l2',
       title: 'أحرف التنبيه',
       subtitle: 'Alerting Particles — ألا, أما, and the four things ها enters upon',
+      sourceRef: 'p. 95',
       concepts: [
         {
           heading: 'الثلاثة، وألا التنبيه',
@@ -501,6 +503,7 @@ export default {
       id: 'l3',
       title: 'أحرف المصدر والتفسير',
       subtitle: "Nominalizers and Explanatory Particles — ما, أي, and أنْ التفسيرية's own conditions",
+      sourceRef: 'pp. 96, 101',
       concepts: [
         {
           heading: 'أحرف المصدر: أسماؤها البديلة، وغير العاملة منها',
@@ -722,6 +725,7 @@ export default {
       id: 'l4',
       title: 'أحرف النفي والزيادة',
       subtitle: 'Negation and Extra Particles — ما، لا، إنْ النافية, and where extra letters attach',
+      sourceRef: 'pp. 96–99',
       concepts: [
         {
           heading: 'أحرف النفي الثلاثة غير العاملة',
@@ -989,6 +993,7 @@ export default {
       id: 'l5',
       title: 'الاستفهام والتمني والاستقبال',
       subtitle: 'Interrogatives, Wishing, and the Future — الهمزة وهل, لو للتمني, and السين وسوف',
+      sourceRef: 'pp. 99–100',
       concepts: [
         {
           heading: 'حرفا الاستفهام: الهمزة وهل',
@@ -1256,6 +1261,7 @@ export default {
       id: 'l6',
       title: 'روابط الجواب ولواحق الفعل',
       subtitle: 'Loose Ends — فاء/لام الجواب, تاء التأنيث الساكنة, هاء السكت, and the five kinds of تنوين',
+      sourceRef: 'pp. 102–103',
       concepts: [
         {
           heading: 'حرفا ربط الجواب',

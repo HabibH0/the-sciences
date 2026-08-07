@@ -23,6 +23,7 @@ export default {
       id: 'l1',
       title: 'الهمزة، إذ، إذا، أل، أم',
       subtitle: 'From الهمزة to أم — calling, time adverbs, definiteness, and digression',
+      sourceRef: 'pp. 233–236',
       concepts: [
         {
           heading: 'همزة النداء والاستفهام والمصدر',
@@ -470,6 +471,7 @@ export default {
       id: 'l2',
       title: 'إمّا، إنْ، أنْ، إي، أيْ، أيّ',
       subtitle: 'From إمّا to أيّ — conditions, oaths, and the noun أيّ’s five uses',
+      sourceRef: 'pp. 236–239',
       concepts: [
         {
           heading: 'إمّا: وجهاها',
@@ -908,6 +910,7 @@ export default {
       id: 'l3',
       title: 'بل، التاء، حتى، حاشا',
       subtitle: 'From بل to حاشا — digression, the seven-faced تاء, and two exception particles',
+      sourceRef: 'pp. 239–242',
       concepts: [
         {
           heading: 'بل: وجهاها، ومعنى الإبطال والانتقال',
@@ -1276,6 +1279,7 @@ export default {
       id: 'l4',
       title: 'خَلا وعَدا، ذا وذو، عسى، غير',
       subtitle: 'From خَلا to غير — exception verbs, ذا and ذو, the جامد verb عسى, and the ever-vague غير',
+      sourceRef: 'pp. 242–243',
       concepts: [
         {
           heading: 'خَلا وعَدا: أداتا استثناء بوجهين',
@@ -1644,6 +1648,7 @@ export default {
       id: 'l5',
       title: 'الفاء، قد، الكاف، كلّا',
       subtitle: 'From الفاء to كلّا — linking the شرط, five shades of قد, and rebuke',
+      sourceRef: 'pp. 244–245',
       concepts: [
         {
           heading: 'الفاء: ثلاثة أوجه',
@@ -2041,6 +2046,7 @@ export default {
       id: 'l6',
       title: 'كم، كي، كيف، اللام، لا',
       subtitle: 'From كم to لا — three light interrogatives, اللام’s eight faces, and negation’s five',
+      sourceRef: 'pp. 246–248',
       concepts: [
         {
           heading: 'كم وكي وكيف: ثلاث كلمات خفيفة الأوجه',
@@ -2481,6 +2487,7 @@ export default {
       id: 'l7',
       title: 'لمّا، لو، لولا، ليس، ما (الاسمية)',
       subtitle: 'From لمّا to ما — three condition-family particles, ليس, and the seven-faced nominal ما',
+      sourceRef: 'pp. 248–250',
       concepts: [
         {
           heading: 'لمّا: ثلاثة أوجه',
@@ -2922,6 +2929,7 @@ export default {
       id: 'l8',
       title: 'ما (الحرفية)، متى، منذ، مَنْ، النون، الواو، الياء',
       subtitle: 'From ما الحرفية to الياء — restraint, the ten-faced واو, and the last of the survey',
+      sourceRef: 'pp. 250–254',
       concepts: [
         {
           heading: 'ما الحرفية: أربعة أوجه',

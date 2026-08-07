@@ -824,7 +824,7 @@ export default {
         {
           title: 'هلم جرا',
           kind: 'mcq',
-          prompt: 'The three examples are followed by وهلم جرا. What does that signal?',
+          prompt: 'قَمَر (فَعَل), جِمْل (فِعْل) and كَرُمَ (فَعُل) are followed by وهلم جرا. What does that signal?',
           options: ['That the ميزان does not apply beyond these three', 'That these three are the only ثلاثي patterns', 'That the remaining ثلاثي patterns follow the same method', 'That the remaining patterns are سماعية'],
           correct: 2,
         },

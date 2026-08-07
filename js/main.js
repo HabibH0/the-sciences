@@ -33,7 +33,7 @@ import {
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool, trackUnlockTestSubPools } from '../content/paths.js';
+import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool, trackUnlockTestSubPools } from '../content/paths.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
   buildModuleRevisionQueue, moduleRevisionPool,
@@ -47,20 +47,26 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, todayISO } from './persistence.js';
+import { getBackendUrl, setBackendUrl, register, login, logout, me, syncProgress } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
   checkLessonsClearedBadges, checkCourseCompletionBadges,
 } from './gamification.js';
 
-// Window controls (#window-drag-region/#window-controls in index.html,
-// replacing the OS title bar main.cjs removes via frame:false) -- no
-// preload script exists, so (same as js/persistence.js's own `require`
-// use) nodeIntegration is what makes this reachable directly from a
-// renderer ES module.
-const { ipcRenderer } = typeof require !== 'undefined' ? require('electron') : {};
+const electronWindow = window.electronAPI?.window;
 
-const state = createInitialState();
+const state = await createInitialState();
+state.account.backendUrl = getBackendUrl();
+if (state.account.backendUrl) {
+  me().then((result) => {
+    if (result && !result.disabled) {
+      state.account.user = result.user || null;
+      state.account.message = state.account.user ? `Signed in as ${state.account.user.email}` : '';
+      rerender();
+    }
+  }).catch(() => {});
+}
 // Must run before sanitizeBootNav below -- that IIFE calls getModule/
 // isModuleUnlocked/etc., which resolve against whichever course is active.
 setActiveCourse(state.courseId);
@@ -918,7 +924,13 @@ function bankPool() {
   }
   if (p && p.source === 'path') {
     const node = findPathNode(p.nodeId);
-    return node ? pathFullPool(node) : [];
+    if (!node) return [];
+    // A skip-ahead session's queue was sampled from the wider cumulative
+    // pool (see startPathSkipAheadTest/buildPathSectionTestQueue) -- content
+    // lookup has to search that SAME pool, or any key from outside the
+    // node's own narrow window (i.e. most of a skip-ahead queue) comes up
+    // empty here and the question can never render.
+    return p.skipAhead ? pathSkipAheadFullPool(node) : pathFullPool(node);
   }
   if (p && p.source === 'unlockTest') {
     return p.unlockKind === 'course' ? courseUnlockTestPool(p.targetId)
@@ -1414,6 +1426,11 @@ const actions = {
     state.practice = null;
     state.pathActive = false;
   },
+  openAccount() {
+    state.view = 'account';
+    state.practice = null;
+    state.pathActive = false;
+  },
   openAchievements() {
     state.view = 'achievements';
     state.practice = null;
@@ -1436,6 +1453,81 @@ const actions = {
     state.accent = 'gold';
     state.arabicFace = 'naskh';
     state.kufiHeadings = false;
+  },
+  saveBackendUrl() {
+    const input = document.getElementById('account-backend-url');
+    state.account.backendUrl = setBackendUrl(input?.value || '');
+    state.account.message = state.account.backendUrl ? 'Backend URL saved.' : 'Backend URL cleared.';
+  },
+  async registerAccount() {
+    const email = document.getElementById('account-email')?.value || '';
+    const password = document.getElementById('account-password')?.value || '';
+    state.account.status = 'working';
+    state.account.message = 'Creating account...';
+    rerender();
+    try {
+      const result = await register(email, password);
+      if (result.disabled) throw new Error('Add your Render backend URL first.');
+      state.account.user = result.user;
+      state.account.message = 'Account created. Syncing this device...';
+      rerender();
+      const sync = await syncProgress();
+      state.account.message = sync.synced ? 'Account created and progress synced.' : 'Account created.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not create account.';
+    } finally {
+      state.account.status = 'idle';
+    }
+  },
+  async loginAccount() {
+    const email = document.getElementById('account-email')?.value || '';
+    const password = document.getElementById('account-password')?.value || '';
+    state.account.status = 'working';
+    state.account.message = 'Signing in...';
+    rerender();
+    try {
+      const result = await login(email, password);
+      if (result.disabled) throw new Error('Add your Render backend URL first.');
+      state.account.user = result.user;
+      const sync = await syncProgress();
+      state.account.message = sync.direction === 'download'
+        ? 'Signed in. Newer cloud progress was downloaded.'
+        : 'Signed in. This device is synced.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not sign in.';
+    } finally {
+      state.account.status = 'idle';
+    }
+  },
+  async logoutAccount() {
+    state.account.status = 'working';
+    state.account.message = 'Signing out...';
+    rerender();
+    try {
+      await logout();
+      state.account.user = null;
+      state.account.message = 'Signed out. Local offline progress remains on this device.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not sign out.';
+    } finally {
+      state.account.status = 'idle';
+    }
+  },
+  async syncAccount() {
+    state.account.status = 'working';
+    state.account.message = 'Syncing...';
+    rerender();
+    try {
+      const result = await syncProgress();
+      if (!result.synced) throw new Error('Add your Render backend URL first.');
+      state.account.message = result.direction === 'download'
+        ? 'Synced. Newer cloud progress was downloaded.'
+        : 'Synced. Cloud progress is up to date.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not sync.';
+    } finally {
+      state.account.status = 'idle';
+    }
   },
   // Home hero's "Continue/Start lesson N" -- unlike openLessonPreview
   // (reached only from inside a module page, where state.moduleId is
@@ -1845,15 +1937,15 @@ const actions = {
   // --- Window controls (#window-controls) -- pure IPC side effects, no
   // app state changes, so each returns false to skip the usual rerender. ---
   minimizeWindow() {
-    ipcRenderer?.send('window:minimize');
+    electronWindow?.minimize();
     return false;
   },
   toggleMaximizeWindow() {
-    ipcRenderer?.send('window:toggle-maximize');
+    electronWindow?.toggleMaximize();
     return false;
   },
   closeWindow() {
-    ipcRenderer?.send('window:close');
+    electronWindow?.close();
     return false;
   },
 };
@@ -1891,7 +1983,14 @@ document.addEventListener('click', (e) => {
   if (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') return;
   const handler = actions[el.dataset.action];
   if (!handler) return;
-  if (handler(el, e) === false) return;
+  const result = handler(el, e);
+  if (result && typeof result.then === 'function') {
+    result.then((value) => {
+      if (value !== false) rerender(tarkeebFocusSelector(el));
+    });
+    return;
+  }
+  if (result === false) return;
   rerender(tarkeebFocusSelector(el));
 });
 
@@ -1929,7 +2028,14 @@ document.addEventListener('change', (e) => {
   // which reads el.value.
   const el = e.target.closest('[data-action]');
   if (el && !el.disabled && actions[el.dataset.action]) {
-    if (actions[el.dataset.action](el, e) !== false) rerender();
+    const result = actions[el.dataset.action](el, e);
+    if (result && typeof result.then === 'function') {
+      result.then((value) => {
+        if (value !== false) rerender();
+      });
+      return;
+    }
+    if (result !== false) rerender();
     return;
   }
 });
@@ -1998,16 +2104,16 @@ document.addEventListener('dragend', (e) => {
 // are wired up once here rather than through the data-action delegation's
 // rerender-driven re-binding -- the element is never destroyed/recreated.
 
-if (ipcRenderer) {
+if (electronWindow) {
   // The window could already be maximized on this very first paint (e.g.
   // the OS remembered the last window state) -- sync once up front, then
   // keep listening for every later change, including an OS-level one
   // (edge-drag snap, Win+Up) that never goes through this window's own
   // maximize button at all.
-  ipcRenderer.invoke('window:is-maximized').then((isMaximized) => {
+  electronWindow.isMaximized().then((isMaximized) => {
     document.body.classList.toggle('is-maximized', isMaximized);
   });
-  ipcRenderer.on('window:maximized-changed', (event, isMaximized) => {
+  electronWindow.onMaximizedChanged((isMaximized) => {
     document.body.classList.toggle('is-maximized', isMaximized);
   });
 }
@@ -2019,7 +2125,7 @@ if (ipcRenderer) {
 // toggle maximize underneath it.
 document.getElementById('window-drag-region')?.addEventListener('dblclick', (e) => {
   if (e.target.closest('#window-controls')) return;
-  ipcRenderer?.send('window:toggle-maximize');
+  electronWindow?.toggleMaximize();
 });
 
 // --- lifecycle ----------------------------------------------------------

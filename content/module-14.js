@@ -26,6 +26,7 @@ export default {
       id: 'l1',
       title: 'أقسام الاسم',
       subtitle: "The Noun's Three Sources — مصدر, مشتق, and جامد, and the five مشتقّ forms bearing verbal meaning",
+      sourceRef: 'p. 200',
       concepts: [
         {
           heading: 'أقسام الاسم الثلاثة: المصدر',
@@ -278,6 +279,7 @@ export default {
       id: 'l2',
       title: 'الضمير ١: الأضرب والاستتار',
       subtitle: 'The Pronoun, Part 1 — its three أضرب, where الاستتار happens, and ياء المتكلم with different noun endings',
+      sourceRef: 'pp. 201–202',
       concepts: [
         {
           heading: 'الضمير: اسمه الآخر وأضربه الثلاثة',
@@ -589,6 +591,7 @@ export default {
       id: 'l3',
       title: 'الضمير ٢: الاتصال والانفصال',
       subtitle: 'The Pronoun, Part 2 — where المنفصل is required or optional, توكيد الضمير, and مرجع ضمير الغائب',
+      sourceRef: 'pp. 202–204',
       concepts: [
         {
           heading: 'متى يجب الانفصال',
@@ -874,6 +877,7 @@ export default {
       id: 'l4',
       title: 'المعرفة ١: العلم وأل والإشارة',
       subtitle: 'Definiteness, Part 1 — أقسام المعرفة الستة, العلم, أل العهدية والجنسية, and أسماء الإشارة',
+      sourceRef: 'pp. 204–206',
       concepts: [
         {
           heading: 'أقسام المعرفة الستة، وترتيب أعرفها',
@@ -1185,6 +1189,7 @@ export default {
       id: 'l5',
       title: 'المعرفة ٢: الموصول والإضافة والنكرة',
       subtitle: 'Definiteness, Part 2 — الأسماء الموصولة والصلة والعائد, السادسة بالإضافة, and أقسام النكرة',
+      sourceRef: 'pp. 206–208',
       concepts: [
         {
           heading: 'الأسماء الموصولة: قائمتها',
@@ -1431,6 +1436,7 @@ export default {
       id: 'l6',
       title: 'التذكير والتأنيث',
       subtitle: 'Masculine and Feminine — حقيقي vs غير حقيقي, the three أضرب by form, المؤنث السماعي, and جنس الجمع والحرف',
+      sourceRef: 'pp. 208–210',
       concepts: [
         {
           heading: 'المؤنث: حقيقي وغير حقيقي',
@@ -1666,6 +1672,7 @@ export default {
       id: 'l7',
       title: 'التثنية وجمع المذكر السالم',
       subtitle: 'The Dual and the Sound Masculine Plural — formation, المنقوص/المقصور/الممدود in each, and what restricts جمع المذكر السالم',
+      sourceRef: 'pp. 210–213',
       concepts: [
         {
           heading: 'الموحد، وتعريف المثنى وتكوينه',
@@ -1921,6 +1928,7 @@ export default {
       id: 'l8',
       title: 'جمع المؤنث السالم والمكسر',
       subtitle: 'The Sound Feminine and Broken Plurals — formation, جمع القلة والكثرة, اسم الجنس الجمعي, مجموع الجمع, and مرجع الضمير',
+      sourceRef: 'pp. 213–216',
       concepts: [
         {
           heading: 'تكوين جمع المؤنث السالم، وما يأخذه',
@@ -2193,6 +2201,7 @@ export default {
       id: 'l9',
       title: 'التصغير والنسبة والعدد',
       subtitle: 'The Diminutive, the Relative Adjective, and Numbers — أوزان التصغير, النسبة, أقسام العدد, and موافقة/مخالفة المعدود',
+      sourceRef: 'pp. 216–219',
       concepts: [
         {
           heading: 'تعريف التصغير، وأوزانه الثلاثة',

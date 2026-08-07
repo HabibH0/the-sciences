@@ -40,7 +40,7 @@ import {
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
+import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
   ACHIEVEMENT_CATEGORIES, LEVEL_TIERS, STREAK_TIERS, PERFECT_QUIZ_TIERS, PRACTICE_TIERS,
@@ -241,6 +241,7 @@ function headerHtml(state, MODULES) {
         ${homeSlot}
         ${onPath ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
         ${tab('Settings', 'openSettings', state.view === 'settings')}
+        ${tab('Account', 'openAccount', state.view === 'account')}
       </nav>`;
   }
 
@@ -377,7 +378,10 @@ function heroLedgerHtml(rows) {
 
 // title/body are inserted raw (callers esc/escBidi their own content, since
 // title often wraps a term in <bdi>); badge/watermark are plain strings.
-function heroPanelHtml({ watermark, badge, title, body, actions, ledger }) {
+// sourceRef is a plain string too (e.g. "pp. 6–10") -- only the lesson hero
+// (js/render.js's lessonHtml) passes it, so it never surfaces on the home
+// hero or a module's lesson-list page, just inside the lesson itself.
+function heroPanelHtml({ watermark, badge, title, body, actions, ledger, sourceRef }) {
   return `
     <section class="home-hero">
       ${watermark ? `<span aria-hidden="true" class="home-hero-watermark" lang="ar" dir="rtl">${esc(watermark)}</span>` : ''}
@@ -385,6 +389,7 @@ function heroPanelHtml({ watermark, badge, title, body, actions, ledger }) {
         <div class="home-hero-main">
           ${badge ? heroBadgeHtml(badge) : ''}
           <h1 class="home-hero-title">${title}</h1>
+          ${sourceRef ? `<p class="home-hero-source-ref">${esc(sourceRef)}</p>` : ''}
           ${body ? `<p class="home-hero-body">${body}</p>` : ''}
           ${actions ? `<div class="home-hero-actions">${actions}</div>` : ''}
         </div>
@@ -1247,6 +1252,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
     watermark: lesson.title,
     badge: mod.heading || mod.title,
     title: `<bdi lang="ar">${esc(lesson.title)}</bdi>`,
+    sourceRef: lesson.sourceRef,
     body: escBidi(lesson.subtitle || ''),
     ledger: heroLedgerHtml([
       ['Lesson', `${lessonIdx + 1} / ${mod.lessons.length}`],
@@ -1757,7 +1763,13 @@ function practiceHtml(state, MODULES) {
   } else if (p.source === 'masteryV2') {
     pool = masteryV2Pool(p.moduleId, p.lessonId);
   } else if (p.source === 'path') {
-    pool = pathNode ? pathFullPool(pathNode) : [];
+    // A skip-ahead session's queue is sampled from the wider cumulative
+    // pool (see startPathSkipAheadTest/buildPathSectionTestQueue in
+    // js/main.js) -- rendering the current question has to resolve its key
+    // against that SAME pool, or any key from outside the node's own
+    // narrow window falls through to sessionFallback below as if the item
+    // had vanished mid-session.
+    pool = pathNode ? (p.skipAhead ? pathSkipAheadFullPool(pathNode) : pathFullPool(pathNode)) : [];
   } else if (p.source === 'unlockTest') {
     pool = p.unlockKind === 'course' ? courseUnlockTestPool(p.targetId)
       : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
@@ -2922,6 +2934,69 @@ function settingsHtml(state) {
     </div>`;
 }
 
+function accountHtml(state) {
+  const account = state.account || {};
+  const working = account.status === 'working';
+  const signedIn = !!account.user;
+  const backendUrl = account.backendUrl || '';
+  const message = account.message
+    ? `<div class="account-message" role="status">${esc(account.message)}</div>`
+    : '';
+
+  return `
+    <div class="settings-page account-page">
+      <div class="settings-col">
+        <span class="settings-kicker">Account</span>
+        <h1 class="settings-title">Sync across devices</h1>
+        <p class="settings-lede">Use the app offline on any device, then sign in to sync progress through your Render backend.</p>
+
+        <hr class="settings-hr">
+
+        <h2 class="settings-group-title">Backend</h2>
+        <p class="settings-group-sub">Paste the Render service URL after deployment.</p>
+        <label class="account-label" for="account-backend-url">Render backend URL</label>
+        <div class="account-row">
+          <input id="account-backend-url" class="schedule-input account-input" type="url" value="${escAttr(backendUrl)}" placeholder="https://your-service.onrender.com">
+          <button class="ds-btn ds-btn-secondary" data-action="saveBackendUrl" ${working ? 'disabled' : ''}>Save</button>
+        </div>
+
+        <hr class="settings-hr">
+
+        <h2 class="settings-group-title">${signedIn ? 'Signed in' : 'Login'}</h2>
+        ${signedIn ? `
+          <div class="account-signed-in">
+            <span class="settings-group-sub">Current account</span>
+            <strong>${esc(account.user.email)}</strong>
+          </div>
+          <div class="account-actions">
+            <button class="ds-btn ds-btn-primary" data-action="syncAccount" ${working ? 'disabled' : ''}>Sync now</button>
+            <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
+          </div>`
+        : `
+          <label class="account-label" for="account-email">Email</label>
+          <input id="account-email" class="schedule-input account-input" type="email" autocomplete="email">
+          <label class="account-label" for="account-password">Password</label>
+          <input id="account-password" class="schedule-input account-input" type="password" autocomplete="current-password">
+          <div class="account-actions">
+            <button class="ds-btn ds-btn-primary" data-action="loginAccount" ${working ? 'disabled' : ''}>Sign in</button>
+            <button class="ds-btn ds-btn-secondary" data-action="registerAccount" ${working ? 'disabled' : ''}>Create account</button>
+          </div>`}
+        ${message}
+      </div>
+
+      <aside class="settings-col account-rail">
+        <span class="settings-kicker">Offline first</span>
+        <h2 class="settings-group-title">No account required</h2>
+        <p class="settings-group-sub">Progress is saved locally first. Sync only copies that save to your account when the backend is reachable.</p>
+        <div class="account-facts">
+          <div><strong>Desktop</strong><span>%APPDATA%\\The Sciences\\save-data.json</span></div>
+          <div><strong>Browser</strong><span>localStorage: the-sciences-progress</span></div>
+          <div><strong>Cloud</strong><span>Render backend /api/progress</span></div>
+        </div>
+      </aside>
+    </div>`;
+}
+
 // --- top-level dispatch ---------------------------------------------------
 
 export function render(state, MODULES, revealedKeys = new Set()) {
@@ -2962,6 +3037,9 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       break;
     case 'settings':
       body = settingsHtml(state);
+      break;
+    case 'account':
+      body = accountHtml(state);
       break;
     case 'achievements':
       body = achievementsHtml(state);

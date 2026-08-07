@@ -9082,7 +9082,7 @@ export default {
           "explanation": "مَاضِيْ مَجْهُوْل، مُضَارِع مَجْهُوْل، its مَصْدَر and the اِسْمُ الْمَفْعُوْلِ are blank; the اِسْمُ الْفَاعِلِ is the irregular كَرِيْمٌ."
         },
         {
-          "q": "In التَّصْرِيْفُ الْكَبِيْرُ of فَتَحَ, which columns are filled only for the مُخَاطَبٌ rows?",
+          "q": "In التَّصْرِيْفُ الْكَبِيْرُ (the 14-row full conjugation table) of فَتَحَ, the غَائِبٌ and مُتَكَلِّمٌ rows have only their الْمَاضِيْ/الْمُضَارِعُ columns (and the مَجْهُوْل of each) filled in. Which columns are filled only for the six مُخَاطَبٌ rows?",
           "options": [
             "الْأَمْرُ، النَّهْيُ، اِسْمُ الْفَاعِلِ and اِسْمُ الْمَفْعُوْلِ",
             "الْمَاضِيْ and الْمُضَارِعُ",

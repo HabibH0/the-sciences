@@ -395,6 +395,18 @@ export function pathFullPool(node) {
   return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.vocabPool || []), ...(p.tarkeebPool || [])];
 }
 
+// The skip-ahead counterpart to pathFullPool above -- js/main.js's
+// bankPool() looks question content up by key against whichever flat pool
+// matches how the session's queue was actually built (see
+// buildPathSectionTestQueue's ctx.skipAhead branch): a skip-ahead session's
+// queue is sampled from pathSkipAheadPoolForNode's wider pool, so content
+// lookup has to search that SAME wider pool, or every key from outside the
+// narrow in-window pool comes up empty mid-session.
+export function pathSkipAheadFullPool(node) {
+  const p = pathSkipAheadPoolForNode(node);
+  return [...(p.quizPool || []), ...(p.bookPool || []), ...(p.vocabPool || []), ...(p.tarkeebPool || [])];
+}
+
 // The whole-path node list strictly BEFORE a given node, in path order --
 // used only by the skip-ahead "jump ahead" path test (see
 // completePriorPathNodes in js/main.js) to know exactly what a passing

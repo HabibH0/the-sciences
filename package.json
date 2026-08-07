@@ -8,6 +8,7 @@
   "scripts": {
     "start": "electron .",
     "validate": "node scripts/validate-content.mjs",
+    "build:web": "node scripts/build-web.js",
     "prepackage": "npm run validate",
     "package": "electron-builder --win nsis:x64 && electron-builder --win nsis:arm64",
     "prepackage:mac": "npm run validate",
