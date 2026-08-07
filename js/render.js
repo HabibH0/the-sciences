@@ -74,6 +74,16 @@ function icon(name, size = 16, strokeWidth = 1.6) {
     aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
 }
 
+function formatDateTime(value) {
+  if (!value) return 'Unknown';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Unknown';
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(date);
+}
+
 // --- Appearance: themes & Arabic typefaces ---------------------------------
 // Mirrors the theme/accent blocks in styles.css exactly (kept as data here
 // too, rather than read from CSS, because Settings' swatches preview each
@@ -2950,13 +2960,12 @@ function accountHtml(state) {
       ${status?.error ? `<p class="settings-group-sub">${esc(status.error)}</p>`
         : status?.exists ? `
           <div class="account-status-grid">
-            <span>Course</span><strong>${esc(status.courseId || 'unknown')}</strong>
             <span>XP</span><strong>${status.xp}</strong>
             <span>Badges</span><strong>${status.badges}</strong>
             <span>Completed lessons</span><strong>${status.completedLessons}</strong>
             <span>Exercise states</span><strong>${status.exerciseStates}</strong>
             <span>Practice history</span><strong>${status.practiceHistory}</strong>
-            <span>Saved at</span><strong>${esc(status.updatedAt || 'unknown')}</strong>
+            <span>Saved at</span><strong>${esc(formatDateTime(status.updatedAt))}</strong>
           </div>`
         : `<p class="settings-group-sub">${emptyText}</p>`}
       <button class="ds-btn ds-btn-ghost" data-action="${refreshAction}" ${working ? 'disabled' : ''}>Refresh status</button>
