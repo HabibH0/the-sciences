@@ -60,6 +60,40 @@ export async function fetchRemoteProgress() {
   return result?.disabled ? null : result;
 }
 
+function countObject(value) {
+  return value && typeof value === 'object' ? Object.keys(value).length : 0;
+}
+
+function countNestedObject(value) {
+  if (!value || typeof value !== 'object') return 0;
+  return Object.values(value).reduce((total, entry) => total + countObject(entry), 0);
+}
+
+function summarizeEnvelope(envelope) {
+  if (!envelope) return { exists: false };
+  const progress = envelope.progress || envelope;
+  return {
+    exists: true,
+    updatedAt: envelope.meta?.updatedAt || '',
+    deviceId: envelope.meta?.deviceId || '',
+    bytes: JSON.stringify(envelope).length,
+    courseId: progress.courseId || '',
+    xp: progress.xp || 0,
+    badges: Array.isArray(progress.badges) ? progress.badges.length : 0,
+    completedLessons: countNestedObject(progress.completed),
+    quizScores: countObject(progress.quizScores),
+    exerciseStates: countObject(progress.exStates),
+    practiceHistory: countObject(progress.practiceHistory),
+    pathNodes: countObject(progress.pathNodeStatus),
+  };
+}
+
+export async function getCloudSaveStatus() {
+  const remote = await fetchRemoteProgress();
+  if (!remote) return { disabled: true };
+  return summarizeEnvelope(remote.progress);
+}
+
 export async function pushRemoteProgress(data) {
   return request('/api/progress', {
     method: 'PUT',

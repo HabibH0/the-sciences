@@ -2942,6 +2942,23 @@ function accountHtml(state) {
   const message = account.message
     ? `<div class="account-message" role="status">${esc(account.message)}</div>`
     : '';
+  const cloud = account.cloudStatus;
+  const cloudStatusHtml = signedIn ? `
+    <div class="account-cloud-status">
+      <h2 class="settings-group-title">Cloud save status</h2>
+      ${cloud?.error ? `<p class="settings-group-sub">${esc(cloud.error)}</p>`
+        : cloud?.exists ? `
+          <div class="account-status-grid">
+            <span>XP</span><strong>${cloud.xp}</strong>
+            <span>Badges</span><strong>${cloud.badges}</strong>
+            <span>Completed lessons</span><strong>${cloud.completedLessons}</strong>
+            <span>Exercise states</span><strong>${cloud.exerciseStates}</strong>
+            <span>Practice history</span><strong>${cloud.practiceHistory}</strong>
+            <span>Saved at</span><strong>${esc(cloud.updatedAt || 'unknown')}</strong>
+          </div>`
+        : `<p class="settings-group-sub">No cloud save data found yet.</p>`}
+      <button class="ds-btn ds-btn-ghost" data-action="refreshCloudSaveStatus" ${working ? 'disabled' : ''}>Refresh status</button>
+    </div>` : '';
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
       <h2 class="settings-group-title">${pendingSync === 'download' ? 'Download cloud save data?' : 'Upload this device save data?'}</h2>
@@ -2973,6 +2990,7 @@ function accountHtml(state) {
             <button class="ds-btn ds-btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save data</button>
             <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
           </div>
+          ${cloudStatusHtml}
           ${confirmPanel}`
         : `
           <label class="account-label" for="account-email">Email</label>
