@@ -8,6 +8,7 @@ const scrypt = promisify(scryptCallback);
 const PORT = Number(process.env.PORT || 3000);
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
+const DATABASE_URL = process.env.DATABASE_URL || '';
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:4173';
 const ALLOWED_ORIGINS = new Set([
   CLIENT_ORIGIN,
@@ -48,6 +49,158 @@ async function verifyPassword(password, stored) {
   return expected.length === hash.length && timingSafeEqual(expected, hash);
 }
 
+function publicUser(user) {
+  return { id: user.id, email: user.email };
+}
+
+function rowToUser(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    email: row.email,
+    passwordHash: row.password_hash,
+    progress: row.progress,
+    createdAt: row.created_at,
+  };
+}
+
+async function createPostgresStore() {
+  const { Pool } = await import('pg');
+  const pool = new Pool({
+    connectionString: DATABASE_URL,
+    ssl: DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false },
+  });
+
+  await pool.query(`
+    create table if not exists users (
+      id text primary key,
+      email text unique not null,
+      password_hash text not null,
+      progress jsonb,
+      progress_saved_at timestamptz,
+      created_at timestamptz not null default now()
+    );
+  `);
+  await pool.query(`
+    create table if not exists sessions (
+      token text primary key,
+      user_id text not null references users(id) on delete cascade,
+      expires_at bigint not null
+    );
+  `);
+
+  return {
+    async pruneSessions() {
+      await pool.query('delete from sessions where expires_at < $1', [Date.now()]);
+    },
+    async findUserByEmail(email) {
+      const result = await pool.query('select * from users where email = $1', [email]);
+      return rowToUser(result.rows[0]);
+    },
+    async getUserById(id) {
+      const result = await pool.query('select * from users where id = $1', [id]);
+      return rowToUser(result.rows[0]);
+    },
+    async createUser({ id, email, passwordHash }) {
+      const result = await pool.query(
+        `insert into users (id, email, password_hash)
+         values ($1, $2, $3)
+         returning *`,
+        [id, email, passwordHash],
+      );
+      return rowToUser(result.rows[0]);
+    },
+    async createSession(token, userId, expiresAt) {
+      await pool.query(
+        'insert into sessions (token, user_id, expires_at) values ($1, $2, $3)',
+        [token, userId, expiresAt],
+      );
+    },
+    async deleteSession(token) {
+      await pool.query('delete from sessions where token = $1', [token]);
+    },
+    async getUserBySession(token) {
+      if (!token) return null;
+      const result = await pool.query(`
+        select u.*
+        from sessions s
+        join users u on u.id = s.user_id
+        where s.token = $1 and s.expires_at >= $2
+      `, [token, Date.now()]);
+      return rowToUser(result.rows[0]);
+    },
+    async getProgress(userId) {
+      const result = await pool.query('select progress from users where id = $1', [userId]);
+      return result.rows[0]?.progress || null;
+    },
+    async setProgress(userId, progress) {
+      const result = await pool.query(
+        `update users
+         set progress = $2, progress_saved_at = now()
+         where id = $1
+         returning progress`,
+        [userId, progress],
+      );
+      return result.rows[0]?.progress || null;
+    },
+  };
+}
+
+function createFileStore() {
+  return {
+    async pruneSessions() {
+      const db = readDb();
+      const now = Date.now();
+      for (const [token, session] of Object.entries(db.sessions)) {
+        if (session.expiresAt < now) delete db.sessions[token];
+      }
+      writeDb(db);
+    },
+    async findUserByEmail(email) {
+      return Object.values(readDb().users).find((user) => user.email === email) || null;
+    },
+    async getUserById(id) {
+      return readDb().users[id] || null;
+    },
+    async createUser(user) {
+      const db = readDb();
+      const next = { ...user, progress: null, createdAt: new Date().toISOString() };
+      db.users[next.id] = next;
+      writeDb(db);
+      return next;
+    },
+    async createSession(token, userId, expiresAt) {
+      const db = readDb();
+      db.sessions[token] = { userId, expiresAt };
+      writeDb(db);
+    },
+    async deleteSession(token) {
+      const db = readDb();
+      delete db.sessions[token];
+      writeDb(db);
+    },
+    async getUserBySession(token) {
+      const db = readDb();
+      const session = token && db.sessions[token];
+      if (!session || session.expiresAt < Date.now()) return null;
+      return db.users[session.userId] || null;
+    },
+    async getProgress(userId) {
+      return readDb().users[userId]?.progress || null;
+    },
+    async setProgress(userId, progress) {
+      const db = readDb();
+      if (!db.users[userId]) return null;
+      db.users[userId].progress = progress;
+      db.users[userId].progressSavedAt = new Date().toISOString();
+      writeDb(db);
+      return progress;
+    },
+  };
+}
+
+const store = DATABASE_URL ? await createPostgresStore() : createFileStore();
+
 function send(res, status, body = null, origin = CLIENT_ORIGIN) {
   const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : CLIENT_ORIGIN;
   res.writeHead(status, {
@@ -85,24 +238,6 @@ async function readJson(req) {
   return JSON.parse(Buffer.concat(chunks).toString('utf-8'));
 }
 
-function publicUser(user) {
-  return { id: user.id, email: user.email };
-}
-
-function currentUser(req, db) {
-  const token = parseCookies(req).ts_session;
-  const session = token && db.sessions[token];
-  if (!session || session.expiresAt < Date.now()) return null;
-  return db.users[session.userId] || null;
-}
-
-function pruneSessions(db) {
-  const now = Date.now();
-  for (const [token, session] of Object.entries(db.sessions)) {
-    if (session.expiresAt < now) delete db.sessions[token];
-  }
-}
-
 function assertEmailPassword(email, password) {
   const normalized = String(email || '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(normalized)) throw new Error('Enter a valid email address.');
@@ -126,24 +261,25 @@ async function handle(req, res) {
   }
 
   const url = new URL(req.url, `http://${req.headers.host}`);
-  const db = readDb();
-  pruneSessions(db);
+  await store.pruneSessions();
 
   try {
     if (req.method === 'GET' && url.pathname === '/health') {
-      send(res, 200, { ok: true }, origin);
+      send(res, 200, { ok: true, storage: DATABASE_URL ? 'postgres' : 'file' }, origin);
       return;
     }
 
     if (req.method === 'POST' && url.pathname === '/api/auth/register') {
       const body = await readJson(req);
       const email = assertEmailPassword(body.email, body.password);
-      if (Object.values(db.users).some((user) => user.email === email)) throw new Error('That email is already registered.');
-      const user = { id: randomUUID(), email, passwordHash: await hashPassword(body.password), progress: null, createdAt: new Date().toISOString() };
+      if (await store.findUserByEmail(email)) throw new Error('That email is already registered.');
+      const user = await store.createUser({
+        id: randomUUID(),
+        email,
+        passwordHash: await hashPassword(body.password),
+      });
       const token = randomBytes(32).toString('hex');
-      db.users[user.id] = user;
-      db.sessions[token] = { userId: user.id, expiresAt: Date.now() + SESSION_MAX_AGE };
-      writeDb(db);
+      await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
       res.setHeader('Set-Cookie', sessionCookie(token));
       send(res, 200, { user: publicUser(user) }, origin);
       return;
@@ -152,11 +288,10 @@ async function handle(req, res) {
     if (req.method === 'POST' && url.pathname === '/api/auth/login') {
       const body = await readJson(req);
       const email = String(body.email || '').trim().toLowerCase();
-      const user = Object.values(db.users).find((entry) => entry.email === email);
+      const user = await store.findUserByEmail(email);
       if (!user || !(await verifyPassword(body.password, user.passwordHash))) throw new Error('Invalid email or password.');
       const token = randomBytes(32).toString('hex');
-      db.sessions[token] = { userId: user.id, expiresAt: Date.now() + SESSION_MAX_AGE };
-      writeDb(db);
+      await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
       res.setHeader('Set-Cookie', sessionCookie(token));
       send(res, 200, { user: publicUser(user) }, origin);
       return;
@@ -164,14 +299,13 @@ async function handle(req, res) {
 
     if (req.method === 'POST' && url.pathname === '/api/auth/logout') {
       const token = parseCookies(req).ts_session;
-      if (token) delete db.sessions[token];
-      writeDb(db);
+      if (token) await store.deleteSession(token);
       res.setHeader('Set-Cookie', sessionCookie('', true));
       send(res, 204, null, origin);
       return;
     }
 
-    const user = currentUser(req, db);
+    const user = await store.getUserBySession(parseCookies(req).ts_session);
     if (!user) {
       send(res, 401, { error: 'Sign in first.' }, origin);
       return;
@@ -183,15 +317,13 @@ async function handle(req, res) {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/progress') {
-      send(res, 200, { progress: user.progress || null }, origin);
+      send(res, 200, { progress: await store.getProgress(user.id) }, origin);
       return;
     }
 
     if (req.method === 'PUT' && url.pathname === '/api/progress') {
-      user.progress = await readJson(req);
-      user.progressSavedAt = new Date().toISOString();
-      writeDb(db);
-      send(res, 200, { progress: user.progress }, origin);
+      const progress = await store.setProgress(user.id, await readJson(req));
+      send(res, 200, { progress }, origin);
       return;
     }
 
@@ -201,6 +333,6 @@ async function handle(req, res) {
   }
 }
 
-http.createServer(handle).listen(PORT, () => {
-  console.log(`The Sciences sync server listening on ${PORT}`);
+http.createServer(handle).listen(PORT, '0.0.0.0', () => {
+  console.log(`The Sciences sync server listening on ${PORT} using ${DATABASE_URL ? 'Postgres' : 'file'} storage`);
 });

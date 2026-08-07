@@ -73,15 +73,15 @@ Build Command: npm install
 Start Command: npm start
 ```
 
-Set these Render environment variables:
+Create a Postgres database on Neon, copy its pooled connection string, then set these Render environment variables:
 
 ```
 NODE_ENV=production
 CLIENT_ORIGIN=https://YOUR-GITHUB-USERNAME.github.io
-DATA_DIR=/var/data
+DATABASE_URL=postgresql://...
 ```
 
-Attach a Render persistent disk mounted at `/var/data`. Render's normal service filesystem is ephemeral, so without a persistent disk the JSON database can be lost when the service restarts or redeploys.
+Do not add a Render persistent disk. With `DATABASE_URL` set, accounts and synced progress are stored in Neon Postgres. If `DATABASE_URL` is missing, the server falls back to local JSON file storage for development only.
 
 After Render deploys, open the app's Account page, paste the Render service URL, then create an account or sign in. Sync uses:
 
