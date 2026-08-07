@@ -14,7 +14,12 @@ async function request(path, options = {}) {
       headers: options.headers || {},
       body: options.body,
     });
-    if (!result.ok) throw new Error(result.body?.error || `Sync request failed: ${result.status}`);
+    if (!result.ok) {
+      const error = new Error(result.body?.error || `Sync request failed: ${result.status}`);
+      error.status = result.status;
+      error.body = result.body;
+      throw error;
+    }
     return result.body;
   }
   const base = getBackendUrl();
@@ -27,7 +32,12 @@ async function request(path, options = {}) {
     },
   });
   const body = response.status === 204 ? null : await response.json().catch(() => null);
-  if (!response.ok) throw new Error(body?.error || `Sync request failed: ${response.status}`);
+  if (!response.ok) {
+    const error = new Error(body?.error || `Sync request failed: ${response.status}`);
+    error.status = response.status;
+    error.body = body;
+    throw error;
+  }
   return body;
 }
 
@@ -75,6 +85,7 @@ function summarizeEnvelope(envelope) {
   return {
     exists: true,
     updatedAt: envelope.meta?.updatedAt || '',
+    version: envelope.meta?.version || 0,
     deviceId: envelope.meta?.deviceId || '',
     bytes: JSON.stringify(envelope).length,
     courseId: progress.courseId || '',
@@ -107,10 +118,13 @@ export async function pushRemoteProgress(data) {
   });
 }
 
-export async function uploadLocalProgress() {
+export async function uploadLocalProgress(options = {}) {
   const local = await exportProgress();
-  await pushRemoteProgress(local);
-  return { synced: true, direction: 'upload', reason: 'manual-upload' };
+  const body = Object.prototype.hasOwnProperty.call(options, 'expectedMeta')
+    ? { progress: local, expectedMeta: options.expectedMeta }
+    : local;
+  await pushRemoteProgress(body);
+  return { synced: true, direction: 'upload', reason: 'manual-upload', progress: local };
 }
 
 export async function downloadRemoteProgress() {

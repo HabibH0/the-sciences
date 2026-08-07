@@ -2975,6 +2975,25 @@ function accountHtml(state) {
     : '';
   const cloud = account.cloudStatus;
   const local = account.localStatus;
+  const autoUploadStatus = account.autoUploadStatus || 'idle';
+  const autoUploadLabels = {
+    idle: account.syncBaseMeta || cloud?.exists === false ? 'Ready' : 'Waiting',
+    queued: 'Queued',
+    uploading: 'Uploading',
+    synced: 'On',
+    paused: 'Paused',
+    error: 'Needs attention',
+  };
+  const autoUploadMessage = account.autoUploadMessage
+    || (account.syncBaseMeta || cloud?.exists === false
+      ? 'Automatic upload will run after lesson, quiz, and practice progress.'
+      : 'Use Upload or Download once to enable automatic upload safely on this device.');
+  const autoUploadHtml = signedIn ? `
+    <div class="account-auto-sync account-auto-sync-${escAttr(autoUploadStatus)}">
+      <span>Automatic upload</span>
+      <strong>${esc(autoUploadLabels[autoUploadStatus] || autoUploadLabels.idle)}</strong>
+      <p>${esc(autoUploadMessage)}</p>
+    </div>` : '';
   const statusBlock = (title, status, refreshAction, emptyText) => `
     <div class="account-cloud-status">
       <h2 class="settings-group-title">${title}</h2>
@@ -3025,6 +3044,7 @@ function accountHtml(state) {
             <button class="ds-btn ds-btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save data</button>
             <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
           </div>
+          ${autoUploadHtml}
           ${saveStatusHtml}
           ${confirmPanel}`
         : `

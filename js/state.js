@@ -271,6 +271,9 @@ export async function createInitialState() {
       pendingSyncAction: null,
       cloudStatus: null,
       localStatus: null,
+      syncBaseMeta: null,
+      autoUploadStatus: 'idle',
+      autoUploadMessage: '',
     },
   };
 }

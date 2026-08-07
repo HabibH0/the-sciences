@@ -53,6 +53,24 @@ function publicUser(user) {
   return { id: user.id, email: user.email };
 }
 
+function progressMeta(progress) {
+  if (!progress || typeof progress !== 'object') return null;
+  const meta = progress.meta || {};
+  return {
+    updatedAt: meta.updatedAt || '',
+    version: Number(meta.version) || 0,
+    deviceId: meta.deviceId || '',
+  };
+}
+
+function sameProgressMeta(a, b) {
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+  return (a.updatedAt || '') === (b.updatedAt || '')
+    && (Number(a.version) || 0) === (Number(b.version) || 0)
+    && (a.deviceId || '') === (b.deviceId || '');
+}
+
 function rowToUser(row) {
   if (!row) return null;
   return {
@@ -322,7 +340,17 @@ async function handle(req, res) {
     }
 
     if (req.method === 'PUT' && url.pathname === '/api/progress') {
-      const progress = await store.setProgress(user.id, await readJson(req));
+      const body = await readJson(req);
+      const conditional = Object.prototype.hasOwnProperty.call(body || {}, 'expectedMeta');
+      const nextProgress = conditional ? body.progress : body;
+      if (conditional) {
+        const currentProgress = await store.getProgress(user.id);
+        if (!sameProgressMeta(progressMeta(currentProgress), body.expectedMeta || null)) {
+          send(res, 409, { error: 'Cloud save changed before upload. Choose Upload or Download manually.', progress: currentProgress }, origin);
+          return;
+        }
+      }
+      const progress = await store.setProgress(user.id, nextProgress);
       send(res, 200, { progress }, origin);
       return;
     }

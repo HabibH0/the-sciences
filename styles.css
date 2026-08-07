@@ -1994,6 +1994,36 @@ h1 + .card-kicker,
   color: var(--color-text);
   font-weight: 600;
 }
+.account-auto-sync {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 14px;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-divider);
+  border-left: 3px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-surface) 54%, var(--color-bg));
+}
+.account-auto-sync span {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  font-size: 13px;
+}
+.account-auto-sync strong {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+.account-auto-sync p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.account-auto-sync-paused,
+.account-auto-sync-error {
+  border-left-color: var(--neutral-600);
+}
 
 /* Theme cards -- a radio group, not buttons (they select, they don't act;
    see the role/aria-checked/keyboard handling in settingsHtml). Each

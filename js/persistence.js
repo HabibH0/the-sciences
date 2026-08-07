@@ -110,8 +110,9 @@ export function flushPersist() {
   if (pendingState) {
     const s = pendingState;
     pendingState = null;
-    persist(s);
+    return persist(s);
   }
+  return Promise.resolve();
 }
 
 export function cancelPendingPersist() {
@@ -161,5 +162,5 @@ function snapshot(state) {
 }
 
 export function persist(state) {
-  saveRaw(snapshot(state));
+  return saveRaw(snapshot(state));
 }

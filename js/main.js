@@ -86,6 +86,46 @@ function normalizeLessonTextScale(value) {
   return Math.min(130, Math.max(85, Math.round(n)));
 }
 
+function statusMeta(status) {
+  if (!status || !status.exists) return null;
+  return {
+    updatedAt: status.updatedAt || '',
+    version: Number(status.version) || 0,
+    deviceId: status.deviceId || '',
+  };
+}
+
+function sameSaveMeta(a, b) {
+  if (!a || !b) return false;
+  return (a.updatedAt || '') === (b.updatedAt || '')
+    && (Number(a.version) || 0) === (Number(b.version) || 0)
+    && (a.deviceId || '') === (b.deviceId || '');
+}
+
+function reconcileSyncBase() {
+  const localMeta = statusMeta(state.account.localStatus);
+  const cloudMeta = statusMeta(state.account.cloudStatus);
+  if (localMeta && cloudMeta && sameSaveMeta(localMeta, cloudMeta)) {
+    state.account.syncBaseMeta = cloudMeta;
+    if (state.account.autoUploadStatus === 'paused') {
+      state.account.autoUploadStatus = 'idle';
+      state.account.autoUploadMessage = '';
+    }
+  }
+}
+
+function autoUploadSuccessMessage(reason) {
+  if (reason === 'lesson-complete') return 'Lesson completion uploaded to your account.';
+  if (reason === 'quiz-complete') return 'Quiz result uploaded to your account.';
+  if (reason === 'lesson-exercise' || reason === 'concept-exercise') return 'Lesson exercise progress uploaded to your account.';
+  if (reason === 'practice-answer') return 'Practice progress uploaded to your account.';
+  if (reason === 'mastery-complete') return 'Mastery result uploaded to your account.';
+  if (reason === 'path-session-complete') return 'Path progress uploaded to your account.';
+  if (reason === 'unlock-test-complete') return 'Unlock test progress uploaded to your account.';
+  if (reason === 'path-milestone') return 'Path milestone progress uploaded to your account.';
+  return 'Progress uploaded to your account.';
+}
+
 // --- boot sanitation --------------------------------------------------
 
 (function sanitizeBootNav() {
@@ -670,14 +710,16 @@ function recordPathRepAnswer(key, kind, pass, node) {
 // there's nothing to auto-complete on the group-selection screen itself.
 function checkPathMilestones() {
   const group = state.pathGroupId && findPathGroup(state.pathGroupId);
-  if (!group) return;
+  if (!group) return false;
   const skeleton = groupSkeleton(group);
   const idx = firstUnfinishedPathNodeIndex(skeleton, state.pathNodeStatus, state.completed);
   const node = skeleton[idx];
   if (node && node.type === 'milestone' && !(state.pathNodeStatus[node.id] && state.pathNodeStatus[node.id].done)) {
     state.pathNodeStatus[node.id] = { done: true, at: todayISO() };
     if (node.badgeId) awardBadge(state, node.badgeId);
+    return true;
   }
+  return false;
 }
 
 // --- Grading: Mastery (lesson or checkpoint) and My Path's other checkpoint
@@ -693,6 +735,7 @@ function finalizeMasteryV2() {
   const prev = state.masteryV2[mkey] || { attempts: 0 };
   state.masteryV2[mkey] = { passed, attempts: prev.attempts + 1, lastAttemptAt: Date.now() };
   state.view = 'masteryV2Complete';
+  queueAutoUpload('mastery-complete');
 }
 
 // Duolingo-style "jump ahead": passing a section/group test reached early
@@ -751,6 +794,7 @@ function finalizePathSession() {
     }
   }
   checkPathMilestones();
+  queueAutoUpload('path-session-complete');
 }
 
 // req: "if the user completes the tests for unlocking the individual
@@ -815,6 +859,7 @@ function finalizeUnlockTest() {
     completePreviousModulesInCourse(p.targetId);
   }
   syncAdvancedUnlocks();
+  queueAutoUpload('unlock-test-complete');
 }
 
 // The pass ratio the CURRENTLY active session needs to clear, or null if it
@@ -874,9 +919,14 @@ function reloadAfterCloudDownload() {
   setTimeout(() => window.location.reload(), 900);
 }
 
+function rerenderAccountIfOpen() {
+  if (state.view === 'account') rerender();
+}
+
 async function refreshCloudSaveStatus() {
   try {
     state.account.cloudStatus = await getCloudSaveStatus();
+    reconcileSyncBase();
   } catch (e) {
     state.account.cloudStatus = { error: e.message || 'Could not read cloud save status.' };
   }
@@ -885,8 +935,88 @@ async function refreshCloudSaveStatus() {
 async function refreshLocalSaveStatus() {
   try {
     state.account.localStatus = await getLocalSaveStatus();
+    reconcileSyncBase();
   } catch (e) {
     state.account.localStatus = { error: e.message || 'Could not read this device save status.' };
+  }
+}
+
+let autoUploadTimer = null;
+let autoUploadRunning = false;
+let autoUploadReason = '';
+
+function queueAutoUpload(reason) {
+  if (!state.account.user || !state.account.backendUrl || suppressPersist) return;
+  autoUploadReason = reason;
+  state.account.autoUploadStatus = 'queued';
+  state.account.autoUploadMessage = 'Recent progress will upload automatically.';
+  clearTimeout(autoUploadTimer);
+  autoUploadTimer = setTimeout(() => {
+    autoUploadTimer = null;
+    runAutoUpload(autoUploadReason);
+  }, 1600);
+  rerenderAccountIfOpen();
+}
+
+async function runAutoUpload(reason) {
+  if (!state.account.user || !state.account.backendUrl || suppressPersist) return;
+  if (autoUploadRunning) {
+    queueAutoUpload(reason);
+    return;
+  }
+
+  autoUploadRunning = true;
+  state.account.autoUploadStatus = 'uploading';
+  state.account.autoUploadMessage = 'Uploading recent progress...';
+  rerenderAccountIfOpen();
+
+  try {
+    await flushPersist();
+    await refreshLocalSaveStatus();
+    await refreshCloudSaveStatus();
+
+    const localMeta = statusMeta(state.account.localStatus);
+    const cloudMeta = statusMeta(state.account.cloudStatus);
+    const baseMeta = state.account.syncBaseMeta;
+
+    if (localMeta && cloudMeta && sameSaveMeta(localMeta, cloudMeta)) {
+      state.account.syncBaseMeta = cloudMeta;
+      state.account.autoUploadStatus = 'synced';
+      state.account.autoUploadMessage = 'Cloud save is already up to date.';
+      return;
+    }
+
+    if (cloudMeta && baseMeta && !sameSaveMeta(cloudMeta, baseMeta)) {
+      state.account.autoUploadStatus = 'paused';
+      state.account.autoUploadMessage = 'Automatic upload paused because the cloud save changed on another device. Use Upload or Download to choose which save wins.';
+      return;
+    }
+
+    if (cloudMeta && !baseMeta) {
+      state.account.autoUploadStatus = 'paused';
+      state.account.autoUploadMessage = 'Automatic upload will start after you manually upload or download once on this device.';
+      return;
+    }
+
+    const expectedMeta = cloudMeta ? baseMeta : null;
+    await uploadLocalProgress({ expectedMeta });
+    await refreshCloudSaveStatus();
+    await refreshLocalSaveStatus();
+    reconcileSyncBase();
+    state.account.autoUploadStatus = 'synced';
+    state.account.autoUploadMessage = autoUploadSuccessMessage(reason);
+  } catch (e) {
+    if (e.status === 409) {
+      await refreshCloudSaveStatus();
+      state.account.autoUploadStatus = 'paused';
+      state.account.autoUploadMessage = 'Automatic upload paused because the cloud save changed on another device. Use Upload or Download to choose which save wins.';
+      return;
+    }
+    state.account.autoUploadStatus = 'error';
+    state.account.autoUploadMessage = e.message || 'Automatic upload failed. Manual sync is still available.';
+  } finally {
+    autoUploadRunning = false;
+    rerenderAccountIfOpen();
   }
 }
 
@@ -1195,7 +1325,7 @@ const actions = {
     state.view = 'path';
     state.pathActive = false;
     state.practice = null;
-    checkPathMilestones();
+    if (checkPathMilestones()) queueAutoUpload('path-milestone');
   },
   // Every checkpoint/section-test row opens pathCheckpointSetupHtml's popout
   // first (openPathCheckpointSetup below) -- a vocab direction picker for
@@ -1366,6 +1496,7 @@ const actions = {
     } else {
       p.combo = 0;
     }
+    queueAutoUpload('practice-answer');
     // A graded session doesn't end HERE even if this answer just made
     // passing impossible -- the learner still sees this question's own
     // feedback (rendered below from p.submitted/p.correct) and clicks
@@ -1538,6 +1669,11 @@ const actions = {
       state.account.pendingSyncAction = null;
       state.account.cloudStatus = null;
       state.account.localStatus = null;
+      state.account.syncBaseMeta = null;
+      state.account.autoUploadStatus = 'idle';
+      state.account.autoUploadMessage = '';
+      clearTimeout(autoUploadTimer);
+      autoUploadTimer = null;
       state.account.message = 'Signed out. Local offline progress remains on this device.';
     } catch (e) {
       state.account.message = e.message || 'Could not sign out.';
@@ -1600,6 +1736,9 @@ const actions = {
       if (!result.synced) throw new Error('Sync server is not configured.');
       await refreshCloudSaveStatus();
       await refreshLocalSaveStatus();
+      reconcileSyncBase();
+      state.account.autoUploadStatus = 'synced';
+      state.account.autoUploadMessage = 'Automatic upload is ready for future lesson, quiz, and practice progress.';
       state.account.message = 'Downloaded cloud save data. Reloading...';
       window.location.reload();
     } catch (e) {
@@ -1615,9 +1754,13 @@ const actions = {
     state.account.message = 'Uploading save data...';
     rerender();
     try {
+      await flushPersist();
       await uploadLocalProgress();
       await refreshCloudSaveStatus();
       await refreshLocalSaveStatus();
+      reconcileSyncBase();
+      state.account.autoUploadStatus = 'synced';
+      state.account.autoUploadMessage = 'Automatic upload is ready for future lesson, quiz, and practice progress.';
       state.account.message = 'Uploaded this device save data to your account.';
     } catch (e) {
       state.account.message = e.message || 'Could not upload save data.';
@@ -1853,6 +1996,7 @@ const actions = {
       ex.passed = true;
       state.revealState[key] = 1;
     }
+    queueAutoUpload('concept-exercise');
   },
   retryConceptExercise(el) {
     const key = conceptKey(state.moduleId, state.lessonId, +el.dataset.index);
@@ -1876,6 +2020,7 @@ const actions = {
     ex.submitted = true;
     ex.passed = true; // "attempted" -- see isLessonExerciseItemPassed's comment in content/index.js; correctness itself is read back from ex.selected vs item.correct at render time
     scheduleLessonExerciseAdvance();
+    queueAutoUpload('lesson-exercise');
   },
 
   // Reveal-on-click: choosing an option immediately shows correct/incorrect
@@ -1907,6 +2052,7 @@ const actions = {
     state.quizScores[state.moduleId][state.lessonId] = { correct, total };
     state.quizShowResult = true;
     state.quizPassed = correct / total >= QUIZ_PASS_RATIO;
+    queueAutoUpload('quiz-complete');
   },
   retakeQuiz() {
     startQuizAttempt(getLesson(state.moduleId, state.lessonId));
@@ -1946,6 +2092,7 @@ const actions = {
     // should count, since it isn't repeatable/farmable (the count is
     // re-derived from quizScores, not incremented per attempt).
     checkPerfectQuizBadges(state);
+    queueAutoUpload('lesson-complete');
   },
 
   tarkeebChipClick(el) {
@@ -2014,6 +2161,7 @@ const actions = {
       } else {
         p.combo = 0;
       }
+      queueAutoUpload('practice-answer');
       // See selectPracticeOption's matching comment -- ending early (if
       // this answer made passing impossible) happens when the learner
       // clicks past THIS question's own feedback, not immediately here.
