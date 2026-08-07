@@ -83,7 +83,7 @@ DATABASE_URL=postgresql://...
 
 Do not add a Render persistent disk. With `DATABASE_URL` set, accounts and synced progress are stored in Neon Postgres. If `DATABASE_URL` is missing, the server falls back to local JSON file storage for development only.
 
-After Render deploys, open the app's Account page, paste the Render service URL, then create an account or sign in. Sync uses:
+After Render deploys, the app's Account page uses `https://the-sciences.onrender.com` by default. Users only need to create an account or sign in. The server URL field is kept as an advanced override for testing another backend. Sync uses:
 
 ```
 POST /api/auth/register

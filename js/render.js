@@ -2952,9 +2952,9 @@ function accountHtml(state) {
 
         <hr class="settings-hr">
 
-        <h2 class="settings-group-title">Backend</h2>
-        <p class="settings-group-sub">Paste the Render service URL after deployment.</p>
-        <label class="account-label" for="account-backend-url">Render backend URL</label>
+        <h2 class="settings-group-title">Sync server</h2>
+        <p class="settings-group-sub">The default sync server is already set. Change this only if you are testing another backend.</p>
+        <label class="account-label" for="account-backend-url">Advanced server override</label>
         <div class="account-row">
           <input id="account-backend-url" class="schedule-input account-input" type="url" value="${escAttr(backendUrl)}" placeholder="https://your-service.onrender.com">
           <button class="ds-btn ds-btn-secondary" data-action="saveBackendUrl" ${working ? 'disabled' : ''}>Save</button>

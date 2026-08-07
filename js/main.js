@@ -1457,7 +1457,7 @@ const actions = {
   saveBackendUrl() {
     const input = document.getElementById('account-backend-url');
     state.account.backendUrl = setBackendUrl(input?.value || '');
-    state.account.message = state.account.backendUrl ? 'Backend URL saved.' : 'Backend URL cleared.';
+    state.account.message = input?.value ? 'Backend URL saved.' : 'Using the default sync server.';
   },
   async registerAccount() {
     const email = document.getElementById('account-email')?.value || '';
@@ -1467,7 +1467,7 @@ const actions = {
     rerender();
     try {
       const result = await register(email, password);
-      if (result.disabled) throw new Error('Add your Render backend URL first.');
+      if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
       state.account.message = 'Account created. Syncing this device...';
       rerender();
@@ -1487,7 +1487,7 @@ const actions = {
     rerender();
     try {
       const result = await login(email, password);
-      if (result.disabled) throw new Error('Add your Render backend URL first.');
+      if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
       const sync = await syncProgress();
       state.account.message = sync.direction === 'download'
@@ -1519,7 +1519,7 @@ const actions = {
     rerender();
     try {
       const result = await syncProgress();
-      if (!result.synced) throw new Error('Add your Render backend URL first.');
+      if (!result.synced) throw new Error('Sync server is not configured.');
       state.account.message = result.direction === 'download'
         ? 'Synced. Newer cloud progress was downloaded.'
         : 'Synced. Cloud progress is up to date.';
