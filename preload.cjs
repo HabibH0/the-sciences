@@ -20,4 +20,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
       return () => ipcRenderer.removeListener('window:maximized-changed', listener);
     },
   },
+  sync: {
+    request: (request) => ipcRenderer.invoke('sync:request', request),
+  },
 });

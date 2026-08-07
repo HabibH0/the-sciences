@@ -7,6 +7,16 @@ export function getBackendUrl() {
 }
 
 async function request(path, options = {}) {
+  if (window.electronAPI?.sync?.request) {
+    const result = await window.electronAPI.sync.request({
+      path,
+      method: options.method || 'GET',
+      headers: options.headers || {},
+      body: options.body,
+    });
+    if (!result.ok) throw new Error(result.body?.error || `Sync request failed: ${result.status}`);
+    return result.body;
+  }
   const base = getBackendUrl();
   if (!base) return { disabled: true };
   const response = await fetch(`${base}${path}`, {

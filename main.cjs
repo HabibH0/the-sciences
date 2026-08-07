@@ -20,6 +20,16 @@ const WINDOW_ICON = path.join(__dirname, 'assets', process.platform === 'win32' 
 const SAVE_DIR = path.join(app.getPath('appData'), 'The Sciences');
 const SAVE_PATH = path.join(SAVE_DIR, 'save-data.json');
 const DEVICE_ID_PATH = path.join(SAVE_DIR, 'device-id.txt');
+const SYNC_BACKEND_URL = 'https://the-sciences.onrender.com';
+const SYNC_PATHS = new Set([
+  '/api/auth/register',
+  '/api/auth/login',
+  '/api/auth/logout',
+  '/api/me',
+  '/api/progress',
+]);
+const SYNC_METHODS = new Set(['GET', 'POST', 'PUT']);
+let syncCookie = '';
 
 function readJson(filePath) {
   try {
@@ -153,6 +163,33 @@ ipcMain.handle('storage:import-progress', (event, data) => {
   return data || {};
 });
 ipcMain.handle('storage:get-device-id', () => getDeviceId());
+
+ipcMain.handle('sync:request', async (event, request) => {
+  const method = String(request?.method || 'GET').toUpperCase();
+  const requestPath = String(request?.path || '');
+  if (!SYNC_PATHS.has(requestPath) || !SYNC_METHODS.has(method)) {
+    return { ok: false, status: 400, body: { error: 'Unsupported sync request.' } };
+  }
+  const headers = { ...(request?.headers || {}) };
+  if (syncCookie) headers.Cookie = syncCookie;
+  const response = await fetch(`${SYNC_BACKEND_URL}${requestPath}`, {
+    method,
+    headers,
+    body: request?.body,
+  });
+  const setCookie = response.headers.get('set-cookie');
+  if (setCookie) syncCookie = setCookie.split(';')[0];
+  const text = await response.text();
+  let body = null;
+  if (text) {
+    try {
+      body = JSON.parse(text);
+    } catch (e) {
+      body = { error: text };
+    }
+  }
+  return { ok: response.ok, status: response.status, body };
+});
 
 app.whenReady().then(() => {
   createWindow();
