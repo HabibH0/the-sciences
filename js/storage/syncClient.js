@@ -59,6 +59,43 @@ export async function pushRemoteProgress(data) {
   });
 }
 
+function objectHasEntries(value) {
+  return !!value && typeof value === 'object' && Object.keys(value).length > 0;
+}
+
+function nestedObjectHasEntries(value) {
+  if (!value || typeof value !== 'object') return false;
+  return Object.values(value).some((entry) => {
+    if (Array.isArray(entry)) return entry.length > 0;
+    return objectHasEntries(entry);
+  });
+}
+
+function hasMeaningfulProgress(envelope) {
+  const progress = envelope?.progress || {};
+  if ((progress.xp || 0) > 0) return true;
+  if ((progress.streak || 1) > 1) return true;
+  if (Array.isArray(progress.badges) && progress.badges.length > 0) return true;
+  if ((progress.practiceCorrectTotal || 0) > 0) return true;
+  if (nestedObjectHasEntries(progress.completed)) return true;
+  if (objectHasEntries(progress.quizScores)) return true;
+  if (objectHasEntries(progress.exStates)) return true;
+  if (objectHasEntries(progress.practiceHistory)) return true;
+  if (objectHasEntries(progress.pathNodeStatus)) return true;
+  if (objectHasEntries(progress.pathReps)) return true;
+  if (objectHasEntries(progress.vocabExposure)) return true;
+  if (objectHasEntries(progress.pathCheckpointMastery)) return true;
+  if (objectHasEntries(progress.masteryV2)) return true;
+  if (objectHasEntries(progress.unlockedCourses)) return true;
+  if (objectHasEntries(progress.unlockedTracks)) return true;
+  if (objectHasEntries(progress.unlockedModules)) return true;
+  if (progress.theme && progress.theme !== 'manuscript') return true;
+  if (progress.accent && progress.accent !== 'gold') return true;
+  if (progress.arabicFace && progress.arabicFace !== 'naskh') return true;
+  if (progress.kufiHeadings) return true;
+  return false;
+}
+
 export async function syncProgress() {
   const local = await exportProgress();
   const remote = await fetchRemoteProgress();
@@ -69,6 +106,12 @@ export async function syncProgress() {
   }
   const localUpdated = Date.parse(local.meta?.updatedAt || 0);
   const remoteUpdated = Date.parse(remote.progress.meta?.updatedAt || 0);
+  const localHasProgress = hasMeaningfulProgress(local);
+  const remoteHasProgress = hasMeaningfulProgress(remote.progress);
+  if (localHasProgress && !remoteHasProgress) {
+    await pushRemoteProgress(local);
+    return { synced: true, direction: 'upload', reason: 'protected-local-progress' };
+  }
   if (remoteUpdated > localUpdated) {
     await importProgress(remote.progress);
     return { synced: true, direction: 'download' };

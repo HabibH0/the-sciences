@@ -1485,9 +1485,13 @@ const actions = {
       if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
       const sync = await syncProgress();
-      state.account.message = sync.direction === 'download'
-        ? 'Signed in. Newer cloud progress was downloaded.'
-        : 'Signed in. This device is synced.';
+      if (sync.reason === 'protected-local-progress') {
+        state.account.message = 'Signed in. Your progress on this device was uploaded.';
+      } else {
+        state.account.message = sync.direction === 'download'
+          ? 'Signed in. Newer cloud progress was downloaded.'
+          : 'Signed in. This device is synced.';
+      }
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
     } finally {
@@ -1515,9 +1519,13 @@ const actions = {
     try {
       const result = await syncProgress();
       if (!result.synced) throw new Error('Sync server is not configured.');
-      state.account.message = result.direction === 'download'
-        ? 'Synced. Newer cloud progress was downloaded.'
-        : 'Synced. Cloud progress is up to date.';
+      if (result.reason === 'protected-local-progress') {
+        state.account.message = 'Synced. Your progress on this device was uploaded.';
+      } else {
+        state.account.message = result.direction === 'download'
+          ? 'Synced. Newer cloud progress was downloaded.'
+          : 'Synced. Cloud progress is up to date.';
+      }
     } catch (e) {
       state.account.message = e.message || 'Could not sync.';
     } finally {
