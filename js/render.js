@@ -1507,10 +1507,17 @@ function tarkeebTrayHtml(ts, key) {
 // select/place/check/reset actions as the original words[]/labels[]
 // تركيب (js/main.js branches on item.cells, not new action names), just a
 // multi-row grid of slots instead of one slot per word.
+function shouldShowTarkeebTranslation(state) {
+  const p = state.practice;
+  if (p && typeof p.tarkeebTranslations === 'boolean') return p.tarkeebTranslations;
+  return state.tarkeebTranslations !== false;
+}
+
 function renderTarkeebDiagram(state, item, key, moduleId) {
   const ts = state.tarkeebState[key];
   const submitted = !!ts.submitted;
   const feedback = ts.feedback;
+  const showTranslation = shouldShowTarkeebTranslation(state);
   // Blank slots for every unlabeled cell are an Advanced Nahw (annahw) thing
   // -- fstu's تركيب was designed without them, so filling them in there just
   // clutters a layout that was never meant to show "no match here" boxes.
@@ -1571,7 +1578,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
   <div class="tarkeeb tarkeeb-diagram-practice" data-tarkeeb-key="${escAttr(key)}">
     ${item.instruction ? `<p class="exercise-prompt">${escBidi(item.instruction)}</p>` : ''}
     ${grid}
-    ${item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
+    ${showTranslation && item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
     <div class="tarkeeb-tray-label">Drag each label onto its slot (tap a filled slot to clear it)</div>
     <div class="tarkeeb-tray" dir="rtl">${tray}</div>
     <div class="action-row">
@@ -1587,6 +1594,7 @@ function renderTarkeeb(state, item, key, moduleId) {
   const ts = state.tarkeebState[key];
   const submitted = !!ts.submitted;
   const feedback = ts.feedback;
+  const showTranslation = shouldShowTarkeebTranslation(state);
 
   const wordCols = item.words.map((word, i) => {
     const chipIdx = ts.placements[i];
@@ -1625,6 +1633,7 @@ function renderTarkeeb(state, item, key, moduleId) {
   <div class="tarkeeb" data-tarkeeb-key="${escAttr(key)}">
     <p class="exercise-prompt">${escBidi(item.instruction)}</p>
     <div class="tarkeeb-row" dir="rtl">${wordCols}</div>
+    ${showTranslation && item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
     <div class="tarkeeb-tray-label">Drag each label onto its word (tap a filled slot to clear it)</div>
     <div class="tarkeeb-tray" dir="rtl">${tray}</div>
     <div class="action-row">
@@ -1677,12 +1686,24 @@ function practiceSetupPanelHtml(state, mod) {
   const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed) : [];
   const vocabPool = getVocabPool(mod.id, state.completed, vocabType);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
+  const tarkeebTranslationsOn = state.practiceTarkeebTranslations == null
+    ? state.tarkeebTranslations !== false
+    : state.practiceTarkeebTranslations !== false;
+  const tarkeebTranslationControl = kind === 'tarkeeb' ? `
+    <div class="practice-translation-setting">
+      <span>Translation</span>
+      <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Tarkeeb translation visibility">
+        <button class="practice-tab ${tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="1">Show</button>
+        <button class="practice-tab ${!tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="0">Hide</button>
+      </div>
+    </div>` : '';
   const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
 
   const body = pool.length === 0
     ? `<p class="empty-state">Complete a lesson to unlock ${kindLabel} practice questions.</p>`
     : `
       <p class="lede">Choose how many to practice.</p>
+      ${tarkeebTranslationControl}
       <div class="practice-count-grid">
         ${practiceCountOptions(pool.length).map((o) => `<button class="btn btn-outline practice-count-btn" data-action="startPractice" data-kind="${kind}" data-count="${o.count}">${o.label}</button>`).join('')}
       </div>`;
@@ -2832,6 +2853,7 @@ function settingsHtml(state) {
   const lessonTextScale = Number.isFinite(rawLessonTextScale)
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
+  const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
 
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
@@ -2899,6 +2921,15 @@ function settingsHtml(state) {
       <span class="specimen-word-label">${esc(w.label)}</span>
     </div>`).join('');
 
+  const tarkeebTranslationToggle = `
+    <button class="settings-toggle-row ${tarkeebTranslationsOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebTranslationsOn}" data-action="toggleTarkeebTranslations">
+      <span class="settings-toggle-copy">
+        <span class="settings-toggle-title">Tarkeeb translations</span>
+        <span class="settings-toggle-sub">Default for the small English line under Tarkeeb exercises.</span>
+      </span>
+      <span class="settings-toggle-pill">${tarkeebTranslationsOn ? 'Shown' : 'Hidden'}</span>
+    </button>`;
+
   return `
     <div class="settings-page">
       <div class="settings-col">
@@ -2932,6 +2963,7 @@ function settingsHtml(state) {
             <p>A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
           </div>
         </div>
+        ${tarkeebTranslationToggle}
 
         <hr class="settings-hr">
 

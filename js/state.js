@@ -126,6 +126,10 @@ export async function createInitialState() {
     // old "every direction pooled together" behaviour. Not persisted --
     // defaults to "en-ar" when unset (see practiceSetupPanelHtml).
     practiceVocabType: null,
+    // Transient: copied from the saved Tarkeeb translation default whenever
+    // the module Practice Mode setup opens, then copied onto that one
+    // session when it starts.
+    practiceTarkeebTranslations: null,
     // Transient: whether the Practice Mode setup popout is expanded under
     // the module page's "Practice Mode" button. Not persisted -- a reload
     // always lands with it collapsed.
@@ -231,6 +235,7 @@ export async function createInitialState() {
     accent: boot.accent || 'gold',
     arabicFace: boot.arabicFace || 'naskh',
     lessonTextScale: boot.lessonTextScale || 100,
+    tarkeebTranslations: boot.tarkeebTranslations !== false,
     // Advanced-course/path lock override (see content/index.js's
     // isCourseUnlocked, content/paths.js's isTrackUnlocked) -- keyed by
     // courseId/trackId -> true once its skip-ahead unlock test is passed

@@ -1412,6 +1412,7 @@ const actions = {
     state.practiceSetupOpen = !alreadyOpenHere;
     state.pathActive = false;
     if (!state.practiceSetupKind) state.practiceSetupKind = 'mcq';
+    if (state.practiceSetupOpen) state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
   },
   // Plays the popout's entrance animation in reverse before actually
   // closing it -- an immediate state flip would just yank it out of the
@@ -1436,6 +1437,9 @@ const actions = {
   setPracticeVocabType(el) {
     state.practiceVocabType = el.dataset.vocabType;
   },
+  setPracticeTarkeebTranslation(el) {
+    state.practiceTarkeebTranslations = el.dataset.show !== '0';
+  },
   startPractice(el) {
     const kind = el.dataset.kind;
     const count = +el.dataset.count;
@@ -1459,6 +1463,9 @@ const actions = {
       correct: false,
       combo: 0,
       xpGained: 0,
+      tarkeebTranslations: kind === 'tarkeeb'
+        ? state.practiceTarkeebTranslations !== false
+        : state.tarkeebTranslations !== false,
     };
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
@@ -1608,6 +1615,10 @@ const actions = {
   },
   setLessonTextScale(el) {
     state.lessonTextScale = normalizeLessonTextScale(el.value);
+  },
+  toggleTarkeebTranslations() {
+    state.tarkeebTranslations = state.tarkeebTranslations === false;
+    state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
   },
   toggleKufiHeadings() {
     state.kufiHeadings = !state.kufiHeadings;
