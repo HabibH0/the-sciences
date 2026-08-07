@@ -2828,6 +2828,10 @@ function settingsHtml(state) {
   const accentHex = (ACCENTS[accent] || ACCENTS.gold).hex;
   const face = state.arabicFace || 'naskh';
   const currentFace = FACES[face] || FACES.naskh;
+  const rawLessonTextScale = Number(state.lessonTextScale);
+  const lessonTextScale = Number.isFinite(rawLessonTextScale)
+    ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
+    : 100;
 
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
@@ -2911,6 +2915,23 @@ function settingsHtml(state) {
         <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
         <p class="settings-group-sub">Independent of the paper -- any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
+
+        <div class="lesson-size-control">
+          <div class="lesson-size-head">
+            <label class="lesson-size-label" for="lesson-text-scale">Lesson text size</label>
+            <output class="lesson-size-value" for="lesson-text-scale" data-lesson-text-scale-value>${lessonTextScale}%</output>
+          </div>
+          <input id="lesson-text-scale" class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonTextScale}" data-action="setLessonTextScale" aria-label="Lesson text size">
+          <div class="lesson-size-ticks" aria-hidden="true">
+            <span>Small</span>
+            <span>Default</span>
+            <span>Large</span>
+          </div>
+          <div class="lesson-size-preview">
+            <span class="settings-kicker">Lesson Preview</span>
+            <p>A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
+          </div>
+        </div>
 
         <hr class="settings-hr">
 

@@ -110,6 +110,7 @@
      'naskh'-default fallbacks so the page isn't unstyled before boot. */
   --font-ar: 'Noto Naskh Arabic', 'Simplified Arabic', 'Traditional Arabic', serif;
   --font-ar-heading: var(--font-ar);
+  --lesson-text-scale: 1;
 
   --radius: 10px;
   --radius-sm: 6px;
@@ -2094,6 +2095,55 @@ h1 + .card-kicker,
   color: var(--color-text);
 }
 
+.lesson-size-control {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-divider);
+}
+.lesson-size-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lesson-size-label {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  color: var(--color-text);
+}
+.lesson-size-value {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+.lesson-size-slider {
+  width: 100%;
+  margin: 16px 0 6px;
+  accent-color: var(--color-accent);
+}
+.lesson-size-ticks {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11.5px;
+  color: color-mix(in srgb, var(--color-text) 52%, transparent);
+}
+.lesson-size-preview {
+  margin-top: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--color-divider);
+  border-left: 3px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-surface) 54%, var(--color-bg));
+}
+.lesson-size-preview p {
+  margin: 10px 0 0;
+  color: var(--color-text);
+  font-size: calc(16px * var(--lesson-text-scale, 1));
+  line-height: 1.7;
+}
+
 /* Typeface rows -- also a radio group. */
 .face-list {
   display: flex;
@@ -2568,6 +2618,7 @@ h1 + .card-kicker,
 }
 /* One <p> per sentence -- the prose is split in content/index.js. */
 .concept-line {
+  font-size: calc(16px * var(--lesson-text-scale, 1));
   line-height: 1.7;
   margin: 0 0 0.7em;
 }
@@ -2582,6 +2633,7 @@ h1 + .card-kicker,
 }
 .concept-list li {
   position: relative;
+  font-size: calc(16px * var(--lesson-text-scale, 1));
   line-height: 1.7;
   margin: 0 0 0.35em;
 }
@@ -2664,7 +2716,10 @@ h1 + .card-kicker,
   color: var(--ink-soft);
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 16.5px;
+  font-size: calc(16.5px * var(--lesson-text-scale, 1));
+}
+.concept-clarification .concept-list li {
+  font-size: calc(16.5px * var(--lesson-text-scale, 1));
 }
 .concept-clarification > *:last-child {
   margin-bottom: 0;
@@ -4160,6 +4215,13 @@ button.path-node:not(.locked):hover {
   color: var(--ink-soft);
   margin: 0 0 10px;
   line-height: 1.5;
+}
+
+.lesson-main .exercise-prompt {
+  font-size: calc(16px * var(--lesson-text-scale, 1));
+}
+.lesson-main .lesson-exercise-instructions {
+  font-size: calc(12.5px * var(--lesson-text-scale, 1));
 }
 
 .exercise-left .exercise-feedback {

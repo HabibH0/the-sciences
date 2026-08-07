@@ -221,14 +221,16 @@ export async function createInitialState() {
     // badge ladder (see gamification.js) -- unlike state.practice's own log,
     // this survives across sessions instead of resetting each time.
     practiceCorrectTotal: boot.practiceCorrectTotal,
-    // Appearance: colour theme, accent, and Arabic typeface (see
+    // Appearance: colour theme, accent, Arabic typeface, and lesson text
+    // scale (see
     // js/render.js THEMES/ACCENTS/FACES) -- theme and accent are independent
     // choices. Persisted, applied to <html data-theme>/<html data-accent>
-    // and the --font-ar* custom properties on every render (see
+    // and the --font-ar*/--lesson-text-scale custom properties on every render (see
     // applyAppearance in main.js).
     theme: boot.theme || 'manuscript',
     accent: boot.accent || 'gold',
     arabicFace: boot.arabicFace || 'naskh',
+    lessonTextScale: boot.lessonTextScale || 100,
     // Advanced-course/path lock override (see content/index.js's
     // isCourseUnlocked, content/paths.js's isTrackUnlocked) -- keyed by
     // courseId/trackId -> true once its skip-ahead unlock test is passed

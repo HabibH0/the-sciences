@@ -19,6 +19,12 @@ function migratePerCourse(saved, courseId) {
   return { [courseId]: saved };
 }
 
+function normalizeLessonTextScale(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 100;
+  return Math.min(130, Math.max(85, Math.round(n)));
+}
+
 export async function loadRaw() {
   return loadProgress();
 }
@@ -71,6 +77,7 @@ export async function bootProgress() {
     theme: saved.theme || 'manuscript',
     accent: saved.accent || 'gold',
     arabicFace: saved.arabicFace || 'naskh',
+    lessonTextScale: normalizeLessonTextScale(saved.lessonTextScale),
     kufiHeadings: saved.kufiHeadings || false,
     unlockedCourses: saved.unlockedCourses || {},
     unlockedTracks: saved.unlockedTracks || {},
@@ -138,6 +145,7 @@ function snapshot(state) {
     theme: state.theme,
     accent: state.accent,
     arabicFace: state.arabicFace,
+    lessonTextScale: normalizeLessonTextScale(state.lessonTextScale),
     kufiHeadings: state.kufiHeadings,
     unlockedCourses: state.unlockedCourses,
     unlockedTracks: state.unlockedTracks,

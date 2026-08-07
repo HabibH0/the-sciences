@@ -80,6 +80,12 @@ checkStreakBadges(state);
 
 const root = document.getElementById('root');
 
+function normalizeLessonTextScale(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 100;
+  return Math.min(130, Math.max(85, Math.round(n)));
+}
+
 // --- boot sanitation --------------------------------------------------
 
 (function sanitizeBootNav() {
@@ -464,6 +470,7 @@ function applyAppearance(state) {
   const face = FACES[state.arabicFace] || FACES.naskh;
   document.documentElement.style.setProperty('--font-ar', face.body);
   document.documentElement.style.setProperty('--font-ar-heading', state.kufiHeadings ? KUFI_HEAD_FONT : face.body);
+  document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
 }
 
 // focusSelector re-focuses a specific element after the innerHTML swap below
@@ -1468,6 +1475,9 @@ const actions = {
   pickFace(el) {
     state.arabicFace = el.dataset.face;
   },
+  setLessonTextScale(el) {
+    state.lessonTextScale = normalizeLessonTextScale(el.value);
+  },
   toggleKufiHeadings() {
     state.kufiHeadings = !state.kufiHeadings;
   },
@@ -1475,6 +1485,7 @@ const actions = {
     state.theme = 'manuscript';
     state.accent = 'gold';
     state.arabicFace = 'naskh';
+    state.lessonTextScale = 100;
     state.kufiHeadings = false;
   },
   async registerAccount() {
@@ -2123,6 +2134,16 @@ document.addEventListener('change', (e) => {
     if (result !== false) rerender();
     return;
   }
+});
+
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('input[type="range"][data-action="setLessonTextScale"]');
+  if (!el || el.disabled) return;
+  actions.setLessonTextScale(el, e);
+  applyAppearance(state);
+  const value = root.querySelector('[data-lesson-text-scale-value]');
+  if (value) value.textContent = `${state.lessonTextScale}%`;
+  persistSoon(state);
 });
 
 // --- drag-and-drop for tarkeeb (native events bubble, so this is delegated
