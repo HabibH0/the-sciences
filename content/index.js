@@ -103,9 +103,8 @@ export function isCourseComplete(course, completed) {
 
 // A course with no requiresCourseId (the two introductory courses) is
 // always unlocked. An advanced course unlocks once its introductory
-// counterpart is fully complete, OR early by passing its own skip-ahead
-// unlock test (unlockedCourses is state.unlockedCourses, courseId -> true,
-// set by finalizeUnlockTest in js/main.js -- see courseUnlockTestPool below).
+// counterpart is fully complete, OR by a direct confirmed unlock
+// (unlockedCourses is state.unlockedCourses, courseId -> true).
 export function isCourseUnlocked(course, completed, unlockedCourses, forceUnlockAll = false) {
   if (forceUnlockAll) return true;
   if (!course.requiresCourseId) return true;
@@ -565,11 +564,11 @@ export function courseHasVocab() {
 }
 
 // --- Skip-ahead unlock tests -------------------------------------------
-// Replaces the old filesystem-password unlock: a locked advanced course, the
-// Advanced Path track, or a locked module can each instead be entered early
-// by passing a test drawn from the content that would normally have to be
-// completed first. See finalizeUnlockTest/syncAdvancedUnlocks in js/main.js
-// for what a pass actually unlocks.
+// Locked modules can be entered early by passing a test drawn from the
+// content that would normally have to be completed first. Advanced courses
+// and the Advanced Path now use direct confirmed unlocks instead, but the
+// course/path pools stay available as lookup pools for any already-running
+// legacy unlock-test session.
 
 export const UNLOCK_TEST_LENGTH = 30;
 export const MODULE_SKIP_TEST_LENGTH = 15;

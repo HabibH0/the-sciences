@@ -27,13 +27,11 @@ import {
   isCourseUnlocked,
   courseUnlockTestPool,
   moduleSkipTestPool,
-  courseUnlockTestSubPools,
   moduleSkipTestSubPools,
-  UNLOCK_TEST_LENGTH,
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
-import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool, trackUnlockTestSubPools } from '../content/paths.js';
+import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
   buildModuleRevisionQueue, moduleRevisionPool,
@@ -122,6 +120,7 @@ function autoUploadSuccessMessage(reason) {
   if (reason === 'mastery-complete') return 'Mastery result uploaded to your account.';
   if (reason === 'path-session-complete') return 'Path progress uploaded to your account.';
   if (reason === 'unlock-test-complete') return 'Unlock test progress uploaded to your account.';
+  if (reason === 'direct-unlock') return 'Unlock choice uploaded to your account.';
   if (reason === 'path-milestone') return 'Path milestone progress uploaded to your account.';
   return 'Progress uploaded to your account.';
 }
@@ -797,28 +796,6 @@ function finalizePathSession() {
   queueAutoUpload('path-session-complete');
 }
 
-// req: "if the user completes the tests for unlocking the individual
-// courses, the path gets unlocked anyway and vice versa" -- called after any
-// unlock-test pass to check whether the reciprocal side now qualifies too.
-// Natural full-completion already satisfies isCourseUnlocked/isTrackUnlocked
-// with no flag at all (see their own "OR fully complete" branch), so this
-// only has to watch the TEST-unlock flags reaching full coverage of one side
-// or the other.
-function syncAdvancedUnlocks() {
-  const annahw = COURSES.find((c) => c.id === 'annahw');
-  const sarfAdvanced = COURSES.find((c) => c.id === 'sarf-advanced');
-  const advancedTrack = PATH_TRACKS.find((t) => t.id === 'advanced');
-  if (annahw && sarfAdvanced
-    && isCourseUnlocked(annahw, state.completed, state.unlockedCourses)
-    && isCourseUnlocked(sarfAdvanced, state.completed, state.unlockedCourses)) {
-    state.unlockedTracks.advanced = true;
-  }
-  if (advancedTrack && isTrackUnlocked(advancedTrack, state.completed, state.unlockedTracks)) {
-    state.unlockedCourses.annahw = true;
-    state.unlockedCourses['sarf-advanced'] = true;
-  }
-}
-
 // A module skip-ahead test jumps within a single course, so unlike course/
 // track unlocks it has no "OR fully complete" fallback of its own to fall
 // back on for the modules in between (isModuleUnlocked only special-cases
@@ -837,28 +814,21 @@ function completePreviousModulesInCourse(targetModuleId) {
   }
 }
 
-// Skip-ahead unlock test: passes at UNLOCK_TEST_PASS_RATIO, writing to
-// unlockedCourses/unlockedTracks/unlockedModules. Course/track unlocks
-// deliberately NEVER touch state.completed (req: unlocking the advanced
-// version of a course "shouldn't auto complete the introductory version so
-// that every module gets unlocked" -- the intro course/path stays exactly as
-// unfinished as it was; only the advanced side's own gate opens). A module
-// unlock is different: it's a skip within one course, not a jump to another
-// course/path, so it backfills that course's earlier lessons as complete
-// (see completePreviousModulesInCourse) rather than leaving a gap.
+// Module skip-ahead unlock test: passes at UNLOCK_TEST_PASS_RATIO, writing
+// to unlockedModules and backfilling that course's earlier lessons as
+// complete (see completePreviousModulesInCourse) rather than leaving a gap.
+// Advanced course/path unlocks no longer use tests; those are direct,
+// confirmed access overrides handled by confirmIndividualUnlock below.
 function finalizeUnlockTest() {
   const p = state.practice;
   const total = p.log.length;
   const correct = p.log.filter((l) => l.correct).length;
   const passed = total > 0 && correct / total >= UNLOCK_TEST_PASS_RATIO;
   if (!passed) return;
-  if (p.unlockKind === 'course') state.unlockedCourses[p.targetId] = true;
-  else if (p.unlockKind === 'track') state.unlockedTracks[p.targetId] = true;
-  else if (p.unlockKind === 'module') {
+  if (p.unlockKind === 'module') {
     state.unlockedModules[p.targetId] = true;
     completePreviousModulesInCourse(p.targetId);
   }
-  syncAdvancedUnlocks();
   queueAutoUpload('unlock-test-complete');
 }
 
@@ -1247,47 +1217,46 @@ const actions = {
   closeUnlockPrompt() {
     state.unlockPrompt = null;
   },
-  // Builds the skip-ahead unlock test's pool (see courseUnlockTestPool/
-  // trackUnlockTestPool/moduleSkipTestPool) and enters it as an ordinary
-  // graded practice session (source: 'unlockTest') -- passing it at
-  // UNLOCK_TEST_PASS_RATIO is what actually records the unlock, in
-  // finalizeUnlockTest below, once the session ends.
+  // Advanced courses/path are direct confirmed unlocks. Locked modules keep
+  // the old skip-ahead test because that one backfills earlier lessons in
+  // the same course.
+  confirmIndividualUnlock() {
+    const p = state.unlockPrompt;
+    if (!p || (p.type !== 'course' && p.type !== 'track')) return false;
+    if (p.type === 'course') state.unlockedCourses[p.id] = true;
+    else state.unlockedTracks[p.id] = true;
+    state.unlockPrompt = null;
+    queueAutoUpload('direct-unlock');
+  },
+  // Builds the module skip-ahead unlock test's pool (see
+  // moduleSkipTestPool) and enters it as an ordinary graded practice
+  // session (source: 'unlockTest') -- passing it at UNLOCK_TEST_PASS_RATIO
+  // records the module unlock in finalizeUnlockTest above.
   startUnlockTest(el) {
     const p = state.unlockPrompt;
-    if (!p) return false;
-    const subPools = p.type === 'course' ? courseUnlockTestSubPools(p.id)
-      : p.type === 'track' ? trackUnlockTestSubPools(p.id)
-        : moduleSkipTestSubPools(p.id);
-    const length = p.type === 'module' ? MODULE_SKIP_TEST_LENGTH : UNLOCK_TEST_LENGTH;
+    if (!p || p.type !== 'module') return false;
+    const subPools = moduleSkipTestSubPools(p.id);
+    const length = MODULE_SKIP_TEST_LENGTH;
     const queue = buildUnlockTestQueue(subPools, length);
     if (!queue.length) return false;
     state.unlockPrompt = null;
     state.launchScreen = false;
-    // Course/track prompts are only ever opened from the launch screen or
-    // My Path's group list, both reached via launchScreen -- so an
-    // unset exitView (see exitPracticeSession) sends those back there.
-    // A module prompt is opened from a course's own chapter grid instead.
-    const exitView = p.type === 'module' ? 'dashboard' : null;
     state.practice = {
       source: 'unlockTest', unlockKind: p.type, targetId: p.id, kind: 'unlockTest',
-      moduleId: null, lessonId: null, exitView,
+      moduleId: null, lessonId: null, exitView: 'dashboard',
       queue, index: 0, log: [], startedAt: Date.now(),
       selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
     };
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
   },
-  // A failed unlock test offers a fresh, freshly-shuffled attempt over the
-  // same pool -- never a "redo what you missed" subset, same reasoning as
-  // retryMasteryV2.
+  // A failed module unlock test offers a fresh, freshly-shuffled attempt
+  // over the same pool -- never a "redo what you missed" subset, same
+  // reasoning as retryMasteryV2.
   retryUnlockTest() {
     const p = state.practice;
-    if (!p || p.source !== 'unlockTest') return false;
-    const subPools = p.unlockKind === 'course' ? courseUnlockTestSubPools(p.targetId)
-      : p.unlockKind === 'track' ? trackUnlockTestSubPools(p.targetId)
-        : moduleSkipTestSubPools(p.targetId);
-    const length = p.unlockKind === 'module' ? MODULE_SKIP_TEST_LENGTH : UNLOCK_TEST_LENGTH;
-    const queue = buildUnlockTestQueue(subPools, length);
+    if (!p || p.source !== 'unlockTest' || p.unlockKind !== 'module') return false;
+    const queue = buildUnlockTestQueue(moduleSkipTestSubPools(p.targetId), MODULE_SKIP_TEST_LENGTH);
     if (!queue.length) return false;
     p.queue = queue;
     p.index = 0;

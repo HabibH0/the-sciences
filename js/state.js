@@ -239,10 +239,9 @@ export async function createInitialState() {
     forceUnlockAll: boot.forceUnlockAll === true,
     // Advanced-course/path lock override (see content/index.js's
     // isCourseUnlocked, content/paths.js's isTrackUnlocked) -- keyed by
-    // courseId/trackId -> true once its skip-ahead unlock test is passed
-    // (see startUnlockTest/finalizeUnlockTest in js/main.js), and stays true
-    // from then on. The normal "finish the introductory course" gate still
-    // applies independently and can also satisfy this on its own.
+    // courseId/trackId -> true once the direct unlock is confirmed, and
+    // stays true from then on. The normal "finish the introductory course"
+    // gate still applies independently and can also satisfy this on its own.
     unlockedCourses: boot.unlockedCourses || {},
     unlockedTracks: boot.unlockedTracks || {},
     // Skip-ahead unlock test override for an individual module (see
@@ -855,7 +854,8 @@ export function stillPassable(p, passRatio) {
   return (correct + remaining) / total >= passRatio - 1e-9;
 }
 
-// Skip-ahead unlock tests (course-jump, Advanced-Path-jump, module-jump):
+// Skip-ahead unlock tests (module-jump; course/path pools remain only for
+// legacy lookup of already-running sessions):
 // req: "a mix of lesson and book exercises" as well as "a mix of tarkeeb and
 // mcqs, or mcqs only if there are no tarkeeb questions" (a course like Sarf
 // has no تركيب at all, see moduleHasTarkeeb's comment in content/index.js) --

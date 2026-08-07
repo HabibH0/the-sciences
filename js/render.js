@@ -36,7 +36,6 @@ import {
   courseUnlockTestPool,
   moduleSkipTestPool,
   moduleSkipTestSourceModules,
-  UNLOCK_TEST_LENGTH,
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
 } from '../content/index.js';
@@ -455,7 +454,7 @@ function launchCourseCardHtml(course, index, state) {
         </div>
         <h3 class="launch-card-arabic" lang="ar" dir="rtl">${esc(course.arabicName)}</h3>
         <p class="launch-card-body">${esc(course.lockedMessage || 'Locked.')}</p>
-        <span class="launch-card-cta">Take a test to unlock early &rarr;</span>
+        <span class="launch-card-cta">Unlock this course &rarr;</span>
       </button>`;
   }
   return `
@@ -799,24 +798,20 @@ function forceUnlockPromptHtml(state) {
 // --- Advanced-course/path/module unlock prompt -----------------------------
 // Opened from a locked launch-screen course card, a locked My Path
 // advanced-track card, or a locked module's dashboard card (all use
-// data-action="openUnlockPrompt", see the actions in js/main.js). Rather
-// than a password, this offers a skip-ahead test built from the content the
-// learner would otherwise have had to finish first (see
-// courseUnlockTestPool/trackUnlockTestPool/moduleSkipTestPool) --
-// startUnlockTest (js/main.js) enters it as a graded practice session, and
-// finalizeUnlockTest records the unlock permanently once it's passed at
-// UNLOCK_TEST_PASS_RATIO.
+// data-action="openUnlockPrompt", see the actions in js/main.js). Advanced
+// courses/path are now direct, confirmed access overrides; locked modules
+// still offer a skip-ahead test because that flow backfills earlier lessons
+// inside the same course.
 function unlockPromptLabel(state) {
   const p = state.unlockPrompt;
   if (!p) return null;
   if (p.type === 'course') {
     const course = COURSES.find((c) => c.id === p.id);
     if (!course) return null;
-    const req = COURSES.find((c) => c.id === course.requiresCourseId);
     return {
       name: course.name, message: course.lockedMessage,
-      pool: courseUnlockTestPool(p.id), length: UNLOCK_TEST_LENGTH,
-      sourceDescription: req ? `the second half of ${req.name}` : 'the introductory course',
+      directUnlock: true,
+      noun: 'course',
     };
   }
   if (p.type === 'track') {
@@ -824,8 +819,8 @@ function unlockPromptLabel(state) {
     if (!track) return null;
     return {
       name: track.title, message: track.lockedMessage,
-      pool: trackUnlockTestPool(p.id), length: UNLOCK_TEST_LENGTH,
-      sourceDescription: 'the second half of both Introductory Nahw and Introductory Sarf',
+      directUnlock: true,
+      noun: 'path',
     };
   }
   const mod = getModule(p.id);
@@ -860,6 +855,21 @@ function unlockPromptHtml(state) {
   if (!state.unlockPrompt) return '';
   const label = unlockPromptLabel(state);
   if (!label) return '';
+  if (label.directUnlock) {
+    return `
+    <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
+      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" aria-label="Unlock ${escAttr(label.noun)}">
+        <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
+        <h3 class="unlock-modal-title">Unlock ${esc(label.name)}?</h3>
+        <p class="unlock-modal-sub">${esc(label.message || '')}</p>
+        <p class="unlock-modal-sub">This opens only this ${esc(label.noun)}. It does not mark any lessons complete, award badges, or unlock the matching advanced ${label.noun === 'path' ? 'courses' : 'path'}.</p>
+        <div class="unlock-modal-buttons">
+          <button class="ds-btn ds-btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
+          <button class="ds-btn ds-btn-primary" data-action="confirmIndividualUnlock">Unlock ${esc(label.noun)}</button>
+        </div>
+      </div>
+    </div>`;
+  }
   const composition = unlockTestCompositionText(label.pool, label.length);
   const canStart = label.pool.length > 0;
   return `
@@ -2729,7 +2739,7 @@ function pathTrackSectionHtml(state, track, revealedKeys) {
   const lockedBanner = trackLocked
     ? `<button class="path-track-locked-banner" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(track.id)}">
         ${icon('lock', 15, 2)}
-        <span>${esc(track.lockedMessage || 'Locked.')} Take a test to unlock early &rarr;</span>
+        <span>${esc(track.lockedMessage || 'Locked.')} Unlock this path &rarr;</span>
       </button>`
     : '';
   return `

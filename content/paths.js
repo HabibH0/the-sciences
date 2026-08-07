@@ -34,8 +34,8 @@ export const PATH_TRACKS = [
     groups: advancedPath.PATH_GROUPS,
     // Gated: the whole track stays locked until BOTH introductory courses
     // are fully complete (it bundles Advanced Nahw + Advanced Sarf, the
-    // same pairing COURSES' own requiresCourseId uses per-course), or early
-    // via its own skip-ahead unlock test -- see isTrackUnlocked below.
+    // same pairing COURSES' own requiresCourseId uses per-course), or by a
+    // direct confirmed unlock -- see isTrackUnlocked below.
     requiresCourseIds: ['fstu', 'sarf'],
     lockedMessage: 'Locked until the Introductory Path (both Nahw and Sarf) is complete.',
   },
@@ -43,9 +43,8 @@ export const PATH_TRACKS = [
 
 // A track with no requiresCourseIds (the introductory track) is always
 // unlocked. unlockedTracks is state.unlockedTracks, trackId -> true, set by
-// finalizeUnlockTest in js/main.js once trackUnlockTestPool's own unlock
-// test is passed -- same override idiom as content/index.js's
-// isCourseUnlocked.
+// the direct confirmed path unlock in js/main.js -- same override idiom as
+// content/index.js's isCourseUnlocked.
 export function isTrackUnlocked(track, completed, unlockedTracks, forceUnlockAll = false) {
   if (forceUnlockAll) return true;
   if (!track.requiresCourseIds) return true;
