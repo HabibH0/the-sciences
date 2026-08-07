@@ -1958,6 +1958,11 @@ h1 + .card-kicker,
   font-size: 14px;
   color: color-mix(in srgb, var(--color-text) 76%, transparent);
 }
+.account-confirm {
+  border-top: 1px solid var(--color-divider);
+  margin-top: 26px;
+  padding-top: 22px;
+}
 .account-signed-in {
   display: grid;
   gap: 4px;

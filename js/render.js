@@ -2938,9 +2938,21 @@ function accountHtml(state) {
   const account = state.account || {};
   const working = account.status === 'working';
   const signedIn = !!account.user;
+  const pendingSync = account.pendingSyncAction;
   const message = account.message
     ? `<div class="account-message" role="status">${esc(account.message)}</div>`
     : '';
+  const confirmPanel = pendingSync ? `
+    <div class="account-confirm">
+      <h2 class="settings-group-title">${pendingSync === 'download' ? 'Download cloud save data?' : 'Upload this device save data?'}</h2>
+      <p class="settings-group-sub">${pendingSync === 'download'
+        ? 'This replaces the save data on this device with the save data currently stored in your account.'
+        : 'This replaces the cloud save data in your account with the save data currently on this device.'}</p>
+      <div class="account-actions">
+        <button class="ds-btn ds-btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>${pendingSync === 'download' ? 'Confirm download' : 'Confirm upload'}</button>
+        <button class="ds-btn ds-btn-ghost" data-action="cancelAccountSync" ${working ? 'disabled' : ''}>Cancel</button>
+      </div>
+    </div>` : '';
 
   return `
     <div class="account-page">
@@ -2957,10 +2969,11 @@ function accountHtml(state) {
             <strong>${esc(account.user.email)}</strong>
           </div>
           <div class="account-actions">
-            <button class="ds-btn ds-btn-primary" data-action="syncAccount" ${working ? 'disabled' : ''}>Sync now</button>
-            <button class="ds-btn ds-btn-secondary" data-action="uploadAccountProgress" ${working ? 'disabled' : ''}>Upload this device</button>
+            <button class="ds-btn ds-btn-primary" data-action="requestUploadAccountProgress" ${working ? 'disabled' : ''}>Upload save data</button>
+            <button class="ds-btn ds-btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save data</button>
             <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
-          </div>`
+          </div>
+          ${confirmPanel}`
         : `
           <label class="account-label" for="account-email">Email</label>
           <input id="account-email" class="schedule-input account-input" type="email" autocomplete="email">

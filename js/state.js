@@ -266,6 +266,7 @@ export async function createInitialState() {
       status: 'idle',
       message: '',
       backendUrl: '',
+      pendingSyncAction: null,
     },
   };
 }

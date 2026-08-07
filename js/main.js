@@ -47,7 +47,7 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, todayISO } from './persistence.js';
-import { getBackendUrl, register, login, logout, me, syncProgress, uploadLocalProgress } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, uploadLocalProgress, downloadRemoteProgress } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -1468,10 +1468,8 @@ const actions = {
       const result = await register(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
-      state.account.message = 'Account created. Syncing this device...';
-      rerender();
-      const sync = await syncProgress();
-      state.account.message = sync.synced ? 'Account created and progress synced.' : 'Account created.';
+      state.account.pendingSyncAction = null;
+      state.account.message = 'Account created. Choose upload or download to sync save data.';
     } catch (e) {
       state.account.message = e.message || 'Could not create account.';
     } finally {
@@ -1488,17 +1486,8 @@ const actions = {
       const result = await login(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
-      const sync = await syncProgress();
-      if (sync.reason === 'protected-local-progress') {
-        state.account.message = 'Signed in. Your progress on this device was uploaded.';
-      } else {
-        state.account.message = sync.reason === 'protected-remote-progress'
-          ? 'Signed in. Cloud progress was downloaded. Reloading...'
-          : sync.direction === 'download'
-            ? 'Signed in. Newer cloud progress was downloaded. Reloading...'
-            : 'Signed in. This device is synced.';
-        if (sync.direction === 'download') reloadAfterCloudDownload();
-      }
+      state.account.pendingSyncAction = null;
+      state.account.message = 'Signed in. Choose upload or download to sync save data.';
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
     } finally {
@@ -1512,6 +1501,7 @@ const actions = {
     try {
       await logout();
       state.account.user = null;
+      state.account.pendingSyncAction = null;
       state.account.message = 'Signed out. Local offline progress remains on this device.';
     } catch (e) {
       state.account.message = e.message || 'Could not sign out.';
@@ -1519,38 +1509,49 @@ const actions = {
       state.account.status = 'idle';
     }
   },
-  async syncAccount() {
+  requestUploadAccountProgress() {
+    state.account.pendingSyncAction = 'upload';
+    state.account.message = '';
+  },
+  requestDownloadAccountProgress() {
+    state.account.pendingSyncAction = 'download';
+    state.account.message = '';
+  },
+  cancelAccountSync() {
+    state.account.pendingSyncAction = null;
+    state.account.message = '';
+  },
+  async confirmAccountSync() {
+    const direction = state.account.pendingSyncAction;
+    if (direction === 'upload') return actions.uploadAccountProgress();
+    if (direction === 'download') return actions.downloadAccountProgress();
+  },
+  async downloadAccountProgress() {
     state.account.status = 'working';
-    state.account.message = 'Syncing...';
+    state.account.pendingSyncAction = null;
+    state.account.message = 'Downloading save data...';
     rerender();
     try {
-      const result = await syncProgress();
+      const result = await downloadRemoteProgress();
       if (!result.synced) throw new Error('Sync server is not configured.');
-      if (result.reason === 'protected-local-progress') {
-        state.account.message = 'Synced. Your progress on this device was uploaded.';
-      } else {
-        state.account.message = result.reason === 'protected-remote-progress'
-          ? 'Synced. Cloud progress was downloaded. Reloading...'
-          : result.direction === 'download'
-            ? 'Synced. Newer cloud progress was downloaded. Reloading...'
-            : 'Synced. Cloud progress is up to date.';
-        if (result.direction === 'download') reloadAfterCloudDownload();
-      }
+      state.account.message = 'Downloaded cloud save data. Reloading...';
+      reloadAfterCloudDownload();
     } catch (e) {
-      state.account.message = e.message || 'Could not sync.';
+      state.account.message = e.message || 'Could not download save data.';
     } finally {
       state.account.status = 'idle';
     }
   },
   async uploadAccountProgress() {
     state.account.status = 'working';
-    state.account.message = 'Uploading this device...';
+    state.account.pendingSyncAction = null;
+    state.account.message = 'Uploading save data...';
     rerender();
     try {
       await uploadLocalProgress();
-      state.account.message = 'Uploaded this device to your account.';
+      state.account.message = 'Uploaded this device save data to your account.';
     } catch (e) {
-      state.account.message = e.message || 'Could not upload this device.';
+      state.account.message = e.message || 'Could not upload save data.';
     } finally {
       state.account.status = 'idle';
     }
