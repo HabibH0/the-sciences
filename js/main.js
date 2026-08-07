@@ -860,6 +860,10 @@ function scheduleLessonExerciseAdvance() {
   }, 1100);
 }
 
+function reloadAfterCloudDownload() {
+  setTimeout(() => window.location.reload(), 900);
+}
+
 // --- tarkeeb helpers ----------------------------------------------------
 
 function initTarkeeb(item, moduleId) {
@@ -1489,8 +1493,9 @@ const actions = {
         state.account.message = 'Signed in. Your progress on this device was uploaded.';
       } else {
         state.account.message = sync.direction === 'download'
-          ? 'Signed in. Newer cloud progress was downloaded.'
+          ? 'Signed in. Newer cloud progress was downloaded. Reloading...'
           : 'Signed in. This device is synced.';
+        if (sync.direction === 'download') reloadAfterCloudDownload();
       }
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
@@ -1523,8 +1528,9 @@ const actions = {
         state.account.message = 'Synced. Your progress on this device was uploaded.';
       } else {
         state.account.message = result.direction === 'download'
-          ? 'Synced. Newer cloud progress was downloaded.'
+          ? 'Synced. Newer cloud progress was downloaded. Reloading...'
           : 'Synced. Cloud progress is up to date.';
+        if (result.direction === 'download') reloadAfterCloudDownload();
       }
     } catch (e) {
       state.account.message = e.message || 'Could not sync.';
