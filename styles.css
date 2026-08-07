@@ -2192,6 +2192,12 @@ h1 + .card-kicker,
 .settings-toggle-row.is-selected {
   border-color: var(--color-accent);
 }
+.settings-toggle-warning {
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+.settings-toggle-warning:not(.is-selected) .settings-toggle-title {
+  color: color-mix(in srgb, var(--color-text) 88%, var(--color-accent));
+}
 .settings-toggle-copy {
   min-width: 0;
   display: flex;
@@ -2484,6 +2490,12 @@ h1 + .card-kicker,
   color: var(--ink-soft);
   font-size: 14px;
   margin: 0 0 20px;
+}
+.force-unlock-modal {
+  max-width: 470px;
+}
+.force-unlock-modal .modal-sub {
+  line-height: 1.55;
 }
 .modal-buttons {
   display: flex;

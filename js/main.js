@@ -139,7 +139,7 @@ function autoUploadSuccessMessage(reason) {
     state.lessonId = null;
     return;
   }
-  if (state.moduleId && !isModuleUnlocked(state.moduleId, state.completed, state.unlockedModules)) {
+  if (state.moduleId && !isModuleUnlocked(state.moduleId, state.completed, state.unlockedModules, state.forceUnlockAll)) {
     state.view = 'dashboard';
     state.moduleId = null;
     state.lessonId = null;
@@ -158,7 +158,7 @@ function autoUploadSuccessMessage(reason) {
   } else if (['lesson', 'quiz'].includes(state.view)) {
     // Where inside the lesson the learner was is derived from exStates on
     // render, so a reload only has to check the lesson is still reachable.
-    if (!(state.moduleId && state.lessonId && isLessonUnlocked(state.moduleId, state.lessonId, state.completed, state.unlockedModules))) {
+    if (!(state.moduleId && state.lessonId && isLessonUnlocked(state.moduleId, state.lessonId, state.completed, state.unlockedModules, state.forceUnlockAll))) {
       state.view = state.moduleId ? 'module' : 'dashboard';
     }
   }
@@ -1077,7 +1077,7 @@ function ensureTarkeeb(key, item, moduleId) {
 function bankPool() {
   const p = state.practice;
   if (p && p.source === 'revision') {
-    return p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed) : moduleRevisionPool(p.moduleId, state.completed);
+    return p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll) : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
   }
   if (p && p.source === 'masteryV2') {
     return masteryV2Pool(p.moduleId, p.lessonId);
@@ -1097,7 +1097,7 @@ function bankPool() {
       : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
         : moduleSkipTestPool(p.targetId);
   }
-  return getBankPool(state.practiceModuleId || state.moduleId, state.completed);
+  return getBankPool(state.practiceModuleId || state.moduleId, state.completed, state.forceUnlockAll);
 }
 
 function findBankItem(key) {
@@ -1180,7 +1180,7 @@ const actions = {
     // dispatches openUnlockPrompt instead of this action (see
     // launchCourseCardHtml in js/render.js), but guard here too in case
     // state.completed/unlockedCourses changes out from under a stale render.
-    if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses)) return false;
+    if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
     state.launchScreen = false;
     // state.pathHome (not state.view) is the durable "was the learner in My
     // Path" signal -- state.view alone would miss a Settings/Schedule/
@@ -1195,7 +1195,7 @@ const actions = {
     // Defense in depth -- a locked module's own dashboard card already
     // dispatches openUnlockPrompt instead of this action (see dashboardHtml
     // in js/render.js), but guard here too, same reasoning as chooseCourse.
-    if (!isModuleUnlocked(moduleId, state.completed, state.unlockedModules)) return false;
+    if (!isModuleUnlocked(moduleId, state.completed, state.unlockedModules, state.forceUnlockAll)) return false;
     state.moduleId = moduleId;
     state.view = 'module';
     state.lessonId = null;
@@ -1223,7 +1223,7 @@ const actions = {
     // openUnlockPrompt instead of this action (see pathGroupCardHtml), but
     // guard here too, same reasoning as chooseCourse above.
     const track = PATH_TRACKS.find((t) => t.groups.includes(group));
-    if (track && !isTrackUnlocked(track, state.completed, state.unlockedTracks)) return false;
+    if (track && !isTrackUnlocked(track, state.completed, state.unlockedTracks, state.forceUnlockAll)) return false;
     state.pathGroupId = group.id;
     state.view = 'path';
     state.pathActive = false;
@@ -1444,10 +1444,10 @@ const actions = {
     const kind = el.dataset.kind;
     const count = +el.dataset.count;
     const pool = kind === 'tarkeeb'
-      ? getTarkeebPool(state.practiceModuleId, state.completed)
+      ? getTarkeebPool(state.practiceModuleId, state.completed, state.forceUnlockAll)
       : kind === 'vocab'
-        ? getVocabPool(state.practiceModuleId, state.completed, state.practiceVocabType || 'en-ar')
-        : getMcqPool(state.practiceModuleId, state.completed);
+        ? getVocabPool(state.practiceModuleId, state.completed, state.practiceVocabType || 'en-ar', state.forceUnlockAll)
+        : getMcqPool(state.practiceModuleId, state.completed, state.forceUnlockAll);
     if (!pool.length) return false;
     const queue = buildPracticeQueue(pool, state.practiceHistory, count);
     state.practiceSetupOpen = false;
@@ -1619,6 +1619,45 @@ const actions = {
   toggleTarkeebTranslations() {
     state.tarkeebTranslations = state.tarkeebTranslations === false;
     state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
+  },
+  requestForceUnlockAll() {
+    if (state.forceUnlockAll) {
+      state.forceUnlockAll = false;
+      state.forceUnlockPrompt = false;
+      const activeCourse = COURSES.find((c) => c.id === state.courseId);
+      if (activeCourse && !isCourseUnlocked(activeCourse, state.completed, state.unlockedCourses)) {
+        state.launchScreen = true;
+        state.view = 'dashboard';
+        state.moduleId = null;
+        state.lessonId = null;
+        state.practice = null;
+        state.practiceSetupOpen = false;
+        state.lessonPreviewId = null;
+        state.pathActive = false;
+        state.pathHome = false;
+      }
+      const pathGroup = state.pathGroupId && findPathGroup(state.pathGroupId);
+      const pathTrack = pathGroup && PATH_TRACKS.find((t) => t.groups.includes(pathGroup));
+      if (pathTrack && !isTrackUnlocked(pathTrack, state.completed, state.unlockedTracks)) {
+        state.pathGroupId = null;
+        if (state.pathHome) state.view = 'pathGroups';
+      }
+      return;
+    }
+    state.forceUnlockPrompt = true;
+  },
+  confirmForceUnlockAll() {
+    state.forceUnlockAll = true;
+    state.forceUnlockPrompt = false;
+    state.unlockPrompt = null;
+    state.pathSkipAheadPromptNodeId = null;
+  },
+  closeForceUnlockPrompt(el, e) {
+    if (e && e.target !== el) return false;
+    state.forceUnlockPrompt = false;
+  },
+  cancelForceUnlockAll() {
+    state.forceUnlockPrompt = false;
   },
   toggleKufiHeadings() {
     state.kufiHeadings = !state.kufiHeadings;
@@ -1822,7 +1861,7 @@ const actions = {
   // scheduleRevisionHtml) until a module is actually resolvable, so the
   // defensive checks here are a backstop, not the primary gate.
   startRevision() {
-    const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
+    const eligible = state.forceUnlockAll ? MODULES : MODULES.filter((m) => isModuleComplete(m.id, state.completed));
     if (!eligible.length) return false;
     let moduleId = null;
     if (state.scheduleRevisionMode === 'random') {
@@ -1831,7 +1870,7 @@ const actions = {
       moduleId = state.scheduleRevisionModuleId;
     }
     if (!moduleId) return false;
-    const queue = buildModuleRevisionQueue(moduleId, state.completed);
+    const queue = buildModuleRevisionQueue(moduleId, state.completed, state.forceUnlockAll);
     if (!queue.length) return false;
     state.practice = {
       source: 'revision', kind: 'revision', moduleId, lessonId: null,
@@ -1851,7 +1890,7 @@ const actions = {
   // the empty-queue check here is a backstop, not the primary gate.
   startRevisionVocab() {
     const direction = state.scheduleRevisionVocabDirection === 'ar-en' ? 'ar-en' : 'en-ar';
-    const pool = getUnlockedVocabPool(state.completed);
+    const pool = getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll);
     if (!pool.length) return false;
     const queue = buildRevisionVocabQueue(pool, direction, state.vocabExposure);
     if (!queue.length) return false;
@@ -1945,7 +1984,8 @@ const actions = {
   },
   gotoQuiz() {
     const lesson = getLesson(state.moduleId, state.lessonId);
-    if (!isLessonReadyForQuiz(lesson, state.exStates, state.moduleId, state.lessonId)) return false;
+    if (!lesson) return false;
+    if (!state.forceUnlockAll && !isLessonReadyForQuiz(lesson, state.exStates, state.moduleId, state.lessonId)) return false;
     if (state.view !== 'quiz') startQuizAttempt(lesson);
     state.view = 'quiz';
     savePos();
@@ -2270,6 +2310,9 @@ document.addEventListener('keydown', (e) => {
     rerender();
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;
+    rerender();
+  } else if (state.forceUnlockPrompt) {
+    state.forceUnlockPrompt = false;
     rerender();
   } else if (state.unlockPrompt) {
     state.unlockPrompt = null;

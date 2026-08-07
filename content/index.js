@@ -106,7 +106,8 @@ export function isCourseComplete(course, completed) {
 // counterpart is fully complete, OR early by passing its own skip-ahead
 // unlock test (unlockedCourses is state.unlockedCourses, courseId -> true,
 // set by finalizeUnlockTest in js/main.js -- see courseUnlockTestPool below).
-export function isCourseUnlocked(course, completed, unlockedCourses) {
+export function isCourseUnlocked(course, completed, unlockedCourses, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   if (!course.requiresCourseId) return true;
   if (unlockedCourses && unlockedCourses[course.id]) return true;
   const req = COURSES.find((c) => c.id === course.requiresCourseId);
@@ -143,7 +144,8 @@ export function isLessonComplete(moduleId, lessonId, completed) {
 // reachable). A module unlocked early via a skip-ahead test still only
 // opens its own first lesson this way -- there is no lesson-level skip test,
 // so the rest of the module has to be earned normally.
-export function isLessonUnlocked(moduleId, lessonId, completed, unlockedModules) {
+export function isLessonUnlocked(moduleId, lessonId, completed, unlockedModules, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   if (!isModuleUnlocked(moduleId, completed, unlockedModules)) return false;
   const idx = lessonIndex(moduleId, lessonId);
   if (idx <= 0) return true;
@@ -170,7 +172,8 @@ export function isModuleComplete(moduleId, completed) {
 // is passed -- same override idiom as isCourseUnlocked's unlockedCourses,
 // and just as additive: the normal "finish the previous module" gate still
 // applies independently).
-export function isModuleUnlocked(moduleId, completed, unlockedModules) {
+export function isModuleUnlocked(moduleId, completed, unlockedModules, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   const idx = moduleIndex(moduleId);
   if (idx === 0) return true;
   if (unlockedModules && unlockedModules[moduleId]) return true;
@@ -488,12 +491,12 @@ export function conceptLines(concept) {
 
 // Practice pool: the larger practice pool (lesson.bank), unlocked once that
 // lesson is complete. Pooled per-module.
-export function getBankPool(moduleId, completed) {
+export function getBankPool(moduleId, completed, forceUnlockAll = false) {
   const mod = getModule(moduleId);
   const done = completed[moduleId] || {};
   const pool = [];
   mod.lessons.forEach((lesson) => {
-    if (!done[lesson.id]) return;
+    if (!forceUnlockAll && !done[lesson.id]) return;
     (lesson.bank || []).forEach((item, idx) => {
       pool.push({
         key: bankKey(moduleId, lesson.id, idx),
@@ -514,21 +517,21 @@ export function getBankPool(moduleId, completed) {
 // vocab items (English<->Arabic word-pair drills) as their own third
 // session -- so 'vocab' is excluded here alongside 'tarkeeb' rather than
 // counting as an ordinary MCQ.
-export function getMcqPool(moduleId, completed) {
-  return getBankPool(moduleId, completed).filter((p) => p.item.kind !== 'tarkeeb' && p.item.kind !== 'vocab');
+export function getMcqPool(moduleId, completed, forceUnlockAll = false) {
+  return getBankPool(moduleId, completed, forceUnlockAll).filter((p) => p.item.kind !== 'tarkeeb' && p.item.kind !== 'vocab');
 }
 
 // vocabType ('en-ar' | 'ar-en' | 'form'), when given, further narrows to
 // just that question direction -- see the tag on each generated vocab bank
 // item in content-fstu/module-0N.js. Omit it to get every type pooled
 // together (kept for callers that still want the old combined behaviour).
-export function getVocabPool(moduleId, completed, vocabType) {
-  return getBankPool(moduleId, completed)
+export function getVocabPool(moduleId, completed, vocabType, forceUnlockAll = false) {
+  return getBankPool(moduleId, completed, forceUnlockAll)
     .filter((p) => p.item.kind === 'vocab' && (!vocabType || p.item.vocabType === vocabType));
 }
 
-export function getTarkeebPool(moduleId, completed) {
-  return getBankPool(moduleId, completed).filter((p) => p.item.kind === 'tarkeeb');
+export function getTarkeebPool(moduleId, completed, forceUnlockAll = false) {
+  return getBankPool(moduleId, completed, forceUnlockAll).filter((p) => p.item.kind === 'tarkeeb');
 }
 
 // Course-wide vocab pool, for the Schedule tab's Revision "Vocab" mode:
@@ -539,8 +542,8 @@ export function getTarkeebPool(moduleId, completed) {
 // so this needs no separate isModuleUnlocked check to satisfy "only vocab
 // from unlocked modules", iterating every module (locked ones just
 // contribute nothing) is equivalent and simpler.
-export function getUnlockedVocabPool(completed, vocabType) {
-  return MODULES.reduce((acc, m) => acc.concat(getVocabPool(m.id, completed, vocabType)), []);
+export function getUnlockedVocabPool(completed, vocabType, forceUnlockAll = false) {
+  return MODULES.reduce((acc, m) => acc.concat(getVocabPool(m.id, completed, vocabType, forceUnlockAll)), []);
 }
 
 // Whether تركيب content exists at all -- independent of completed[] (unlike

@@ -329,7 +329,7 @@ function progressBar(pct) {
 // module is complete.
 function findContinueLesson(state, MODULES) {
   for (const m of MODULES) {
-    if (!isModuleUnlocked(m.id, state.completed, state.unlockedModules)) break;
+    if (!isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll)) break;
     for (let i = 0; i < m.lessons.length; i++) {
       const lesson = m.lessons[i];
       if (!isLessonComplete(m.id, lesson.id, state.completed)) {
@@ -445,7 +445,7 @@ function launchCourseCardHtml(course, index, state) {
   const { total, done, moduleCount } = courseStats(course, state.completed);
   const pct = total ? Math.round((done / total) * 100) : 0;
   const isCurrent = course.id === state.courseId;
-  const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses);
+  const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
   if (!unlocked) {
     return `
       <button class="launch-card locked" data-anim-key="lc${index}" data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}">
@@ -552,7 +552,7 @@ function homeHeroHtml(state, MODULES) {
   if (continueInfo) {
     const { mod, lesson, index } = continueInfo;
     const started = lessonsCleared > 0;
-    const bankPool = getBankPool(mod.id, state.completed);
+    const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
     const actions = `
       <button class="ds-btn ds-btn-primary" data-action="continueLesson" data-module-id="${escAttr(mod.id)}" data-lesson-id="${escAttr(lesson.id)}">${started ? 'Continue' : 'Start'} lesson ${index + 1}</button>
       ${bankPool.length ? `<button class="ds-btn ds-btn-secondary" data-action="reviewModule" data-module-id="${escAttr(mod.id)}">Review ${bankPool.length} cards</button>` : ''}`;
@@ -597,7 +597,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
     }
 
     const done = completedCount(m.id, state.completed);
-    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules);
+    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
     const cardKey = `dash_card_${m.id}`;
     // Row 1 (however many cards that turns out to be -- see js/main.js's
     // cascadeGrid/setupScrollObserver) is revealed on arrival rather than
@@ -656,10 +656,10 @@ function modulePageHtml(state, MODULES) {
 
   const done = completedCount(mod.id, state.completed);
   const pct = mod.lessons.length ? Math.round((done / mod.lessons.length) * 100) : 0;
-  const bankPool = getBankPool(mod.id, state.completed);
+  const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
 
   const rows = mod.lessons.map((lesson, i) => {
-    const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed, state.unlockedModules);
+    const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed, state.unlockedModules, state.forceUnlockAll);
     const complete = isLessonComplete(mod.id, lesson.id, state.completed);
     // Mastered: this lesson's Mastery test (mixed تركيب+mcq, launched from
     // the "Start lesson" preview modal -- see lessonPreviewHtml) has been
@@ -774,6 +774,23 @@ function badgeModalHtml(state) {
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
         <div class="modal-buttons">
           <button class="btn btn-primary" data-action="closeBadgeModal">Continue</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function forceUnlockPromptHtml(state) {
+  if (!state.forceUnlockPrompt) return '';
+  return `
+    <div class="modal-backdrop" data-anim-key="forceunlockbd" data-action="closeForceUnlockPrompt">
+      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" aria-label="Unlock everything">
+        <div class="card-kicker modal-kicker">ACCESS OVERRIDE</div>
+        <h3>Unlock everything?</h3>
+        <p class="modal-sub">This opens every lesson, path group, vocab item, Tarkeeb exercise, and quiz. It does not mark lessons complete, award badges, or change your scores.</p>
+        <p class="modal-sub">You can turn it off later and your original progress will still be there.</p>
+        <div class="modal-buttons">
+          <button class="ds-btn ds-btn-secondary" data-action="cancelForceUnlockAll">Cancel</button>
+          <button class="ds-btn ds-btn-primary" data-action="confirmForceUnlockAll">Unlock everything</button>
         </div>
       </div>
     </div>`;
@@ -1211,7 +1228,8 @@ function lessonHtml(state, MODULES, revealedKeys) {
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
   const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
-  const allPassed = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
+  const readyForQuiz = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
+  const quizUnlocked = readyForQuiz || state.forceUnlockAll;
 
   const dots = lesson.concepts
     .map((_, i) => `<div class="concept-dot ${i < shown ? 'filled' : ''}"></div>`)
@@ -1225,11 +1243,14 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const exerciseCardHtml = lessonExerciseCardHtml(state, mod, lesson);
 
   const qpKey = `qp_${mod.id}_${lesson.id}`;
-  const quizPrompt = allPassed ? `
+  const quizPromptBody = readyForQuiz
+    ? `You've finished every concept and exercise in ${esc(lesson.title)}. Answer the quiz to complete this lesson.`
+    : 'Force unlock is on, so you can take the quiz now. Passing it will still complete this lesson normally.';
+  const quizPrompt = quizUnlocked ? `
     <div class="${revealCls(qpKey, 'quiz-prompt', revealedKeys)}" data-reveal-key="${qpKey}">
-      <div class="kicker">LESSON COMPLETE</div>
+      <div class="kicker">${readyForQuiz ? 'LESSON COMPLETE' : 'QUIZ UNLOCKED'}</div>
       <h3>Move onto the quiz?</h3>
-      <p>You've finished every concept and exercise in ${esc(lesson.title)}. Answer the quiz to complete this lesson.</p>
+      <p>${quizPromptBody}</p>
       <button class="ds-btn ds-btn-primary" data-action="gotoQuiz">Continue to quiz →</button>
     </div>` : '';
 
@@ -1682,9 +1703,9 @@ function practiceSetupPanelHtml(state, mod) {
   const hasTarkeeb = moduleHasTarkeeb(mod);
   const kind = state.practiceSetupKind === 'tarkeeb' && !hasTarkeeb ? 'mcq' : (state.practiceSetupKind || 'mcq');
   const vocabType = state.practiceVocabType || 'en-ar';
-  const mcqPool = getMcqPool(mod.id, state.completed);
-  const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed) : [];
-  const vocabPool = getVocabPool(mod.id, state.completed, vocabType);
+  const mcqPool = getMcqPool(mod.id, state.completed, state.forceUnlockAll);
+  const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed, state.forceUnlockAll) : [];
+  const vocabPool = getVocabPool(mod.id, state.completed, vocabType, state.forceUnlockAll);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
   const tarkeebTranslationsOn = state.practiceTarkeebTranslations == null
     ? state.tarkeebTranslations !== false
@@ -1699,8 +1720,11 @@ function practiceSetupPanelHtml(state, mod) {
     </div>` : '';
   const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
 
+  const emptyText = state.forceUnlockAll
+    ? `No ${kindLabel} practice questions exist in this module.`
+    : `Complete a lesson to unlock ${kindLabel} practice questions.`;
   const body = pool.length === 0
-    ? `<p class="empty-state">Complete a lesson to unlock ${kindLabel} practice questions.</p>`
+    ? `<p class="empty-state">${esc(emptyText)}</p>`
     : `
       <p class="lede">Choose how many to practice.</p>
       ${tarkeebTranslationControl}
@@ -1790,7 +1814,7 @@ function practiceHtml(state, MODULES) {
   const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
   let pool;
   if (p.source === 'revision') {
-    pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed) : moduleRevisionPool(p.moduleId, state.completed);
+    pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll) : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
   } else if (p.source === 'masteryV2') {
     pool = masteryV2Pool(p.moduleId, p.lessonId);
   } else if (p.source === 'path') {
@@ -1806,7 +1830,11 @@ function practiceHtml(state, MODULES) {
       : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
         : moduleSkipTestPool(p.targetId);
   } else {
-    pool = poolForKind(getMcqPool(mod.id, state.completed), getTarkeebPool(mod.id, state.completed), getVocabPool(mod.id, state.completed));
+    pool = poolForKind(
+      getMcqPool(mod.id, state.completed, state.forceUnlockAll),
+      getTarkeebPool(mod.id, state.completed, state.forceUnlockAll),
+      getVocabPool(mod.id, state.completed, undefined, state.forceUnlockAll),
+    );
   }
   const key = p.queue[p.index];
   const entry = pool.find((e) => e.key === key);
@@ -2054,7 +2082,7 @@ function upcomingLessons(state, MODULES, limit = 5) {
   for (const m of MODULES) {
     for (const l of m.lessons) {
       if (isLessonComplete(m.id, l.id, state.completed)) continue;
-      out.push({ mod: m, lesson: l, unlocked: isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules) });
+      out.push({ mod: m, lesson: l, unlocked: isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll) });
       if (out.length >= limit) return out;
     }
   }
@@ -2195,10 +2223,10 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
 // as they're scrolled to" treatment as the dashboard's chapter cards and My
 // Path's group cards.
 function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder) {
-  const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
+  const eligible = state.forceUnlockAll ? MODULES : MODULES.filter((m) => isModuleComplete(m.id, state.completed));
 
   if (!eligible.length) {
-    return `<p class="empty-state">Complete every lesson in a module to unlock a Revision quiz for it.</p>`;
+    return `<p class="empty-state">${state.forceUnlockAll ? 'No Revision quizzes exist for this course yet.' : 'Complete every lesson in a module to unlock a Revision quiz for it.'}</p>`;
   }
 
   const mode = state.scheduleRevisionMode === 'random' ? 'random' : 'pick';
@@ -2212,7 +2240,7 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
     </div>`;
 
   const moduleRowHtml = (m) => {
-    const counts = moduleRevisionCounts(m.id, state.completed);
+    const counts = moduleRevisionCounts(m.id, state.completed, state.forceUnlockAll);
     const compo = counts.tarkeeb ? `${counts.mcq} MCQ + ${counts.tarkeeb} تركيب` : `${counts.mcq} MCQ`;
     const rowKey = `sched${attempt}_revrow_${m.id}`;
     const rowCls = `revision-module-row${pickedId === m.id ? ' selected' : ''}`;
@@ -2225,7 +2253,7 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
 
   const body = mode === 'pick'
     ? `<div class="revision-module-list" ${animAttr(`sched${attempt}_modulelist`, baseOrder + 1)}>${eligible.map(moduleRowHtml).join('')}</div>`
-    : `<p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_random`, baseOrder + 1)}>One of your ${eligible.length} completed module${eligible.length === 1 ? '' : 's'} will be picked at random when you start.</p>`;
+    : `<p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_random`, baseOrder + 1)}>One of your ${eligible.length} ${state.forceUnlockAll ? 'available' : 'completed'} module${eligible.length === 1 ? '' : 's'} will be picked at random when you start.</p>`;
 
   const canStart = mode === 'random' || !!pickedId;
 
@@ -2245,9 +2273,9 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
 // shared with the path: a word the path already calls "learned" at 5
 // correct still needs 5 more here before it stops appearing.
 function scheduleRevisionVocabHtml(state, attempt, baseOrder) {
-  const pool = getUnlockedVocabPool(state.completed);
+  const pool = getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll);
   if (!pool.length) {
-    return `<p class="empty-state">Complete a lesson to unlock Vocab revision questions.</p>`;
+    return `<p class="empty-state">${state.forceUnlockAll ? 'No Vocab revision questions exist in this course yet.' : 'Complete a lesson to unlock Vocab revision questions.'}</p>`;
   }
   const eligibleCount = pool.filter((e) => {
     const v = state.vocabExposure[e.key];
@@ -2564,7 +2592,7 @@ function pathMapHtml(state, revealedKeys = new Set()) {
   // section/group test rows are untouched, since THEY are exactly what
   // "jump ahead" is for (pathSectionTestRowHtml already renders a locked
   // one as a clickable Jump-ahead row, not a dead end).
-  const groupLocked = !isGroupUnlocked(track.groups, track.groups.indexOf(group), pathNodeStatus, state.completed);
+  const groupLocked = !isGroupUnlocked(track.groups, track.groups.indexOf(group), pathNodeStatus, state.completed, state.forceUnlockAll);
   const rows = skeleton.map((node, i) => {
     if (node.type === 'sectionHeader') {
       // Section 1's header carries a hand-authored arabicTitle; sections
@@ -2577,7 +2605,7 @@ function pathMapHtml(state, revealedKeys = new Set()) {
         </div>`;
     }
     const isTest = node.type === 'sectionTest' || node.type === 'groupTest';
-    const unlocked = groupLocked && !isTest ? false : isPathNodeUnlocked(skeleton, pathNodeStatus, state.completed, i);
+    const unlocked = groupLocked && !isTest ? false : isPathNodeUnlocked(skeleton, pathNodeStatus, state.completed, i, state.forceUnlockAll);
     const done = isPathNodeDone(node, pathNodeStatus, state.completed);
     const mastered = !!(state.pathCheckpointMastery[node.id] && state.pathCheckpointMastery[node.id].passed);
     if (node.type === 'lesson') return pathLessonRowHtml(state, node, i, unlocked, done, revealedKeys);
@@ -2641,7 +2669,7 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
       </button>`;
   }
   const skeleton = groupSkeleton(group);
-  const unlocked = isGroupUnlocked(groups, index, state.pathNodeStatus, state.completed);
+  const unlocked = isGroupUnlocked(groups, index, state.pathNodeStatus, state.completed, state.forceUnlockAll);
   // idx is a raw array index (it counts sectionHeader slots too, even
   // though those are skipped when searching for the boundary) -- excluding
   // them here so "0 done" on a fresh group reads as 0, not 1 (Section 1's
@@ -2696,7 +2724,7 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
 // "here's a second, separate route" rather than a continuation of the same
 // one.
 function pathTrackSectionHtml(state, track, revealedKeys) {
-  const trackLocked = !isTrackUnlocked(track, state.completed, state.unlockedTracks);
+  const trackLocked = !isTrackUnlocked(track, state.completed, state.unlockedTracks, state.forceUnlockAll);
   const cards = track.groups.map((group, i) => pathGroupCardHtml(state, track.groups, group, i, revealedKeys, trackLocked)).join('');
   const lockedBanner = trackLocked
     ? `<button class="path-track-locked-banner" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(track.id)}">
@@ -2854,6 +2882,7 @@ function settingsHtml(state) {
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
   const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
+  const forceUnlockOn = state.forceUnlockAll === true;
 
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
@@ -2930,6 +2959,17 @@ function settingsHtml(state) {
       <span class="settings-toggle-pill">${tarkeebTranslationsOn ? 'Shown' : 'Hidden'}</span>
     </button>`;
 
+  const forceUnlockToggle = `
+    <button class="settings-toggle-row settings-toggle-warning ${forceUnlockOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${forceUnlockOn}" data-action="requestForceUnlockAll">
+      <span class="settings-toggle-copy">
+        <span class="settings-toggle-title">${forceUnlockOn ? 'Everything unlocked' : 'Force unlock everything'}</span>
+        <span class="settings-toggle-sub">${forceUnlockOn
+          ? 'Access gates are open. Lessons are still waiting to be completed normally.'
+          : 'Open every lesson, path, vocab item, Tarkeeb exercise, and quiz without marking progress complete.'}</span>
+      </span>
+      <span class="settings-toggle-pill">${forceUnlockOn ? 'On' : 'Off'}</span>
+    </button>`;
+
   return `
     <div class="settings-page">
       <div class="settings-col">
@@ -2964,6 +3004,7 @@ function settingsHtml(state) {
           </div>
         </div>
         ${tarkeebTranslationToggle}
+        ${forceUnlockToggle}
 
         <hr class="settings-hr">
 
@@ -3143,5 +3184,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
     default:
       body = dashboardHtml(state, MODULES, revealedKeys);
   }
-  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${unlockPromptHtml(state)}`;
+  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}`;
 }

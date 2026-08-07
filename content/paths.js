@@ -46,7 +46,8 @@ export const PATH_TRACKS = [
 // finalizeUnlockTest in js/main.js once trackUnlockTestPool's own unlock
 // test is passed -- same override idiom as content/index.js's
 // isCourseUnlocked.
-export function isTrackUnlocked(track, completed, unlockedTracks) {
+export function isTrackUnlocked(track, completed, unlockedTracks, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   if (!track.requiresCourseIds) return true;
   if (unlockedTracks && unlockedTracks[track.id]) return true;
   return track.requiresCourseIds.every((id) => {

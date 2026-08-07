@@ -236,6 +236,7 @@ export async function createInitialState() {
     arabicFace: boot.arabicFace || 'naskh',
     lessonTextScale: boot.lessonTextScale || 100,
     tarkeebTranslations: boot.tarkeebTranslations !== false,
+    forceUnlockAll: boot.forceUnlockAll === true,
     // Advanced-course/path lock override (see content/index.js's
     // isCourseUnlocked, content/paths.js's isTrackUnlocked) -- keyed by
     // courseId/trackId -> true once its skip-ahead unlock test is passed
@@ -251,6 +252,9 @@ export async function createInitialState() {
     // unlockedCourses/unlockedTracks: the normal "finish the previous
     // module" gate still applies independently.
     unlockedModules: boot.unlockedModules || {},
+    // Transient: confirmation modal before the global unlock override is
+    // enabled. The override itself is persisted; this prompt is not.
+    forceUnlockPrompt: false,
     // Transient: { type: 'course'|'track'|'module', id } for the unlock-test
     // prompt modal (unlockPromptHtml in js/render.js), or null when closed.
     unlockPrompt: null,
@@ -364,7 +368,7 @@ export function shuffle(arr) {
 // instead of just one lesson's. Only ever called with a module the learner
 // has fully completed (see isModuleComplete, checked by the caller), so
 // every lesson's bank/quiz content is already unlocked.
-function moduleRevisionSubPools(moduleId, completed) {
+function moduleRevisionSubPools(moduleId, completed, forceUnlockAll = false) {
   const mod = getModule(moduleId);
   if (!mod) return { quizPool: [], bookPool: [], tarkeebPool: [] };
   const quizPool = [];
@@ -376,7 +380,7 @@ function moduleRevisionSubPools(moduleId, completed) {
       });
     });
   });
-  const bank = getBankPool(moduleId, completed);
+  const bank = getBankPool(moduleId, completed, forceUnlockAll);
   const bookPool = bank.filter((p) => p.item.kind === 'mcq');
   const tarkeebPool = bank.filter((p) => p.item.kind === 'tarkeeb');
   return { quizPool, bookPool, tarkeebPool };
@@ -386,8 +390,8 @@ function moduleRevisionSubPools(moduleId, completed) {
 // Revision session (bankPool()/findBankItem in js/main.js, practiceHtml in
 // js/render.js), always every candidate regardless of how many
 // buildModuleRevisionQueue actually sampled.
-export function moduleRevisionPool(moduleId, completed) {
-  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed);
+export function moduleRevisionPool(moduleId, completed, forceUnlockAll = false) {
+  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed, forceUnlockAll);
   return [...quizPool, ...bookPool, ...tarkeebPool];
 }
 
@@ -399,8 +403,8 @@ const REVISION_TARKEEB_TARGET = 10;
 // same way buildModuleRevisionQueue itself caps them -- used by
 // scheduleRevisionHtml (js/render.js) to preview a module's composition
 // before the learner commits to it, without duplicating the capping math.
-export function moduleRevisionCounts(moduleId, completed) {
-  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed);
+export function moduleRevisionCounts(moduleId, completed, forceUnlockAll = false) {
+  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed, forceUnlockAll);
   const mcq = Math.min(quizPool.length, REVISION_QUIZ_TARGET) + Math.min(bookPool.length, REVISION_BOOK_TARGET);
   const tarkeeb = Math.min(tarkeebPool.length, REVISION_TARKEEB_TARGET);
   return { mcq, tarkeeb };
@@ -413,8 +417,8 @@ export function moduleRevisionCounts(moduleId, completed) {
 // buildMasteryV2Queue). Plain shuffle, no weighting or due-date logic: this
 // is a one-off quiz over a module the learner already finished, not a
 // spaced-repetition sample.
-export function buildModuleRevisionQueue(moduleId, completed) {
-  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed);
+export function buildModuleRevisionQueue(moduleId, completed, forceUnlockAll = false) {
+  const { quizPool, bookPool, tarkeebPool } = moduleRevisionSubPools(moduleId, completed, forceUnlockAll);
   const quizKeys = shuffle(quizPool).slice(0, REVISION_QUIZ_TARGET).map((e) => e.key);
   const bookKeys = shuffle(bookPool).slice(0, REVISION_BOOK_TARGET).map((e) => e.key);
   const tarkeebKeys = shuffle(tarkeebPool).slice(0, REVISION_TARKEEB_TARGET).map((e) => e.key);
@@ -754,7 +758,8 @@ export function firstUnfinishedPathNodeIndex(skeleton, pathNodeStatus, completed
   return skeleton.length;
 }
 
-export function isPathNodeUnlocked(skeleton, pathNodeStatus, completed, index) {
+export function isPathNodeUnlocked(skeleton, pathNodeStatus, completed, index, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   return index <= firstUnfinishedPathNodeIndex(skeleton, pathNodeStatus, completed);
 }
 
@@ -762,7 +767,8 @@ export function isPathNodeUnlocked(skeleton, pathNodeStatus, completed, index) {
 // passed -- Group 1 is always unlocked. `groups` is passed in rather than
 // imported, same as skeleton above, so this file never needs to know
 // content/path.js's exact shape beyond "a group has a groupTest".
-export function isGroupUnlocked(groups, index, pathNodeStatus, completed) {
+export function isGroupUnlocked(groups, index, pathNodeStatus, completed, forceUnlockAll = false) {
+  if (forceUnlockAll) return true;
   if (index === 0) return true;
   const prevGroup = groups[index - 1];
   if (!prevGroup || !prevGroup.groupTest) return false;
@@ -879,7 +885,7 @@ export function buildUnlockTestQueue(subPools, length) {
 export function sidebarRows(state, MODULES, helpers) {
   const { isModuleUnlocked, completedCount } = helpers;
   return MODULES.map((m) => {
-    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules);
+    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
     const isActive = state.moduleId === m.id;
     const done = completedCount(m.id, state.completed);
     return {
