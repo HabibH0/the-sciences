@@ -2943,22 +2943,27 @@ function accountHtml(state) {
     ? `<div class="account-message" role="status">${esc(account.message)}</div>`
     : '';
   const cloud = account.cloudStatus;
-  const cloudStatusHtml = signedIn ? `
+  const local = account.localStatus;
+  const statusBlock = (title, status, refreshAction, emptyText) => `
     <div class="account-cloud-status">
-      <h2 class="settings-group-title">Cloud save status</h2>
-      ${cloud?.error ? `<p class="settings-group-sub">${esc(cloud.error)}</p>`
-        : cloud?.exists ? `
+      <h2 class="settings-group-title">${title}</h2>
+      ${status?.error ? `<p class="settings-group-sub">${esc(status.error)}</p>`
+        : status?.exists ? `
           <div class="account-status-grid">
-            <span>XP</span><strong>${cloud.xp}</strong>
-            <span>Badges</span><strong>${cloud.badges}</strong>
-            <span>Completed lessons</span><strong>${cloud.completedLessons}</strong>
-            <span>Exercise states</span><strong>${cloud.exerciseStates}</strong>
-            <span>Practice history</span><strong>${cloud.practiceHistory}</strong>
-            <span>Saved at</span><strong>${esc(cloud.updatedAt || 'unknown')}</strong>
+            <span>Course</span><strong>${esc(status.courseId || 'unknown')}</strong>
+            <span>XP</span><strong>${status.xp}</strong>
+            <span>Badges</span><strong>${status.badges}</strong>
+            <span>Completed lessons</span><strong>${status.completedLessons}</strong>
+            <span>Exercise states</span><strong>${status.exerciseStates}</strong>
+            <span>Practice history</span><strong>${status.practiceHistory}</strong>
+            <span>Saved at</span><strong>${esc(status.updatedAt || 'unknown')}</strong>
           </div>`
-        : `<p class="settings-group-sub">No cloud save data found yet.</p>`}
-      <button class="ds-btn ds-btn-ghost" data-action="refreshCloudSaveStatus" ${working ? 'disabled' : ''}>Refresh status</button>
-    </div>` : '';
+        : `<p class="settings-group-sub">${emptyText}</p>`}
+      <button class="ds-btn ds-btn-ghost" data-action="${refreshAction}" ${working ? 'disabled' : ''}>Refresh status</button>
+    </div>`;
+  const saveStatusHtml = signedIn ? `
+    ${statusBlock('Cloud save status', cloud, 'refreshCloudSaveStatus', 'No cloud save data found yet.')}
+    ${statusBlock('This device save status', local, 'refreshLocalSaveStatus', 'No local save data found yet.')}` : '';
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
       <h2 class="settings-group-title">${pendingSync === 'download' ? 'Download cloud save data?' : 'Upload this device save data?'}</h2>
@@ -2990,7 +2995,7 @@ function accountHtml(state) {
             <button class="ds-btn ds-btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save data</button>
             <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
           </div>
-          ${cloudStatusHtml}
+          ${saveStatusHtml}
           ${confirmPanel}`
         : `
           <label class="account-label" for="account-email">Email</label>

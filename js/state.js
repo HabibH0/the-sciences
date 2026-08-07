@@ -268,6 +268,7 @@ export async function createInitialState() {
       backendUrl: '',
       pendingSyncAction: null,
       cloudStatus: null,
+      localStatus: null,
     },
   };
 }

@@ -47,7 +47,7 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, todayISO } from './persistence.js';
-import { getBackendUrl, register, login, logout, me, uploadLocalProgress, downloadRemoteProgress, getCloudSaveStatus } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, uploadLocalProgress, downloadRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -64,6 +64,7 @@ if (state.account.backendUrl) {
       state.account.user = result.user || null;
       state.account.message = state.account.user ? `Signed in as ${state.account.user.email}` : '';
       if (state.account.user) refreshCloudSaveStatus();
+      refreshLocalSaveStatus();
       rerender();
     }
   }).catch(() => {});
@@ -873,6 +874,14 @@ async function refreshCloudSaveStatus() {
   }
 }
 
+async function refreshLocalSaveStatus() {
+  try {
+    state.account.localStatus = await getLocalSaveStatus();
+  } catch (e) {
+    state.account.localStatus = { error: e.message || 'Could not read this device save status.' };
+  }
+}
+
 // --- tarkeeb helpers ----------------------------------------------------
 
 function initTarkeeb(item, moduleId) {
@@ -1480,6 +1489,7 @@ const actions = {
       state.account.pendingSyncAction = null;
       state.account.message = 'Account created. Choose upload or download to sync save data.';
       await refreshCloudSaveStatus();
+      await refreshLocalSaveStatus();
     } catch (e) {
       state.account.message = e.message || 'Could not create account.';
     } finally {
@@ -1499,6 +1509,7 @@ const actions = {
       state.account.pendingSyncAction = null;
       state.account.message = 'Signed in. Choose upload or download to sync save data.';
       await refreshCloudSaveStatus();
+      await refreshLocalSaveStatus();
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
     } finally {
@@ -1514,6 +1525,7 @@ const actions = {
       state.account.user = null;
       state.account.pendingSyncAction = null;
       state.account.cloudStatus = null;
+      state.account.localStatus = null;
       state.account.message = 'Signed out. Local offline progress remains on this device.';
     } catch (e) {
       state.account.message = e.message || 'Could not sign out.';
@@ -1546,6 +1558,19 @@ const actions = {
       state.account.status = 'idle';
     }
   },
+  async refreshLocalSaveStatus() {
+    state.account.status = 'working';
+    state.account.message = 'Checking this device save data...';
+    rerender();
+    try {
+      await refreshLocalSaveStatus();
+      state.account.message = 'This device save status updated.';
+    } catch (e) {
+      state.account.message = e.message || 'Could not check this device save data.';
+    } finally {
+      state.account.status = 'idle';
+    }
+  },
   async confirmAccountSync() {
     const direction = state.account.pendingSyncAction;
     if (direction === 'upload') return actions.uploadAccountProgress();
@@ -1560,6 +1585,7 @@ const actions = {
       const result = await downloadRemoteProgress();
       if (!result.synced) throw new Error('Sync server is not configured.');
       await refreshCloudSaveStatus();
+      await refreshLocalSaveStatus();
       state.account.message = 'Downloaded cloud save data. Reloading...';
       reloadAfterCloudDownload();
     } catch (e) {
@@ -1576,6 +1602,7 @@ const actions = {
     try {
       await uploadLocalProgress();
       await refreshCloudSaveStatus();
+      await refreshLocalSaveStatus();
       state.account.message = 'Uploaded this device save data to your account.';
     } catch (e) {
       state.account.message = e.message || 'Could not upload save data.';

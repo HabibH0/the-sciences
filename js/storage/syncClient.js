@@ -94,6 +94,10 @@ export async function getCloudSaveStatus() {
   return summarizeEnvelope(remote.progress);
 }
 
+export async function getLocalSaveStatus() {
+  return summarizeEnvelope(await exportProgress());
+}
+
 export async function pushRemoteProgress(data) {
   return request('/api/progress', {
     method: 'PUT',
