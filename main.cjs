@@ -167,7 +167,8 @@ ipcMain.handle('storage:get-device-id', () => getDeviceId());
 ipcMain.handle('sync:request', async (event, request) => {
   const method = String(request?.method || 'GET').toUpperCase();
   const requestPath = String(request?.path || '');
-  if (!SYNC_PATHS.has(requestPath) || !SYNC_METHODS.has(method)) {
+  const requestUrl = requestPath.startsWith('/') ? new URL(requestPath, SYNC_BACKEND_URL) : null;
+  if (!requestUrl || !SYNC_PATHS.has(requestUrl.pathname) || !SYNC_METHODS.has(method)) {
     return { ok: false, status: 400, body: { error: 'Unsupported sync request.' } };
   }
   const headers = { ...(request?.headers || {}) };

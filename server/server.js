@@ -71,6 +71,21 @@ function sameProgressMeta(a, b) {
     && (a.deviceId || '') === (b.deviceId || '');
 }
 
+function normalizeProgressPayload(progress) {
+  if (!progress || typeof progress !== 'object') return progress;
+  if (!progress.meta && progress.progress && typeof progress.progress === 'object' && progress.progress.meta) {
+    return progress.progress;
+  }
+  return progress;
+}
+
+async function getNormalizedProgress(userId) {
+  const current = await store.getProgress(userId);
+  const normalized = normalizeProgressPayload(current);
+  if (normalized !== current) await store.setProgress(userId, normalized);
+  return normalized;
+}
+
 function rowToUser(row) {
   if (!row) return null;
   return {
@@ -335,17 +350,19 @@ async function handle(req, res) {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/progress') {
-      send(res, 200, { progress: await store.getProgress(user.id) }, origin);
+      send(res, 200, { progress: await getNormalizedProgress(user.id) }, origin);
       return;
     }
 
     if (req.method === 'PUT' && url.pathname === '/api/progress') {
       const body = await readJson(req);
-      const conditional = Object.prototype.hasOwnProperty.call(body || {}, 'expectedMeta');
-      const nextProgress = conditional ? body.progress : body;
+      const expectedMetaParam = url.searchParams.get('expectedMeta');
+      const conditional = expectedMetaParam !== null || Object.prototype.hasOwnProperty.call(body || {}, 'expectedMeta');
+      const expectedMeta = expectedMetaParam !== null ? JSON.parse(expectedMetaParam) : (body.expectedMeta || null);
+      const nextProgress = normalizeProgressPayload(Object.prototype.hasOwnProperty.call(body || {}, 'expectedMeta') ? body.progress : body);
       if (conditional) {
-        const currentProgress = await store.getProgress(user.id);
-        if (!sameProgressMeta(progressMeta(currentProgress), body.expectedMeta || null)) {
+        const currentProgress = await getNormalizedProgress(user.id);
+        if (!sameProgressMeta(progressMeta(currentProgress), expectedMeta)) {
           send(res, 409, { error: 'Cloud save changed before upload. Choose Upload or Download manually.', progress: currentProgress }, origin);
           return;
         }

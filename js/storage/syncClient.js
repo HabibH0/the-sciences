@@ -79,7 +79,16 @@ function countNestedObject(value) {
   return Object.values(value).reduce((total, entry) => total + countObject(entry), 0);
 }
 
+function normalizeEnvelope(envelope) {
+  if (!envelope || typeof envelope !== 'object') return envelope;
+  if (!envelope.meta && envelope.progress && typeof envelope.progress === 'object' && envelope.progress.meta) {
+    return envelope.progress;
+  }
+  return envelope;
+}
+
 function summarizeEnvelope(envelope) {
+  envelope = normalizeEnvelope(envelope);
   if (!envelope) return { exists: false };
   const progress = envelope.progress || envelope;
   return {
@@ -118,12 +127,23 @@ export async function pushRemoteProgress(data) {
   });
 }
 
+export async function pushRemoteProgressIfUnchanged(data, expectedMeta) {
+  const encodedMeta = encodeURIComponent(JSON.stringify(expectedMeta || null));
+  return request(`/api/progress?expectedMeta=${encodedMeta}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function uploadLocalProgress(options = {}) {
   const local = await exportProgress();
-  const body = Object.prototype.hasOwnProperty.call(options, 'expectedMeta')
-    ? { progress: local, expectedMeta: options.expectedMeta }
-    : local;
-  await pushRemoteProgress(body);
+  if (Object.prototype.hasOwnProperty.call(options, 'expectedMeta')) {
+    await pushRemoteProgressIfUnchanged(local, options.expectedMeta);
+  } else {
+    await pushRemoteProgress(local);
+  }
   return { synced: true, direction: 'upload', reason: 'manual-upload', progress: local };
 }
 
@@ -131,6 +151,6 @@ export async function downloadRemoteProgress() {
   const remote = await fetchRemoteProgress();
   if (!remote) return { synced: false, reason: 'sync-disabled' };
   if (!remote.progress) throw new Error('No cloud save data found for this account.');
-  await importProgress(remote.progress);
+  await importProgress(normalizeEnvelope(remote.progress));
   return { synced: true, direction: 'download', reason: 'manual-download' };
 }
