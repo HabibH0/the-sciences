@@ -107,6 +107,14 @@ export function flushPersist() {
   }
 }
 
+export function cancelPendingPersist() {
+  if (pendingTimer) {
+    clearTimeout(pendingTimer);
+    pendingTimer = null;
+  }
+  pendingState = null;
+}
+
 function snapshot(state) {
   return {
     courseId: state.courseId,

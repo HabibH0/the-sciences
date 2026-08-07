@@ -46,7 +46,7 @@ import {
 } from './state.js';
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
-import { persistSoon, flushPersist, todayISO } from './persistence.js';
+import { persistSoon, flushPersist, cancelPendingPersist, todayISO } from './persistence.js';
 import { getBackendUrl, register, login, logout, me, uploadLocalProgress, downloadRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
@@ -139,6 +139,7 @@ const root = document.getElementById('root');
 // the render where its data-anim-key first appears. Re-rendering an
 // unchanged exercise card therefore doesn't replay its reveal.
 let seenAnimKeys = new Set();
+let suppressPersist = false;
 
 // `duringViewTransition`: a view transition freezes a screenshot of the new
 // page for its whole crossfade and only reveals the live, animating DOM
@@ -510,7 +511,7 @@ function rerender(focusSelector) {
   } else {
     swap();
   }
-  persistSoon(state);
+  if (!suppressPersist) persistSoon(state);
 }
 
 function savePos() {
@@ -1577,6 +1578,8 @@ const actions = {
     if (direction === 'download') return actions.downloadAccountProgress();
   },
   async downloadAccountProgress() {
+    suppressPersist = true;
+    cancelPendingPersist();
     state.account.status = 'working';
     state.account.pendingSyncAction = null;
     state.account.message = 'Downloading save data...';
@@ -1587,8 +1590,9 @@ const actions = {
       await refreshCloudSaveStatus();
       await refreshLocalSaveStatus();
       state.account.message = 'Downloaded cloud save data. Reloading...';
-      reloadAfterCloudDownload();
+      window.location.reload();
     } catch (e) {
+      suppressPersist = false;
       state.account.message = e.message || 'Could not download save data.';
     } finally {
       state.account.status = 'idle';
