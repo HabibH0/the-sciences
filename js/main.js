@@ -1492,9 +1492,11 @@ const actions = {
       if (sync.reason === 'protected-local-progress') {
         state.account.message = 'Signed in. Your progress on this device was uploaded.';
       } else {
-        state.account.message = sync.direction === 'download'
-          ? 'Signed in. Newer cloud progress was downloaded. Reloading...'
-          : 'Signed in. This device is synced.';
+        state.account.message = sync.reason === 'protected-remote-progress'
+          ? 'Signed in. Cloud progress was downloaded. Reloading...'
+          : sync.direction === 'download'
+            ? 'Signed in. Newer cloud progress was downloaded. Reloading...'
+            : 'Signed in. This device is synced.';
         if (sync.direction === 'download') reloadAfterCloudDownload();
       }
     } catch (e) {
@@ -1527,9 +1529,11 @@ const actions = {
       if (result.reason === 'protected-local-progress') {
         state.account.message = 'Synced. Your progress on this device was uploaded.';
       } else {
-        state.account.message = result.direction === 'download'
-          ? 'Synced. Newer cloud progress was downloaded. Reloading...'
-          : 'Synced. Cloud progress is up to date.';
+        state.account.message = result.reason === 'protected-remote-progress'
+          ? 'Synced. Cloud progress was downloaded. Reloading...'
+          : result.direction === 'download'
+            ? 'Synced. Newer cloud progress was downloaded. Reloading...'
+            : 'Synced. Cloud progress is up to date.';
         if (result.direction === 'download') reloadAfterCloudDownload();
       }
     } catch (e) {

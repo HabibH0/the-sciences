@@ -71,7 +71,16 @@ export async function pushRemoteProgress(data) {
 
 export async function uploadLocalProgress() {
   const local = await exportProgress();
-  await pushRemoteProgress(local);
+  const version = Number(local.meta?.version) || 0;
+  const upload = {
+    ...local,
+    meta: {
+      ...(local.meta || {}),
+      updatedAt: new Date().toISOString(),
+      version: version + 1,
+    },
+  };
+  await pushRemoteProgress(upload);
   return { synced: true, direction: 'upload', reason: 'manual-upload' };
 }
 
@@ -127,6 +136,10 @@ export async function syncProgress() {
   if (localHasProgress && !remoteHasProgress) {
     await pushRemoteProgress(local);
     return { synced: true, direction: 'upload', reason: 'protected-local-progress' };
+  }
+  if (remoteHasProgress && !localHasProgress) {
+    await importProgress(remote.progress);
+    return { synced: true, direction: 'download', reason: 'protected-remote-progress' };
   }
   if (remoteUpdated > localUpdated) {
     await importProgress(remote.progress);
