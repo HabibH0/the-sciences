@@ -1582,17 +1582,6 @@ h1 + .card-kicker,
   overflow: clip;
   border: 1px solid var(--color-divider);
 }
-/* .launch-scroll's own scrollbar (styled below, near .main-content) lives
-   just inside .launch-screen's right edge, in the same 10px zone the right
-   corner brackets would otherwise sit in -- pushed out further so there's
-   real clearance between bracket and scrollbar even if the themed
-   scrollbar isn't honoured on some platform and a full-width native one
-   renders instead. Left corners are untouched (nothing sits in their way),
-   so this is deliberately asymmetric. */
-.launch-screen > .home-hero-corner.tr,
-.launch-screen > .home-hero-corner.br {
-  right: 22px;
-}
 /* Top-anchored with a fixed, generous top gap -- NOT flex-centered
    vertically. Centering was the first cut here, but flexbox's "safe
    center" fallback for an overflowing item collapses to flush-against-the-

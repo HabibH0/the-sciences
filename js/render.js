@@ -424,9 +424,9 @@ function separatorHtml() {
 // --- Launch screen (course picker) ---------------------------------------
 // The very first thing the app shows on every boot, ahead of Home itself
 // (see js/main.js: state.launchScreen, cleared by the chooseCourse action).
-// Reuses the same hero-panel visual language (corner brackets, badge,
-// arabesque-adjacent framing) as Home rather than inventing a new one, so
-// it reads as the cover of the same book, not a separate app.
+// Reuses the same hero-panel visual language (badge, arabesque-adjacent
+// framing) as Home rather than inventing a new one, so it reads as the
+// cover of the same book, not a separate app.
 
 // Per-course lesson/module counts, computed straight from `course.modules`
 // rather than via completedCount/isModuleComplete (content/index.js) --
@@ -536,7 +536,6 @@ function launchHtml(state) {
         <div class="launch-grid">${cards}</div>
       </div>
       </div>
-      ${cornerBracketsHtml()}
       ${unlockPromptHtml(state)}
     </div>`;
 }
