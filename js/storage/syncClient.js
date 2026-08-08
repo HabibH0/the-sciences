@@ -324,9 +324,8 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.streak = maxNumber(local.streak, remote.streak);
   merged.practiceCorrectTotal = maxNumber(local.practiceCorrectTotal, remote.practiceCorrectTotal);
   merged.lastVisit = latestString(local.lastVisit, remote.lastVisit);
-  merged.forceUnlockAll = Boolean(local.forceUnlockAll || remote.forceUnlockAll);
 
-  for (const key of ['theme', 'accent', 'arabicFace', 'lessonTextScale', 'tarkeebTranslations', 'kufiHeadings', 'nav']) {
+  for (const key of ['theme', 'accent', 'arabicFace', 'lessonTextScale', 'tarkeebTranslations', 'forceUnlockAll', 'kufiHeadings', 'nav']) {
     if (typeof local[key] !== 'undefined' || typeof remote[key] !== 'undefined') {
       merged[key] = valueOr(local[key], remote[key]);
     }

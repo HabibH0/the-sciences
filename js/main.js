@@ -156,6 +156,7 @@ function autoUploadSuccessMessage(reason) {
   if (reason === 'unlock-test-complete') return 'Unlock test progress synced to your account.';
   if (reason === 'direct-unlock') return 'Unlock choice synced to your account.';
   if (reason === 'path-milestone') return 'Path milestone progress synced to your account.';
+  if (reason === 'settings-change') return 'Settings synced to your account.';
   return 'Progress synced to your account.';
 }
 
@@ -1714,6 +1715,7 @@ const actions = {
         state.pathGroupId = null;
         if (state.pathHome) state.view = 'pathGroups';
       }
+      queueAutoUpload('settings-change');
       return;
     }
     state.forceUnlockPrompt = true;
@@ -1723,6 +1725,7 @@ const actions = {
     state.forceUnlockPrompt = false;
     state.unlockPrompt = null;
     state.pathSkipAheadPromptNodeId = null;
+    queueAutoUpload('settings-change');
   },
   closeForceUnlockPrompt(el, e) {
     if (e && e.target !== el) return false;
