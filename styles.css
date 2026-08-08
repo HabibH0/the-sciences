@@ -4556,39 +4556,341 @@ button.path-node:not(.locked):hover {
 }
 
 @media (max-width: 860px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .app-header-left,
+  .app-header-right,
+  .app-header-nav {
+    width: 100%;
+  }
+  .app-header-right {
+    justify-content: space-between;
+  }
+  .app-header-nav {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .app-header-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .settings-page {
+    grid-template-columns: 1fr;
+  }
+  .home-hero-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .home-ledger {
+    width: 100%;
+  }
+  .path-group-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
   .lesson-layout {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
   .lesson-sidebar {
     position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .exercise-content {
+    flex-direction: column;
+  }
+  .exercise-right {
+    width: 100%;
   }
 }
 
 /* ---------- Responsive ---------- */
 
 @media (max-width: 720px) {
+  html,
+  body {
+    min-width: 0;
+  }
+  body {
+    background-image: none;
+  }
   .path-group-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
   .app-header {
-    padding: 14px 20px;
-    gap: 16px;
+    padding: 14px 16px 12px;
+    gap: 10px;
+  }
+  .app-header-left {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+  }
+  .app-header-kicker {
+    font-size: 22px;
+  }
+  .app-header-rule {
+    height: 18px;
+  }
+  .app-header-course-btn {
+    max-width: calc(100vw - 112px);
+  }
+  .app-header-course-btn span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .app-header-crumbs-group {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .app-header-crumbs {
+    font-size: 13px;
+  }
+  .app-header-dots {
+    position: static;
+    transform: none;
+    order: 3;
+    width: 100%;
+    justify-content: center;
   }
   .app-header-right {
-    gap: 16px;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
   }
   .app-header-nav {
-    gap: 16px;
+    gap: 18px;
+    min-width: 0;
+    padding-bottom: 2px;
+  }
+  .app-header-tab {
+    flex: none;
   }
   .app-header-stats {
-    gap: 10px;
-    padding-left: 12px;
+    flex: none;
+    gap: 8px;
+    padding-left: 10px;
+  }
+  .app-header-stat {
+    font-size: 12px;
+  }
+  .app-header-stat:nth-child(2) {
+    display: none;
   }
   .app-footer {
-    padding: 16px 20px 20px;
+    flex-direction: column;
+    padding: 14px 16px 18px;
+    gap: 6px;
   }
   .main-content {
-    padding: 32px 20px 60px;
+    padding: 28px 16px 60px;
+  }
+  .dashboard-page,
+  .schedule-page {
+    padding-bottom: 32vh;
+  }
+  .home-hero {
+    padding: 34px 22px 30px;
+  }
+  .home-hero-watermark,
+  .launch-watermark {
+    display: none;
+  }
+  .home-hero-badge {
+    max-width: 100%;
+    gap: 8px;
+    padding: 6px 12px 7px;
+  }
+  .home-hero-badge-text {
+    font-size: 16px;
+  }
+  .home-hero-title {
+    font-size: 36px;
+    line-height: 1.12;
+  }
+  .home-hero-body,
+  .settings-lede {
+    text-align: left;
+  }
+  .home-hero-actions,
+  .modal-buttons,
+  .account-actions {
+    flex-direction: column;
+  }
+  .home-hero-actions > *,
+  .modal-buttons > *,
+  .account-actions > * {
+    width: 100%;
+  }
+  .home-ledger {
+    min-width: 0;
+  }
+  .home-ledger-row {
+    gap: 12px;
+  }
+  .home-chapter-heading,
+  .path-section-heading,
+  .home-badges-teaser-head,
+  .lesson-summary-row-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .chapter-grid,
+  .launch-grid,
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+  .chapter-card {
+    height: auto;
+    min-height: 0;
+    padding: 22px 20px 20px;
+  }
+  .chapter-card-title,
+  .chapter-card-body {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+  }
+  .launch-scroll {
+    padding: 40px 16px 34px;
+  }
+  .launch-brand-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .launch-title,
+  .settings-title {
+    font-size: 34px;
+    line-height: 1.12;
+  }
+  .launch-path-banner,
+  .settings-toggle-row,
+  .account-auto-sync,
+  .schedule-field-inline {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .settings-page,
+  .account-page {
+    margin: -28px -16px 0;
+  }
+  .settings-page {
+    padding: 0 16px 56px;
+  }
+  .settings-col,
+  .account-card {
+    padding: 32px 22px 38px;
+  }
+  .account-page {
+    min-height: auto;
+    padding: 42px 16px 72px;
+  }
+  .account-status-grid,
+  .account-auto-sync {
+    grid-template-columns: 1fr;
+  }
+  .account-status-grid strong {
+    text-align: left;
+  }
+  .accent-grid,
+  .practice-tabs,
+  .practice-count-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .accent-chip,
+  .practice-tab,
+  .practice-count-btn {
+    justify-content: center;
+    width: 100%;
+  }
+  .lesson-row,
+  .path-node,
+  .review-row,
+  .schedule-upcoming-row {
+    align-items: flex-start;
+  }
+  .lesson-row,
+  .path-node {
+    gap: 12px;
+    padding: 14px;
+  }
+  .lesson-row-indicator,
+  .path-node-indicator {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .lesson-sidebar {
+    grid-template-columns: 1fr;
+  }
+  .lesson-sidebar-card,
+  .lesson-progress-card {
+    padding: 24px 20px;
+  }
+  .quiz-question-single,
+  .quiz-result {
+    padding: 24px 18px;
+  }
+  .quiz-question-single h2 {
+    font-size: 23px;
+    margin-bottom: 26px;
+  }
+  .quiz-gamify-strip {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  .practice-popout {
+    max-width: 100%;
+    padding: 18px 16px;
+  }
+  .practice-popout-head {
+    padding-right: 26px;
+  }
+  .schedule-input,
+  .schedule-input-narrow {
+    max-width: none;
+    width: 100%;
+  }
+  .schedule-upcoming-title,
+  .schedule-upcoming-module {
+    white-space: normal;
+  }
+  .tarkeeb-source {
+    font-size: 19px;
+  }
+  .tarkeeb-row,
+  .tarkeeb-tray {
+    padding: 12px;
+  }
+  .tarkeeb-col {
+    min-width: 72px;
+  }
+  .tarkeeb-word {
+    font-size: 19px;
+  }
+  .tarkeeb-chip {
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .tarkeeb-diagram-wrap,
+  .tarkeeb-diagram-grid,
+  .table-wrap,
+  table {
+    max-width: 100%;
+  }
+  .tarkeeb-diagram-grid,
+  .table-wrap {
+    overflow-x: auto;
+  }
+  .tarkeeb-diagram-grid {
+    justify-content: start;
+    padding: 14px 12px;
   }
   .exercise-card,
   .card {
