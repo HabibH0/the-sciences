@@ -1515,10 +1515,12 @@ function tarkeebDiagramGridHtml(item, slotContent, { fillBlanks = false } = {}) 
     <div class="tarkeeb-diagram-row-label" style="grid-column:${labelCol};grid-row:${rl.gridRow};">${escBidi(rl.label)}</div>`).join('') : '';
   const columns = `repeat(${numCells}, minmax(64px, auto))${hasRowLabels ? ' auto' : ''}`;
   return `
-    <div class="tarkeeb-diagram-grid" dir="rtl" style="grid-template-columns:${columns};grid-template-rows:repeat(${totalRows}, auto);">
-      ${cellsHtml}
-      ${slotsHtml}
-      ${rowLabelsHtml}
+    <div class="tarkeeb-diagram-scroll" dir="rtl">
+      <div class="tarkeeb-diagram-grid" dir="rtl" style="grid-template-columns:${columns};grid-template-rows:repeat(${totalRows}, auto);">
+        ${cellsHtml}
+        ${slotsHtml}
+        ${rowLabelsHtml}
+      </div>
     </div>`;
 }
 

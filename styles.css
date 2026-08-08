@@ -3418,21 +3418,24 @@ select.schedule-input {
    js/render.js). Deliberately reuses this file's own card/accent language
    (not the source book's blue/pink/green scheme) so it reads as part of the
    app, not a pasted-in textbook image. */
+.tarkeeb-diagram-scroll {
+  max-width: 100%;
+  background: var(--paper-deep);
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
 .tarkeeb-diagram-grid {
   display: grid;
   gap: 8px 10px;
   align-items: stretch;
-  /* "safe center": centers short sentences that fit, but falls back to
-     start-alignment once the grid overflows its scrollable box -- plain
-     "center" here left both ends of a long sentence cut off with the
-     default scroll position stranded in the unreachable middle. */
   justify-content: safe center;
+  width: max-content;
+  min-width: 100%;
   padding: 20px 16px;
-  background: var(--paper-deep);
-  border-radius: 8px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  touch-action: pan-x pan-y;
 }
 .tarkeeb-diagram-cell {
   align-self: center;
@@ -5035,16 +5038,17 @@ button.path-node:not(.locked):hover {
     padding: 8px 10px;
   }
   .tarkeeb-diagram-wrap,
-  .tarkeeb-diagram-grid,
+  .tarkeeb-diagram-scroll,
   .table-wrap,
   table {
     max-width: 100%;
   }
-  .tarkeeb-diagram-grid,
+  .tarkeeb-diagram-scroll,
   .table-wrap {
     overflow-x: auto;
   }
   .tarkeeb-diagram-grid {
+    max-width: none;
     justify-content: safe center;
     padding: 14px 12px;
   }
@@ -5282,16 +5286,21 @@ button.path-node:not(.locked):hover {
   .main.question-mode .tarkeeb-diagram-practice {
     min-height: 0;
   }
-  .main.question-mode .tarkeeb-diagram-grid {
+  .main.question-mode .tarkeeb-diagram-scroll {
     flex: none;
-    gap: 6px 8px;
-    justify-content: safe center;
-    padding: 10px;
+    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x;
+  }
+  .main.question-mode .tarkeeb-diagram-grid {
+    gap: 6px 8px;
+    justify-content: safe center;
+    max-width: none;
+    padding: 10px;
+    overflow: visible;
   }
   .main.question-mode .tarkeeb-diagram-cell {
     font-size: clamp(18px, 4.8vw, 22px);
