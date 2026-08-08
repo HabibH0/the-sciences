@@ -33,6 +33,19 @@ fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 entries.forEach(copyEntry);
 
+function stripElectronWindowChrome() {
+  const htmlPath = path.join(outDir, 'index.html');
+  if (!fs.existsSync(htmlPath)) return;
+  const html = fs.readFileSync(htmlPath, 'utf8');
+  const stripped = html.replace(
+    /  <!-- Replaces the OS title bar[\s\S]*?  <div id="root"><\/div>/,
+    '  <div id="root"></div>',
+  );
+  fs.writeFileSync(htmlPath, stripped);
+}
+
+stripElectronWindowChrome();
+
 const assetsDir = path.join(outDir, 'assets');
 fs.mkdirSync(assetsDir, { recursive: true });
 fs.copyFileSync(path.join(root, 'assets', 'icon.png'), path.join(assetsDir, 'icon.png'));
