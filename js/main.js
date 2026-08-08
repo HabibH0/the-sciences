@@ -191,6 +191,7 @@ function applyMergedProgressToState(envelope) {
     'arabicHeadingFace',
     'lessonTextScale',
     'tarkeebTranslations',
+    'tarkeebLabelsBlue',
     'forceUnlockAll',
     'forceUnlockAllExplicit',
     'kufiHeadings',
@@ -587,6 +588,7 @@ function setupScrollObserver(changedScreen) {
 function applyAppearance(state) {
   document.documentElement.dataset.theme = state.theme;
   document.documentElement.dataset.accent = state.accent;
+  document.documentElement.dataset.tarkeebLabelsBlue = state.tarkeebLabelsBlue === true ? 'true' : 'false';
   const chrome = THEME_CHROME[state.theme] || THEME_CHROME.manuscript;
   document.documentElement.style.colorScheme = chrome.scheme;
   document.body.style.backgroundColor = chrome.bg;
@@ -1714,6 +1716,9 @@ const actions = {
   toggleTarkeebTranslations() {
     state.tarkeebTranslations = state.tarkeebTranslations === false;
     state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
+  },
+  toggleTarkeebLabelsBlue() {
+    state.tarkeebLabelsBlue = state.tarkeebLabelsBlue !== true;
   },
   toggleCourseLocks() {
     if (state.forceUnlockAll) {

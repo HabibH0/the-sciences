@@ -147,6 +147,7 @@ export async function createInitialState() {
     // Revision Mode included, but Revision no longer reads it to decide
     // what's due -- see buildModuleRevisionQueue below.
     practiceHistory: boot.practiceHistory || {},
+    tarkeebLabelsBlue: boot.tarkeebLabelsBlue === true,
     // Schedule tab, "Deadline" sub-tab: courseId -> target completion date
     // (YYYY-MM-DD), so each course keeps its own deadline instead of one
     // shared across every course. Missing entry means unset for that course.
@@ -681,11 +682,11 @@ function pickRevisionSlice(pool, count, ctx) {
   return keys;
 }
 
-// 15 mcq (lesson-content + book-exercise combined) + 5 تركيب -- or 20 mcq
+// 5 mcq (lesson-content + book-exercise combined) + 5 تركيب -- or 10 mcq
 // outright when the window has no تركيب content yet (see grouping 1, whose
 // تركيب pool is empty this early). No vocab -- that has its own dedicated
 // checkpoint and exposure-count rule instead. ctx.mastery doubles both
-// portions (30 mcq + 10 تركيب, or 40 mcq outright).
+// portions (10 mcq + 10 تركيب, or 20 mcq outright).
 export function buildPathRevisionQueue(node, ctx) {
   const { quizPool = [], bookPool = [], tarkeebPool = [] } = pathPoolForNode(node);
   const mcqPool = quizPool.concat(bookPool);

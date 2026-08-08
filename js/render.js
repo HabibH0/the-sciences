@@ -171,6 +171,7 @@ function headerHtml(state, MODULES) {
   // right side's forward-navigation (tabs) and stats.
   let leftExtra = '';
   let rightInner = '';
+  let mobileMenuInner = '';
   let dotsHtml = '';
 
   if (showCrumbs) {
@@ -269,6 +270,7 @@ function headerHtml(state, MODULES) {
         ${tab('Settings', 'openSettings', state.view === 'settings')}
         ${tab('Account', 'openAccount', state.view === 'account')}
       </nav>`;
+    mobileMenuInner = rightInner;
   }
 
   // Always rendered, on every screen (dashboard, module, lesson, quiz, ...)
@@ -313,6 +315,13 @@ function headerHtml(state, MODULES) {
           <span class="app-header-stat" title="Total XP">${icon('star', 14, 1.8)}${state.xp} XP</span>
           <span class="app-header-level" title="Level ${li.level}">${li.level}</span>
         </button>
+        ${mobileMenuInner ? `
+          <details class="app-header-mobile-menu">
+            <summary aria-label="Header menu"><span aria-hidden="true">...</span></summary>
+            <div class="app-header-menu-panel">
+              ${mobileMenuInner}
+            </div>
+          </details>` : ''}
       </div>
       ${dotsHtml}
     </header>`;
@@ -1528,7 +1537,7 @@ function tarkeebDiagramGridHtml(item, slotContent, { fillBlanks = false } = {}) 
 // (sections[].blocks[] type:"tarkeeb" -> a concept line with `.tarkeebDiagram`,
 // see conceptProseHtml) -- read-only, every role label already shown.
 function tarkeebDiagramReadOnlyHtml(item) {
-  const grid = tarkeebDiagramGridHtml(item, (slot) => `<div class="tarkeeb-diagram-label">${escBidi(slot.role)}</div>`);
+  const grid = tarkeebDiagramGridHtml(item, (slot) => `<div class="tarkeeb-diagram-label"><span class="tarkeeb-label-text">${escBidi(slot.role)}</span></div>`);
   return `
     <div class="tarkeeb-diagram tarkeeb-diagram-static">
       ${grid}
@@ -1553,7 +1562,7 @@ function tarkeebTrayHtml(ts, key) {
     if (selected) cls += ' selected';
     const label = ts.chipPool[chipIdx];
     const ariaLabel = used ? `${label}, placed` : label;
-    return `<div class="${cls}" draggable="${interactive ? 'true' : 'false'}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-pressed="${selected}" aria-label="${escAttr(ariaLabel)}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}">${esc(label)}</div>`;
+    return `<div class="${cls}" draggable="${interactive ? 'true' : 'false'}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-pressed="${selected}" aria-label="${escAttr(ariaLabel)}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}"><span class="tarkeeb-label-text">${esc(label)}</span></div>`;
   }).join('');
 }
 
@@ -1589,7 +1598,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     let slotCls = 'tarkeeb-slot tarkeeb-diagram-slot';
     if (isBlank) slotCls += ' blank';
     let slotState = 'empty';
-    let content = chipText ? esc(chipText) : '';
+    let content = chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : '';
     // Keyboard/screen-reader label for this slot: identifies it by the
     // word(s) it sits under (same cue a sighted learner uses), never by
     // slot.role -- that's the graded answer, and leaking it here would hand
@@ -1608,7 +1617,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
         // Reveal the correct answer in place of whatever was (or wasn't)
         // dropped here, rather than just marking it wrong and leaving the
         // learner to guess what it should have been.
-        content = `<span class="tarkeeb-slot-answer">${isBlank ? 'leave blank' : esc(slot.role)}</span>`;
+        content = `<span class="tarkeeb-slot-answer"><span class="tarkeeb-label-text">${isBlank ? 'leave blank' : esc(slot.role)}</span></span>`;
       } else if (isBlank) {
         // Correctly left empty -- a faint marker so the learner knows that
         // was a deliberate right answer, not just an unnoticed slot.
@@ -1675,7 +1684,7 @@ function renderTarkeeb(state, item, key, moduleId) {
     return `
     <div class="tarkeeb-col" data-anim-key="tc:${escAttr(key)}:${i}">
       <div class="tarkeeb-word">${esc(word)}</div>
-      <div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? esc(chipText) : ''}</div>
+      <div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : ''}</div>
     </div>`;
   }).join('');
 
@@ -2917,6 +2926,7 @@ function settingsHtml(state) {
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
   const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
+  const tarkeebLabelsBlueOn = state.tarkeebLabelsBlue === true;
   const forceUnlockOn = state.forceUnlockAll === true;
   const courseLocksOn = !forceUnlockOn;
 
@@ -2996,6 +3006,15 @@ function settingsHtml(state) {
       <span class="settings-toggle-pill">${tarkeebTranslationsOn ? 'Shown' : 'Hidden'}</span>
     </button>`;
 
+  const tarkeebLabelColorToggle = `
+    <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
+      <span class="settings-toggle-copy">
+        <span class="settings-toggle-title">Blue Tarkeeb labels</span>
+        <span class="settings-toggle-sub">Colour only the grammar label text; boxes and slots keep their normal style.</span>
+      </span>
+      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Blue' : 'Default'}</span>
+    </button>`;
+
   const forceUnlockToggle = `
     <button class="settings-toggle-row settings-toggle-warning ${courseLocksOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${courseLocksOn}" data-action="toggleCourseLocks">
       <span class="settings-toggle-copy">
@@ -3041,6 +3060,7 @@ function settingsHtml(state) {
           </div>
         </div>
         ${tarkeebTranslationToggle}
+        ${tarkeebLabelColorToggle}
         ${forceUnlockToggle}
 
         <hr class="settings-hr">

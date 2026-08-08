@@ -119,14 +119,14 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   nodes.push({ type: 'lesson', id: id(n++), ...lessons[1] });
   nodes.push({ type: 'lesson', id: id(n++), ...lessons[2] });
   const afterL2 = id(n - 1);
-  nodes.push({ type: 'mcqCheckpoint', id: id(n++), length: 20, windowStart: firstLessonNodeId, windowEnd: afterL2 });
+  nodes.push({ type: 'mcqCheckpoint', id: id(n++), length: 10, windowStart: firstLessonNodeId, windowEnd: afterL2 });
   nodes.push({ type: 'lesson', id: id(n++), ...lessons[3] });
   nodes.push({ type: 'lesson', id: id(n++), ...lessons[4] });
   const afterL4 = id(n - 1);
   nodes.push({ type: 'vocabCheckpoint', id: id(n++), length: 10, windowEnd: afterL4 });
   nodes.push({ type: 'lesson', id: id(n++), ...lessons[5] });
   const afterL5 = id(n - 1);
-  nodes.push({ type: 'revision', id: id(n++), length: 20, windowEnd: afterL5 });
+  nodes.push({ type: 'revision', id: id(n++), length: 10, windowEnd: afterL5 });
   if (hasTarkeeb) {
     nodes.push({ type: 'tarkeebCheckpoint', id: id(n++), windowStart: firstLessonNodeId, windowEnd: afterL5 });
   }
@@ -134,9 +134,12 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
     nodes.push({ type: 'lesson', id: id(n++), ...lessons[i] });
   }
   const afterTail = id(n - 1);
+  const sectionTestLengths = hasTarkeeb
+    ? { mcqLength: 15, tarkeebLength: 10, vocabLength: 10 }
+    : { mcqLength: 10, tarkeebLength: 0, vocabLength: 5 };
   nodes.push({
     type: 'sectionTest', id: id(n++), badgeId: `path-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
-    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 10, passRatio: 0.8,
+    windowStart: firstLessonNodeId, windowEnd: afterTail, ...sectionTestLengths, passRatio: 0.8,
   });
   return nodes;
 }
@@ -189,10 +192,9 @@ const TARKEEB_FROM_SECTION = 5;
 // One group's own module-slice backbone (GROUP_MODULE_RANGES[i]), split
 // into buildSectionNodes calls per sectionSizesFor, plus its capstone
 // groupTest: a bigger cumulative exam spanning the WHOLE group rather than
-// any one section -- double a section test's composition (30 mcq + 20
-// تركيب + 20 vocab, same "double = the bigger version" idea as every
-// Mastery variant), same 80% pass ratio, scoped to this group's own
-// lessons only (never reaching into an earlier group).
+// any one section -- 30 mcq + 20 تركيب + 20 vocab, same 80% pass ratio,
+// scoped to this group's own lessons only (never reaching into an earlier
+// group).
 function buildGroup(groupNum, range, sectionNumStart) {
   const backbone = buildGroupBackbone(range);
   const sizes = sectionSizesFor(backbone.length);

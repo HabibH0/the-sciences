@@ -106,12 +106,12 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   nodes.push({ type: 'lesson', id: id(n++), pathId: 'advanced', ...lessons[1] });
   nodes.push({ type: 'lesson', id: id(n++), pathId: 'advanced', ...lessons[2] });
   const afterL2 = id(n - 1);
-  nodes.push({ type: 'mcqCheckpoint', id: id(n++), pathId: 'advanced', length: 20, windowStart: firstLessonNodeId, windowEnd: afterL2 });
+  nodes.push({ type: 'mcqCheckpoint', id: id(n++), pathId: 'advanced', length: 10, windowStart: firstLessonNodeId, windowEnd: afterL2 });
   nodes.push({ type: 'lesson', id: id(n++), pathId: 'advanced', ...lessons[3] });
   nodes.push({ type: 'lesson', id: id(n++), pathId: 'advanced', ...lessons[4] });
   nodes.push({ type: 'lesson', id: id(n++), pathId: 'advanced', ...lessons[5] });
   const afterL5 = id(n - 1);
-  nodes.push({ type: 'revision', id: id(n++), pathId: 'advanced', length: 20, windowEnd: afterL5 });
+  nodes.push({ type: 'revision', id: id(n++), pathId: 'advanced', length: 10, windowEnd: afterL5 });
   if (hasTarkeeb) {
     nodes.push({ type: 'tarkeebCheckpoint', id: id(n++), pathId: 'advanced', windowStart: firstLessonNodeId, windowEnd: afterL5 });
   }
@@ -121,7 +121,7 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   const afterTail = id(n - 1);
   nodes.push({
     type: 'sectionTest', id: id(n++), pathId: 'advanced', badgeId: `path-adv-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
-    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 0, passRatio: 0.8,
+    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 10, tarkeebLength: 5, vocabLength: 0, passRatio: 0.8,
   });
   return nodes;
 }
@@ -154,8 +154,8 @@ function sectionSizesFor(totalLessons) {
 
 // One group's own module-slice backbone (GROUP_MODULE_RANGES[i]), split
 // into buildSectionNodes calls per sectionSizesFor, plus its capstone
-// groupTest -- double a section test's composition (30 mcq + 20 تركيب, no
-// vocab), same 80% pass ratio, scoped to this group's own lessons only.
+// groupTest -- 30 mcq + 20 تركيب, no vocab, same 80% pass ratio, scoped to
+// this group's own lessons only.
 // hasTarkeeb is unconditionally true: تركيب exists in annahw from its very
 // first lesson (module 01, lesson l1), so every section in every group has
 // تركيب content in-window from the start -- verified directly via the

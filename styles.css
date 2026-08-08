@@ -727,6 +727,24 @@ button:disabled {
   font-variant-numeric: tabular-nums;
 }
 
+.app-header-mobile-menu {
+  display: none;
+  position: relative;
+  flex: none;
+}
+.app-header-mobile-menu summary {
+  list-style: none;
+}
+.app-header-mobile-menu summary::-webkit-details-marker {
+  display: none;
+}
+.app-header-menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+}
+
 /* ---------- Footer: one bar, every screen ---------- */
 
 .app-footer {
@@ -3520,6 +3538,18 @@ select.schedule-input {
   color: var(--maroon);
 }
 
+:root {
+  --tarkeeb-label-blue: #1f63ad;
+}
+
+:root[data-theme="lamp"] {
+  --tarkeeb-label-blue: #7fc7ff;
+}
+
+:root[data-tarkeeb-labels-blue="true"] .tarkeeb-label-text {
+  color: var(--tarkeeb-label-blue);
+}
+
 /* ---------- Motion: view transitions (page-turn crossfade) ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
@@ -4698,36 +4728,36 @@ button.path-node:not(.locked):hover {
   }
   .app-header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: stretch;
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 12px;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: calc(6px + env(safe-area-inset-top, 0px)) 14px 8px;
+    gap: 8px;
   }
   .app-header-left {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-column: 1;
+    display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     width: 100%;
     min-width: 0;
   }
   .app-header-kicker {
-    font-size: 22px;
+    font-size: 20px;
   }
   .app-header-rule {
-    height: 20px;
+    height: 18px;
   }
   .app-header-course-btn {
-    justify-self: start;
     min-width: 0;
-    max-width: 100%;
-    height: 34px;
-    padding: 7px 11px;
+    max-width: min(38vw, 158px);
+    height: 30px;
+    padding: 6px 10px;
   }
   .app-header-course-btn span {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .app-header-dots {
     position: static;
@@ -4737,59 +4767,105 @@ button.path-node:not(.locked):hover {
     justify-content: center;
   }
   .app-header-right {
+    grid-column: 2;
     align-items: center;
     display: flex;
-    gap: 12px;
-    justify-content: space-between;
+    gap: 8px;
+    justify-content: flex-end;
     overflow: visible;
-    width: 100%;
+    width: auto;
     min-width: 0;
   }
   .app-header-nav {
-    flex: 1 1 auto;
-    gap: 8px;
-    justify-content: space-between;
-    min-width: 0;
-    overflow: visible;
-    padding-bottom: 0;
+    display: none;
   }
   .app-header-tab {
-    flex: none;
-    font-size: clamp(12px, 3.4vw, 14px);
+    font-size: 14px;
   }
   .app-header-stats {
     flex: none;
-    gap: 8px;
+    gap: 7px;
     margin-left: auto;
-    padding-left: 10px;
+    padding-left: 8px;
   }
   .app-header-stat {
-    font-size: 12px;
+    font-size: 11px;
   }
   .app-header-stat:nth-child(2) {
     display: none;
   }
+  .app-header-level {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+  .app-header-mobile-menu {
+    display: block;
+  }
+  .app-header-mobile-menu summary {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+    color: var(--color-accent);
+    cursor: pointer;
+    font: 700 18px/1 var(--font-heading);
+    user-select: none;
+  }
+  .app-header-mobile-menu[open] summary,
+  .app-header-mobile-menu summary:focus-visible {
+    border-color: var(--color-accent);
+    outline: none;
+  }
+  .app-header-menu-panel {
+    min-width: 164px;
+    padding: 6px;
+    border: 1px solid var(--color-divider);
+    border-radius: 8px;
+    background: var(--card);
+    box-shadow: var(--shadow-md);
+  }
+  .app-header-menu-panel .app-header-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    width: 100%;
+    overflow: visible;
+  }
+  .app-header-menu-panel .app-header-tab {
+    width: 100%;
+    padding: 9px 10px;
+    border: none;
+    border-radius: var(--radius-sm);
+    text-align: left;
+    color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  }
+  .app-header-menu-panel .app-header-tab:hover,
+  .app-header-menu-panel .app-header-tab.is-active {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
   .app-header.has-crumbs .app-header-left {
-    grid-template-columns: auto auto minmax(0, 1fr);
+    display: flex;
   }
   .app-header.has-crumbs .app-header-crumbs-group {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 38px minmax(0, 1fr);
+    order: -1;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-width: 0;
-    margin-top: 2px;
+    gap: 0;
+    width: auto;
+    margin-top: 0;
   }
   .app-header.has-crumbs .app-header-back {
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
   }
   .app-header.has-crumbs .app-header-crumbs {
-    width: 100%;
-    min-width: 0;
-    font-size: 15px;
+    display: none;
   }
   .app-header.has-crumbs .app-header-crumb-link,
   .app-header.has-crumbs .app-header-crumb-current {
@@ -4799,7 +4875,7 @@ button.path-node:not(.locked):hover {
     white-space: nowrap;
   }
   .app-header.has-crumbs .app-header-right {
-    display: none;
+    display: flex;
   }
   .title-dock-clone {
     display: none;
@@ -5108,16 +5184,16 @@ button.path-node:not(.locked):hover {
     display: none;
   }
   .app-header.is-question-session.has-crumbs {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
   }
   .app-header.is-question-session.has-crumbs .app-header-left {
-    grid-template-columns: auto auto minmax(0, 1fr);
+    display: flex;
     width: 100%;
   }
   .app-header.is-question-session.has-crumbs .app-header-crumbs-group {
-    grid-column: 1 / -1;
-    grid-template-columns: 32px minmax(0, 1fr);
-    gap: 8px;
+    order: -1;
+    display: flex;
+    gap: 0;
     margin-top: 0;
   }
   .app-header.is-question-session.has-crumbs .app-header-back {
@@ -5125,10 +5201,10 @@ button.path-node:not(.locked):hover {
     height: 32px;
   }
   .app-header.is-question-session.has-crumbs .app-header-crumbs {
-    font-size: 14px;
+    display: none;
   }
   .app-header.is-question-session.has-crumbs .app-header-right {
-    display: none;
+    display: flex;
   }
 
   .main.question-mode .main-content {
