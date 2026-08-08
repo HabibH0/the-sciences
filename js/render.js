@@ -3058,18 +3058,18 @@ function accountHtml(state) {
   const autoUploadLabels = {
     idle: account.syncBaseMeta || cloud?.exists === false ? 'Ready' : 'Waiting',
     queued: 'Queued',
-    uploading: 'Uploading',
+    uploading: 'Syncing',
     synced: 'On',
     paused: 'Paused',
     error: 'Needs attention',
   };
   const autoUploadMessage = account.autoUploadMessage
     || (account.syncBaseMeta || cloud?.exists === false
-      ? 'Automatic upload will run after lesson, quiz, and practice progress.'
-      : 'Use Upload or Download once to enable automatic upload safely on this device.');
+      ? 'Automatic sync will run after lesson, quiz, and practice progress.'
+      : 'Use Upload or Download once to merge saves and enable automatic sync on this device.');
   const autoUploadHtml = signedIn ? `
     <div class="account-auto-sync account-auto-sync-${escAttr(autoUploadStatus)}">
-      <span>Automatic upload</span>
+      <span>Automatic sync</span>
       <strong>${esc(autoUploadLabels[autoUploadStatus] || autoUploadLabels.idle)}</strong>
       <p>${esc(autoUploadMessage)}</p>
     </div>` : '';
@@ -3094,12 +3094,12 @@ function accountHtml(state) {
     ${statusBlock('This device save status', local, 'refreshLocalSaveStatus', 'No local save data found yet.')}` : '';
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
-      <h2 class="settings-group-title">${pendingSync === 'download' ? 'Download cloud save data?' : 'Upload this device save data?'}</h2>
+      <h2 class="settings-group-title">${pendingSync === 'download' ? 'Merge cloud save data?' : 'Merge this device save data?'}</h2>
       <p class="settings-group-sub">${pendingSync === 'download'
-        ? 'This replaces the save data on this device with the save data currently stored in your account.'
-        : 'This replaces the cloud save data in your account with the save data currently on this device.'}</p>
+        ? 'This combines the cloud save with this device. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'
+        : 'This combines this device with the cloud save. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'}</p>
       <div class="account-actions">
-        <button class="ds-btn ds-btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>${pendingSync === 'download' ? 'Confirm download' : 'Confirm upload'}</button>
+        <button class="ds-btn ds-btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>Confirm merge</button>
         <button class="ds-btn ds-btn-ghost" data-action="cancelAccountSync" ${working ? 'disabled' : ''}>Cancel</button>
       </div>
     </div>` : '';

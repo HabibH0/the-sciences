@@ -1,25 +1,4 @@
-import m01 from './module-01.js';
-import m02 from './module-02.js';
-import m03 from './module-03.js';
-import m04 from './module-04.js';
-import m05 from './module-05.js';
-import m06 from './module-06.js';
-import m07 from './module-07.js';
-import m08 from './module-08.js';
-import m09 from './module-09.js';
-import m10 from './module-10.js';
-import m11 from './module-11.js';
-import m12 from './module-12.js';
-import m13 from './module-13.js';
-import m14 from './module-14.js';
-import m15 from './module-15.js';
-import m16 from './module-16.js';
-import m17 from './module-17.js';
-import { MODULES as FSTU_MODULES } from '../content-fstu/index.js';
-import { MODULES as SARF_MODULES } from '../content-fstu-sarf/index.js';
-import { MODULES as ADV_SARF_MODULES } from '../content-sarf/index.js';
-
-const ANNAHW_MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15, m16, m17];
+import { COURSE_LOADERS, COURSE_SHELLS } from './meta.js';
 
 // Every course the app knows about. Every helper below (getModule,
 // isModuleUnlocked, getBankPool, totalLessons, ...) resolves against the
@@ -40,46 +19,53 @@ const ANNAHW_MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m
 // order, so the two introductory courses come first (row 1) and their
 // advanced continuations follow (row 2) -- Nahw's column stays fstu-over-
 // annahw, Sarf's column stays sarf-over-sarf-advanced.
-export const COURSES = [
-  {
-    id: 'fstu', name: 'Introductory Nahw', arabicName: 'النحو التمهيدي',
-    blurb: 'A gentler first pass through Nahw — nouns, verbs, particles, and sentence types, building up gradually from the basics across twenty-one units.',
-    modules: FSTU_MODULES,
-  },
-  {
-    id: 'sarf', name: 'Introductory Sarf', arabicName: 'الصرف التمهيدي',
-    blurb: 'Arabic morphology (الصرف): how words and verbs change form. Thirteen units, from the basic verb through every weak-letter pattern, derived noun, and إعراب rule.',
-    modules: SARF_MODULES,
-  },
-  {
-    id: 'annahw', name: 'Advanced Nahw', arabicName: 'النحو المتقدم',
-    blurb: 'The full classical course in Arabic syntax: seventeen chapters covering the word, the sentence, إعراب, and the complete grammar of Arabic. Continues on from Introductory Nahw.',
-    modules: ANNAHW_MODULES,
-    // Gated: locked until 'fstu' is fully complete, or unlocked early by
-    // passing a skip-ahead test (see isCourseUnlocked/state.unlockedCourses,
-    // courseUnlockTestPool further down).
-    requiresCourseId: 'fstu',
-    lockedMessage: 'Locked until Introductory Nahw is complete.',
-  },
-  {
-    id: 'sarf-advanced', name: 'Advanced Sarf', arabicName: 'الصرف المتقدم',
-    blurb: 'شذا العرف في فن الصرف by أحمد الحملاوي, in full: the seven divisions of الفعل — tense, augmentation, weak letters, and more — then the four divisions of الاسم: primitive vs. derived, gender, and how a noun ends. Continues on from Introductory Sarf.',
-    modules: ADV_SARF_MODULES,
-    requiresCourseId: 'sarf',
-    lockedMessage: 'Locked until Introductory Sarf is complete.',
-  },
-];
+export const COURSES = COURSE_SHELLS.map((course) => ({
+  ...course,
+  modules: course.modules.map((m) => ({
+    ...m,
+    lessons: m.lessons.map((l) => ({ ...l })),
+  })),
+}));
+
+const loadedCourses = new Map();
+let activeCourseId = COURSES[0].id;
 
 export let MODULES = COURSES[0].modules;
 
-export function setActiveCourse(id) {
+export async function loadCourse(id) {
   const course = COURSES.find((c) => c.id === id) || COURSES[0];
+  if (loadedCourses.has(course.id)) return course.modules;
+  const loaded = await COURSE_LOADERS[course.id]();
+  course.modules = loaded.MODULES;
+  loadedCourses.set(course.id, course.modules);
+  if (activeCourseId === course.id) MODULES = course.modules;
+  return course.modules;
+}
+
+export function isCourseLoaded(id) {
+  return loadedCourses.has(id);
+}
+
+export async function ensureCoursesLoaded(ids) {
+  await Promise.all([...new Set(ids)].map((id) => loadCourse(id)));
+}
+
+export async function setActiveCourse(id) {
+  const course = COURSES.find((c) => c.id === id) || COURSES[0];
+  activeCourseId = course.id;
+  MODULES = course.modules;
+  await loadCourse(course.id);
+  MODULES = course.modules;
+}
+
+export function setActiveCourseShell(id) {
+  const course = COURSES.find((c) => c.id === id) || COURSES[0];
+  activeCourseId = course.id;
   MODULES = course.modules;
 }
 
 export function getActiveCourseId() {
-  const course = COURSES.find((c) => c.modules === MODULES);
-  return course ? course.id : COURSES[0].id;
+  return activeCourseId;
 }
 
 // Which course a given moduleId belongs to, independent of the mutable

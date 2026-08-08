@@ -3,7 +3,9 @@
 // validate`. Checks shape only -- not pedagogical correctness, which is on
 // the author. Both courses share the identical module/lesson shape, so one
 // pass of checks covers both -- just looped once per course.
-import { COURSES, conceptLines, flattenTarkeebSlots } from '../content/index.js';
+import { COURSES, conceptLines, ensureCoursesLoaded, flattenTarkeebSlots } from '../content/index.js';
+
+await ensureCoursesLoaded(COURSES.map((course) => course.id));
 
 let errors = 0;
 

@@ -6,14 +6,11 @@
 // on, wrong-answer/vocab-exposure counters, ...) lives in js/state.js
 // instead -- nothing in this file ever reads learner state.
 //
-// Deliberately imports FSTU_MODULES/SARF_MODULES straight from their own
-// course index files rather than content/index.js's MODULES -- that binding
-// is mutable and only ever points at ONE active course at a time (see
-// setActiveCourse there), so it can't represent "both courses at once",
-// which is exactly what a path spanning them needs.
-import { MODULES as FSTU_MODULES } from '../content-fstu/index.js';
-import { MODULES as SARF_MODULES } from '../content-fstu-sarf/index.js';
-import { bankKey, quizKey } from './index.js';
+import { COURSES, bankKey, quizKey } from './index.js';
+
+function courseModules(courseId) {
+  return (COURSES.find((c) => c.id === courseId) || {}).modules || [];
+}
 
 function flattenLessons(modules, courseId) {
   const out = [];
@@ -56,7 +53,7 @@ export function buildBackbone(fstuModules, sarfModules) {
 }
 
 function findLesson(courseId, moduleId, lessonId) {
-  const modules = courseId === 'sarf' ? SARF_MODULES : FSTU_MODULES;
+  const modules = courseModules(courseId);
   const mod = modules.find((m) => m.id === moduleId);
   return mod && mod.lessons.find((l) => l.id === lessonId);
 }
@@ -90,7 +87,7 @@ export const GROUP_MODULE_RANGES = [
 // (whatever's left over after slicing just isn't in this group's pool at
 // all yet).
 function buildGroupBackbone(range) {
-  return buildBackbone(FSTU_MODULES.slice(range.fstu[0], range.fstu[1]), SARF_MODULES.slice(range.sarf[0], range.sarf[1]));
+  return buildBackbone(courseModules('fstu').slice(range.fstu[0], range.fstu[1]), courseModules('sarf').slice(range.sarf[0], range.sarf[1]));
 }
 
 // Builds ONE section's node list from a slice of a group's own backbone,

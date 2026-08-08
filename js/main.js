@@ -22,6 +22,8 @@ import {
   totalLessonsCleared,
   COURSES,
   setActiveCourse,
+  setActiveCourseShell,
+  ensureCoursesLoaded,
   flattenTarkeebSlots,
   courseIdForModule,
   isCourseUnlocked,
@@ -45,7 +47,7 @@ import {
 import { render, FACES, KUFI_HEAD_FONT } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, cancelPendingPersist, todayISO } from './persistence.js';
-import { getBackendUrl, register, login, logout, me, uploadLocalProgress, downloadRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -57,19 +59,34 @@ const electronWindow = window.electronAPI?.window;
 const state = await createInitialState();
 state.account.backendUrl = getBackendUrl();
 if (state.account.backendUrl) {
-  me().then((result) => {
+  me().then(async (result) => {
     if (result && !result.disabled) {
       state.account.user = result.user || null;
       state.account.message = state.account.user ? `Signed in as ${state.account.user.email}` : '';
-      if (state.account.user) refreshCloudSaveStatus();
-      refreshLocalSaveStatus();
+      if (state.account.user) {
+        try {
+          state.account.message = `Signed in as ${state.account.user.email}. Syncing save data...`;
+          await flushPersist();
+          await mergeAccountSaveWithRetry();
+          state.account.autoUploadStatus = 'synced';
+          state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
+          state.account.message = `Signed in as ${state.account.user.email}. Save data synced.`;
+        } catch (e) {
+          state.account.message = e.message || 'Signed in, but save data could not sync.';
+          await refreshCloudSaveStatus();
+          await refreshLocalSaveStatus();
+        }
+      } else {
+        refreshLocalSaveStatus();
+      }
       rerender();
     }
   }).catch(() => {});
 }
 // Must run before sanitizeBootNav below -- that IIFE calls getModule/
 // isModuleUnlocked/etc., which resolve against whichever course is active.
-setActiveCourse(state.courseId);
+setActiveCourseShell(state.courseId);
+if (!state.launchScreen) await setActiveCourse(state.courseId);
 state.tarkeebState = {}; // key -> { chipPool, chipOrder, placements, selectedChip, submitted, feedback, passed }
 // A returning learner who already has a 7-day streak sees the "On Fire"
 // badge unlock immediately on launch, rather than waiting for their next
@@ -113,16 +130,60 @@ function reconcileSyncBase() {
 }
 
 function autoUploadSuccessMessage(reason) {
-  if (reason === 'lesson-complete') return 'Lesson completion uploaded to your account.';
-  if (reason === 'quiz-complete') return 'Quiz result uploaded to your account.';
-  if (reason === 'lesson-exercise' || reason === 'concept-exercise') return 'Lesson exercise progress uploaded to your account.';
-  if (reason === 'practice-answer') return 'Practice progress uploaded to your account.';
-  if (reason === 'mastery-complete') return 'Mastery result uploaded to your account.';
-  if (reason === 'path-session-complete') return 'Path progress uploaded to your account.';
-  if (reason === 'unlock-test-complete') return 'Unlock test progress uploaded to your account.';
-  if (reason === 'direct-unlock') return 'Unlock choice uploaded to your account.';
-  if (reason === 'path-milestone') return 'Path milestone progress uploaded to your account.';
-  return 'Progress uploaded to your account.';
+  if (reason === 'lesson-complete') return 'Lesson completion synced to your account.';
+  if (reason === 'quiz-complete') return 'Quiz result synced to your account.';
+  if (reason === 'lesson-exercise' || reason === 'concept-exercise') return 'Lesson exercise progress synced to your account.';
+  if (reason === 'practice-answer') return 'Practice progress synced to your account.';
+  if (reason === 'mastery-complete') return 'Mastery result synced to your account.';
+  if (reason === 'path-session-complete') return 'Path progress synced to your account.';
+  if (reason === 'unlock-test-complete') return 'Unlock test progress synced to your account.';
+  if (reason === 'direct-unlock') return 'Unlock choice synced to your account.';
+  if (reason === 'path-milestone') return 'Path milestone progress synced to your account.';
+  return 'Progress synced to your account.';
+}
+
+function envelopeProgress(envelope) {
+  if (!envelope || typeof envelope !== 'object') return {};
+  return envelope.progress && typeof envelope.progress === 'object' ? envelope.progress : envelope;
+}
+
+function applyMergedProgressToState(envelope) {
+  const progress = envelopeProgress(envelope);
+  const persistedKeys = [
+    'completed',
+    'quizScores',
+    'exStates',
+    'lessonPos',
+    'revealState',
+    'practiceHistory',
+    'scheduleDeadline',
+    'pathNodeStatus',
+    'pathReps',
+    'vocabExposure',
+    'pathCheckpointMastery',
+    'masteryV2',
+    'streak',
+    'lastVisit',
+    'xp',
+    'badges',
+    'practiceCorrectTotal',
+    'theme',
+    'accent',
+    'arabicFace',
+    'lessonTextScale',
+    'tarkeebTranslations',
+    'forceUnlockAll',
+    'kufiHeadings',
+    'unlockedCourses',
+    'unlockedTracks',
+    'unlockedModules',
+  ];
+
+  for (const key of persistedKeys) {
+    if (Object.prototype.hasOwnProperty.call(progress, key)) {
+      state[key] = progress[key];
+    }
+  }
 }
 
 // --- boot sanitation --------------------------------------------------
@@ -171,11 +232,11 @@ function autoUploadSuccessMessage(reason) {
       state.pathGroupId = null;
     }
   }
-  if (state.view === 'quiz' && state.moduleId && state.lessonId) {
+  if (!state.launchScreen && state.view === 'quiz' && state.moduleId && state.lessonId) {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (lesson) state.quizOptionOrder = shuffleQuizOrder(lesson);
   }
-  if (state.view === 'lesson' && state.moduleId && state.lessonId) {
+  if (!state.launchScreen && state.view === 'lesson' && state.moduleId && state.lessonId) {
     shuffleLessonOptions(state.moduleId, state.lessonId);
   }
 })();
@@ -883,10 +944,6 @@ function scheduleLessonExerciseAdvance() {
   }, 1100);
 }
 
-function reloadAfterCloudDownload() {
-  setTimeout(() => window.location.reload(), 900);
-}
-
 function rerenderAccountIfOpen() {
   if (state.view === 'account') rerender();
 }
@@ -909,6 +966,28 @@ async function refreshLocalSaveStatus() {
   }
 }
 
+async function mergeAccountSave(options = {}) {
+  const result = Object.prototype.hasOwnProperty.call(options, 'expectedMeta')
+    ? await mergeLocalAndRemoteProgress({ expectedMeta: options.expectedMeta })
+    : await mergeLocalAndRemoteProgress();
+  if (!result.synced) throw new Error('Sync server is not configured.');
+  applyMergedProgressToState(result.progress);
+  await refreshCloudSaveStatus();
+  await refreshLocalSaveStatus();
+  reconcileSyncBase();
+  return result;
+}
+
+async function mergeAccountSaveWithRetry(options = {}) {
+  try {
+    return await mergeAccountSave(options);
+  } catch (e) {
+    if (e.status !== 409) throw e;
+    await refreshCloudSaveStatus();
+    return mergeAccountSave({ expectedMeta: statusMeta(state.account.cloudStatus) || null });
+  }
+}
+
 let autoUploadTimer = null;
 let autoUploadRunning = false;
 let autoUploadReason = '';
@@ -917,7 +996,7 @@ function queueAutoUpload(reason) {
   if (!state.account.user || !state.account.backendUrl || suppressPersist) return;
   autoUploadReason = reason;
   state.account.autoUploadStatus = 'queued';
-  state.account.autoUploadMessage = 'Recent progress will upload automatically.';
+  state.account.autoUploadMessage = 'Recent progress will sync automatically.';
   clearTimeout(autoUploadTimer);
   autoUploadTimer = setTimeout(() => {
     autoUploadTimer = null;
@@ -935,7 +1014,7 @@ async function runAutoUpload(reason) {
 
   autoUploadRunning = true;
   state.account.autoUploadStatus = 'uploading';
-  state.account.autoUploadMessage = 'Uploading recent progress...';
+  state.account.autoUploadMessage = 'Syncing recent progress...';
   rerenderAccountIfOpen();
 
   try {
@@ -945,8 +1024,6 @@ async function runAutoUpload(reason) {
 
     const localMeta = statusMeta(state.account.localStatus);
     const cloudMeta = statusMeta(state.account.cloudStatus);
-    const baseMeta = state.account.syncBaseMeta;
-
     if (localMeta && cloudMeta && sameSaveMeta(localMeta, cloudMeta)) {
       state.account.syncBaseMeta = cloudMeta;
       state.account.autoUploadStatus = 'synced';
@@ -954,34 +1031,20 @@ async function runAutoUpload(reason) {
       return;
     }
 
-    if (cloudMeta && baseMeta && !sameSaveMeta(cloudMeta, baseMeta)) {
-      state.account.autoUploadStatus = 'paused';
-      state.account.autoUploadMessage = 'Automatic upload paused because the cloud save changed on another device. Use Upload or Download to choose which save wins.';
-      return;
-    }
+    const expectedMeta = cloudMeta || null;
+    await mergeAccountSaveWithRetry({ expectedMeta });
 
-    if (cloudMeta && !baseMeta) {
-      state.account.autoUploadStatus = 'paused';
-      state.account.autoUploadMessage = 'Automatic upload will start after you manually upload or download once on this device.';
-      return;
-    }
-
-    const expectedMeta = cloudMeta ? baseMeta : null;
-    await uploadLocalProgress({ expectedMeta });
-    await refreshCloudSaveStatus();
-    await refreshLocalSaveStatus();
-    reconcileSyncBase();
     state.account.autoUploadStatus = 'synced';
     state.account.autoUploadMessage = autoUploadSuccessMessage(reason);
   } catch (e) {
     if (e.status === 409) {
       await refreshCloudSaveStatus();
-      state.account.autoUploadStatus = 'paused';
-      state.account.autoUploadMessage = 'Automatic upload paused because the cloud save changed on another device. Use Upload or Download to choose which save wins.';
+      state.account.autoUploadStatus = 'error';
+      state.account.autoUploadMessage = 'Automatic sync could not finish because the cloud save changed again. Manual sync is still available.';
       return;
     }
     state.account.autoUploadStatus = 'error';
-    state.account.autoUploadMessage = e.message || 'Automatic upload failed. Manual sync is still available.';
+    state.account.autoUploadMessage = e.message || 'Automatic sync failed. Manual sync is still available.';
   } finally {
     autoUploadRunning = false;
     rerenderAccountIfOpen();
@@ -1101,8 +1164,8 @@ function exitPracticeSession(p) {
 // already active: resets to that course's dashboard -- there's no
 // cross-course "resume position" to preserve, and any in-flight practice
 // session belongs to the course being left.
-function activateCourse(id) {
-  setActiveCourse(id);
+async function activateCourse(id) {
+  await setActiveCourse(id);
   state.courseId = id;
   state.view = 'dashboard';
   state.moduleId = null;
@@ -1141,7 +1204,7 @@ const actions = {
   // even though state.view is actually 'path'/'pathGroups'. Without this,
   // clicking a course card that happens to match would silently dump the
   // learner back into My Path instead of that course's own dashboard.
-  chooseCourse(el) {
+  async chooseCourse(el) {
     const id = el.dataset.courseId;
     const course = COURSES.find((c) => c.id === id);
     // Defense in depth -- a locked course's own launch card already
@@ -1149,14 +1212,24 @@ const actions = {
     // launchCourseCardHtml in js/render.js), but guard here too in case
     // state.completed/unlockedCourses changes out from under a stale render.
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
-    state.launchScreen = false;
     // state.pathHome (not state.view) is the durable "was the learner in My
     // Path" signal -- state.view alone would miss a Settings/Schedule/
     // Achievements detour in between (see state.pathHome's definition in
     // js/state.js), which used to let a leftover state.courseId from a path
     // lesson silently no-op this click instead of activating the course.
     const resumingFromPath = state.pathHome;
-    if (id !== state.courseId || resumingFromPath) activateCourse(id);
+    if (id !== state.courseId || resumingFromPath) await activateCourse(id);
+    else {
+      await setActiveCourse(id);
+      if (state.view === 'quiz' && state.moduleId && state.lessonId) {
+        const lesson = getLesson(state.moduleId, state.lessonId);
+        if (lesson) state.quizOptionOrder = shuffleQuizOrder(lesson);
+      }
+      if (state.view === 'lesson' && state.moduleId && state.lessonId) {
+        shuffleLessonOptions(state.moduleId, state.lessonId);
+      }
+    }
+    state.launchScreen = false;
   },
   openModule(el) {
     const moduleId = el.dataset.moduleId;
@@ -1184,7 +1257,7 @@ const actions = {
     state.pathHome = true;
     state.practice = null;
   },
-  openPathGroup(el) {
+  async openPathGroup(el) {
     const group = findPathGroup(el.dataset.groupId);
     if (!group || !group.sections.length) return false; // not yet built ("Coming soon")
     // Defense in depth -- a locked track's own group cards already dispatch
@@ -1192,6 +1265,7 @@ const actions = {
     // guard here too, same reasoning as chooseCourse above.
     const track = PATH_TRACKS.find((t) => t.groups.includes(group));
     if (track && !isTrackUnlocked(track, state.completed, state.unlockedTracks, state.forceUnlockAll)) return false;
+    await ensureCoursesLoaded(track && track.id === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
     state.pathGroupId = group.id;
     state.view = 'path';
     state.pathActive = false;
@@ -1234,9 +1308,11 @@ const actions = {
   // moduleSkipTestPool) and enters it as an ordinary graded practice
   // session (source: 'unlockTest') -- passing it at UNLOCK_TEST_PASS_RATIO
   // records the module unlock in finalizeUnlockTest above.
-  startUnlockTest(el) {
+  async startUnlockTest(el) {
     const p = state.unlockPrompt;
     if (!p || p.type !== 'module') return false;
+    const courseId = courseIdForModule(p.id);
+    if (courseId) await ensureCoursesLoaded([courseId]);
     const subPools = moduleSkipTestSubPools(p.id);
     const length = MODULE_SKIP_TEST_LENGTH;
     const queue = buildUnlockTestQueue(subPools, length);
@@ -1255,9 +1331,11 @@ const actions = {
   // A failed module unlock test offers a fresh, freshly-shuffled attempt
   // over the same pool -- never a "redo what you missed" subset, same
   // reasoning as retryMasteryV2.
-  retryUnlockTest() {
+  async retryUnlockTest() {
     const p = state.practice;
     if (!p || p.source !== 'unlockTest' || p.unlockKind !== 'module') return false;
+    const courseId = courseIdForModule(p.targetId);
+    if (courseId) await ensureCoursesLoaded([courseId]);
     const queue = buildUnlockTestQueue(moduleSkipTestSubPools(p.targetId), MODULE_SKIP_TEST_LENGTH);
     if (!queue.length) return false;
     p.queue = queue;
@@ -1282,10 +1360,10 @@ const actions = {
   // then opens the exact same "Start lesson" preview modal as a module
   // page's lesson row (see openLessonPreview) -- lessonPreviewHtml already
   // branches on `complete` to also offer Mastery there.
-  enterPathLesson(el) {
+  async enterPathLesson(el) {
     const courseId = el.dataset.courseId;
     if (courseId !== state.courseId) {
-      setActiveCourse(courseId);
+      await setActiveCourse(courseId);
       state.courseId = courseId;
     }
     state.moduleId = el.dataset.moduleId;
@@ -1303,9 +1381,10 @@ const actions = {
   // vocabCheckpoint, and once a node's already been passed once, a choice
   // between redoing it normally or attempting its double-length, 100%-
   // required Mastery variant (data-mastery="1" on this same action).
-  startPathCheckpoint(el) {
+  async startPathCheckpoint(el) {
     const node = findPathNode(el.dataset.nodeId);
     if (!node) return false;
+    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
     const mastery = el.dataset.mastery === '1';
     const ctx = {
       practiceHistory: state.practiceHistory, pathReps: state.pathReps, vocabExposure: state.vocabExposure,
@@ -1335,9 +1414,10 @@ const actions = {
   // backfills everything before it too (see completePriorPathNodes). Never
   // offered for an already-unlocked node -- that's startPathCheckpoint's
   // job, via the ordinary setup popout.
-  startPathSkipAheadTest(el) {
+  async startPathSkipAheadTest(el) {
     const node = findPathNode(el.dataset.nodeId);
     if (!node || (node.type !== 'sectionTest' && node.type !== 'groupTest')) return false;
+    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
     const ctx = {
       practiceHistory: state.practiceHistory, pathReps: state.pathReps, vocabExposure: state.vocabExposure,
       vocabDirection: state.pathVocabDirection || 'en-ar', mastery: false, skipAhead: true,
@@ -1651,9 +1731,12 @@ const actions = {
       if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
       state.account.pendingSyncAction = null;
-      state.account.message = 'Account created. Choose upload or download to sync save data.';
-      await refreshCloudSaveStatus();
-      await refreshLocalSaveStatus();
+      state.account.message = 'Account created. Syncing save data...';
+      await flushPersist();
+      await mergeAccountSaveWithRetry();
+      state.account.autoUploadStatus = 'synced';
+      state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
+      state.account.message = 'Account created and save data synced.';
     } catch (e) {
       state.account.message = e.message || 'Could not create account.';
     } finally {
@@ -1671,9 +1754,12 @@ const actions = {
       if (result.disabled) throw new Error('Sync server is not configured.');
       state.account.user = result.user;
       state.account.pendingSyncAction = null;
-      state.account.message = 'Signed in. Choose upload or download to sync save data.';
-      await refreshCloudSaveStatus();
-      await refreshLocalSaveStatus();
+      state.account.message = 'Signed in. Syncing save data...';
+      await flushPersist();
+      await mergeAccountSaveWithRetry();
+      state.account.autoUploadStatus = 'synced';
+      state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
+      state.account.message = 'Signed in and save data synced.';
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
     } finally {
@@ -1746,46 +1832,42 @@ const actions = {
     if (direction === 'download') return actions.downloadAccountProgress();
   },
   async downloadAccountProgress() {
-    suppressPersist = true;
-    cancelPendingPersist();
     state.account.status = 'working';
     state.account.pendingSyncAction = null;
-    state.account.message = 'Downloading save data...';
+    state.account.message = 'Merging cloud save data with this device...';
     rerender();
     try {
-      const result = await downloadRemoteProgress();
-      if (!result.synced) throw new Error('Sync server is not configured.');
-      await refreshCloudSaveStatus();
-      await refreshLocalSaveStatus();
-      reconcileSyncBase();
+      await flushPersist();
+      suppressPersist = true;
+      cancelPendingPersist();
+      await mergeAccountSaveWithRetry();
       state.account.autoUploadStatus = 'synced';
-      state.account.autoUploadMessage = 'Automatic upload is ready for future lesson, quiz, and practice progress.';
-      state.account.message = 'Downloaded cloud save data. Reloading...';
-      window.location.reload();
+      state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
+      state.account.message = 'Merged cloud and device save data. This device is up to date.';
     } catch (e) {
-      suppressPersist = false;
       state.account.message = e.message || 'Could not download save data.';
     } finally {
+      suppressPersist = false;
       state.account.status = 'idle';
     }
   },
   async uploadAccountProgress() {
     state.account.status = 'working';
     state.account.pendingSyncAction = null;
-    state.account.message = 'Uploading save data...';
+    state.account.message = 'Merging this device save data with your account...';
     rerender();
     try {
       await flushPersist();
-      await uploadLocalProgress();
-      await refreshCloudSaveStatus();
-      await refreshLocalSaveStatus();
-      reconcileSyncBase();
+      suppressPersist = true;
+      cancelPendingPersist();
+      await mergeAccountSaveWithRetry();
       state.account.autoUploadStatus = 'synced';
-      state.account.autoUploadMessage = 'Automatic upload is ready for future lesson, quiz, and practice progress.';
-      state.account.message = 'Uploaded this device save data to your account.';
+      state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
+      state.account.message = 'Merged this device and cloud save data. Your account is up to date.';
     } catch (e) {
       state.account.message = e.message || 'Could not upload save data.';
     } finally {
+      suppressPersist = false;
       state.account.status = 'idle';
     }
   },

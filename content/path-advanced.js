@@ -17,27 +17,11 @@
 //  - annahw has تركيب content from its very first lesson (module 01, lesson
 //    l1), unlike fstu (which had none until module 4) -- so hasTarkeeb is
 //    true for every section across all 5 groups, no cutoff to track.
-import m01 from './module-01.js';
-import m02 from './module-02.js';
-import m03 from './module-03.js';
-import m04 from './module-04.js';
-import m05 from './module-05.js';
-import m06 from './module-06.js';
-import m07 from './module-07.js';
-import m08 from './module-08.js';
-import m09 from './module-09.js';
-import m10 from './module-10.js';
-import m11 from './module-11.js';
-import m12 from './module-12.js';
-import m13 from './module-13.js';
-import m14 from './module-14.js';
-import m15 from './module-15.js';
-import m16 from './module-16.js';
-import m17 from './module-17.js';
-import { MODULES as ADV_SARF_MODULES } from '../content-sarf/index.js';
-import { bankKey, quizKey } from './index.js';
+import { COURSES, bankKey, quizKey } from './index.js';
 
-const ANNAHW_MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15, m16, m17];
+function courseModules(courseId) {
+  return (COURSES.find((c) => c.id === courseId) || {}).modules || [];
+}
 
 function flattenLessons(modules, courseId) {
   const out = [];
@@ -74,7 +58,7 @@ function buildBackbone(annahwModules, sarfAdvModules) {
 }
 
 function findLesson(courseId, moduleId, lessonId) {
-  const modules = courseId === 'sarf-advanced' ? ADV_SARF_MODULES : ANNAHW_MODULES;
+  const modules = courseModules(courseId);
   const mod = modules.find((m) => m.id === moduleId);
   return mod && mod.lessons.find((l) => l.id === lessonId);
 }
@@ -98,7 +82,7 @@ export const GROUP_MODULE_RANGES = [
 ];
 
 function buildGroupBackbone(range) {
-  return buildBackbone(ANNAHW_MODULES.slice(range.annahw[0], range.annahw[1]), ADV_SARF_MODULES.slice(range.sarfAdvanced[0], range.sarfAdvanced[1]));
+  return buildBackbone(courseModules('annahw').slice(range.annahw[0], range.annahw[1]), courseModules('sarf-advanced').slice(range.sarfAdvanced[0], range.sarfAdvanced[1]));
 }
 
 // Same fixed template as the introductory path's buildSectionNodes, minus
