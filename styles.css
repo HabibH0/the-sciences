@@ -5052,4 +5052,264 @@ button.path-node:not(.locked):hover {
   .card {
     padding: 18px;
   }
+
+  .app-header.is-question-session {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: calc(6px + env(safe-area-inset-top, 0px)) 14px 8px;
+    gap: 6px;
+  }
+  .app-header.is-question-session .app-header-left {
+    grid-column: 1;
+    grid-row: 1;
+    gap: 9px;
+  }
+  .app-header.is-question-session .app-header-kicker {
+    font-size: 20px;
+  }
+  .app-header.is-question-session .app-header-rule {
+    height: 18px;
+  }
+  .app-header.is-question-session .app-header-course-btn {
+    height: 30px;
+    max-width: min(46vw, 170px);
+    padding: 6px 10px;
+  }
+  .app-header.is-question-session .app-header-course-btn span {
+    white-space: nowrap;
+  }
+  .app-header.is-question-session .app-header-right {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    width: auto;
+    min-width: 0;
+    gap: 0;
+    justify-content: flex-end;
+  }
+  .app-header.is-question-session .app-header-stats {
+    gap: 7px;
+    padding-left: 8px;
+  }
+  .app-header.is-question-session .app-header-stat {
+    font-size: 11px;
+  }
+  .app-header.is-question-session .app-header-level {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+  .app-header.is-question-session .app-header-dots {
+    display: none;
+  }
+  .app-header.is-question-session.has-crumbs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-header.is-question-session.has-crumbs .app-header-left {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    width: 100%;
+  }
+  .app-header.is-question-session.has-crumbs .app-header-crumbs-group {
+    grid-column: 1 / -1;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 0;
+  }
+  .app-header.is-question-session.has-crumbs .app-header-back {
+    width: 32px;
+    height: 32px;
+  }
+  .app-header.is-question-session.has-crumbs .app-header-crumbs {
+    font-size: 14px;
+  }
+  .app-header.is-question-session.has-crumbs .app-header-right {
+    display: none;
+  }
+
+  .main.question-mode .main-content {
+    display: flex;
+    align-items: stretch;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+    -webkit-overflow-scrolling: auto;
+  }
+  .main.question-mode .question-col {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    margin: 0 auto;
+  }
+  .main.question-mode .back-link {
+    flex: none;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .main.question-mode .kicker {
+    flex: none;
+    font-size: 11px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .main.question-mode .lede {
+    flex: none;
+    max-width: none;
+    font-size: 14px;
+    line-height: 1.35;
+    margin: 0 0 6px;
+  }
+  .main.question-mode .progress-bar {
+    flex: none;
+    margin: 5px 0 8px;
+  }
+  .main.question-mode .quiz-question-single,
+  .main.question-mode .exercise-card {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(18px, 3.2vh, 26px) 18px;
+  }
+  .main.question-mode .quiz-gamify-strip {
+    flex: none;
+    gap: 8px 14px;
+    margin-bottom: clamp(8px, 1.8vh, 16px);
+  }
+  .main.question-mode .card-kicker {
+    flex: none;
+    margin: 0 0 clamp(6px, 1.2vh, 10px);
+  }
+  .main.question-mode .quiz-question-single h2 {
+    flex: none;
+    font-size: clamp(20px, 5.6vw, 26px);
+    line-height: 1.2;
+    margin: 0 0 clamp(12px, 2.2vh, 22px);
+  }
+  .main.question-mode .mcq-options {
+    flex: 0 1 auto;
+    gap: clamp(8px, 1.35vh, 12px);
+    margin: 0;
+  }
+  .main.question-mode .mcq-option {
+    min-height: clamp(56px, 8.6vh, 76px);
+    padding: 10px 14px;
+    font-size: clamp(15px, 4vw, 18px);
+    line-height: 1.35;
+  }
+  .main.question-mode .mcq-letter {
+    width: 28px;
+    height: 28px;
+  }
+  .main.question-mode .quiz-feedback-line {
+    flex: none;
+    margin-top: 10px;
+  }
+  .main.question-mode .quiz-feedback-explanation {
+    flex: none;
+    font-size: 12px;
+    line-height: 1.35;
+    margin-top: 5px;
+  }
+  .main.question-mode .btn-block {
+    flex: none;
+    margin-top: clamp(10px, 1.8vh, 16px) !important;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .main.question-mode .exercise-card .tarkeeb {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .main.question-mode .exercise-prompt {
+    flex: none;
+    font-size: clamp(18px, 4.7vw, 22px);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .main.question-mode .tarkeeb-source {
+    font-size: clamp(18px, 4.8vw, 22px);
+    line-height: 1.45;
+    margin: 0 0 8px;
+  }
+  .main.question-mode .tarkeeb-row {
+    flex: none;
+    gap: 8px;
+    padding: 10px;
+    margin-bottom: 6px;
+  }
+  .main.question-mode .tarkeeb-col {
+    gap: 6px;
+    min-width: 68px;
+  }
+  .main.question-mode .tarkeeb-word {
+    font-size: clamp(18px, 4.8vw, 22px);
+    padding: 3px 8px;
+  }
+  .main.question-mode .tarkeeb-slot {
+    min-width: 66px;
+    min-height: 32px;
+    padding: 4px 8px;
+    font-size: clamp(13px, 3.4vw, 15px);
+  }
+  .main.question-mode .tarkeeb-tray-label {
+    flex: none;
+    margin: 8px 0 6px;
+    font-size: 11.5px;
+    line-height: 1.3;
+  }
+  .main.question-mode .tarkeeb-tray {
+    flex: none;
+    gap: 8px;
+    padding: 10px;
+  }
+  .main.question-mode .tarkeeb-chip {
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: clamp(14px, 3.7vw, 16px);
+    line-height: 1.2;
+  }
+  .main.question-mode .tarkeeb-diagram-practice {
+    min-height: 0;
+  }
+  .main.question-mode .tarkeeb-diagram-grid {
+    flex: none;
+    gap: 6px 8px;
+    justify-content: center;
+    padding: 10px;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+  .main.question-mode .tarkeeb-diagram-cell {
+    font-size: clamp(18px, 4.8vw, 22px);
+    padding: 3px 6px;
+  }
+  .main.question-mode .tarkeeb-diagram-slot {
+    min-height: 30px;
+    padding: 4px 6px;
+    font-size: clamp(12px, 3.3vw, 14px);
+  }
+  .main.question-mode .tarkeeb-diagram-row-label {
+    font-size: 11px;
+  }
+  .main.question-mode .tarkeeb-diagram-translation {
+    flex: none;
+    margin-top: 7px;
+    font-size: 12.5px;
+    line-height: 1.35;
+  }
+  .main.question-mode .action-row {
+    flex: none;
+    margin-top: 10px;
+  }
 }

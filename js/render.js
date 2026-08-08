@@ -164,6 +164,7 @@ function headerHtml(state, MODULES) {
   // through exitPracticeSession (js/main.js) instead of a tab silently
   // orphaning state.practice/pathActive.
   const inSession = state.view === 'practice' || state.view === 'practiceReview' || state.view === 'masteryV2Complete';
+  const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
 
   // Back button + breadcrumb live on the left, next to the brand -- "where
   // you are / how to get back" reads as one group there, distinct from the
@@ -291,6 +292,7 @@ function headerHtml(state, MODULES) {
     'app-header',
     showCrumbs ? 'has-crumbs' : '',
     inSession ? 'in-session' : '',
+    isLiveQuestion ? 'is-question-session' : '',
     dotsHtml ? 'has-dots' : '',
   ].filter(Boolean).join(' ');
 
@@ -1438,7 +1440,7 @@ function quizHtml(state, MODULES) {
     : '';
 
   return `
-    <div class="col">
+    <div class="col question-col quiz-question-col">
       <div class="quiz-question-single" data-anim-key="${scope}">
         <div class="quiz-gamify-strip">
           <span class="quiz-gamify-stat">${icon('flame', 15, 1.7)} ${liveStreak} streak</span>
@@ -1899,7 +1901,7 @@ function practiceHtml(state, MODULES) {
       body += `<div class="action-row">${nextPracticeButton(isLast)}</div>`;
     }
     return `
-      <div class="col">
+      <div class="col question-col practice-question-col tarkeeb-question-col">
         ${backLink('End session', 'endPracticeSession')}
         <div class="kicker">${sessionKicker(p, mod)}</div>
         <p class="lede">Question ${p.index + 1} of ${p.queue.length} ${p.combo > 1 ? `<span class="tag tag-accent">Combo ×${p.combo}</span>` : ''}</p>
@@ -1926,7 +1928,7 @@ function practiceHtml(state, MODULES) {
     : '';
 
   return `
-    <div class="col">
+    <div class="col question-col practice-question-col ${entry.item.kind === 'vocab' ? 'vocab-question-col' : 'mcq-question-col'}">
       ${backLink('End session', 'endPracticeSession')}
       <div class="kicker" style="justify-content:center;display:flex;">${sessionKicker(p, mod)}</div>
       <div class="quiz-question-single" data-anim-key="${scope}">
@@ -3218,5 +3220,8 @@ export function render(state, MODULES, revealedKeys = new Set()) {
     default:
       body = dashboardHtml(state, MODULES, revealedKeys);
   }
-  return `${headerHtml(state, MODULES)}<main class="main"><div class="main-content">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}`;
+  const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
+  const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
+  const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}`;
 }
