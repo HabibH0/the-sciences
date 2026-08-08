@@ -154,7 +154,7 @@ function sectionSizesFor(totalLessons) {
 
 // One group's own module-slice backbone (GROUP_MODULE_RANGES[i]), split
 // into buildSectionNodes calls per sectionSizesFor, plus its capstone
-// groupTest -- 30 mcq + 20 تركيب, no vocab, same 80% pass ratio, scoped to
+// groupTest -- 12 mcq + 8 تركيب, no vocab, same 80% pass ratio, scoped to
 // this group's own lessons only.
 // hasTarkeeb is unconditionally true: تركيب exists in annahw from its very
 // first lesson (module 01, lesson l1), so every section in every group has
@@ -182,8 +182,8 @@ function buildGroup(groupNum, range, sectionNumStart) {
     label: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
     windowStart: sections[0][1].id,
     windowEnd: lastLessonNodeId(sections[sections.length - 1]),
-    mcqLength: 30,
-    tarkeebLength: 20,
+    mcqLength: 12,
+    tarkeebLength: 8,
     vocabLength: 0,
     passRatio: 0.8,
   };

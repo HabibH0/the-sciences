@@ -192,7 +192,7 @@ const TARKEEB_FROM_SECTION = 5;
 // One group's own module-slice backbone (GROUP_MODULE_RANGES[i]), split
 // into buildSectionNodes calls per sectionSizesFor, plus its capstone
 // groupTest: a bigger cumulative exam spanning the WHOLE group rather than
-// any one section -- 30 mcq + 20 تركيب + 20 vocab, same 80% pass ratio,
+// any one section -- 10 mcq + 5 تركيب + 5 vocab, same 80% pass ratio,
 // scoped to this group's own lessons only (never reaching into an earlier
 // group).
 function buildGroup(groupNum, range, sectionNumStart) {
@@ -212,9 +212,9 @@ function buildGroup(groupNum, range, sectionNumStart) {
     label: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
     windowStart: sections[0][1].id,
     windowEnd: lastLessonNodeId(sections[sections.length - 1]),
-    mcqLength: 30,
-    tarkeebLength: 20,
-    vocabLength: 20,
+    mcqLength: 10,
+    tarkeebLength: 5,
+    vocabLength: 5,
     passRatio: 0.8,
   };
   return { id: `group-${groupNum}`, title: GROUP_TITLES[groupNum - 1], sections, groupTest };
