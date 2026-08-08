@@ -107,15 +107,33 @@ const ACCENTS = {
   umber: { name: 'Umber', hex: '#7d5029' },
 };
 
-// Body face (Naskh/Uthmani) and the Kufi-headings toggle are independent
-// choices -- Kufi headings layers over whichever body face is active,
-// rather than being a third, mutually-exclusive body face of its own.
-const FACE_ORDER = ['naskh', 'uthmani'];
+// Body face and heading face are independent choices. Heading faces layer
+// over whichever body face is active, rather than being mutually-exclusive
+// body options of their own.
+const FACE_ORDER = ['naskh', 'amiri', 'scheherazade', 'lateef'];
 export const FACES = {
   naskh: { name: 'Naskh', note: 'textbook', body: "'Noto Naskh Arabic', serif" },
-  uthmani: { name: 'Uthmani', note: 'mushaf', body: "'Amiri', serif" },
+  amiri: { name: 'Amiri', note: 'classical', body: "'Amiri', serif" },
+  scheherazade: { name: 'Scheherazade New', note: 'traditional', body: "'Scheherazade New', 'Amiri', serif" },
+  lateef: { name: 'Lateef', note: 'soft classical', body: "'Lateef', 'Noto Naskh Arabic', serif" },
+  // Legacy saved value from the earlier UI label.
+  uthmani: { name: 'Amiri', note: 'classical', body: "'Amiri', serif" },
+};
+const HEADING_FACE_ORDER = ['body', 'kufi', 'aref'];
+export const HEADING_FACES = {
+  body: { name: 'Match body', note: 'same as text', font: null },
+  kufi: { name: 'Reem Kufi', note: 'geometric Kufi', font: "'Reem Kufi', serif" },
+  aref: { name: 'Aref Ruqaa', note: 'calligraphic Ruqaa', font: "'Aref Ruqaa', 'Amiri', serif" },
 };
 export const KUFI_HEAD_FONT = "'Reem Kufi', serif";
+
+function bodyFaceKey(key) {
+  return key === 'uthmani' ? 'amiri' : key;
+}
+
+function headingFaceKey(state) {
+  return state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
+}
 
 // --- Header -------------------------------------------------------------
 // One bar, every screen: wordmark left, nav right -- Home, Schedule, and
@@ -302,8 +320,9 @@ function headerHtml(state, MODULES) {
 
 function footerHtml(state) {
   const theme = THEMES[state.theme] || THEMES.manuscript;
-  const face = FACES[state.arabicFace] || FACES.naskh;
-  const faceLabel = face.name + (state.kufiHeadings ? ' + Kufi' : '');
+  const face = FACES[bodyFaceKey(state.arabicFace)] || FACES.naskh;
+  const heading = HEADING_FACES[headingFaceKey(state)] || HEADING_FACES.body;
+  const faceLabel = face.name + (heading.font ? ` + ${heading.name}` : '');
   return `
     <footer class="app-footer">
       <span>The Sciences — a private study desk</span>
@@ -2886,8 +2905,9 @@ function settingsHtml(state) {
   const theme = state.theme || 'manuscript';
   const accent = state.accent || 'gold';
   const accentHex = (ACCENTS[accent] || ACCENTS.gold).hex;
-  const face = state.arabicFace || 'naskh';
+  const face = bodyFaceKey(state.arabicFace || 'naskh');
   const currentFace = FACES[face] || FACES.naskh;
+  const headingFace = headingFaceKey(state);
   const rawLessonTextScale = Number(state.lessonTextScale);
   const lessonTextScale = Number.isFinite(rawLessonTextScale)
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
@@ -2940,21 +2960,22 @@ function settingsHtml(state) {
       </button>`;
   }).join('');
 
-  // Independent of the body face above -- layers Reem Kufi onto headings
-  // (hero title/badge, chapter titles, the header wordmark...) app-wide,
-  // whichever of Naskh/Uthmani is set for the body text.
-  const kufiOn = !!state.kufiHeadings;
-  const kufiToggle = `
-    <button class="face-row ${kufiOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${kufiOn}" data-action="toggleKufiHeadings">
-      <span class="face-radio"><span class="face-radio-dot"></span></span>
-      <span class="face-row-body">
-        <span class="face-row-head">
-          <span class="face-row-name">Kufi headings</span>
-          <span class="face-row-note">works with either face above</span>
+  const headingRows = HEADING_FACE_ORDER.map((key) => {
+    const h = HEADING_FACES[key];
+    const selected = key === headingFace;
+    const sampleFont = h.font || currentFace.body;
+    return `
+      <button class="face-row ${selected ? 'is-selected' : ''}" role="radio" aria-checked="${selected}" data-action="pickHeadingFace" data-heading-face="${key}">
+        <span class="face-radio"><span class="face-radio-dot"></span></span>
+        <span class="face-row-body">
+          <span class="face-row-head">
+            <span class="face-row-name">${esc(h.name)}</span>
+            <span class="face-row-note">${esc(h.note)}</span>
+          </span>
+          <div class="face-row-sample" lang="ar" dir="rtl" style="font-family:${sampleFont}">وَالصَّابِرِينَ عَلَى مَا أَصَابَهُم</div>
         </span>
-        <div class="face-row-sample" lang="ar" dir="rtl" style="font-family:${KUFI_HEAD_FONT}">وَالصَّابِرِينَ عَلَى مَا أَصَابَهُم</div>
-      </span>
-    </button>`;
+      </button>`;
+  }).join('');
 
   const words = SPECIMEN_WORDS.map((w) => `
     <div class="specimen-word">
@@ -3024,7 +3045,8 @@ function settingsHtml(state) {
         <p class="settings-group-sub">Each specimen is set in the face it names.</p>
         <div class="face-list">
           <div class="face-group" role="radiogroup" aria-label="Arabic body face">${faceRows}</div>
-          ${kufiToggle}
+          <h3 class="settings-group-title settings-subgroup-title">Arabic headings</h3>
+          <div class="face-group" role="radiogroup" aria-label="Arabic heading face">${headingRows}</div>
         </div>
       </div>
 

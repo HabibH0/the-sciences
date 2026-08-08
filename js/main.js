@@ -44,7 +44,7 @@ import {
   firstUnfinishedPathNodeIndex, buildUnlockTestQueue,
   PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT,
 } from './state.js';
-import { render, FACES, KUFI_HEAD_FONT } from './render.js';
+import { render, FACES, HEADING_FACES } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import { persistSoon, flushPersist, cancelPendingPersist, todayISO } from './persistence.js';
 import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
@@ -188,6 +188,7 @@ function applyMergedProgressToState(envelope) {
     'theme',
     'accent',
     'arabicFace',
+    'arabicHeadingFace',
     'lessonTextScale',
     'tarkeebTranslations',
     'forceUnlockAll',
@@ -591,8 +592,10 @@ function applyAppearance(state) {
   document.body.style.backgroundColor = chrome.bg;
   setMetaContent('theme-color', chrome.bg);
   const face = FACES[state.arabicFace] || FACES.naskh;
+  const headingFaceKey = state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
+  const headingFace = HEADING_FACES[headingFaceKey] || HEADING_FACES.body;
   document.documentElement.style.setProperty('--font-ar', face.body);
-  document.documentElement.style.setProperty('--font-ar-heading', state.kufiHeadings ? KUFI_HEAD_FONT : face.body);
+  document.documentElement.style.setProperty('--font-ar-heading', headingFace.font || face.body);
   document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
 }
 
@@ -1701,6 +1704,10 @@ const actions = {
   pickFace(el) {
     state.arabicFace = el.dataset.face;
   },
+  pickHeadingFace(el) {
+    state.arabicHeadingFace = el.dataset.headingFace || 'body';
+    state.kufiHeadings = state.arabicHeadingFace === 'kufi';
+  },
   setLessonTextScale(el) {
     state.lessonTextScale = normalizeLessonTextScale(el.value);
   },
@@ -1744,12 +1751,14 @@ const actions = {
     state.forceUnlockPrompt = false;
   },
   toggleKufiHeadings() {
-    state.kufiHeadings = !state.kufiHeadings;
+    state.arabicHeadingFace = state.kufiHeadings ? 'body' : 'kufi';
+    state.kufiHeadings = state.arabicHeadingFace === 'kufi';
   },
   resetAppearance() {
     state.theme = 'manuscript';
     state.accent = 'gold';
     state.arabicFace = 'naskh';
+    state.arabicHeadingFace = 'body';
     state.lessonTextScale = 100;
     state.kufiHeadings = false;
   },

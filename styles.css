@@ -2,7 +2,7 @@
    The Sciences — "Classical" design system.
    Editorial, book-like: a soft paper ground, serif type, hairline rules
    carrying the structure, colour applied as stroke rather than fill. Five
-   colour themes and three Arabic typefaces, switchable at runtime and
+   colour themes and Arabic typefaces, switchable at runtime and
    persisted (see js/main.js applyTheme/applyFace) -- every theme sets six
    --color-* custom properties on <html data-theme="...">, and everything
    else in this file reads var(--color-*) or one of the legacy alias names
@@ -90,7 +90,55 @@
   font-style: normal;
   font-display: swap;
 }
-/* Kufi heading face (the "Kufi headings" typeface option, and the header's
+@font-face {
+  font-family: 'Scheherazade New';
+  src: url('vendor/fonts/ScheherazadeNew-Regular-Arabic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Scheherazade New';
+  src: url('vendor/fonts/ScheherazadeNew-Bold-Arabic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Lateef';
+  src: url('vendor/fonts/Lateef-Regular-Arabic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Lateef';
+  src: url('vendor/fonts/Lateef-Bold-Arabic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Aref Ruqaa';
+  src: url('vendor/fonts/ArefRuqaa-Regular-Arabic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: 'Aref Ruqaa';
+  src: url('vendor/fonts/ArefRuqaa-Bold-Arabic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+/* Kufi heading face (one of the Arabic heading options, and the header's
    العلوم wordmark). Arabic-script subset only, single weight. */
 @font-face {
   font-family: 'Reem Kufi';
@@ -1934,6 +1982,10 @@ h1 + .card-kicker,
   font-size: 22px;
   margin: 0 0 4px;
   color: var(--color-text);
+}
+.settings-subgroup-title {
+  margin: 12px 0 -4px;
+  font-size: 17px;
 }
 .settings-group-sub {
   font-size: 14px;

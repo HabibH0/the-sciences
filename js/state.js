@@ -234,6 +234,7 @@ export async function createInitialState() {
     theme: boot.theme || 'manuscript',
     accent: boot.accent || 'gold',
     arabicFace: boot.arabicFace || 'naskh',
+    arabicHeadingFace: boot.arabicHeadingFace || (boot.kufiHeadings ? 'kufi' : 'body'),
     lessonTextScale: boot.lessonTextScale || 100,
     tarkeebTranslations: boot.tarkeebTranslations !== false,
     forceUnlockAll: boot.forceUnlockAll === true,
@@ -261,10 +262,10 @@ export async function createInitialState() {
     // Transient: { type: 'course'|'track'|'module', id } for the unlock-test
     // prompt modal (unlockPromptHtml in js/render.js), or null when closed.
     unlockPrompt: null,
-    // Independent of arabicFace -- layers Reem Kufi onto headings app-wide
-    // over whichever body face (Naskh/Uthmani) is set, rather than being a
-    // third body face of its own. See applyAppearance in main.js.
-    kufiHeadings: boot.kufiHeadings || false,
+    // Independent of arabicFace -- layers a heading face onto headings
+    // app-wide over whichever body face is set, rather than being another
+    // body face. See applyAppearance in main.js.
+    kufiHeadings: (boot.arabicHeadingFace || (boot.kufiHeadings ? 'kufi' : 'body')) === 'kufi',
     // Transient gamification UI: XP-toast text and the earned-badge modal.
     // Neither is persisted -- a reload shouldn't replay a stale
     // notification (same treatment as lessonPreviewId/practiceSetupOpen).

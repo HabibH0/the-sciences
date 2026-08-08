@@ -25,6 +25,16 @@ function normalizeLessonTextScale(value) {
   return Math.min(130, Math.max(85, Math.round(n)));
 }
 
+function normalizeArabicFace(value) {
+  if (value === 'uthmani') return 'amiri';
+  return ['naskh', 'amiri', 'scheherazade', 'lateef'].includes(value) ? value : 'naskh';
+}
+
+function normalizeArabicHeadingFace(saved) {
+  if (['body', 'kufi', 'aref'].includes(saved.arabicHeadingFace)) return saved.arabicHeadingFace;
+  return saved.kufiHeadings ? 'kufi' : 'body';
+}
+
 function isEmptyProgress(progress) {
   return !progress || typeof progress !== 'object' || Object.keys(progress).length === 0;
 }
@@ -65,6 +75,7 @@ export async function bootProgress() {
   }
 
   const courseId = saved.courseId || 'annahw';
+  const arabicHeadingFace = normalizeArabicHeadingFace(saved);
   const next = {
     courseId,
     completed: saved.completed || {},
@@ -90,12 +101,13 @@ export async function bootProgress() {
     practiceCorrectTotal: saved.practiceCorrectTotal || 0,
     theme: saved.theme || 'manuscript',
     accent: saved.accent || 'gold',
-    arabicFace: saved.arabicFace || 'naskh',
+    arabicFace: normalizeArabicFace(saved.arabicFace),
+    arabicHeadingFace,
     lessonTextScale: normalizeLessonTextScale(saved.lessonTextScale),
     tarkeebTranslations: saved.tarkeebTranslations !== false,
     forceUnlockAll: defaultForceUnlockAll(saved),
     forceUnlockAllExplicit: defaultForceUnlockAllExplicit(saved),
-    kufiHeadings: saved.kufiHeadings || false,
+    kufiHeadings: arabicHeadingFace === 'kufi',
     unlockedCourses: saved.unlockedCourses || {},
     unlockedTracks: saved.unlockedTracks || {},
     unlockedModules: saved.unlockedModules || {},
@@ -163,11 +175,12 @@ function snapshot(state) {
     theme: state.theme,
     accent: state.accent,
     arabicFace: state.arabicFace,
+    arabicHeadingFace: state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body'),
     lessonTextScale: normalizeLessonTextScale(state.lessonTextScale),
     tarkeebTranslations: state.tarkeebTranslations !== false,
     forceUnlockAll: state.forceUnlockAll === true,
     forceUnlockAllExplicit: state.forceUnlockAllExplicit === true,
-    kufiHeadings: state.kufiHeadings,
+    kufiHeadings: (state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body')) === 'kufi',
     unlockedCourses: state.unlockedCourses,
     unlockedTracks: state.unlockedTracks,
     unlockedModules: state.unlockedModules,
