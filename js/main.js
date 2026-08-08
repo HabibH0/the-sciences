@@ -191,6 +191,7 @@ function applyMergedProgressToState(envelope) {
     'lessonTextScale',
     'tarkeebTranslations',
     'forceUnlockAll',
+    'forceUnlockAllExplicit',
     'kufiHeadings',
     'unlockedCourses',
     'unlockedTracks',
@@ -1198,6 +1199,43 @@ async function activateCourse(id) {
   state.pathHome = false;
 }
 
+function clearActivePracticeUi() {
+  state.practice = null;
+  state.practiceSetupOpen = false;
+  state.lessonPreviewId = null;
+  state.unlockPrompt = null;
+  state.pathSkipAheadPromptNodeId = null;
+}
+
+function returnToValidLockedView() {
+  clearActivePracticeUi();
+
+  const activeCourse = COURSES.find((c) => c.id === state.courseId);
+  if (activeCourse && !isCourseUnlocked(activeCourse, state.completed, state.unlockedCourses)) {
+    state.launchScreen = true;
+    state.view = 'dashboard';
+    state.moduleId = null;
+    state.lessonId = null;
+    state.pathActive = false;
+    state.pathHome = false;
+    return;
+  }
+
+  if (state.moduleId && !isModuleUnlocked(state.moduleId, state.completed, state.unlockedModules)) {
+    state.view = 'dashboard';
+    state.moduleId = null;
+    state.lessonId = null;
+    state.pathActive = false;
+    return;
+  }
+
+  if (state.moduleId && state.lessonId && !isLessonUnlocked(state.moduleId, state.lessonId, state.completed, state.unlockedModules)) {
+    state.view = 'module';
+    state.lessonId = null;
+    state.pathActive = false;
+  }
+}
+
 const actions = {
   openDashboard() {
     state.view = 'dashboard';
@@ -1670,22 +1708,12 @@ const actions = {
     state.tarkeebTranslations = state.tarkeebTranslations === false;
     state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
   },
-  requestForceUnlockAll() {
+  toggleCourseLocks() {
     if (state.forceUnlockAll) {
       state.forceUnlockAll = false;
+      state.forceUnlockAllExplicit = true;
       state.forceUnlockPrompt = false;
-      const activeCourse = COURSES.find((c) => c.id === state.courseId);
-      if (activeCourse && !isCourseUnlocked(activeCourse, state.completed, state.unlockedCourses)) {
-        state.launchScreen = true;
-        state.view = 'dashboard';
-        state.moduleId = null;
-        state.lessonId = null;
-        state.practice = null;
-        state.practiceSetupOpen = false;
-        state.lessonPreviewId = null;
-        state.pathActive = false;
-        state.pathHome = false;
-      }
+      returnToValidLockedView();
       const pathGroup = state.pathGroupId && findPathGroup(state.pathGroupId);
       const pathTrack = pathGroup && PATH_TRACKS.find((t) => t.groups.includes(pathGroup));
       if (pathTrack && !isTrackUnlocked(pathTrack, state.completed, state.unlockedTracks)) {
@@ -1697,8 +1725,12 @@ const actions = {
     }
     state.forceUnlockPrompt = true;
   },
+  requestForceUnlockAll() {
+    return actions.toggleCourseLocks();
+  },
   confirmForceUnlockAll() {
     state.forceUnlockAll = true;
+    state.forceUnlockAllExplicit = true;
     state.forceUnlockPrompt = false;
     state.unlockPrompt = null;
     state.pathSkipAheadPromptNodeId = null;

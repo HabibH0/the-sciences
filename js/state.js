@@ -237,6 +237,10 @@ export async function createInitialState() {
     lessonTextScale: boot.lessonTextScale || 100,
     tarkeebTranslations: boot.tarkeebTranslations !== false,
     forceUnlockAll: boot.forceUnlockAll === true,
+    // False can now be a deliberate "course locks on" setting rather than
+    // just the historical default. This marker lets sync avoid letting a
+    // fresh device's unlocked default overwrite an existing cloud choice.
+    forceUnlockAllExplicit: boot.forceUnlockAllExplicit === true,
     // Advanced-course/path lock override (see content/index.js's
     // isCourseUnlocked, content/paths.js's isTrackUnlocked) -- keyed by
     // courseId/trackId -> true once the direct unlock is confirmed, and

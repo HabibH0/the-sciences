@@ -25,6 +25,20 @@ function normalizeLessonTextScale(value) {
   return Math.min(130, Math.max(85, Math.round(n)));
 }
 
+function isEmptyProgress(progress) {
+  return !progress || typeof progress !== 'object' || Object.keys(progress).length === 0;
+}
+
+function defaultForceUnlockAll(saved) {
+  if (typeof saved.forceUnlockAll === 'boolean') return saved.forceUnlockAll;
+  return isEmptyProgress(saved);
+}
+
+function defaultForceUnlockAllExplicit(saved) {
+  if (typeof saved.forceUnlockAllExplicit === 'boolean') return saved.forceUnlockAllExplicit;
+  return typeof saved.forceUnlockAll === 'boolean';
+}
+
 export async function loadRaw() {
   return loadProgress();
 }
@@ -79,7 +93,8 @@ export async function bootProgress() {
     arabicFace: saved.arabicFace || 'naskh',
     lessonTextScale: normalizeLessonTextScale(saved.lessonTextScale),
     tarkeebTranslations: saved.tarkeebTranslations !== false,
-    forceUnlockAll: saved.forceUnlockAll === true,
+    forceUnlockAll: defaultForceUnlockAll(saved),
+    forceUnlockAllExplicit: defaultForceUnlockAllExplicit(saved),
     kufiHeadings: saved.kufiHeadings || false,
     unlockedCourses: saved.unlockedCourses || {},
     unlockedTracks: saved.unlockedTracks || {},
@@ -151,6 +166,7 @@ function snapshot(state) {
     lessonTextScale: normalizeLessonTextScale(state.lessonTextScale),
     tarkeebTranslations: state.tarkeebTranslations !== false,
     forceUnlockAll: state.forceUnlockAll === true,
+    forceUnlockAllExplicit: state.forceUnlockAllExplicit === true,
     kufiHeadings: state.kufiHeadings,
     unlockedCourses: state.unlockedCourses,
     unlockedTracks: state.unlockedTracks,

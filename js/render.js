@@ -783,11 +783,11 @@ function forceUnlockPromptHtml(state) {
   if (!state.forceUnlockPrompt) return '';
   return `
     <div class="modal-backdrop" data-anim-key="forceunlockbd" data-action="closeForceUnlockPrompt">
-      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" aria-label="Unlock everything">
-        <div class="card-kicker modal-kicker">ACCESS OVERRIDE</div>
+      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" aria-label="Turn off course locks">
+        <div class="card-kicker modal-kicker">COURSE LOCKS</div>
         <h3>Unlock everything?</h3>
         <p class="modal-sub">This opens every lesson, path group, vocab item, Tarkeeb exercise, and quiz. It does not mark lessons complete, award badges, or change your scores.</p>
-        <p class="modal-sub">You can turn it off later and your original progress will still be there.</p>
+        <p class="modal-sub">You can turn course locks back on later and your original progress will still be there.</p>
         <div class="modal-buttons">
           <button class="ds-btn ds-btn-secondary" data-action="cancelForceUnlockAll">Cancel</button>
           <button class="ds-btn ds-btn-primary" data-action="confirmForceUnlockAll">Unlock everything</button>
@@ -1256,7 +1256,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const qpKey = `qp_${mod.id}_${lesson.id}`;
   const quizPromptBody = readyForQuiz
     ? `You've finished every concept and exercise in ${esc(lesson.title)}. Answer the quiz to complete this lesson.`
-    : 'Force unlock is on, so you can take the quiz now. Passing it will still complete this lesson normally.';
+    : 'Course locks are off, so you can take the quiz now. Passing it will still complete this lesson normally.';
   const quizPrompt = quizUnlocked ? `
     <div class="${revealCls(qpKey, 'quiz-prompt', revealedKeys)}" data-reveal-key="${qpKey}">
       <div class="kicker">${readyForQuiz ? 'LESSON COMPLETE' : 'QUIZ UNLOCKED'}</div>
@@ -2894,6 +2894,7 @@ function settingsHtml(state) {
     : 100;
   const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
   const forceUnlockOn = state.forceUnlockAll === true;
+  const courseLocksOn = !forceUnlockOn;
 
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
@@ -2971,14 +2972,14 @@ function settingsHtml(state) {
     </button>`;
 
   const forceUnlockToggle = `
-    <button class="settings-toggle-row settings-toggle-warning ${forceUnlockOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${forceUnlockOn}" data-action="requestForceUnlockAll">
+    <button class="settings-toggle-row settings-toggle-warning ${courseLocksOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${courseLocksOn}" data-action="toggleCourseLocks">
       <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">${forceUnlockOn ? 'Everything unlocked' : 'Force unlock everything'}</span>
-        <span class="settings-toggle-sub">${forceUnlockOn
-          ? 'Access gates are open. Lessons are still waiting to be completed normally.'
-          : 'Open every lesson, path, vocab item, Tarkeeb exercise, and quiz without marking progress complete.'}</span>
+        <span class="settings-toggle-title">Course locks</span>
+        <span class="settings-toggle-sub">${courseLocksOn
+          ? 'Lessons, modules, paths, vocab, Tarkeeb exercises, and quizzes unlock through normal progress.'
+          : 'Everything is open by default. Turn this on if you want the course to unlock step by step.'}</span>
       </span>
-      <span class="settings-toggle-pill">${forceUnlockOn ? 'On' : 'Off'}</span>
+      <span class="settings-toggle-pill">${courseLocksOn ? 'Locked' : 'Unlocked'}</span>
     </button>`;
 
   return `

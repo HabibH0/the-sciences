@@ -209,6 +209,27 @@ function mergeBooleanRecord(localValue, remoteValue) {
   return mergeRecord(localValue, remoteValue, (localItem, remoteItem) => Boolean(localItem || remoteItem));
 }
 
+function mergeForceUnlockAll(local, remote) {
+  const localHasValue = typeof local.forceUnlockAll !== 'undefined';
+  const remoteHasValue = typeof remote.forceUnlockAll !== 'undefined';
+  const localExplicit = local.forceUnlockAllExplicit === true;
+  const remoteExplicit = remote.forceUnlockAllExplicit === true;
+
+  if (localExplicit && localHasValue) {
+    return { value: cloneValue(local.forceUnlockAll), explicit: true };
+  }
+  if (remoteExplicit && remoteHasValue) {
+    return { value: cloneValue(remote.forceUnlockAll), explicit: true };
+  }
+  if (remoteHasValue) {
+    return { value: cloneValue(remote.forceUnlockAll), explicit: true };
+  }
+  if (localHasValue) {
+    return { value: cloneValue(local.forceUnlockAll), explicit: localExplicit };
+  }
+  return { value: true, explicit: false };
+}
+
 function mergeCompletionValue(localValue, remoteValue) {
   if (typeof localValue === 'undefined') return cloneValue(remoteValue);
   if (typeof remoteValue === 'undefined') return cloneValue(localValue);
@@ -325,7 +346,11 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.practiceCorrectTotal = maxNumber(local.practiceCorrectTotal, remote.practiceCorrectTotal);
   merged.lastVisit = latestString(local.lastVisit, remote.lastVisit);
 
-  for (const key of ['theme', 'accent', 'arabicFace', 'lessonTextScale', 'tarkeebTranslations', 'forceUnlockAll', 'kufiHeadings', 'nav']) {
+  const forceUnlock = mergeForceUnlockAll(local, remote);
+  merged.forceUnlockAll = forceUnlock.value;
+  merged.forceUnlockAllExplicit = forceUnlock.explicit;
+
+  for (const key of ['theme', 'accent', 'arabicFace', 'lessonTextScale', 'tarkeebTranslations', 'kufiHeadings', 'nav']) {
     if (typeof local[key] !== 'undefined' || typeof remote[key] !== 'undefined') {
       merged[key] = valueOr(local[key], remote[key]);
     }
