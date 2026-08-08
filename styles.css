@@ -5004,7 +5004,7 @@ button.path-node:not(.locked):hover {
     overflow-x: auto;
   }
   .tarkeeb-diagram-grid {
-    justify-content: start;
+    justify-content: safe center;
     padding: 14px 12px;
   }
   .exercise-card,
