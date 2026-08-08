@@ -1965,7 +1965,7 @@ function practiceReviewHtml(state, MODULES) {
   const xpGained = p.xpGained || 0;
 
   // EVERY My Path checkpoint (not just the section test) is now a real
-  // pass/fail gate -- 70% for a normal attempt, 95% for the section test,
+  // pass/fail gate -- 70% for a normal attempt, 80% for the section test,
   // 100% for any node's own Mastery attempt (see pathCheckpointPassRatio in
   // js/state.js). Below that threshold nothing was marked done (and, for a
   // Mastery attempt, nothing was marked mastered either -- see

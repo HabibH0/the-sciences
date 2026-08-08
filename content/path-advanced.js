@@ -121,7 +121,7 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   const afterTail = id(n - 1);
   nodes.push({
     type: 'sectionTest', id: id(n++), pathId: 'advanced', badgeId: `path-adv-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
-    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 0, passRatio: 0.95,
+    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 0, passRatio: 0.8,
   });
   return nodes;
 }
@@ -155,7 +155,7 @@ function sectionSizesFor(totalLessons) {
 // One group's own module-slice backbone (GROUP_MODULE_RANGES[i]), split
 // into buildSectionNodes calls per sectionSizesFor, plus its capstone
 // groupTest -- double a section test's composition (30 mcq + 20 تركيب, no
-// vocab), same 95% pass ratio, scoped to this group's own lessons only.
+// vocab), same 80% pass ratio, scoped to this group's own lessons only.
 // hasTarkeeb is unconditionally true: تركيب exists in annahw from its very
 // first lesson (module 01, lesson l1), so every section in every group has
 // تركيب content in-window from the start -- verified directly via the
@@ -185,7 +185,7 @@ function buildGroup(groupNum, range, sectionNumStart) {
     mcqLength: 30,
     tarkeebLength: 20,
     vocabLength: 0,
-    passRatio: 0.95,
+    passRatio: 0.8,
   };
   return { id: `advanced-group-${groupNum}`, title: GROUP_TITLES[groupNum - 1], sections, groupTest };
 }

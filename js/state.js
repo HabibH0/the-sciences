@@ -79,7 +79,7 @@ export async function createInitialState() {
     // length, 100% required -- see buildPathMcqCheckpointQueue et al.'s
     // `mastery` branch) is tracked separately from the node's own
     // pathNodeStatus: passing a Mastery attempt never affects unlocking
-    // (that's still governed purely by the NORMAL pass, at 70%/95%) -- it's
+    // (that's still governed purely by the NORMAL pass, at 70%/80%) -- it's
     // a bonus layer on top, the same relationship lesson Mastery (masteryV2)
     // already has with a lesson's own quiz completion. nodeId -> { passed,
     // at, score }.
@@ -834,7 +834,7 @@ export function masteryKey(moduleId, lessonId) {
 
 // The pass ratio a given practice session must clear. Every Mastery variant
 // (lesson Mastery, or a checkpoint/section-test's own Mastery attempt) needs
-// a perfect run; the section test needs its own node.passRatio (95% by
+// a perfect run; the section test needs its own node.passRatio (80% by
 // default); every other My Path checkpoint (mcq/vocab/تركيب/revision) needs
 // 70%. Ordinary module Practice Mode and the Schedule tab's Revision Mode
 // aren't graded at all (they have no pass/fail concept), so this only

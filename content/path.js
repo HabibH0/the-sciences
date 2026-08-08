@@ -136,7 +136,7 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   const afterTail = id(n - 1);
   nodes.push({
     type: 'sectionTest', id: id(n++), badgeId: `path-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
-    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 10, passRatio: 0.95,
+    windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 15, tarkeebLength: 10, vocabLength: 10, passRatio: 0.8,
   });
   return nodes;
 }
@@ -191,7 +191,7 @@ const TARKEEB_FROM_SECTION = 5;
 // groupTest: a bigger cumulative exam spanning the WHOLE group rather than
 // any one section -- double a section test's composition (30 mcq + 20
 // تركيب + 20 vocab, same "double = the bigger version" idea as every
-// Mastery variant), same 95% pass ratio, scoped to this group's own
+// Mastery variant), same 80% pass ratio, scoped to this group's own
 // lessons only (never reaching into an earlier group).
 function buildGroup(groupNum, range, sectionNumStart) {
   const backbone = buildGroupBackbone(range);
@@ -213,7 +213,7 @@ function buildGroup(groupNum, range, sectionNumStart) {
     mcqLength: 30,
     tarkeebLength: 20,
     vocabLength: 20,
-    passRatio: 0.95,
+    passRatio: 0.8,
   };
   return { id: `group-${groupNum}`, title: GROUP_TITLES[groupNum - 1], sections, groupTest };
 }
