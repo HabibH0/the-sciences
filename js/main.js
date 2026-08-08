@@ -301,9 +301,37 @@ function markEntrances(duringViewTransition) {
 // The page-turn crossfade is for moving between screens. Answering a
 // question in place shouldn't fade the whole page out and back.
 function navSignature() {
-  return [state.launchScreen, state.view, state.moduleId, state.lessonId, state.practice && state.practice.index].join('|');
+  const practiceKey = state.practice
+    ? [
+        state.practice.source || '',
+        state.practice.kind || '',
+        state.practice.nodeId || '',
+        state.practice.moduleId || '',
+        state.practice.lessonId || '',
+        state.practice.index,
+      ].join(':')
+    : '';
+  return [
+    state.launchScreen ? 'launch' : 'app',
+    state.courseId || '',
+    state.view || '',
+    state.moduleId || '',
+    state.lessonId || '',
+    state.pathGroupId || '',
+    practiceKey,
+  ].join('|');
 }
 let lastNav = null;
+const scrollPositions = new Map();
+
+function mainScrollContainer() {
+  return root.querySelector('.main-content') || root.querySelector('.main');
+}
+
+function rememberScrollPosition(navKey, container = mainScrollContainer()) {
+  if (!navKey || !container) return;
+  scrollPositions.set(navKey, container.scrollTop || 0);
+}
 
 function smoothScrollTo(container, targetY, duration = 850) {
   const startY = container.scrollTop;
@@ -609,8 +637,11 @@ function applyAppearance(state) {
 // tarkeebFocusSelector, the only current caller.
 function rerender(focusSelector) {
   applyAppearance(state);
+  const previousNav = lastNav;
+  const scrollContainer = mainScrollContainer();
   const nav = navSignature();
-  const changedScreen = nav !== lastNav;
+  const changedScreen = nav !== previousNav;
+  rememberScrollPosition(previousNav, scrollContainer);
   lastNav = nav;
 
   if (changedScreen) {
@@ -618,17 +649,17 @@ function rerender(focusSelector) {
   }
 
   const html = render(state, MODULES, revealedKeys);
-
-  const scrollContainer = root.querySelector('.main-content') || root.querySelector('.main');
-  const prevScrollTop = changedScreen ? 0 : (scrollContainer?.scrollTop || 0);
+  const nextScrollTop = changedScreen
+    ? (scrollPositions.get(nav) || 0)
+    : (scrollContainer?.scrollTop || 0);
 
   const usingViewTransition = changedScreen && !!document.startViewTransition;
   let deferredEntrances = [];
   const swap = () => {
     root.innerHTML = html;
     deferredEntrances = markEntrances(usingViewTransition);
-    const newContainer = root.querySelector('.main-content') || root.querySelector('.main');
-    if (newContainer && prevScrollTop) newContainer.scrollTop = prevScrollTop;
+    const newContainer = mainScrollContainer();
+    if (newContainer && nextScrollTop) newContainer.scrollTop = nextScrollTop;
     setupScrollObserver(changedScreen);
     if (focusSelector) {
       const toFocus = root.querySelector(focusSelector);
