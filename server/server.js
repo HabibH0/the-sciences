@@ -255,6 +255,12 @@ function parseCookies(req) {
     .filter((pair) => pair[0]));
 }
 
+function authToken(req) {
+  const auth = String(req.headers.authorization || '').trim();
+  const match = auth.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : parseCookies(req).ts_session;
+}
+
 function sessionCookie(token, clear = false, origin = CLIENT_ORIGIN) {
   const secureCookie = FORCE_SECURE_COOKIE || String(origin || '').startsWith('https://');
   const parts = [
@@ -289,7 +295,7 @@ async function handle(req, res) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': allowOrigin,
       'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,OPTIONS',
       'Vary': 'Origin',
     });
@@ -318,7 +324,7 @@ async function handle(req, res) {
       const token = randomBytes(32).toString('hex');
       await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
       res.setHeader('Set-Cookie', sessionCookie(token, false, origin));
-      send(res, 200, { user: publicUser(user) }, origin);
+      send(res, 200, { user: publicUser(user), token }, origin);
       return;
     }
 
@@ -330,19 +336,19 @@ async function handle(req, res) {
       const token = randomBytes(32).toString('hex');
       await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
       res.setHeader('Set-Cookie', sessionCookie(token, false, origin));
-      send(res, 200, { user: publicUser(user) }, origin);
+      send(res, 200, { user: publicUser(user), token }, origin);
       return;
     }
 
     if (req.method === 'POST' && url.pathname === '/api/auth/logout') {
-      const token = parseCookies(req).ts_session;
+      const token = authToken(req);
       if (token) await store.deleteSession(token);
       res.setHeader('Set-Cookie', sessionCookie('', true, origin));
       send(res, 204, null, origin);
       return;
     }
 
-    const user = await store.getUserBySession(parseCookies(req).ts_session);
+    const user = await store.getUserBySession(authToken(req));
     if (!user) {
       send(res, 401, { error: 'Sign in first.' }, origin);
       return;

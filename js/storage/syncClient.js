@@ -1,20 +1,46 @@
 import { exportProgress, importProgress } from './storageManager.js';
 
 const DEFAULT_BACKEND_URL = 'https://the-sciences.onrender.com';
+const SESSION_TOKEN_KEY = 'the-sciences-session-token';
 
 export function getBackendUrl() {
   return (globalThis.THE_SCIENCES_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, '');
 }
 
+function getSessionToken() {
+  try {
+    return localStorage.getItem(SESSION_TOKEN_KEY) || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function saveSessionToken(token) {
+  try {
+    if (token) localStorage.setItem(SESSION_TOKEN_KEY, token);
+  } catch (e) {}
+}
+
+function clearSessionToken() {
+  try {
+    localStorage.removeItem(SESSION_TOKEN_KEY);
+  } catch (e) {}
+}
+
 async function request(path, options = {}) {
+  const headers = { ...(options.headers || {}) };
+  const token = getSessionToken();
+  if (token && !headers.Authorization) headers.Authorization = `Bearer ${token}`;
+
   if (window.electronAPI?.sync?.request) {
     const result = await window.electronAPI.sync.request({
       path,
       method: options.method || 'GET',
-      headers: options.headers || {},
+      headers,
       body: options.body,
     });
     if (!result.ok) {
+      if (result.status === 401) clearSessionToken();
       const error = new Error(result.body?.error || `Sync request failed: ${result.status}`);
       error.status = result.status;
       error.body = result.body;
@@ -27,12 +53,11 @@ async function request(path, options = {}) {
   const response = await fetch(`${base}${path}`, {
     credentials: 'include',
     ...options,
-    headers: {
-      ...(options.headers || {}),
-    },
+    headers,
   });
   const body = response.status === 204 ? null : await response.json().catch(() => null);
   if (!response.ok) {
+    if (response.status === 401) clearSessionToken();
     const error = new Error(body?.error || `Sync request failed: ${response.status}`);
     error.status = response.status;
     error.body = body;
@@ -42,23 +67,31 @@ async function request(path, options = {}) {
 }
 
 export async function register(email, password) {
-  return request('/api/auth/register', {
+  const result = await request('/api/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
+  saveSessionToken(result?.token);
+  return result;
 }
 
 export async function login(email, password) {
-  return request('/api/auth/login', {
+  const result = await request('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
+  saveSessionToken(result?.token);
+  return result;
 }
 
 export async function logout() {
-  return request('/api/auth/logout', { method: 'POST' });
+  try {
+    return await request('/api/auth/logout', { method: 'POST' });
+  } finally {
+    clearSessionToken();
+  }
 }
 
 export async function me() {
