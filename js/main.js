@@ -55,6 +55,13 @@ import {
 } from './gamification.js';
 
 const electronWindow = window.electronAPI?.window;
+const THEME_CHROME = {
+  manuscript: { bg: '#f3f2f2', scheme: 'light' },
+  mushaf: { bg: '#f7f1e1', scheme: 'light' },
+  lamp: { bg: '#16130f', scheme: 'dark' },
+  ink: { bg: '#eceef1', scheme: 'light' },
+  sepia: { bg: '#ece0ca', scheme: 'light' },
+};
 
 const state = await createInitialState();
 state.account.backendUrl = getBackendUrl();
@@ -99,6 +106,16 @@ function normalizeLessonTextScale(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return 100;
   return Math.min(130, Math.max(85, Math.round(n)));
+}
+
+function setMetaContent(name, content) {
+  let el = document.head.querySelector(`meta[name="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('name', name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
 }
 
 function statusMeta(status) {
@@ -567,6 +584,10 @@ function setupScrollObserver(changedScreen) {
 function applyAppearance(state) {
   document.documentElement.dataset.theme = state.theme;
   document.documentElement.dataset.accent = state.accent;
+  const chrome = THEME_CHROME[state.theme] || THEME_CHROME.manuscript;
+  document.documentElement.style.colorScheme = chrome.scheme;
+  document.body.style.backgroundColor = chrome.bg;
+  setMetaContent('theme-color', chrome.bg);
   const face = FACES[state.arabicFace] || FACES.naskh;
   document.documentElement.style.setProperty('--font-ar', face.body);
   document.documentElement.style.setProperty('--font-ar-heading', state.kufiHeadings ? KUFI_HEAD_FONT : face.body);
