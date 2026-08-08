@@ -573,6 +573,60 @@ function applyAppearance(state) {
   document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
 }
 
+const horizontalScrollSelector = '.concept-table-scroll, .tarkeeb-diagram-grid, .app-header-nav';
+
+function clampPageScrollX(target) {
+  const nodes = [
+    document.scrollingElement,
+    document.documentElement,
+    document.body,
+    root,
+    root.querySelector('.main-content'),
+    root.querySelector('.launch-scroll'),
+  ];
+  if (target && (target.matches?.('.main-content, .launch-scroll') || target === document || target === window)) {
+    nodes.push(target);
+  }
+  nodes.forEach((node) => {
+    if (node && node.scrollLeft) node.scrollLeft = 0;
+  });
+}
+
+function installHorizontalPanGuard() {
+  let touchStart = null;
+  const isAllowedHorizontalScroll = (target) => !!target.closest?.(horizontalScrollSelector);
+
+  document.addEventListener('touchstart', (e) => {
+    const touch = e.touches && e.touches[0];
+    touchStart = touch ? {
+      x: touch.clientX,
+      y: touch.clientY,
+      allowX: isAllowedHorizontalScroll(e.target),
+    } : null;
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!touchStart || touchStart.allowX) return;
+    const touch = e.touches && e.touches[0];
+    if (!touch) return;
+    const dx = touch.clientX - touchStart.x;
+    const dy = touch.clientY - touchStart.y;
+    if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.15) {
+      e.preventDefault();
+      clampPageScrollX(e.target);
+    }
+  }, { passive: false, capture: true });
+
+  document.addEventListener('scroll', (e) => {
+    if (isAllowedHorizontalScroll(e.target)) return;
+    clampPageScrollX(e.target);
+  }, { passive: true, capture: true });
+
+  window.addEventListener('scroll', () => clampPageScrollX(window), { passive: true });
+}
+
+installHorizontalPanGuard();
+
 // focusSelector re-focuses a specific element after the innerHTML swap below
 // destroys and recreates the whole DOM -- without it, every action (not just
 // تركيب's) drops focus back to <body>, which is merely annoying for a mouse
@@ -601,6 +655,7 @@ function rerender(focusSelector) {
     deferredEntrances = markEntrances(usingViewTransition);
     const newContainer = root.querySelector('.main-content') || root.querySelector('.main');
     if (newContainer && prevScrollTop) newContainer.scrollTop = prevScrollTop;
+    clampPageScrollX(newContainer);
     setupScrollObserver(changedScreen);
     if (focusSelector) {
       const toFocus = root.querySelector(focusSelector);

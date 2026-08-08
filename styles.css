@@ -252,7 +252,9 @@ body {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  overflow-x: clip;
   overscroll-behavior-x: none;
+  touch-action: pan-y;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-en);
@@ -354,6 +356,8 @@ body.is-maximized #window-maximize .restore-icon {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  overflow-x: clip;
+  touch-action: pan-y;
 }
 
 /* One consistent treatment for every run of Arabic wherever it appears --
@@ -696,6 +700,7 @@ button:disabled {
   overflow: hidden;
   min-width: 0;
   max-width: 100%;
+  touch-action: pan-y;
   /* #root is a column flex container (.app-header / .main / .app-footer)
      -- without this, flex's default min-height:auto lets .main grow to fit
      its content instead of being capped to the space its siblings left it,
@@ -712,8 +717,10 @@ button:disabled {
   padding: 56px 64px 96px;
   overflow-y: auto;
   overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior-x: none;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 /* Themed scrollbar for the app's own scroll containers (this and
@@ -2768,6 +2775,8 @@ h1 + .card-kicker,
   overflow-x: auto;
   border: 1px solid var(--card-border);
   border-radius: 2px;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 .concept-table {
   width: 100%;
@@ -3372,6 +3381,8 @@ select.schedule-input {
   background: var(--paper-deep);
   border-radius: 8px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 .tarkeeb-diagram-cell {
   align-self: center;
