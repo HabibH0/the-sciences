@@ -269,9 +269,15 @@ function headerHtml(state, MODULES) {
       ${icon('book', 14, 1.7)}
       <span>${onPath || state.pathHome ? 'My Path' : esc(activeCourse ? activeCourse.name : '')}</span>
     </button>`;
+  const headerClasses = [
+    'app-header',
+    showCrumbs ? 'has-crumbs' : '',
+    inSession ? 'in-session' : '',
+    dotsHtml ? 'has-dots' : '',
+  ].filter(Boolean).join(' ');
 
   return `
-    <header class="app-header">
+    <header class="${headerClasses}">
       <div class="app-header-left">
         <button class="app-header-brand" data-action="openDashboard" title="Home" aria-label="Home">
           <span class="app-header-kicker">العلوم</span>
