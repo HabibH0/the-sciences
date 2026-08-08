@@ -5285,10 +5285,13 @@ button.path-node:not(.locked):hover {
   .main.question-mode .tarkeeb-diagram-grid {
     flex: none;
     gap: 6px 8px;
-    justify-content: center;
+    justify-content: safe center;
     padding: 10px;
-    overflow: hidden;
-    touch-action: manipulation;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
   }
   .main.question-mode .tarkeeb-diagram-cell {
     font-size: clamp(18px, 4.8vw, 22px);
