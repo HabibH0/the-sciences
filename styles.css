@@ -4764,7 +4764,7 @@ button.path-node:not(.locked):hover {
     display: none;
   }
   .main-content {
-    padding: 28px 16px calc(88px + env(safe-area-inset-bottom, 0px));
+    padding: 28px 16px calc(164px + env(safe-area-inset-bottom, 0px));
   }
   .main-content > * {
     min-width: 0;
@@ -4871,7 +4871,7 @@ button.path-node:not(.locked):hover {
     overflow: visible;
   }
   .launch-scroll {
-    padding: 40px 16px 34px;
+    padding: 40px 16px calc(164px + env(safe-area-inset-bottom, 0px));
   }
   .launch-brand-row {
     align-items: flex-start;

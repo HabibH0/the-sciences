@@ -12,10 +12,13 @@ const DATABASE_URL = process.env.DATABASE_URL || '';
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:4173';
 const ALLOWED_ORIGINS = new Set([
   CLIENT_ORIGIN,
+  'https://habibh0.github.io',
   'http://localhost:4173',
   'http://127.0.0.1:4173',
 ]);
-const COOKIE_SECURE = process.env.NODE_ENV === 'production';
+const FORCE_SECURE_COOKIE = process.env.COOKIE_SECURE === 'true'
+  || process.env.NODE_ENV === 'production'
+  || CLIENT_ORIGIN.startsWith('https://');
 const SESSION_MAX_AGE = 1000 * 60 * 60 * 24 * 30;
 
 function defaultDb() {
@@ -252,15 +255,16 @@ function parseCookies(req) {
     .filter((pair) => pair[0]));
 }
 
-function sessionCookie(token, clear = false) {
+function sessionCookie(token, clear = false, origin = CLIENT_ORIGIN) {
+  const secureCookie = FORCE_SECURE_COOKIE || String(origin || '').startsWith('https://');
   const parts = [
     `ts_session=${clear ? '' : token}`,
     'HttpOnly',
     'Path=/',
-    COOKIE_SECURE ? 'SameSite=None' : 'SameSite=Lax',
+    secureCookie ? 'SameSite=None' : 'SameSite=Lax',
     `Max-Age=${clear ? 0 : Math.floor(SESSION_MAX_AGE / 1000)}`,
   ];
-  if (COOKIE_SECURE) parts.push('Secure');
+  if (secureCookie) parts.push('Secure');
   return parts.join('; ');
 }
 
@@ -313,7 +317,7 @@ async function handle(req, res) {
       });
       const token = randomBytes(32).toString('hex');
       await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
-      res.setHeader('Set-Cookie', sessionCookie(token));
+      res.setHeader('Set-Cookie', sessionCookie(token, false, origin));
       send(res, 200, { user: publicUser(user) }, origin);
       return;
     }
@@ -325,7 +329,7 @@ async function handle(req, res) {
       if (!user || !(await verifyPassword(body.password, user.passwordHash))) throw new Error('Invalid email or password.');
       const token = randomBytes(32).toString('hex');
       await store.createSession(token, user.id, Date.now() + SESSION_MAX_AGE);
-      res.setHeader('Set-Cookie', sessionCookie(token));
+      res.setHeader('Set-Cookie', sessionCookie(token, false, origin));
       send(res, 200, { user: publicUser(user) }, origin);
       return;
     }
@@ -333,7 +337,7 @@ async function handle(req, res) {
     if (req.method === 'POST' && url.pathname === '/api/auth/logout') {
       const token = parseCookies(req).ts_session;
       if (token) await store.deleteSession(token);
-      res.setHeader('Set-Cookie', sessionCookie('', true));
+      res.setHeader('Set-Cookie', sessionCookie('', true, origin));
       send(res, 204, null, origin);
       return;
     }
