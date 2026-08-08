@@ -3000,7 +3000,7 @@ function settingsHtml(state) {
   const tarkeebTranslationToggle = `
     <button class="settings-toggle-row ${tarkeebTranslationsOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebTranslationsOn}" data-action="toggleTarkeebTranslations">
       <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Tarkeeb translations</span>
+        <span class="settings-toggle-title">Translate Tarkeeb sentence</span>
         <span class="settings-toggle-sub">Default for the small English line under Tarkeeb exercises.</span>
       </span>
       <span class="settings-toggle-pill">${tarkeebTranslationsOn ? 'Shown' : 'Hidden'}</span>
@@ -3009,7 +3009,7 @@ function settingsHtml(state) {
   const tarkeebLabelColorToggle = `
     <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
       <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Blue Tarkeeb labels</span>
+        <span class="settings-toggle-title">Blue Tarkeeb label text</span>
         <span class="settings-toggle-sub">Colour only the grammar label text; boxes and slots keep their normal style.</span>
       </span>
       <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Blue' : 'Default'}</span>
@@ -3043,6 +3043,13 @@ function settingsHtml(state) {
         <p class="settings-group-sub">Independent of the paper -- any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
 
+        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
+        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
+        <div class="settings-toggle-stack">
+          ${tarkeebTranslationToggle}
+          ${tarkeebLabelColorToggle}
+        </div>
+
         <div class="lesson-size-control">
           <div class="lesson-size-head">
             <label class="lesson-size-label" for="lesson-text-scale">Lesson text size</label>
@@ -3059,8 +3066,6 @@ function settingsHtml(state) {
             <p>A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
           </div>
         </div>
-        ${tarkeebTranslationToggle}
-        ${tarkeebLabelColorToggle}
         ${forceUnlockToggle}
 
         <hr class="settings-hr">

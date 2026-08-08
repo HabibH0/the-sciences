@@ -2276,6 +2276,14 @@ h1 + .card-kicker,
   font: inherit;
   text-align: left;
 }
+.settings-toggle-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.settings-toggle-stack .settings-toggle-row {
+  margin-top: 0;
+}
 .settings-toggle-row.is-selected {
   border-color: var(--color-accent);
 }
