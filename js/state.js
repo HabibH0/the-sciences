@@ -15,10 +15,10 @@ export async function createInitialState() {
     // Transient, never persisted: the course-picker splash (see launchHtml
     // in js/render.js) shown before every screen this session boots into --
     // the user wants it every launch, not just the machine's first-ever
-    // run. Cleared by chooseCourse (js/main.js), which then reveals
-    // whatever view/moduleId/lessonId this same createInitialState call
-    // already resolved below (untouched, so picking the already-active
-    // course resumes exactly where boot left off).
+    // run. Cleared by chooseCourse (js/main.js), which resets the picked
+    // course to its dashboard/module list. The nav fields below still let
+    // direct reloads/internal navigation retain their position while the
+    // session is already inside the app.
     launchScreen: true,
     view: nav.view || 'dashboard',
     moduleId: nav.moduleId || null,

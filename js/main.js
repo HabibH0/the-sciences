@@ -1182,10 +1182,9 @@ function exitPracticeSession(p) {
 // --- action handlers ------------------------------------------------------
 // A handler returning `false` means "nothing changed, skip the re-render".
 
-// Used by the launch screen's chooseCourse when the picked course isn't
-// already active: resets to that course's dashboard -- there's no
-// cross-course "resume position" to preserve, and any in-flight practice
-// session belongs to the course being left.
+// Used by the launch screen's chooseCourse: always resets to that course's
+// dashboard/module list. Course cards are navigation choices, not resume
+// shortcuts into the learner's last lesson/module/practice position.
 async function activateCourse(id) {
   await setActiveCourse(id);
   state.courseId = id;
@@ -1210,22 +1209,16 @@ const actions = {
   },
   // Header's course button (see courseSwitchHtml in js/render.js) -- sends
   // the learner back to the launch screen's course picker rather than
-  // switching in place. Leaves view/moduleId/lessonId untouched, so
-  // chooseCourse picking this same course again just resumes here exactly.
+  // switching in place. The next course-card tap resets to that course's
+  // module list via chooseCourse.
   openLaunch() {
     state.launchScreen = true;
   },
   // Launch screen's course cards (see js/render.js launchHtml), shown ahead
-  // of Home on every boot. Picking the already-active course just dismisses
-  // the splash onto wherever sanitizeBootNav already resumed to above --
-  // picking a different one resets to that course's dashboard, same as the
-  // header switcher. Bug fix: "wherever resumed to" must NOT include My
-  // Path -- a path lesson temporarily activates whichever course it
-  // belongs to (see enterPathLesson), so state.courseId can equal a course
-  // card's id purely because that's the course a path lesson last touched,
-  // even though state.view is actually 'path'/'pathGroups'. Without this,
-  // clicking a course card that happens to match would silently dump the
-  // learner back into My Path instead of that course's own dashboard.
+  // of Home on every boot. A card tap always enters that course's own
+  // dashboard/module list, even when the picked course was already active.
+  // That keeps the course picker predictable and avoids resuming into a
+  // previous lesson, module, practice session, or My Path detour.
   async chooseCourse(el) {
     const id = el.dataset.courseId;
     const course = COURSES.find((c) => c.id === id);
@@ -1234,23 +1227,7 @@ const actions = {
     // launchCourseCardHtml in js/render.js), but guard here too in case
     // state.completed/unlockedCourses changes out from under a stale render.
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
-    // state.pathHome (not state.view) is the durable "was the learner in My
-    // Path" signal -- state.view alone would miss a Settings/Schedule/
-    // Achievements detour in between (see state.pathHome's definition in
-    // js/state.js), which used to let a leftover state.courseId from a path
-    // lesson silently no-op this click instead of activating the course.
-    const resumingFromPath = state.pathHome;
-    if (id !== state.courseId || resumingFromPath) await activateCourse(id);
-    else {
-      await setActiveCourse(id);
-      if (state.view === 'quiz' && state.moduleId && state.lessonId) {
-        const lesson = getLesson(state.moduleId, state.lessonId);
-        if (lesson) state.quizOptionOrder = shuffleQuizOrder(lesson);
-      }
-      if (state.view === 'lesson' && state.moduleId && state.lessonId) {
-        shuffleLessonOptions(state.moduleId, state.lessonId);
-      }
-    }
+    await activateCourse(id);
     state.launchScreen = false;
   },
   openModule(el) {
