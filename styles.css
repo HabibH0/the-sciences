@@ -249,7 +249,10 @@ body {
      with .main's content and scrolls as one unit, dragging the sidebar
      (and its streak/XP footer) off-screen along with it. */
   height: 100vh;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  overscroll-behavior-x: none;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-en);
@@ -346,8 +349,11 @@ body.is-maximized #window-maximize .restore-icon {
 
 #root {
   height: 100vh;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* One consistent treatment for every run of Arabic wherever it appears --
@@ -689,6 +695,7 @@ button:disabled {
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
+  max-width: 100%;
   /* #root is a column flex container (.app-header / .main / .app-footer)
      -- without this, flex's default min-height:auto lets .main grow to fit
      its content instead of being capped to the space its siblings left it,
@@ -700,8 +707,13 @@ button:disabled {
 .main-content {
   flex: 1 1 auto;
   min-height: 0;
+  min-width: 0;
+  max-width: 100%;
   padding: 56px 64px 96px;
   overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Themed scrollbar for the app's own scroll containers (this and
@@ -4688,6 +4700,20 @@ button.path-node:not(.locked):hover {
   }
   .main-content {
     padding: 28px 16px 60px;
+  }
+  .main-content > *,
+  .hero-page,
+  .dashboard-page,
+  .lesson-layout,
+  .lesson-main,
+  .lesson-sidebar,
+  .lesson-list,
+  .path-node-list,
+  .schedule-page,
+  .settings-page,
+  .account-page {
+    min-width: 0;
+    max-width: 100%;
   }
   .dashboard-page,
   .schedule-page {
