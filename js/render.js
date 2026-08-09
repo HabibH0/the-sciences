@@ -3009,7 +3009,7 @@ function settingsHtml(state) {
   const tarkeebLabelColorToggle = `
     <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
       <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Blue Tarkeeb label text</span>
+        <span class="settings-toggle-title">Blue Tarkeeb labels</span>
         <span class="settings-toggle-sub">Colour only the grammar label text; boxes and slots keep their normal style.</span>
       </span>
       <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Blue' : 'Default'}</span>
@@ -3033,6 +3033,13 @@ function settingsHtml(state) {
         <h1 class="settings-title">The page, set to your hand</h1>
         <p class="settings-lede">Everything here changes only how the text is set. Nothing changes what is taught.</p>
 
+        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
+        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
+        <div class="settings-toggle-stack">
+          ${tarkeebTranslationToggle}
+          ${tarkeebLabelColorToggle}
+        </div>
+
         <hr class="settings-hr">
 
         <h2 class="settings-group-title">Paper</h2>
@@ -3042,13 +3049,6 @@ function settingsHtml(state) {
         <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
         <p class="settings-group-sub">Independent of the paper -- any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
-
-        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
-        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
-        <div class="settings-toggle-stack">
-          ${tarkeebTranslationToggle}
-          ${tarkeebLabelColorToggle}
-        </div>
 
         <div class="lesson-size-control">
           <div class="lesson-size-head">
