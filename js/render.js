@@ -69,6 +69,7 @@ const ICON_PATHS = {
   calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 2.5v4M16 2.5v4"/>',
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
   'trash-2': '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
+  pointer: '<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/>',
 };
 
 function icon(name, size = 16, strokeWidth = 1.6) {
@@ -3472,12 +3473,15 @@ function litSentenceHtml(state, sentence) {
 // page shouldn't do.
 function litParagraphHtml(state, para, pi, active) {
   const fullOpen = state.lit.fullPara === pi;
+  const hoverOn = state.litHoverTranslate !== false;
   return `
     <article class="lit-para${active ? ' is-active' : ''}" data-anim-key="litpara${pi}">
       <div class="lit-para-gutter">
         <span class="lit-para-mark" aria-hidden="true">${pi + 1}</span>
         <button class="lit-para-en${fullOpen ? ' is-active' : ''}" data-action="litToggleFullPara" data-para="${pi}"
           aria-pressed="${fullOpen ? 'true' : 'false'}" title="This paragraph in English">EN</button>
+        <button class="lit-para-hover-btn${hoverOn ? ' is-active' : ''}" data-action="toggleLitHoverTranslate"
+          aria-pressed="${hoverOn ? 'true' : 'false'}" title="${hoverOn ? 'Hover translation: ON (click to turn off)' : 'Hover translation: OFF (click to turn on)'}">${icon('pointer', 11, 2)}</button>
       </div>
       <p class="lit-para-text" lang="ar" dir="rtl">${para.sentences.map((s) => litSentenceHtml(state, s)).join(' ')}</p>
       ${fullOpen ? `<p class="lit-para-full">${escBidi(para.en)}</p>` : ''}
@@ -3816,7 +3820,7 @@ function litReadHtml(state) {
         : 100;
 
   return `
-    <div class="lit-reader">
+    <div class="lit-reader${state.litHoverTranslate === false ? ' no-hover-translate' : ''}">
       <div class="lit-reader-head">
         ${backLink('Back to the book', 'exitLitChapter')}
         <div class="lit-reader-titles">

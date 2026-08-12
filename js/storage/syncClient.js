@@ -350,7 +350,7 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.forceUnlockAll = forceUnlock.value;
   merged.forceUnlockAllExplicit = forceUnlock.explicit;
 
-  for (const key of ['theme', 'accent', 'arabicFace', 'arabicHeadingFace', 'lessonTextScale', 'tarkeebTranslations', 'tarkeebLabelsBlue', 'kufiHeadings', 'nav']) {
+  for (const key of ['theme', 'accent', 'arabicFace', 'arabicHeadingFace', 'lessonTextScale', 'tarkeebTranslations', 'tarkeebLabelsBlue', 'kufiHeadings', 'nav', 'litCheckLang', 'litTextScale', 'litHoverTranslate']) {
     if (typeof local[key] !== 'undefined' || typeof remote[key] !== 'undefined') {
       merged[key] = valueOr(local[key], remote[key]);
     }

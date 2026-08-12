@@ -2727,6 +2727,10 @@ const actions = {
     if (state.litCheckLang === lang) return false;
     state.litCheckLang = lang;
   },
+  toggleLitHoverTranslate() {
+    state.litHoverTranslate = state.litHoverTranslate === false;
+    queueAutoUpload('settings-change');
+  },
   litToggleFullPara(el) {
     const lit = state.lit;
     if (!lit) return false;

@@ -251,6 +251,9 @@ export async function createInitialState() {
     // different size from a lesson's worked examples, and the reader is the
     // only screen where the Arabic IS the content.
     litTextScale: boot.litTextScale,
+    // Whether hover-to-translate phrase gloss is enabled in literature reader.
+    // Default true. Persisted standing preference.
+    litHoverTranslate: boot.litHoverTranslate !== false,
     completed: boot.completed,
     quizScores: boot.quizScores,
     exStates: boot.exStates,

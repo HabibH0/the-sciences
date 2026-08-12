@@ -5280,7 +5280,8 @@ button.path-node:not(.locked):hover {
   font-weight: 600;
   color: color-mix(in srgb, var(--color-text) 35%, transparent);
 }
-.lit-para-en {
+.lit-para-en,
+.lit-para-hover-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5304,14 +5305,19 @@ button.path-node:not(.locked):hover {
 }
 .lit-para:hover .lit-para-en,
 .lit-para-en:focus-visible,
-.lit-para-en.is-active {
+.lit-para-en.is-active,
+.lit-para:hover .lit-para-hover-btn,
+.lit-para-hover-btn:focus-visible,
+.lit-para-hover-btn.is-active {
   opacity: 1;
 }
-.lit-para-en:hover {
+.lit-para-en:hover,
+.lit-para-hover-btn:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
 }
-.lit-para-en.is-active {
+.lit-para-en.is-active,
+.lit-para-hover-btn.is-active {
   color: var(--color-accent-ink);
   background: var(--color-accent);
   border-color: var(--color-accent);
@@ -5338,14 +5344,14 @@ button.path-node:not(.locked):hover {
    one step down in emphasis: the same box, the same padding, squared to the
    same Arabic column, just below the paragraph instead of above it. */
 .lit-para-full {
-  /* Pulled out by exactly its own border + padding, so the ENGLISH TEXT --
-     not the box around it -- lines up with the Arabic column on both sides.
-     Aligning the border instead (the obvious way) leaves the text sitting
-     14px inside the Arabic on each edge, which reads as a narrower,
-     off-centre block sitting under a wider one. */
-  /* The inset is border + padding, so the -1px keeps the two exactly equal. */
+  /* Both left and right edges align with the Arabic text column. The right
+     side needs a small outward pull (border + padding = --lit-full-inset)
+     so the English TEXT, not the box, aligns with the Arabic. The left side
+     needs the same outward pull PLUS the gutter that the Arabic column sits
+     inside (.lit-para padding-left: var(--lit-gutter)), so the box reaches
+     all the way back to where the Arabic actually starts. */
   --lit-full-inset: 14px;
-  margin: 20px calc(-1 * var(--lit-full-inset)) 0;
+  margin: 20px calc(-1 * var(--lit-full-inset)) 0 calc(-1 * (var(--lit-gutter) + var(--lit-full-inset)));
   padding: 12px calc(var(--lit-full-inset) - 1px);
   font-family: var(--font-en);
   font-size: 14px;
@@ -5354,9 +5360,6 @@ button.path-node:not(.locked):hover {
   background: var(--color-bg);
   border: 1px solid var(--color-divider);
   border-radius: 2px;
-  /* Both edges flush, like the Arabic it translates. The phrase gloss above
-     is left ragged on purpose -- it is usually one line, where justifying
-     does nothing but can stretch a short second line badly. */
   text-align: justify;
   text-justify: inter-word;
 }
@@ -5485,6 +5488,21 @@ button.path-node:not(.locked):hover {
 .lit-sentence:hover .lit-gloss,
 .lit-sentence:focus-within .lit-gloss {
   z-index: 6;
+}
+
+/* When hover translation is disabled, hover/focus-within does not reveal unpinned glosses or highlight sentence fill */
+.no-hover-translate .lit-sentence:not(.is-open):hover .lit-gloss,
+.no-hover-translate .lit-sentence:not(.is-open):focus-within .lit-gloss {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+  pointer-events: none !important;
+}
+.no-hover-translate .lit-sentence:not(.is-open):hover {
+  background: none !important;
+}
+.no-hover-translate .lit-sentence:not(.is-open):hover .lit-gloss-btn {
+  opacity: 0.5;
+  background: none;
 }
 
 .lit-checks {
