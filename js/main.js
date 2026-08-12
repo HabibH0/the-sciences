@@ -55,7 +55,7 @@ import {
   persistSoon, flushPersist, cancelPendingPersist, todayISO,
   normalizeLitTextScale,
 } from './persistence.js';
-import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
+import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, uploadLocalProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
@@ -2023,7 +2023,28 @@ const actions = {
     state.lessonId = null;
     state.view = 'module';
     state.practice = null;
-    queueAutoUpload('settings-change');
+    // Force-push the reset state to the cloud without merging. A normal
+    // queueAutoUpload would call mergeAccountSaveWithRetry, which unions
+    // local and remote -- re-pulling the just-deleted keys back in from
+    // the cloud and undoing the reset. uploadLocalProgress is a plain PUT
+    // that overwrites the cloud with the current local save, no merge.
+    if (state.account.user && state.account.backendUrl && !suppressPersist) {
+      clearTimeout(autoUploadTimer);
+      autoUploadTimer = null;
+      autoUploadRunning = false;
+      state.account.autoUploadStatus = 'queued';
+      state.account.autoUploadMessage = 'Syncing module reset to your account...';
+      flushPersist().then(() => uploadLocalProgress()).then(() => {
+        state.account.autoUploadStatus = 'synced';
+        state.account.autoUploadMessage = 'Module reset synced to your account.';
+        refreshCloudSaveStatus().catch(() => {});
+        rerenderAccountIfOpen();
+      }).catch((e) => {
+        state.account.autoUploadStatus = 'error';
+        state.account.autoUploadMessage = e.message || 'Could not sync module reset to your account.';
+        rerenderAccountIfOpen();
+      });
+    }
   },
   toggleKufiHeadings() {
     state.arabicHeadingFace = state.kufiHeadings ? 'body' : 'kufi';
