@@ -70,13 +70,11 @@ export function isChapterDone(litProgress, bookId, chapterId) {
   return !!(rec && rec.done);
 }
 
-// Chapter 1 is always open; chapter N opens once N-1 is finished. Same
-// sequential gate as a course's lessons (isLessonUnlocked), and the same
-// global override applies.
+// All chapters are permanently open -- the Library is not gated. The
+// forceUnlockAll parameter is retained for call-site compatibility but
+// has no effect; every chapter is treated as unlocked regardless.
 export function isChapterUnlocked(book, index, litProgress, forceUnlockAll = false) {
-  if (forceUnlockAll || index <= 0) return true;
-  const prev = book.chapters[index - 1];
-  return !!prev && isChapterDone(litProgress, book.id, prev.id);
+  return true;
 }
 
 export function bookProgress(book, litProgress) {
