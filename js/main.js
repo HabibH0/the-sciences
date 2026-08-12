@@ -1006,6 +1006,34 @@ function markLessonComplete(moduleId, lessonId) {
   state.completed[moduleId][lessonId] = todayISO();
 }
 
+// Wipes all per-lesson progress for one module: completion flags, quiz
+// scores, exercise states, reveal states, lesson position, mastery results,
+// and practice history cards. XP and badges are earned facts -- they are not
+// rolled back (this is explicitly not a full undo). The module page becomes
+// as if the learner had never opened it.
+function resetModuleProgress(moduleId) {
+  const prefix = `${moduleId}_`;
+  delete state.completed[moduleId];
+  for (const key of Object.keys(state.quizScores)) {
+    if (key.startsWith(prefix)) delete state.quizScores[key];
+  }
+  for (const key of Object.keys(state.exStates)) {
+    if (key.startsWith(prefix)) delete state.exStates[key];
+  }
+  for (const key of Object.keys(state.revealState)) {
+    if (key.startsWith(prefix)) delete state.revealState[key];
+  }
+  for (const key of Object.keys(state.lessonPos)) {
+    if (key.startsWith(prefix)) delete state.lessonPos[key];
+  }
+  for (const key of Object.keys(state.masteryV2)) {
+    if (key.startsWith(prefix)) delete state.masteryV2[key];
+  }
+  for (const key of Object.keys(state.practiceHistory)) {
+    if (key.startsWith(prefix)) delete state.practiceHistory[key];
+  }
+}
+
 // The XP toast auto-dismisses like the prototype's -- awardXp only sets the
 // text, the caller schedules the clear (a fresh award restarts the clock).
 let toastTimer = null;
@@ -1972,6 +2000,31 @@ const actions = {
   cancelForceUnlockAll() {
     state.forceUnlockPrompt = false;
   },
+  // --- Module progress reset actions -----------------------------------
+  openResetModulePrompt(el) {
+    const moduleId = el.dataset.moduleId;
+    if (!getModule(moduleId)) return false;
+    state.resetModulePromptId = moduleId;
+  },
+  closeResetModulePrompt(el, e) {
+    if (e && e.target !== el) return false;
+    state.resetModulePromptId = null;
+  },
+  cancelResetModulePrompt() {
+    state.resetModulePromptId = null;
+  },
+  confirmResetModule(el) {
+    const moduleId = el.dataset.moduleId;
+    if (!getModule(moduleId)) return false;
+    resetModuleProgress(moduleId);
+    state.resetModulePromptId = null;
+    // Return to the module page so the learner sees the cleared state
+    // immediately; the view is already 'module', so this just rerenders.
+    state.lessonId = null;
+    state.view = 'module';
+    state.practice = null;
+    queueAutoUpload('settings-change');
+  },
   toggleKufiHeadings() {
     state.arabicHeadingFace = state.kufiHeadings ? 'body' : 'kufi';
     state.kufiHeadings = state.arabicHeadingFace === 'kufi';
@@ -2866,6 +2919,9 @@ document.addEventListener('keydown', (e) => {
     rerender();
   } else if (state.forceUnlockPrompt) {
     state.forceUnlockPrompt = false;
+    rerender();
+  } else if (state.resetModulePromptId) {
+    state.resetModulePromptId = null;
     rerender();
   } else if (state.unlockPrompt) {
     state.unlockPrompt = null;

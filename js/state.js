@@ -296,6 +296,10 @@ export async function createInitialState() {
     // Transient: confirmation modal before the global unlock override is
     // enabled. The override itself is persisted; this prompt is not.
     forceUnlockPrompt: false,
+    // Transient: moduleId of the module whose \"Reset progress\" confirm modal is
+    // open, or null when closed. Not persisted -- same treatment as
+    // forceUnlockPrompt and lessonPreviewId.
+    resetModulePromptId: null,
     // Transient: { type: 'course'|'track'|'module', id } for the unlock-test
     // prompt modal (unlockPromptHtml in js/render.js), or null when closed.
     unlockPrompt: null,

@@ -68,6 +68,7 @@ const ICON_PATHS = {
   cross: '<path d="M6 6l12 12M18 6L6 18"/>',
   calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 2.5v4M16 2.5v4"/>',
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
+  'trash-2': '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
 };
 
 function icon(name, size = 16, strokeWidth = 1.6) {
@@ -762,7 +763,9 @@ function modulePageHtml(state, MODULES) {
     badge: mod.heading || null,
     title: `<bdi lang="ar">${esc(mod.title)}</bdi>`,
     body: escBidi(mod.blurb),
-    actions: `<button class="ds-btn ds-btn-secondary" ${bankPool.length ? 'data-action="openPractice"' : 'disabled'}>${icon('archive', 15, 1.7)} Practice Mode</button>`,
+    actions: `
+      <button class="ds-btn ds-btn-secondary" ${bankPool.length ? 'data-action="openPractice"' : 'disabled'}>${icon('archive', 15, 1.7)} Practice Mode</button>
+      ${done > 0 ? `<button class="ds-btn ds-btn-danger" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">${icon('trash-2', 14, 1.7)} Reset progress</button>` : ''}`,
     ledger: heroLedgerHtml([
       ['Lessons done', `${done} / ${mod.lessons.length}`],
       ['Progress', `${pct}%`],
@@ -856,6 +859,31 @@ function forceUnlockPromptHtml(state) {
         <div class="modal-buttons">
           <button class="ds-btn ds-btn-secondary" data-action="cancelForceUnlockAll">Cancel</button>
           <button class="ds-btn ds-btn-primary" data-action="confirmForceUnlockAll">Unlock everything</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- Module progress reset confirm modal ----------------------------------
+// Opened by the "Reset progress" button on a module page (modulePageHtml).
+// Destructive: wipes completed/quizScores/exStates/revealState/lessonPos/
+// masteryV2/practiceHistory for the affected module. Confirmed via
+// confirmResetModule in js/main.js.
+function resetModulePromptHtml(state, MODULES) {
+  const moduleId = state.resetModulePromptId;
+  if (!moduleId) return '';
+  const mod = MODULES.find((m) => m.id === moduleId);
+  if (!mod) return '';
+  return `
+    <div class="modal-backdrop" data-anim-key="resetmodbd" data-action="closeResetModulePrompt">
+      <div class="modal" data-anim-key="resetmodmodal" role="dialog" aria-modal="true" aria-label="Reset module progress">
+        <div class="card-kicker modal-kicker">RESET PROGRESS</div>
+        <h3>${esc(mod.title)}</h3>
+        <p class="modal-sub">This will clear all completed lessons, quiz scores, exercise states, and mastery results for this module. Your XP and badges are not affected.</p>
+        <p class="modal-sub">This cannot be undone.</p>
+        <div class="modal-buttons">
+          <button class="ds-btn ds-btn-secondary" data-action="cancelResetModulePrompt">Cancel</button>
+          <button class="ds-btn ds-btn-danger" data-action="confirmResetModule" data-module-id="${escAttr(mod.id)}">Reset module</button>
         </div>
       </div>
     </div>`;
@@ -3871,5 +3899,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
   const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}`;
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}`;
 }
