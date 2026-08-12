@@ -52,7 +52,7 @@ import {
 import { render, FACES, HEADING_FACES } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import {
-  persistSoon, flushPersist, cancelPendingPersist, todayISO,
+  persistSoon, flushPersist, cancelPendingPersist, persist, todayISO,
   normalizeLitTextScale,
 } from './persistence.js';
 import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, uploadLocalProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
@@ -2013,37 +2013,50 @@ const actions = {
   cancelResetModulePrompt() {
     state.resetModulePromptId = null;
   },
-  confirmResetModule(el) {
+  async confirmResetModule(el) {
     const moduleId = el.dataset.moduleId;
     if (!getModule(moduleId)) return false;
     resetModuleProgress(moduleId);
     state.resetModulePromptId = null;
-    // Return to the module page so the learner sees the cleared state
-    // immediately; the view is already 'module', so this just rerenders.
     state.lessonId = null;
     state.view = 'module';
     state.practice = null;
-    // Force-push the reset state to the cloud without merging. A normal
-    // queueAutoUpload would call mergeAccountSaveWithRetry, which unions
-    // local and remote -- re-pulling the just-deleted keys back in from
-    // the cloud and undoing the reset. uploadLocalProgress is a plain PUT
-    // that overwrites the cloud with the current local save, no merge.
+    // Force-push the reset state to the cloud without merging. The normal
+    // queueAutoUpload path calls mergeAccountSaveWithRetry, which unions
+    // local and remote -- restoring the just-deleted keys from the cloud
+    // and silently undoing the reset.
+    //
+    // Sequencing matters: an in-flight runAutoUpload may have already
+    // started a merge and will push pre-reset data to the cloud when it
+    // finishes. We cancel the pending timer so no NEW merge is queued,
+    // then wait until autoUploadRunning goes false (the in-flight merge
+    // finishes), THEN persist the reset state and force-push it. That
+    // ensures our push is always the last thing written to the cloud.
     if (state.account.user && state.account.backendUrl && !suppressPersist) {
       clearTimeout(autoUploadTimer);
       autoUploadTimer = null;
-      autoUploadRunning = false;
       state.account.autoUploadStatus = 'queued';
       state.account.autoUploadMessage = 'Syncing module reset to your account...';
-      flushPersist().then(() => uploadLocalProgress()).then(() => {
+      // Wait for any in-flight merge to finish before we write, so our
+      // force-push is always the final cloud state.
+      while (autoUploadRunning) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+      try {
+        // Persist the reset state now, then push it unconditionally
+        // (no expectedMeta -- the whole point is to overwrite whatever
+        // is currently in the cloud, even if the just-finished merge
+        // wrote pre-reset data there a moment ago).
+        await persist(state);
+        await uploadLocalProgress();
         state.account.autoUploadStatus = 'synced';
         state.account.autoUploadMessage = 'Module reset synced to your account.';
         refreshCloudSaveStatus().catch(() => {});
-        rerenderAccountIfOpen();
-      }).catch((e) => {
+      } catch (e) {
         state.account.autoUploadStatus = 'error';
         state.account.autoUploadMessage = e.message || 'Could not sync module reset to your account.';
-        rerenderAccountIfOpen();
-      });
+      }
+      rerenderAccountIfOpen();
     }
   },
   toggleKufiHeadings() {
