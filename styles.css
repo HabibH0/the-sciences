@@ -2260,6 +2260,13 @@ h1 + .card-kicker,
   font-size: calc(16px * var(--lesson-text-scale, 1));
   line-height: 1.7;
 }
+/* The Library's preview shows the reading page's own Arabic at the reading
+   page's own scale -- see .lit-para-text. */
+.lesson-size-preview p.lit-size-preview-line {
+  font-family: var(--font-ar);
+  font-size: calc(25px * var(--lit-text-scale, 1));
+  line-height: 2.2;
+}
 .settings-toggle-row {
   cursor: pointer;
   width: 100%;
@@ -2874,6 +2881,145 @@ h1 + .card-kicker,
 }
 .concept-table tbody tr:last-child td {
   border-bottom: none;
+}
+
+/* The book's own words, lifted out of the surrounding explanation -- a
+   "Core Text" quotation in the advanced courses, or a Definition/Example
+   note elsewhere. The point of the box is that the reader can see at a
+   glance where the source stops and the explanation starts, so it gets more
+   air around it than a plain paragraph would. Border only, no fill --
+   same "colour is stroke" treatment as .concept-clarification below. */
+.concept-source-box {
+  margin: 1.4em 0;
+  padding: 14px 18px;
+  border: 1px solid var(--card-border);
+  border-left: 3px solid var(--accent-700);
+  border-radius: 0 2px 2px 0;
+}
+.concept-source-box-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-700);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.concept-source-box-line {
+  font-size: calc(16px * var(--lesson-text-scale, 1));
+  line-height: 1.7;
+  margin: 0 0 0.55em;
+}
+/* An Arabic quotation is set as a block of Arabic -- right-aligned, in the
+   Arabic face, with the looser leading that vowelled text needs -- rather
+   than as an RTL run stranded at the left margin of an LTR paragraph.
+   dir is resolved per line in render.js (see boxLineDir), so an English
+   note in the same box keeps its own LTR setting. */
+.concept-source-box-line[dir='rtl'] {
+  text-align: right;
+  font-family: var(--font-ar);
+  font-size: calc(18px * var(--lesson-text-scale, 1));
+  line-height: 2.1;
+}
+.concept-source-box-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Per-type variants -- each box title (Core Text/Definition/Rule/Careful/
+   Example/Meaning) gets a shape that echoes what it's for, so a page with
+   several boxes in a row reads as several different kinds of thing rather
+   than one repeated widget. All still built from the app's existing
+   tokens (accent/gold/ink/card-border) -- no new colours introduced. */
+
+/* Core Text: the book's own words, quoted verbatim -- framed like a
+   pull-quote (hairlines above/below, no side bar, a faint ornamental
+   quotation mark) rather than argued material, since nothing here is our
+   voice. */
+.concept-source-box--core-text {
+  border: none;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  border-radius: 0;
+  padding: 18px 8px 18px 40px;
+  position: relative;
+}
+.concept-source-box--core-text::before {
+  content: '\201C';
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1;
+  color: var(--ink-dim);
+}
+.concept-source-box--core-text .concept-source-box-label {
+  color: var(--ink-soft);
+}
+
+/* Definition: a glossary-style card -- bordered on every side with a soft
+   tint fill, and the label set as a small pill rather than a bare
+   uppercase line, the way a defined term gets tagged. */
+.concept-source-box--definition {
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: var(--accent-100);
+}
+.concept-source-box--definition .concept-source-box-label {
+  display: inline-block;
+  background: var(--card);
+  border: 1px solid var(--accent-200);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-bottom: 10px;
+}
+
+/* Rule: the normative default -- a heavier, sharp-cornered bar on both
+   the leading edge and the top, for the "this is the plaque on the wall"
+   statement the other box types react to. */
+.concept-source-box--rule {
+  border-left-width: 5px;
+  border-top: 1px solid var(--card-border);
+  border-radius: 0;
+}
+
+/* Careful: a caution, not a rule -- dashed rather than solid, and in gold
+   (the app's existing "pay attention here" accent, already used by
+   .concept-clarification) rather than the neutral accent colour. */
+.concept-source-box--careful {
+  border-left-style: dashed;
+  border-left-width: 4px;
+  border-left-color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 6%, transparent);
+}
+.concept-source-box--careful .concept-source-box-label {
+  color: var(--gold-bright);
+}
+
+/* Example: a worked illustration meant to be scanned, not parsed like
+   argument -- a soft highlight wash with no border at all, so it reads as
+   marked-up text rather than another bordered card. */
+.concept-source-box--example {
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-100);
+}
+.concept-source-box--example .concept-source-box-line {
+  text-align: center;
+}
+
+/* Meaning: a quick gloss, the lightest note of the set -- no box at all,
+   just an indent and a thin rule under the label. */
+.concept-source-box--meaning {
+  border: none;
+  border-radius: 0;
+  padding: 6px 0 6px 18px;
+}
+.concept-source-box--meaning .concept-source-box-label {
+  color: var(--ink-soft);
+  display: inline-block;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 4px;
 }
 
 /* A supplementary note on a concept whose prose alone left a gap. Reads
@@ -4718,6 +4864,1073 @@ button.path-node:not(.locked):hover {
   }
   .exercise-right {
     width: 100%;
+  }
+}
+
+/* ---------- Literature: library, book, reader ----------------------------
+   The Library's own visual language. It shares this file's tokens (paper,
+   accent, hairline rules) but none of the course components: a book is a
+   shelf item, a cover and a reading page, not a module card and a lesson
+   row. See js/render.js's Literature section and content-lit/index.js. */
+
+/* Secondary to the My Path banner it sits under -- surface ground rather
+   than the accent wash, so the two read as a hierarchy, not a pair. */
+.launch-lit-banner {
+  background: var(--color-surface);
+  border-color: var(--color-divider);
+}
+.launch-lit-banner:hover,
+.launch-lit-banner:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 9%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+
+.lit-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+/* A book, edge-on: a spine down the inline-start edge and a titled face. */
+.lit-book {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 260px;
+  padding: 24px 24px 20px 34px;
+  text-align: left;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.lit-book:hover,
+.lit-book:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+.lit-book-spine {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 14px;
+  background: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
+  border-right: 1px solid var(--color-divider);
+}
+.lit-book-face {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+.lit-book-kicker {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.lit-book-title {
+  font-family: var(--font-ar-heading);
+  font-size: 27px;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+.lit-book-rule {
+  width: 46px;
+  height: 1px;
+  background: var(--color-accent);
+  opacity: 0.6;
+}
+.lit-book-author {
+  font-family: var(--font-ar);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+.lit-book-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.lit-book-meta {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+.lit-book-track {
+  display: block;
+  height: 2px;
+  background: var(--color-divider);
+}
+.lit-book-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+/* --- A book's own cover + contents page --- */
+.lit-cover {
+  position: relative;
+  margin: 0 -56px;
+  padding: 46px 56px 40px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  overflow: hidden;
+}
+.lit-cover-watermark {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 24px;
+  transform: translateY(-50%);
+  font-family: var(--font-ar-heading);
+  font-size: 96px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-text) 3.5%, transparent);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.lit-cover-inner {
+  position: relative;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.lit-cover-title {
+  margin: 4px 0 0;
+  font-family: var(--font-ar-heading);
+  font-size: 42px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+.lit-cover-author {
+  margin: 0;
+  font-family: var(--font-ar);
+  font-size: 16px;
+  color: color-mix(in srgb, var(--color-text) 66%, transparent);
+}
+.lit-cover-body {
+  margin: 0;
+  max-width: 560px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.lit-contents-head {
+  font-family: var(--font-display);
+  font-size: 21px;
+  margin: 0 0 14px;
+}
+.lit-contents {
+  display: flex;
+  flex-direction: column;
+}
+/* Contents rows sit flush against each other with a single hairline
+   between, the way a printed table of contents does -- not as separate
+   cards. */
+.lit-chapter {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 18px 4px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-divider);
+  cursor: pointer;
+  transition: background 0.18s ease, padding 0.18s ease;
+}
+.lit-chapter:hover:not(.locked),
+.lit-chapter:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  padding-inline: 12px;
+}
+.lit-chapter.locked {
+  cursor: default;
+  opacity: 0.55;
+}
+.lit-chapter-num {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-accent);
+  border: 1px solid var(--color-divider);
+}
+.lit-chapter.is-done .lit-chapter-num {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  border-color: var(--color-accent);
+}
+.lit-chapter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.lit-chapter-title {
+  font-family: var(--font-ar-heading);
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+.lit-chapter-en {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+.lit-chapter-blurb {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.lit-chapter-side {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lit-chapter-pages {
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+/* --- The reader --- */
+.lit-reader {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.lit-reader-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+.lit-reader-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lit-reader-book {
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.lit-reader-title {
+  margin: 0;
+  font-family: var(--font-ar-heading);
+  font-size: 32px;
+  line-height: 1.6;
+}
+.lit-reader-en {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.lit-rail {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lit-rail-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+.lit-rail-step.is-active,
+.lit-rail-step.is-done {
+  color: var(--color-text);
+}
+.lit-rail-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+  border: 1px solid var(--color-divider);
+  border-radius: 50%;
+}
+.lit-rail-step.is-active .lit-rail-dot {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.lit-rail-step.is-done .lit-rail-dot {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.lit-reader-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 34px;
+  align-items: start;
+}
+.lit-page {
+  min-width: 0;
+  padding: 34px 38px 30px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+}
+
+/* The page turns one paragraph at a time; this is how you get back to the
+   ones already read. Forward always happens through the questions, so the
+   pager only ever steps backward. */
+.lit-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-divider);
+}
+.lit-pager-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 4px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+.lit-pager-btn:hover:not([disabled]) {
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+.lit-pager-btn[disabled] {
+  color: color-mix(in srgb, var(--color-text) 30%, transparent);
+  cursor: default;
+}
+.lit-pager-count {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+/* Every paragraph reserves a lane above itself for the phrase translation
+   (see .lit-gloss). Reserving it -- rather than floating the gloss over the
+   text -- is what lets the translation share the paragraph's own left and
+   right edges and never cover a word, at the cost of a little standing
+   whitespace between paragraphs, which a reading page can afford. */
+.lit-para {
+  --lit-gloss-lane: 58px;
+  --lit-gutter: 44px;
+  position: relative;
+  padding: var(--lit-gloss-lane) 0 12px var(--lit-gutter);
+}
+/* The margin: paragraph number, and the whole-paragraph translation toggle
+   under it. Both live outside the run of prose so neither interrupts it. */
+.lit-para-gutter {
+  position: absolute;
+  top: calc(var(--lit-gloss-lane) + 6px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 30px;
+}
+.lit-para-mark {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--color-text) 35%, transparent);
+}
+.lit-para-en {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 22px;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+  background: none;
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  cursor: pointer;
+  /* Faint until the paragraph is under the cursor (or the toggle is on, or
+     focused): quiet enough not to interrupt the reading, present enough to
+     be found without being told about. */
+  opacity: 0.4;
+  transition: opacity 0.18s ease, color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+.lit-para:hover .lit-para-en,
+.lit-para-en:focus-visible,
+.lit-para-en.is-active {
+  opacity: 1;
+}
+.lit-para-en:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.lit-para-en.is-active {
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+/* The reading page has its own text-size control (Settings -> Reading text
+   size), separate from the lesson one: this is the only screen where the
+   Arabic IS the content rather than an example inside English prose. */
+.lit-para-text {
+  margin: 0;
+  font-family: var(--font-ar);
+  font-size: calc(25px * var(--lit-text-scale, 1));
+  line-height: 2.5;
+  color: var(--color-text);
+  /* Both edges flush, the way the printed book sets it. The words are
+     separated by real spaces (see litSentenceHtml), so justification has
+     something to stretch; the last line stays flush right on its own. */
+  text-align: justify;
+  text-justify: inter-word;
+}
+.lit-para:not(.is-active) .lit-para-text {
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+/* The whole-paragraph translation is the same object as the phrase gloss,
+   one step down in emphasis: the same box, the same padding, squared to the
+   same Arabic column, just below the paragraph instead of above it. */
+.lit-para-full {
+  /* Pulled out by exactly its own border + padding, so the ENGLISH TEXT --
+     not the box around it -- lines up with the Arabic column on both sides.
+     Aligning the border instead (the obvious way) leaves the text sitting
+     14px inside the Arabic on each edge, which reads as a narrower,
+     off-centre block sitting under a wider one. */
+  /* The inset is border + padding, so the -1px keeps the two exactly equal. */
+  --lit-full-inset: 14px;
+  margin: 20px calc(-1 * var(--lit-full-inset)) 0;
+  padding: 12px calc(var(--lit-full-inset) - 1px);
+  font-family: var(--font-en);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  /* Both edges flush, like the Arabic it translates. The phrase gloss above
+     is left ragged on purpose -- it is usually one line, where justifying
+     does nothing but can stretch a short second line badly. */
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Deliberately NOT position: relative -- the gloss inside it resolves
+   against the PARAGRAPH instead, which is what lets it share the
+   paragraph's edges (see .lit-gloss).
+
+   The clause highlight and the word highlight below share one padding value
+   and are both painted by ordinary inline boxes (.lit-sentence and
+   .lit-word-ink), so the two can never disagree on how tall a highlight is.
+   box-decoration-break: clone keeps a clause that wraps across lines from
+   losing its padding on the continuation. */
+.lit-sentence {
+  padding: 0.34em 0.1em;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background 0.18s ease;
+}
+.lit-sentence:hover,
+.lit-sentence:focus-within,
+.lit-sentence.is-open {
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+/* The button itself paints nothing -- see litWordHtml in js/render.js. */
+.lit-word {
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.lit-word-ink {
+  padding: 0.34em 0.1em;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.lit-word:hover .lit-word-ink {
+  color: var(--color-accent-600);
+}
+.lit-word:focus-visible {
+  outline: none;
+}
+.lit-word:focus-visible .lit-word-ink {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+.lit-word.is-selected .lit-word-ink {
+  background: color-mix(in srgb, var(--color-accent) 26%, transparent);
+}
+/* Marked unknown: a dotted underline, the way a reader pencils a word. Drawn
+   as text-decoration rather than a border so it hugs the glyphs instead of
+   sitting at the foot of the highlight box. */
+.lit-word.is-unknown .lit-word-ink {
+  text-decoration: underline dotted 2px;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.3em;
+}
+.lit-gloss-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  margin: 0 3px;
+  padding: 0;
+  vertical-align: middle;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid var(--color-divider);
+  border-radius: 50%;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.18s ease, background 0.18s ease;
+}
+.lit-sentence:hover .lit-gloss-btn,
+.lit-sentence.is-open .lit-gloss-btn,
+.lit-gloss-btn:focus-visible {
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+/* The translation sits in the paragraph's own reserved lane, above the
+   Arabic and squared to its exact left and right edges -- so it reads as
+   part of the same block rather than a card hanging off wherever the hovered
+   clause happens to start. Positioned against .lit-para (the clause spans
+   are not positioned, on purpose), and absolute, so revealing one still
+   never reflows the paragraph. */
+.lit-gloss {
+  position: absolute;
+  top: 0;
+  /* Squared to the Arabic column, not to the paragraph's padding box -- the
+     gutter holds the margin controls, not text. */
+  left: var(--lit-gutter);
+  right: 0;
+  z-index: 5;
+  display: block;
+  padding: 9px 13px;
+  font-family: var(--font-en);
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: left;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: 2px;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.lit-sentence:hover .lit-gloss,
+.lit-sentence:focus-within .lit-gloss,
+.lit-sentence.is-open .lit-gloss {
+  opacity: 1;
+  transform: none;
+}
+/* Every clause's gloss stacks in the same lane, so a hovered one has to
+   paint over a pinned one rather than under it. */
+.lit-sentence:hover .lit-gloss,
+.lit-sentence:focus-within .lit-gloss {
+  z-index: 6;
+}
+
+.lit-checks {
+  margin-top: 8px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-divider);
+}
+.lit-checks-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.lit-checks-head .card-kicker {
+  margin: 0;
+}
+.lit-checks-head-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lit-checks-count {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+/* Ask in Arabic or in English -- a two-state segmented control, sharing the
+   hairline-and-fill language the rest of the app uses for toggles. */
+.lit-lang-toggle {
+  display: inline-flex;
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.lit-lang-btn {
+  padding: 4px 11px;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.lit-lang-btn + .lit-lang-btn {
+  border-left: 1px solid var(--color-divider);
+}
+.lit-lang-btn[lang='ar'] {
+  font-family: var(--font-ar);
+  font-size: 13.5px;
+}
+.lit-lang-btn:hover:not(.is-active) {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+.lit-lang-btn.is-active {
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+}
+/* An English question isn't a heading in Arabic type -- give it the English
+   face and left alignment to match its options. */
+.lit-check-q.is-en {
+  font-family: var(--font-display);
+  font-size: calc(17px * var(--lesson-text-scale, 1));
+  line-height: 1.5;
+}
+.lit-check {
+  margin: 18px 0 24px;
+}
+.lit-check-q {
+  margin: 0 0 12px;
+  font-family: var(--font-ar-heading);
+  font-size: calc(20px * var(--lesson-text-scale, 1));
+  line-height: 1.9;
+  font-weight: 500;
+}
+
+/* --- Margin: the word card and the unknown list --- */
+.lit-aside {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.lit-word-card,
+.lit-unknown {
+  padding: 18px 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+}
+.lit-word-hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.lit-word-hint:last-child {
+  margin-bottom: 0;
+}
+.lit-word-card-head {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-divider);
+  text-align: center;
+}
+.lit-word-card-surface {
+  font-family: var(--font-ar-heading);
+  font-size: 30px;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+.lit-word-rows {
+  margin: 0 0 14px;
+}
+.lit-word-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--color-divider);
+}
+.lit-word-row:last-child {
+  border-bottom: none;
+}
+.lit-word-row dt {
+  flex: none;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.lit-word-row dd {
+  margin: 0;
+  font-size: 13.5px;
+  text-align: right;
+  color: var(--color-text);
+}
+/* Every Arabic value in the card (dictionary form, root, word class, form)
+   is wrapped in a <bdi> -- give them the reading face rather than the
+   English one, and a little more size, since Arabic at 13.5px with harakat
+   is unreadable. */
+.lit-word-row dd bdi {
+  font-family: var(--font-ar);
+  font-size: 15.5px;
+  line-height: 1.9;
+}
+.lit-word-note {
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--color-accent);
+  padding-left: 10px;
+}
+.lit-unknown-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.lit-unknown-head .card-kicker {
+  margin: 0;
+}
+.lit-unknown-count {
+  font-size: 12px;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.lit-unknown-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lit-unknown-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 5px 10px;
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  font-family: var(--font-ar);
+  font-size: 15px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+.lit-unknown-chip.is-static {
+  cursor: default;
+}
+.lit-unknown-chip:hover:not(.is-static) {
+  border-color: var(--color-accent);
+}
+.lit-unknown-gloss {
+  font-family: var(--font-en);
+  font-size: 11.5px;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+.lit-unknown-empty {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* --- The two drill stages --- */
+.lit-drill-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.lit-drill-head .card-kicker {
+  margin: 0;
+}
+.lit-drill-count {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+/* The drill card centres everything under its own head row -- the prompt,
+   the sentence, the tray, the feedback and the buttons -- so it reads as one
+   column the way the lesson quiz does, rather than a centred sentence with
+   text hanging off the left of it. */
+.lit-drill-lede {
+  margin: 16px 0 8px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  text-align: center;
+}
+.lit-drill .action-row {
+  justify-content: center;
+}
+/* Every piece of Arabic in the drills follows the reader's own text-size
+   control, not the lesson one -- the drills are part of the reading, and it
+   would be odd for the passage and the sentence built out of it to be set at
+   different sizes. */
+.lit-drill-base,
+.lit-frame,
+.lit-answer {
+  font-family: var(--font-ar);
+  font-size: calc(25px * var(--lit-text-scale, 1));
+  line-height: 2.1;
+  color: var(--color-text);
+  text-align: center;
+}
+.lit-drill-base {
+  margin: 0 0 2px;
+  font-size: calc(20px * var(--lit-text-scale, 1));
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+/* The English of the sentence an ending question is asked about -- context,
+   not the question itself, so it sits quieter than the task line. */
+.lit-drill-sub {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+/* The sentence sits centred in its frame. Right-aligned in a full-width box
+   it stranded a column of empty space on the left, and the blank -- the
+   thing being answered -- ended up wherever the sentence happened to end. */
+.lit-frame {
+  margin: 14px 0 22px;
+  padding: 20px 24px;
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  border: 1px solid var(--color-divider);
+  border-radius: 3px;
+}
+.lit-answer {
+  margin: 10px 0 0;
+  font-size: calc(21px * var(--lit-text-scale, 1));
+}
+.lit-slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 22px;
+  padding: 20px 18px;
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  border: 1px solid var(--color-divider);
+  border-radius: 3px;
+}
+.lit-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  min-height: 50px;
+  padding: 4px 14px;
+  font-family: var(--font-ar);
+  font-size: calc(21px * var(--lit-text-scale, 1));
+  line-height: 1.9;
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+/* A filled slot reads as something you put there and can take back out. */
+.lit-slot:not(.is-empty) {
+  background: color-mix(in srgb, var(--color-accent) 14%, var(--color-bg));
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+.lit-slot:not(.is-empty):hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+.lit-slot.is-empty {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+.lit-slot.is-empty:hover {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-bg));
+}
+/* The workshop's blank stands INSIDE a sentence, so unlike the build
+   stage's row of drop targets it has to sit on the line like a word.
+   Two things were fighting that: the big min-height, and the fact that an
+   EMPTY inline-flex box has no text to take a baseline from -- the browser
+   falls back to its bottom margin edge, which is exactly what pushed the
+   blank up off the line. The zero-width space gives it a real baseline, so
+   the empty and the filled blank sit identically. */
+.lit-frame .lit-slot {
+  min-height: 0;
+  min-width: 96px;
+  /* The word space either side of the blank is swallowed by the border, so
+     the box needs its own breathing room to sit in the sentence. */
+  margin: 0 4px;
+  padding: 0.16em 0.55em;
+  line-height: 1.6;
+  vertical-align: baseline;
+}
+.lit-frame .lit-slot::before {
+  content: '\200B';
+}
+.lit-slot.drag-over {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, var(--color-bg));
+}
+.lit-slot.is-correct {
+  border-color: var(--sage);
+  background: color-mix(in srgb, var(--sage) 12%, var(--color-bg));
+}
+.lit-slot.is-incorrect {
+  border-color: var(--brick);
+  background: color-mix(in srgb, var(--brick) 10%, var(--color-bg));
+}
+.lit-slot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.lit-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.lit-chip {
+  padding: 9px 18px;
+  font-family: var(--font-ar);
+  font-size: calc(20px * var(--lit-text-scale, 1));
+  line-height: 1.9;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 3px;
+  box-shadow: var(--shadow-whisper);
+  cursor: grab;
+  transition: transform 0.16s ease, border-color 0.16s ease,
+              opacity 0.16s ease, box-shadow 0.16s ease;
+}
+.lit-chip:hover:not([disabled]) {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+/* A chip already placed keeps its seat -- greying it out in place shows
+   which word was used without the tray reflowing under the cursor. */
+.lit-chip[disabled] {
+  color: color-mix(in srgb, var(--color-text) 32%, transparent);
+  background: none;
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+}
+.lit-chip.dragging {
+  opacity: 0.45;
+}
+
+.lit-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.lit-complete-title {
+  margin: 6px 0 0;
+  font-family: var(--font-ar-heading);
+  font-size: 34px;
+  line-height: 1.6;
+}
+.lit-complete-sub,
+.lit-complete-note {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 1080px) {
+  .lit-reader-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* The margin card becomes a normal block under the page rather than a
+     sticky column -- a 300px rail has nowhere to go at this width. */
+  .lit-aside {
+    position: static;
+  }
+}
+@media (max-width: 720px) {
+  .lit-cover {
+    margin: 0 -20px;
+    padding: 32px 20px 28px;
+  }
+  .lit-cover-title {
+    font-size: 30px;
+  }
+  .lit-page {
+    padding: 22px 18px 18px;
+  }
+  /* The gutter narrows but stays -- it holds the translation toggle, which
+     has nowhere else to go on a touchscreen. The gloss lane grows instead:
+     the same sentence wraps to more lines in a narrow column. */
+  .lit-para {
+    --lit-gutter: 30px;
+    --lit-gloss-lane: 84px;
+  }
+  .lit-para-gutter {
+    width: 24px;
+    gap: 6px;
+  }
+  .lit-para-en {
+    width: 24px;
+    opacity: 1;
+  }
+  .lit-rail {
+    gap: 12px;
+  }
+  .lit-chapter-side {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
   }
 }
 

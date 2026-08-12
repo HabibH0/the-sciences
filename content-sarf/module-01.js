@@ -12,6 +12,29 @@
 // الصرفي in full — وزن الثلاثي, وزن ما زاد على ثلاثة أحرف, and the special
 // cases of إبدال، حذف and قلب مكاني. The seven تقسيمات of الفعل begin in
 // Module 02.
+//
+// 2026-08-12: restructured to match content/module-01.js's (Advanced Nahw)
+// revamped presentation style, per explicit instruction — same facts,
+// counts, and lesson/concept boundaries, no new grammar content. Every
+// concept-level formal definition or rule that previously sat as unboxed
+// prose now gets its own inline Definition/Careful/Rule box (Arabic
+// capsule statement + English explanation alongside it in `lines`),
+// matching how content/module-01.js boxes up its own standalone claims
+// rather than leaving them as plain prose. The two `clarification` fields
+// this module carried (a pre-revamp field content/module-01.js's 22
+// concepts use zero times) were folded into their concept's `lines` as a
+// Careful box plus ordinary prose, the same distillation COURSE-MAP.md
+// documents for Modules 02/14 of the Nahw revamp: "state the point in
+// English prose... distilled into a short Arabic box statement... with the
+// full English explanation kept in the surrounding prose." Every new
+// Arabic box line is built only from terms and phrases already present
+// verbatim in this file's own prose (`هَيْئَةُ الكَلِمَةِ المَلْحُوظَة`,
+// `صُورِيٌّ لا حَقِيقِيٌّ`, `نَظَرًا إلى الأصل`, etc.) or a standard,
+// universally-attested صرف formula already paraphrased in the surrounding
+// English (e.g. الصرف لغة: التغيير) — nothing new was invented. Tables and
+// bullet lists that were already enumerative (the four مبادئ, the three
+// أقسام الكلمة, the fائدة الميزان list) are left as-is: content/module-01.js
+// itself leaves purely enumerative concepts unboxed the same way.
 
 export default {
   id: 'as-01',
@@ -28,7 +51,9 @@ export default {
         {
           heading: 'الصرف لغةً واصطلاحًا',
           lines: [
-            { html: `<bdi>الصَّرْف</bdi> — also called <bdi>التَّصْرِيف</bdi> — means <bdi>التَّغْيِير</bdi> (change) in the language itself. The same sense sits behind <bdi>تَصْرِيفُ الرِّيَاح</bdi>, the turning of the winds, i.e. <bdi>تَغْيِيرُهَا</bdi>.`, list: false },
+            { html: `<bdi>الصَّرْف</bdi> — also called <bdi>التَّصْرِيف</bdi> — means change in the language itself.`, list: false },
+            { box: { title: 'Definition', lines: [`الصَّرْفُ لُغَةً: التَّغْيِيرُ`] } },
+            { html: `The same sense sits behind <bdi>تَصْرِيفُ الرِّيَاح</bdi>, the turning of the winds, i.e. <bdi>تَغْيِيرُهَا</bdi>.`, list: false },
             { html: `Technically it carries two definitions, one describing the activity and one describing the discipline.`, list: false },
             { table: { title: 'The Two Technical Senses', headers: ['Sense', 'Definition', 'Illustration'], rows: [
               ['بالمعنى العَمَلي', 'turning the one أصل into different أمثلة, for intended meanings that cannot be reached any other way', 'اسْمَا الفَاعِلِ والمَفْعُولِ، اسْمُ التَّفْضِيلِ، التَّثْنِيَةُ، الجَمْعُ'],
@@ -46,11 +71,13 @@ export default {
         {
           heading: 'موضوعه وما يختص به',
           lines: [
+            { box: { title: 'Definition', lines: [`مَوْضُوعُ الصَّرْفِ: الأَلْفَاظُ العَرَبِيَّةُ مِنْ حَيْثُ الصِّحَّةِ وَالإِعْلَالِ وَالأَصَالَةِ وَالزِّيَادَةِ وَنَحْوِهَا`] } },
             { html: `<bdi>مَوْضُوعُه</bdi> — its subject matter — is <bdi>الأَلْفَاظُ العَرَبِيَّة</bdi>, but only from the angle of those أحوال: <bdi>الصِّحَّة والإعْلَال</bdi>, <bdi>الأَصَالَة والزِّيَادَة</bdi>, and their like.`, list: false },
             { html: `It applies to two classes of word only:`, list: false },
             { html: `<bdi>الأَسْمَاء المُتَمَكِّنَة</bdi> — nouns that decline.`, list: true, bullet: true },
             { html: `<bdi>الأَفْعَال المُتَصَرِّفَة</bdi> — verbs that conjugate.`, list: true, bullet: true },
-            { html: `What is reported of the تَثْنِيَة, جَمْع and تَصْغِير of certain <bdi>أسماء موصولة</bdi> and <bdi>أسماء إشارة</bdi> is <bdi>صُورِيٌّ لا حَقِيقِيٌّ</bdi> — formal in appearance only, not a genuine صرف operation on a مُتَمَكِّن noun.`, list: false },
+            { box: { title: 'Careful', lines: [`مَا يُذْكَرُ مِنْ تَثْنِيَةِ وَجَمْعِ وَتَصْغِيرِ بَعْضِ الأَسْمَاءِ المَوْصُولَةِ وَالإِشَارَةِ: صُورِيٌّ لَا حَقِيقِيٌّ`] } },
+            { html: `What is reported of the تَثْنِيَة, جَمْع and تَصْغِير of certain <bdi>أسماء موصولة</bdi> and <bdi>أسماء إشارة</bdi> is formal in appearance only, not a genuine صرف operation on a مُتَمَكِّن noun.`, list: false },
           ],
           exercise: {
             prompt: `اللَّذَانِ looks like the dual of الَّذِي, yet الَّذِي is an اسم موصول — a مبني word, not مُتَمَكِّن. How is this تثنية classified?`,
@@ -81,11 +108,13 @@ export default {
         {
           heading: 'الأبنية والكلمة',
           lines: [
-            { html: `<bdi>الأَبْنِيَة</bdi> is the plural of <bdi>بِنَاء</bdi>, and a بناء is <bdi>هَيْئَةُ الكَلِمَةِ المَلْحُوظَة</bdi> — the observable shape of a word. Four things make it up.`, list: false },
+            { html: `<bdi>الأَبْنِيَة</bdi> is the plural of <bdi>بِنَاء</bdi>, the observable shape of a word. Four things make it up.`, list: false },
+            { box: { title: 'Definition', lines: [`البِنَاءُ: هَيْئَةُ الكَلِمَةِ المَلْحُوظَةُ`] } },
             { html: `<bdi>حَرَكَة</bdi> — the vowels it carries.`, list: true, bullet: true },
             { html: `<bdi>سُكُون</bdi> — where it carries none.`, list: true, bullet: true },
             { html: `<bdi>عَدَدُ الحُرُوف</bdi> — how many letters it has.`, list: true, bullet: true },
             { html: `<bdi>التَّرْتِيب</bdi> — the order those letters come in.`, list: true, bullet: true },
+            { box: { title: 'Definition', lines: [`الكَلِمَةُ: لَفْظٌ مُفْرَدٌ وَضَعَهُ الوَاضِعُ لِيَدُلَّ عَلَى مَعْنًى`] } },
             { html: `<bdi>الكَلِمَة</bdi> is a <bdi>لَفْظٌ مُفْرَد</bdi> which الواضع laid down to indicate a meaning, such that whenever that لفظ is uttered, the meaning assigned to it is understood from it.`, list: false },
           ],
           exercise: {
@@ -235,11 +264,11 @@ export default {
           correct: 3,
         },
         {
-          title: 'الهَرَّاء',
+          title: 'الحركة والسكون',
           kind: 'mcq',
-          prompt: 'The name معاذ بن مسلم الهراء is given with بتشديد الراء attached. What is that remark for?',
-          options: ['To fix the pronunciation of his name', 'To indicate that his name is مضعف اللام', 'To give the ميزان of الهراء', 'To distinguish him from another معاذ'],
-          correct: 0,
+          prompt: 'كَتَبَ (he wrote) and كُتِبَ (it was written) have the same letters, in the same order, the same count. Given the four things that make up a بناء, do they share one بناء؟',
+          options: ['Yes — بناء is fixed by the letters and their order alone', 'No — الحركة differs between the two, and حركة is part of the بناء', 'Yes, since both are ثلاثي مجرد', 'No — but only because one is مبني للمجهول, which is a نحو matter'],
+          correct: 1,
         },
         {
           title: 'هيئة الكلمة',
@@ -308,14 +337,21 @@ export default {
         {
           heading: 'أقسام الكلمة الثلاثة',
           lines: [
-            { html: `<bdi>تَنْقَسِمُ الكَلِمَةُ إلى اسْمٍ وفِعْلٍ وحَرْفٍ</bdi> — three classes, and no fourth.`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `تَنْقَسِمُ الكَلِمَةُ إلى اسْمٍ وفِعْلٍ وحَرْفٍ`,
+            ] } },
+            { html: `The كلمة divides into اسم, فعل and حرف. Three classes, and no fourth.`, list: false },
             { table: { title: 'The Three Divisions', headers: ['القسم (Class)', 'What it was coined to indicate', 'أمثلة (Examples)'], rows: [
               ['الاسْم', 'A meaning independently understood (مستقلّ بالفهم), with time not part of it', 'رَجُل، كِتَاب'],
               ['الفِعْل', 'A meaning independently understood, with time part of it', 'كَتَبَ، يَقْرَأُ، احْفَظْ'],
               ['الحَرْف', 'A meaning not independently understood on its own', 'هَلْ، فِي، لَمْ'],
             ] } },
             { html: `Two tests run through all three: does the meaning stand on its own in the mind (<bdi>الاسْتِقْلَال بِالفَهْم</bdi>), and is time built into it? الاسم and الفعل both pass the first and split on the second; الحرف fails the first outright.`, list: false },
-            { html: `Of الحرف it is added: <bdi>ولا دَخْلَ لَهُ هُنَا كما مَرَّ</bdi> — it has no place in علم الصرف at all.`, list: false },
+            { html: `Of الحرف one thing more is added:`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `ولا دَخْلَ لَهُ هُنَا كما مَرَّ`,
+            ] } },
+            { html: `It has no place in علم الصرف at all — which is why the two lists of علامات that follow cover only الاسم and الفعل.`, list: false },
           ],
           exercise: {
             prompt: `احْفَظْ is a فعل. Since it is a command, what is the زمن that is جزء of its meaning?`,
@@ -334,14 +370,21 @@ export default {
             { html: `<bdi>الإِضَافَة</bdi>`, list: true, bullet: true },
             { html: `<bdi>الإِسْنَادُ إليه</bdi>`, list: true, bullet: true },
             { html: `<bdi>النِّدَاء</bdi>`, list: true, bullet: true },
-            { html: `The first شاهد shows several of them at once: <bdi>الحَمْدُ لِلَّهِ مُنْشِئ الخَلْقَ مِنْ عَدَمِ</bdi>.`, list: false },
+            { html: `The first شاهد shows several of them at once — praise be to الله, originator of creation from non-existence:`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `الحَمْدُ لِلَّهِ مُنْشِئ الخَلْقَ مِنْ عَدَمِ`,
+            ] } },
             { table: { headers: ['الكلمة', 'العلامة'], rows: [
               ['الحَمْدُ', 'أَلْ — and it is also مُسْنَدٌ إليه'],
               ['لِلَّهِ', 'preceded by حرف الجر (اللام)'],
               ['عَدَمِ', 'مجرور by مِنْ — an instance of قَبُولُ حرف الجر, accepting the حرف الجر'],
             ] } },
-            { html: `<bdi>مُنْشِئ</bdi> here is an اسم فاعل governing <bdi>الخَلْقَ</bdi> as its مفعول به, and <bdi>عَدَمِ</bdi> stands in pause, so its تنوين is not sounded.`, list: false },
-            { html: `And <bdi>﴿يَا إِبْرَاهِيمُ ۝ قَدْ صَدَّقْتَ الرُّؤْيَا﴾</bdi> supplies النداء (يا إبراهيمُ) and أل (الرُّؤْيَا).`, list: false },
+            { html: `مُنْشِئ here is an اسم فاعل governing الخَلْقَ as its مفعول به, and عَدَمِ stands in pause, so its تنوين is not sounded.`, list: false },
+            { html: `A second شاهد supplies the two signs the first left out — O Ibrāhīm, you have already fulfilled the vision:`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `﴿يَا إِبْرَاهِيمُ ۝ قَدْ صَدَّقْتَ الرُّؤْيَا﴾`,
+            ] } },
+            { html: `النداء in يا إبراهيمُ, and أل in الرُّؤْيَا.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿يَا إِبْرَاهِيمُ﴾, إبراهيم takes neither أل nor تنوين nor a حرف جر. On what ground is it still known to be an اسم؟`,
@@ -364,7 +407,8 @@ export default {
               ['نُونُ التَّوْكِيد', '﴿لَيُسْجَنَنَّ وَلَيَكُونًا مِنَ الصَّاغِرِينَ﴾ [يوسف: ٣٢]'],
               ['يَاءُ المُخَاطَبَة', '﴿ارْجِعِي إِلَى رَبِّكِ رَاضِيَةً مَرْضِيَّةً﴾ [الفجر: ٢٨]'],
             ] } },
-            { html: `﴿لَيُسْجَنَنَّ وَلَيَكُونًا﴾ is worth pausing on: it carries both نونان at once — the heavy مشددة on يُسْجَنَنَّ, and the light one written as an alif on وَلَيَكُونًا.`, list: false },
+            { html: `Read against their meanings: he has certainly succeeded, who purifies himself (قَدْ); We shall make you recite, and you will not forget, and your Lord will surely give to you and you will be satisfied (السين and سوف); you will never attain righteousness until you spend from what you love (لَنْ); He neither begets nor is begotten (لَمْ); Our Lord, You have encompassed all things in mercy and knowledge, and the wage for what you gave to drink for us (تاء الفاعل, twice); return to your Lord, well-pleased and pleasing (ياء المخاطبة).`, list: false },
+            { html: `﴿لَيُسْجَنَنَّ وَلَيَكُونًا مِنَ الصَّاغِرِينَ﴾ — he shall certainly be imprisoned, and shall certainly be among the debased — is worth pausing on: it carries both نونان at once — the heavy مشددة on يُسْجَنَنَّ, and the light one written as an alif on وَلَيَكُونًا.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَى﴾, which element establishes يُعْطِي as a فعل؟`,
@@ -376,11 +420,15 @@ export default {
         {
           heading: 'ما يميز الحرف',
           lines: [
-            { html: `الحرف has no sign of its own. It is identified purely by exclusion: <bdi>ويَخْتَصُّ الحَرْفُ بِعَدَمِ قَبُولِ شيءٍ من خَصَائِصِ الاسمِ والفعلِ</bdi>.`, list: false },
-            { html: `So the procedure is elimination. Run the six علامات الأسماء, then the eight علامات الأفعال. A word that takes nothing from either list is a حرف.`, list: false },
-            { html: `This is also why the section on الحرف closes almost as soon as it opens — there are no signs to list.`, list: false },
+            { html: `الحرف has no sign of its own. It is identified purely by exclusion:`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `ويَخْتَصُّ الحَرْفُ بِعَدَمِ قَبُولِ شيءٍ من خَصَائِصِ الاسمِ والفعلِ`,
+            ] } },
+            { html: `The حرف is marked out by accepting none of the features distinctive of الاسم or الفعل. So the procedure is elimination. Run the six علامات الأسماء, then the eight علامات الأفعال. A word that takes nothing from either list is a حرف.`, list: false },
+            { html: `This is also why the section on الحرف closes almost as soon as it opens — there are no signs to list. Every one of the fourteen signs is an effect of a meaning standing on its own: you can only prefix أل to something with an independent referent, only call upon a named thing, only put a زمن-bearing word after قَدْ. الحرف has no such independent meaning by definition, so nothing in either list can attach to it.`, list: false },
+            { box: { title: 'Careful', lines: [`لَا يُخْتَبَرُ الحَرْفُ مُبَاشَرَةً، بَلْ يُخْتَبَرُ الاسْمُ ثُمَّ الفِعْلُ، وَمَا سَلِمَ مِنْهُمَا فَحَرْفٌ`] } },
+            { html: `In practice you never test for حرف directly. You test for اسم, then for فعل, and what survives both is حرف.`, list: false },
           ],
-          clarification: `Why does الحرف get no positive sign, when the other two classes get six and eight? Because every one of those fourteen signs is an effect of a meaning standing on its own — you can only prefix أل to something with an independent referent, only call upon a named thing, only put a زمن-bearing word after قَدْ. الحرف has no such independent meaning by definition (معنًى غير مستقل بالفهم), so nothing in either list can attach to it. Its identifying mark is therefore the negative one: it refuses all fourteen. In practice you never test for حرف directly — you test for اسم, then for فعل, and what survives both is حرف.`,
           exercise: {
             prompt: `A student wants a positive test that proves a word is a حرف, on the pattern of أل for الاسم. What is there?`,
             kind: 'mcq',
@@ -549,11 +597,11 @@ export default {
           correct: 0,
         },
         {
-          title: 'العلامة الناقصة',
+          title: 'الجوازم',
           kind: 'mcq',
-          prompt: 'Which sign of الفعل is listed without any شاهد being cited for it?',
-          options: ['ياء المخاطبة', 'الجوازم', 'نون التوكيد', 'تاء التأنيث الساكنة'],
-          correct: 3,
+          prompt: 'In ﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾, لَمْ establishes يَلِدْ as a فعل under which category of علامات الأفعال؟',
+          options: ['السين', 'النواصب', 'الجوازم', 'تاء الفاعل'],
+          correct: 2,
         },
         {
           title: 'علامة واحدة تكفي',
@@ -601,9 +649,11 @@ export default {
         {
           heading: 'لماذا الفاء والعين واللام',
           lines: [
-            { html: `Since most Arabic words are <bdi>ثُلَاثِيّ</bdi>, علماء الصرف took the أصول of a word to be three letters, and set them against <bdi>الفَاء والعَيْن واللَّام</bdi>, <bdi>مُصَوَّرَةً بِصُورَةِ المَوْزُون</bdi> — cast in the very shape of the word being weighed.`, list: false },
-            { html: `That last phrase is the whole method. The ميزان is a copy of the موزون: same number of letters, same vowels, same sukūns, same order — with ف ع ل standing in for the root letters.`, list: false },
-            { html: `<bdi>نحو: انْكَسَرَ = انْفَعَلَ</bdi>`, list: false },
+            { html: `Since most Arabic words are ثُلَاثِيّ, علماء الصرف took the أصول of a word to be three letters and set them against الفَاء والعَيْن واللَّام:`, list: false },
+            { box: { title: 'Core Text', lines: [
+              `مُصَوَّرَةً بِصُورَةِ المَوْزُونِ، نحو: انْكَسَرَ = انْفَعَلَ`,
+            ] } },
+            { html: `مُصَوَّرَةً بِصُورَةِ المَوْزُون — cast in the very shape of the word being weighed — is the whole method. The ميزان is a copy of the موزون: same number of letters, same vowels, same sukūns, same order, with ف ع ل standing in for the root letters.`, list: false },
             { html: `Every rule that follows is just a case of keeping that copy faithful when the موزون does something unusual.`, list: false },
           ],
           exercise: {
@@ -658,6 +708,7 @@ export default {
               ['الحرف الثاني', 'عَيْنُ الكَلِمَة', 'م'],
               ['الحرف الثالث', 'لَامُ الكَلِمَة', 'ر'],
             ] } },
+            { box: { title: 'Rule', lines: [`تَتْبَعُ أَسْمَاءُ فَاءِ الكَلِمَةِ وَعَيْنِهَا وَلَامِهَا الحَرْفَ الأَصْلِيَّ نَفْسَهُ لَا مَوْضِعَهُ فِي اللَّفْظِ`] } },
             { html: `The names attach to the <em>root</em> letter, not to a fixed slot in the word — so they travel unchanged when the word grows. In <bdi>اسْتَخْرَجَ = اسْتَفْعَلَ</bdi>, خ is still فاء الكلمة, ر عينُها, and ج لامُها, even though خ is now the fourth letter you pronounce.`, list: false },
             { html: `This is why terms like <bdi>مُضَعَّف العين</bdi>, <bdi>مُعْتَلُّ اللام</bdi> and <bdi>مَهْمُوزُ الفاء</bdi> are unambiguous however long the word is.`, list: false },
           ],
@@ -906,8 +957,9 @@ export default {
               ['جَلْبَبَ', 'فَعْلَلَ', 'مُضَعَّف اللام'],
             ] } },
             { html: `جَلْبَبَ is worth holding beside دَحْرَجَ from the previous rule: both weigh <bdi>فَعْلَلَ</bdi>, but for different reasons. دحرج has four distinct أصول; جلبب has three, with the لام repeated.`, list: false },
+            { box: { title: 'Careful', lines: [`مَا يَتَشَارَكُ فِي الوَزْنِ قَدْ يَفْتَرِقُ فِي التَّسْمِيَةِ`] } },
+            { html: `The وزن records the form, and دحرج and جلبب genuinely share one. What separates them is not visible in the وزن itself but in the التسمية that goes with it: جلبب is مُضَعَّف اللام, a ثلاثي whose third root letter is repeated, while دحرج is a plain رباعي مجرد. This is why the naming — <bdi>ويقال له مضعَّف العين أو اللام</bdi> — is attached directly to this rule: the label carries the information the وزن alone cannot.`, list: false },
           ],
-          clarification: `If دحرج and جلبب end up with the same وزن, what has the ميزان actually recorded? It has recorded the form, which is what a وزن is for — and the two words genuinely do share a form. What separates them is not visible in the وزن itself but in the التسمية that goes with it: جلبب is مضعَّف اللام, a ثلاثي whose third root letter is repeated, while دحرج is a plain رباعي مجرد. This is also why the naming — ويقال له مضعَّف العين أو اللام — is attached directly to this rule: the label carries the information the وزن alone cannot.`,
           exercise: {
             prompt: `Both دَحْرَجَ and جَلْبَبَ weigh فَعْلَلَ. What distinguishes them?`,
             kind: 'mcq',
@@ -938,7 +990,8 @@ export default {
         {
           heading: 'المبدل من تاء الافتعال',
           lines: [
-            { html: `A special case of the زائد. When the added letter is an <bdi>إبدال</bdi> of <bdi>تاء الافتعال</bdi>, the ميزان is pronounced with the original تاء — <bdi>نَظَرًا إلى الأصل</bdi>.`, list: false },
+            { html: `A special case of the زائد. When the added letter is an <bdi>إبدال</bdi> of <bdi>تاء الافتعال</bdi>, the ميزان is pronounced with the original تاء.`, list: false },
+            { box: { title: 'Rule', lines: [`يُوزَنُ المُبْدَلُ مِنْ تَاءِ الِافْتِعَالِ نَظَرًا إِلَى الأَصْلِ لَا إِلَى النُّطْقِ`] } },
             { html: `So <bdi>اضْطَرَبَ</bdi> weighs <bdi>افْتَعَلَ</bdi>, not افْطَعَلَ, even though the letter actually pronounced is ط. <bdi>وقد أجازه الرَّضِيّ</bdi> — الرضي permitted the other way.`, list: false },
             { table: { title: 'The إبدال in stages', headers: ['الأصل', 'بتاء الافتعال', 'بعد الإبدال'], rows: [
               ['صلح', 'اصْتَلَحَ', 'اصْطَلَحَ'],

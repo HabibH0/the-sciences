@@ -39,13 +39,18 @@ import {
 } from '../content/index.js';
 import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
+  LIT_BOOKS, getLitBook, getLoadedChapter, bookProgress, isChapterDone, isChapterUnlocked,
+  chapterRecord, isUnknownLemma, unknownWordsInChapter, describeFeatures, posLabel,
+  chapterSentences,
+} from '../content-lit/index.js';
+import {
   levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
   ACHIEVEMENT_CATEGORIES, LEVEL_TIERS, STREAK_TIERS, PERFECT_QUIZ_TIERS, PRACTICE_TIERS,
   MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
   perfectQuizCount,
 } from './gamification.js';
 import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
-import { todayISO } from './persistence.js';
+import { todayISO, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
 
 // --- Line icons -----------------------------------------------------------
 // Lucide-style strokes, no fills, inheriting `currentColor` so the colour is
@@ -158,6 +163,10 @@ function headerHtml(state, MODULES) {
   // both read as one specific course's own dashboard/planner, which is
   // exactly what My Path deliberately isn't (it spans fstu+sarf at once).
   const onPath = state.view === 'path' || state.view === 'pathGroups';
+  // Same reasoning as onPath, for the Library: a book belongs to no course,
+  // so neither Home nor Schedule (both of which mean "this course's") should
+  // sit in the bar while one is open.
+  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead';
   // A live practice/mastery session (quiz-like: graded, has its own
   // in-page "End session"/continue controls) -- same treatment as
   // module/lesson/quiz below, no top-bar tabs, so leaving it always goes
@@ -260,13 +269,16 @@ function headerHtml(state, MODULES) {
     // once it's changed to 'settings'/'schedule'/'achievements'.
     const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
       : onPath ? ''
-        : state.pathHome ? tab('My Path', 'returnToPath', false)
-          : tab('Home', 'openDashboard', state.view === 'dashboard');
+        : state.view === 'litBook' || state.view === 'litRead' ? tab('← Library', 'openLibrary', false)
+          : state.view === 'library' ? ''
+            : state.pathHome ? tab('My Path', 'returnToPath', false)
+              : state.litHome ? tab('Library', 'openLibrary', false)
+                : tab('Home', 'openDashboard', state.view === 'dashboard');
 
     rightInner = `
       <nav class="app-header-nav" aria-label="Primary">
         ${homeSlot}
-        ${onPath ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
+        ${onPath || onLit ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
         ${tab('Settings', 'openSettings', state.view === 'settings')}
         ${tab('Account', 'openAccount', state.view === 'account')}
       </nav>`;
@@ -288,7 +300,7 @@ function headerHtml(state, MODULES) {
   const courseSwitchHtml = `
     <button class="app-header-course-btn" data-action="openLaunch" title="Switch course">
       ${icon('book', 14, 1.7)}
-      <span>${onPath || state.pathHome ? 'My Path' : esc(activeCourse ? activeCourse.name : '')}</span>
+      <span>${onPath || state.pathHome ? 'My Path' : onLit || state.litHome ? 'Literature' : esc(activeCourse ? activeCourse.name : '')}</span>
     </button>`;
   const headerClasses = [
     'app-header',
@@ -543,6 +555,28 @@ function launchPathBannerHtml(state) {
     </button>`;
 }
 
+// Literature sits alongside My Path rather than in the course grid: it isn't
+// a course (see content-lit/index.js) and its cards below wouldn't mean the
+// same thing -- "3 of 12 lessons" versus "a book you're partway through".
+function launchLibraryBannerHtml(state) {
+  const totals = LIT_BOOKS.reduce((acc, book) => {
+    const { done, total } = bookProgress(book, state.litProgress);
+    return { done: acc.done + done, total: acc.total + total };
+  }, { done: 0, total: 0 });
+  const label = totals.done > 0
+    ? `Continue reading — ${totals.done} of ${totals.total} chapter${totals.total === 1 ? '' : 's'} read`
+    : 'Start reading';
+  return `
+    <button class="launch-path-banner launch-lit-banner" data-anim-key="launchlitbanner" data-action="openLibrary">
+      <div class="launch-path-banner-text">
+        <span class="launch-path-banner-kicker">LITERATURE</span>
+        <span class="launch-path-banner-title">${esc(label)}</span>
+        <span class="launch-path-banner-sub">Graded classical readers — one paragraph at a time, with every word and phrase explained where it stands.</span>
+      </div>
+      <span class="launch-path-banner-cta">${totals.done > 0 ? 'Continue' : 'Open the library'} &rarr;</span>
+    </button>`;
+}
+
 function launchHtml(state) {
   const cards = COURSES.map((c, i) => launchCourseCardHtml(c, i, state)).join('');
   return `
@@ -563,6 +597,7 @@ function launchHtml(state) {
           <p class="launch-sub">Four paths through Arabic grammar. Pick one to enter its dashboard — you can switch anytime from the header.</p>
         </div>
         ${launchPathBannerHtml(state)}
+        ${launchLibraryBannerHtml(state)}
         <div class="launch-grid">${cards}</div>
       </div>
       </div>
@@ -996,6 +1031,21 @@ function applyDropCap(html) {
 
 // --- Lesson: every reached concept on one scrolling page -----------------
 
+// A source box holds either the book's own Arabic (a "Core Text" quotation,
+// which has to sit right-aligned to read as a block of Arabic rather than
+// as a stray run pushed to the left margin) or an English note. Resolve the
+// direction from the line's own first strong character. dir="auto" can't do
+// this job: isolateArabicHtml wraps every Arabic run in its own isolate, and
+// the auto algorithm skips characters inside isolates, so a wholly-Arabic
+// line would resolve LTR.
+const AR_RANGES = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF';
+const AR_STRONG = new RegExp(`[${AR_RANGES}]`);
+const FIRST_STRONG = new RegExp(`[A-Za-z${AR_RANGES}]`);
+function boxLineDir(boxLine) {
+  const first = String(boxLine ?? '').replace(/<[^>]*>/g, '').match(FIRST_STRONG);
+  return first && AR_STRONG.test(first[0]) ? 'rtl' : 'ltr';
+}
+
 // Shared prose renderer -- one <p> per sentence, enumerations collapsed
 // into a <ul>, exactly like a concept's main body. Takes anything
 // conceptLines can read (a real concept, or a synthetic {body: text}), so
@@ -1017,6 +1067,31 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
       const cls = itemKey ? revealCls(itemKey, 'concept-table-wrap', revealedKeys, forceReveal) : 'concept-table-wrap';
       const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
       html += conceptTableHtml(line.table, cls, attr);
+      return;
+    }
+
+    if (line.box) {
+      if (openList) {
+        html += '</ul>';
+        openList = false;
+      }
+      const rawBoxTitle = String(line.box.title || '').trim();
+      const boxTitle = rawBoxTitle.replace(/\s+Box$/i, '').trim();
+      const boxTypeSlug = boxTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const baseCls = boxTypeSlug ? `concept-source-box concept-source-box--${boxTypeSlug}` : 'concept-source-box';
+      const cls = itemKey ? revealCls(itemKey, baseCls, revealedKeys, forceReveal) : baseCls;
+      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      const boxLabel = boxTitle && boxTitle.toLowerCase() !== 'box'
+        ? `<div class="concept-source-box-label">${escBidi(boxTitle)}</div>`
+        : '';
+      const boxLines = (line.box.lines || [])
+        .map((boxLine) => `<p class="concept-source-box-line" dir="${boxLineDir(boxLine)}">${isolateArabicHtml(boxLine)}</p>`)
+        .join('');
+      html += `
+        <div class="${cls}"${attr}>
+          ${boxLabel}
+          <div class="concept-source-box-body">${boxLines}</div>
+        </div>`;
       return;
     }
 
@@ -2925,6 +3000,7 @@ function settingsHtml(state) {
   const lessonTextScale = Number.isFinite(rawLessonTextScale)
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
+  const litTextScale = normalizeLitTextScale(state.litTextScale);
   const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
   const tarkeebLabelsBlueOn = state.tarkeebLabelsBlue === true;
   const forceUnlockOn = state.forceUnlockAll === true;
@@ -3066,6 +3142,23 @@ function settingsHtml(state) {
             <p>A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
           </div>
         </div>
+
+        <div class="lesson-size-control">
+          <div class="lesson-size-head">
+            <label class="lesson-size-label" for="lit-text-scale">Reading text size</label>
+            <output class="lesson-size-value" for="lit-text-scale" data-lit-text-scale-value>${litTextScale}%</output>
+          </div>
+          <input id="lit-text-scale" class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litTextScale}" data-action="setLitTextScale" aria-label="Reading text size">
+          <div class="lesson-size-ticks" aria-hidden="true">
+            <span>Small</span>
+            <span>Default</span>
+            <span>Large</span>
+          </div>
+          <div class="lesson-size-preview">
+            <span class="settings-kicker">Library Preview</span>
+            <p class="lit-size-preview-line" lang="ar" dir="rtl">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</p>
+          </div>
+        </div>
         ${forceUnlockToggle}
 
         <hr class="settings-hr">
@@ -3197,6 +3290,525 @@ function accountHtml(state) {
     </div>`;
 }
 
+// --- Literature: the Library, a book, and its reader ---------------------
+// A deliberately different surface from the four courses. A course is a grid
+// of module cards leading to a lesson column; a book is a shelf, a contents
+// page, and a reading page that fills up one paragraph at a time. Nothing
+// here reuses .chapter-card/.lesson-row -- those read as "a syllabus", which
+// is exactly what a reader isn't.
+//
+// Still pure, like the rest of this file: the open chapter's session lives on
+// state.lit and is only ever mutated by js/main.js. The chapter body itself
+// is read out of content-lit's load cache (getLoadedChapter) rather than
+// imported -- chapters are lazy, and a pure render can't await one.
+
+const LIT_STAGES = [
+  { id: 'read', label: 'Read' },
+  { id: 'workshop', label: 'Patterns' },
+  { id: 'build', label: 'Build' },
+];
+
+function litBookCardHtml(state, book, index) {
+  const { done, total } = bookProgress(book, state.litProgress);
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  return `
+    <button class="lit-book" data-anim-key="litbook${index}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
+      <span class="lit-book-spine" aria-hidden="true"></span>
+      <span class="lit-book-face">
+        <span class="lit-book-kicker">${esc(book.volumeLabel || '')}</span>
+        <span class="lit-book-title" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
+        <span class="lit-book-rule" aria-hidden="true"></span>
+        <span class="lit-book-author" lang="ar" dir="rtl">${esc(book.author.ar)}</span>
+      </span>
+      <span class="lit-book-foot">
+        <span class="lit-book-meta">${done} / ${total} chapter${total === 1 ? '' : 's'}</span>
+        <span class="lit-book-track"><span class="lit-book-fill" style="width:${pct}%"></span></span>
+      </span>
+    </button>`;
+}
+
+function libraryHtml(state) {
+  const hero = heroPanelHtml({
+    watermark: 'الأدب',
+    badge: 'المكتبة',
+    title: 'The Library',
+    body: 'Graded readers, read the way a book is read: a paragraph at a time, with the translation a hover away and every word one click from its form. Each chapter ends with the patterns it just used and a set of sentences to build.',
+  });
+  return `
+    <div class="hero-page lit-library-page">
+      ${hero}
+      ${separatorHtml()}
+      <div class="col-wide">
+        <div class="lit-shelf">${LIT_BOOKS.map((b, i) => litBookCardHtml(state, b, i)).join('')}</div>
+      </div>
+    </div>`;
+}
+
+function litChapterRowHtml(state, book, chapter, index) {
+  const unlocked = isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll);
+  const done = isChapterDone(state.litProgress, book.id, chapter.id);
+  const rec = chapterRecord(state.litProgress, book.id, chapter.id);
+  const started = !done && rec && rec.para > 0;
+  // A chapter that sits on one printed page is "p. 9", not "pp. 9" -- Qaṣaṣ
+  // runs a chapter per page, so the single-page case is the common one there.
+  const pageList = chapter.pages || [];
+  const pages = pageList.length > 1
+    ? `pp. ${pageList[0]}–${pageList[pageList.length - 1]}`
+    : pageList.length === 1 ? `p. ${pageList[0]}` : '';
+  const tag = !unlocked
+    ? '<span class="tag tag-neutral">Locked</span>'
+    : done
+      ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Read</span>`
+      : `<span class="tag tag-accent">${started ? 'Resume' : 'Read'}</span>`;
+  return `
+    <button class="lit-chapter${unlocked ? '' : ' locked'}${done ? ' is-done' : ''}" data-anim-key="litch${index}"
+      ${unlocked ? `data-action="openLitChapter" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}"` : 'disabled'}>
+      <span class="lit-chapter-num">${unlocked ? String(chapter.number).padStart(2, '0') : icon('lock', 15, 2)}</span>
+      <span class="lit-chapter-body">
+        <span class="lit-chapter-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</span>
+        <span class="lit-chapter-en">${escBidi(chapter.title.en)}</span>
+        <span class="lit-chapter-blurb">${escBidi(chapter.blurb || '')}</span>
+      </span>
+      <span class="lit-chapter-side">
+        ${pages ? `<span class="lit-chapter-pages">${esc(pages)}</span>` : ''}
+        ${tag}
+      </span>
+    </button>`;
+}
+
+function litBookHtml(state) {
+  const book = getLitBook(state.litBookId);
+  if (!book) return libraryHtml(state);
+  const { done, total } = bookProgress(book, state.litProgress);
+  return `
+    <div class="hero-page lit-book-page">
+      <section class="lit-cover">
+        <span aria-hidden="true" class="lit-cover-watermark" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
+        <div class="lit-cover-inner">
+          ${heroBadgeHtml(book.volumeLabel || 'كتاب')}
+          <h1 class="lit-cover-title" lang="ar" dir="rtl">${esc(book.title.ar)}</h1>
+          <p class="lit-cover-author" lang="ar" dir="rtl">${esc(book.author.ar)}</p>
+          <p class="lit-cover-body">${escBidi(book.blurb)}</p>
+          ${heroLedgerHtml([
+            ['Chapters read', `${done} / ${total}`],
+            ['Book', book.title.en],
+          ])}
+        </div>
+        ${cornerBracketsHtml()}
+      </section>
+      ${separatorHtml()}
+      <div class="col-wide">
+        <h2 class="lit-contents-head">Contents</h2>
+        <div class="lit-contents">${book.chapters.map((c, i) => litChapterRowHtml(state, book, c, i)).join('')}</div>
+      </div>
+    </div>`;
+}
+
+// --- Reader: the page itself ---------------------------------------------
+
+// One word. A click selects it (its form shows in the margin card); a second
+// click within the double-click window marks it unknown -- see litWord in
+// js/main.js, which does that timing itself rather than relying on a real
+// dblclick event, because every click re-renders the whole page and the two
+// clicks therefore land on two different DOM nodes.
+function litWordHtml(state, sentence, token, ti) {
+  const lit = state.lit;
+  const unknown = isUnknownLemma(state.litUnknown, lit.bookId, token.lemma);
+  const selected = lit.word && lit.word.s === sentence.id && lit.word.t === ti;
+  const cls = ['lit-word', unknown ? 'is-unknown' : '', selected ? 'is-selected' : ''].filter(Boolean).join(' ');
+  // The highlight is painted by the inner span, not the <button>: a button is
+  // an inline-BLOCK box whose height follows line-height (2.5 here), so a
+  // background on it stood far taller than the clause highlight, which is an
+  // ordinary inline box sized by font metrics. Two inline spans with the same
+  // font can't disagree.
+  return `<button class="${cls}" data-action="litWord" data-s="${escAttr(sentence.id)}" data-t="${ti}" aria-pressed="${selected ? 'true' : 'false'}"><span class="lit-word-ink">${esc(token.surface)}</span></button>`;
+}
+
+// The clause and its English. The gloss is absolutely positioned against the
+// PARAGRAPH (which reserves a lane for it at its foot) rather than against
+// the clause, so revealing one can neither reflow the Arabic nor cover the
+// line below it. Hover shows it on a pointer; focus-within shows it for a
+// keyboard tabbing through the words; the trailing button pins it, which is
+// the touch path.
+function litSentenceHtml(state, sentence) {
+  const open = state.lit.gloss === sentence.id;
+  const words = sentence.tokens.map((t, ti) => litWordHtml(state, sentence, t, ti)).join(' ');
+  return `<span class="lit-sentence${open ? ' is-open' : ''}" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}"
+    >${words}<button class="lit-gloss-btn" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}" aria-expanded="${open ? 'true' : 'false'}" aria-label="Show the translation of this phrase">${icon('book', 11, 2)}</button
+    ><span class="lit-gloss" dir="ltr" lang="en">${esc(sentence.en)}</span></span>`;
+}
+
+// The whole-paragraph translation is a margin control, in the same gutter as
+// the paragraph number -- as a text link under every paragraph it repeated
+// down the page and broke the run of prose, which is the one thing a reading
+// page shouldn't do.
+function litParagraphHtml(state, para, pi, active) {
+  const fullOpen = state.lit.fullPara === pi;
+  return `
+    <article class="lit-para${active ? ' is-active' : ''}" data-anim-key="litpara${pi}">
+      <div class="lit-para-gutter">
+        <span class="lit-para-mark" aria-hidden="true">${pi + 1}</span>
+        <button class="lit-para-en${fullOpen ? ' is-active' : ''}" data-action="litToggleFullPara" data-para="${pi}"
+          aria-pressed="${fullOpen ? 'true' : 'false'}" title="This paragraph in English">EN</button>
+      </div>
+      <p class="lit-para-text" lang="ar" dir="rtl">${para.sentences.map((s) => litSentenceHtml(state, s)).join(' ')}</p>
+      ${fullOpen ? `<p class="lit-para-full">${escBidi(para.en)}</p>` : ''}
+    </article>`;
+}
+
+// Ask in Arabic or in English, learner's choice (state.litCheckLang) --
+// offered only where the chapter actually carries translated checks, since
+// `answer` indexes both option lists and a partly-translated check would
+// otherwise fall back mid-question.
+function litCheckLangToggleHtml(state) {
+  const inEnglish = state.litCheckLang === 'en';
+  const btn = (lang, label, active, langAttr) =>
+    `<button class="lit-lang-btn${active ? ' is-active' : ''}" data-action="setLitCheckLang" data-lang="${lang}" aria-pressed="${active ? 'true' : 'false'}"${langAttr}>${label}</button>`;
+  return `
+    <div class="lit-lang-toggle" role="group" aria-label="Question language">
+      ${btn('ar', 'عربي', !inEnglish, ' lang="ar" dir="rtl"')}
+      ${btn('en', 'English', inEnglish, '')}
+    </div>`;
+}
+
+function litChecksHtml(state, para, pi) {
+  const answered = para.checks.filter((_, ci) => state.lit.checks[`${pi}:${ci}`]).length;
+  const allDone = answered === para.checks.length;
+  const lastPara = pi + 1 >= state.lit.paragraphCount;
+  const translated = para.checks.length > 0 && para.checks.every((c) => c.qEn && c.optionsEn);
+  const inEnglish = translated && state.litCheckLang === 'en';
+  const advanceLabel = lastPara ? 'Finish the passage → Pattern workshop' : 'Read the next paragraph';
+
+  // A paragraph carries questions only where the passage gives it something
+  // to ask -- a chapter's three checks spread across five paragraphs, and a
+  // paragraph that is pure narration between two scenes gets none. It still
+  // needs its way onward, just without an empty question card above it.
+  if (!para.checks.length) {
+    return `
+      <section class="lit-checks lit-checks-bare" data-anim-key="litchecks${pi}">
+        <button class="btn btn-primary btn-block" data-action="litNextParagraph">${advanceLabel}</button>
+      </section>`;
+  }
+
+  return `
+    <section class="lit-checks" data-anim-key="litchecks${pi}">
+      <div class="lit-checks-head">
+        <span class="card-kicker">On this paragraph</span>
+        <div class="lit-checks-head-right">
+          ${translated ? litCheckLangToggleHtml(state) : ''}
+          <span class="lit-checks-count">${answered} / ${para.checks.length}</span>
+        </div>
+      </div>
+      ${para.checks.map((c, ci) => {
+        const rec = state.lit.checks[`${pi}:${ci}`];
+        return `
+        <div class="lit-check">
+          <h3 class="lit-check-q${inEnglish ? ' is-en' : ''}"${inEnglish ? '' : ' lang="ar" dir="rtl"'}>${escBidi(inEnglish ? c.qEn : c.q)}</h3>
+          ${renderMcqOptions({
+            options: inEnglish ? c.optionsEn : c.options,
+            correct: c.answer,
+            selected: rec ? rec.selected : undefined,
+            submitted: !!rec,
+            actionName: 'litCheckOption',
+            extraData: `data-check="${ci}"`,
+            animScope: `litc${pi}_${ci}${inEnglish ? 'e' : ''}`,
+          })}
+        </div>`;
+      }).join('')}
+      <button class="btn btn-primary btn-block" data-action="litNextParagraph" ${allDone ? '' : 'disabled'}>${advanceLabel}</button>
+    </section>`;
+}
+
+// The margin card: whichever word was last clicked, in full. This is where
+// "mark as unknown" also lives as a real button -- double-clicking is the
+// fast path, but it can't be the only one, since it has no keyboard
+// equivalent.
+function litWordCardHtml(state, chapter) {
+  const w = state.lit.word;
+  if (!w) {
+    return `
+      <div class="lit-word-card is-empty">
+        <p class="lit-word-hint"><strong>Click a word</strong> to highlight it and see its form here. Click it again to clear the highlight.</p>
+        <p class="lit-word-hint"><strong>Click it twice</strong> to mark it as a word you don't know — those come back at the end of the chapter.</p>
+        <p class="lit-word-hint">Hover a phrase for its translation — on a touchscreen, tap the small round marker at its end.</p>
+      </div>`;
+  }
+  const sentence = chapterSentences(chapter).find((s) => s.id === w.s);
+  const token = sentence && sentence.tokens[w.t];
+  if (!token) return '<div class="lit-word-card is-empty"><p class="lit-word-hint">That word is no longer on the page.</p></div>';
+  const unknown = isUnknownLemma(state.litUnknown, state.lit.bookId, token.lemma);
+  const entry = (chapter.lemmas || {})[token.lemma] || {};
+  // A particle's `features` is often just its word class again (مع is a
+  // حرف جر and nothing else) -- printing that twice says nothing.
+  const wordClass = posLabel(token.pos);
+  const form = token.features ? describeFeatures(token.features) : '';
+  const rows = [
+    ['Meaning', escBidi(token.gloss || entry.gloss || '—')],
+    ['Dictionary form', `<bdi lang="ar">${esc(token.lemma)}</bdi>`],
+    token.root ? ['Root', `<bdi lang="ar">${esc(token.root)}</bdi>`] : null,
+    // Arabic throughout, so one RTL isolate around the whole value rather
+    // than escBidi's per-run isolation -- see the POS_LABELS comment in
+    // content-lit/index.js for why that distinction matters here.
+    ['Word class', `<bdi lang="ar" dir="rtl">${esc(wordClass)}</bdi>`],
+    form && form !== wordClass ? ['Form', `<bdi lang="ar" dir="rtl">${esc(form)}</bdi>`] : null,
+  ].filter(Boolean);
+  return `
+    <div class="lit-word-card">
+      <div class="lit-word-card-head">
+        <span class="lit-word-card-surface" lang="ar" dir="rtl">${esc(token.surface)}</span>
+      </div>
+      <dl class="lit-word-rows">
+        ${rows.map(([k, v]) => `<div class="lit-word-row"><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}
+      </dl>
+      ${entry.book_note ? `<p class="lit-word-note">${escBidi(entry.book_note)}</p>` : ''}
+      <button class="btn ${unknown ? 'btn-primary' : 'btn-secondary'} btn-block" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
+        ${unknown ? 'Marked as unknown — undo' : "Mark as a word I don't know"}
+      </button>
+    </div>`;
+}
+
+function litUnknownListHtml(state, chapter) {
+  const words = unknownWordsInChapter(chapter, state.litUnknown, state.lit.bookId);
+  return `
+    <div class="lit-unknown">
+      <div class="lit-unknown-head">
+        <span class="card-kicker">Words to work on</span>
+        <span class="lit-unknown-count">${words.length}</span>
+      </div>
+      ${words.length
+        ? `<div class="lit-unknown-list">${words.map((w) => `
+            <button class="lit-unknown-chip" data-action="litToggleUnknown" data-lemma="${escAttr(w.lemma)}" title="Remove">
+              <bdi lang="ar">${esc(w.surface)}</bdi>
+              <span class="lit-unknown-gloss">${escBidi(w.gloss || '')}</span>
+            </button>`).join('')}</div>`
+        : '<p class="lit-unknown-empty">Nothing marked yet. The build exercises at the end will draw on whatever you mark here.</p>'}
+    </div>`;
+}
+
+function litRailHtml(state) {
+  const current = LIT_STAGES.findIndex((s) => s.id === state.lit.stage);
+  const at = current === -1 ? LIT_STAGES.length : current;
+  return `
+    <ol class="lit-rail">
+      ${LIT_STAGES.map((s, i) => `
+        <li class="lit-rail-step${i === at ? ' is-active' : ''}${i < at ? ' is-done' : ''}">
+          <span class="lit-rail-dot" aria-hidden="true">${i < at ? icon('check', 11, 2.8) : i + 1}</span>
+          <span class="lit-rail-label">${esc(s.label)}</span>
+        </li>`).join('')}
+    </ol>`;
+}
+
+// --- Reader: the two drill stages ----------------------------------------
+
+// The chip tray both drills share: one row of candidate words, click or drag
+// to place. Native <button>s, so Enter/Space work with no extra wiring (the
+// تركيب widget's own chips are divs and need the keydown handler in
+// js/main.js; there was no reason to repeat that here).
+// `chip.value` is what data-chip carries, and what `used`/`selected` are
+// compared against -- for the workshop that's the option's ORIGINAL index
+// (the tray is displayed in a shuffled order, exactly like renderMcqOptions'
+// own `order`), for the build tray it's just the chip's position.
+function litChipsHtml(chips, { used = new Set(), selected = null, action, disabled = false }) {
+  return `
+    <div class="lit-chips" lang="ar" dir="rtl">
+      ${chips.map((chip, i) => {
+        const value = chip.value === undefined ? i : chip.value;
+        const isUsed = used.has(value);
+        const cls = ['lit-chip', isUsed ? 'is-used' : '', selected === value ? 'is-selected' : ''].filter(Boolean).join(' ');
+        return `<button class="${cls}" draggable="${!isUsed && !disabled ? 'true' : 'false'}" data-action="${action}" data-chip="${value}" ${isUsed || disabled ? 'disabled' : ''}>${esc(chip.surface)}</button>`;
+      }).join('')}
+    </div>`;
+}
+
+function litWorkshopHtml(state, chapter) {
+  const lit = state.lit;
+  const item = lit.workshop[lit.wIndex];
+  if (!item) return litCompleteHtml(state, chapter);
+  const placed = lit.wSelected;
+  const submitted = lit.wSubmitted;
+  const correct = placed === item.answer;
+  const slot = `<span class="lit-slot${placed === null ? ' is-empty' : ''}${submitted ? (correct ? ' is-correct' : ' is-incorrect') : ''}"
+      data-action="litWorkshopSlot" role="button" tabindex="0"
+      title="${placed === null ? 'Pick a word below' : 'Take this word back'}"
+      aria-label="${placed === null ? 'The missing word — pick a word below' : `The missing word: ${esc(item.options[placed])}. Activate to take it back.`}">${placed === null ? '' : esc(item.options[placed])}</span>`;
+  const isLast = lit.wIndex + 1 >= lit.workshop.length;
+  const rationale = submitted && placed !== null ? (item.rationales || [])[placed] : '';
+  // What the question is asking, in its own words. A transformation item may
+  // name its own task ("Make it negative", "Say it about yesterday") -- the
+  // person shift is only the most common of them, so it is the fallback
+  // wording rather than the only one.
+  const kicker = item.kicker || (item.type === 'shift' ? 'Change the sentence' : 'The chapter’s own pattern');
+  const task = item.task
+    ? escBidi(item.task)
+    : item.type === 'shift'
+      ? `Say the same thing about <bdi lang="ar">${esc(item.targetPerson)}</bdi>${item.targetEn ? ` (${escBidi(item.targetEn)})` : ''}.`
+      : escBidi(item.en);
+  return `
+    <section class="lit-drill" data-anim-key="litw${lit.wIndex}">
+      <div class="lit-drill-head">
+        <span class="card-kicker">${esc(kicker)}</span>
+        <span class="lit-drill-count">${lit.wIndex + 1} / ${lit.workshop.length}</span>
+      </div>
+      <p class="lit-drill-lede">${task}</p>
+      ${item.base ? `<p class="lit-drill-base" lang="ar" dir="rtl">${esc(item.base)}</p>` : ''}
+      ${item.type !== 'cloze' && item.en ? `<p class="lit-drill-sub">${escBidi(item.en)}</p>` : ''}
+      <p class="lit-frame" lang="ar" dir="rtl">${item.pre ? `${esc(item.pre)} ` : ''}${slot}${item.post ? ` ${esc(item.post)}` : ''}</p>
+      ${litChipsHtml((item.order || item.options.map((_, i) => i)).map((orig) => ({ surface: item.options[orig], value: orig })), {
+        // The word currently in the blank is shown as spent, not as another
+        // choice -- offering it twice made the tray read as untouched after
+        // an answer was placed. Any OTHER chip still swaps straight in.
+        used: new Set(placed === null ? [] : [placed]),
+        action: 'litWorkshopChip',
+        disabled: submitted,
+      })}
+      ${submitted ? `
+        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : `Not quite — it is ${escBidi(item.options[item.answer])}.`}</div>
+        ${rationale ? `<div class="quiz-feedback-explanation">${escBidi(rationale)}</div>` : ''}
+        ${!correct && (item.rationales || [])[item.answer] ? `<div class="quiz-feedback-explanation">${escBidi(item.rationales[item.answer])}</div>` : ''}` : ''}
+      <div class="action-row">
+        ${submitted
+          ? `<button class="btn btn-primary" data-action="litWorkshopNext">${isLast ? 'On to building sentences' : 'Next'}</button>`
+          : `<button class="btn btn-primary" data-action="litWorkshopCheck" ${placed === null ? 'disabled' : ''}>Check</button>`}
+      </div>
+    </section>`;
+}
+
+function litBuildHtml(state, chapter) {
+  const lit = state.lit;
+  const item = lit.build[lit.bIndex];
+  if (!item) return litCompleteHtml(state, chapter);
+  const submitted = lit.bSubmitted;
+  const answer = lit.bSlots.map((ci) => (ci === null ? null : item.chips[ci].surface));
+  const correct = answer.every((s, i) => s === item.solution[i]);
+  const filled = lit.bSlots.every((s) => s !== null);
+  const isLast = lit.bIndex + 1 >= lit.build.length;
+  const wrongNote = submitted && !correct
+    ? (lit.bSlots.map((ci) => (ci === null ? null : item.chips[ci])).find((chip) => chip && !chip.correct) || {}).note
+    : '';
+  return `
+    <section class="lit-drill lit-build" data-anim-key="litb${lit.bIndex}">
+      <div class="lit-drill-head">
+        <span class="card-kicker">Build the sentence</span>
+        <span class="lit-drill-count">${lit.bIndex + 1} / ${lit.build.length}</span>
+      </div>
+      <p class="lit-drill-lede">${escBidi(item.en)}</p>
+      <div class="lit-slots" lang="ar" dir="rtl">
+        ${lit.bSlots.map((ci, i) => {
+          const chip = ci === null ? null : item.chips[ci];
+          const ok = submitted && chip && chip.surface === item.solution[i];
+          const cls = ['lit-slot', chip ? '' : 'is-empty', submitted ? (ok ? 'is-correct' : 'is-incorrect') : ''].filter(Boolean).join(' ');
+          return `<span class="${cls}" data-action="litBuildSlot" data-slot="${i}" role="button" tabindex="0"
+            title="${chip ? 'Take this word back' : 'Word ' + (i + 1)}"
+            aria-label="Word ${i + 1} of ${lit.bSlots.length}${chip ? `: ${esc(chip.surface)}. Activate to take it back.` : ', empty'}">${chip ? esc(chip.surface) : ''}</span>`;
+        }).join('')}
+      </div>
+      ${litChipsHtml(item.chips, {
+        used: new Set(lit.bSlots.filter((s) => s !== null)),
+        selected: lit.bSelected,
+        action: 'litBuildChip',
+        disabled: submitted,
+      })}
+      ${submitted ? `
+        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : 'Not quite.'}</div>
+        ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
+        ${wrongNote ? `<div class="quiz-feedback-explanation">${escBidi(wrongNote)}</div>` : ''}` : ''}
+      <div class="action-row">
+        ${submitted
+          ? `<button class="btn btn-primary" data-action="litBuildNext">${isLast ? 'Finish the chapter' : 'Next sentence'}</button>`
+          : `<button class="btn btn-primary" data-action="litBuildCheck" ${filled ? '' : 'disabled'}>Check</button>`}
+        ${submitted ? '' : `<button class="btn btn-secondary" data-action="litBuildClear" ${lit.bSlots.some((s) => s !== null) ? '' : 'disabled'}>Clear</button>`}
+      </div>
+    </section>`;
+}
+
+function litCompleteHtml(state, chapter) {
+  const lit = state.lit;
+  const words = unknownWordsInChapter(chapter, state.litUnknown, lit.bookId);
+  const pct = lit.total ? Math.round((lit.correct / lit.total) * 100) : 0;
+  return `
+    <section class="lit-complete" data-anim-key="litdone${lit.chapterId}">
+      ${heroBadgeHtml('تمّت القراءة')}
+      <h2 class="lit-complete-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h2>
+      <p class="lit-complete-sub">${escBidi(chapter.title.en)} — read, drilled and built.</p>
+      ${heroLedgerHtml([
+        ['Answered', `${lit.correct} / ${lit.total}`],
+        ['Accuracy', `${pct}%`],
+        ['Words marked', String(words.length)],
+      ])}
+      ${words.length ? `
+        <p class="lit-complete-note">Still marked as unknown — they will keep coming back in this book’s later chapters:</p>
+        <div class="lit-unknown-list">${words.map((w) => `<span class="lit-unknown-chip is-static"><bdi lang="ar">${esc(w.surface)}</bdi><span class="lit-unknown-gloss">${escBidi(w.gloss || '')}</span></span>`).join('')}</div>` : ''}
+      <div class="action-row">
+        <button class="btn btn-primary" data-action="exitLitChapter">Back to the book</button>
+        <button class="btn btn-secondary" data-action="rereadLitChapter">Read it again</button>
+      </div>
+    </section>`;
+}
+
+// One paragraph at a time, with its own questions under it -- the page
+// turns rather than growing. Paragraphs already read stay reachable through
+// the pager; their answered checks live on the session (lit.checks), so a
+// revisited paragraph comes back exactly as it was left.
+function litPagerHtml(state, chapter) {
+  const lit = state.lit;
+  return `
+    <div class="lit-pager">
+      <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}>
+        ${icon('arrowLeft', 14, 2)} Previous paragraph
+      </button>
+      <span class="lit-pager-count">Paragraph ${lit.para + 1} of ${chapter.paragraphs.length}</span>
+    </div>`;
+}
+
+function litReadStageHtml(state, chapter) {
+  const lit = state.lit;
+  return `${litPagerHtml(state, chapter)}
+    ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
+    ${litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
+}
+
+function litReadHtml(state) {
+  const lit = state.lit;
+  const chapter = lit && getLoadedChapter(lit.bookId, lit.chapterId);
+  // The chapter is loaded by openLitChapter before this view is ever
+  // entered; if it somehow isn't (a save pointing at a chapter that no
+  // longer exists), fall back rather than render a broken page.
+  if (!chapter) return state.litBookId ? litBookHtml(state) : libraryHtml(state);
+  const book = getLitBook(lit.bookId);
+  const stageBody = lit.stage === 'read' ? litReadStageHtml(state, chapter)
+    : lit.stage === 'workshop' ? litWorkshopHtml(state, chapter)
+      : lit.stage === 'build' ? litBuildHtml(state, chapter)
+        : litCompleteHtml(state, chapter);
+  const pct = lit.stage === 'read'
+    ? Math.round(((lit.para + 1) / chapter.paragraphs.length) * 100)
+    : lit.stage === 'workshop'
+      ? Math.round((lit.wIndex / Math.max(1, lit.workshop.length)) * 100)
+      : lit.stage === 'build'
+        ? Math.round((lit.bIndex / Math.max(1, lit.build.length)) * 100)
+        : 100;
+
+  return `
+    <div class="lit-reader">
+      <div class="lit-reader-head">
+        ${backLink('Back to the book', 'exitLitChapter')}
+        <div class="lit-reader-titles">
+          <span class="lit-reader-book">${escBidi(book ? book.title.en : '')}</span>
+          <h1 class="lit-reader-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h1>
+          <span class="lit-reader-en">${escBidi(chapter.title.en)}</span>
+        </div>
+        ${litRailHtml(state)}
+        ${progressBar(pct)}
+      </div>
+      <div class="lit-reader-body">
+        <div class="lit-page">${stageBody}</div>
+        <aside class="lit-aside" aria-label="Word notes">
+          ${litWordCardHtml(state, chapter)}
+          ${litUnknownListHtml(state, chapter)}
+        </aside>
+      </div>
+    </div>`;
+}
+
 // --- top-level dispatch ---------------------------------------------------
 
 export function render(state, MODULES, revealedKeys = new Set()) {
@@ -3228,6 +3840,15 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       break;
     case 'pathGroups':
       body = pathGroupsHtml(state, revealedKeys);
+      break;
+    case 'library':
+      body = libraryHtml(state);
+      break;
+    case 'litBook':
+      body = litBookHtml(state);
+      break;
+    case 'litRead':
+      body = litReadHtml(state);
       break;
     case 'path':
       body = pathMapHtml(state, revealedKeys);

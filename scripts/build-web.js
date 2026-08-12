@@ -15,6 +15,7 @@ const entries = [
   'content-fstu',
   'content-fstu-sarf',
   'content-sarf',
+  'content-lit',
   'js',
   'vendor',
 ];

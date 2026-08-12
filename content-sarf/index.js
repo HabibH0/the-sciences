@@ -14,5 +14,8 @@ import m09 from './module-09.js';
 import m10 from './module-10.js';
 import m11 from './module-11.js';
 import m12 from './module-12.js';
+import m13 from './module-13.js';
+import m14 from './module-14.js';
+import m15 from './module-15.js';
 
-export const MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12];
+export const MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15];

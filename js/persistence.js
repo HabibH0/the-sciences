@@ -19,10 +19,24 @@ function migratePerCourse(saved, courseId) {
   return { [courseId]: saved };
 }
 
-function normalizeLessonTextScale(value) {
+function normalizeScale(value, min, max) {
   const n = Number(value);
   if (!Number.isFinite(n)) return 100;
-  return Math.min(130, Math.max(85, Math.round(n)));
+  return Math.min(max, Math.max(min, Math.round(n)));
+}
+
+function normalizeLessonTextScale(value) {
+  return normalizeScale(value, 85, 130);
+}
+
+// The reader's own scale, separate from the lesson one and with more room at
+// the top: a page of vowelled prose is read at a very different size from a
+// lesson's worked examples.
+export const LIT_TEXT_SCALE_MIN = 80;
+export const LIT_TEXT_SCALE_MAX = 160;
+
+export function normalizeLitTextScale(value) {
+  return normalizeScale(value, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX);
 }
 
 function normalizeArabicFace(value) {
@@ -90,6 +104,13 @@ export async function bootProgress() {
     vocabExposure: saved.vocabExposure || {},
     pathCheckpointMastery: saved.pathCheckpointMastery || {},
     masteryV2: saved.masteryV2 || {},
+    // Literature (content-lit/): chapter progress, and the words marked
+    // unknown while reading. Absent from every save written before the
+    // Library existed, hence the usual default-don't-throw treatment.
+    litProgress: saved.litProgress || {},
+    litUnknown: saved.litUnknown || {},
+    litCheckLang: saved.litCheckLang === 'en' ? 'en' : 'ar',
+    litTextScale: normalizeLitTextScale(saved.litTextScale),
     streak,
     lastVisit: today,
     xp: saved.xp || 0,
@@ -168,6 +189,10 @@ function snapshot(state) {
     vocabExposure: state.vocabExposure,
     pathCheckpointMastery: state.pathCheckpointMastery,
     masteryV2: state.masteryV2,
+    litProgress: state.litProgress,
+    litUnknown: state.litUnknown,
+    litCheckLang: state.litCheckLang === 'en' ? 'en' : 'ar',
+    litTextScale: normalizeLitTextScale(state.litTextScale),
     streak: state.streak,
     lastVisit: state.lastVisit,
     xp: state.xp,
@@ -192,6 +217,8 @@ function snapshot(state) {
       lessonId: state.lessonId,
       practiceModuleId: state.practiceModuleId,
       pathGroupId: state.pathGroupId,
+      litBookId: state.litBookId,
+      litChapterId: state.litChapterId,
     },
   };
 }

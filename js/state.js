@@ -1,6 +1,10 @@
 import { bootProgress } from './persistence.js';
 import { getLesson, getModule, getBankPool, bankKey, quizKey, isLessonComplete } from '../content/index.js';
 import { pathPoolForNode, pathFullPool, pathSkipAheadPoolForNode } from '../content/paths.js';
+import {
+  chapterSentences, isBuildEligible, sentenceHasUnknown, sentenceHasNewWord,
+  caseVariant, caseNote, caseLabel, caseForms, hasCaseMark, LIT_BUILD_MIN, LIT_BUILD_MAX,
+} from '../content-lit/index.js';
 
 export async function createInitialState() {
   const boot = await bootProgress();
@@ -215,6 +219,38 @@ export async function createInitialState() {
     // Not persisted -- same treatment as pathVocabDirection/
     // practiceVocabType, defaults to 'en-ar' when unset.
     scheduleRevisionVocabDirection: null,
+    // --- Literature (content-lit/) ---
+    // A book is not a course, so none of the course nav above applies to it:
+    // which book/chapter is open lives here instead, and the reader's own
+    // in-progress session (state.lit) is transient exactly like state.practice.
+    litBookId: nav.litBookId || null,
+    litChapterId: nav.litChapterId || null,
+    // True whenever the learner's current top-level context is the Library --
+    // same job as pathHome above, so a Settings detour can still offer the
+    // way back in.
+    litHome: ['library', 'litBook', 'litRead'].includes(nav.view),
+    // Transient: the open chapter's read/workshop/build session, or null.
+    // See enterLitChapter in js/main.js for its shape.
+    lit: null,
+    // `${bookId}/${chapterId}` -> { para, done, at, score } -- `para` is the
+    // furthest paragraph reached, so a long chapter resumes where it was left
+    // rather than restarting (unlike a practice session, a chapter is a long
+    // sitting). Persisted.
+    litProgress: boot.litProgress || {},
+    // bookId -> lemma -> true, the words the learner double-clicked as
+    // unknown while reading. Persisted, and read back by the build exercise
+    // to decide which sentences it draws from.
+    litUnknown: boot.litUnknown || {},
+    // 'ar' | 'en' -- which language the comprehension checks are asked in.
+    // A standing reading preference rather than a per-session choice, so it
+    // is persisted; `answer` indexes both option lists, so switching
+    // mid-paragraph never changes what is correct.
+    litCheckLang: boot.litCheckLang,
+    // How large the reading page's Arabic is set, as a percentage. Its own
+    // control rather than lessonTextScale's: a page of prose is read at a
+    // different size from a lesson's worked examples, and the reader is the
+    // only screen where the Arabic IS the content.
+    litTextScale: boot.litTextScale,
     completed: boot.completed,
     quizScores: boot.quizScores,
     exStates: boot.exStates,
@@ -886,6 +922,284 @@ export function buildUnlockTestQueue(subPools, length) {
     keys = keys.concat(shuffle(rest).slice(0, length - keys.length).map((e) => e.key));
   }
   return shuffle(keys);
+}
+
+// --- Literature: workshop and build queues --------------------------------
+// Both are built once, when the reader crosses into that stage, and then
+// carried on state.lit -- never rebuilt per render (same rule as every pool
+// above). Neither is weighted or spaced: a chapter is read once through, so
+// there is no history to lean on, only what this chapter contains and which
+// of its words the learner has just marked as unknown.
+
+// One shuffled display order per question, generated with the queue rather
+// than on every render, so answering doesn't reshuffle the chips underneath
+// the cursor -- the same reasoning as shuffleQuizOrder above.
+function withOptionOrder(item) {
+  return { ...item, order: shuffle(item.options.map((_, i) => i)) };
+}
+
+// A chapter's workshop is a BANK, not a fixed set: each visit draws a fresh
+// sample, so re-reading a chapter doesn't re-ask the same questions in the
+// same order.
+export const LIT_WORKSHOP_LENGTH = 8;
+
+// --- Generated workshop questions ------------------------------------------
+// Everything below is derived from the chapter's own tokens: which ending a
+// word takes, whether a verb is ماضٍ or مضارع, whether a noun is singular or
+// plural, which preposition the passage used. Nothing is invented -- each
+// answer is read straight off the token's `features`/`pos`, and each question
+// is about a word the learner just read in context. That is what lets every
+// chapter ask a varied set without any of it being authored per chapter.
+
+// Words whose grammar is worth asking about: analysed, and not a name.
+function taggedTokens(chapter, predicate) {
+  return chapterSentences(chapter).flatMap((sentence) => sentence.tokens
+    .map((token, index) => ({ sentence, token, index, key: `${sentence.id}:${index}` }))
+    .filter(({ token }) => token.pos !== 'proper' && predicate(token)));
+}
+
+const has = (token, atom) => new RegExp(`(^|[.+])${atom}([.+]|$)`).test(token.features || '');
+
+// The sentence with one word cut out of it, for a fill-the-blank question.
+function frameAround(sentence, index) {
+  const words = sentence.tokens.map((t) => t.surface);
+  return { pre: words.slice(0, index).join(' '), post: words.slice(index + 1).join(' ') };
+}
+
+// A "name this form" question: the whole sentence for context, the word named
+// in the task line, and grammatical terms as the choices.
+function classifyItem({ sentence, token, key }, kicker, task, options, answer, rationales) {
+  return {
+    type: 'grammar', key, kicker, task, base: sentence.ar, pre: '', post: '', options, answer, rationales,
+  };
+}
+
+function buildLitGeneratedPools(chapter) {
+  const pools = {};
+
+  // Which ending? -- the same إعراب contrast the build stage's decoys use,
+  // asked directly, with all three cases side by side.
+  pools.ending = taggedTokens(chapter, (t) => t.pos !== 'verb' && hasCaseMark(t.surface, t))
+    .map(({ sentence, token, index, key }) => {
+      const forms = caseForms(token.surface, token);
+      if (!forms) return null;
+      const options = [forms.nom, forms.acc, forms.gen];
+      if (new Set(options).size < 3) return null;
+      const answer = options.indexOf(token.surface);
+      if (answer === -1) return null;
+      return {
+        type: 'ending',
+        key,
+        sentenceId: sentence.id,
+        kicker: 'Which ending?',
+        task: 'Which ending does the missing word take here?',
+        en: sentence.en,
+        ...frameAround(sentence, index),
+        options,
+        answer,
+        rationales: options.map((option, i) => (i === answer
+          ? `${token.surface} ${caseNote(token.surface, token.pos)}`
+          : `That is the ${caseLabel(option)} form — not what this position calls for.`)),
+      };
+    })
+    .filter(Boolean);
+
+  // Past or present?
+  const TENSES = [['perf', 'مَاضٍ'], ['impf', 'مُضَارِع'], ['imp', 'أَمْر']];
+  pools.tense = taggedTokens(chapter, (t) => t.pos === 'verb' && TENSES.some(([a]) => has(t, a)))
+    .map((spot) => {
+      const answer = TENSES.findIndex(([atom]) => has(spot.token, atom));
+      return classifyItem(spot, 'Past or present?',
+        `Is "${spot.token.surface}" past (مَاضٍ), present (مُضَارِع), or a command (أَمْر)?`,
+        TENSES.map(([, label]) => label), answer,
+        ['A completed action — the ماضي carries its subject as a suffix.',
+          'An action going on or still to come — the مضارع takes a prefix أ/ي/ت/ن.',
+          'A command, addressed to someone.']);
+    });
+
+  // Singular, dual or plural?
+  const NUMBERS = [['sg', 'مُفْرَد'], ['du', 'مُثَنًّى'], ['pl', 'جَمْع']];
+  pools.number = taggedTokens(chapter, (t) => (t.pos === 'noun' || t.pos === 'adj')
+    && (has(t, 'nom') || has(t, 'acc') || has(t, 'gen')))
+    .map((spot) => {
+      const answer = has(spot.token, 'pl') ? 2 : has(spot.token, 'du') ? 1 : 0;
+      return classifyItem(spot, 'How many?',
+        `Is "${spot.token.surface}" singular, dual, or plural?`,
+        NUMBERS.map(([, label]) => label), answer,
+        ['One of them.', 'Exactly two — the مثنى ends in ـَانِ or ـَيْنِ.', 'Three or more.']);
+    });
+
+  // Definite or indefinite?
+  pools.definite = taggedTokens(chapter, (t) => has(t, 'def') || has(t, 'indef'))
+    .map((spot) => classifyItem(spot, 'Definite or indefinite?',
+      `Is "${spot.token.surface}" definite (مَعْرِفَة) or indefinite (نَكِرَة)?`,
+      ['مَعْرِفَة', 'نَكِرَة'], has(spot.token, 'def') ? 0 : 1,
+      ['Definite — carrying الـ, or made definite by what follows it.',
+        'Indefinite — the tanwin at its end is the mark of it.']));
+
+  // What case, by name -- the other half of the ending question.
+  const CASES = [['nom', 'مَرْفُوع'], ['acc', 'مَنْصُوب'], ['gen', 'مَجْرُور']];
+  pools.case = taggedTokens(chapter, (t) => t.pos !== 'verb' && CASES.some(([a]) => has(t, a)))
+    .map((spot) => {
+      const answer = CASES.findIndex(([atom]) => has(spot.token, atom));
+      return classifyItem(spot, 'What case?',
+        `What case is "${spot.token.surface}" in here?`,
+        CASES.map(([, label]) => label), answer,
+        ['The subject, or the predicate of a nominal sentence.',
+          'An object, or an adverbial complement.',
+          'After a preposition, or as the second term of an إضافة.']);
+    });
+
+  // Which preposition? -- only standalone ones, so the frame stays intact.
+  const PREPS = ['فِي', 'إِلَى', 'مِنْ', 'عَلَى', 'مَعَ', 'عَنْ', 'حَتَّى'];
+  pools.preposition = taggedTokens(chapter, (t) => t.pos === 'prep' && PREPS.includes(t.surface))
+    .map(({ sentence, token, index, key }) => {
+      const others = shuffle(PREPS.filter((p) => p !== token.surface)).slice(0, 2);
+      return {
+        type: 'grammar',
+        key,
+        kicker: 'Which preposition?',
+        task: 'Which preposition does the passage use here?',
+        en: sentence.en,
+        ...frameAround(sentence, index),
+        options: [token.surface, ...others],
+        answer: 0,
+        rationales: [`The passage reads ${token.surface} — ${token.gloss || 'that is the one it uses'}.`, '', ''],
+      };
+    });
+
+  return pools;
+}
+
+// Four pattern drills (fill the missing word in a frame the chapter used
+// repeatedly), then four form shifts (take one of those verbs somewhere else
+// on the paradigm). Sampled separately and kept in that order, never mixed:
+// the shift questions assume the frame is already familiar. A chapter with
+// fewer than four of one kind tops the shortfall up from the other rather
+// than running a shorter workshop.
+// Takes `count` items from an already-shuffled pool, preferring one per
+// distinct key before allowing a repeat. A bank holds several questions on
+// the same sentence -- five ways to shift أَذْهَبُ إِلَى السُّوقِ, say -- and while
+// those are genuinely different questions, meeting two of them inside one
+// eight-question workshop reads as the drill repeating itself.
+function pickVaried(pool, count, keyOf) {
+  const seen = new Set();
+  const distinct = [];
+  const duplicates = [];
+  pool.forEach((item) => {
+    const key = keyOf(item);
+    if (seen.has(key)) duplicates.push(item);
+    else {
+      seen.add(key);
+      distinct.push(item);
+    }
+  });
+  return [...distinct, ...duplicates].slice(0, count);
+}
+
+// Eight questions spread across every kind the chapter can offer -- the
+// authored frames and transformations, plus the generated ending, tense,
+// number, definiteness, case, word-class and preposition questions. Taken
+// round-robin, one kind at a time, so no kind can dominate a sitting and a
+// thin authored bank no longer means a thin workshop; each kind's own pool is
+// shuffled first, so which questions turn up changes every reading.
+export function buildLitWorkshopQueue(chapter) {
+  const workshop = chapter.workshop || {};
+  const generated = buildLitGeneratedPools(chapter);
+  // Authored questions come from the chapter's own text and are worth more
+  // than a derived one, so their pools lead the rotation.
+  const pools = [
+    shuffle(workshop.cloze || []),
+    shuffle(workshop.shift || []),
+    ...shuffle(Object.values(generated)).map((pool) => shuffle(pool)),
+  ].filter((pool) => pool.length);
+
+  // A question is "the same" as one already asked if it is built on the same
+  // frame, the same base sentence, or the same word -- being asked twice
+  // about مُبَكِّراً in one sitting reads as the drill repeating itself, even
+  // when the two questions are about different things.
+  const keyOf = (q) => q.key || q.base || `${q.pre}|${q.post}`;
+  const queue = [];
+  const seen = new Set();
+  for (let round = 0; queue.length < LIT_WORKSHOP_LENGTH && round < 12; round += 1) {
+    let tookAny = false;
+    for (const pool of pools) {
+      if (queue.length >= LIT_WORKSHOP_LENGTH) break;
+      const next = pool.find((q) => !seen.has(keyOf(q)));
+      if (!next) continue;
+      seen.add(keyOf(next));
+      pool.splice(pool.indexOf(next), 1);
+      queue.push(next);
+      tookAny = true;
+    }
+    if (!tookAny) break;
+  }
+  return queue.map(withOptionOrder);
+}
+
+const LIT_BUILD_DISTRACTORS = 3;
+
+// The chips for one sentence: its own words, plus up to three of those words
+// again with the ending moved one case along (see caseVariant). Choosing
+// between اللَّيْلِ and اللَّيْلُ is the actual question -- word order alone
+// would be too easy in a sentence this short.
+function makeLitBuildItem(sentence, otherSurfaces) {
+  const solution = sentence.tokens.map((t) => t.surface);
+  const taken = new Set(solution);
+  const chips = solution.map((surface) => ({ surface, correct: true }));
+
+  shuffle(sentence.tokens.filter((t) => t.pos !== 'proper' && hasCaseMark(t.surface, t)))
+    .forEach((t) => {
+      if (chips.length - solution.length >= LIT_BUILD_DISTRACTORS) return;
+      const variant = caseVariant(t.surface, t);
+      if (!variant || taken.has(variant)) return;
+      taken.add(variant);
+      chips.push({ surface: variant, correct: false, note: `${t.surface} ${caseNote(t.surface, t.pos)}` });
+    });
+
+  // A sentence whose words all end in a long vowel or a defective ending has
+  // no case marks to move, so fall back to words from elsewhere in the
+  // chapter rather than offering the answer with no decoys at all.
+  shuffle(otherSurfaces).forEach((surface) => {
+    if (chips.length - solution.length >= 2 || taken.has(surface)) return;
+    taken.add(surface);
+    chips.push({ surface, correct: false, note: 'belongs to a different sentence in this chapter.' });
+  });
+
+  return {
+    sentenceId: sentence.id,
+    // Clause glosses carry the punctuation that joined them to the next
+    // clause ("…, " / "… —"); as a standalone prompt the sentence should
+    // just end.
+    en: sentence.en.replace(/\s*[,;—–-]\s*$/, '.').replace(/\.\.$/, '.'),
+    ar: sentence.ar,
+    solution,
+    chips: shuffle(chips),
+  };
+}
+
+// Req: 5-10 sentences, drawn from the ones carrying a word the learner
+// marked unknown while reading; where those don't reach the minimum, topped
+// up from sentences carrying this chapter's newly taught vocabulary, and
+// only then from anything else eligible. So a learner who marked nothing
+// still gets a full build stage, over the words the chapter was teaching.
+export function buildLitBuildQueue(chapter, litUnknown, bookId) {
+  const eligible = chapterSentences(chapter).filter(isBuildEligible);
+  const unknown = eligible.filter((s) => sentenceHasUnknown(s, litUnknown, bookId));
+  const unknownIds = new Set(unknown.map((s) => s.id));
+  const fresh = eligible.filter((s) => !unknownIds.has(s.id) && sentenceHasNewWord(s, chapter));
+  const freshIds = new Set(fresh.map((s) => s.id));
+  const rest = eligible.filter((s) => !unknownIds.has(s.id) && !freshIds.has(s.id));
+
+  const target = Math.min(LIT_BUILD_MAX, Math.max(LIT_BUILD_MIN, unknown.length));
+  const picked = shuffle(unknown).slice(0, target);
+  [fresh, rest].forEach((pool) => {
+    if (picked.length >= target) return;
+    picked.push(...shuffle(pool).slice(0, target - picked.length));
+  });
+
+  const allSurfaces = eligible.flatMap((s) => s.tokens.map((t) => t.surface));
+  return picked.map((s) => makeLitBuildItem(s, allSurfaces));
 }
 
 export function sidebarRows(state, MODULES, helpers) {

@@ -13,6 +13,20 @@
 // لفيف بقسميه) with the reason behind each name; ضمائر الرفع المتحركة
 // المتصلة; and the running of the same divisions through الاسم.
 // التقسيم الثالث (المجرد والمزيد) follows in Module 04.
+//
+// 2026-08-12: restructured to match content/module-01.js's (Advanced Nahw)
+// revamped presentation style, per explicit instruction — same facts,
+// counts, and lesson/concept boundaries, no new grammar content. Every
+// concept previously carried one undifferentiated "Core Text" box holding
+// several lines of unglossed Arabic; each is now split into its own
+// Definition/Rule box per distinct source sentence (matching how
+// content/module-01.js and this course's own module-01.js separate a
+// defining statement from the reasoning behind a name), and every box is
+// now followed immediately by a full English rendering of what it says, not
+// just a paraphrase of its upshot — so the lesson reads start to finish
+// without the learner needing to parse the Arabic quotes themselves. The
+// Arabic stays in place alongside the translation: it is still there for
+// anyone who wants it, but the English carries the lesson on its own.
 
 export default {
   id: 'as-03',
@@ -29,9 +43,11 @@ export default {
         {
           heading: 'العلة وحروفها',
           lines: [
-            { html: `<bdi>العِلَّة</bdi> in the language means <bdi>المَرَض والضَّعْف</bdi> — sickness and weakness.`, list: false },
-            { html: `The three letters collected in <bdi>وَاي</bdi> — <bdi>الوَاو، الأَلِف، اليَاء</bdi> — are called <bdi>حُرُوفَ عِلَّة</bdi> because they are weak letters: <bdi>يُصِيبُهَا الإِعْلَالُ بِكَثْرَةٍ بِالقَلْبِ والحَذْفِ ونَقْلِ الحَرَكَةِ عنها</bdi>.`, list: false },
-            { html: `So the name is descriptive, not arbitrary. Three things keep happening to these letters and to no others:`, list: false },
+            { html: `<bdi>العِلَّة</bdi> in the language means المَرَض والضَّعْف — sickness and weakness. Grammarians borrow that name for three specific letters: <bdi>الواو</bdi>, <bdi>الألف</bdi>, and <bdi>الياء</bdi>, collected together under the label <bdi>وَاي</bdi>.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `يُصِيبُهَا الإِعْلَالُ بِكَثْرَةٍ بِالقَلْبِ والحَذْفِ ونَقْلِ الحَرَكَةِ عنها`,
+            ] } },
+            { html: `"Change (<bdi>الإعلال</bdi>) befalls them frequently — by substitution, by deletion, and by moving the vowel off them." That sentence is the whole reason for the name: <bdi>وَاي</bdi> is descriptive, not arbitrary. Three things keep happening to these three letters and to no others:`, list: false },
             { html: `<bdi>القَلْب</bdi> — being turned into another letter.`, list: true, bullet: true },
             { html: `<bdi>الحَذْف</bdi> — being dropped altogether.`, list: true, bullet: true },
             { html: `<bdi>نَقْلُ الحَرَكَة</bdi> — having their vowel moved off them onto the letter before.`, list: true, bullet: true },
@@ -46,10 +62,13 @@ export default {
         {
           heading: 'تعريف الصحيح',
           lines: [
-            { html: `<bdi>الصَّحِيح: ما خَلَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّة</bdi> — a verb whose root letters are free of ا، و، ي.`, list: false },
-            { html: `<bdi>نحو: كَتَبَ وجَلَسَ</bdi>`, list: false },
-            { html: `The word <bdi>أُصُولُه</bdi> is the operative one. It ties the ruling to the root letters alone, <bdi>دُونَ الزَّائِدَة</bdi> — so a زائد حرف علة does not make a word معتل.`, list: false },
-            { html: `That is why <bdi>كَاتِب، ضَارِب، عَامِل</bdi>, derived from <bdi>كَتَبَ، ضَرَبَ، عَمِلَ</bdi>, all remain صحيح: each contains an ألف, but that ألف is زائدة, not one of the three أصول.`, list: false },
+            { html: `With حروف العلة identified, شذا العرف opens its first division of the فعل by asking whether any of them sit among a word's root letters.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `الصَّحِيح: ما خَلَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّة، نحو: كَتَبَ وجَلَسَ`,
+            ] } },
+            { html: `"الصحيح: that whose root letters (<bdi>أصوله</bdi>) are free of the حروف العلة — for example, كَتَبَ (he wrote) and جَلَسَ (he sat)." In plain terms: a verb whose three root letters are all sound, none of them ا، و or ي.`, list: false },
+            { html: `أُصُولُه is the operative word. It ties the ruling to the root letters alone, دُونَ الزَّائِدَة (excluding anything added) — so a زائد حرف علة does not make a word معتل.`, list: false },
+            { html: `That is why كَاتِب، ضَارِب، عَامِل, derived from كَتَبَ، ضَرَبَ، عَمِلَ, all remain صحيح: each contains an ألف, but that ألف is زائدة, not one of the three أصول.`, list: false },
           ],
           exercise: {
             prompt: `ضَارِب contains an ألف, yet it counts as صحيح. Why?`,
@@ -66,8 +85,11 @@ export default {
               ['حَرْفُ لِين', 'ساكن (quiescent), preceded by a fatḥa', 'ثَوْب، سَيْف'],
               ['حَرْفُ مَدّ', 'ساكن, with the vowel before it matching it in kind (مُجَانَسَة)', 'قَالَ، يَقُولُ، قِيلَا'],
             ] } },
-            { html: `<bdi>المُجَانَسَة</bdi> means the preceding vowel matches the letter in kind: fatḥa before ألف, ḍamma before واو, kasra before ياء.`, list: false },
-            { html: `<bdi>فَعَلَى ذلك لا تَنْفَكُّ الأَلِفُ عن كَوْنِهَا حَرْفَ عِلَّةٍ، ومَدٍّ، ولِينٍ، لِسُكُونِهَا وفَتْحِ ما قَبْلَهَا دَائِمًا، بِخِلَافِ أُخْتَيْهَا</bdi> — the ألف is never anything but all three at once, because it is always ساكنة with a fatḥa before it. الواو and الياء can be one without the other.`, list: false },
+            { html: `<bdi>المُجَانَسَة</bdi> means the preceding vowel matches the letter in kind: fatḥa before ألف, ḍamma before واو, kasra before ياء. One of the three letters then satisfies every condition at once:`, list: false },
+            { box: { title: 'Rule', lines: [
+              `فَعَلَى ذلك لا تَنْفَكُّ الأَلِفُ عن كَوْنِهَا حَرْفَ عِلَّةٍ، ومَدٍّ، ولِينٍ، لِسُكُونِهَا وفَتْحِ ما قَبْلَهَا دَائِمًا، بِخِلَافِ أُخْتَيْهَا`,
+            ] } },
+            { html: `"So the ألف never fails to be a حرف علة, a حرف مد, and a حرف لين all at once, because it is always quiescent with a fatḥa before it — unlike its two sisters (<bdi>أختيها</bdi>)." Its two sisters are الواو and الياء: each of those can be one without the other, since either can carry its own vowel or sit after a vowel that does not match it, while the ألف has no such freedom.`, list: false },
           ],
           clarification: `Why is the ألف always all three, while its two sisters are not? Because the ألف has no other state available to it: it cannot carry a حركة, so it is always ساكنة, and the only vowel that can precede it is a fatḥa. A fatḥa then does two jobs at once: it opens before the letter, which satisfies لين, and it is the جنس of an ألف, which satisfies مد. الواو and الياء, by contrast, can carry a حركة (وَعَدَ, يَسَرَ), can be ساكنة after a non-matching vowel (ثَوْب, سَيْف — لين but not مد), or ساكنة after a matching one (يَقُولُ, قِيلَ — مد but not لين, since a ḍamma and a kasra do not open). Only for the ألف do the two conditions collapse into one.`,
           exercise: {
@@ -80,9 +102,12 @@ export default {
         {
           heading: 'تعريف المعتل',
           lines: [
-            { html: `<bdi>المُعْتَلّ: ما كانَ أَحَدُ أُصُولِهِ حَرْفَ عِلَّةٍ</bdi> — a verb one of whose root letters is ا، و or ي.`, list: false },
-            { html: `<bdi>نحو: وَجَدَ، وقَالَ، وسَعَى</bdi>`, list: false },
-            { html: `Note that <bdi>أَحَدُ</bdi> is enough: one weak root letter makes the whole verb معتل. The two definitions are therefore exhaustive and mutually exclusive — every verb is one or the other.`, list: false },
+            { html: `Every root letter has now been sorted into one of two camps: free of أحرف العلة, or not. The second camp gets the matching definition.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `المُعْتَلّ: ما كانَ أَحَدُ أُصُولِهِ حَرْفَ عِلَّةٍ، نحو: وَجَدَ، وقَالَ، وسَعَى`,
+            ] } },
+            { html: `"المعتل: that one of whose root letters is a حرف علة — for example, وَجَدَ (he found), قَالَ (he said), and سَعَى (he strove)." A verb one of whose root letters is ا، و or ي.`, list: false },
+            { html: `Note that أَحَدُ is enough: one weak root letter makes the whole verb معتل. The two definitions are therefore exhaustive and mutually exclusive — every verb is one or the other.`, list: false },
             { html: `Those three examples cover the three positions: وَجَدَ is weak in its فاء, قَالَ in its عين, and سَعَى in its لام. Those positions are what the أقسام المعتل are built on.`, list: false },
           ],
           exercise: {
@@ -305,10 +330,15 @@ export default {
         {
           heading: 'السالم',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ الصَّحِيحُ إلى سَالِمٍ، ومُضَعَّفٍ، ومَهْمُوزٍ</bdi> — الصحيح divides into سَالِم, مُضَعَّف, and مَهْمُوز.`, list: false },
-            { html: `<bdi>السَّالِم: ما سَلِمَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّةِ والهَمْزَةِ والتَّضْعِيفِ</bdi> — السالم is a verb whose root letters are free of أحرف العلة, الهمزة, and doubling (التَّضْعِيف).`, list: false },
-            { html: `<bdi>كَضَرَبَ، ونَصَرَ، وقَعَدَ، وجَلَسَ</bdi>`, list: false },
-            { html: `<bdi>فإِذَنْ يَكُونُ كُلُّ سَالِمٍ صَحِيحًا، ولا عَكْسَ</bdi> — every سالم is صحيح, but not every صحيح is سالم. السالم clears three hurdles; الصحيح only clears the first.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `يَنْقَسِمُ الصَّحِيحُ إلى سَالِمٍ، ومُضَعَّفٍ، ومَهْمُوزٍ`,
+              `السَّالِم: ما سَلِمَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّةِ والهَمْزَةِ والتَّضْعِيفِ، كَضَرَبَ، ونَصَرَ، وقَعَدَ، وجَلَسَ`,
+            ] } },
+            { html: `"الصحيح divides into سالم, مضعَّف, and مهموز. السالم: that whose root letters are free of أحرف العلة, the همزة, and doubling (التضعيف) — for example ضَرَبَ (he struck), نَصَرَ (he helped), قَعَدَ (he sat), and جَلَسَ (he sat)." So السالم is the verb whose root letters clear three hurdles at once, and the other two divisions are each named for one hurdle it fails to clear.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `فإِذَنْ يَكُونُ كُلُّ سَالِمٍ صَحِيحًا، ولا عَكْسَ`,
+            ] } },
+            { html: `"It follows that every سالم is صحيح, but not the reverse." الصحيح only requires clearing the first hurdle — freedom from أحرف العلة. السالم requires clearing all three, so every سالم automatically counts as صحيح, while plenty of صحيح verbs — anything مضعَّف or مهموز — are not سالم.`, list: false },
           ],
           exercise: {
             prompt: `Why does every سالم count as صحيح while the reverse does not hold?`,
@@ -320,9 +350,14 @@ export default {
         {
           heading: 'المضعَّف وقسماه',
           lines: [
-            { html: `<bdi>المُضَعَّف: ويُقَالُ له الأَصَمُّ لِشِدَّتِهِ</bdi> — "the deaf one", from the density of the doubled letter.`, list: false },
-            { html: `<bdi>يَنْقَسِمُ إلى قِسْمَيْنِ: مُضَعَّفُ الثُّلَاثِيِّ ومَزِيدُه، ومُضَعَّفُ الرُّبَاعِيِّ</bdi> — it divides into two: مُضَعَّفُ الثُّلَاثِيّ ومَزِيدُه, and مُضَعَّفُ الرُّبَاعِيّ.`, list: false },
-            { html: `The two are defined by which positions match, so they never overlap.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `المُضَعَّف: ويُقَالُ له الأَصَمُّ لِشِدَّتِهِ`,
+            ] } },
+            { html: `"المضعَّف, also called <bdi>الأَصَمّ</bdi> — "the deaf one" — for the density (<bdi>شِدَّة</bdi>) of its doubled letter." The second name comes from how a doubled consonant sounds: packed together with no vowel breaking it up.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `يَنْقَسِمُ إلى قِسْمَيْنِ: مُضَعَّفُ الثُّلَاثِيِّ ومَزِيدُه، ومُضَعَّفُ الرُّبَاعِيِّ`,
+            ] } },
+            { html: `"It divides into two: مضعَّف الثلاثي (with its مزيد forms), and مضعَّف الرباعي." The two قسمان that follow are defined by which positions in the word match, so they never overlap.`, list: false },
           ],
           exercise: {
             prompt: `What second name is given to المضعَّف, and why?`,
@@ -334,9 +369,14 @@ export default {
         {
           heading: 'مضعَّف الثلاثي ومزيده',
           lines: [
-            { html: `<bdi>ما كانَتْ عَيْنُهُ ولَامُهُ مِنْ جِنْسٍ وَاحِدٍ</bdi> — its عين and its لام are the same letter.`, list: false },
-            { html: `<bdi>نحو: فَرَّ، مَدَّ، وامْتَدَّ، واسْتَمَدَّ</bdi> — the last two showing that the مزيد forms belong here too.`, list: false },
-            { html: `<bdi>وهو مَحَلُّ نَظَرِ الصَّرْفِيِّ</bdi> — this is the kind the صرفي actually attends to.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `ما كانَتْ عَيْنُهُ ولَامُهُ مِنْ جِنْسٍ وَاحِدٍ، نحو: فَرَّ، مَدَّ، وامْتَدَّ، واسْتَمَدَّ`,
+            ] } },
+            { html: `"That whose عين and لام are one and the same letter — for example فَرَّ (he fled), مَدَّ (he extended), امْتَدَّ (it extended), and اسْتَمَدَّ (he drew help)." امْتَدَّ and اسْتَمَدَّ are listed alongside the bare forms to show that مزيد forms belong here too — the letters added on top of the root do not move a word out of this قسم.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وهو مَحَلُّ نَظَرِ الصَّرْفِيِّ`,
+            ] } },
+            { html: `"And this — not the رباعي — is what the صرفي actually studies closely."`, list: false },
           ],
           clarification: `Why single out the ثلاثي مضعَّف as محل نظر الصرفي? Because it is the one that carries صرف rulings of its own — الإدغام, نقل الحركة, and what happens when ضمائر are attached to it. Those are all rules that have to be learned, and they follow from the عين and لام being identical. The رباعي مضعَّف has no such rulings peculiar to it: زَلْزَلَ behaves exactly like دَحْرَجَ throughout its conjugation, so once you know the رباعي you know it, and nothing further needs saying.`,
           exercise: {
@@ -349,8 +389,10 @@ export default {
         {
           heading: 'مضعَّف الرباعي',
           lines: [
-            { html: `<bdi>ما كانَتْ فَاؤُهُ ولَامُهُ الأُولَى مِنْ جِنْسٍ، وعَيْنُهُ ولَامُهُ الثَّانِيَةُ مِنْ جِنْسٍ</bdi> — its فاء and first لام are the same letter, and its عين and second لام are the same letter.`, list: false },
-            { html: `<bdi>كَزَلْزَلَ، وعَسْعَسَ، وقَلْقَلَ</bdi>`, list: false },
+            { box: { title: 'Definition', lines: [
+              `ما كانَتْ فَاؤُهُ ولَامُهُ الأُولَى مِنْ جِنْسٍ، وعَيْنُهُ ولَامُهُ الثَّانِيَةُ مِنْ جِنْسٍ، كَزَلْزَلَ، وعَسْعَسَ، وقَلْقَلَ`,
+            ] } },
+            { html: `"That whose فاء and first لام are the same letter, and whose عين and second لام are the same letter — for example زَلْزَلَ (he shook), عَسْعَسَ (it grew dark), and قَلْقَلَ (he agitated)."`, list: false },
             { html: `Read against the ميزان: a رباعي weighs فَعْلَلَ, so its four positions are ف ع ل ل. Here ف matches the first ل, and ع matches the second — the whole first half repeats as the second half.`, list: false },
           ],
           exercise: {
@@ -363,8 +405,10 @@ export default {
         {
           heading: 'المهموز',
           lines: [
-            { html: `<bdi>المَهْمُوز: ما كانَ أَحَدُ أُصُولِهِ هَمْزَةً</bdi> — المهموز is a verb one of whose root letters is a هَمْزَة.`, list: false },
-            { html: `<bdi>نحو: أَخَذَ، وسَأَلَ، وقَرَأَ</bdi>`, list: false },
+            { box: { title: 'Definition', lines: [
+              `المَهْمُوز: ما كانَ أَحَدُ أُصُولِهِ هَمْزَةً، نحو: أَخَذَ، وسَأَلَ، وقَرَأَ`,
+            ] } },
+            { html: `"المهموز: that one of whose root letters is a هَمْزَة — for example أَخَذَ (he took), سَأَلَ (he asked), and قَرَأَ (he read)." A verb one of whose root letters is a هَمْزَة.`, list: false },
             { html: `As with المعتل, the three cover the three positions — أَخَذَ is مهموز الفاء, سَأَلَ مهموز العين, and قَرَأَ مهموز اللام.`, list: false },
             { html: `Note that the همزة is a حرف صحيح, not a حرف علة. That is why المهموز sits inside الصحيح and not beside المعتل, even though it is excluded from السالم.`, list: false },
           ],
@@ -588,7 +632,10 @@ export default {
         {
           heading: 'أقسام المعتل الأربعة',
           lines: [
-            { html: `<bdi>يَنْقَسِمُ المُعْتَلُّ إلى مِثَالٍ، وأَجْوَفَ، ونَاقِصٍ، ولَفِيفٍ</bdi> — المعتل divides into مِثَال, أَجْوَف, نَاقِص, and لَفِيف.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `يَنْقَسِمُ المُعْتَلُّ إلى مِثَالٍ، وأَجْوَفَ، ونَاقِصٍ، ولَفِيفٍ`,
+            ] } },
+            { html: `"المعتل divides into مِثَال, أَجْوَف, نَاقِص, and لَفِيف." Four kinds, and each is named for where the weakness falls.`, list: false },
             { table: { title: 'The Four Kinds at a Glance', headers: ['القسم (Kind)', 'الموضع المعتل (The Weak Position)'], rows: [
               ['المِثَال', 'الفاء'],
               ['الأَجْوَف', 'العين'],
@@ -607,9 +654,14 @@ export default {
         {
           heading: 'المثال',
           lines: [
-            { html: `<bdi>المِثَال: ما اعْتَلَّتْ فَاؤُهُ</bdi> — المثال is a verb whose فاء is weak.`, list: false },
-            { html: `<bdi>نحو: وَعَدَ ويَسَرَ</bdi>`, list: false },
-            { html: `<bdi>وسُمِّيَ بذلك لأنَّهُ يُمَاثِلُ الصَّحِيحَ في عَدَمِ إِعْلَالِ مَاضِيهِ</bdi> — it is called مثال because it "resembles" the صحيح in that its ماضي undergoes no إعلال.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `المِثَال: ما اعْتَلَّتْ فَاؤُهُ، نحو: وَعَدَ ويَسَرَ`,
+            ] } },
+            { html: `"المثال: that whose فاء is weak — for example وَعَدَ (he promised) and يَسَرَ (it became easy)."`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وسُمِّيَ بذلك لأنَّهُ يُمَاثِلُ الصَّحِيحَ في عَدَمِ إِعْلَالِ مَاضِيهِ`,
+            ] } },
+            { html: `"It is named that because it resembles (<bdi>يُمَاثِلُ</bdi>) الصحيح in one respect: its ماضي undergoes no إعلال." That resemblance holds for this قسم alone, as the table below shows.`, list: false },
             { table: { title: 'Why the resemblance holds only for المثال', headers: ['القسم (Kind)', 'ماضيه (Its ماضي Form)', 'ما وقع فيه (What Happened to It)'], rows: [
               ['الأجوف', 'قَالَ / قُلْتُ', 'إعلال — by قَلْب (substitution) in قَالَ, and by حَذْف (deletion) in قُلْتُ'],
               ['الناقص', 'رَمَى / رَمَوْا', 'إعلال — by قَلْب in رَمَى, and by حَذْف in رَمَوْا'],
@@ -626,11 +678,19 @@ export default {
         {
           heading: 'الأجوف',
           lines: [
-            { html: `<bdi>الأَجْوَف: ما اعْتَلَّتْ عَيْنُهُ</bdi> — الأجوف is a verb whose عين is weak.`, list: false },
-            { html: `<bdi>نحو: قَالَ وبَاعَ</bdi>`, list: false },
-            { html: `<bdi>وسُمِّيَ بذلك لِخُلُوِّ جَوْفِهِ، أي وَسَطِهِ، مِنَ الحَرْفِ الصَّحِيحِ</bdi> — "hollow", because its middle is empty of a sound letter.`, list: false },
-            { html: `<bdi>ويُسَمَّى أيضًا ذَا الثَّلَاثَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على ثَلَاثَةِ أَحْرُفٍ</bdi> — it is also called ذُو الثَّلَاثَة, because attaching تاء الفاعل to it brings it to three letters — <bdi>كَقُلْتُ وبِعْتُ، في قَالَ وبَاعَ</bdi> (e.g. قُلْتُ and بِعْتُ, from قَالَ and بَاعَ).`, list: false },
-            { html: `The second name is a counting test, not a description: attach تاء الفاعل and see how many letters are left. The عين drops, so قَالَ becomes قُلْتُ — three letters in all.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `الأَجْوَف: ما اعْتَلَّتْ عَيْنُهُ، نحو: قَالَ وبَاعَ`,
+            ] } },
+            { html: `"الأجوف: that whose عين is weak — for example قَالَ (he said) and بَاعَ (he sold)."`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وسُمِّيَ بذلك لِخُلُوِّ جَوْفِهِ، أي وَسَطِهِ، مِنَ الحَرْفِ الصَّحِيحِ`,
+            ] } },
+            { html: `"It is named that for the emptiness of its <bdi>جَوْف</bdi> — that is, its middle — of a sound letter." "Hollow", in other words, because its middle position has no solid consonant sitting in it.`, list: false },
+            { html: `It carries a second name as well, and that one is a test rather than a description:`, list: false },
+            { box: { title: 'Rule', lines: [
+              `ويُسَمَّى أيضًا ذَا الثَّلَاثَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على ثَلَاثَةِ أَحْرُفٍ، كَقُلْتُ وبِعْتُ، في قَالَ وبَاعَ`,
+            ] } },
+            { html: `"It is also called <bdi>ذُو الثَّلَاثَة</bdi> — "the one with three" — because when تاء الفاعل is attached to it, it comes with it to three letters, as in قُلْتُ and بِعْتُ from قَالَ and بَاعَ." Attach تاء الفاعل and count what is left: the عين drops, so قَالَ becomes قُلْتُ — three letters in all.`, list: false },
           ],
           exercise: {
             prompt: `Why is the أجوف also called ذو الثلاثة؟`,
@@ -642,8 +702,12 @@ export default {
         {
           heading: 'ضمائر الرفع المتحركة المتصلة',
           lines: [
-            { html: `The ذو الثلاثة test works with تاء الفاعل, but the ruling is wider: <bdi>هذا الحُكْمُ يَشْمَلُ ضَمَائِرَ الرَّفْعِ المُتَحَرِّكَةِ، المُتَّصِلَةِ</bdi> — this ruling covers the ضَمَائِر الرَّفْع المُتَحَرِّكَة, المُتَّصِلَة, i.e. the vowelled, attached subject pronouns.`, list: false },
-            { html: `<bdi>وهي ثَلَاثَةٌ: تَاءُ الفَاعِلِ، ونَا المُتَكَلِّمِينَ، ونُونُ النِّسْوَةِ</bdi> — and they are three: تَاءُ الفَاعِل, نَا المُتَكَلِّمِين, and نُونُ النِّسْوَة.`, list: false },
+            { html: `The ذو الثلاثة test was stated with تاء الفاعل, but the ruling is wider than that one pronoun.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `هذا الحُكْمُ يَشْمَلُ ضَمَائِرَ الرَّفْعِ المُتَحَرِّكَةِ، المُتَّصِلَةِ`,
+              `وهي ثَلَاثَةٌ: تَاءُ الفَاعِلِ، ونَا المُتَكَلِّمِينَ، ونُونُ النِّسْوَةِ`,
+            ] } },
+            { html: `"This ruling extends to every vowelled, attached subject pronoun (<bdi>ضَمَائِر الرَّفْع المُتَحَرِّكَة المُتَّصِلَة</bdi>). There are three of them: تَاءُ الفَاعِلِ, نَا المُتَكَلِّمِينَ, and نُونُ النِّسْوَةِ." Any one of the three produces the same effect.`, list: false },
             { table: { headers: ['الضمير (Pronoun)', 'المثال (Example)'], rows: [
               ['تاء الفاعل', 'قُلْتُ'],
               ['نا المتكلمين', 'نحن قُلْنَا'],
@@ -871,11 +935,19 @@ export default {
         {
           heading: 'الناقص',
           lines: [
-            { html: `<bdi>النَّاقِص: ما اعْتَلَّتْ لَامُهُ</bdi> — الناقص is a verb whose لام is weak.`, list: false },
-            { html: `<bdi>نحو: غَزَا ورَمَى</bdi>`, list: false },
-            { html: `<bdi>وسُمِّيَ بذلك لِنُقْصَانِهِ، بِحَذْفِ آخِرِهِ في بَعْضِ التَّصَارِيفِ، كَغَزَتْ ورَمَتْ</bdi> — "deficient", because its last letter is dropped in some of its conjugations.`, list: false },
-            { html: `<bdi>ويُسَمَّى أيضًا ذَا الأَرْبَعَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على أَرْبَعَةِ أَحْرُفٍ، نحو غَزَوْتُ ورَمَيْتُ</bdi> — it is also called ذُو الأَرْبَعَة, because attaching تاء الفاعل to it brings it to four letters, as in غَزَوْتُ and رَمَيْتُ.`, list: false },
-            { html: `Set the two counting names side by side: with تاء الفاعل attached, the أجوف comes to three letters and the ناقص to four. The أجوف loses its weak letter; the ناقص keeps it and merely un-does its قلب.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `النَّاقِص: ما اعْتَلَّتْ لَامُهُ، نحو: غَزَا ورَمَى`,
+            ] } },
+            { html: `"الناقص: that whose لام is weak — for example غَزَا (he waged war) and رَمَى (he threw)."`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وسُمِّيَ بذلك لِنُقْصَانِهِ، بِحَذْفِ آخِرِهِ في بَعْضِ التَّصَارِيفِ، كَغَزَتْ ورَمَتْ`,
+            ] } },
+            { html: `"It is named that for its deficiency (<bdi>نُقْصَان</bdi>) — its last letter is dropped in some of its conjugations, as in غَزَتْ and رَمَتْ."`, list: false },
+            { html: `Like the أجوف, it has a counting name too:`, list: false },
+            { box: { title: 'Rule', lines: [
+              `ويُسَمَّى أيضًا ذَا الأَرْبَعَةِ، لأنَّهُ عِنْدَ إِسْنَادِهِ لِتَاءِ الفَاعِلِ يَصِيرُ مَعَهَا على أَرْبَعَةِ أَحْرُفٍ، نحو غَزَوْتُ ورَمَيْتُ`,
+            ] } },
+            { html: `"It is also called <bdi>ذَا الأَرْبَعَةِ</bdi> — "the one with four" — because when تاء الفاعل is attached to it, it comes with it to four letters, as in غَزَوْتُ and رَمَيْتُ." Set the two counting names side by side: with تاء الفاعل attached, the أجوف comes to three letters and the ناقص to four. The أجوف loses its weak letter; the ناقص keeps it and merely undoes its قلب.`, list: false },
           ],
           clarification: `Why does the ناقص come to four letters where the أجوف comes to three? Because the two lose different things. In قُلْتُ the عين has genuinely been dropped, leaving ق + ل + ت. In غَزَوْتُ nothing has been dropped at all: the لام is still there — it simply reverts from the ألف of غَزَا to its underlying واو, giving غ + ز + و + ت. The name ذو الأربعة is therefore a way of stating that the ناقص retains all three أصول under إسناد, in contrast to the أجوف. Note that the حذف mentioned in its own naming (غَزَتْ, رَمَتْ) happens in a different context — with تاء التأنيث الساكنة, not with تاء الفاعل.`,
           exercise: {
@@ -888,10 +960,16 @@ export default {
         {
           heading: 'اللفيف المفروق',
           lines: [
-            { html: `<bdi>واللَّفِيفُ قِسْمَانِ</bdi>. The first is <bdi>المَفْرُوق</bdi>.`, list: false },
-            { html: `<bdi>وهو ما اعْتَلَّتْ فَاؤُهُ ولَامُهُ</bdi> — weak in the first and third positions.`, list: false },
-            { html: `<bdi>نحو: وَفَى</bdi>`, list: false },
-            { html: `<bdi>وسُمِّيَ بذلك لِكَوْنِ الحَرْفِ الصَّحِيحِ فَارِقًا بَيْنَ حَرْفَيِ العِلَّةِ</bdi> — "separated", because the sound letter stands between the two weak ones.`, list: false },
+            { html: `The fourth kind is the one with two weak positions rather than one, and it splits in two.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `واللَّفِيفُ قِسْمَانِ`,
+              `المَفْرُوق: وهو ما اعْتَلَّتْ فَاؤُهُ ولَامُهُ، نحو: وَفَى`,
+            ] } },
+            { html: `"اللفيف is two kinds. المفروق: that whose فاء and لام are both weak — for example وَفَى (he fulfilled)."`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وسُمِّيَ بذلك لِكَوْنِ الحَرْفِ الصَّحِيحِ فَارِقًا بَيْنَ حَرْفَيِ العِلَّةِ`,
+            ] } },
+            { html: `"It is named that because the sound letter separates (<bdi>فَارِق</bdi>) between the two weak letters." المفروق is weak in the first and third positions, and called "separated" because the sound letter stands between the two weak ones.`, list: false },
           ],
           exercise: {
             prompt: `In وَفَى, which position holds the sound letter?`,
@@ -903,10 +981,14 @@ export default {
         {
           heading: 'اللفيف المقرون',
           lines: [
-            { html: `The second is <bdi>المَقْرُون</bdi>.`, list: false },
-            { html: `<bdi>وهو ما اعْتَلَّتْ عَيْنُهُ ولَامُهُ</bdi> — weak in the second and third positions.`, list: false },
-            { html: `<bdi>نحو: طَوَى ورَوَى</bdi>`, list: false },
-            { html: `<bdi>وسُمِّيَ بذلك لِاقْتِرَانِ حَرْفَيِ العِلَّةِ بَعْضِهِمَا بِبَعْضٍ</bdi> — "joined", because the two weak letters sit next to each other.`, list: false },
+            { box: { title: 'Definition', lines: [
+              `المَقْرُون: وهو ما اعْتَلَّتْ عَيْنُهُ ولَامُهُ، نحو: طَوَى ورَوَى`,
+            ] } },
+            { html: `"المقرون: that whose عين and لام are both weak — for example طَوَى (he folded) and رَوَى (he narrated)."`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وسُمِّيَ بذلك لِاقْتِرَانِ حَرْفَيِ العِلَّةِ بَعْضِهِمَا بِبَعْضٍ`,
+            ] } },
+            { html: `"It is named that because the two weak letters sit joined (<bdi>اقْتِرَان</bdi>) to one another." المقرون is weak in the second and third positions, and called "joined" because the two weak letters sit next to each other.`, list: false },
             { html: `The two names are therefore describing the same fact from opposite sides: مفروق where a sound letter comes between, مقرون where none does.`, list: false },
           ],
           exercise: {
@@ -919,7 +1001,10 @@ export default {
         {
           heading: 'جريان التقاسيم في الاسم',
           lines: [
-            { html: `<bdi>وهذه التَّقَاسِيمُ التي جَرَتْ في الفِعْلِ، تَجْرِي أيضًا في الاسْمِ</bdi> — the same divisions apply to nouns unchanged.`, list: false },
+            { box: { title: 'Rule', lines: [
+              `وهذه التَّقَاسِيمُ التي جَرَتْ في الفِعْلِ، تَجْرِي أيضًا في الاسْمِ`,
+            ] } },
+            { html: `"These divisions that ran through الفعل also run through الاسم." Everything just established for الفعل transfers to الاسم unchanged — same categories, same criteria, applied to the noun's own أصول.`, list: false },
             { table: { title: 'The Same Divisions Applied to الاسم', headers: ['الاسم', 'قسمه'], rows: [
               ['شَمْس', 'سالم'],
               ['وَجْه، يَمُن', 'مثال'],

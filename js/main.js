@@ -35,6 +35,10 @@ import {
 } from '../content/index.js';
 import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
+  getLitBook, isChapterUnlocked, loadChapter, getLoadedChapter,
+  litChapterKey, resumeParagraph, chapterSentences,
+} from '../content-lit/index.js';
+import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
   buildModuleRevisionQueue, moduleRevisionPool,
   buildRevisionVocabQueue,
@@ -42,11 +46,15 @@ import {
   buildPathTarkeebCheckpointQueue, buildPathRevisionQueue, buildPathSectionTestQueue,
   buildMasteryV2Queue, masteryV2Pool, masteryKey, pathCheckpointPassRatio, stillPassable,
   firstUnfinishedPathNodeIndex, buildUnlockTestQueue,
+  buildLitWorkshopQueue, buildLitBuildQueue,
   PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT,
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
-import { persistSoon, flushPersist, cancelPendingPersist, todayISO } from './persistence.js';
+import {
+  persistSoon, flushPersist, cancelPendingPersist, todayISO,
+  normalizeLitTextScale,
+} from './persistence.js';
 import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
   awardXp, awardBadge, xpForQuiz, xpForPracticeCorrect, checkStreakBadges,
@@ -180,6 +188,10 @@ function applyMergedProgressToState(envelope) {
     'vocabExposure',
     'pathCheckpointMastery',
     'masteryV2',
+    'litProgress',
+    'litUnknown',
+    'litCheckLang',
+    'litTextScale',
     'streak',
     'lastVisit',
     'xp',
@@ -242,6 +254,17 @@ function applyMergedProgressToState(envelope) {
     if (!(state.moduleId && state.lessonId && isLessonUnlocked(state.moduleId, state.lessonId, state.completed, state.unlockedModules, state.forceUnlockAll))) {
       state.view = state.moduleId ? 'module' : 'dashboard';
     }
+  }
+  // A reader session (state.lit) is transient, exactly like a practice
+  // session above -- its stage, queues and answered checks aren't persisted,
+  // only how far into the chapter it got (state.litProgress). So a reload
+  // lands on the book's contents page, where reopening the chapter resumes
+  // at that paragraph.
+  if (state.view === 'litRead') state.view = state.litBookId ? 'litBook' : 'library';
+  if (state.view === 'litBook' && !getLitBook(state.litBookId)) {
+    state.view = 'library';
+    state.litBookId = null;
+    state.litChapterId = null;
   }
   // A group's map is only a valid landing view if pathGroupId still names a
   // real, populated group (content/path.js could in principle shrink, and a
@@ -311,6 +334,11 @@ function navSignature() {
         state.practice.index,
       ].join(':')
     : '';
+  // The reader's STAGE counts as a screen change (read -> patterns -> build
+  // are three different pages), but its paragraph does not: advancing a
+  // paragraph appends to the same page, so it must keep its scroll position
+  // rather than page-turn back to the top.
+  const litKey = state.lit ? `${state.lit.bookId}:${state.lit.chapterId}:${state.lit.stage}` : '';
   return [
     state.launchScreen ? 'launch' : 'app',
     state.courseId || '',
@@ -319,6 +347,7 @@ function navSignature() {
     state.lessonId || '',
     state.pathGroupId || '',
     practiceKey,
+    litKey,
   ].join('|');
 }
 let lastNav = null;
@@ -333,30 +362,38 @@ function rememberScrollPosition(navKey, container = mainScrollContainer()) {
   scrollPositions.set(navKey, container.scrollTop || 0);
 }
 
+// Resolves when the scroll finishes (immediately if there was nothing to
+// scroll), so a caller can sequence something after it -- see
+// litNextParagraph, which travels back to the top of the page BEFORE
+// swapping the paragraph under it.
 function smoothScrollTo(container, targetY, duration = 850) {
   const startY = container.scrollTop;
   const distance = targetY - startY;
-  if (Math.abs(distance) < 2) return;
+  if (Math.abs(distance) < 2) return Promise.resolve();
   let startTime = null;
 
   function easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  function step(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = easeInOutCubic(progress);
+  return new Promise((resolve) => {
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
 
-    container.scrollTop = startY + distance * easedProgress;
+      container.scrollTop = startY + distance * easedProgress;
 
-    if (progress < 1) {
-      requestAnimationFrame(step);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+        return;
+      }
+      resolve();
     }
-  }
 
-  requestAnimationFrame(step);
+    requestAnimationFrame(step);
+  });
 }
 
 let titleObserver = null;
@@ -627,6 +664,7 @@ function applyAppearance(state) {
   document.documentElement.style.setProperty('--font-ar', face.body);
   document.documentElement.style.setProperty('--font-ar-heading', headingFace.font || face.body);
   document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
+  document.documentElement.style.setProperty('--lit-text-scale', String(normalizeLitTextScale(state.litTextScale) / 100));
 }
 
 // focusSelector re-focuses a specific element after the innerHTML swap below
@@ -634,7 +672,7 @@ function applyAppearance(state) {
 // تركيب's) drops focus back to <body>, which is merely annoying for a mouse
 // user but breaks a keyboard user's ability to place several تركيب chips in
 // a row without re-tabbing from the top of the page each time. See
-// tarkeebFocusSelector, the only current caller.
+// refocusSelector, the only current caller.
 function rerender(focusSelector) {
   applyAppearance(state);
   const previousNav = lastNav;
@@ -1233,6 +1271,146 @@ async function activateCourse(id) {
   state.lessonPreviewId = null;
   state.pathActive = false;
   state.pathHome = false;
+  state.litHome = false;
+}
+
+// --- Literature helpers ---------------------------------------------------
+
+// How close together two clicks on the same word have to be to read as a
+// double-click. Timed by hand rather than with a dblclick listener because
+// every click re-renders the whole page (root.innerHTML), so the two clicks
+// land on two different DOM nodes and the browser has no single element to
+// dispatch a dblclick on. Touch double-taps go through the same path.
+const LIT_DOUBLE_CLICK_MS = 450;
+// Awarded once, the first time a chapter is finished, plus a little per
+// correct answer along the way -- deliberately smaller than a lesson quiz:
+// reading is its own reward and shouldn't out-earn the courses.
+const LIT_CHAPTER_XP = 20;
+const LIT_ANSWER_XP = 2;
+
+function enterLitContext() {
+  state.launchScreen = false;
+  state.litHome = true;
+  state.pathHome = false;
+  state.pathActive = false;
+  state.practice = null;
+  state.practiceSetupOpen = false;
+  state.lessonPreviewId = null;
+}
+
+function litChapter() {
+  return state.lit ? getLoadedChapter(state.lit.bookId, state.lit.chapterId) : null;
+}
+
+// Used when turning a page in the reader. Awaited by its callers so the
+// paragraph is only swapped once the page has finished travelling.
+function scrollReaderToTop() {
+  const container = mainScrollContainer();
+  if (!container || container.scrollTop < 2) return Promise.resolve();
+  return smoothScrollTo(container, 0, 520);
+}
+
+function litToken(sentenceId, index) {
+  const chapter = litChapter();
+  if (!chapter) return null;
+  const sentence = chapterSentences(chapter).find((s) => s.id === sentenceId);
+  return sentence ? sentence.tokens[index] || null : null;
+}
+
+function litChapterRecord(bookId, chapterId) {
+  const key = litChapterKey(bookId, chapterId);
+  if (!state.litProgress[key]) state.litProgress[key] = { para: 0, done: false };
+  return state.litProgress[key];
+}
+
+// Per lemma, not per occurrence -- see content-lit/index.js's own note on
+// why "I don't know this word" is a fact about the word.
+function toggleLitUnknown(lemma) {
+  const bookId = state.lit.bookId;
+  if (!state.litUnknown[bookId]) state.litUnknown[bookId] = {};
+  const marked = state.litUnknown[bookId];
+  if (marked[lemma]) delete marked[lemma];
+  else marked[lemma] = true;
+  queueAutoUpload('literature-unknown');
+}
+
+function startLitSession(chapter, para) {
+  state.lit = {
+    bookId: state.litBookId,
+    chapterId: state.litChapterId,
+    paragraphCount: chapter.paragraphs.length,
+    stage: 'read',
+    para,
+    // `${paragraphIndex}:${checkIndex}` -> { selected, correct }.
+    checks: {},
+    gloss: null,
+    fullPara: null,
+    word: null,
+    lastWordClick: null,
+    workshop: [],
+    wIndex: 0,
+    wSelected: null,
+    wSubmitted: false,
+    build: [],
+    bIndex: 0,
+    bSlots: [],
+    bSubmitted: false,
+    correct: 0,
+    total: 0,
+  };
+}
+
+// Both drill queues are built once, on entering their stage, and then live
+// on the session -- never rebuilt per render (see js/state.js's builders).
+function startLitWorkshop(chapter) {
+  const lit = state.lit;
+  lit.workshop = buildLitWorkshopQueue(chapter);
+  lit.wIndex = 0;
+  lit.wSelected = null;
+  lit.wSubmitted = false;
+  if (!lit.workshop.length) {
+    startLitBuild(chapter);
+    return;
+  }
+  lit.stage = 'workshop';
+}
+
+function startLitBuild(chapter) {
+  const lit = state.lit;
+  lit.build = chapter ? buildLitBuildQueue(chapter, state.litUnknown, lit.bookId) : [];
+  lit.bIndex = 0;
+  lit.bSubmitted = false;
+  if (!lit.build.length) {
+    finishLitChapter();
+    return;
+  }
+  lit.bSlots = new Array(lit.build[0].solution.length).fill(null);
+  lit.stage = 'build';
+}
+
+// Shared by click-to-place and drop-to-place. Returns false (no re-render)
+// when the move is a no-op, matching the action-handler convention.
+function placeLitChip(chipIndex, slotIndex) {
+  const lit = state.lit;
+  if (!lit || lit.bSubmitted) return false;
+  if (slotIndex < 0 || slotIndex >= lit.bSlots.length) return false;
+  if (lit.bSlots.includes(chipIndex)) return false;
+  lit.bSlots[slotIndex] = chipIndex;
+  return true;
+}
+
+function finishLitChapter() {
+  const lit = state.lit;
+  const rec = litChapterRecord(lit.bookId, lit.chapterId);
+  const firstTime = !rec.done;
+  rec.done = true;
+  rec.at = new Date().toISOString();
+  rec.para = Math.max(0, lit.paragraphCount - 1);
+  rec.score = { correct: lit.correct, total: lit.total };
+  lit.stage = 'complete';
+  // Re-reading a finished chapter is encouraged, but it shouldn't farm XP.
+  if (firstTime) awardXp(state, LIT_CHAPTER_XP + lit.correct * LIT_ANSWER_XP);
+  queueAutoUpload('literature-chapter');
 }
 
 function clearActivePracticeUi() {
@@ -1254,6 +1432,7 @@ function returnToValidLockedView() {
     state.lessonId = null;
     state.pathActive = false;
     state.pathHome = false;
+    state.litHome = false;
     return;
   }
 
@@ -1280,6 +1459,7 @@ const actions = {
     state.practice = null;
     state.pathActive = false;
     state.pathHome = false;
+    state.litHome = false;
   },
   // Header's course button (see courseSwitchHtml in js/render.js) -- sends
   // the learner back to the launch screen's course picker rather than
@@ -1316,6 +1496,7 @@ const actions = {
     state.practiceSetupOpen = false;
     state.pathActive = false;
     state.pathHome = false;
+    state.litHome = false;
   },
   // --- My Path ---
   // The launch screen's "My Path" banner always lands on the group list
@@ -1328,6 +1509,7 @@ const actions = {
     state.pathGroupId = null;
     state.pathActive = false;
     state.pathHome = true;
+    state.litHome = false;
     state.practice = null;
   },
   async openPathGroup(el) {
@@ -1343,6 +1525,7 @@ const actions = {
     state.view = 'path';
     state.pathActive = false;
     state.pathHome = true;
+    state.litHome = false;
     state.practice = null;
   },
   // Header's "My Path" slot when Settings/Schedule/Achievements is a detour
@@ -1744,6 +1927,9 @@ const actions = {
   setLessonTextScale(el) {
     state.lessonTextScale = normalizeLessonTextScale(el.value);
   },
+  setLitTextScale(el) {
+    state.litTextScale = normalizeLitTextScale(el.value);
+  },
   toggleTarkeebTranslations() {
     state.tarkeebTranslations = state.tarkeebTranslations === false;
     state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
@@ -1796,6 +1982,7 @@ const actions = {
     state.arabicFace = 'naskh';
     state.arabicHeadingFace = 'body';
     state.lessonTextScale = 100;
+    state.litTextScale = 100;
     state.kufiHeadings = false;
   },
   async registerAccount() {
@@ -1958,6 +2145,7 @@ const actions = {
     state.lessonPreviewId = el.dataset.lessonId;
     state.pathActive = false;
     state.pathHome = false;
+    state.litHome = false;
   },
   // Home hero's "Review N cards" -- same moduleId problem as continueLesson
   // above, for openPractice's own reliance on state.moduleId already being
@@ -2085,6 +2273,7 @@ const actions = {
     state.lessonPreviewId = el.dataset.lessonId;
     state.pathActive = false;
     state.pathHome = false;
+    state.litHome = false;
   },
   // Fires from the backdrop; a click that landed inside the dialog is not a
   // click-outside, so it changes nothing.
@@ -2356,6 +2545,229 @@ const actions = {
     state.tarkeebState[key] = initTarkeeb(entry.item, entry.moduleId);
   },
 
+  // --- Literature (content-lit/) ---------------------------------------
+  // The Library is a top-level context of its own (state.litHome), not a
+  // course: nothing here touches courseId/MODULES. Reading a chapter is one
+  // session on state.lit, transient like state.practice -- the only things
+  // that outlive it are how far the chapter got and whether it finished
+  // (state.litProgress), and the words marked unknown (state.litUnknown).
+  openLibrary() {
+    enterLitContext();
+    state.view = 'library';
+    state.lit = null;
+    state.litBookId = null;
+    state.litChapterId = null;
+  },
+  openLitBook(el) {
+    const bookId = el.dataset.bookId || state.litBookId;
+    if (!getLitBook(bookId)) return false;
+    enterLitContext();
+    state.litBookId = bookId;
+    state.view = 'litBook';
+    state.lit = null;
+  },
+  async openLitChapter(el) {
+    const bookId = el.dataset.bookId;
+    const chapterId = el.dataset.chapterId;
+    const book = getLitBook(bookId);
+    const index = book ? book.chapters.findIndex((c) => c.id === chapterId) : -1;
+    if (index === -1) return false;
+    // Defense in depth -- a locked chapter's row is already disabled (see
+    // litChapterRowHtml in js/render.js), same reasoning as chooseCourse.
+    if (!isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll)) return false;
+    const chapter = await loadChapter(bookId, chapterId);
+    if (!chapter) return false;
+    enterLitContext();
+    state.litBookId = bookId;
+    state.litChapterId = chapterId;
+    state.view = 'litRead';
+    startLitSession(chapter, resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length));
+  },
+  exitLitChapter() {
+    state.lit = null;
+    state.view = state.litBookId ? 'litBook' : 'library';
+  },
+  rereadLitChapter() {
+    const chapter = litChapter();
+    if (!chapter) return false;
+    startLitSession(chapter, 0);
+  },
+  // A word carries two gestures, split by the double-click window:
+  //
+  //   tap        -> highlight it and show its form in the margin; tapping
+  //                 the same word again clears the highlight, so a word can
+  //                 always be put back the way it was found.
+  //   tap twice  -> mark it unknown (and leave it highlighted), the
+  //                 double-click gesture from before.
+  //
+  // See LIT_DOUBLE_CLICK_MS for why the double-click is timed by hand rather
+  // than listened for.
+  litWord(el) {
+    const lit = state.lit;
+    if (!lit) return false;
+    const s = el.dataset.s;
+    const t = +el.dataset.t;
+    const key = `${s}:${t}`;
+    const now = Date.now();
+    const prev = lit.lastWordClick;
+
+    if (prev && prev.key === key && now - prev.at < LIT_DOUBLE_CLICK_MS) {
+      lit.lastWordClick = null;
+      lit.word = { s, t };
+      const token = litToken(s, t);
+      if (token) toggleLitUnknown(token.lemma);
+      return;
+    }
+
+    const alreadyOn = !!(lit.word && lit.word.s === s && lit.word.t === t);
+    lit.word = alreadyOn ? null : { s, t };
+    lit.lastWordClick = { key, at: now };
+  },
+  litToggleUnknown(el) {
+    if (!state.lit || !el.dataset.lemma) return false;
+    toggleLitUnknown(el.dataset.lemma);
+  },
+  litToggleGloss(el) {
+    const lit = state.lit;
+    if (!lit) return false;
+    lit.gloss = lit.gloss === el.dataset.s ? null : el.dataset.s;
+  },
+  // A standing preference, not a per-session one -- persisted like theme or
+  // Arabic face. Switching never changes what is correct: `answer` indexes
+  // both option lists (see the converter's own check on options_en).
+  setLitCheckLang(el) {
+    const lang = el.dataset.lang === 'en' ? 'en' : 'ar';
+    if (state.litCheckLang === lang) return false;
+    state.litCheckLang = lang;
+  },
+  litToggleFullPara(el) {
+    const lit = state.lit;
+    if (!lit) return false;
+    const pi = +el.dataset.para;
+    lit.fullPara = lit.fullPara === pi ? null : pi;
+  },
+  // Reveal-on-click with no retry, the same rule as a lesson's own exercise
+  // (see isLessonExerciseItemPassed in content/index.js): a wrong answer
+  // still counts as read, and still lets the passage move on.
+  litCheckOption(el) {
+    const lit = state.lit;
+    const chapter = litChapter();
+    if (!lit || !chapter) return false;
+    const ci = +el.dataset.check;
+    const key = `${lit.para}:${ci}`;
+    if (lit.checks[key]) return false;
+    const check = chapter.paragraphs[lit.para].checks[ci];
+    const selected = +el.dataset.option;
+    const correct = selected === check.answer;
+    lit.checks[key] = { selected, correct };
+    lit.total += 1;
+    if (correct) lit.correct += 1;
+  },
+  // The page travels back up to the top BEFORE the paragraph is swapped
+  // underneath it -- turning a page shouldn't teleport, and landing at the
+  // top of a fresh paragraph is where reading resumes anyway. The state
+  // change is awaited behind the scroll, so the dispatcher's re-render
+  // happens once the page has arrived.
+  async litNextParagraph() {
+    const lit = state.lit;
+    const chapter = litChapter();
+    if (!lit || !chapter) return false;
+    const para = chapter.paragraphs[lit.para];
+    if (!para.checks.every((_, ci) => lit.checks[`${lit.para}:${ci}`])) return false;
+    await scrollReaderToTop();
+    lit.word = null;
+    lit.gloss = null;
+    lit.fullPara = null;
+    if (lit.para + 1 >= chapter.paragraphs.length) {
+      startLitWorkshop(chapter);
+      return;
+    }
+    lit.para += 1;
+    const rec = litChapterRecord(lit.bookId, lit.chapterId);
+    if (lit.para > (rec.para || 0)) rec.para = lit.para;
+    queueAutoUpload('literature-paragraph');
+  },
+  // Back through paragraphs already read. Their answered checks are still on
+  // the session (lit.checks is keyed by paragraph index), so a revisited
+  // paragraph shows its questions answered and can be moved forward from
+  // again immediately. rec.para -- the furthest reached -- never goes down.
+  async litPrevParagraph() {
+    const lit = state.lit;
+    if (!lit || lit.para <= 0) return false;
+    await scrollReaderToTop();
+    lit.word = null;
+    lit.gloss = null;
+    lit.fullPara = null;
+    lit.para -= 1;
+  },
+  litWorkshopChip(el) {
+    const lit = state.lit;
+    if (!lit || lit.wSubmitted) return false;
+    lit.wSelected = +el.dataset.chip;
+  },
+  litWorkshopSlot() {
+    const lit = state.lit;
+    if (!lit || lit.wSubmitted || lit.wSelected === null) return false;
+    lit.wSelected = null;
+  },
+  litWorkshopCheck() {
+    const lit = state.lit;
+    if (!lit || lit.wSubmitted || lit.wSelected === null) return false;
+    lit.wSubmitted = true;
+    lit.total += 1;
+    if (lit.wSelected === lit.workshop[lit.wIndex].answer) lit.correct += 1;
+  },
+  litWorkshopNext() {
+    const lit = state.lit;
+    if (!lit || !lit.wSubmitted) return false;
+    if (lit.wIndex + 1 >= lit.workshop.length) {
+      startLitBuild(litChapter());
+      return;
+    }
+    lit.wIndex += 1;
+    lit.wSelected = null;
+    lit.wSubmitted = false;
+  },
+  // Click-to-place fills the first empty slot (left-to-right in reading
+  // order, so a straight run through the sentence needs no slot clicks at
+  // all); dragging targets one specific slot instead.
+  litBuildChip(el) {
+    const lit = state.lit;
+    if (!lit || lit.bSubmitted) return false;
+    return placeLitChip(+el.dataset.chip, lit.bSlots.indexOf(null));
+  },
+  litBuildSlot(el) {
+    const lit = state.lit;
+    if (!lit || lit.bSubmitted) return false;
+    const slot = +el.dataset.slot;
+    if (lit.bSlots[slot] === null) return false;
+    lit.bSlots[slot] = null;
+  },
+  litBuildClear() {
+    const lit = state.lit;
+    if (!lit || lit.bSubmitted) return false;
+    lit.bSlots = lit.bSlots.map(() => null);
+  },
+  litBuildCheck() {
+    const lit = state.lit;
+    if (!lit || lit.bSubmitted || lit.bSlots.some((s) => s === null)) return false;
+    const item = lit.build[lit.bIndex];
+    lit.bSubmitted = true;
+    lit.total += 1;
+    if (lit.bSlots.every((ci, i) => item.chips[ci].surface === item.solution[i])) lit.correct += 1;
+  },
+  litBuildNext() {
+    const lit = state.lit;
+    if (!lit || !lit.bSubmitted) return false;
+    if (lit.bIndex + 1 >= lit.build.length) {
+      finishLitChapter();
+      return;
+    }
+    lit.bIndex += 1;
+    lit.bSubmitted = false;
+    lit.bSlots = new Array(lit.build[lit.bIndex].solution.length).fill(null);
+  },
+
   closeBadgeModal() {
     state.badgeModal = state.badgeQueue.length ? state.badgeQueue.shift() : null;
   },
@@ -2385,8 +2797,18 @@ const actions = {
 // "needs Enter/Space wired up manually" apart from "already handled by the
 // browser", and gives rerender() a stable selector to refocus after a chip
 // select or slot placement blows away and recreates the whole DOM.
-function tarkeebFocusSelector(el) {
+function refocusSelector(el) {
   const action = el.dataset.action;
+  // The literature drills' chips and slots have the same problem and the
+  // same fix. A placed chip becomes disabled, so focus goes to whichever
+  // chip is still available rather than to the one just used.
+  if (action === 'litBuildChip' || action === 'litWorkshopChip') return '.lit-chips .lit-chip:not([disabled])';
+  // Reading is a long tab-through -- losing focus back to <body> on every
+  // word or gloss would send a keyboard user to the top of the page.
+  if (action === 'litWord') return `[data-action="litWord"][data-s="${el.dataset.s}"][data-t="${el.dataset.t}"]`;
+  if (action === 'litToggleGloss') return `.lit-gloss-btn[data-s="${el.dataset.s}"]`;
+  if (action === 'litBuildSlot') return `[data-action="litBuildSlot"][data-slot="${el.dataset.slot}"]`;
+  if (action === 'litWorkshopSlot') return '[data-action="litWorkshopSlot"]';
   const key = el.dataset.key;
   if (!key) return null;
   if (action === 'tarkeebChipClick') return `[data-action="tarkeebChipClick"][data-key="${key}"][data-chip="${el.dataset.chip}"]`;
@@ -2412,12 +2834,12 @@ document.addEventListener('click', (e) => {
   const result = handler(el, e);
   if (result && typeof result.then === 'function') {
     result.then((value) => {
-      if (value !== false) rerender(tarkeebFocusSelector(el));
+      if (value !== false) rerender(refocusSelector(el));
     });
     return;
   }
   if (result === false) return;
-  rerender(tarkeebFocusSelector(el));
+  rerender(refocusSelector(el));
 });
 
 document.addEventListener('keydown', (e) => {
@@ -2431,7 +2853,7 @@ document.addEventListener('keydown', (e) => {
     if (el && el.getAttribute('aria-disabled') !== 'true') {
       e.preventDefault();
       const handler = actions[el.dataset.action];
-      if (handler && handler(el, e) !== false) rerender(tarkeebFocusSelector(el));
+      if (handler && handler(el, e) !== false) rerender(refocusSelector(el));
       return;
     }
   }
@@ -2469,13 +2891,18 @@ document.addEventListener('change', (e) => {
   }
 });
 
+// Both text-size sliders update live as they're dragged: the action runs and
+// the custom property is reapplied WITHOUT a re-render, so the preview
+// resizes under the thumb instead of the slider being rebuilt mid-drag (which
+// would drop the pointer capture). Only the readout is patched by hand.
 document.addEventListener('input', (e) => {
-  const el = e.target.closest('input[type="range"][data-action="setLessonTextScale"]');
+  const el = e.target.closest('input[type="range"][data-action="setLessonTextScale"], input[type="range"][data-action="setLitTextScale"]');
   if (!el || el.disabled) return;
-  actions.setLessonTextScale(el, e);
+  const isLit = el.dataset.action === 'setLitTextScale';
+  actions[el.dataset.action](el, e);
   applyAppearance(state);
-  const value = root.querySelector('[data-lesson-text-scale-value]');
-  if (value) value.textContent = `${state.lessonTextScale}%`;
+  const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
+  if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
   persistSoon(state);
 });
 
@@ -2536,6 +2963,70 @@ document.addEventListener('dragend', (e) => {
   document.querySelectorAll('.tarkeeb-slot.drag-over').forEach((s) => s.classList.remove('drag-over'));
   dragChipIdx = null;
   dragKey = null;
+});
+
+// --- drag-and-drop for the literature build exercise --------------------
+// Same delegated shape as تركيب above, and deliberately separate from it:
+// the two share no state, and a build slot is an ordered position in one
+// sentence rather than a label on a diagram. Clicking works throughout too
+// (litBuildChip/litBuildSlot), so dragging is never the only way in.
+
+let litDragChip = null;
+// Which tray the dragged chip came from: the build tray fills one slot of a
+// sentence, the workshop tray fills that drill's single blank. Both use
+// .lit-chip/.lit-slot, so the drop needs to know which it is looking at.
+let litDragAction = null;
+
+document.addEventListener('dragstart', (e) => {
+  const chip = e.target.closest('.lit-chip[draggable="true"]');
+  if (!chip) return;
+  litDragChip = +chip.dataset.chip;
+  litDragAction = chip.dataset.action;
+  e.dataTransfer.effectAllowed = 'move';
+  requestAnimationFrame(() => chip.classList.add('dragging'));
+});
+
+document.addEventListener('dragover', (e) => {
+  const slot = e.target.closest('.lit-slot');
+  if (!slot || litDragChip === null) return;
+  e.preventDefault();
+  if (!slot.classList.contains('drag-over')) {
+    document.querySelectorAll('.lit-slot.drag-over').forEach((s) => s.classList.remove('drag-over'));
+    slot.classList.add('drag-over');
+  }
+});
+
+document.addEventListener('dragleave', (e) => {
+  const slot = e.target.closest('.lit-slot');
+  if (slot) slot.classList.remove('drag-over');
+});
+
+document.addEventListener('drop', (e) => {
+  const slot = e.target.closest('.lit-slot');
+  if (!slot || litDragChip === null) return;
+  e.preventDefault();
+  slot.classList.remove('drag-over');
+  let changed = false;
+  if (litDragAction === 'litWorkshopChip') {
+    const lit = state.lit;
+    if (lit && !lit.wSubmitted && slot.dataset.action === 'litWorkshopSlot') {
+      lit.wSelected = litDragChip;
+      changed = true;
+    }
+  } else if (slot.dataset.slot !== undefined) {
+    changed = placeLitChip(litDragChip, +slot.dataset.slot);
+  }
+  litDragChip = null;
+  litDragAction = null;
+  if (changed) rerender();
+});
+
+document.addEventListener('dragend', (e) => {
+  const chip = e.target.closest('.lit-chip');
+  if (chip) chip.classList.remove('dragging');
+  document.querySelectorAll('.lit-slot.drag-over').forEach((s) => s.classList.remove('drag-over'));
+  litDragChip = null;
+  litDragAction = null;
 });
 
 // --- window controls (#window-drag-region/#window-controls) ------------

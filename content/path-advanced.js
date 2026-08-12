@@ -73,12 +73,17 @@ function findLesson(courseId, moduleId, lessonId) {
 // only 0.6 lessons from target -- tighter than the introductory path's
 // 2.2-lesson deviation, because this pair's per-module lesson counts happen
 // to divide more evenly.
+//
+// sarf-advanced went from 12 to 14 modules (2026-08-11: as-04 and as-10 each
+// split in two, lesson counts unchanged) -- ranges below carry the exact
+// same lesson totals per group as before, just re-cut at the new module
+// boundaries.
 export const GROUP_MODULE_RANGES = [
   { annahw: [0, 4], sarfAdvanced: [0, 3] }, // Group 1: 01..04 + as-01..as-03 = 20+11 = 31
-  { annahw: [4, 7], sarfAdvanced: [3, 7] }, // Group 2: 05..07 + as-04..as-07 = 12+19 = 31
-  { annahw: [7, 11], sarfAdvanced: [7, 8] }, // Group 3: 08..11 + as-08 = 28+3 = 31
-  { annahw: [11, 13], sarfAdvanced: [8, 11] }, // Group 4: 12..13 + as-09..as-11 = 14+16 = 30
-  { annahw: [13, 17], sarfAdvanced: [11, 12] }, // Group 5: 14..17 + as-12 = 27+3 = 30
+  { annahw: [4, 7], sarfAdvanced: [3, 8] }, // Group 2: 05..07 + as-04..as-08 = 12+19 = 31
+  { annahw: [7, 11], sarfAdvanced: [8, 9] }, // Group 3: 08..11 + as-09 = 28+3 = 31
+  { annahw: [11, 13], sarfAdvanced: [9, 13] }, // Group 4: 12..13 + as-10..as-13 = 14+16 = 30
+  { annahw: [13, 17], sarfAdvanced: [13, 14] }, // Group 5: 14..17 + as-14 = 27+3 = 30
 ];
 
 function buildGroupBackbone(range) {
@@ -174,6 +179,19 @@ function buildGroup(groupNum, range, sectionNumStart) {
     offset += size;
     return buildSectionNodes(sectionNum, `adv-s${sectionNum}`, lessons, true);
   });
+
+  // A group whose modules can't fill even one 7-lesson section yields no
+  // sections at all -- which is the state while annahw is being re-authored
+  // (see content/annahw.js). This file runs at IMPORT time, so reaching into
+  // sections[0] here doesn't just break My Path: it throws before js/main.js
+  // ever runs and the whole app boots to a blank window. An empty group is
+  // already a supported shape everywhere downstream -- it renders as "Coming
+  // soon" (pathGroupCardHtml) and refuses to open (openPathGroup) -- so hand
+  // one back rather than building a groupTest around lessons that aren't
+  // there.
+  if (!sections.length) {
+    return { id: `advanced-group-${groupNum}`, title: GROUP_TITLES[groupNum - 1], sections: [], groupTest: null };
+  }
   const groupTest = {
     type: 'groupTest',
     id: `adv-grp${groupNum}-test`,
