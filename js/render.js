@@ -2991,6 +2991,24 @@ const SPECIMEN_WORDS = [
 // ACHIEVEMENT_CATEGORIES). Reached from the header's XP/level/streak cluster
 // (see headerHtml) and from Home's badge-row teaser.
 
+// Sits right under the hero ledger's own Level/XP rows, so "how far into
+// this level" reads as one more fact about the same two numbers rather than
+// a separate widget. Reuses the app's one progress-bar language
+// (.progress-bar/.progress-bar-fill, see js/render.js's progressBar) instead
+// of inventing a second bar style.
+function levelProgressHtml(li) {
+  const pct = li.xpNeeded ? Math.round((li.xpIntoLevel / li.xpNeeded) * 100) : 0;
+  return `
+    <div class="ach-level-progress">
+      <div class="ach-level-progress-head">
+        <span class="ach-level-progress-label">Level ${li.level} progress</span>
+        <span class="ach-level-progress-value">${li.xpIntoLevel} / ${li.xpNeeded} XP</span>
+      </div>
+      ${progressBar(pct)}
+      <span class="ach-level-progress-note">${li.xpToNext} XP to level ${li.level + 1}</span>
+    </div>`;
+}
+
 function achievementCardHtml(state, id, current, threshold, unit) {
   const def = BADGE_DEFS[id];
   const earned = state.badges.includes(id);
@@ -3058,11 +3076,11 @@ function achievementsHtml(state) {
     badge: 'أوسمة الإنجاز',
     title: 'Achievements',
     body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
-    ledger: heroLedgerHtml([
+    ledger: `${heroLedgerHtml([
       ['Badges earned', `${state.badges.length} / ${totalBadges}`],
       ['Level', li.level],
       ['XP', state.xp],
-    ]),
+    ])}${levelProgressHtml(li)}`,
   });
 
   return `

@@ -1299,6 +1299,43 @@ h1 + .card-kicker,
   color: var(--color-text);
 }
 
+/* The Achievements hero's own row, directly under the ledger's Level/XP --
+   same label/value language as .home-ledger-label/-value above, just a size
+   down since this is a caption on those numbers rather than a headline
+   stat of its own. The bar itself is the app's one progress-bar language
+   (see .progress-bar/.progress-bar-fill), not a bespoke style. */
+.ach-level-progress {
+  margin-top: 18px;
+}
+.ach-level-progress-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px 20px;
+  margin-bottom: 8px;
+}
+.ach-level-progress-label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+}
+.ach-level-progress-value {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+.ach-level-progress .progress-bar {
+  margin: 0 0 8px;
+}
+.ach-level-progress-note {
+  display: block;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
 .home-hero-corner {
   position: absolute;
   width: 14px;
