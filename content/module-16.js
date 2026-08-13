@@ -256,7 +256,8 @@ export default {
           heading: 'الشائع والنادر بين الستة',
           lines: [
             { box: { title: 'Careful', lines: [`نَعَمْ وَبَلَى هُمَا الأَكْثَرُ اسْتِعْمَالًا مِنَ السِّتَّةِ. إِي، وَأَجَلْ، وَإِنَّهْ، وَجَيْرِ حُرُوفٌ ثَابِتَةٌ لَكِنَّهَا نَادِرَةٌ.`] } },
-            { html: `In everyday and Qur'anic usage, نعم and بلى are by far the most common of the six أحرف الإيجاب. إي، أجل، إنّه، and جير are all real and attested, but comparatively rare — worth knowing for reading classical texts, not the words a learner would expect to hear or use as often in ordinary speech.`, list: false },
+            { html: `In everyday and Qur'anic usage, نعم and بلى are by far the most common of the six أحرف الإيجاب.`, list: false },
+            { html: `إي، أجل، إنّه، and جير are all real and attested, but comparatively rare — worth knowing for reading classical texts, not the words a learner would expect to hear or use as often in ordinary speech.`, list: false },
           ],
           exercise: {
             prompt: `Of the six أحرف الإيجاب, which two are by far the most common in everyday and Qur'anic usage?`,
@@ -674,10 +675,10 @@ export default {
             { box: { title: 'Rule', lines: [`اللَّامُ فِي جَوَابِ القَسَمِ تَدْخُلُ عَلَى جَوَابِ القَسَمِ، وَتُفِيدُ التَّأْكِيدَ.`] } },
             { html: `When an oath (<bdi>قَسَم</bdi>) is sworn, its <bdi>جواب</bdi> (the statement being sworn to) often carries this emphatic ل.`, list: false },
             { box: { title: 'Example', lines: [`﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾`] } },
-            { html: `"By Allah, you will surely be questioned about what you used to invent." تَاللَّهِ is the oath (قسم); لَتُسْأَلُنَّ, carrying the ل, is its جواب, emphasized.`, list: false },
+            { html: `"By Allah, you will surely be questioned about what you used to invent." تَلَفْظِ الجَلالَةِ is the oath (قسم); لَتُسْأَلُنَّ, carrying the ل, is its جواب, emphasized.`, list: false },
           ],
           exercise: {
-            prompt: `﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾ — تَاللَّهِ is the قسم. What role does the ل on لَتُسْأَلُنَّ play؟`,
+            prompt: `﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾ — تَلَفْظِ الجَلالَةِ is the قسم. What role does the ل on لَتُسْأَلُنَّ play؟`,
             kind: 'mcq',
             options: [`اللام في جواب القسم, emphasizing the جواب`, `لام الابتداء, attached to a مبتدأ`, `اللام المزحلقة, attached to خبر إن`, `نون التوكيد attached to a فعل مضارع`],
             correct: 0,
@@ -690,7 +691,7 @@ export default {
         { q: `اللام المزحلقة attaches to خبر إن in three cases: اسم, فعل مضارع, and شبه جملة. Which type of خبر does it never attach to؟`, options: [`فعل ماضٍ`, `اسم مرفوع`, `شبه جملة جار ومجرور`, `فعل مضارع`], correct: 0 },
         { q: `﴿وَإِنَّكَ لَعَلَى خُلُقٍ عَظِيمٍ﴾ — لَعَلَى خُلُقٍ عَظِيمٍ is which kind of خبر إن carrying اللام المزحلقة؟`, options: [`شبه جملة`, `اسم`, `فعل مضارع`, `فعل ماضٍ`], correct: 0 },
         { q: `Why can't one say إِنَّ لَزَيْدٌ قَائِمٌ, with لام الابتداء kept at the very front right after إنّ؟`, options: [`Arabic avoids stacking two مؤكدات (إن and لام) together at the front of the sentence`, `لام الابتداء cannot attach to a اسم`, `إنّ cannot be followed directly by any لام under any circumstance`, `زيد must always be indefinite in this construction`], correct: 0 },
-        { q: `﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾ — what is تَاللَّهِ, and what role does لَتُسْأَلُنَّ play relative to it؟`, options: [`تَاللَّهِ is the قسم; لَتُسْأَلُنَّ, carrying اللام, is its جواب`, `تَاللَّهِ is the جواب; لَتُسْأَلُنَّ is the قسم`, `Both together form a single مبتدأ وخبر`, `تَاللَّهِ is the خبر of إن; لَتُسْأَلُنَّ is unrelated to it`], correct: 0 },
+        { q: `﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾ — what is تَلَفْظِ الجَلالَةِ, and what role does لَتُسْأَلُنَّ play relative to it؟`, options: [`تَلَفْظِ الجَلالَةِ is the قسم; لَتُسْأَلُنَّ, carrying اللام, is its جواب`, `تَلَفْظِ الجَلالَةِ is the جواب; لَتُسْأَلُنَّ is the قسم`, `Both together form a single مبتدأ وخبر`, `تَلَفْظِ الجَلالَةِ is the خبر of إن; لَتُسْأَلُنَّ is unrelated to it`], correct: 0 },
       ],
       bank: [
         { title: `أحرف التأكيد: العدد`, kind: 'mcq', prompt: `How many أحرف التأكيد are there in total, across both this lesson and the next؟`, options: [`Five`, `Three`, `Six`, `Two`], correct: 0 },
@@ -706,7 +707,7 @@ export default {
         { title: `سبب الانزلاق`, kind: 'mcq', prompt: `What specifically motivates لام الابتداء to "slide" onto الخبر once إنّ opens the sentence؟`, options: [`Avoiding two مؤكدات (إن and لام) piled up together at the front`, `الخبر always needing a لام regardless of إن`, `إنّ cancelling لام الابتداء's meaning entirely`, `المبتدأ needing to move to the end of the sentence`], correct: 0 },
         { title: `لزيد قائم مقابل إن زيدا لقائم`, kind: 'mcq', prompt: `لَزَيْدٌ قَائِمٌ carries plain لام الابتداء. Once إنّ is added, where does the equivalent لام move to؟`, options: [`Onto الخبر: إِنَّ زَيْدًا لَقَائِمٌ`, `It disappears entirely: إِنَّ زَيْدًا قَائِمٌ`, `It stays exactly where it was: إِنَّ لَزَيْدٌ قَائِمٌ`, `It moves onto إنّ itself: لَإِنَّ زَيْدًا قَائِمٌ`], correct: 0 },
         { title: `اللام في جواب القسم: وظيفتها`, kind: 'mcq', prompt: `What does اللام في جواب القسم attach to؟`, options: [`جواب القسم (oath), emphasizing it`, `القسم itself, emphasizing the oath-taker`, `المبتدأ of an unrelated sentence`, `خبر إن in an unrelated نص`], correct: 0 },
-        { title: `تالله لتسألن: القسم وجوابه`, kind: 'mcq', prompt: `In ﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾, which part is القسم, and which is its جواب؟`, options: [`تَاللَّهِ is القسم; لَتُسْأَلُنَّ is الجواب`, `لَتُسْأَلُنَّ is القسم; تَاللَّهِ is الجواب`, `Both together are one single قسم with no جواب`, `عَمَّا كُنتُمْ تَفْتَرُونَ is القسم`], correct: 0 },
+        { title: `تالله لتسألن: القسم وجوابه`, kind: 'mcq', prompt: `In ﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾, which part is القسم, and which is its جواب؟`, options: [`تَلَفْظِ الجَلالَةِ is القسم; لَتُسْأَلُنَّ is الجواب`, `لَتُسْأَلُنَّ is القسم; تَلَفْظِ الجَلالَةِ is الجواب`, `Both together are one single قسم with no جواب`, `عَمَّا كُنتُمْ تَفْتَرُونَ is القسم`], correct: 0 },
         { title: `ثلاثة أحرف تأكيد مغطاة في هذا الدرس`, kind: 'mcq', prompt: `Which three أحرف التأكيد has this lesson covered؟`, options: [`لام الابتداء, اللام المزحلقة, and اللام في جواب القسم`, `نونا التأكيد and قد`, `Only اللام المزحلقة`, `لام الابتداء and قد only`], correct: 0 },
         { title: `خبر إن اسميا: التعريف`, kind: 'mcq', prompt: `When خبر إن is described as اسم for the purposes of اللام المزحلقة, what does that mean؟`, options: [`الخبر is a single noun-like word, not a فعل or a شبه جملة`, `الخبر must always be indefinite`, `الخبر must always carry تنوين`, `الخبر must always follow أل`], correct: 0 },
         { title: `القسم الثالث: مكانه بين الحروف غير العاملة`, kind: 'mcq', prompt: `أحرف التأكيد form which numbered قسم within الحرف غير العامل, following أحرف العطف and أحرف الجواب؟`, options: [`القسم الثالث`, `القسم الأول`, `القسم الثاني`, `القسم الرابع`], correct: 0 },
@@ -750,7 +751,7 @@ export default {
         {
           title: `تركيب: تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ`,
           kind: 'tarkeeb',
-          instruction: `Identify the role of تَاللَّهِ and لَتُسْأَلُنَّ in ﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾.`,
+          instruction: `Identify the role of تَلَفْظِ الجَلالَةِ and لَتُسْأَلُنَّ in ﴿تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ﴾.`,
           source: `تَاللَّهِ لَتُسْأَلُنَّ عَمَّا كُنتُمْ تَفْتَرُونَ`,
           words: [`تَاللَّهِ`, `لَتُسْأَلُنَّ`],
           labels: [`القسم`, `جواب القسم مقترن باللام`],
@@ -867,7 +868,7 @@ export default {
         { title: `قَدْ: الأغنى معنى بين الخمسة`, kind: 'mcq', prompt: `Which of the five أحرف التأكيد is described as the most semantically rich, since its meaning shifts by context؟`, options: [`قَدْ`, `لام الابتداء`, `اللام المزحلقة`, `نونا التأكيد`], correct: 0 },
         { title: `قد أفلح المؤمنون: المعنى`, kind: 'mcq', prompt: `﴿قَدْ أَفْلَحَ الْمُؤْمِنُونَ﴾ — what does قَدْ confirm here؟`, options: [`The believers' success as a settled, certain fact`, `That the believers might succeed in the future`, `That success is rare among believers`, `That the believers repeatedly succeed`], correct: 0 },
         { title: `قد مع الماضي: قاعدة ثابتة`, kind: 'mcq', prompt: `Is there any exception to قَدْ meaning التحقيق when it attaches to a فعل ماضٍ؟`, options: [`No — with الماضي, قد always means التحقيق`, `Yes — it can also mean التقليل with الماضي`, `Yes — it can also mean التوقع with الماضي`, `Yes — it depends entirely on the subject's gender`], correct: 0 },
-        { title: `قد يعلم الله: لماذا التحقيق لا التقليل`, kind: 'mcq', prompt: `﴿قَدْ يَعْلَمُ اللَّهُ﴾ — why is this read as التحقيق rather than the default التقليل؟`, options: [`Because Allah's knowledge is never uncertain — context overrides the default reading`, `Because قد with مضارع always defaults to التحقيق`, `Because العلم is a فعل ماضٍ here, not مضارع`, `Because اللَّه always requires التوقع`], correct: 0 },
+        { title: `قد يعلم الله: لماذا التحقيق لا التقليل`, kind: 'mcq', prompt: `﴿قَدْ يَعْلَمُ اللَّهُ﴾ — why is this read as التحقيق rather than the default التقليل؟`, options: [`Because Allah's knowledge is never uncertain — context overrides the default reading`, `Because قد with مضارع always defaults to التحقيق`, `Because العلم is a فعل ماضٍ here, not مضارع`, `Because لَفْظُ الجَلالَةِ always requires التوقع`], correct: 0 },
         { title: `التقليل: الغالب مع المضارع`, kind: 'mcq', prompt: `With a فعل مضارع, which of قَدْ's four senses is the DEFAULT/most common one؟`, options: [`التقليل`, `التحقيق`, `التوقع`, `التكثير`], correct: 0 },
         { title: `قد يصدق الكذوب: المعنى`, kind: 'mcq', prompt: `قَدْ يَصْدُقُ الْكَذُوبُ — what does this proverb-like sentence mean؟`, options: [`"Even the habitual liar sometimes tells the truth" — an occasional exception`, `"The habitual liar always tells the truth"`, `"The habitual liar will certainly tell the truth today"`, `"The habitual liar has never told the truth"`], correct: 0 },
         { title: `التوقع: تعريفها`, kind: 'mcq', prompt: `التوقع, one of قد's senses with المضارع, means what specifically؟`, options: [`Hopeful anticipation that a future action will occur`, `Certainty that a past action occurred`, `Frequent repetition of an action`, `Rarity — an action happening only occasionally`], correct: 0 },

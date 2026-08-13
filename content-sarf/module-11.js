@@ -102,7 +102,8 @@ export default {
             { box: { title: 'Rule', lines: [
               `وأهمّ الأقسام عند الصرفيّ هو الصغير`,
             ] } },
-            { html: `Of the three, الصغير is the one that matters to الصرفيّ — the grammarian who specialises in الصرف. الكبير and الأكبر belong instead to the study of the lexicon (<bdi>بحث أهل اللغة</bdi>), so everything that follows in this باب concerns الصغير alone.`, list: false },
+            { html: `Of the three, الصغير is the one that matters to الصرفيّ — the grammarian who specialises in الصرف.`, list: false },
+            { html: `الكبير and الأكبر belong instead to the study of the lexicon (<bdi>بحث أهل اللغة</bdi>), so everything that follows in this باب concerns الصغير alone.`, list: false },
           ],
           exercise: {
             prompt: `نَعَقَ from النَّهْق is an example of which قسم?`,
@@ -359,7 +360,8 @@ export default {
               `وأما فَعِلَ بكسر العين اللازم، فمصدره القياسيّ: فَعَل، بفتحتين`,
               `كفَرِحَ فَرَحًا، وجَوِيَ جَوًى، وشَلَّ شَلَلًا`,
             ] } },
-            { html: `As for فَعِلَ with a kasra, when لازم, its قياسي مصدر is فَعَل with two فتحات — فَرِحَ gives فَرَحًا, جَوِيَ gives جَوًى, شَلَّ gives شَلَلًا. شَلَّ is to dry up, to be lame or paralysed. Three exceptions carry this وزن off فَعَل, and each is decided by the verb's meaning:`, list: false },
+            { html: `As for فَعِلَ with a kasra, when لازم, its قياسي مصدر is فَعَل with two فتحات — فَرِحَ gives فَرَحًا, جَوِيَ gives جَوًى, شَلَّ gives شَلَلًا.`, list: false },
+            { html: `شَلَّ is to dry up, to be lame or paralysed. Three exceptions carry this وزن off فَعَل, and each is decided by the verb's meaning:`, list: false },
             { table: {
               title: 'ما خرج عن فَعَل',
               headers: ['إن دلَّ على (If It Indicates)', 'فقياسه (Its قياس Is)', 'المثال (Example)'],
@@ -429,7 +431,8 @@ export default {
               `وما لم يَدُلَّ على امتناعٍ، وإلا فقياس مصدره فِعَال بالكسر، كأَبَى إِباءً، ونَفَر نِفَارًا، وجَمَعَ جِمَاعًا، وأَبَقَ إِبَاقًا`,
             ] } },
             { html: `Unless its عين is weak, in which case it takes فَعْل — سَيْر — or فِعَال — قِيَام — or فِعَالَة — نِيَاحَة; and unless it points to امتناع, holding back from something, in which case its قياسي مصدر is فِعَال with a kasra.`, list: false },
-            { html: `So a weak عين takes the مصدر off فُعُول onto one of three lighter patterns, and a sense of امتناع takes it onto فِعَال. النِّفَار is shunning or avoiding; الإباق is escaping, running away.`, list: false },
+            { html: `So a weak عين takes the مصدر off فُعُول onto one of three lighter patterns, and a sense of امتناع takes it onto فِعَال.`, list: false },
+            { html: `النِّفَار is shunning or avoiding; الإباق is escaping, running away.`, list: false },
           ],
           exercise: {
             prompt: `قِيَام is on فِعَال rather than فُعُول because the verb:`,
@@ -471,7 +474,8 @@ export default {
               `كصَعُبَ الشيءُ صُعُوبة، وعَذُبَ الماءُ عُذُوبة`,
               `وفَعَالَة بالفتح، كبَلُغَ بَلَاغة، وفَصُحَ فَصَاحَة، وصَرُحَ صَرَاحَة`,
             ] } },
-            { html: `As for فَعُل with a ḍamma, its قياسي مصدر is فُعُولَة — صَعُبَ gives صُعُوبة, عَذُبَ gives عُذُوبة — or فَعَالَة with a fatḥa — بَلُغَ gives بَلَاغة, فَصُحَ gives فَصَاحَة, صَرُحَ gives صَرَاحَة. Two قياسي patterns rather than one, and no exceptions attached — the simplest of the three أوزان, which fits a باب that is never متعدٍّ. عَذُبَ is to be sweet.`, list: false },
+            { html: `As for فَعُل with a ḍamma, its قياسي مصدر is فُعُولَة — صَعُبَ gives صُعُوبة, عَذُبَ gives عُذُوبة — or فَعَالَة with a fatḥa — بَلُغَ gives بَلَاغة, فَصُحَ gives فَصَاحَة, صَرُحَ gives صَرَاحَة. Two قياسي patterns rather than one, and no exceptions attached — the simplest of the three أوزان, which fits a باب that is never متعدٍّ.`, list: false },
+            { html: `عَذُبَ is to be sweet.`, list: false },
           ],
           exercise: {
             prompt: `فَصُحَ فَصَاحَة is on which of the two مصادر of فَعُل?`,

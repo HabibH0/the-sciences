@@ -107,7 +107,8 @@ export default {
           lines: [
             { html: `Anything outside المسند and المسند إليه is called <bdi>فضلة</bdi> (also <bdi>قيد</bdi>). فضلة does not mean useless — it may matter for the meaning, but it is not part of the minimum structure a جملة needs.`, list: false },
             { box: { title: 'Example', lines: [`ضَرَبَ زَيْدٌ عَمْرًا`] } },
-            { html: `The core is ضرب زيد: فعل وفاعل. عمرا is المفعول به, so it is فضلة.`, list: false },
+            { html: `The core is ضرب زيد: فعل وفاعل.`, list: false },
+            { html: `عمرا is المفعول به, so it is فضلة.`, list: false },
             {
               tarkeebDiagram: {
                 sentence: `ضَرَبَ زَيْدٌ عَمْرًا`,
@@ -377,7 +378,7 @@ export default {
               [`الجملة الكبرى`, `a sentence that contains another sentence`],
               [`الجملة الصغرى`, `the sentence that occupies the place of a single word inside الكبرى`],
             ] } },
-            { html: `In <bdi>وَاللهُ يَعْلَمُ</bdi>, the whole expression is الجملة الكبرى. Inside it, يَعْلَمُ is a جملة فعلية functioning as الخبر of الله — so it is الجملة الصغرى.`, list: false },
+            { html: `In <bdi>وَاللهُ يَعْلَمُ</bdi>, the whole expression is الجملة الكبرى. Inside it, يَعْلَمُ is a جملة فعلية functioning as الخبر of لَفْظِ الجَلالَةِ — so it is الجملة الصغرى.`, list: false },
             {
               tarkeebDiagram: {
                 sentence: `وَاللهُ يَعْلَمُ`,
@@ -430,7 +431,7 @@ export default {
         { title: `لماذا اختير لفظ الأمر`, kind: 'mcq', prompt: `Why does فَلْيَتَبَوَّأْ مَقْعَدَهُ مِنَ النَّارِ use أمر wording instead of a plain خبر, if its meaning is really خبر?`, options: [`Moving the meaning away from its ordinary صيغة adds تأكيد and makes the warning land harder`, `Because أمر wording is grammatically required after لام`, `Because the speaker is genuinely inviting the listener`, `Because خبر wording cannot express warnings`], correct: 0 },
         { title: `الكبرى والصغرى: التعريف`, kind: 'mcq', prompt: `الجملة الكبرى is defined in relation to another جملة. What is that relation?`, options: [`It contains another جملة inside it`, `It is contained inside another جملة`, `It can be judged صدقا أو كذبا`, `It opens with a فعل`], correct: 0 },
         { title: `الصغرى تشغل موقع مفرد`, kind: 'mcq', prompt: `الجملة الصغرى occupies the position that could otherwise be filled by what?`, options: [`A single word (موقع مفرد)`, `A whole جملة كبرى`, `A ناسخ`, `A فضلة only`], correct: 0 },
-        { title: `الله عليم مقابل الله يعلم`, kind: 'mcq', prompt: `اللهُ عَلِيمٌ has a one-word خبر, عليم. اللهُ يَعْلَمُ has a whole جملة as its خبر, يعلم. What does that make يعلم?`, options: [`جملة صغرى`, `جملة كبرى`, `جملة شرطية`, `فضلة`], correct: 0 },
+        { title: `الله عليم مقابل الله يعلم`, kind: 'mcq', prompt: `اللهُ عَلِيمٌ has a one-word خبر, عليم, while اللهُ يَعْلَمُ has a whole جملة as its خبر, يعلم. What does that make يعلم?`, options: [`جملة صغرى`, `جملة كبرى`, `جملة شرطية`, `فضلة`], correct: 0 },
         { title: `تصنيف مستقل عن الاسمية/الفعلية والخبرية/الإنشائية`, kind: 'mcq', prompt: `Classifying a جملة as كبرى or صغرى asks a different question than classifying it as اسمية/فعلية or خبرية/إنشائية. What question does كبرى/صغرى ask instead?`, options: [`Whether one جملة is contained inside another`, `Whether the جملة opens with an اسم or a فعل`, `Whether the speaker can be judged truthful or false`, `Whether a ناسخ has entered the جملة`], correct: 0 },
         {
           title: `تركيب: وَاللهُ يَعْلَمُ`,
@@ -473,11 +474,12 @@ export default {
           lines: [
             { html: `<bdi>شبه الجملة</bdi> means an expression that resembles a جملة. It is not a full جملة, but it may stand where a جملة-like meaning is needed — especially clear with الظرف المستقر, which can take the place of a جملة in certain positions.`, list: false },
             { box: { title: 'Example', lines: [`الَّذِي عِنْدَكَ`] } },
-            { html: `الذي is an اسم موصول and needs a صلة. عندك is not a full جملة in outward form, but it can stand in the position required by الصلة. That resemblance is why it is called شبه الجملة.`, list: false },
+            { html: `الذي is an اسم موصول and needs a صلة.`, list: false },
+            { html: `عندك is not a full جملة in outward form, but it can stand in the position required by الصلة. That resemblance is why it is called شبه الجملة.`, list: false },
             { html: `The word <bdi>ظرف</bdi> itself is used in more than one sense: (1) المفعول فيه, (2) words like فوق, تحت, and عند, (3) شبه الجملة as a whole. The intended meaning depends on context.`, list: false },
           ],
           exercise: {
-            prompt: `الَّذِي عِنْدَكَ needs a صلة after اسم الموصول الذي. عندك is not a full جملة in outward form. What term names an expression like عندك that resembles a جملة without being one?`,
+            prompt: `الَّذِي عِنْدَكَ needs a صلة after اسم الموصول الذي, though عندك is not a full جملة in outward form. What term names an expression like عندك that resembles a جملة without being one?`,
             kind: 'mcq',
             options: [`شبه الجملة`, `الجملة الصغرى`, `الجملة الكبرى`, `العمدة`],
             correct: 0,
@@ -560,12 +562,12 @@ export default {
         },
       ],
       quiz: [
-        { q: `الَّذِي عِنْدَكَ uses عندك to complete اسم الموصول's صلة. عندك is not a full جملة in outward form. What is it called?`, options: [`شبه الجملة`, `الجملة الصغرى`, `الجملة الكبرى`, `الفضلة`], correct: 0 },
+        { q: `الَّذِي عِنْدَكَ uses عندك to complete اسم الموصول's صلة, though عندك is not a full جملة in outward form. What is it called?`, options: [`شبه الجملة`, `الجملة الصغرى`, `الجملة الكبرى`, `الفضلة`], correct: 0 },
         { q: `By structure, شبه الجملة divides into two types. What are they?`, options: [`الجار والمجرور، والظرف والمضاف إليه`, `الخبرية والإنشائية`, `الاسمية والفعلية`, `الكبرى والصغرى`], correct: 0 },
         { q: `عِنْدَ, فَوْقَ, تَحْتَ, and خَلْفَ are used as ظروف. What are they grammatically?`, options: [`أسماء, and what follows them is مضاف إليه`, `حروف جر, and what follows them is مجرور`, `أفعال`, `حروف عطف`], correct: 0 },
         { q: `Why is a جار ومجرور loosely called ظرف, even though لام, كاف, and رُبَّ carry no ظرفية at all؟`, options: [`تغليب — the name عند/فوق's ظرفية was extended to the whole class once في/على showed the same sense`, `Because ظرف is the only term grammar has for any حرف جر`, `Because لام, كاف, and رب are themselves ظروف`, `Because a جار ومجرور always denotes مكان`], correct: 0 },
         { q: `What second reason is given for naming جار ومجرور a ظرف؟`, options: [`It needs a متعلَّق the way a ظرف needs a مظروف`, `It always denotes زمان`, `It cannot appear without a real ظرف nearby`, `It shares the same حروف as النداء`], correct: 0 },
-        { q: `فِي مَكَّةَ pairs a حرف جر with a مجرور. عِنْدَ الكَعْبَةِ pairs a ظرف with a مضاف إليه. What do both pairs share, despite the structural difference؟`, options: [`Both are types of شبه الجملة by structure`, `Both are types of الجملة الاسمية`, `Both are أنواع الإنشاء`, `Both are أركان الإسناد`], correct: 0 },
+        { q: `فِي مَكَّةَ pairs a حرف جر with a مجرور, while عِنْدَ الكَعْبَةِ pairs a ظرف with a مضاف إليه. What do both pairs share, despite the structural difference؟`, options: [`Both are types of شبه الجملة by structure`, `Both are types of الجملة الاسمية`, `Both are أنواع الإنشاء`, `Both are أركان الإسناد`], correct: 0 },
       ],
       bank: [
         { title: `شبه الجملة: التعريف`, kind: 'mcq', prompt: `Which of the following best describes شبه الجملة?`, options: [`An expression that resembles a جملة without being a full one`, `A sentence that begins with an اسم`, `Speech that can be judged truthful or false`, `The essential core of a جملة`], correct: 0 },
@@ -683,9 +685,9 @@ export default {
             { html: `These are fixed or strongly established patterns, so the عامل is not normally stated.`, list: false },
           ],
           exercise: {
-            prompt: `تَاللهِ تَفْتَأُ is an oath sworn without the usual باء القسم. What kind of عامل governs the omitted-but-understood شبه الجملة تالله here؟`,
+            prompt: `تَاللهِ تَفْتَأُ is an oath sworn without the usual باء القسم. What kind of عامل governs the omitted-but-understood شبه الجملة تَلَفْظِ الجَلالَةِ here؟`,
             kind: 'mcq',
-            options: [`A specific, omitted عامل such as أقسم — still ظرف لغو`, `A general omitted عامل such as ثبت — ظرف مستقر`, `No عامل at all is needed for a قسم`, `الفعل تفتأ itself is the عامل of تالله`],
+            options: [`A specific, omitted عامل such as أقسم — still ظرف لغو`, `A general omitted عامل such as ثبت — ظرف مستقر`, `No عامل at all is needed for a قسم`, `الفعل تفتأ itself is the عامل of تَلَفْظِ الجَلالَةِ`],
             correct: 0,
           },
         },
@@ -733,7 +735,9 @@ export default {
             { box: { title: 'Careful', lines: [`لا يُكْتَفَى بِالقَوْلِ إِنَّ الجَارَّ وَالمَجْرُورَ مُتَعَلِّقٌ، بَلْ يُعَيَّنُ مَوْقِعُهُ مِنَ الإِعْرَابِ`] } },
             { html: `Saying only "the جار ومجرور is متعلق" is not enough — the exact role must be named: خبر, نعت, حال, صلة, مفعول فيه, or another grammatical function.`, list: false },
             { box: { title: 'Example', lines: [`فَخَرَجَ عَلَى قَوْمِهِ فِي زِينَتِهِ`] } },
-            { html: `Both kinds of شبه الجملة can sit in one آية. على قومه attaches to the mentioned فعل خرج, so it is ظرف لغو. في زينته describes the state he was in, so it is ظرف مستقر working as حال.`, list: false },
+            { html: `Both kinds of شبه الجملة can sit in one آية.`, list: false },
+            { html: `على قومه attaches to the mentioned فعل خرج, so it is ظرف لغو.`, list: false },
+            { html: `في زينته describes the state he was in, so it is ظرف مستقر working as حال.`, list: false },
             { html: `In a صلة specifically, the omitted عامل must be understood as a فعل, because الصلة of an اسم موصول must itself be a جملة. In <bdi>الَّذِي فِي مَكَّةَ</bdi>, the understood عامل is اسْتَقَرَّ or another فعل, not مستقر, for that reason.`, list: false },
             { box: { title: 'Careful', lines: [`قَدْ يُطْلَقُ لَفْظُ "مُسْتَقِرّ" عَلَى العَامِلِ المَحْذُوفِ، وَيُطْلَقُ "ظَرْفٌ مُسْتَقِرٌّ" عَلَى شِبْهِ الجُمْلَةِ نَفْسِهَا`] } },
             { html: `مستقر can refer to the omitted عامل itself, while ظرف مستقر refers to the شبه الجملة whose عامل is estimated — two different levels that should not be confused.`, list: false },
@@ -773,7 +777,7 @@ export default {
         { title: `أولئك على هدى من ربهم: النعت`, kind: 'mcq', prompt: `In أُولَئِكَ عَلَى هُدًى مِنْ رَبِّهِمْ, من ربهم describes هدى. What role does that play؟`, options: [`نعت, through an omitted general عامل`, `حال, through a specific عامل`, `صلة, through a specific عامل`, `خبر مباشر بلا عامل محذوف`], correct: 0 },
         { title: `ولهُ من في السماوات: الصلة`, kind: 'mcq', prompt: `In وَلَهُ مَنْ فِي السَّمَاوَاتِ, في السماوات completes الصلة of من. What must the omitted عامل be understood as, and why؟`, options: [`A فعل, because الصلة of an اسم موصول must itself be a جملة`, `An اسم بمعنى الفعل, because صلة never needs a فعل`, `There is no omitted عامل in a صلة`, `حرف جر آخر`], correct: 0 },
         { title: `أفي الله شك: الاعتماد`, kind: 'mcq', prompt: `أَفِي اللهِ شَكٌّ places a شبه الجملة right after همزة الاستفهام. Which موضع من مواضع الظرف المستقر does that illustrate؟`, options: [`الاعتماد`, `الحال`, `النعت`, `الصلة`], correct: 0 },
-        { title: `فخرج على قومه في زينته: نوعان في آية واحدة`, kind: 'mcq', prompt: `فَخَرَجَ عَلَى قَوْمِهِ فِي زِينَتِهِ contains two شبه جملة. على قومه attaches to the mentioned فعل خرج. What type is في زينته instead, describing his state؟`, options: [`ظرف مستقر, working as حال`, `ظرف لغو, exactly like على قومه`, `Neither — في زينته has no عامل`, `اسم مؤول`], correct: 0 },
+        { title: `فخرج على قومه في زينته: نوعان في آية واحدة`, kind: 'mcq', prompt: `فَخَرَجَ عَلَى قَوْمِهِ فِي زِينَتِهِ contains two شبه جملة, and على قومه attaches to the mentioned فعل خرج. What type is في زينته instead, describing his state؟`, options: [`ظرف مستقر, working as حال`, `ظرف لغو, exactly like على قومه`, `Neither — في زينته has no عامل`, `اسم مؤول`], correct: 0 },
         { title: `لا يكفي القول متعلق`, kind: 'mcq', prompt: `According to the lesson's caution, what is missing if someone only says "الجار والمجرور متعلق" without going further؟`, options: [`The specific grammatical role — خبر, نعت, حال, صلة, مفعول فيه, or another function`, `Nothing — that description is already complete`, `The vowel ending of the مجرور`, `Whether الشبه الجملة is جار ومجرور or ظرف ومضاف إليه`], correct: 0 },
         {
           title: `تركيب: أَرْسَلْنَا نُوحًا إِلَى قَوْمِهِ`,
@@ -921,7 +925,7 @@ export default {
         { title: `تمييز موجب عن غير موجب: الفرق الجوهري`, kind: 'mcq', prompt: `What single test separates الكلام الموجب from الكلام غير الموجب؟`, options: [`Whether it contains نفي, نهي, or استفهام`, `Whether it opens with اسم or فعل`, `Whether it can be judged صدقا أو كذبا`, `Whether it contains a ناسخ`], correct: 0 },
         { title: `لا الناهية في لا تشرك بالله`, kind: 'mcq', prompt: `In لَا تُشْرِكْ بِاللهِ, what role does لا play؟`, options: [`لا الناهية`, `لا النافية`, `لا الزائدة`, `لا العاطفة`], correct: 0 },
         { title: `تشرك: فعل مضارع مجزوم`, kind: 'mcq', prompt: `In لَا تُشْرِكْ بِاللهِ, what is the grammatical state of تُشْرِكْ, given that it follows لا الناهية؟`, options: [`فعل مضارع مجزوم`, `فعل مضارع مرفوع`, `فعل ماضٍ`, `فعل أمر`], correct: 0 },
-        { title: `بالله: شبه الجملة`, kind: 'mcq', prompt: `In لَا تُشْرِكْ بِاللهِ, بِاللهِ is a جار ومجرور. What type of شبه الجملة by structure is that, using the terms from the earlier lesson؟`, options: [`الجار والمجرور`, `الظرف والمضاف إليه`, `الجملة الصغرى`, `العمدة`], correct: 0 },
+        { title: `بالله: شبه الجملة`, kind: 'mcq', prompt: `In لَا تُشْرِكْ بِاللهِ, بِلَفْظِ الجَلالَةِ is a جار ومجرور. What type of شبه الجملة by structure is that, using the terms from the earlier lesson؟`, options: [`الجار والمجرور`, `الظرف والمضاف إليه`, `الجملة الصغرى`, `العمدة`], correct: 0 },
         { title: `صدقت: كلمة واحدة تكفي`, kind: 'mcq', prompt: `صَدَقْتَ is complete كلام in a single word. What does that show about the relationship between length and إفادة؟`, options: [`A single word can already be مفيد if the listener needs nothing further`, `إفادة always requires at least two كلمات`, `إفادة requires a مسند إليه separate from الفعل`, `صدقت is not really a single كلمة`], correct: 0 },
         { title: `مراجعة: الكلام مقابل الجملة`, kind: 'mcq', prompt: `صَدَقْتَ and إِنْ تَصْدُقْ both contain إسناد, so both count as جملة. Which one also counts as كلام؟`, options: [`صَدَقْتَ only — its meaning is complete; إِنْ تَصْدُقْ still waits for جواب الشرط`, `Both count equally as كلام`, `إِنْ تَصْدُقْ only`, `Neither counts as كلام`], correct: 0 },
         {

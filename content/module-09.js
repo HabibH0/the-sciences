@@ -171,9 +171,11 @@ export default {
               [`مفعول فيه، للمكان`, `﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ﴾`, `Allah helped you at Badr`],
               [`مفعول فيه، للزمان`, `﴿يُسَبِّحُونَ لَهُ بِالَّيْلِ وَالنَّهَارِ﴾`, `They glorify Him by night and by day`],
             ] } },
-            { html: `﴿خُذِ الْكِتَابَ بِقُوَّةٍ﴾ is Allah's command to يحيى عليه الصلاة والسلام. بِقُوَّةٍ describes the manner of the أخذ, the taking — hold it with a firm taking, as though the sentence meant خُذِ الْكِتَابَ أَخْذًا قَوِيًّا. Read this way, الباء ومجرورها describes the verb itself.`, list: false },
+            { html: `﴿خُذِ الْكِتَابَ بِقُوَّةٍ﴾ is Allah's command to يحيى عليه الصلاة والسلام.`, list: false },
+            { html: `بِقُوَّةٍ describes the manner of the أخذ, the taking — hold it with a firm taking, as though the sentence meant خُذِ الْكِتَابَ أَخْذًا قَوِيًّا. Read this way, الباء ومجرورها describes the verb itself.`, list: false },
             { html: `ذَهَبَ alone means simply "to go." Add الباء, and ذَهَبَ بِهِ shifts to mean "to take him away" — the sense of أخذ, taking, is folded into the verb once الباء is attached. الباء ومجرورها here stands in the place of a مفعول به غير صريح, an indirect direct object.`, list: false },
-            { html: `بِبَدْرٍ names المكان — Allah's aid came at Badr. بِالَّيْلِ وَالنَّهَارِ plays the same role for الزمان rather than المكان. الباء ومجرورها can stand for مفعول فيه of either kind.`, list: false },
+            { html: `بِبَدْرٍ names المكان — Allah's aid came at Badr. بِالَّيْلِ وَالنَّهَارِ plays the same role for الزمان rather than المكان.`, list: false },
+            { html: `الباء ومجرورها can stand for مفعول فيه of either kind.`, list: false },
           ],
           exercise: {
             prompt: `﴿فَلَمَّا ذَهَبُوا بِهِ﴾ shifts ذَهَبَ from meaning plain "to go" to meaning "to take him away," once الباء attaches. What role does الباء ومجرورها play there?`,
@@ -408,7 +410,7 @@ export default {
             { html: `﴿تَرَى أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾ describes sincere, tender-hearted people whose eyes overflow when the Book of Allah is recited to them. Said plainly, without مِنْ, one could say تَفِيضُ دَمْعًا, with دَمْعًا as a straightforward تمييز. Replacing that direct تمييز with مِنَ الدَّمْعِ raises a real question of بلاغة — what does مِنْ add here that a bare تمييز would not? No settled answer is on offer; it is a question worth sitting with rather than one with a ready response.`, list: false },
           ],
           exercise: {
-            prompt: `تَفِيضُ دَمْعًا would use a plain تمييز. ﴿تَرَى أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾ uses مِنَ الدَّمْعِ instead. Is there a settled answer for what مِنْ adds over the plain تمييز here?`,
+            prompt: `تَفِيضُ دَمْعًا would use a plain تمييز, whereas ﴿تَرَى أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ﴾ uses مِنَ الدَّمْعِ instead. Is there a settled answer for what مِنْ adds over the plain تمييز here?`,
             kind: 'mcq',
             options: [`No — it raises a real question of بلاغة with no settled answer on offer`, `Yes — مِنْ always intensifies a تمييز`, `Yes — مِنْ here simply means the opposite of تمييز`, `No — مِنَ الدَّمْعِ is not تمييز at all in this آية`],
             correct: 0,
@@ -570,7 +572,8 @@ export default {
               [`مفعول معه`, `﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَى أَمْوَالِكُمْ﴾`, `do not consume their wealth together with your own`],
             ] } },
             { box: { title: 'Rule', lines: [`إِذَا كَانَتْ إِلَى وَمَجْرُورُهَا مَفْعُولًا فِيهِ غَيْرَ صَرِيحٍ يُقَالُ: إِلَى لِانْتِهَاءِ الغَايَةِ`] } },
-            { html: `﴿حَبَّبَ إِلَيْكُمُ الْإِيمَانَ﴾ — He made belief beloved to you: إِلَيْكُمُ functions as مفعول به, the second object of حَبَّبَ. ﴿إِلَى الْمَسْجِدِ الْأَقْصَى﴾ marks المكان, the endpoint of الإسراء journey; ﴿ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى الَّيْلِ﴾ marks الزمان instead — the fast runs until nightfall. Whether the endpoint is a place or a time, the same label applies.`, list: false },
+            { html: `﴿حَبَّبَ إِلَيْكُمُ الْإِيمَانَ﴾ — He made belief beloved to you: إِلَيْكُمُ functions as مفعول به, the second object of حَبَّبَ.`, list: false },
+            { html: `﴿إِلَى الْمَسْجِدِ الْأَقْصَى﴾ marks المكان, the endpoint of الإسراء journey; ﴿ثُمَّ أَتِمُّوا الصِّيَامَ إِلَى الَّيْلِ﴾ marks الزمان instead — the fast runs until nightfall. Whether the endpoint is a place or a time, the same label applies.`, list: false },
             { html: `On one تفسير, إلى in ﴿وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَى أَمْوَالِكُمْ﴾ carries the sense of مع, "along with" — do not consume the wealth of orphans folded together with your own. Read this way, إلى ومجرورها functions as مفعول معه, exactly the role الباء and مِنْ have each already been seen to carry in their own constructions.`, list: false },
           ],
           exercise: {
@@ -822,7 +825,7 @@ export default {
           exercise: {
             prompt: `In ﴿وَيُطْعِمُونَ الطَّعَامَ عَلَى حُبِّهِ مِسْكِينًا وَيَتِيمًا وَأَسِيرًا﴾, what settles whether شبه الجملة عَلَى حُبِّهِ is مفعول معه or مفعول له؟`,
             kind: 'mcq',
-            options: [`Where the pronoun in حبه points — to الطعام gives مفعول معه; to الله gives مفعول له`, `The number of the givers — plural gives مفعول معه, singular gives مفعول له`, `Whether المسكين واليتيم والأسير are مذكر or مؤنث`, `Nothing settles it — both readings are impossible here`],
+            options: [`Where the pronoun in حبه points — to الطعام gives مفعول معه; to لَفْظِ الجَلالَةِ gives مفعول له`, `The number of the givers — plural gives مفعول معه, singular gives مفعول له`, `Whether المسكين واليتيم والأسير are مذكر or مؤنث`, `Nothing settles it — both readings are impossible here`],
             correct: 0,
           },
         },
@@ -844,7 +847,8 @@ export default {
           heading: 'قاعدة عامة: المفعول معه واسم المعنى',
           lines: [
             { box: { title: 'Rule', lines: [`إِذَا كَانَ شِبْهُ الجُمْلَةِ مَفْعُولًا مَعَهُ وَالمَجْرُورُ أَوِ المُضَافُ إِلَيْهِ اسْمَ مَعْنًى دُونَ اسْمِ ذَاتٍ تُفِيدُ مِنَ المَعْنَى مَا تُفِيدُ الحَالَ`] } },
-            { html: `Whenever a شبه جملة is labelled مفعول معه, and what it governs — directly or through إضافة — is an اسم معنى, an abstract noun like سلام or خوف, rather than an اسم ذات, a concrete physical thing, it carries something of the sense of حال even while formally filed as مفعول معه. ﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾, met in the lesson on الباء, works the same way: سلام is an abstract state rather than a physical companion, so بِسَلَامٍ reads almost as a description of the entrants' condition even where its formal label is مفعول معه rather than حال outright.`, list: false },
+            { html: `Whenever a شبه جملة is labelled مفعول معه, and what it governs — directly or through إضافة — is an اسم معنى, an abstract noun like سلام or خوف, rather than an اسم ذات, a concrete physical thing, it carries something of the sense of حال even while formally filed as مفعول معه.`, list: false },
+            { html: `﴿ادْخُلُوهَا بِسَلَامٍ آمِنِينَ﴾, met in the lesson on الباء, works the same way: سلام is an abstract state rather than a physical companion, so بِسَلَامٍ reads almost as a description of the entrants' condition even where its formal label is مفعول معه rather than حال outright.`, list: false },
           ],
           exercise: {
             prompt: `As a rule of thumb, when a شبه جملة labelled مفعول معه governs an اسم معنى like سلام or خوف rather than a concrete اسم ذات, what does it carry along with its formal label?`,
@@ -859,7 +863,7 @@ export default {
         { q: `﴿أُولَٰئِكَ عَلَى هُدًى﴾ pictures هدى as solid ground firmly stood on. Which sense of معنوي الاستعلاء does that show?`, options: [`التمكن`, `الإلزام`, `المجاوزة`, `الإلصاق`], correct: 0 },
         { q: `﴿تِلْكَ الرُّسُلُ فَضَّلْنَا بَعْضَهُمْ عَلَى بَعْضٍ﴾ pictures rank as a kind of height, with no literal elevation involved. Is that استعلاء حقيقة or مجازا؟`, options: [`مجازا`, `حقيقة`, `Neither`, `It cannot be determined`], correct: 0 },
         { q: `﴿سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ﴾ gives the reason for التكبير. What role does عَلَى مَا هَدَاكُمْ play؟`, options: [`مفعول له غير صريح`, `مفعول به`, `مفعول فيه للمكان`, `تمييز`], correct: 0 },
-        { q: `In ﴿وَيُطْعِمُونَ الطَّعَامَ عَلَى حُبِّهِ﴾, what decides whether عَلَى حُبِّهِ is مفعول معه or مفعول له؟`, options: [`Where the pronoun in حبه points — to الطعام, or to الله`, `Whether المطعمون are مذكر or مؤنث`, `Whether الطعام is معرفة or نكرة`, `Nothing — both readings are always identical in meaning`], correct: 0 },
+        { q: `In ﴿وَيُطْعِمُونَ الطَّعَامَ عَلَى حُبِّهِ﴾, what decides whether عَلَى حُبِّهِ is مفعول معه or مفعول له؟`, options: [`Where the pronoun in حبه points — to الطعام, or to لَفْظِ الجَلالَةِ`, `Whether المطعمون are مذكر or مؤنث`, `Whether الطعام is معرفة or نكرة`, `Nothing — both readings are always identical in meaning`], correct: 0 },
         { q: `A شبه جملة labelled مفعول معه governs an اسم معنى rather than an اسم ذات. What does it carry along with its formal label?`, options: [`Something of the sense of حال`, `Something of the sense of تمييز`, `A guaranteed shift to مفعول به`, `Nothing beyond the bare مفعول معه label`], correct: 0 },
       ],
       bank: [
@@ -998,7 +1002,8 @@ export default {
           lines: [
             { box: { title: 'Example', lines: [`﴿نَزَّلَ الْفُرْقَانَ عَلَى عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا﴾`] } },
             { box: { title: 'Rule', lines: [`وَالأَكْثَرُ أَنْ يَكُونَ عَنْ قَصْدِ الفَاعِلِ، وَتُسَمَّى لَامَ التَّعْلِيلِ وَلَامَ كَيْ`] } },
-            { html: `"He has sent down الفرقان upon His slave, that he may be a warner to all peoples." مفعول له ordinarily names a deliberate purpose, the way one sits to teach or travels to perform عمرة. لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا gives exactly this — the قصد behind sending down الفرقان. This لام carries two names, <bdi>لام التعليل</bdi> and <bdi>لام كي</bdi>, both pointing to the same intended-purpose reading.`, list: false },
+            { html: `"He has sent down الفرقان upon His slave, that he may be a warner to all peoples." مفعول له ordinarily names a deliberate purpose, the way one sits to teach or travels to perform عمرة.`, list: false },
+            { html: `لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا gives exactly this — the قصد behind sending down الفرقان. This لام carries two names, <bdi>لام التعليل</bdi> and <bdi>لام كي</bdi>, both pointing to the same intended-purpose reading.`, list: false },
           ],
           exercise: {
             prompt: `﴿نَزَّلَ الْفُرْقَانَ عَلَى عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا﴾ names the intended purpose behind sending down الفرقان. What is this لام called?`,
@@ -1046,7 +1051,7 @@ export default {
       ],
       bank: [
         { title: `اللام: ثلاثة معان أصلية`, kind: 'mcq', prompt: `Unlike الباء، مِنْ، إلى، عَنْ، and على, each with one root sense, اللام opens with how many distinct root senses؟`, options: [`Three: تخصيص، ملك، وشبه الملك`, `One, shared with الباء`, `Two only: ملك وشبه الملك`, `Four, including الاستعلاء`], correct: 0 },
-        { title: `الحمد لله: التخصيص`, kind: 'mcq', prompt: `Why is لِلَّهِ in ﴿الْحَمْدُ لِلَّهِ﴾ تخصيص rather than ملك؟`, options: [`حمد cannot literally be owned — it is a معنى, not a physical ذات`, `حمد is a concrete ذات that can be physically owned`, `الله cannot be the object of ملك in any construction`, `لِلَّهِ never appears with تخصيص elsewhere`], correct: 0 },
+        { title: `الحمد لله: التخصيص`, kind: 'mcq', prompt: `Why is لِلَّهِ in ﴿الْحَمْدُ لِلَّهِ﴾ تخصيص rather than ملك؟`, options: [`حمد cannot literally be owned — it is a معنى, not a physical ذات`, `حمد is a concrete ذات that can be physically owned`, `لَفْظُ الجَلالَةِ cannot be the object of ملك in any construction`, `لِلَّهِ never appears with تخصيص elsewhere`], correct: 0 },
         { title: `له ما في السماوات وما في الأرض: الملك`, kind: 'mcq', prompt: `﴿لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ﴾ names actual things, ذوات. What sense does لَهُ carry there؟`, options: [`الملك`, `التخصيص`, `شبه الملك`, `التبليغ`], correct: 0 },
         { title: `التخصيص بين معنى وذات، والملك بين ذات وذات`, kind: 'mcq', prompt: `What determines whether اللام carries تخصيص or ملك؟`, options: [`Whether اللام links an abstract معنى to a ذات (تخصيص), or one ذات to another ذات (ملك)`, `Whether the sentence is إنشائية or خبرية`, `Whether the مجرور is معرفة or نكرة`, `Whether اللام appears at the start or end of the جملة`], correct: 0 },
         { title: `إن في السماوات والأرض لآيات للمؤمنين: شبه الملك`, kind: 'mcq', prompt: `المؤمنون do not own الآيات outright, yet this is more than bare تخصيص. What is this third sense of اللام also called؟`, options: [`النسبة`, `الاستحقاق`, `الاستعلاء`, `المجاوزة`], correct: 0 },

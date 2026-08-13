@@ -32,7 +32,8 @@ export default {
               `يَنْقَسِمُ الفِعْلُ إلى جامِدٍ ومُتَصَرِّفٍ`,
               `فالجامِدُ: ما لازَمَ صُورَةً واحِدَةً`,
             ] } },
-            { html: `الفعل divides into جامد and متصرف. الجامد is what stays locked to one single form — and which form that is decides what it lacks.`, list: false },
+            { html: `الفعل divides into جامد and متصرف.`, list: false },
+            { html: `الجامد is what stays locked to one single form — and which form that is decides what it lacks.`, list: false },
             { table: { title: 'أقسام الجامد (Divisions of الجامد)', headers: ['القسم (Division)', 'ما يترتب عليه (What Follows From It)', 'أمثلة (Examples, with Meaning)'], rows: [
               ['ما يكونُ مُلازِمًا لِلْمُضِيِّ — locked into the ماضي', 'فليس له مُضارِعٌ ولا أَمْرٌ — so it has no مضارع and no أمر', 'لَيْسَ (is not), عَسَى (perhaps), نِعْمَ (how excellent!), خَلا (except)'],
               ['ما يكونُ مُلازِمًا لِلْمُضارَعَةِ — locked into the مضارع', 'فليس له ماضٍ ولا أَمْرٌ — so it has no ماضي and no أمر', 'يَبْغِي (desires), يَسْوِي (is equal to), يَهِيطُ (cries out)'],

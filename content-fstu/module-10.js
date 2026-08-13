@@ -555,7 +555,7 @@ export default {
             "Where did Allah promise Paradise?"
           ],
           "correct": 1,
-          "explanation": "مَنْ is the fronted مَفْعُوْلٌ بِهِ; اللّٰهُ is the فاعل and الْجَنَّةَ the second object."
+          "explanation": "مَنْ is the fronted مَفْعُوْلٌ بِهِ; لَفْظُ الجَلالَةِ is the فاعل and الْجَنَّةَ the second object."
         },
         {
           "title": "Book Exercise 11 (Section 2, Part 1)",
@@ -2038,7 +2038,7 @@ export default {
         {
           "title": "Book Exercise 13 (Section 2, Part 1)",
           "kind": "mcq",
-          "prompt": "In مَا تَسْأَلُ اللّٰهَ؟, why is اللّٰهَ مَنْصُوْب?",
+          "prompt": "In مَا تَسْأَلُ اللّٰهَ؟, why is لَفْظَ الجَلالَةِ مَنْصُوْب؟",
           "options": [
             "Because it follows a حَرْفُ جَرٍّ",
             "Because it is the فاعل of the verb",
@@ -2046,7 +2046,7 @@ export default {
             "Because مَا makes everything after it مَنْصُوْب"
           ],
           "correct": 2,
-          "explanation": "سَأَلَ takes two objects: the person asked (هنا اللّٰهَ) and the thing asked for (هنا مَا, fronted since it is an interrogative)."
+          "explanation": "سَأَلَ takes two objects: the person asked (هنا لَفْظَ الجَلالَةِ) and the thing asked for (هنا مَا, fronted since it is an interrogative)."
         },
         {
           "title": "Book Exercise 14 (Section 2, Part 1)",
@@ -6597,7 +6597,7 @@ export default {
             "Where are the hypocrites who please Allah?"
           ],
           "correct": 1,
-          "explanation": "رَضِيَ عَنْ takes its complement through the preposition عَنْ; اللّٰهُ is the فاعل."
+          "explanation": "رَضِيَ عَنْ takes its complement through the preposition عَنْ; لَفْظُ الجَلالَةِ is the فاعل."
         },
         {
           "title": "Book Exercise 20 (Section 2, Part 1)",
@@ -13132,7 +13132,7 @@ export default {
         {
           "title": "Book Exercise 27 (Section 2, Part 1)",
           "kind": "mcq",
-          "prompt": "In مَاذَا حَرَّمَ اللّٰهُ؟, what is اللّٰهُ?",
+          "prompt": "In مَاذَا حَرَّمَ اللّٰهُ؟, what is لَفْظُ الجَلالَةِ؟",
           "options": [
             "مَفْعُوْلٌ بِهِ",
             "فَاعِلٌ مُؤَخَّرٌ",
@@ -14550,7 +14550,7 @@ export default {
             "حَرْفُ عَطْفٍ"
           ],
           "correct": 0,
-          "explanation": "It is the particle of restriction; اللّٰهَ after it is the مَفْعُوْلٌ بِهِ."
+          "explanation": "It is the particle of restriction; لَفْظَ الجَلالَةِ after it is the مَفْعُوْلٌ بِهِ."
         },
         {
           "q": "What slot does هَلْ occupy in the tarkib of a rhetorical question?",
@@ -14641,7 +14641,7 @@ export default {
             "اللّٰهُ"
           ],
           "correct": 3,
-          "explanation": "دُعَاءَكَ is the object placed before the subject; اللّٰهُ after إِلَّا is the فاعل."
+          "explanation": "دُعَاءَكَ is the object placed before the subject; لَفْظُ الجَلالَةِ after إِلَّا is the فاعل."
         },
         {
           "title": "Book Exercise 28 (Section 2, Part 1)",

@@ -138,7 +138,7 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
     ? { mcqLength: 15, tarkeebLength: 10, vocabLength: 10 }
     : { mcqLength: 10, tarkeebLength: 0, vocabLength: 5 };
   nodes.push({
-    type: 'sectionTest', id: id(n++), badgeId: `path-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
+    type: 'sectionTest', id: id(n++), label: 'اِخْتِبَارُ الْقِسْمِ',
     windowStart: firstLessonNodeId, windowEnd: afterTail, ...sectionTestLengths, passRatio: 0.8,
   });
   return nodes;
@@ -154,10 +154,8 @@ function lastLessonNodeId(nodes) {
 // Every group follows the same buildSectionNodes template; what differs
 // per group is which module-range slice of each course it draws from
 // (GROUP_MODULE_RANGES), how its own lesson count splits into ~7-lesson
-// sections, and where in the GLOBAL section numbering (badge ids / node-id
-// prefixes are unique across the WHOLE path, never reset per group -- see
-// BADGE_DEFS in js/gamification.js, which is keyed on these exact ids) it
-// starts.
+// sections, and where in the GLOBAL section numbering (node-id prefixes are
+// unique across the WHOLE path, never reset per group) it starts.
 //
 // Section-size rule (generalizes Group 1's own original hand-built split,
 // G1_BOUNDS = [0,7,14,21,28,35,42,49,57]): a group's lesson count doesn't
@@ -208,7 +206,6 @@ function buildGroup(groupNum, range, sectionNumStart) {
   const groupTest = {
     type: 'groupTest',
     id: `grp${groupNum}-test`,
-    badgeId: `path-group-${groupNum}`,
     label: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
     windowStart: sections[0][1].id,
     windowEnd: lastLessonNodeId(sections[sections.length - 1]),

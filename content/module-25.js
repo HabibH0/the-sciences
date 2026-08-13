@@ -89,7 +89,8 @@ export default {
           lines: [
             { html: `الخبر's position relative to المبتدأ follows a default order, but that default can be overridden.`, list: false },
             { box: { title: 'Rule', lines: [`الأَصْلُ في الخَبَرِ أَن يَكونَ بَعْدَ المُبْتَدَأِ`] } },
-            { html: `the default order is مبتدأ ثم خبر. وَقَدْ يَتَقَدَّمُ — but الخبر can be fronted ahead of its مبتدأ (خبر مقدّم / مبتدأ مؤخّر).`, list: false },
+            { html: `the default order is مبتدأ ثم خبر.`, list: false },
+            { html: `وَقَدْ يَتَقَدَّمُ — but الخبر can be fronted ahead of its مبتدأ (خبر مقدّم / مبتدأ مؤخّر).`, list: false },
             { box: { title: 'Example', lines: [`لِكُلِّ اَجَلٍ كِتابٌ`] } },
             { html: `<bdi>لِكُلِّ اَجَلٍ</bdi> (جار ومجرور, خبر مقدم) comes first, and <bdi>كِتابٌ</bdi>, المبتدأ, is مؤخّر — the reverse of the default order.`, list: false },
             {
@@ -132,7 +133,8 @@ export default {
             },
             { html: `When المبتدأ is followed by a وَ that unambiguously means "together with" (نَصٌّ في المَعِيَّةِ, as opposed to an ordinary connective وَ), الخبر after it must be dropped.`, list: false },
             { box: { title: 'Example', lines: [`فَاِنَّكُمْ وَما تَعْبُدونَ`] } },
-            { html: `النحاة offer two ways to parse this: (1) الواو بِمَعْنى مَعَ, and وَما تَعْبُدونَ becomes a ظرف مستقر serving as الخبر itself, أَيْ إِنَّكُمْ مَعَ ما تَعْبُدونَ; (2) ما بَعْدَ واوِ المَعِيَّةِ is a مَفْعولٌ مَعَهُ, and الخبر after it is dropped altogether, وَالتَّقْديرُ فَإِنَّكُمْ وَما تَعْبُدونَ مَقْرونانِ. الشاهد often cited for this second reading: <bdi>كُلُّ رَجُلٍ وَضَيْعَتُهُ</bdi> — "every man and his profession", أَيْ كُلُّ رَجُلٍ وَحِرْفَتُهُ مَقْرونانِ — الخبر مقرونان is dropped precisely because واو المعية itself already signals "linked together", making it redundant to spell out.`, list: false },
+            { html: `النحاة offer two ways to parse this: (1) الواو بِمَعْنى مَعَ, and وَما تَعْبُدونَ becomes a ظرف مستقر serving as الخبر itself, أَيْ إِنَّكُمْ مَعَ ما تَعْبُدونَ; (2) ما بَعْدَ واوِ المَعِيَّةِ is a مَفْعولٌ مَعَهُ, and الخبر after it is dropped altogether, وَالتَّقْديرُ فَإِنَّكُمْ وَما تَعْبُدونَ مَقْرونانِ.`, list: false },
+            { html: `الشاهد often cited for this second reading: <bdi>كُلُّ رَجُلٍ وَضَيْعَتُهُ</bdi> — "every man and his profession", أَيْ كُلُّ رَجُلٍ وَحِرْفَتُهُ مَقْرونانِ — الخبر مقرونان is dropped precisely because واو المعية itself already signals "linked together", making it redundant to spell out.`, list: false },
             {
               tarkeebDiagram: {
                 sentence: `كُلُّ رَجُلٍ وَضَيْعَتُهُ`,
@@ -171,7 +173,7 @@ export default {
             },
           ],
           exercise: {
-            prompt: `اللهُ in ﴿...لَيَقولُنَّ اللهُ﴾ stands with its خبر dropped (أَيِ اللهُ خَلَقَهُنَّ). Is that drop obligatory or merely permitted؟`,
+            prompt: `لَفْظُ الجَلالَةِ in ﴿...لَيَقولُنَّ اللهُ﴾ stands with its خبر dropped (أَيِ اللهُ خَلَقَهُنَّ). Is that drop obligatory or merely permitted؟`,
             kind: 'mcq',
             options: [`Merely permitted — جواب الاستفهام makes it recoverable, but doesn't force the drop`, `Obligatory — جواب الاستفهام always forces حذف الخبر`, `There is no dropped خبر here`, `Obligatory, the same way لولا forces it`],
             correct: 0,
@@ -183,7 +185,7 @@ export default {
         { q: `In ﴿وَهُوَ الْغَفورُ الْوَدودُ﴾, هُوَ carries how many خبر؟`, options: [`Two`, `One`, `Three`, `None`], correct: 0 },
         { q: `الأصل في الخبر أن يكون بعد المبتدأ. In ﴿لِكُلِّ اَجَلٍ كِتابٌ﴾, has that default order been kept or reversed؟`, options: [`Reversed — الخبر (لِكُلِّ اَجَلٍ) comes before المبتدأ (كِتابٌ)`, `Kept — المبتدأ comes first as usual`, `There is no مبتدأ in this sentence`, `Reversed, but only because كِتابٌ is نكرة`], correct: 0 },
         { q: `وَلَوْلا رَهْطُكَ لَرَجَمْناكَ leaves رَهْطُكَ's خبر (مَوْجودٌ) unwritten. Is that drop obligatory or optional؟`, options: [`Obligatory — لولا's own grammar always drops it`, `Optional — a speaker may include it if they wish`, `There is no dropped خبر here`, `Obligatory only in Qur'anic Arabic`], correct: 0 },
-        { q: `﴿...لَيَقولُنَّ اللهُ﴾ drops اللهُ's خبر (خَلَقَهُنَّ). Is that drop obligatory or merely permitted؟`, options: [`Merely permitted — recoverable from جواب الاستفهام, but not forced`, `Obligatory, the same way لولا forces it`, `There is no dropped خبر here`, `Obligatory only in poetry`], correct: 0 },
+        { q: `﴿...لَيَقولُنَّ اللهُ﴾ drops لَفْظِ الجَلالَةِ's خبر (خَلَقَهُنَّ). Is that drop obligatory or merely permitted؟`, options: [`Merely permitted — recoverable from جواب الاستفهام, but not forced`, `Obligatory, the same way لولا forces it`, `There is no dropped خبر here`, `Obligatory only in poetry`], correct: 0 },
         { q: `كُلُّ رَجُلٍ وَضَيْعَتُهُ is read, on one reading, with وَ as واو المعية. What happens to الخبر of كُلُّ رَجُلٍ on that reading؟`, options: [`It is dropped, understood as مقرونان`, `It appears explicitly as مقرونان`, `It becomes the خبر of ضَيْعَتُهُ instead`, `There is no خبر required in this reading`], correct: 0 },
       ],
       bank: [
@@ -200,7 +202,7 @@ export default {
         { title: `واو نص في المعية: ماذا يحدث للخبر؟`, kind: 'mcq', prompt: `When المبتدأ is followed by a واو that unambiguously means "together with" (نَصٌّ فِي المَعِيَّةِ), what happens to الخبر after it؟`, options: [`It must be dropped`, `It must be fronted`, `It must agree in number with المبتدأ`, `It becomes مجرور`], correct: 0 },
         { title: `كل رجل وضيعته: القراءة الثانية`, kind: 'mcq', prompt: `In كُلُّ رَجُلٍ وَضَيْعَتُهُ, one reading treats وَ as واو المعية and ضَيْعَتُهُ as مفعول معه. Under that reading, what happens to الخبر of كُلُّ رَجُلٍ؟`, options: [`It is dropped, understood as مقرونان`, `It stays visible as مقرونان`, `It becomes الخبر of ضَيْعَتُهُ instead`, `There is no خبر required in this reading`], correct: 0 },
         { title: `جواز حذف الخبر: متى؟`, kind: 'mcq', prompt: `Beyond the three obligatory cases, when may الخبر be dropped (يجوز, not يجب)؟`, options: [`Wherever context makes it recoverable (عِنْدَ القَرينَةِ)`, `Only in poetry`, `Only after حروف النداء`, `Never — جواز الحذف does not apply to الخبر`], correct: 0 },
-        { title: `جواب الاستفهام: اللهُ`, kind: 'mcq', prompt: `﴿...لَيَقولُنَّ اللهُ﴾ leaves اللهُ's خبر (خَلَقَهُنَّ) unspoken. What licenses that drop؟`, options: [`The question itself already supplies exactly what is missing`, `اللهُ can never take a خبر`, `The drop here is obligatory, not merely permitted`, `اللهُ is not really المبتدأ in this sentence`], correct: 0 },
+        { title: `جواب الاستفهام: اللهُ`, kind: 'mcq', prompt: `﴿...لَيَقولُنَّ اللهُ﴾ leaves لَفْظِ الجَلالَةِ's خبر (خَلَقَهُنَّ) unspoken. What licenses that drop؟`, options: [`The question itself already supplies exactly what is missing`, `لَفْظُ الجَلالَةِ can never take a خبر`, `The drop here is obligatory, not merely permitted`, `لَفْظُ الجَلالَةِ is not really المبتدأ in this sentence`], correct: 0 },
         { title: `إذا الفجائية: خرجت فإذا الأسد`, kind: 'mcq', prompt: `خَرَجْتُ فَإِذا الأَسَدُ leaves الأَسَدُ's خبر (مَوْجودٌ) unspoken. Why does إذا الفجائية make that drop so common؟`, options: [`The surprise itself is doing all the communicative work — spelling out موجود would only slow the sentence down`, `إذا الفجائية always forbids a spoken خبر by rule`, `إذا الفجائية turns الأَسَدُ into a فعل`, `موجود cannot grammatically follow إذا الفجائية`], correct: 0 },
         { title: `زيد في البيت: مقارنة`, kind: 'mcq', prompt: `The lesson compares خَرَجْتُ فَإِذا الأَسَدُ's dropped خبر to زَيْدٌ في البَيْتِ. What does زَيْدٌ في البَيْتِ actually mean؟`, options: [`Zayd is present in the house`, `Zayd built the house`, `Zayd went out of the house`, `Zayd owns the house`], correct: 0 },
         { title: `الحالات الثلاث للوجوب`, kind: 'mcq', prompt: `Which set correctly names the three situations where حذف الخبر is وَاجِب؟`, options: [`جواب القسم، لولا، واو نصّ في المعية`, `جواب الاستفهام، إذا الفجائية، لولا`, `تعدد الخبر، ترتيب الخبر، تقديم الخبر`, `واو المعية، جواب الاستفهام، تعدد الخبر`], correct: 0 },
@@ -415,7 +417,7 @@ export default {
         { title: `أم يتيم تأتيني: مضاف إلى نكرة موصوفة`, kind: 'mcq', prompt: `In اُمُّ يَتيمٍ تَاْتيني فَلَها مالٌ, اُمُّ is مضاف to a described نكرة (يَتيمٍ تَاْتيني). What does that extension of the pattern show؟`, options: [`The شرط-like sense can reach one level deeper, through إضافة to a described نكرة`, `اُمُّ itself must be نكرة for the pattern to apply`, `يَتيمٍ must be معرفة for the sentence to work`, `الفاء here is optional, not licensed at all`], correct: 0 },
         { title: `كل يتيم: السبب السابع`, kind: 'mcq', prompt: `كُلُّ يَتيمٍ فَلَهُ في قَلْبي رَاْفَةٌ licenses فَ without any further description of يَتيمٍ. What alone is enough to trigger معنى الشرط here؟`, options: [`كُلُّ itself, being مضاف to a bare نكرة, carries an inherently distributive "whoever" sense`, `يَتيمٍ being معرفة`, `رَاْفَةٌ being مقدم`, `The absence of any مبتدأ at all`], correct: 0 },
         { title: `سبعة أسباب: العدّ الكامل`, kind: 'mcq', prompt: `How many distinct situations does this lesson give for المبتدأ carrying معنى الشرط and licensing فَ on its خبر؟`, options: [`Seven`, `Three`, `Five`, `Two`], correct: 0 },
-        { title: `مطابقة أم تضمن شرط: التمييز`, kind: 'mcq', prompt: `اِنَّهُمْ هُمُ الْمُفْسِدونَ illustrates مطابقة الخبر. الَّذينَ خَسِرُوا اَنْفُسَهُمْ فَهُمْ لا يُؤْمِنونَ illustrates a different phenomenon. What is that second phenomenon؟`, options: [`تضمن المبتدأ معنى الشرط, licensing فَ on الخبر`, `وجوب حذف الخبر`, `تعدد الخبر`, `تقديم الخبر على المبتدأ`], correct: 0 },
+        { title: `مطابقة أم تضمن شرط: التمييز`, kind: 'mcq', prompt: `اِنَّهُمْ هُمُ الْمُفْسِدونَ illustrates مطابقة الخبر; الَّذينَ خَسِرُوا اَنْفُسَهُمْ فَهُمْ لا يُؤْمِنونَ illustrates a different phenomenon. What is that second phenomenon؟`, options: [`تضمن المبتدأ معنى الشرط, licensing فَ on الخبر`, `وجوب حذف الخبر`, `تعدد الخبر`, `تقديم الخبر على المبتدأ`], correct: 0 },
         {
           title: `تركيب: اِنَّهُمْ هُمُ الْمُفْسِدونَ`,
           kind: 'tarkeeb',

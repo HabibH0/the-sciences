@@ -623,7 +623,8 @@ export default {
               `أو المَجْرُورُ الذي لم يَلْزَمِ الجارُّ لهُ طَرِيقَةً واحِدَةً، نحو: وفُرِحَ بِقُدُومِ مُحَمَّدٍ`,
               `بِخِلافِ اللازِمِ حالَةً واحِدَةً، نحو: عِنْدَ، وإذا، وسُبْحانَ، ومَعاذَ`,
             ] } },
-            { html: `فُرِحَ بِقُدُومِ مُحَمَّدٍ, delight was felt at Muhammad's arrival, shows a مجرور — بِقُدُومِ مُحَمَّدٍ — standing in for the فاعل. عِنْدَ, إذا, سُبْحانَ and مَعاذَ are locked into a single construction and never leave it, which is exactly why they cannot stand in for a فاعل.`, list: false },
+            { html: `فُرِحَ بِقُدُومِ مُحَمَّدٍ, delight was felt at Muhammad's arrival, shows a مجرور — بِقُدُومِ مُحَمَّدٍ — standing in for the فاعل.`, list: false },
+            { html: `عِنْدَ, إذا, سُبْحانَ and مَعاذَ are locked into a single construction and never leave it, which is exactly why they cannot stand in for a فاعل.`, list: false },
           ],
           clarification: `The two conditions are asking the same question from two sides: can this word behave like an ordinary noun? المتصرف tests whether it can ever leave the accusative — عِنْدَ and سُبْحانَ never can, so they are frozen and unavailable. المختص tests whether it names something definite enough to be the subject of a statement — a bare ظرف like a time is too vague to be what a sentence is about, so it must be narrowed, by إضافة (يومُ الجمعة), by a وصف (ضَرْبٌ شديدٌ), or by naming a kind (عملُ الصالحين). Only a word that passes both can carry the weight the فاعل has set down.`,
           exercise: {

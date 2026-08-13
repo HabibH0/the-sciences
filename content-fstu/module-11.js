@@ -1875,7 +1875,7 @@ export default {
         {
           "title": "Book Exercise 5 (Section 2, Part 2)",
           "kind": "mcq",
-          "prompt": "In يَلْعَنُ يَلْعَنُ اللّٰهُ الظَّالِمِيْنَ, which slot does اللّٰهُ fill?",
+          "prompt": "In يَلْعَنُ يَلْعَنُ اللّٰهُ الظَّالِمِيْنَ, which slot does لَفْظُ الجَلالَةِ fill؟",
           "options": [
             "مَفْعُوْلٌ بِهِ",
             "فَاعِلٌ",
@@ -10309,7 +10309,7 @@ export default {
         {
           "title": "Book Exercise 13 (Section 2, Part 2)",
           "kind": "mcq",
-          "prompt": "In حَرَّمَ اللّٰهُ الْفَوَاحِشَ جَمِيْعَهَا, what is اللّٰهُ?",
+          "prompt": "In حَرَّمَ اللّٰهُ الْفَوَاحِشَ جَمِيْعَهَا, what is لَفْظُ الجَلالَةِ؟",
           "options": [
             "مُبْتَدَأٌ",
             "فَاعِلٌ",
@@ -10317,7 +10317,7 @@ export default {
             "تَأْكِيْدٌ"
           ],
           "correct": 1,
-          "explanation": "حَرَّمَ is a verb, so اللّٰهُ is its subject; the emphatic pair is the object."
+          "explanation": "حَرَّمَ is a verb, so لَفْظُ الجَلالَةِ is its subject; the emphatic pair is the object."
         },
         {
           "title": "Book Exercise 13 (Section 2, Part 2)",
@@ -12125,7 +12125,7 @@ export default {
             "The verb"
           ],
           "correct": 1,
-          "explanation": "أَجْمَعِيْنَ is مَنْصُوْب, matching الْعِبَادَ rather than the مَرْفُوْع اللّٰهُ."
+          "explanation": "أَجْمَعِيْنَ is مَنْصُوْب, matching الْعِبَادَ rather than the مَرْفُوْع لَفْظُ الجَلالَةِ."
         },
         {
           "title": "Book Exercise 14 (Section 2, Part 2)",
@@ -12145,7 +12145,7 @@ export default {
           "kind": "mcq",
           "prompt": "Why is أَجْمَعِيْنَ مَجْرُوْر in رَضِيَ اللّٰهُ عَنِ الصَّحَابَةِ أَجْمَعِيْنَ?",
           "options": [
-            "Because اللّٰهُ is مَرْفُوْع",
+            "Because لَفْظُ الجَلالَةِ is مَرْفُوْع",
             "Because it agrees with الصَّحَابَةِ, which is مَجْرُوْر after عَنْ",
             "Because أَجْمَع is always مَجْرُوْر",
             "Because the verb is intransitive"
@@ -18528,7 +18528,7 @@ export default {
         {
           "q": "In ﴿يَبْعَثُهُمُ اللّٰهُ جَمِيْعًا﴾, which word does جَمِيْعًا describe?",
           "options": [
-            "اللّٰهُ, the فاعل",
+            "لَفْظُ الجَلالَةِ, the فاعل",
             "The pronoun هُمُ, the مَفْعُوْلٌ بِهِ",
             "The verb itself",
             "Nothing — it is an independent slot"
@@ -18617,7 +18617,7 @@ export default {
           "options": [
             "Because إِنَّ makes everything after it مَنْصُوْب",
             "Because a حَال is always مَنْصُوْب",
-            "Because لِلّٰهِ is مَجْرُوْر",
+            "Because لِلَفْظِ الجَلالَةِ is مَجْرُوْر",
             "Because الْعِزَّة is feminine"
           ],
           "correct": 1,

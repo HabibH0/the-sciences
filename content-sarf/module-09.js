@@ -344,7 +344,7 @@ export default {
             { html: `مُسْتَقْبَلًا — future in reference.`, list: true, bullet: true },
             { html: `في جَوابِ قَسَمٍ — standing as the answer to an oath.`, list: true, bullet: true },
             { html: `غَيْرَ مَفْصُولٍ عن لامِهِ — with nothing separating it from its لام القسم.`, list: true, bullet: true },
-            { html: `The شاهد is Ibrāhīm's oath against the idols of his people: by God, I shall certainly plot against your idols. All four conditions hold in it. أَكِيدُ is affirmative; it refers to what he will do rather than to anything done already; it answers the oath تاللهِ; and the لام sits immediately before the verb with nothing in between. Hence the نون on لَأَكِيدَنَّ is not optional.`, list: false },
+            { html: `The شاهد is Ibrāhīm's oath against the idols of his people: by God, I shall certainly plot against your idols. All four conditions hold in it. أَكِيدُ is affirmative; it refers to what he will do rather than to anything done already; it answers the oath تَلَفْظِ الجَلالَةِ; and the لام sits immediately before the verb with nothing in between. Hence the نون on لَأَكِيدَنَّ is not optional.`, list: false },
           ],
           clarification: `Keep the four conditions in view, because the sixth state — الممتنع — is defined as their failure. Each one that drops out has a name in that later list: negate the verb and you are in a جواب قسم منفيّ; make it present rather than future and it is حال; put anything between the لام and the verb and it is مفصول من اللام. So the واجب and the ممتنع are two readings of one set of conditions, met or unmet — which is why the باب can move straight from the strongest case to the weakest by simply undoing them one at a time.`,
           exercise: {
@@ -394,7 +394,8 @@ export default {
               ['اسْتِفْهام — questioning', 'أَفَبَعْدَ كِنْدَةَ تَمْدَحَنَّ قَبِيلًا'],
             ] } },
             { html: `The first two rows are the plainest kind of طلب: لِيَقُومَنَّ زَيْدٌ is a command — let Zayd stand up! — and ﴿وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ﴾ is a prohibition — do not think that الله is unaware of what the wrongdoers do.`, list: false },
-            { html: `Two more rows need a word of comment. لا يَبْعَدَنْ قَوْمِي, may my people not perish, carries the same لا as a prohibition; because no one is being forbidden anything here, it counts as دُعاء rather than نَهْي. هَلَّا تَمُنِنْ بِوَعْدٍ غَيْرَ مُخْلِفَةٍ, won't you grant me a promise that you won't break, asks gently instead of commanding, and that softness is what makes it عَرْض rather than أمر.`, list: false },
+            { html: `Two more rows need a word of comment. لا يَبْعَدَنْ قَوْمِي, may my people not perish, carries the same لا as a prohibition; because no one is being forbidden anything here, it counts as دُعاء rather than نَهْي.`, list: false },
+            { html: `هَلَّا تَمُنِنْ بِوَعْدٍ غَيْرَ مُخْلِفَةٍ, won't you grant me a promise that you won't break, asks gently instead of commanding, and that softness is what makes it عَرْض rather than أمر.`, list: false },
             { html: `The last two are a wish and a question: فَلَيْتَكِ يَوْمَ المُلْتَقَى تَرَيِنَّنِي wishes that she might see him on the day they meet, and أَفَبَعْدَ كِنْدَةَ تَمْدَحَنَّ قَبِيلًا asks — after كِنْدَة, will you go on to praise some other tribe?`, list: false },
             { html: `What unites the six is that each seeks something not yet realised — a command, a prohibition, a prayer, an offer, a wish, a question all point past the present moment — which is exactly the futurity the نون requires.`, list: false },
           ],
@@ -598,7 +599,8 @@ export default {
             { box: { title: 'Core Text', lines: [
               `كقولِهِ تعالى: ﴿وَاتَّقُوا فِتْنَةً لَا تُصِيبَنَّ الَّذِينَ ظَلَمُوا مِنْكُمْ خَاصَّةً﴾ [الأنفال: ٢٥]`,
             ] } },
-            { html: `Beware a trial that will not strike only the wrongdoers among you. The لا there negates; it does not prohibit, and negation is not طلب. تُصِيبَنَّ has taken the نون anyway, and the reason is given plainly:`, list: false },
+            { html: `Beware a trial that will not strike only the wrongdoers among you. The لا there negates; it does not prohibit, and negation is not طلب.`, list: false },
+            { html: `تُصِيبَنَّ has taken the نون anyway, and the reason is given plainly:`, list: false },
             { box: { title: 'Core Text', lines: [
               `وإنَّما أُكِّدَ مع النافي: لأنَّهُ يُشْبِهُ أَداةَ النَهْيِ صُورَةً`,
             ] } },
@@ -649,7 +651,7 @@ export default {
             { html: `The line in the first row describes a mountain: one who does not know it takes it, until he learns, for an old man sitting turbaned on his chair. ما لَمْ يَعْلَمَا stands for يَعْلَمَنْ, the light نون turned into an alif at the rhyme, exactly as in ﴿لَيَكُونًا﴾. The second row — whenever you strive, you will succeed — shows the نون on the شرط, and the rule allows it equally on the جزاء.`, list: false },
             { html: `Note the contrast with the second state: after إمَّا the نون is nearly obligatory, after any other جزاء particle it is the rarest case but one.`, list: false },
           ],
-          clarification: `Why does إمَّا stand so far apart from every other جزاء particle? Because of the ما. إِنْ on its own is a plain conditional and does nothing to press the verb towards emphasis; reinforced by the زائدة ما it becomes emphatic itself, and an emphatic particle naturally draws an emphatic verb after it. Strip the ما away and you are back to an ordinary شرط, where the نون is a rarity. That single letter is the whole distance between the second state and the fifth.`,
+          clarification: `Why does إمَّا stand so far apart from every other جزاء particle? Because of the ما — إِنْ on its own is a plain conditional and does nothing to press the verb towards emphasis; reinforced by the زائدة ما it becomes emphatic itself, and an emphatic particle naturally draws an emphatic verb after it. Strip the ما away and you are back to an ordinary شرط, where the نون is a rarity. That single letter is the whole distance between the second state and the fifth.`,
           exercise: {
             prompt: `ما لَمْ يَعْلَمَا stands for يَعْلَمَنْ. What has happened to the نون؟`,
             kind: 'mcq',
@@ -673,7 +675,7 @@ export default {
             { html: `Reading the first column: the verb answers an oath but is negated, even where the negative is only implied; or it refers to the present; or something stands between it and its لام. Each of the three undoes one of the four conditions of the first state — negating it, removing its futurity, breaking the لام's contact with it.`, list: false },
             { html: `Read against the شواهد: by God, kindness between God and people does not go to waste — an oath answered by a negated verb. ﴿تَاللَّهِ تَفْتَؤُ تَذْكُرُ يُوسُفَ﴾ is the same case with the negative left unspoken, since the sense is لا تَفْتَؤُ, you will not cease remembering Yūsuf. An omitted لا bars the نون exactly as a stated one does.`, list: false },
             { html: `ابن كثير reads ﴿لَا أُقْسِمُ بِيَوْمِ الْقِيَامَةِ﴾ with an emphatic لام on the verb, so أُقْسِمُ is the speaker's swearing at that very moment. A verb fixed to الحال has no futurity for the نون to attach to.`, list: false },
-            { html: `The third case is visible in the two verses beside it. In لَإِلَى اللَّهِ تُحْشَرُونَ — it is to God that you will be gathered — the جار ومجرور إلى الله stands between the لام and its verb, and in وَلَسَوْفَ يُعْطِيكَ رَبُّكَ — your Lord shall surely give you — سَوْفَ does the same.`, list: false },
+            { html: `The third case is visible in the two verses beside it. In لَإِلَى اللَّهِ تُحْشَرُونَ — it is to God that you will be gathered — the جار ومجرور إلى لَفْظِ الجَلالَةِ stands between the لام and its verb, and in وَلَسَوْفَ يُعْطِيكَ رَبُّكَ — your Lord shall surely give you — سَوْفَ does the same.`, list: false },
             { html: `And the plainest case of all needs no special description: an ordinary مضارع with nothing before it — يَذْهَبُ زَيْدٌ — is ممتنع simply because none of the five preceding states applies to it.`, list: false },
           ],
           exercise: {

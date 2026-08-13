@@ -642,7 +642,8 @@ export default {
         {
           heading: 'وجوب النصب حين يتعذر العطف',
           lines: [
-            { html: `Normally, once واو المعية follows a clause containing فعل, two paths stand open together: العطف (بالرفع, إن جاز) or النصب على المعية. لكن النصب يجب إذا تعذّر العطف.`, list: false },
+            { html: `Normally, once واو المعية follows a clause containing فعل, two paths stand open together: العطف (بالرفع, إن جاز) or النصب على المعية.`, list: false },
+            { html: `لكن النصب يجب إذا تعذّر العطف.`, list: false },
             { box: { title: 'Example', lines: [`بُعِثْتُ وَالسَّاعَةَ كَهَاتَيْنِ`] } },
             { html: `"I have been sent, and the Hour, like these two [fingers]." <bdi>الساعة</bdi> must be نصب as مفعول معه, لأنه لا يجوز عطفها على تاء الفاعل المتصلة في <bdi>بُعِثْتُ</bdi> without first separating الضمير — which is not how الحديث has come down.`, list: false },
           ],

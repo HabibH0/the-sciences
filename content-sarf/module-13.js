@@ -37,7 +37,8 @@ export default {
               `فالمذكر كرجل، وكتاب، وكرسيّ`,
               `والمؤنث نوعان: حقيقيّ ومجازيّ`,
             ] } },
-            { html: `Every <bdi>اسم</bdi> (noun) is either <bdi>مذكَّر</bdi> (masculine) or <bdi>مؤنث</bdi> (feminine). رجل (a man), كتاب (a book), and كرسيّ (a chair) are all مذكَّر. مؤنث itself splits into two further kinds, depending on whether the femininity is a fact about the thing being named or only a fact about how Arabic happens to treat the word.`, list: false },
+            { html: `Every <bdi>اسم</bdi> (noun) is either <bdi>مذكَّر</bdi> (masculine) or <bdi>مؤنث</bdi> (feminine). رجل (a man), كتاب (a book), and كرسيّ (a chair) are all مذكَّر.`, list: false },
+            { html: `مؤنث itself splits into two further kinds, depending on whether the femininity is a fact about the thing being named or only a fact about how Arabic happens to treat the word.`, list: false },
             { box: { title: 'Definition', lines: [
               `المُؤَنَّثُ الحَقِيقِيُّ: مَا دَلَّ عَلَى ذَاتِ حِرٍ`,
               `المُؤَنَّثُ المَجَازِيُّ: مَا لَيْسَ كَذَلِكَ`,

@@ -7265,7 +7265,7 @@ export default {
             "مَفْعُوْلٌ بِهِ ثَانٍ"
           ],
           "correct": 0,
-          "explanation": "اللهَ is the اِسْم in the مَنْصُوْب state and رَبُّهُمْ the مَرْفُوْع خَبَر."
+          "explanation": "لَفْظَ الجَلالَةِ is the اِسْم in the مَنْصُوْب state and رَبُّهُمْ the مَرْفُوْع خَبَر."
         },
         {
           "q": "What is أَنَّ called in the tarkeeb?",

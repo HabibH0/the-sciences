@@ -3017,7 +3017,7 @@ export default {
             "A hidden هُوَ"
           ],
           "correct": 2,
-          "explanation": "اللهُ is مَرْفُوْع and written after the verb; the هَا is the object and refers back to the deeds."
+          "explanation": "لَفْظُ الجَلالَةِ is مَرْفُوْع and written after the verb; the هَا is the object and refers back to the deeds."
         },
         {
           "title": "Book Exercise 2 (Section 1, Part 7)",

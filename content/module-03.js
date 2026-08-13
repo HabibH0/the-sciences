@@ -460,7 +460,8 @@ export default {
                 ],
               },
             },
-            { html: `تسعين is a مضارع connected to نون النسوة, so it is مبني على السكون. أنتن is also مبني. The هاء in إليه is مبني too. These words do not show إعراب by changing their endings, but they occupy grammatical positions — their إعراب is therefore described by محل.`, list: false },
+            { html: `تسعين is a مضارع connected to نون النسوة, so it is مبني على السكون.`, list: false },
+            { html: `أنتن is also مبني. The هاء in إليه is مبني too. These words do not show إعراب by changing their endings, but they occupy grammatical positions — their إعراب is therefore described by محل.`, list: false },
           ],
           exercise: {
             prompt: `In تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ, none of the three words changes its ending to show a grammatical state, yet each occupies a real grammatical position. What kind of إعراب is that?`,
@@ -473,7 +474,8 @@ export default {
           heading: 'لماذا لا تظهر العلامة في المحلي: البناء',
           lines: [
             { html: `The reason الإعراب المحلي's sign never appears is different in kind from التقديري's reason. In التقديري, the word is معرب, and a مانع only blocks the pronunciation. In المحلي, the word is <bdi>مبني</bdi> — its ending is fixed by its own structure, not by any عامل, so there was never a changeable علامة الإعراب to begin with.`, list: false },
-            { html: `تسعين is مبني على السكون specifically because of its اتصال بنون النسوة, not because of any مانع. أنتن, a ضمير منفصل, is مبني by its very nature as a pronoun. The هاء in إليه is a ضمير متصل, also مبني by nature. None of the three could ever show a changing إعراب sign, with or without an عامل acting on it.`, list: false },
+            { html: `تسعين is مبني على السكون specifically because of its اتصال بنون النسوة, not because of any مانع.`, list: false },
+            { html: `أنتن, a ضمير منفصل, is مبني by its very nature as a pronoun. The هاء in إليه is a ضمير متصل, also مبني by nature. None of the three could ever show a changing إعراب sign, with or without an عامل acting on it.`, list: false },
           ],
           exercise: {
             prompt: `تسعين is مبني على السكون. What causes that بناء specifically?`,
@@ -519,7 +521,7 @@ export default {
         { title: `تسعين: سبب البناء`, kind: 'mcq', prompt: `تَسْعَيْنَ in تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ is مبني على السكون. Why?`, options: [`Because of its اتصال بنون النسوة`, `Because it ends in ألف مقصورة`, `Because a حرف جر precedes it`, `Because every فعل مضارع is مبني`], correct: 0 },
         { title: `أنتن: نوعها`, kind: 'mcq', prompt: `أنتن in تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ is ضمير منفصل مبني في محل رفع. What does في محل رفع mean here?`, options: [`أنتن occupies the grammatical position of فاعل, even though it shows no visible رفع sign, because it is مبني`, `أنتن is actually مرفوع لفظا with a hidden ضمة`, `أنتن has no grammatical role in this جملة`, `أنتن is مجرور, not مرفوع, despite the label`], correct: 0 },
         { title: `الهاء في إليه`, kind: 'mcq', prompt: `In تَسْعَيْنَ أَنْتُنَّ إِلَيْهِ, the هاء of إليه is ضمير مبني في محل جر. Why is it described as في محل rather than simply مجرور؟`, options: [`Because الهاء, as a ضمير متصل, cannot carry a visible علامة الإعراب at all — it is مبني`, `Because the جار ومجرور construction blocks all إعراب`, `Because الهاء is تقديرية, like a word ending in ألف مقصورة`, `Because إليه has no grammatical role`], correct: 0 },
-        { title: `المانع مقابل عدم التحمل`, kind: 'mcq', prompt: `What is the key structural difference between why تقديري's sign is hidden and why محلي's sign is hidden?`, options: [`تقديري: a مانع blocks a sign the word CAN carry. محلي: the word can never carry a sign at all, being مبني`, `Both are hidden for exactly the same reason`, `تقديري: the word is مبني. محلي: a مانع blocks the sign`, `Neither type ever has a real cause — both are arbitrary`], correct: 0 },
+        { title: `المانع مقابل عدم التحمل`, kind: 'mcq', prompt: `What is the key structural difference between why تقديري's sign is hidden and why محلي's sign is hidden?`, options: [`تقديري: a مانع blocks a sign the word CAN carry. محلي: the word can never carry a sign at all, being مبني`, `Both are hidden for exactly the same reason`, `تقديري: the word is مبني; محلي: a مانع blocks the sign`, `Neither type ever has a real cause — both are arbitrary`], correct: 0 },
         { title: `المحلي والبناء`, kind: 'mcq', prompt: `Every case of الإعراب المحلي involves a word or structure that is:`, options: [`مبني, or otherwise unable to show إعراب directly on its ending`, `معرب, with a مانع hiding its sign`, `Always a فعل, never an اسم`, `Always a حرف جر`], correct: 0 },
         { title: `متى تُستخدم عبارة "في محل"؟`, kind: 'mcq', prompt: `Grammar books describe a مبني word as being "في محل رفع" or "في محل نصب." What does that phrasing capture?`, options: [`That the word occupies a grammatical position even though its own ending cannot show the sign for it`, `That the word's ending visibly shows the sign, just weakly`, `That the word is تقديرية, like a defective-ending اسم`, `That the position is optional and could be omitted`], correct: 0 },
         { title: `تمييز عملي: مانع أم عدم تحمل؟`, kind: 'mcq', prompt: `A given اسم ends in a regular consonant and shows no visible إعراب because it is a ضمير. Is that التقديري or المحلي؟`, options: [`المحلي — a ضمير is مبني by nature, so it was never going to carry a sign`, `التقديري — some مانع must be blocking its sign`, `Neither — ضمائر are outside الإعراب altogether`, `اللفظي — its sign is simply invisible to the eye but present in speech`], correct: 0 },

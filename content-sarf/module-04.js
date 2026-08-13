@@ -642,7 +642,8 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
               ['احْرَنْجَمَ', 'رباعي مزيد — a genuine augmented quadriliteral', 'Both letters are original root letters (أَصْلِيَّتان)'],
               ['اقْعَنْسَسَ', 'ملحق — likened to the doubly-augmented pattern', 'One of the two is added only to reach الإلحاق, the other is original'],
             ] } },
-            { html: `The reason: حَرْجَمَ already exists as a رباعي root meaning جَمَعَ, so all four consonants of احرنجم — including both لام letters — are أصول. اقعنسس is different: its root قَعِسَ is only a ثلاثي (three root letters), so the second سين had to be repeated to reach the four-plus-two letter count that افعنللَ requires, and that repeated letter is زائدة للإلحاق, not أصلية.`, list: false },
+            { html: `The reason: حَرْجَمَ already exists as a رباعي root meaning جَمَعَ, so all four consonants of احرنجم — including both لام letters — are أصول.`, list: false },
+            { html: `اقعنسس is different: its root قَعِسَ is only a ثلاثي (three root letters), so the second سين had to be repeated to reach the four-plus-two letter count that افعنللَ requires, and that repeated letter is زائدة للإلحاق, not أصلية.`, list: false },
             { box: { title: 'Example', lines: [
               `وهذا كالفَرْقِ بَيْنَ بَعْثَرَ وجَلْبَبَ`,
             ] } },

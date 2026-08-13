@@ -3897,7 +3897,7 @@ export default {
               "bullet": true
             },
             {
-              "html": "The two examples are the same statement with the مُبْتَدَأٌ and خَبَرٌ swapped. In the first, اَللهُ is the مُبْتَدَأٌ and the مَوْصُوْلٌ unit is the خَبَرٌ; in the second the مَوْصُوْلٌ unit is the مُبْتَدَأٌ and اَللهُ is the خَبَرٌ. In both, هُوَ is a ضَمِيْرُ الْفَصْلِ — it holds no slot of its own and is not translated as 'he'.",
+              "html": "The two examples are the same statement with the مُبْتَدَأٌ and خَبَرٌ swapped. In the first, لَفْظُ الجَلالَةِ is the مُبْتَدَأٌ and the مَوْصُوْلٌ unit is the خَبَرٌ; in the second the مَوْصُوْلٌ unit is the مُبْتَدَأٌ and لَفْظُ الجَلالَةِ is the خَبَرٌ. In both, هُوَ is a ضَمِيْرُ الْفَصْلِ — it holds no slot of its own and is not translated as 'he'.",
               "list": false
             },
             {
@@ -7829,7 +7829,7 @@ export default {
           "options": [
             "مَرْفُوْعٌ, as فَاعِلٌ",
             "مَنْصُوْبٌ, as مَفْعُوْلٌ بِهِ",
-            "مَجْرُوْرٌ مَحَلًّا, as نَعْتٌ of the مَجْرُوْرٌ اللهِ",
+            "مَجْرُوْرٌ مَحَلًّا, as نَعْتٌ of the مَجْرُوْرٌ لَفْظِ الجَلالَةِ",
             "it has no case at all"
           ],
           "correct": 2,
@@ -9500,14 +9500,14 @@ export default {
             "a مُضَافٌ إِلَيْهِ"
           ],
           "correct": 1,
-          "explanation": "اللهُ is the فَاعِلٌ; the مَوْصُوْلٌ unit مَنْ يَشَاءُ is what is guided."
+          "explanation": "لَفْظُ الجَلالَةِ is the فَاعِلٌ; the مَوْصُوْلٌ unit مَنْ يَشَاءُ is what is guided."
         },
         {
           "title": "Book Exercise 4 (Section 2, Part 2)",
           "kind": "mcq",
           "prompt": "In اَلنُّوْرُ الَّذِيْ أَرْسَلَ اللهُ إِلَى النَّاسِ, where is the عَائِدٌ?",
           "options": [
-            "It is the اللهُ",
+            "It is لَفْظُ الجَلالَةِ",
             "It is the النَّاسِ",
             "It is an object pronoun after أَرْسَلَ which has been omitted",
             "There is no عَائِدٌ in this phrase"
@@ -10348,7 +10348,7 @@ export default {
             "Because أَرْسَلَ is a past-tense verb",
             "Because اَلْأَنْبِيَاءِ is مَعْرِفَةٌ",
             "Because the referent is human",
-            "Because اللهُ is the فَاعِلٌ"
+            "Because لَفْظُ الجَلالَةِ is the فَاعِلٌ"
           ],
           "correct": 2,
           "explanation": "مَنْ stands in for people, مَا for things — and the بَيَانِيَّة phrase confirms which is meant."

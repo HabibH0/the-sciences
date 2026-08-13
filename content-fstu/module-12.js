@@ -958,7 +958,7 @@ export default {
             "There is no عائد in this sentence"
           ],
           "correct": 1,
-          "explanation": "The hidden هُوَ inside خَلَقَ refers back to the مبتدأ اَللهُ."
+          "explanation": "The hidden هُوَ inside خَلَقَ refers back to the مبتدأ لَفْظُ الجَلالَةِ."
         },
         {
           "q": "What is the correct translation method for اَللهُ رَحْمَتُهُ وَاسِعَةٌ?",
@@ -1500,12 +1500,12 @@ export default {
             "There is no خبر — it is a جملة فعلية"
           ],
           "correct": 0,
-          "explanation": "الله is the مبتدأ; the verbal sentence with its ضمير مستتر (هو) as عائد is the خبر."
+          "explanation": "لَفْظُ الجَلالَةِ is the مبتدأ; the verbal sentence with its ضمير مستتر (هو) as عائد is the خبر."
         },
         {
           "title": "Book Exercise 4 (Part 1)",
           "kind": "mcq",
-          "prompt": "Rewriting خَلَقَ اللهُ السَّمَاوَاتِ as a جُمْلَةٌ اسْمِيَّةٌ with الله as the مُبْتَدَأٌ gives…",
+          "prompt": "Rewriting خَلَقَ اللهُ السَّمَاوَاتِ as a جُمْلَةٌ اسْمِيَّةٌ with لَفْظُ الجَلالَةِ as the مُبْتَدَأٌ gives…",
           "options": [
             "اَلسَّمَاوَاتُ خَلَقَهَا اللهُ",
             "اَللهُ خَلَقَ السَّمَاوَاتِ",
@@ -1513,7 +1513,7 @@ export default {
             "اَللهُ خَالِقٌ"
           ],
           "correct": 1,
-          "explanation": "الله is fronted as مبتتدأ; the جملة فعلية (with its hidden عائد) becomes the خبر."
+          "explanation": "لَفْظُ الجَلالَةِ is fronted as مبتتدأ; the جملة فعلية (with its hidden عائد) becomes the خبر."
         },
         {
           "title": "Book Exercise 4 (Part 1)",
@@ -3070,7 +3070,7 @@ export default {
           "options": [
             "Because it agrees with الْمُرْسَلِيْنَ, the اِسْمُ إِنَّ",
             "Because كَانُوْا makes it مَنْصُوْب",
-            "Because اللّٰه is مَجْرُوْر",
+            "Because لَفْظِ الجَلالَةِ is مَجْرُوْر",
             "Because كُلّ is always مَنْصُوْب"
           ],
           "correct": 0,
@@ -9386,7 +9386,7 @@ export default {
             "A تَمْيِيْز"
           ],
           "correct": 1,
-          "explanation": "It restates اللّٰهَ in more detail and shares its مَنْصُوْب state; نَسْتَعِيْنُهُ is then the حَال."
+          "explanation": "It restates لَفْظَ الجَلالَةِ in more detail and shares its مَنْصُوْب state; نَسْتَعِيْنُهُ is then the حَال."
         },
         {
           "title": "Book Exercise 1 (Section 1, Part 3)",

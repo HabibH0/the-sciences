@@ -37,7 +37,8 @@ export default {
               `ينقسم الاسم إلى منقوص، ومقصور، وممدود، وصحيح`,
               `فالمنقوص: هو الاسمُ المُعْرَبُ الذى آخره ياءٌ لازمةٌ مَكْسُورٌ ما قبلها، كالداعِى والمُنادِي`,
             ] } },
-            { html: `الاسم divides into منقوص, مقصور, ممدود, and صحيح. المنقوص is the معرب noun — one that takes case-endings rather than staying مبني — whose last letter is a ياء that is (1) لازمة, fixed rather than something that comes and goes, and (2) مكسور ما قبلها, preceded by a letter carrying a كسرة. <bdi>الداعِي</bdi>, the one who calls, and <bdi>المُنادِي</bdi>, the one called upon, both end this way.`, list: false },
+            { html: `الاسم divides into منقوص, مقصور, ممدود, and صحيح.`, list: false },
+            { html: `المنقوص is the معرب noun — one that takes case-endings rather than staying مبني — whose last letter is a ياء that is (1) لازمة, fixed rather than something that comes and goes, and (2) مكسور ما قبلها, preceded by a letter carrying a كسرة. <bdi>الداعِي</bdi>, the one who calls, and <bdi>المُنادِي</bdi>, the one called upon, both end this way.`, list: false },
             { html: `Every قيد — every qualifying clause in that definition — throws something out.`, list: false },
             { table: {
               title: 'قيود المنقوص (The Qualifiers of المنقوص)',

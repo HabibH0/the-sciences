@@ -5297,8 +5297,10 @@ button.path-node:not(.locked):hover {
 }
 
 /* The page turns one paragraph at a time; this is how you get back to the
-   ones already read. Forward always happens through the questions, so the
-   pager only ever steps backward. */
+   ones already read. Forward normally happens through the questions, so the
+   pager only steps backward -- except in free-read mode (chosen from the
+   chapter's preview modal, no questions left to answer), where the pager
+   grows its own "Next" button too. */
 .lit-pager {
   display: flex;
   align-items: center;
@@ -5321,6 +5323,9 @@ button.path-node:not(.locked):hover {
   border-radius: 2px;
   cursor: pointer;
   transition: background 0.18s ease;
+}
+.lit-pager-btn-next {
+  padding: 4px 4px 4px 8px;
 }
 .lit-pager-btn:hover:not([disabled]) {
   background: color-mix(in srgb, var(--color-accent) 10%, transparent);

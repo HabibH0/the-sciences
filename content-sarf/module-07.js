@@ -412,7 +412,7 @@ export default {
             { box: { title: 'Example', lines: [`أَعْلَمَ زَيدٌ عَمْرًا الدَّرْسَ سَهْلًا`] } },
             { html: `Zayd informed Amr that the lesson was easy. زيد is the فاعل, and all three of عَمْرًا، الدَّرْسَ، سَهْلًا are مفاعيل.`, list: false },
             { box: { title: 'Core Text', lines: [`﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾ [البقرة: ١٦٧]`] } },
-            { html: `Thus will الله show them their deeds as regrets upon them. The same three-object structure: اللَّهُ is the فاعل, and أَعْمَالَهُمْ and حَسَرَاتٍ are the two further مفاعيل beside the implied هم (them) already attached to the verb.`, list: false },
+            { html: `Thus will الله show them their deeds as regrets upon them. The same three-object structure: لَفْظُ الجَلالَةِ is the فاعل, and أَعْمَالَهُمْ and حَسَرَاتٍ are the two further مفاعيل beside the implied هم (them) already attached to the verb.`, list: false },
             { html: `أَعْلَمَ and أَرَى are the أَفْعَلَ forms of عَلِمَ and رَأَى — the same pair singled out earlier as the only two verbs of two objects that the added همزة raises to three.`, list: false },
           ],
           exercise: {

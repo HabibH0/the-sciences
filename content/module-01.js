@@ -171,7 +171,7 @@ export default {
             { html: `<bdi>الله</bdi>, <bdi>الرَّحْمٰن</bdi>, and <bdi>الرَّحِيم</bdi> are all أسماء: they carry meaning, but their forms do not indicate ماضي, حال, or استقبال.`, list: false },
           ],
           exercise: {
-            prompt: `الله carries meaning, but its form gives no indication of ماضي, حال, or استقبال. What does that make it?`,
+            prompt: `لَفْظُ الجَلالَةِ carries meaning, but its form gives no indication of ماضي, حال, or استقبال. What does that make it?`,
             kind: 'mcq',
             options: [`اسم`, `فعل`, `حرف`, `مركب تام`],
             correct: 0,
@@ -200,7 +200,8 @@ export default {
                 ],
               },
             },
-            { html: `اسم is مجرور because of بـ, showing الجر. الله is مجرور because it is مضاف إليه.`, list: false },
+            { html: `اسم is مجرور because of بـ, showing الجر.`, list: false },
+            { html: `لَفْظُ الجَلالَةِ اللهِ is مجرور because it is مضاف إليه.`, list: false },
             { box: { title: 'Careful', lines: [`العَلَامَةُ أَنْ يَكُونَ اللَّفْظُ نَفْسُهُ مَجْرُورًا، لا أَنْ يَظْهَرَ حَرْفُ جَرٍّ بِجِوَارِهِ`] } },
             {
               tarkeebDiagram: {
@@ -574,7 +575,8 @@ export default {
             { box: { title: 'Careful', lines: [`بَعْضُ الأَسْمَاءِ تَدُلُّ عَلَى زَمَانٍ بِمَادَّتِهَا لا بِهَيْئَتِهَا، فَلَيْسَتْ أَفْعَالًا`] } },
             { html: `Some أسماء, such as أمس, الآن, and غدًا, point to زمان through their مادة, not through their هيئة, so they are not أفعال. Others may point to زمان through context alone, although they were never coined for time — أسماء الفعل, اسم الفاعل, and اسم المفعول.`, list: false },
             { box: { title: 'Example', lines: [`إِنِّي فَاعِلٌ ذَلِكَ غَدًا`, `إِنَّهُمْ لَهُمُ المَنْصُورُونَ`] } },
-            { html: `"I will do that tomorrow" and "they are the ones who will be helped." In the first, فاعل refers to an action in الاستقبال only because of غدًا, but فاعل is still not a فعل. المنصورون works the same way: the help it speaks of is still to come. In both cases the هيئة is هيئة اسم, not a هيئة فعل coined for زمان — which is why the fuller definition specifies that the فعل is what its هيئة indicates زمان بوضع, not merely by context.`, list: false },
+            { html: `"I will do that tomorrow" and "they are the ones who will be helped." In the first, فاعل refers to an action in الاستقبال only because of غدًا, but فاعل is still not a فعل.`, list: false },
+            { html: `المنصورون works the same way: the help it speaks of is still to come. In both cases the هيئة is هيئة اسم, not a هيئة فعل coined for زمان — which is why the fuller definition specifies that the فعل is what its هيئة indicates زمان بوضع, not merely by context.`, list: false },
             { box: { title: 'Definition', lines: [`مَا يَدُلُّ هَيْئَتُهُ وَضْعًا عَلَى مَعْنًى فِي نَفْسِهِ مُقْتَرِنٍ بِزَمَانٍ`] } },
           ],
           exercise: {
@@ -601,9 +603,11 @@ export default {
               [`المضارع`, `نون التوكيد`, `لَيُسْجَنَنَّ`, `he will surely be imprisoned`],
               [`الماضي والمضارع`, `قد`, `قَدْ سَمِعَ، قَدْ يَعْلَمُ`, `He has heard; He may know / He does know`],
             ] } },
-            { html: `The letters of نأتي are the opening letters of المضارع: ن، أ، ت، ي. نون التوكيد may be heavy or light: <bdi>لَيُسْجَنَنَّ</bdi> carries نون التوكيد الثقيلة, while <bdi>لَيَكُونًا</bdi> carries نون التوكيد الخفيفة.`, list: false },
+            { html: `The letters of نأتي are the opening letters of المضارع: ن، أ، ت، ي.`, list: false },
+            { html: `نون التوكيد may be heavy or light: <bdi>لَيُسْجَنَنَّ</bdi> carries نون التوكيد الثقيلة, while <bdi>لَيَكُونًا</bdi> carries نون التوكيد الخفيفة.`, list: false },
             { box: { title: 'Careful', lines: [`النُّونُ الخَفِيفَةُ نَادِرَةٌ، وَفِي القُرْآنِ مَوْضِعَانِ فَقَط`] } },
-            { html: `النون الخفيفة is rare — in the القرآن it comes in only two places: وَلَيَكُونًا مِنَ الصَّاغِرِينَ and لَنَسْفَعًا بِالنَّاصِيَةِ, and in both it is written with تنوين rather than a written نون. قد, meanwhile, can enter both الماضي and المضارع, so it is علامة فعل, not a sign limited to one زمن.`, list: false },
+            { html: `النون الخفيفة is rare — in the القرآن it comes in only two places: وَلَيَكُونًا مِنَ الصَّاغِرِينَ and لَنَسْفَعًا بِالنَّاصِيَةِ, and in both it is written with تنوين rather than a written نون.`, list: false },
+            { html: `قد, meanwhile, can enter both الماضي and المضارع, so it is علامة فعل, not a sign limited to one زمن.`, list: false },
           ],
           exercise: {
             prompt: `لَيُسْجَنَنَّ ends in a heavy نون, and لَيَكُونًا ends in a light one written as تنوين rather than a written نون. What are these two forms of the same sign called?`,
@@ -678,7 +682,7 @@ export default {
         { title: `آمنت: تاء التأنيث الساكنة`, kind: 'mcq', prompt: `آمَنَتْ carries a silent تاء التأنيث. Which verb type does that sign mark specifically?`, options: [`الماضي`, `المضارع`, `الأمر`, `both الماضي والمضارع equally`], correct: 0 },
         { title: `لم، لن: which verb type?`, kind: 'mcq', prompt: `لَمْ يَلِدْ and لَنْ يُصِيبَنَا both carry a particle directly before the فعل. Which verb type do لم and لن mark?`, options: [`المضارع`, `الماضي`, `الأمر`, `اسم الفاعل`], correct: 0 },
         { title: `يُحيي: نأتي letters`, kind: 'mcq', prompt: `يُحْيِي begins with ي, one of the letters of نأتي. What do the letters of نأتي mark?`, options: [`The opening letters of المضارع`, `The opening letters of الأمر`, `The closing letters of الماضي`, `The letters of حروف العطف`], correct: 0 },
-        { title: `ليسجننّ vs ليكونًا: heavy or light`, kind: 'mcq', prompt: `لَيُسْجَنَنَّ ends in a written, doubled نون. لَيَكُونًا ends in the same sign written as تنوين instead. Which is which?`, options: [`لَيُسْجَنَنَّ carries نون التوكيد الثقيلة; لَيَكُونًا carries نون التوكيد الخفيفة`, `لَيُسْجَنَنَّ carries نون التوكيد الخفيفة; لَيَكُونًا carries الثقيلة`, `Both carry the same نون التوكيد`, `Neither carries نون التوكيد`], correct: 0 },
+        { title: `ليسجننّ vs ليكونًا: heavy or light`, kind: 'mcq', prompt: `لَيُسْجَنَنَّ ends in a written, doubled نون, while لَيَكُونًا ends in the same sign written as تنوين instead. Which is which?`, options: [`لَيُسْجَنَنَّ carries نون التوكيد الثقيلة; لَيَكُونًا carries نون التوكيد الخفيفة`, `لَيُسْجَنَنَّ carries نون التوكيد الخفيفة; لَيَكُونًا carries الثقيلة`, `Both carry the same نون التوكيد`, `Neither carries نون التوكيد`], correct: 0 },
         { title: `قد: not tied to one زمن`, kind: 'mcq', prompt: `قَدْ سَمِعَ and قَدْ يَعْلَمُ both use قد, one with a ماضي فعل and one with a مضارع فعل. What does that show about قد as a sign?`, options: [`قد is علامة فعل generally, not a sign limited to one زمن`, `قد only marks الماضي`, `قد only marks المضارع`, `قد marks الأمر exclusively`], correct: 0 },
         { title: `فعل الأمر's two-part sign`, kind: 'mcq', prompt: `Unlike the لفظية signs above, الأمر's sign is معنوية. What two things together identify a فعل أمر؟`, options: [`It must indicate طلب, and accept ياء المخاطبة`, `It must carry تنوين, and accept أل`, `It must carry قد, and accept السين`, `It must be مبني للمجهول, and accept نون التوكيد`], correct: 0 },
         { title: `اجلس، اسمع، تكلم: what they request`, kind: 'mcq', prompt: `اِجْلِسْ، اِسْمَعْ، and تَكَلَّمْ each ask the listener for something specific. What does each one request, respectively?`, options: [`جلوس، سماع، كلام`, `جلوس، كلام، سماع`, `سماع، جلوس، كلام`, `كلام، سماع، جلوس`], correct: 0 },

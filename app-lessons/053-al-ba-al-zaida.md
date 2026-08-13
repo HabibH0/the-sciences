@@ -77,8 +77,8 @@ In بِحَسْبِكَ أَنْ تَصُومَ..., بِحَسْبِكَ is مح
 | حَسْبُ ("sufficient") | Yes | ﴿كَفَى بِاللَّهِ شَهِيدًا﴾ | Sufficient is Allah as a witness |
 | وَقَى ("to protect, spare from") | No | ﴿وَكَفَى اللَّهُ المُؤْمِنِينَ القِتَالَ﴾ | And Allah spared the believers the fighting |
 
-In ﴿كَفَى بِاللَّهِ شَهِيدًا﴾, بِاللَّهِ is فاعل of كَفَى — the sentence means اللَّهُ كَافٍ شَهِيدًا, "Allah is sufficient as a witness" — and the زائدة بِ marks that فاعل.
+In ﴿كَفَى بِاللَّهِ شَهِيدًا﴾, بِلَفْظِ الجَلالَةِ is فاعل of كَفَى — the sentence means اللَّهُ كَافٍ شَهِيدًا, "Allah is sufficient as a witness" — and the زائدة بِ marks that فاعل.
 
 > **Careful Box**
 >
-> كَفَى has this second, unrelated meaning: وَقَى, "to protect, to spare from." When كَفَى carries this sense, the زائدة بِ never appears on its فاعل — ﴿وَكَفَى اللَّهُ المُؤْمِنِينَ القِتَالَ﴾ has no بِ before اللَّهُ, because the meaning here is protection, not sufficiency. The زائدة بِ is tied specifically to كَفَى's sense of حَسْبُ — it disappears the moment the verb shifts to mean وَقَى.
+> كَفَى has this second, unrelated meaning: وَقَى, "to protect, to spare from." When كَفَى carries this sense, the زائدة بِ never appears on its فاعل — ﴿وَكَفَى اللَّهُ المُؤْمِنِينَ القِتَالَ﴾ has no بِ before لَفْظِ الجَلالَةِ, because the meaning here is protection, not sufficiency. The زائدة بِ is tied specifically to كَفَى's sense of حَسْبُ — it disappears the moment the verb shifts to mean وَقَى.

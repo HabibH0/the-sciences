@@ -1034,7 +1034,7 @@ export default {
             "حَالٌ"
           ],
           "correct": 1,
-          "explanation": "اَللّٰهُ is the مُبْتَدَأ, so the joined verbal sentences form its خَبَر."
+          "explanation": "لَفْظُ الجَلالَةِ is the مُبْتَدَأ, so the joined verbal sentences form its خَبَر."
         },
         {
           "title": "Book Exercise 1 (Section 1, Part 4)",
@@ -1044,7 +1044,7 @@ export default {
             "Because يَهْدِيْ is the خَبَرُ إِنَّ — a جُمْلَةٌ صُغْرَى",
             "Because إِنَّ requires a مَعْطُوْف",
             "Because both verbs are مُضَارِع",
-            "Because اللّٰهَ is مَنْصُوْب"
+            "Because لَفْظَ الجَلالَةِ is مَنْصُوْب"
           ],
           "correct": 0,
           "explanation": "The مَعْطُوْفٌ عَلَيْهِ must itself be nested for the second sentence to join it."

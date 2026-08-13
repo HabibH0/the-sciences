@@ -36,7 +36,7 @@ import {
 } from '../content/index.js';
 import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
-  getLitBook, isChapterUnlocked, loadChapter, getLoadedChapter,
+  getLitBook, isChapterUnlocked, isChapterDone, loadChapter, getLoadedChapter,
   litChapterKey, resumeParagraph, chapterSentences, isBuildEligible, unknownLemmas,
 } from '../content-lit/index.js';
 import {
@@ -1305,6 +1305,7 @@ async function activateCourse(id) {
   state.practice = null;
   state.practiceSetupOpen = false;
   state.lessonPreviewId = null;
+  state.litChapterPreviewId = null;
   state.pathActive = false;
   state.pathHome = false;
   state.litHome = false;
@@ -1371,13 +1372,18 @@ function toggleLitUnknown(lemma) {
   queueAutoUpload('literature-unknown');
 }
 
-function startLitSession(chapter, para) {
+// freeRead is an explicit mode choice from the chapter's preview modal (see
+// startLitFreeRead/startLitPractice), not something derived from progress:
+// free reading never gates on checks, never falls into the Patterns/Build
+// drills, and never marks the chapter done -- only Practice mode does that.
+function startLitSession(chapter, para, freeRead) {
   state.lit = {
     bookId: state.litBookId,
     chapterId: state.litChapterId,
     paragraphCount: chapter.paragraphs.length,
     stage: 'read',
     para,
+    freeRead,
     // `${paragraphIndex}:${checkIndex}` -> { selected, correct }.
     checks: {},
     gloss: null,
@@ -1496,6 +1502,7 @@ function clearActivePracticeUi() {
   state.practice = null;
   state.practiceSetupOpen = false;
   state.lessonPreviewId = null;
+  state.litChapterPreviewId = null;
   state.unlockPrompt = null;
   state.pathSkipAheadPromptNodeId = null;
 }
@@ -2712,7 +2719,9 @@ const actions = {
     state.view = 'litBook';
     state.lit = null;
   },
-  async openLitChapter(el) {
+  // "Free read / Practice" mode-picker modal, mirroring openLessonPreview's
+  // job for grammar lessons.
+  openLitChapterPreview(el) {
     const bookId = el.dataset.bookId;
     const chapterId = el.dataset.chapterId;
     const book = getLitBook(bookId);
@@ -2721,13 +2730,53 @@ const actions = {
     // Defense in depth -- a locked chapter's row is already disabled (see
     // litChapterRowHtml in js/render.js), same reasoning as chooseCourse.
     if (!isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll)) return false;
+    state.litBookId = bookId;
+    state.litChapterPreviewId = chapterId;
+  },
+  // Fires from the backdrop; a click that landed inside the dialog is not a
+  // click-outside, so it changes nothing.
+  closeLitChapterPreview(el, e) {
+    if (e && e.target !== el) return false;
+    state.litChapterPreviewId = null;
+  },
+  cancelLitChapterPreview() {
+    state.litChapterPreviewId = null;
+  },
+  // Free reading: no comprehension checks, no drills, and it never marks the
+  // chapter done (see startLitSession) -- always opens at the top regardless
+  // of how far Practice mode has gotten.
+  async startLitFreeRead() {
+    const bookId = state.litBookId;
+    const chapterId = state.litChapterPreviewId;
     const chapter = await loadChapter(bookId, chapterId);
     if (!chapter) return false;
+    state.litChapterPreviewId = null;
     enterLitContext();
     state.litBookId = bookId;
     state.litChapterId = chapterId;
     state.view = 'litRead';
-    startLitSession(chapter, resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length));
+    startLitSession(chapter, 0, true);
+  },
+  // Practice: the graded pass, and the only route to marking a chapter done.
+  // A chapter not yet done reads paragraph by paragraph with its
+  // comprehension checks, same as ever; a chapter already done skips
+  // straight to the Patterns/Build drills at the end -- coming back to
+  // Practice a finished chapter is for the drills, not a reread (that's what
+  // Free read is for).
+  async startLitPractice() {
+    const bookId = state.litBookId;
+    const chapterId = state.litChapterPreviewId;
+    const chapter = await loadChapter(bookId, chapterId);
+    if (!chapter) return false;
+    state.litChapterPreviewId = null;
+    enterLitContext();
+    state.litBookId = bookId;
+    state.litChapterId = chapterId;
+    state.view = 'litRead';
+    const done = isChapterDone(state.litProgress, bookId, chapterId);
+    const para = done ? 0 : resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length);
+    startLitSession(chapter, para, false);
+    if (done) startLitWorkshop(chapter);
   },
   exitLitChapter() {
     state.lit = null;
@@ -2736,9 +2785,9 @@ const actions = {
   // Loads every chapter of the book (memoized by loadChapter, so this only
   // ever pays the cost once per book per session -- see content-lit/
   // index.js) to scan for eligible sentences carrying an unknown word.
-  // Mirrors openLitChapter's disabled-when-unavailable guard: the hero
-  // button is already disabled with no unknown words, this is defense in
-  // depth against a stale click.
+  // Mirrors startLitFreeRead/startLitPractice's disabled-when-unavailable
+  // guard: the hero button is already disabled with no unknown words, this
+  // is defense in depth against a stale click.
   async openLitWordPractice(el) {
     const bookId = el.dataset.bookId;
     const book = getLitBook(bookId);
@@ -2826,7 +2875,7 @@ const actions = {
   rereadLitChapter() {
     const chapter = litChapter();
     if (!chapter) return false;
-    startLitSession(chapter, 0);
+    startLitSession(chapter, 0, false);
   },
   // A word carries two gestures, split by the double-click window:
   //
@@ -2913,19 +2962,26 @@ const actions = {
     const chapter = litChapter();
     if (!lit || !chapter) return false;
     const para = chapter.paragraphs[lit.para];
-    if (!para.checks.every((_, ci) => lit.checks[`${lit.para}:${ci}`])) return false;
+    if (!lit.freeRead && !para.checks.every((_, ci) => lit.checks[`${lit.para}:${ci}`])) return false;
+    const lastPara = lit.para + 1 >= chapter.paragraphs.length;
+    // Free reading never gates on checks and never falls into the drills --
+    // it just stops at the last paragraph, same as the "Previous" button
+    // already stops at the first.
+    if (lit.freeRead && lastPara) return false;
     await scrollReaderToTop();
     lit.word = null;
     lit.gloss = null;
     lit.fullPara = null;
-    if (lit.para + 1 >= chapter.paragraphs.length) {
+    if (lastPara) {
       startLitWorkshop(chapter);
       return;
     }
     lit.para += 1;
-    const rec = litChapterRecord(lit.bookId, lit.chapterId);
-    if (lit.para > (rec.para || 0)) rec.para = lit.para;
-    queueAutoUpload('literature-paragraph');
+    if (!lit.freeRead) {
+      const rec = litChapterRecord(lit.bookId, lit.chapterId);
+      if (lit.para > (rec.para || 0)) rec.para = lit.para;
+      queueAutoUpload('literature-paragraph');
+    }
   },
   // Back through paragraphs already read. Their answered checks are still on
   // the session (lit.checks is keyed by paragraph index), so a revisited
@@ -3100,6 +3156,9 @@ document.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
+    rerender();
+  } else if (state.litChapterPreviewId) {
+    state.litChapterPreviewId = null;
     rerender();
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;

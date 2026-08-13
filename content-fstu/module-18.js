@@ -6289,7 +6289,7 @@ export default {
             "تَمْيِيْزٌ"
           ],
           "correct": 1,
-          "explanation": "اَللهُ is the اِسْم; غَافِلًا is the مَنْصُوْب خَبَر with عَمَّا يَعْمَلُوْنَ attached to it."
+          "explanation": "لَفْظُ الجَلالَةِ is the اِسْم; غَافِلًا is the مَنْصُوْب خَبَر with عَمَّا يَعْمَلُوْنَ attached to it."
         },
         {
           "title": "Book Exercise 5 (Section 3, Supplement)",
@@ -11520,7 +11520,7 @@ export default {
         {
           "q": "In اَللهُ غَفُوْرٌ, where is the فَاعِلٌ?",
           "options": [
-            "It is اَللهُ",
+            "It is لَفْظُ الجَلالَةِ",
             "There is none",
             "It is a ضَمِيْرٌ مُسْتَتِرٌ (هُوَ) inside غَفُوْرٌ",
             "It is understood from the context only"
@@ -12202,7 +12202,7 @@ export default {
             "a حَالٌ"
           ],
           "correct": 2,
-          "explanation": "اَللهَ is the اِسْمُ إِنَّ, so the phrase after it is the خَبَرٌ."
+          "explanation": "لَفْظَ الجَلالَةِ is the اِسْمُ إِنَّ, so the phrase after it is the خَبَرٌ."
         },
         {
           "title": "Book Exercise 8 (Section 3, Supplement), item 5",
@@ -13537,7 +13537,7 @@ export default {
             "a تَمْيِيْزٌ"
           ],
           "correct": 2,
-          "explanation": "اَللهُ is the فَاعِلٌ, and what is accepted is the object."
+          "explanation": "لَفْظُ الجَلالَةِ is the فَاعِلٌ, and what is accepted is the object."
         },
         {
           "title": "Book Note (Section 3, Supplement, p. 550)",

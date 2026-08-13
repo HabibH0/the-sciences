@@ -1,7 +1,7 @@
 // Aggregates every "My Path" track the app offers -- currently the
 // introductory track (content/path.js: fstu + sarf) and the advanced track
 // (content/path-advanced.js: annahw + sarf-advanced). Each track's own node
-// ids/badge ids/group ids live in a disjoint namespace (plain 's1-n01'/
+// ids/group ids live in a disjoint namespace (plain 's1-n01'/
 // 'group-1'/'grp1-test' for the introductory track, 'adv-' prefixed for the
 // advanced one -- see each file's own id-prefix choice), so
 // state.pathNodeStatus/pathReps/vocabExposure/pathCheckpointMastery -- all

@@ -239,6 +239,10 @@ export async function createInitialState() {
     // Transient: the open chapter's read/workshop/build session, or null.
     // See enterLitChapter in js/main.js for its shape.
     lit: null,
+    // Transient: the chapter id whose "Free read / Practice" mode-picker
+    // modal is open, mirroring lessonPreviewId's job for grammar lessons.
+    // Not persisted.
+    litChapterPreviewId: null,
     // `${bookId}/${chapterId}` -> { para, done, at, score } -- `para` is the
     // furthest paragraph reached, so a long chapter resumes where it was left
     // rather than restarting (unlike a practice session, a chapter is a long

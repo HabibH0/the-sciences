@@ -66,6 +66,7 @@ const ICON_PATHS = {
   star: '<path d="M12 2l2.9 6.5 7.1.6-5.4 4.7 1.6 7-6.2-3.9-6.2 3.9 1.6-7-5.4-4.7 7.1-.6z"/>',
   award: '<circle cx="12" cy="8" r="5"/><path d="M9 12l-2 8 5-3 5 3-2-8"/>',
   arrowLeft: '<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>',
+  arrowRight: '<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>',
   cross: '<path d="M6 6l12 12M18 6L6 18"/>',
   calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 2.5v4M16 2.5v4"/>',
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
@@ -2987,9 +2988,8 @@ const SPECIMEN_WORDS = [
 // --- Achievements ----------------------------------------------------------
 // Every badge the app can award, earned or not, grouped into the same
 // categories the tier ladders live in (see gamification.js's
-// ACHIEVEMENT_CATEGORIES) plus a My Path section pulled from BADGE_DEFS'
-// own 'path-'/'path-adv-' id prefixes. Reached from the header's XP/level/
-// streak cluster (see headerHtml) and from Home's badge-row teaser.
+// ACHIEVEMENT_CATEGORIES). Reached from the header's XP/level/streak cluster
+// (see headerHtml) and from Home's badge-row teaser.
 
 function achievementCardHtml(state, id, current, threshold, unit) {
   const def = BADGE_DEFS[id];
@@ -3010,7 +3010,6 @@ function achievementCardHtml(state, id, current, threshold, unit) {
 
 function achievementsHtml(state) {
   const li = levelInfo(state.xp);
-  const totalBadges = Object.keys(BADGE_DEFS).length;
   const modulesDone = completedModulesAllCourses(state.completed);
   const lessonsDone = completedLessonsAllCourses(state.completed);
   const perfectCount = perfectQuizCount(state.quizScores);
@@ -3042,12 +3041,11 @@ function achievementsHtml(state) {
       cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null)],
     },
   ];
-
-  const pathIds = Object.keys(BADGE_DEFS).filter((id) => id.startsWith('path-'));
-  const advPathIds = pathIds.filter((id) => id.startsWith('path-adv-'));
-  const introPathIds = pathIds.filter((id) => !id.startsWith('path-adv-'));
-  sections.push({ title: 'My Path — Introductory', cards: introPathIds.map((id) => card(id, 0, null, null)) });
-  sections.push({ title: 'My Path — Advanced', cards: advPathIds.map((id) => card(id, 0, null, null)) });
+  // My Path itself doesn't award badges (see LEGACY_PATH_BADGE_DEFS in
+  // gamification.js) -- totalBadges is the count of cards actually shown
+  // above, not Object.keys(BADGE_DEFS).length, so it doesn't silently
+  // include the legacy path-* ids nothing can earn any more.
+  const totalBadges = sections.reduce((sum, s) => sum + s.cards.length, 0);
 
   const sectionsHtml = sections.map((s) => `
     <section class="ach-section">
@@ -3468,7 +3466,7 @@ function litChapterRowHtml(state, book, chapter, index) {
       : `<span class="tag tag-accent">${started ? 'Resume' : 'Read'}</span>`;
   return `
     <button class="lit-chapter${unlocked ? '' : ' locked'}${done ? ' is-done' : ''}" data-anim-key="litch${index}"
-      ${unlocked ? `data-action="openLitChapter" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}"` : 'disabled'}>
+      ${unlocked ? `data-action="openLitChapterPreview" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}"` : 'disabled'}>
       <span class="lit-chapter-num">${unlocked ? String(chapter.number).padStart(2, '0') : icon('lock', 15, 2)}</span>
       <span class="lit-chapter-body">
         <span class="lit-chapter-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</span>
@@ -3480,6 +3478,40 @@ function litChapterRowHtml(state, book, chapter, index) {
         ${tag}
       </span>
     </button>`;
+}
+
+// --- "Free read / Practice" modal -----------------------------------------
+// Mirrors lessonPreviewHtml's job: a chapter row opens this instead of
+// launching straight into a session, offering Free read (unrestricted
+// paging, no checks, never marks the chapter done -- see startLitFreeRead)
+// alongside Practice (the graded pass -- comprehension checks then the
+// Patterns/Build drills for a first read, or straight to the drills for a
+// chapter already done -- see startLitPractice).
+function litChapterPreviewHtml(state) {
+  if (!state.litChapterPreviewId) return '';
+  const book = getLitBook(state.litBookId);
+  const idx = book ? book.chapters.findIndex((c) => c.id === state.litChapterPreviewId) : -1;
+  if (!book || idx < 0) return '';
+  const chapter = book.chapters[idx];
+  const done = isChapterDone(state.litProgress, book.id, chapter.id);
+  const rec = chapterRecord(state.litProgress, book.id, chapter.id);
+  const started = !done && rec && rec.para > 0;
+  const practiceLabel = done ? 'Practice (drills)' : started ? 'Resume' : 'Practice';
+
+  return `
+    <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLitChapterPreview">
+      <div class="modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(chapter.title.en)}">
+        <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
+        <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
+        <p class="modal-sub">${escBidi(chapter.title.en)}</p>
+        ${done ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('check', 11, 2.6)} Read</div>` : ''}
+        <div class="modal-buttons">
+          <button class="btn btn-ghost" data-action="cancelLitChapterPreview">Cancel</button>
+          <button class="btn btn-secondary" data-action="startLitFreeRead">Free read</button>
+          <button class="btn btn-primary" data-action="startLitPractice">${practiceLabel}</button>
+        </div>
+      </div>
+    </div>`;
 }
 
 function litBookHtml(state) {
@@ -3862,15 +3894,23 @@ function litCompleteHtml(state, chapter) {
 // One paragraph at a time, with its own questions under it -- the page
 // turns rather than growing. Paragraphs already read stay reachable through
 // the pager; their answered checks live on the session (lit.checks), so a
-// revisited paragraph comes back exactly as it was left.
+// revisited paragraph comes back exactly as it was left. Free-read sessions
+// (lit.freeRead, chosen from the chapter's preview modal) drop the questions
+// entirely, so the pager grows its own "Next" button instead of relying on
+// the checks' advance button.
 function litPagerHtml(state, chapter) {
   const lit = state.lit;
+  const lastPara = lit.para + 1 >= chapter.paragraphs.length;
   return `
     <div class="lit-pager">
       <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}>
         ${icon('arrowLeft', 14, 2)} Previous paragraph
       </button>
-      <span class="lit-pager-count">Paragraph ${lit.para + 1} of ${chapter.paragraphs.length}</span>
+      <span class="lit-pager-count">Paragraph ${lit.para + 1} of ${chapter.paragraphs.length}${lit.freeRead ? ' · free read' : ''}</span>
+      ${lit.freeRead ? `
+      <button class="lit-pager-btn lit-pager-btn-next" data-action="litNextParagraph" ${lastPara ? 'disabled' : ''}>
+        Next paragraph ${icon('arrowRight', 14, 2)}
+      </button>` : ''}
     </div>`;
 }
 
@@ -3878,15 +3918,15 @@ function litReadStageHtml(state, chapter) {
   const lit = state.lit;
   return `${litPagerHtml(state, chapter)}
     ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
-    ${litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
+    ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
 }
 
 function litReadHtml(state) {
   const lit = state.lit;
   const chapter = lit && getLoadedChapter(lit.bookId, lit.chapterId);
-  // The chapter is loaded by openLitChapter before this view is ever
-  // entered; if it somehow isn't (a save pointing at a chapter that no
-  // longer exists), fall back rather than render a broken page.
+  // The chapter is loaded by startLitFreeRead/startLitPractice before this
+  // view is ever entered; if it somehow isn't (a save pointing at a chapter
+  // that no longer exists), fall back rather than render a broken page.
   if (!chapter) return state.litBookId ? litBookHtml(state) : libraryHtml(state);
   const book = getLitBook(lit.bookId);
   const stageBody = lit.stage === 'read' ? litReadStageHtml(state, chapter)
@@ -3910,8 +3950,7 @@ function litReadHtml(state) {
           <h1 class="lit-reader-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h1>
           <span class="lit-reader-en">${escBidi(chapter.title.en)}</span>
         </div>
-        ${litRailHtml(state)}
-        ${progressBar(pct)}
+        ${lit.freeRead ? '' : `${litRailHtml(state)}${progressBar(pct)}`}
       </div>
       <div class="lit-reader-body">
         <div class="lit-page">${stageBody}</div>
@@ -4079,5 +4118,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
   const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}`;
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}`;
 }

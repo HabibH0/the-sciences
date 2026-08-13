@@ -1365,7 +1365,7 @@ export default {
           "prompt": "The phrase عَدُوُّ اللهِ is definite (مَعْرِفَةٌ) because…",
           "options": [
             "عَدُوُّ carries أَلْ",
-            "the مُضَافٌ إِلَيْهِ (اللهِ) is definite, and the مُضَافٌ follows it in definiteness",
+            "the مُضَافٌ إِلَيْهِ (لَفْظِ الجَلالَةِ) is definite, and the مُضَافٌ follows it in definiteness",
             "every possessive phrase is definite",
             "عَدُوٌّ is a proper noun"
           ],

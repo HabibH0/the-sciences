@@ -12879,7 +12879,7 @@ export default {
             "a حَالٌ"
           ],
           "correct": 1,
-          "explanation": "It renames اللهِ and shares its مَجْرُوْر case."
+          "explanation": "It renames لَفْظِ الجَلالَةِ and shares its مَجْرُوْر case."
         },
         {
           "title": "Book Exercise 1 (Section 3, Part 8)",
@@ -17434,7 +17434,7 @@ export default {
             "a نَعْتٌ"
           ],
           "correct": 1,
-          "explanation": "اللهَ is the اِسْم and وَاحِدٌ the مَرْفُوْع خَبَر; the whole unit is the مُبْتَدَأٌ مُؤَخَّرٌ."
+          "explanation": "لَفْظَ الجَلالَةِ is the اِسْم and وَاحِدٌ the مَرْفُوْع خَبَر; the whole unit is the مُبْتَدَأٌ مُؤَخَّرٌ."
         },
         {
           "title": "Book Summary (Section 3, p. 533)",

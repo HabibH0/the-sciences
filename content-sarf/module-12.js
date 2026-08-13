@@ -238,7 +238,8 @@ export default {
             { box: { title: 'Rule', lines: [
               `وأما من غير الثلاثيّ، فيكون كاسم فاعله ولكن بفتح ما قبل الآخِر، نحو مُكْرَم، ومُعَظَّم، ومُسْتَعَان به`,
             ] } },
-            { html: `From a غير ثلاثيّ verb, اسم المفعول is built exactly like اسم الفاعل — same reshaping of the حرف المضارعة into a ميم — except for one vowel: where اسم الفاعل takes a كسرة before the last letter, اسم المفعول takes a فتحة. مُكْرَم, مُعَظَّم, and مُسْتَعَان به are all built this way. A single vowel is all that separates the two nouns — and where الإعلال has flattened that vowel away entirely, the distinction between them disappears.`, list: false },
+            { html: `From a غير ثلاثيّ verb, اسم المفعول is built exactly like اسم الفاعل — same reshaping of the حرف المضارعة into a ميم — except for one vowel: where اسم الفاعل takes a كسرة before the last letter, اسم المفعول takes a فتحة.`, list: false },
+            { html: `مُكْرَم, مُعَظَّم, and مُسْتَعَان به are all built this way. A single vowel is all that separates the two nouns — and where الإعلال has flattened that vowel away entirely, the distinction between them disappears.`, list: false },
             { box: { title: 'Careful', lines: [
               `وأما نحو مُخْتار ومُعْتَدّ ومُنْصَب ومُحَابّ ومُتَحَابّ، فصالح لاسمَى الفاعل والمفعول، بحسب التقدير`,
             ] } },
@@ -521,7 +522,7 @@ export default {
             ] } },
             { html: `Where the seventh condition fails on the standard view, the workaround again puts the real مصدر after أَكْثَر or أَشَدّ: redder becomes <bdi>أَشَدُّ حُمْرَةً</bdi>, literally more intense in redness. The eighth and final condition is that the verb must not be built for the passive (مبنيًّا للمجهول), even only in appearance — the reasoning matches the sixth condition: أَفْعَل shows no mark of voice, so a form built from a passive verb would be read as if built from the active. Three attested exceptions break it: <bdi>هو أَزْهَى من دِيك</bdi> (prouder than a rooster, from زُهِيَ, he was made proud, a passive verb), <bdi>أَشْغَلُ مِنْ ذَاتِ النَّحْيَيْنِ</bdi> (proverbially, busier than the woman with the two water-skins), and <bdi>كلامٌ أَخْصَرُ من غيره</bdi> (already seen above, also from a passive verb, اخْتُصِرَ). Where this eighth condition fails, the مصدر مؤوَّل workaround applies again: more likely to be struck becomes <bdi>أَكْثَرُ أَنْ يُضْرَبَ</bdi>.`, list: false },
           ],
-          clarification: `الرَّضِيّ's note draws a line inside the seventh شرط itself, rather than rejecting it outright: the ban stays fully in force for outward عيوب and ألوان (visible colours and defects), but inward qualities — foolishness, rashness, stupidity — still yield an اسم تفضيل. أهل الكوفة go further and drop the شرط altogether, and المتنبي's line لأنت أسودُ في عَيْنِي is the شاهد (citation) usually given for their view.`,
+          clarification: `الرَّضِيّ's note draws a line inside the seventh شرط itself, rather than rejecting it outright: the ban stays fully in force for outward عيوب and ألوان (visible colours and defects), but inward qualities — foolishness, rashness, stupidity — still yield an اسم تفضيل; أهل الكوفة go further and drop the شرط altogether, and المتنبي's line لأنت أسودُ في عَيْنِي is the شاهد (citation) usually given for their view.`,
           exercise: {
             prompt: `هو أَزْهَى من دِيك (prouder than a rooster) is irregular against the eighth condition because زُهِيَ, the verb behind أَزْهَى, is:`,
             kind: 'mcq',

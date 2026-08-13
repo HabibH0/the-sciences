@@ -410,10 +410,10 @@ export default {
           "kind": "mcq",
           "prompt": "In عِنْدَ اللهِ, the word عِنْدَ is…",
           "options": [
-            "a حَرْفٌ جَارٌّ, so اللهِ is مَجْرُوْرٌ",
+            "a حَرْفٌ جَارٌّ, so لَفْظِ الجَلالَةِ is مَجْرُوْرٌ",
             "a حَرْفُ عَطْفٍ joining two nouns",
-            "a ظَرْفٌ (noun preposition), so it is مُضَافٌ and اللهِ is مُضَافٌ إِلَيْهِ",
-            "a مُبْتَدَأٌ with اللهِ as its خَبَرٌ"
+            "a ظَرْفٌ (noun preposition), so it is مُضَافٌ and لَفْظِ الجَلالَةِ is مُضَافٌ إِلَيْهِ",
+            "a مُبْتَدَأٌ with لَفْظِ الجَلالَةِ as its خَبَرٌ"
           ],
           "correct": 2,
           "explanation": "عِنْدَ is an اِسْمٌ. A ظَرْفٌ becomes مُضَافٌ to the noun that follows, and that noun is مُضَافٌ إِلَيْهِ."
@@ -5178,7 +5178,7 @@ export default {
           "options": [
             "Because بِ always means 'in'",
             "Because the حَرْفٌ جَارٌّ of a prepositional verb is not always translated directly — the intended meaning is understood and translated accordingly",
-            "Because بِاللهِ is an آلَةٌ",
+            "Because بِلَفْظِ الجَلالَةِ is an آلَةٌ",
             "Because the verb is مَجْهُوْلٌ"
           ],
           "correct": 1,
@@ -11818,7 +11818,7 @@ export default {
               }
             },
             {
-              "html": "In some cases, it will be possible for the شِبْهُ الْجُمْلَةِ in a single sentence to be taken as both a نَعْتٌ or a مَفْعُوْلٌ: جَاءَ بَيِّنَاتٌ مِنَ اللهِ can be 'Signs FROM ALLAH came' or 'Signs came FROM ALLAH'. One tarkeeb treats مِنَ اللهِ as the نَعْتٌ غَيْرُ صَرِيْحٍ of بَيِّنَاتٌ; the alternative treats it as a مَفْعُوْلٌ فِيْهِ غَيْرُ صَرِيْحٍ.",
+              "html": "In some cases, it will be possible for the شِبْهُ الْجُمْلَةِ in a single sentence to be taken as both a نَعْتٌ or a مَفْعُوْلٌ: جَاءَ بَيِّنَاتٌ مِنَ اللهِ can be 'Signs FROM ALLAH came' or 'Signs came FROM ALLAH'. One tarkeeb treats مِنْ لَفْظِ الجَلالَةِ as the نَعْتٌ غَيْرُ صَرِيْحٍ of بَيِّنَاتٌ; the alternative treats it as a مَفْعُوْلٌ فِيْهِ غَيْرُ صَرِيْحٍ.",
               "list": false
             },
             {
@@ -12597,7 +12597,7 @@ export default {
             "Guidance is upon those people for Allah"
           ],
           "correct": 1,
-          "explanation": "مِنَ اللهِ is the نعت غير صريح of هُدًى: guidance (which is) from Allah."
+          "explanation": "مِنْ لَفْظِ الجَلالَةِ is the نعت غير صريح of هُدًى: guidance (which is) from Allah."
         },
         {
           "title": "Worked example (Part 2, p. 272)",
@@ -12615,7 +12615,7 @@ export default {
         {
           "title": "Book Exercise 2 (Part 2)",
           "kind": "mcq",
-          "prompt": "قَدْ جَاءَتْ مَوْعِظَةٌ مِنَ اللهِ وَشِفَاءٌ — the phrase مِنَ اللهِ can be…",
+          "prompt": "قَدْ جَاءَتْ مَوْعِظَةٌ مِنَ اللهِ وَشِفَاءٌ — the phrase مِنْ لَفْظِ الجَلالَةِ can be…",
           "options": [
             "only a مَفْعُوْلٌ فِيْهِ",
             "only a نَعْتٌ",

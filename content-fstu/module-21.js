@@ -7980,7 +7980,7 @@ export default {
             "Because it is plural"
           ],
           "correct": 0,
-          "explanation": "اَللهِ is its مُضَافٌ إِلَيْهِ, so the tanwīn drops."
+          "explanation": "لَفْظِ الجَلالَةِ is its مُضَافٌ إِلَيْهِ, so the tanwīn drops."
         },
         {
           "title": "favour, bounty",

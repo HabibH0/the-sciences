@@ -407,7 +407,8 @@ export default {
               `ولا بُدَّ أن يكونَ مَبْدُوءًا بِحَرْفٍ من حُرُوفِ أَنَيْتُ، وتُسَمَّى أَحْرُفَ المُضَارَعَةِ`,
             ] } },
             { html: `The test is whether the verb can stand after لَمْ; the requirement is that it open with one of ء، ن، ي، ت, collected in the mnemonic أَنَيْتُ.`, list: false },
-            { html: `Note that the same آية which was an exception to the definition is the شاهد for the علامة. لَمْ shifts the meaning to the past, but the ability to sit after لَمْ at all is precisely what proves the form is مضارع.`, list: false },
+            { html: `Note that the same آية which was an exception to the definition is the شاهد for the علامة.`, list: false },
+            { html: `لَمْ shifts the meaning to the past, but the ability to sit after لَمْ at all is precisely what proves the form is مضارع.`, list: false },
           ],
           exercise: {
             prompt: `أَنَيْتُ collects the أحرف المضارعة. Which four letters does it stand for?`,

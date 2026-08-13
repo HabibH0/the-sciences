@@ -8169,7 +8169,7 @@ export default {
             "بَدَلٌ"
           ],
           "correct": 0,
-          "explanation": "One مَنْعُوْتٌ (اللهَ) can have two نَعْتٌ; the second is called نَعْتٌ ثَانٍ."
+          "explanation": "One مَنْعُوْتٌ (لَفْظَ الجَلالَةِ) can have two نَعْتٌ; the second is called نَعْتٌ ثَانٍ."
         },
         {
           "title": "Worked example (Part 3)",

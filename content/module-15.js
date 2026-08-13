@@ -73,7 +73,7 @@ export default {
             { box: { title: 'Rule', lines: [`الأَوَّلُ الوَاوُ، وَهِيَ لِلْجَمْعِ مُطْلَقًا.`] } },
             { html: `الواو's only job is to join the <bdi>معطوف</bdi> to the <bdi>معطوف عليه</bdi> — nothing more. It says nothing about order, تَرْتِيب, or simultaneity, مَعِيَّة.`, list: false },
             { box: { title: 'Example', lines: [`﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾`] } },
-            { html: `"Obey Allah and the Messenger." الرَّسُولَ is معطوف on اللَّهَ, joined by واو — both share the same حكم, the command أَطِيعُوا, and nothing in الواو itself says one obedience came before the other.`, list: false },
+            { html: `"Obey Allah and the Messenger." الرَّسُولَ is معطوف on لَفْظَ الجَلالَةِ, joined by واو — both share the same حكم, the command أَطِيعُوا, and nothing in الواو itself says one obedience came before the other.`, list: false },
             {
               tarkeebDiagram: {
                 sentence: `أَطِيعُوا اللَّهَ وَالرَّسُولَ`,
@@ -85,7 +85,8 @@ export default {
               },
             },
             { box: { title: 'Careful', lines: [`جَاءَ زَيْدٌ وَعَمْرٌو سَاكِتَةٌ عَنْ كَيْفِيَّةِ المَجِيءِ`] } },
-            { html: `جَاءَ زَيْدٌ وَعَمْرٌو — "Zayd and 'Amr came" — is genuinely silent about how they came. It fits (1) they arrived together, مَعًا, (2) they arrived separately with Zayd first, عَلَى التَّرْتِيبِ, or (3) they arrived separately with 'Amr first, عَلَى عَكْسِهِ. واو itself commits to none of these; whichever reading a listener assumes comes from context or convention, not from واو's own meaning. A verse or hadith containing واو is not by itself proof of strict chronological order.`, list: false },
+            { html: `جَاءَ زَيْدٌ وَعَمْرٌو — "Zayd and 'Amr came" — is genuinely silent about how they came. It fits (1) they arrived together, مَعًا, (2) they arrived separately with Zayd first, عَلَى التَّرْتِيبِ, or (3) they arrived separately with 'Amr first, عَلَى عَكْسِهِ.`, list: false },
+            { html: `واو itself commits to none of these; whichever reading a listener assumes comes from context or convention, not from واو's own meaning. A verse or hadith containing واو is not by itself proof of strict chronological order.`, list: false },
           ],
           exercise: {
             prompt: `جَاءَ زَيْدٌ وَعَمْرٌو is compatible with three separate scenarios about how Zayd and 'Amr arrived. What does that show about الواو's own meaning?`,
@@ -170,7 +171,7 @@ export default {
         { title: `الحرف غير العامل: التعريف`, kind: 'mcq', prompt: `What separates الحرف غير العامل from الحرف العامل studied earlier in this course?`, options: [`It carries real meaning and shapes a جملة, but never forces a change in إعراب`, `It always forces the following word into الجر`, `It only ever governs a فعل, never an اسم`, `It has no effect on meaning at all`], correct: 0 },
         { title: `أحرف العطف: العدد`, kind: 'mcq', prompt: `أحرف العطف are the first قسم of الحرف غير العامل. How many أحرف العطف are there?`, options: [`تسعة`, `سبعة`, `ثمانية عشر`, `ثلاثة`], correct: 0 },
         { title: `الواو: المعنى الأساسي`, kind: 'mcq', prompt: `Which of the following correctly states الواو's core meaning as أحد أحرف العطف؟`, options: [`لِلْجَمْعِ مُطْلَقًا`, `لِلْجَمْعِ مَعَ التَّرْتِيبِ وَالتَّعْقِيبِ`, `لِلْغَايَةِ وَالتَّدْرِيجِ`, `لِلْإِضْرَابِ`], correct: 0 },
-        { title: `أطيعوا الله والرسول: العطف`, kind: 'mcq', prompt: `In ﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾, what is الرَّسُولَ's grammatical relationship to اللَّهَ؟`, options: [`معطوف على اللَّهَ, sharing the same حكم`, `بدل من اللَّهَ`, `نعت لِلَّهَ`, `مفعول به ثانٍ مستقل`], correct: 0 },
+        { title: `أطيعوا الله والرسول: العطف`, kind: 'mcq', prompt: `In ﴿أَطِيعُوا اللَّهَ وَالرَّسُولَ﴾, what is الرَّسُولَ's grammatical relationship to لَفْظِ الجَلالَةِ؟`, options: [`معطوف على لَفْظِ الجَلالَةِ, sharing the same حكم`, `بدل من لَفْظِ الجَلالَةِ`, `نعت لِلَفْظِ الجَلالَةِ`, `مفعول به ثانٍ مستقل`], correct: 0 },
         { title: `جاء زيد وعمرو: three readings`, kind: 'mcq', prompt: `جَاءَ زَيْدٌ وَعَمْرٌو fits three separate scenarios about how the two men arrived. Which of the following is NOT one of the three the source names?`, options: [`They never actually arrived at the same event`, `They arrived together, معًا`, `Zayd arrived first, على الترتيب`, `'Amr arrived first, على عكسه`], correct: 0 },
         { title: `الواو and chronological proof`, kind: 'mcq', prompt: `Can a verse or hadith containing الواو be used, by itself, as proof of strict chronological order between the two joined items؟`, options: [`No — الواو alone never asserts order; external context would still be needed`, `Yes — الواو always implies order`, `Yes, but only in Qur'anic verses`, `No — الواو can never join two events at all`], correct: 0 },
         { title: `المعية من قرينة: التعريف`, kind: 'mcq', prompt: `What does it mean to say المعية is "understood من قرينة" in a واو-joined phrase?`, options: [`Context, not الواو's own meaning, supplies the sense of togetherness`, `الواو itself always means "together"`, `المعية can never be understood without a separate حرف`, `قرينة is another name for الواو`], correct: 0 },
@@ -673,7 +674,7 @@ export default {
               [`مبتدأً`, `﴿أَأَرْبَابٌ مُّتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ﴾`],
               [`مفعولًا به`, `﴿قُلْ آلذَّكَرَيْنِ حَرَّمَ أَمِ الْأُنثَيَيْنِ﴾`],
             ] } },
-            { html: `In the first, both يُمْسِكُهُ, المعطوف عليه, and يَدُسُّهُ, المعادل, are verbs. In the second, أَرْبَابٌ and اللَّهُ are both مبتدأ-type nouns being compared. In the third, الذَّكَرَيْنِ and الْأُنثَيَيْنِ are both مفعول به of حَرَّمَ. The same pattern extends to yet other grammatical roles, not only these three.`, list: false },
+            { html: `In the first, both يُمْسِكُهُ, المعطوف عليه, and يَدُسُّهُ, المعادل, are verbs. In the second, أَرْبَابٌ and لَفْظُ الجَلالَةِ are both مبتدأ-type nouns being compared. In the third, الذَّكَرَيْنِ and الْأُنثَيَيْنِ are both مفعول به of حَرَّمَ. The same pattern extends to yet other grammatical roles, not only these three.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿قُلْ آلذَّكَرَيْنِ حَرَّمَ أَمِ الْأُنثَيَيْنِ﴾, what grammatical role do both الذَّكَرَيْنِ and المعادل الْأُنثَيَيْنِ share؟`,
@@ -879,7 +880,8 @@ export default {
             { box: { title: 'Rule', lines: [`وَإِنْ سَبَقَهَا نَفْيٌ أَوْ نَهْيٌ فَهُوَ لِتَقْرِيرِ حُكْمِ مَا قَبْلَهَا وَجَعْلِ ضِدِّهَا لِمَا بَعْدَهَا.`] } },
             { html: `When بَلْ instead follows something negative, نفي or نهي, its job flips: it now reaffirms, تقرير, the ruling of what came before it exactly as stated, and assigns the opposite ruling to what comes after.`, list: false },
             { box: { title: 'Example', lines: [`لَا تَصُمِ اليَوْمَ بَلْ غَدًا`] } },
-            { html: `"Do not fast today — rather, fast tomorrow." اليوم already carries a negative ruling, لا تصم. بَلْ does not cancel that; it confirms it — yes, indeed, do not fast today. Then بَلْ assigns the opposite ruling, صُمْ, to غَدًا. The net result is the same practical outcome as the إيجاب case, fast tomorrow, not today, but بَلْ reached it by a different route: reaffirming a negative rather than cancelling a positive.`, list: false },
+            { html: `"Do not fast today — rather, fast tomorrow." اليوم already carries a negative ruling, لا تصم.`, list: false },
+            { html: `بَلْ does not cancel that; it confirms it — yes, indeed, do not fast today. Then بَلْ assigns the opposite ruling, صُمْ, to غَدًا. The net result is the same practical outcome as the إيجاب case, fast tomorrow, not today, but بَلْ reached it by a different route: reaffirming a negative rather than cancelling a positive.`, list: false },
             { box: { title: 'Careful', lines: [`بَعْدَ الإِيجَابِ: إِبْطَالٌ لِلْأَوَّلِ. بَعْدَ النَّفْيِ: تَقْرِيرٌ لِلْأَوَّلِ وَضِدُّهُ لِلثَّانِي`] } },
             { html: `صُمِ اليَوْمَ بَلْ غَدًا and لَا تَصُمِ اليَوْمَ بَلْ غَدًا can look like they arrive at similar-sounding sentences, both ending up meaning "fast tomorrow, not today," but the grammatical mechanism is opposite in each: after a positive, بَلْ voids the first ruling and gives it to the second item; after a negative, بَلْ keeps the first ruling exactly as it was and gives the opposite ruling to the second item. Always check first whether what precedes بَلْ was positive or negative.`, list: false },
           ],

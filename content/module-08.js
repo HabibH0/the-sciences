@@ -67,7 +67,8 @@ export default {
           heading: 'الفرق بين عسى ولعلّ',
           lines: [
             { box: { title: 'Rule', lines: [`تَدُلُّ عَسَى عَلَى الْمُقَارَبَةِ دُونَ لَعَلَّ`] } },
-            { html: `عسى and <bdi>لعلَّ</bdi> overlap: both can carry الترجي and, where the outcome is disliked, الإشفاق. عسى additionally signals that the hoped-for or feared outcome is near. لعلَّ marks الرجاء or الإشفاق on its own, without saying anything about timing.`, list: false },
+            { html: `عسى and <bdi>لعلَّ</bdi> overlap: both can carry الترجي and, where the outcome is disliked, الإشفاق.`, list: false },
+            { html: `عسى additionally signals that the hoped-for or feared outcome is near. لعلَّ marks الرجاء or الإشفاق on its own, without saying anything about timing.`, list: false },
           ],
           exercise: {
             prompt: `عسى and لعلّ can both carry الترجي and, for a disliked outcome, الإشفاق. What does عسى add that لعلّ does not?`,
@@ -119,7 +120,8 @@ export default {
               [`اخلولق`, `obligatory`],
               [`حرى`, `obligatory`],
             ] } },
-            { html: `Like كان وأخواتها, أفعال الرجاء can also occur تامة — satisfied by a single فاعل, with no separate اسم and خبر. عَسَى رَبُّكَ أَنْ يَبْعَثَكَ مَقَامًا مَّحْمُودًا can be read either way.`, list: false },
+            { html: `Like كان وأخواتها, أفعال الرجاء can also occur تامة — satisfied by a single فاعل, with no separate اسم and خبر.`, list: false },
+            { html: `عَسَى رَبُّكَ أَنْ يَبْعَثَكَ مَقَامًا مَّحْمُودًا can be read either way.`, list: false },
             { table: { title: 'عسى: ناقصة أم تامة؟', headers: ['Reading', 'عسى', 'اسمها / فاعلها', 'خبرها / تتمتها'], rows: [
               [`ناقصة`, `فعل ناقص`, `رَبُّكَ (اسم عسى)`, `أَنْ يَبْعَثَكَ مَقَامًا مَّحْمُودًا (اسم مؤول في محل نصب خبر عسى)`],
               [`تامة`, `فعل تام`, `—`, `أَنْ يَبْعَثَكَ رَبُّكَ مَقَامًا مَّحْمُودًا (اسم مؤول في محل رفع فاعل)`],
@@ -299,7 +301,8 @@ export default {
           heading: 'أنْ وبُعدها عن الوقوع، وحذف الخبر، ونقص التصرف',
           lines: [
             { box: { title: 'Rule', lines: [`يَكْثُرُ حَرْفُ أَنْ فِي خَبَرِ أَوْشَكَ، وَيَقِلُّ فِي خَبَرِ كَادَ وَكَرَبَ`] } },
-            { html: `أَنْ marks اِسْتِقْبَال, the future, and adds بُعْد, distance, to how soon the action is expected. كاد denotes something extremely close to happening, so its خبر normally comes without أَنْ. أوشك is a little less immediate, so أَنْ appears with it more often. أفعال الرجاء denote hope generally, further still from actual occurrence — which is why أَنْ appears with them most consistently of all.`, list: false },
+            { html: `أَنْ marks اِسْتِقْبَال, the future, and adds بُعْد, distance, to how soon the action is expected. كاد denotes something extremely close to happening, so its خبر normally comes without أَنْ.`, list: false },
+            { html: `أوشك is a little less immediate, so أَنْ appears with it more often. أفعال الرجاء denote hope generally, further still from actual occurrence — which is why أَنْ appears with them most consistently of all.`, list: false },
             { table: { title: 'من الأقرب إلى الأبعد عن الوقوع', headers: ['Nearest', '', '', 'Furthest'], rows: [
               [`كَادَ زَيْدٌ يَقُومُ`, `كَادَ زَيْدٌ أَنْ يَقُومَ`, `عَسَى زَيْدٌ يَقُومُ`, `عَسَى زَيْدٌ أَنْ يَقُومَ`],
             ] } },
@@ -435,7 +438,7 @@ export default {
           lines: [
             { box: { title: 'Rule', lines: [`لَا تَأْتِي أَفْعَالُ الشُّرُوعِ إِلَّا مَاضِيًا وَلَا يَكُونُ خَبَرُهَا إِلَّا جُمْلَةً فِعْلِيَّةً مُضَارِعِيَّةً مُجَرَّدًا عَنْ حَرْفِ أَنْ`] } },
             { html: `Two conditions apply. These verbs occur only in الماضي themselves — there is no يَجْعَلُ or يَطْفَقُ used in this sense. And their خبر must be a جملة فعلية built on a فعل مضارع, one that never carries أَنْ.`, list: false },
-            { box: { title: 'Careful', lines: [`أَنْ marks الاستقبال, the future. أفعال الشروع describe an action beginning immediately, at the very moment named by the فعل الماضي. أَنْ would contradict that immediacy, so it never appears in the خبر of these verbs.`] } },
+            { box: { title: 'Careful', lines: [`أَنْ marks الاستقبال, the future. أفعال الشروع describe an action beginning immediately, at the very moment named by the فعل الماضي.`, `أَنْ would contradict that immediacy, so it never appears in the خبر of these verbs.`] } },
           ],
           exercise: {
             prompt: `أفعال الشروع only ever occur in الماضي, and their خبر must be a جملة فعلية مضارعية with أَنْ stripped out. Why does أَنْ never appear in their خبر؟`,
@@ -479,7 +482,7 @@ export default {
                 ],
               },
             },
-            { box: { title: 'Careful', lines: [`A فعل مضارع like يَمْسَحُ can carry either حَال or مُسْتَقْبِل. مَسْحًا, being a مصدر, carries no tense at all, which removes any مستقبل reading altogether — dropping the فعل this way strengthens the sense that the stroking began at once, with no delay.`] } },
+            { box: { title: 'Careful', lines: [`A فعل مضارع like يَمْسَحُ can carry either حَال or مُسْتَقْبِل.`, `مَسْحًا, being a مصدر, carries no tense at all, which removes any مستقبل reading altogether — dropping the فعل this way strengthens the sense that the stroking began at once, with no delay.`] } },
           ],
           exercise: {
             prompt: `In ﴿فَطَفِقَ مَسْحًا بِالسُّوقِ وَالْأَعْنَاقِ﴾, the expected فعل مضارع يَمْسَحُ is dropped from طفق's خبر, leaving مَسْحًا standing alone. What role does مَسْحًا play for that missing verb؟`,
@@ -770,11 +773,11 @@ export default {
           lines: [
             { box: { title: 'Rule', lines: [`يُحْذَفُ الْمَخْصُوصُ إِذَا دَلَّ عَلَيْهِ السِّيَاقُ`] } },
             { box: { title: 'Core Text', lines: [`﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾`] } },
-            { html: `"What an excellent Protector, and what an excellent Helper!" المخصوص in both halves of this آية, اللهُ, is dropped — the preceding context has already made clear who is meant, so repeating it after each فعل is unnecessary, fitting the brevity characteristic of Quranic style.`, list: false },
+            { html: `"What an excellent Protector, and what an excellent Helper!" المخصوص in both halves of this آية, لَفْظُ الجَلالَةِ, is dropped — the preceding context has already made clear who is meant, so repeating it after each فعل is unnecessary, fitting the brevity characteristic of Quranic style.`, list: false },
             { box: { title: 'Careful', lines: [`The more common pattern across the Qur'an, in fact, is for المخصوص to be left out rather than stated.`] } },
           ],
           exercise: {
-            prompt: `﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾ drops المخصوص (اللهُ) in both halves. According to the lesson, is dropping المخصوص the exception or the more common pattern across the Qur'an؟`,
+            prompt: `﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾ drops المخصوص (لَفْظُ الجَلالَةِ) in both halves. According to the lesson, is dropping المخصوص the exception or the more common pattern across the Qur'an؟`,
             kind: 'mcq',
             options: [`The more common pattern — stating it outright is less frequent`, `The rare exception — it is almost always stated`, `Impossible to drop under any circumstance`, `Only droppable when المخصوص is مؤنث`],
             correct: 0,
@@ -823,7 +826,7 @@ export default {
         { q: `مَا often appears directly after نِعْمَ and بِئْسَ. Is this مَا ever مَا النافية؟`, options: [`No — it is always an اسم here, never مَا النافية`, `Yes — it is always مَا النافية`, `Only when followed by a مفرد`, `Only when followed by a جملة`], correct: 0 },
         { q: `﴿فَنِعِمَّا هِيَ﴾: under the reading where مَا means 'the thing' (اسم معرفة تامة), what role does مَا play؟`, options: [`فاعل`, `تمييز`, `مخصوص`, `مضاف إليه`], correct: 0 },
         { q: `In ﴿إِنَّ اللَّهَ نِعِمَّا يَعِظُكُمْ بِهِ﴾, على القراءة الأولى, مَا is اسم موصول and يَعِظُكُمْ بِهِ is its صلة. What role does مَا play؟`, options: [`فاعل`, `تمييز`, `مخصوص`, `حال`], correct: 0 },
-        { q: `﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾ drops المخصوص (اللهُ) in both halves. Why is that omission acceptable here؟`, options: [`The preceding context already makes clear who is meant, and dropping it fits Quranic brevity`, `المخصوص can never be stated in the Qur'an`, `Dropping المخصوص changes the meaning entirely`, `نعم never takes a مخصوص to begin with`], correct: 0 },
+        { q: `﴿نِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ﴾ drops المخصوص (لَفْظُ الجَلالَةِ) in both halves. Why is that omission acceptable here؟`, options: [`The preceding context already makes clear who is meant, and dropping it fits Quranic brevity`, `المخصوص can never be stated in the Qur'an`, `Dropping المخصوص changes the meaning entirely`, `نعم never takes a مخصوص to begin with`], correct: 0 },
         { q: `حَبَّذَا رَجُلًا زَيْدٌ places رَجُلًا, a جامد word, before المخصوص. What role does a جامد منصوب play here, as opposed to a مشتق one؟`, options: [`تمييز`, `حال`, `فاعل`, `مخصوص`], correct: 0 },
         { q: `حَبَّذَا رِجَالًا الْأَنْصَارُ and حَبَّذَا بِنْتًا فَاطِمَةُ both keep ذَا in the same form despite أَنْصَار being جمع and فَاطِمَة being مؤنث. What form is that؟`, options: [`مفرد مذكر — ذا never changes`, `It matches جمع and مؤنث respectively`, `مثنى مذكر`, `It disappears entirely`], correct: 0 },
       ],
@@ -977,7 +980,7 @@ export default {
               [`كَيْفَ`, `اِسْتِفْهَام, asking about manner`, `﴿كَيْفَ تَكْفُرُونَ بِاللهِ وَكُنْتُمْ أَمْوَاتًا فَأَحْيَاكُمْ﴾`],
               [`يَا`, `نِدَاء, calling out`, `﴿يَا بُشْرَى هَذَا غُلَامٌ﴾`],
             ] } },
-            { box: { title: 'Careful', lines: [`سُبْحَانَ اللهِ is grammatically a مصدر, carrying no تعجب on its own. كَيْفَ ordinarily asks about manner, but here the aim is astonishment, not طَلَبُ الْعِلْمِ. يَا بُشْرَى calls out to "glad tidings" as though it were a person. In every case, the تعجب comes بِالْقَرِينَةِ, from context, لَا بِالْوَضْعِ.`] } },
+            { box: { title: 'Careful', lines: [`سُبْحَانَ اللهِ is grammatically a مصدر, carrying no تعجب on its own. كَيْفَ ordinarily asks about manner, but here the aim is astonishment, not طَلَبُ الْعِلْمِ.`, `يَا بُشْرَى calls out to "glad tidings" as though it were a person. In every case, the تعجب comes بِالْقَرِينَةِ, from context, لَا بِالْوَضْعِ.`] } },
           ],
           exercise: {
             prompt: `سُبْحَانَ اللهِ is grammatically a مصدر of تنزيه, and كَيْفَ ordinarily asks about manner. When these carry تعجب, does that meaning come from their own coined purpose (بالوضع) or from context؟`,

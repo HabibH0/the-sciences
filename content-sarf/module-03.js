@@ -91,7 +91,7 @@ export default {
             ] } },
             { html: `So the ألف never fails to be a حرف علة, a حرف مد, and a حرف لين all at once, because it is always quiescent with a fatḥa before it — unlike its two sisters (<bdi>أختيها</bdi>). Its two sisters are الواو and الياء: each of those can be one without the other, since either can carry its own vowel or sit after a vowel that does not match it, while the ألف has no such freedom.`, list: false },
           ],
-          clarification: `Why is the ألف always all three, while its two sisters are not? Because the ألف has no other state available to it: it cannot carry a حركة, so it is always ساكنة, and the only vowel that can precede it is a fatḥa. A fatḥa then does two jobs at once: it opens before the letter, which satisfies لين, and it is the جنس of an ألف, which satisfies مد. الواو and الياء, by contrast, can carry a حركة (وَعَدَ, يَسَرَ), can be ساكنة after a non-matching vowel (ثَوْب, سَيْف — لين but not مد), or ساكنة after a matching one (يَقُولُ, قِيلَ — مد but not لين, since a ḍamma and a kasra do not open). Only for the ألف do the two conditions collapse into one.`,
+          clarification: `Why is the ألف always all three, while its two sisters are not? Because the ألف has no other state available to it: it cannot carry a حركة, so it is always ساكنة, and the only vowel that can precede it is a fatḥa. A fatḥa then does two jobs at once: it opens before the letter, which satisfies لين, and it is the جنس of an ألف, which satisfies مد; الواو and الياء, by contrast, can carry a حركة (وَعَدَ, يَسَرَ), can be ساكنة after a non-matching vowel (ثَوْب, سَيْف — لين but not مد), or ساكنة after a matching one (يَقُولُ, قِيلَ — مد but not لين, since a ḍamma and a kasra do not open). Only for the ألف do the two conditions collapse into one.`,
           exercise: {
             prompt: `In ثَوْب, the واو is ساكنة and a fatḥa precedes it. What is it?`,
             kind: 'mcq',
@@ -334,11 +334,13 @@ export default {
               `يَنْقَسِمُ الصَّحِيحُ إلى سَالِمٍ، ومُضَعَّفٍ، ومَهْمُوزٍ`,
               `السَّالِم: ما سَلِمَتْ أُصُولُهُ مِنْ أَحْرُفِ العِلَّةِ والهَمْزَةِ والتَّضْعِيفِ، كَضَرَبَ، ونَصَرَ، وقَعَدَ، وجَلَسَ`,
             ] } },
-            { html: `الصحيح divides into سالم, مضعَّف, and مهموز. السالم: that whose root letters are free of أحرف العلة, the همزة, and doubling (التضعيف) — for example ضَرَبَ (he struck), نَصَرَ (he helped), قَعَدَ (he sat), and جَلَسَ (he sat). So السالم is the verb whose root letters clear three hurdles at once, and the other two divisions are each named for one hurdle it fails to clear.`, list: false },
+            { html: `الصحيح divides into سالم, مضعَّف, and مهموز.`, list: false },
+            { html: `السالم: that whose root letters are free of أحرف العلة, the همزة, and doubling (التضعيف) — for example ضَرَبَ (he struck), نَصَرَ (he helped), قَعَدَ (he sat), and جَلَسَ (he sat). So السالم is the verb whose root letters clear three hurdles at once, and the other two divisions are each named for one hurdle it fails to clear.`, list: false },
             { box: { title: 'Rule', lines: [
               `فإِذَنْ يَكُونُ كُلُّ سَالِمٍ صَحِيحًا، ولا عَكْسَ`,
             ] } },
-            { html: `It follows that every سالم is صحيح, but not the reverse. الصحيح only requires clearing the first hurdle — freedom from أحرف العلة. السالم requires clearing all three, so every سالم automatically counts as صحيح, while plenty of صحيح verbs — anything مضعَّف or مهموز — are not سالم.`, list: false },
+            { html: `It follows that every سالم is صحيح, but not the reverse. الصحيح only requires clearing the first hurdle — freedom from أحرف العلة.`, list: false },
+            { html: `السالم requires clearing all three, so every سالم automatically counts as صحيح, while plenty of صحيح verbs — anything مضعَّف or مهموز — are not سالم.`, list: false },
           ],
           exercise: {
             prompt: `Why does every سالم count as صحيح while the reverse does not hold?`,

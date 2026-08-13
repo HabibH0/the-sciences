@@ -125,7 +125,7 @@ function buildSectionNodes(sectionNum, idPrefix, lessons, hasTarkeeb) {
   }
   const afterTail = id(n - 1);
   nodes.push({
-    type: 'sectionTest', id: id(n++), pathId: 'advanced', badgeId: `path-adv-section-${sectionNum}`, label: 'اِخْتِبَارُ الْقِسْمِ',
+    type: 'sectionTest', id: id(n++), pathId: 'advanced', label: 'اِخْتِبَارُ الْقِسْمِ',
     windowStart: firstLessonNodeId, windowEnd: afterTail, mcqLength: 10, tarkeebLength: 5, vocabLength: 0, passRatio: 0.8,
   });
   return nodes;
@@ -168,7 +168,7 @@ function sectionSizesFor(totalLessons) {
 // came back well above the 5-10 a تركيب checkpoint ever needs). sectionNum
 // is GLOBAL across groups (Group 1 = Sections 1-4, Group 2 = 5-8, ...),
 // never resetting per group -- same idiom as the introductory path's own
-// buildGroup, so node-id/badge-id prefixes stay unique path-wide.
+// buildGroup, so node-id prefixes stay unique path-wide.
 function buildGroup(groupNum, range, sectionNumStart) {
   const backbone = buildGroupBackbone(range);
   const sizes = sectionSizesFor(backbone.length);
@@ -196,7 +196,6 @@ function buildGroup(groupNum, range, sectionNumStart) {
     type: 'groupTest',
     id: `adv-grp${groupNum}-test`,
     pathId: 'advanced',
-    badgeId: `path-adv-group-${groupNum}`,
     label: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
     windowStart: sections[0][1].id,
     windowEnd: lastLessonNodeId(sections[sections.length - 1]),

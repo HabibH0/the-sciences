@@ -7,15 +7,20 @@ import {
   isCourseFullyComplete, allCoursesComplete,
 } from '../content/index.js';
 
-// Each level needs progressively more XP than the last -- early levels come
-// quickly, later ones take real, sustained study. Calibrated against the
-// course's own content (427 lessons across all four courses, ~20-26k XP
-// available from quizzes alone at a normal pass rate) so clearing the whole
-// curriculum at an ordinary pace lands right around level 100 -- not a hard
-// cap, just where a full playthrough naturally lands. XP earned beyond that
-// (extra practice, perfect retakes) keeps leveling up along the same curve.
+// Each level needs progressively more XP than the last. The requirement is
+// linear-plus-quadratic in the level: the linear term keeps early levels
+// coming at a steady, motivating clip, while the quadratic term is what
+// makes late levels a real grind rather than a formality -- level 100 costs
+// ~65x what level 1 does, vs. ~7x under a purely linear curve. Calibrated
+// against the course's own content (468 lessons across all four courses,
+// ~19-26k XP available from quizzes alone at a normal pass rate) so clearing
+// the whole curriculum at an ordinary pace lands around level 50-60, roughly
+// the curve's midpoint -- not the finish line. Reaching level 100 (130k+ XP)
+// takes several times that much again, almost entirely from practice-mode
+// grinding and perfect retakes beyond a single playthrough.
 export function xpForNextLevel(level) {
-  return 50 + (level - 1) * 3;
+  const x = level - 1;
+  return 50 + 4 * x + Math.floor((x * x) / 3);
 }
 
 // Walks the level curve once to get level, progress-into-level, and the
@@ -92,6 +97,7 @@ export const LEVEL_TIERS = [
   { id: 'level-25', level: 25, name: 'Erudite', desc: 'Reach level 25.' },
   { id: 'level-50', level: 50, name: 'Master Grammarian', desc: 'Reach level 50.' },
   { id: 'level-75', level: 75, name: 'Sage', desc: 'Reach level 75.' },
+  { id: 'level-90', level: 90, name: 'Paragon', desc: 'Reach level 90.' },
   { id: 'level-100', level: 100, name: 'Grand Grammarian', desc: 'Reach level 100.' },
 ];
 
@@ -148,18 +154,17 @@ function tierDefs(tiers) {
   return Object.fromEntries(tiers.map((t) => [t.id, { name: t.name, desc: t.desc }]));
 }
 
-export const BADGE_DEFS = {
-  'first-steps': { name: 'First Steps', desc: 'Complete your first lesson.' },
-  ...tierDefs(LEVEL_TIERS),
-  ...tierDefs(STREAK_TIERS),
-  ...tierDefs(PERFECT_QUIZ_TIERS),
-  ...tierDefs(PRACTICE_TIERS),
-  ...tierDefs(MODULE_TIERS),
-  [MODULES_ALL_BADGE.id]: { name: MODULES_ALL_BADGE.name, desc: MODULES_ALL_BADGE.desc },
-  ...tierDefs(LESSON_TIERS),
-  [LESSONS_ALL_BADGE.id]: { name: LESSONS_ALL_BADGE.name, desc: LESSONS_ALL_BADGE.desc },
-  ...tierDefs(COURSE_TIERS),
-  [COURSE_ALL_BADGE.id]: { name: COURSE_ALL_BADGE.name, desc: COURSE_ALL_BADGE.desc },
+// My Path no longer awards its own badges (content/path.js and
+// content/path-advanced.js don't stamp a badgeId on section/group tests any
+// more) -- passing a checkpoint there is its own reward via progression, and
+// the path already has a visible test/pass state without a badge on top.
+// These defs stay here, merged into BADGE_DEFS below but never listed in
+// ACHIEVEMENT_CATEGORIES or rendered as an Achievements category, purely so
+// any save file that already earned one (state.badges predates this change)
+// still resolves to a real name/desc everywhere BADGE_DEFS is looked up --
+// e.g. the home screen's recent-badges teaser (js/render.js) -- instead of
+// crashing on `BADGE_DEFS[id].name` for an id nothing awards any more.
+const LEGACY_PATH_BADGE_DEFS = {
   'path-section-1': { name: 'First Words', desc: 'Complete Section 1 of My Path.' },
   'path-section-2': { name: 'Section 2', desc: 'Pass Section 2’s test on My Path.' },
   'path-section-3': { name: 'Section 3', desc: 'Pass Section 3’s test on My Path.' },
@@ -229,9 +234,26 @@ export const BADGE_DEFS = {
   'path-adv-group-5': { name: 'Advanced: Group 5', desc: 'Pass Group 5’s capstone exam on the Advanced Path.' },
 };
 
-// Every non-path badge id, grouped by category, in display order -- what
-// the Achievements screen (js/render.js) iterates to lay out its grid,
-// including locked tiers not yet in state.badges.
+export const BADGE_DEFS = {
+  'first-steps': { name: 'First Steps', desc: 'Complete your first lesson.' },
+  ...tierDefs(LEVEL_TIERS),
+  ...tierDefs(STREAK_TIERS),
+  ...tierDefs(PERFECT_QUIZ_TIERS),
+  ...tierDefs(PRACTICE_TIERS),
+  ...tierDefs(MODULE_TIERS),
+  [MODULES_ALL_BADGE.id]: { name: MODULES_ALL_BADGE.name, desc: MODULES_ALL_BADGE.desc },
+  ...tierDefs(LESSON_TIERS),
+  [LESSONS_ALL_BADGE.id]: { name: LESSONS_ALL_BADGE.name, desc: LESSONS_ALL_BADGE.desc },
+  ...tierDefs(COURSE_TIERS),
+  [COURSE_ALL_BADGE.id]: { name: COURSE_ALL_BADGE.name, desc: COURSE_ALL_BADGE.desc },
+  ...LEGACY_PATH_BADGE_DEFS,
+};
+
+// Every currently-awardable badge id, grouped by category, in display
+// order -- what the Achievements screen (js/render.js) iterates to lay out
+// its grid, including locked tiers not yet in state.badges. Deliberately
+// excludes LEGACY_PATH_BADGE_DEFS above -- nothing awards those any more, so
+// there's nothing to browse toward.
 export const ACHIEVEMENT_CATEGORIES = [
   { id: 'onboarding', title: 'Getting Started', badgeIds: ['first-steps'] },
   { id: 'level', title: 'Level', badgeIds: LEVEL_TIERS.map((t) => t.id) },

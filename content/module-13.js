@@ -266,7 +266,8 @@ export default {
             { box: { title: 'Example', lines: [`﴿وَإِنْ نَظُنُّكَ لَمِنَ الْكَاذِبِينَ﴾`, `And indeed, we think you are among the liars.`] } },
             { html: `Without the لام, وَإِنْ نَظُنُّكَ مِنَ الْكَاذِبِينَ could be misread as a negation ("we do not think..."); the لام makes the intended, affirming sense unmistakable.`, list: false },
             { box: { title: 'Careful', lines: [`تُسَمِّيهَا مَدْرَسَةُ بَغْدَادَ لَامَ الِابْتِدَاءِ، وَيُنْكِرُ الكُوفِيُّونَ كَوْنَ إِنْ هُنَا مُخَفَّفَةً أَصْلًا`] } },
-            { html: `Some grammarians call this لام الفارقة; the school of Baghdad calls the very same لام لامَ الابتداء instead — same letter, same job, two competing labels. The Kufan grammarians go further still and deny that إِنْ here is مخففة at all: for them it is simply a separate, two-letter negating particle, and the لام after it means إِلّا. Whichever label is used, the لام الفارقة only ever appears when إِنْ has been left مُهْمَلَة — never when it has been kept عاملة. إِنْ المخففة is not limited to فعل-headed clauses either — it enters جملة اسمية constructions too.`, list: false },
+            { html: `Some grammarians call this لام الفارقة; the school of Baghdad calls the very same لام لامَ الابتداء instead — same letter, same job, two competing labels. The Kufan grammarians go further still and deny that إِنْ here is مخففة at all: for them it is simply a separate, two-letter negating particle, and the لام after it means إِلّا. Whichever label is used, the لام الفارقة only ever appears when إِنْ has been left مُهْمَلَة — never when it has been kept عاملة.`, list: false },
+            { html: `إِنْ المخففة is not limited to فعل-headed clauses either — it enters جملة اسمية constructions too.`, list: false },
           ],
           exercise: {
             prompt: `What is the whole job of اللام الفارقة after إنْ المخفّفة, as in ﴿وَإِنْ نَظُنُّكَ لَمِنَ الْكَاذِبِينَ﴾؟`,
@@ -295,7 +296,8 @@ export default {
             { box: { title: 'Rule', lines: [`يَكُونُ اسْمُ أَنَّ المُخَفَّفَةِ ضَمِيرَ الشَّأْنِ مَحْذُوفَةً`] } },
             { html: `Whatever follows أَنْ مخفّفة, its اسم is always the same thing: a <bdi>ضمير الشأن</bdi> (a "pronoun of the matter/affair," roughly "it" — as in "it [is the case that]...") — and it is always <bdi>محذوف</bdi>, dropped rather than pronounced. It is never written; it is only ever inferred.`, list: false },
             { box: { title: 'Careful', lines: [`اسْمُهَا ضَمِيرُ الشَّأْنِ عِنْدَ الجُمْهُورِ، وَابْنُ عَاشُورٍ يَرُدُّ هَذَا القَوْلَ`] } },
-            { html: `ابن عاشور warns against over-theorizing this. Once أَنَّ is خُفِّفَتْ its normal عمل is broken and it simply introduces a جملة. Some later grammarians, uncomfortable with a حرف that stops governing, insisted أنّ مخفّفة must still be عاملة, with a permanently-dropped اسم — and then went further, claiming that dropped اسم is specifically ضمير الشأن. ابن عاشور calls this <bdi>تَوَهُّمٌ عَلَى تَوَهُّمٍ</bdi>, "a supposition built on a supposition": ضمير الشأن exists precisely to add emphatic clarity, so it makes no sense for grammar to then insist it be invisible. The house convention still labels the اسم ضمير الشأن محذوفة, but it is worth knowing this label was contested even among the classical grammarians themselves.`, list: false },
+            { html: `ابن عاشور warns against over-theorizing this. Once أَنَّ is خُفِّفَتْ its normal عمل is broken and it simply introduces a جملة. Some later grammarians, uncomfortable with a حرف that stops governing, insisted أنّ مخفّفة must still be عاملة, with a permanently-dropped اسم — and then went further, claiming that dropped اسم is specifically ضمير الشأن.`, list: false },
+            { html: `ابن عاشور calls this <bdi>تَوَهُّمٌ عَلَى تَوَهُّمٍ</bdi>, "a supposition built on a supposition": ضمير الشأن exists precisely to add emphatic clarity, so it makes no sense for grammar to then insist it be invisible. The house convention still labels the اسم ضمير الشأن محذوفة, but it is worth knowing this label was contested even among the classical grammarians themselves.`, list: false },
           ],
           exercise: {
             prompt: `What does the house convention hold the اسم of أنّ المخفّفة to always be, even though ابن عاشور disputes the reasoning behind it?`,
@@ -424,7 +426,7 @@ export default {
           heading: 'أمثلة ما الكافّة: من الحرف العامل إلى الحرف غير العامل',
           lines: [
             { box: { title: 'Example', lines: [`﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾`] } },
-            { html: `Here <bdi>إنّما</bdi> governs nothing; <bdi>إلٰهُكُمُ</bdi> and <bdi>اللَّهُ</bdi> are simply مبتدأ وخبر of an ordinary جملة اسمية.`, list: false },
+            { html: `Here <bdi>إنّما</bdi> governs nothing; <bdi>إلٰهُكُمُ</bdi> and <bdi>لَفْظُ الجَلالَةِ</bdi> are simply مبتدأ وخبر of an ordinary جملة اسمية.`, list: false },
             {
               tarkeebDiagram: {
                 sentence: `إِنَّمَا إِلَٰهُكُمُ اللَّهُ`,
@@ -493,7 +495,7 @@ export default {
         { title: `الفصل بلَمْ`, kind: 'mcq', prompt: `In ﴿كَأَنْ لَمْ يَلْبَثُوا إِلَّا سَاعَةً﴾, what device separates كأنْ from its فعل-خبر?`, options: [`لَمْ`, `قَدْ`, `لَوْ`, `اللام الفارقة`], correct: 0 },
         { title: `ما الكافّة: تعريفها`, kind: 'mcq', prompt: `Which of the following correctly defines ما الكافّة؟`, options: [`A ما that enters upon الحروف المشبّهة بالفعل and stops (كفّ) them from governing`, `A ما that enters upon verbs and puts them in جزم`, `A relative ما (موصولة), meaning الذي`, `An added ما (زائدة) with no effect at all`], correct: 0 },
         { title: `الأشكال الستة لما الكافّة`, kind: 'mcq', prompt: `Once ما الكافّة attaches to each of the six حروف مشبّهة بالفعل, which set of forms results?`, options: [`إنّما، أنّما، كأنّما، لكنّما، لعلّما، ليتما`, `إنّما، أنّما، لا، لاتَ، ما، إنْ`, `إنّما وأنّما فقط، إذ الباقي لا يقبلها`, `كأنّما ولعلّما فقط`], correct: 0 },
-        { title: `إنّما إلهكم الله: الإعراب`, kind: 'mcq', prompt: `In ﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾, what are إلٰهُكُمُ and اللَّهُ, given that إنّما governs nothing here؟`, options: [`مبتدأ وخبر لجملة اسمية عادية`, `اسم إنّ وخبرها`, `فاعل ومفعول به`, `مضاف ومضاف إليه`], correct: 0 },
+        { title: `إنّما إلهكم الله: الإعراب`, kind: 'mcq', prompt: `In ﴿إِنَّمَا إِلَٰهُكُمُ اللَّهُ﴾, what are إلٰهُكُمُ and لَفْظُ الجَلالَةِ, given that إنّما governs nothing here؟`, options: [`مبتدأ وخبر لجملة اسمية عادية`, `اسم إنّ وخبرها`, `فاعل ومفعول به`, `مضاف ومضاف إليه`], correct: 0 },
         { title: `إنّما وسبقها للفعل`, kind: 'mcq', prompt: `إنّما can directly precede a فعل, as in ﴿إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ﴾. What makes that possible?`, options: [`Once كُفَّت by ما الكافّة, إنّ is no longer a governing حرف and can introduce a فعل`, `يَتَقَبَّلُ is here reanalyzed as an اسم`, `إنّما is a حرف جر, not a حرف مشبّه بالفعل`, `Plain إنّ could always precede a فعل regardless`], correct: 0 },
         { title: `ليتما: الاستثناء الوحيد`, kind: 'mcq', prompt: `Every one of the six حروف مشبّهة بالفعل becomes مهملة once ما الكافّة attaches — except one. Which؟`, options: [`ليت`, `إنّ`, `أنّ`, `كأنّ`], correct: 0 },
         { title: `خلاصة: إنّ المخففة`, kind: 'mcq', prompt: `Per the closing summary, how many opinions exist on whether إنّ المخففة (without ما الكافّة) keeps its عمل?`, options: [`Two`, `One`, `Three`, `None — it always keeps its عمل`], correct: 0 },
@@ -740,7 +742,8 @@ export default {
             { html: `<bdi>Condition one</bdi> — the اسم must precede the خبر. If the خبر is fronted instead, ما stops governing.`, list: false },
             { box: { title: 'Example', lines: [`مَا مُسِيءٌ مَنْ أَعْتَبَ`, `One who has made amends is not an evildoer.`] } },
             { html: `Here <bdi>مَنْ أَعْتَبَ</bdi> is the true مبتدأ, and <bdi>مُسِيءٌ</bdi> — despite appearing first — is a fronted خبر (خبر مقدّم). Because the خبر has jumped ahead of the اسم, ما does not govern: مُسِيءٌ stays مرفوع rather than becoming منصوب.`, list: false },
-            { html: `<bdi>Condition two</bdi> — no زائد إنْ may attach to ما. إِنْ زائدة inserted right after ما blocks the عمل entirely, as in <bdi>ما إِنْ أَنْتُمْ قَائِمُونَ</bdi>, where قَائِمُونَ stays مرفوع rather than منصوب.`, list: false },
+            { html: `<bdi>Condition two</bdi> — no زائد إنْ may attach to ما.`, list: false },
+            { html: `إِنْ زائدة inserted right after ما blocks the عمل entirely, as in <bdi>ما إِنْ أَنْتُمْ قَائِمُونَ</bdi>, where قَائِمُونَ stays مرفوع rather than منصوب.`, list: false },
           ],
           exercise: {
             prompt: `In مَا مُسِيءٌ مَنْ أَعْتَبَ, مُسِيءٌ stays مرفوع rather than becoming منصوب. Why doesn't ما govern here?`,
@@ -936,7 +939,9 @@ export default {
           heading: 'اتجاه التغيير: أي جانب يصبح منصوبا',
           lines: [
             { box: { title: 'Careful', lines: [`اتِّجَاهُ التَّغْيِيرِ لَيْسَ وَاحِدًا عَبْرَ الأَنْوَاعِ الخَمْسَةِ`] } },
-            { html: `The direction of the change is not the same across all five types. <bdi>أفعال القلوب</bdi> take two مفعولان, both منصوب. <bdi>الأفعال الناقصة</bdi> and <bdi>الحروف المشبّهة بالفعل</bdi> actually move in opposite directions from each other: الناقصة moves the خبر to منصوب while its اسم/مبتدأ stays مرفوع; المشبّهة بالفعل moves the اسم to منصوب while its خبر stays مرفوع. لا لنفي الجنس follows the same pattern as الحروف المشبّهة بالفعل. الحروف المشبّهة بليس reverses that again — the mirror image of المشبّهة بالفعل. Knowing which of the five families a given عامل belongs to is the fastest way to know, instantly, which side of the sentence is about to become منصوب.`, list: false },
+            { html: `The direction of the change is not the same across all five types. <bdi>أفعال القلوب</bdi> take two مفعولان, both منصوب. <bdi>الأفعال الناقصة</bdi> and <bdi>الحروف المشبّهة بالفعل</bdi> actually move in opposite directions from each other: الناقصة moves the خبر to منصوب while its اسم/مبتدأ stays مرفوع; المشبّهة بالفعل moves the اسم to منصوب while its خبر stays مرفوع.`, list: false },
+            { html: `لا لنفي الجنس follows the same pattern as الحروف المشبّهة بالفعل.`, list: false },
+            { html: `الحروف المشبّهة بليس reverses that again — the mirror image of المشبّهة بالفعل. Knowing which of the five families a given عامل belongs to is the fastest way to know, instantly, which side of the sentence is about to become منصوب.`, list: false },
             { table: { title: 'خلاصة النواسخ الخمسة', headers: ['#', 'Category', 'Examples', 'Effect'], rows: [
               [`1`, `أفعال القلوب`, `ظَنَّ، عَلِمَ`, `Both مفعولان منصوبان`],
               [`2`, `الأفعال الناقصة`, `كانَ، أَصْبَحَ`, `اسمها مرفوع، خبرها منصوب`],

@@ -95,7 +95,7 @@ Poetry allows what ordinary speech does not:
 |---|---|---|
 | حرف جر | اسم مجرور بالباء | مضاف إليه مجرور |
 
-`اسم` is مجرور because of `بـ`. `الله` is مجرور because it is مضاف إليه.
+`اسم` is مجرور because of `بـ`, showing الجر. `لَفْظُ الجَلالَةِ اللهِ` is مجرور because it is مضاف إليه.
 
 > **Careful Box**
 >

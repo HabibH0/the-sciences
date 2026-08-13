@@ -7020,7 +7020,7 @@ export default {
           "options": [
             "For emphasis",
             "Because the object pronoun must attach to the verb",
-            "Because اللهُ is مَنْصُوْبٌ",
+            "Because لَفْظُ الجَلالَةِ is مَنْصُوْبٌ",
             "It is an exception with no reason"
           ],
           "correct": 1,
@@ -7127,12 +7127,12 @@ export default {
         {
           "title": "Book Exercise 3 (Section 1, Part 2)",
           "kind": "mcq",
-          "prompt": "In خَلَقَنَا اللهُ, what is (نَا) and what is اللهُ?",
+          "prompt": "In خَلَقَنَا اللهُ, what is (نَا) and what is لَفْظُ الجَلالَةِ?",
           "options": [
-            "(نَا) = فَاعِلٌ; اللهُ = مَفْعُوْلٌ بِهِ",
-            "(نَا) = مَفْعُوْلٌ بِهِ; اللهُ = فَاعِلٌ",
+            "(نَا) = فَاعِلٌ; لَفْظُ الجَلالَةِ = مَفْعُوْلٌ بِهِ",
+            "(نَا) = مَفْعُوْلٌ بِهِ; لَفْظُ الجَلالَةِ = فَاعِلٌ",
             "Both are فاعل",
-            "(نَا) = اِسْمُ إِنَّ; اللهُ = خَبَرٌ"
+            "(نَا) = اِسْمُ إِنَّ; لَفْظُ الجَلالَةِ = خَبَرٌ"
           ],
           "correct": 1,
           "explanation": "'Allah created us' — the attached pronoun is the object and the noun after it the subject."
@@ -9799,7 +9799,7 @@ export default {
             "مُبْتَدَأٌ"
           ],
           "correct": 2,
-          "explanation": "اللهَ is the اسم إنّ and الْغَنِيُّ the خبر; هُوَ separates them and adds emphasis."
+          "explanation": "لَفْظَ الجَلالَةِ is the اسم إنّ and الْغَنِيُّ the خبر; هُوَ separates them and adds emphasis."
         },
         {
           "title": "Book Exercise 3 (Supplement)",
@@ -11151,7 +11151,7 @@ export default {
         {
           "title": "Book Exercise 8 (Section 1, Supplement)",
           "kind": "mcq",
-          "prompt": "In ﴿فَضَّلَ اللّٰهُ بَعْضَهُمْ عَلَى بَعْضٍ﴾ the first بَعْض is the مَفْعُوْلٌ بِهِ rather than the فَاعِل (اللّٰهُ is). Which translation fits?",
+          "prompt": "In ﴿فَضَّلَ اللّٰهُ بَعْضَهُمْ عَلَى بَعْضٍ﴾ the first بَعْض is the مَفْعُوْلٌ بِهِ rather than the فَاعِل (لَفْظُ الجَلالَةِ is). Which translation fits?",
           "options": [
             "Allah preferred them to each other.",
             "Allah preferred some of them over others.",
@@ -11159,7 +11159,7 @@ export default {
             "Allah preferred themselves over them."
           ],
           "correct": 1,
-          "explanation": "Here the first بَعْض is the مَفْعُوْلٌ بِهِ, not the فَاعِل (اللّٰهُ is), so the 'some … other(s)' translation applies."
+          "explanation": "Here the first بَعْض is the مَفْعُوْلٌ بِهِ, not the فَاعِل (لَفْظُ الجَلالَةِ is), so the 'some … other(s)' translation applies."
         },
         {
           "title": "Book Exercise 9 (Section 1, Supplement)",

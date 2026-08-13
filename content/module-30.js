@@ -415,7 +415,8 @@ export default {
           lines: [
             { html: `The second type is <bdi>المجرور بالإضافة</bdi> — genitive by إضافة, construct annexation. ﴿أُجِيبُ دَعْوَةَ الدَّاعِ﴾ — "I answer the call of the caller" — <bdi>الداعِ</bdi> is مجرور because it is مضاف إليه.`, list: false },
             { box: { title: 'Careful', lines: [`قَدْ يَكونُ التَّمْييزُ مَجْرورًا بِالإِضافَةِ لا مَنْصوبًا`] } },
-            { html: `The detailed rules governing both types have already been laid out implicitly in earlier chapters — أحكام العامل covers المجرور بحرف الجر, and أحكام الاسم المضاف covers المجرور بالإضافة, so neither needs re-deriving here. A good illustration of how these chapters overlap: <bdi>التمييز</bdi> is usually listed under المنصوبات out of convenience (تغليبًا), but it can in fact turn out to be مجرور بالإضافة instead of منصوب. ﴿فِي سِتَّةِ أَيَّامٍ﴾ — "in six days" — <bdi>أيام</bdi> here is تمييز, but it is مجرور بالإضافة to <bdi>سِتَّةِ</bdi>, not منصوب at all.`, list: false },
+            { html: `The detailed rules governing both types have already been laid out implicitly in earlier chapters — أحكام العامل covers المجرور بحرف الجر, and أحكام الاسم المضاف covers المجرور بالإضافة, so neither needs re-deriving here. A good illustration of how these chapters overlap: <bdi>التمييز</bdi> is usually listed under المنصوبات out of convenience (تغليبًا), but it can in fact turn out to be مجرور بالإضافة instead of منصوب.`, list: false },
+            { html: `﴿فِي سِتَّةِ أَيَّامٍ﴾ — "in six days" — <bdi>أيام</bdi> here is تمييز, but it is مجرور بالإضافة to <bdi>سِتَّةِ</bdi>, not منصوب at all.`, list: false },
           ],
           exercise: {
             prompt: `التمييز is usually classified under المنصوبات as a matter of تغليب (convenience), yet in ﴿فِي سِتَّةِ أَيَّامٍ﴾ the تمييز أيام is not منصوب at all. What is its actual إعراب?`,
@@ -429,10 +430,11 @@ export default {
           lines: [
             { html: `A noun can be drawn into الجر by a زائد (redundant, purely augmenting) حرف جر on its surface form, even though its real grammatical role stays exactly what it would have been without that حرف.`, list: false },
             { box: { title: 'Rule', lines: [`قَدْ يُجَرُّ بِحَرْفِ جَرٍّ زائِدٍ اسْمٌ هُوَ في الحَقيقَةِ مَرْفوعٌ أَوْ مَنْصوبٌ في المَحَلِّ`] } },
-            { html: `الحرف الزائد doesn't change the word's true grammatical function at all; it only adds توكيد. ﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — "And sufficient is Allah as a Trustee" — <bdi>اللهُ</bdi> is مجرور لفظًا, by the زائدة باء, but محلًّا it is the فاعل, مرفوع, of <bdi>كفى</bdi>. التقدير (the underlying sense): <bdi>وَكَفَى اللهُ وَكيلًا</bdi>.`, list: false },
+            { html: `الحرف الزائد doesn't change the word's true grammatical function at all; it only adds توكيد.`, list: false },
+            { html: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — "And sufficient is Allah as a Trustee" — <bdi>لَفْظُ الجَلالَةِ</bdi> is مجرور لفظًا, by the زائدة باء, but محلًّا it is the فاعل, مرفوع, of <bdi>كفى</bdi>. التقدير (the underlying sense): <bdi>وَكَفَى اللهُ وَكيلًا</bdi>.`, list: false },
           ],
           exercise: {
-            prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — اللهُ appears مجرورًا by the زائدة باء. What is its real grammatical role؟`,
+            prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — لَفْظُ الجَلالَةِ appears مجرورًا by the زائدة باء. What is its real grammatical role؟`,
             kind: 'mcq',
             options: [`فاعل مرفوع محلًّا لـ"كفى"`, `مفعول به منصوب محلًّا`, `مبتدأ مرفوع محلًّا`, `مضاف إليه مجرور حقيقة`],
             correct: 0,
@@ -457,7 +459,7 @@ export default {
         { q: `المجرور comes down to how many types?`, options: [`اثنان`, `ثلاثة`, `أربعة`, `خمسة`], correct: 0 },
         { q: `﴿أُجِيبُ دَعْوَةَ الدَّاعِ﴾ — الداعِ is مجرور. By what؟`, options: [`بالإضافة`, `بحرف الجر`, `بحرف جر زائد`, `لا شيء — هو مرفوع`], correct: 0 },
         { q: `﴿فِي سِتَّةِ أَيَّامٍ﴾ — أيام is تمييز. Is it منصوب here؟`, options: [`No — it is مجرور بالإضافة`, `Yes — التمييز is always منصوب`, `Yes, because it follows a عدد`, `No — it is مجرور بحرف الجر`], correct: 0 },
-        { q: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — الله is مجرور لفظًا. What is its true role؟`, options: [`فاعل مرفوع محلًّا`, `مفعول به منصوب محلًّا`, `مبتدأ مرفوع محلًّا`, `مضاف إليه مجرور حقيقة`], correct: 0 },
+        { q: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — لَفْظُ الجَلالَةِ is مجرور لفظًا. What is its true role؟`, options: [`فاعل مرفوع محلًّا`, `مفعول به منصوب محلًّا`, `مبتدأ مرفوع محلًّا`, `مضاف إليه مجرور حقيقة`], correct: 0 },
         { q: `﴿مَا كَانَ لَنَا أَن نُّشْرِكَ بِاللَّهِ مِن شَيْءٍ﴾ — شيء is مجرور لفظًا بـ"مِن" الزائدة. What is its true role؟`, options: [`مفعول به منصوب محلًّا`, `فاعل مرفوع محلًّا`, `مبتدأ مرفوع محلًّا`, `نعت منصوب`], correct: 0 },
         { q: `A زائد حرف جر draws a noun into الجر لفظًا. Does that change the noun's true grammatical role؟`, options: [`No — the true role stays exactly what it would be without the حرف`, `Yes — the noun becomes truly مجرور`, `Yes — the noun becomes مبنيًّا instead`, `No, but only if the حرف is بـ specifically`], correct: 0 },
       ],
@@ -469,8 +471,8 @@ export default {
         { title: `التمييز: منصوب أم مجرور؟`, kind: 'mcq', prompt: `التمييز is usually classified under المنصوبات as a matter of تغليب (convenience). Does that mean it is always منصوب in fact؟`, options: [`No — it can in fact be مجرور بالإضافة instead, as ﴿فِي سِتَّةِ أَيَّامٍ﴾ shows`, `Yes — التمييز is always منصوب without exception`, `No — التمييز is always مجرور بحرف الجر, never منصوب`, `Yes, unless it follows a عدد`], correct: 0 },
         { title: `في ستة أيام: إعراب أيام`, kind: 'mcq', prompt: `﴿فِي سِتَّةِ أَيَّامٍ﴾ — أيام is تمييز. What is its actual إعراب here؟`, options: [`مجرور بالإضافة إلى ستة`, `منصوب على التمييز`, `مرفوع على الفاعلية`, `مجرور بحرف الجر`], correct: 0 },
         { title: `الحرف الزائد: هل يغير الوظيفة؟`, kind: 'mcq', prompt: `A زائد (redundant) حرف جر can draw a noun into الجر on its surface. Does that change the noun's real grammatical function؟`, options: [`No — its true role (مرفوع or منصوب) stays exactly what it would have been without the حرف; only توكيد is added`, `Yes — the noun becomes truly مجرور, replacing whatever role it had`, `No — the noun becomes مبنيًّا instead`, `Yes, but only if the زائد حرف is بـ specifically`], correct: 0 },
-        { title: `وكفى بالله وكيلا: إعراب الله لفظًا`, kind: 'mcq', prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — اللهُ appears مجرورًا. What is drawing it into الجر لفظًا؟`, options: [`الباء الزائدة`, `الباء الأصلية`, `الإضافة`, `Nothing — it is مرفوع لفظًا, not مجرور`], correct: 0 },
-        { title: `وكفى بالله وكيلا: إعراب الله محلًّا`, kind: 'mcq', prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — despite appearing مجرورًا لفظًا, what is الله's true grammatical role؟`, options: [`فاعل مرفوع محلًّا لـ"كفى"`, `مفعول به منصوب محلًّا`, `مبتدأ مرفوع محلًّا`, `مضاف إليه مجرور حقيقة`], correct: 0 },
+        { title: `وكفى بالله وكيلا: إعراب الله لفظًا`, kind: 'mcq', prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — لَفْظُ الجَلالَةِ appears مجرورًا. What is drawing it into الجر لفظًا؟`, options: [`الباء الزائدة`, `الباء الأصلية`, `الإضافة`, `Nothing — it is مرفوع لفظًا, not مجرور`], correct: 0 },
+        { title: `وكفى بالله وكيلا: إعراب الله محلًّا`, kind: 'mcq', prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ — despite appearing مجرورًا لفظًا, what is لَفْظِ الجَلالَةِ's true grammatical role؟`, options: [`فاعل مرفوع محلًّا لـ"كفى"`, `مفعول به منصوب محلًّا`, `مبتدأ مرفوع محلًّا`, `مضاف إليه مجرور حقيقة`], correct: 0 },
         { title: `التقدير: وكفى الله وكيلا`, kind: 'mcq', prompt: `﴿وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾'s underlying sense (التقدير), once the زائدة باء is set aside, is which of these؟`, options: [`وَكَفَى اللهُ وَكيلًا`, `وَكَفَى بِاللهِ وَكيلٌ`, `وَكَفَى اللهَ وَكيلًا`, `وَكَفَى لِلَّهِ وَكيلًا`], correct: 0 },
         { title: `ما كان لنا أن نشرك بالله من شيء: إعراب شيء لفظًا`, kind: 'mcq', prompt: `﴿مَا كَانَ لَنَا أَن نُّشْرِكَ بِاللَّهِ مِن شَيْءٍ﴾ — شيءٍ appears مجرورًا. What is drawing it into الجر لفظًا؟`, options: [`مِنْ الزائدة`, `مِنْ الأصلية`, `الإضافة`, `حرف جر مقدر`], correct: 0 },
         { title: `ما كان لنا أن نشرك بالله من شيء: إعراب شيء محلًّا`, kind: 'mcq', prompt: `Despite appearing مجرورًا لفظًا, what is شيء's true grammatical role in ﴿مَا كَانَ لَنَا أَن نُّشْرِكَ بِاللَّهِ مِن شَيْءٍ﴾؟`, options: [`مفعول به منصوب محلًّا لـ"نُشرك"`, `فاعل مرفوع محلًّا`, `مبتدأ مرفوع محلًّا`, `نعت منصوب محلًّا`], correct: 0 },
@@ -514,7 +516,8 @@ export default {
         {
           heading: 'النعت: تعريفه ومصطلحاته',
           lines: [
-            { html: `After المرفوعات، المنصوبات، and المجرورات — the three أقسام of المعمول that take their إعراب directly from a governing عامل — comes one final family: <bdi>المعمول بالتبعية</bdi>, called <bdi>تابع</bdi>. A تابع doesn't take its إعراب from a direct عامل at all; it simply follows (تبعية) the word before it, its متبوع, in that word's own إعراب. المعمول بالتبعية comes in five types, of which النعت is the first and most prominent.`, list: false },
+            { html: `After المرفوعات، المنصوبات، and المجرورات — the three أقسام of المعمول that take their إعراب directly from a governing عامل — comes one final family: <bdi>المعمول بالتبعية</bdi>, called <bdi>تابع</bdi>. A تابع doesn't take its إعراب from a direct عامل at all; it simply follows (تبعية) the word before it, its متبوع, in that word's own إعراب.`, list: false },
+            { html: `المعمول بالتبعية comes in five types, of which النعت is the first and most prominent.`, list: false },
             { box: { title: 'Definition', lines: [`النَّعْتُ، وَيُسَمَّى أَيْضًا صِفَةً: الكَلِمَةُ الَّتي تَصِفُ مَتْبوعَها وَتَتْبَعُهُ في الإِعْرابِ`] } },
             { html: `The متبوع itself is called <bdi>مَنْعوت</bdi> or <bdi>مَوْصوف</bdi>.`, list: false },
           ],

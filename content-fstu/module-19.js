@@ -4977,7 +4977,7 @@ export default {
               }
             },
             {
-              "html": "Because the verb is hidden, nothing in the sentence looks like a verb at all — وَاللهِ is simply a particle and a مَجْرُوْر noun. It is the hidden أُقْسِمُ that explains why a جَارٌّ وَمَجْرُوْرٌ can stand as a whole sentence: it is the object of a verb that has been left unsaid.",
+              "html": "Because the verb is hidden, nothing in the sentence looks like a verb at all — وَلَفْظِ الجَلالَةِ is simply a particle and a مَجْرُوْر noun. It is the hidden أُقْسِمُ that explains why a جَارٌّ وَمَجْرُوْرٌ can stand as a whole sentence: it is the object of a verb that has been left unsaid.",
               "list": false
             }
           ],
@@ -5116,7 +5116,7 @@ export default {
             }
           ],
           "exercise": {
-            "prompt": "In the tarkeeb of وَاللهِ مَا كَذَبْتُ, what role does اللهِ play, and why is it مَجْرُوْرٌ؟",
+            "prompt": "In the tarkeeb of وَاللهِ مَا كَذَبْتُ, what role does لَفْظِ الجَلالَةِ play, and why is it مَجْرُوْرٌ؟",
             "kind": "mcq",
             "options": [
               "It is the مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ of the hidden verb أُقْسِمُ, reached through the وَ",
@@ -5187,7 +5187,7 @@ export default {
           "explanation": "The second becomes the مَفْعُوْلٌ بِهِ غَيْرُ صَرِيْحٍ of the hidden verb."
         },
         {
-          "q": "Which particle of oath is used only with the word اَللهُ?",
+          "q": "Which particle of oath is used only with the word لَفْظُ الجَلالَةِ?",
           "options": [
             "وَ",
             "بِ",
@@ -6015,12 +6015,12 @@ export default {
           "prompt": "In تَاللهِ، لَيَحْزُنُنِيْ عَدَمُ أَدَائِكَ لِفَرِيْضَةِ الْحَجِّ, why is تَ used rather than وَ?",
           "options": [
             "Because the sentence is negative",
-            "Because the oath is on the word اَللهُ, the only word تَ may be used with",
+            "Because the oath is on the word لَفْظُ الجَلالَةِ, the only word تَ may be used with",
             "Because the verb is present tense",
             "Because عَدَم follows"
           ],
           "correct": 1,
-          "explanation": "تَ is restricted to اَللهُ, and even then is uncommon."
+          "explanation": "تَ is restricted to لَفْظُ الجَلالَةِ, and even then is uncommon."
         },
         {
           "title": "Book Exercise 1 (Unit 6, Part 2), item 6",
@@ -6596,7 +6596,7 @@ export default {
             "options": [
               "The جَارٌّ وَمَجْرُوْرٌ finally has a visible verb to attach to, rather than an understood one",
               "The meaning becomes negative",
-              "بِاللهِ is no longer مَجْرُوْرٌ",
+              "بِلَفْظِ الجَلالَةِ is no longer مَجْرُوْرٌ",
               "The جَوَابُ الْقَسَمِ disappears"
             ],
             "correct": 0
@@ -6707,7 +6707,7 @@ export default {
               "bullet": true
             },
             {
-              "html": "Both wāws appear in this one sentence. The first is at the head of the whole thing and puts اَللهِ into the مَجْرُوْر state; the second sits between two adjectives and changes nothing — صَالِحٌ is مَرْفُوْعٌ simply because صَادِقٌ before it is.",
+              "html": "Both wāws appear in this one sentence. The first is at the head of the whole thing and puts لَفْظِ الجَلالَةِ into the مَجْرُوْر state; the second sits between two adjectives and changes nothing — صَالِحٌ is مَرْفُوْعٌ simply because صَادِقٌ before it is.",
               "list": false
             },
             {

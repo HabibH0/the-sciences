@@ -2636,7 +2636,7 @@ export default {
             "none"
           ],
           "correct": 1,
-          "explanation": "وَاللهِ is the قَسَم; the conditional follows as its جَوَاب."
+          "explanation": "وَلَفْظِ الجَلالَةِ is the قَسَم; the conditional follows as its جَوَاب."
         },
         {
           "title": "Book Exercise 1 (Unit 6, Part 3), item 12",
@@ -8534,7 +8534,7 @@ export default {
             "Because the help of Allah is certain to come",
             "Because the verb is مَاضٍ",
             "Because the جَوَاب is a command",
-            "Because اللهِ is definite"
+            "Because لَفْظِ الجَلالَةِ is definite"
           ],
           "correct": 0,
           "explanation": "إِذَا is for what will certainly occur."

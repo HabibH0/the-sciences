@@ -142,7 +142,8 @@ export default {
               [`مُفاعَلة (a mutual, reciprocal action)`, `بعتُه يدًا بيد`, `فعل من الطرفين معًا`],
               [`تَرْتيب (sequence/order)`, `وَجَاءَ رَبُّكَ وَالْمَلَكُ صَفًّا صَفًّا`, `رَتَّبَ الوقوعَ صفًّا بعد صفٍّ`],
             ] } },
-            { html: `In <bdi>بدا وجهُه قمرًا</bdi> — "His face appeared [like] a moon" — قمرًا is جامد, yet is reinterpreted as مُشابِهًا لِلْقَمَرِ. <bdi>بعتُه يدًا بيد</bdi> — "I sold to him hand for hand [cash, on the spot]" — and <bdi>كلَّمتُه فاه إلى فيَّ</bdi> — "I spoke to him mouth to mouth [face to face]" — both signal مفاعلة. ﴿وَجَاءَ رَبُّكَ وَالْمَلَكُ صَفًّا صَفًّا﴾ — "And your Lord has come, and the angels, rank upon rank" — signals ترتيب.`, list: false },
+            { html: `In <bdi>بدا وجهُه قمرًا</bdi> — "His face appeared [like] a moon" — قمرًا is جامد, yet is reinterpreted as مُشابِهًا لِلْقَمَرِ. <bdi>بعتُه يدًا بيد</bdi> — "I sold to him hand for hand [cash, on the spot]" — and <bdi>كلَّمتُه فاه إلى فيَّ</bdi> — "I spoke to him mouth to mouth [face to face]" — both signal مفاعلة.`, list: false },
+            { html: `﴿وَجَاءَ رَبُّكَ وَالْمَلَكُ صَفًّا صَفًّا﴾ — "And your Lord has come, and the angels, rank upon rank" — signals ترتيب.`, list: false },
           ],
           exercise: {
             prompt: `بعتُه يدًا بيد uses يدًا بيد, جامد nouns, as a حال reinterpreted through one of three senses. Which one؟`,
@@ -161,7 +162,9 @@ export default {
               [`أصْلًا لِصاحِبها (the raw material صاحبها was made from)`, `أَأَسْجُدُ لِمَنْ خَلَقْتَ طِينًا`],
               [`فَرْعًا لِصاحِبها (manufactured/derived from صاحبها)`, `وَتَنْحِتُونَ مِنَ الْجِبَالِ بُيُوتًا`],
             ] } },
-            { html: `In ﴿إِنَّا أَنزَلْنَاهُ قُرْآنًا عَرَبِيًّا﴾ — "Indeed, We have sent it down as an Arabic Qur'an" — قُرْآنًا merely paves the way for the real description that follows it, عَرَبِيًّا. This kind is called <bdi>الحال الموطِّئة</bdi> ("the paving/preparatory حال"). ﴿فَتَمَّ مِيقَاتُ رَبِّهِ أَرْبَعِينَ لَيْلَةً﴾ — "So the appointed term of his Lord was completed as forty nights" — is عدد. ﴿أَأَسْجُدُ لِمَنْ خَلَقْتَ طِينًا﴾ — "Shall I prostrate to one You created out of clay?" — أَيْ لِمَنْ خَلَقْتَهُ طينًا, is أصل. ﴿وَتَنْحِتُونَ مِنَ الْجِبَالِ بُيُوتًا﴾ — "And you carve homes out of the mountains" — is فرع.`, list: false },
+            { html: `In ﴿إِنَّا أَنزَلْنَاهُ قُرْآنًا عَرَبِيًّا﴾ — "Indeed, We have sent it down as an Arabic Qur'an" — قُرْآنًا merely paves the way for the real description that follows it, عَرَبِيًّا. This kind is called <bdi>الحال الموطِّئة</bdi> ("the paving/preparatory حال"). ﴿فَتَمَّ مِيقَاتُ رَبِّهِ أَرْبَعِينَ لَيْلَةً﴾ — "So the appointed term of his Lord was completed as forty nights" — is عدد.`, list: false },
+            { html: `﴿أَأَسْجُدُ لِمَنْ خَلَقْتَ طِينًا﴾ — "Shall I prostrate to one You created out of clay?" — أَيْ لِمَنْ خَلَقْتَهُ طينًا, is أصل.`, list: false },
+            { html: `﴿وَتَنْحِتُونَ مِنَ الْجِبَالِ بُيُوتًا﴾ — "And you carve homes out of the mountains" — is فرع.`, list: false },
           ],
           exercise: {
             prompt: `﴿إِنَّا أَنزَلْنَاهُ قُرْآنًا عَرَبِيًّا﴾ uses two جامدة nouns as حال, one after the other. قُرْآنًا itself does not reinterpret into a derived sense at all; it only paves the way for the real description, عَرَبِيًّا, that follows it. What is this kind of جامدة حال specifically called؟`,
