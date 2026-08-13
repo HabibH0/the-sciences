@@ -12,6 +12,12 @@
 // Progress is keyed `${bookId}/${chapterId}` in one flat dict (state.
 // litProgress), the same "ids never collide, so no namespacing is needed"
 // idiom the courses use.
+//
+// Every import below is a book SHELL (cheap -- chapter bodies stay lazy, see
+// loadChapter below), but this file eagerly imports every one of them, so a
+// new book adds a network round trip to index.html's modulepreload list
+// (see the comment there) as well as to LIT_BOOKS just below -- both need
+// updating together when a book shell is added.
 import { BOOK as QIRAAH_V1 } from './qiraah-v1/index.js';
 import { BOOK as QIRAAH_V2 } from './qiraah-v2/index.js';
 import { BOOK as QASAS_V1 } from './qasas-v1/index.js';

@@ -46,6 +46,57 @@
   </script>
   <title>The Sciences — Arabic Grammar</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- Vanilla ES modules, no bundler (see AGENTS.md) means the browser only
+       discovers this app's import graph one file at a time: fetch main.js,
+       parse it for its imports, fetch those, parse THEM for their imports,
+       and so on -- each of those is a full network round trip on the web
+       build, stacking into several seconds on a real connection before the
+       first screen can render (harmless on the Electron build, which reads
+       these over file:// with near-zero latency).
+       modulepreload tells the browser to start fetching (Chromium: and
+       parsing) every file below in parallel from the moment <head> is read,
+       instead of waiting to discover each one through the file that imports
+       it -- collapsing that wave-by-wave fetch into one. This is every
+       module js/main.js's own import graph pulls in before first render;
+       course content (content-fstu, content-sarf, content/module-*.js) and
+       lazily-loaded تركيب/lit chapter bodies stay out on purpose -- COURSE_LOADERS
+       and content-lit/index.js's per-chapter load() already keep those out
+       of the critical path (see content/meta.js, content-lit/index.js), and
+       preloading them here would just re-add the weight this is meant to cut.
+       Maintenance: content-lit/index.js eagerly imports every book's shell
+       (chapter bodies stay lazy -- see content-lit/qasas-v12/index.js's own
+       comment on that split), so a new book shell belongs in both places --
+       add it to LIT_BOOKS there AND to this list here. -->
+  <link rel="modulepreload" href="js/config.js" />
+  <link rel="modulepreload" href="js/main.js" />
+  <link rel="modulepreload" href="js/html.js" />
+  <link rel="modulepreload" href="js/state.js" />
+  <link rel="modulepreload" href="js/render.js" />
+  <link rel="modulepreload" href="js/persistence.js" />
+  <link rel="modulepreload" href="js/checker.js" />
+  <link rel="modulepreload" href="js/gamification.js" />
+  <link rel="modulepreload" href="js/storage/storageManager.js" />
+  <link rel="modulepreload" href="js/storage/syncClient.js" />
+  <link rel="modulepreload" href="content/index.js" />
+  <link rel="modulepreload" href="content/meta.js" />
+  <link rel="modulepreload" href="content/paths.js" />
+  <link rel="modulepreload" href="content/path.js" />
+  <link rel="modulepreload" href="content/path-advanced.js" />
+  <link rel="modulepreload" href="content-lit/index.js" />
+  <link rel="modulepreload" href="content-lit/qiraah-v1/index.js" />
+  <link rel="modulepreload" href="content-lit/qiraah-v2/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v1/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v2/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v3/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v4/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v5/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v6/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v7/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v8/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v9/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v10/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v11/index.js" />
+  <link rel="modulepreload" href="content-lit/qasas-v12/index.js" />
 </head>
 <body>
   <!-- Replaces the OS title bar (main.cjs creates the window with frame:
