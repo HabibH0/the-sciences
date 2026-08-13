@@ -274,6 +274,20 @@ export async function createInitialState() {
     // Default true. Persisted standing preference.
     litHoverTranslate: boot.litHoverTranslate !== false,
     completed: boot.completed,
+    // Mirrors `completed`'s shape (moduleId -> lessonId -> value) but at
+    // real-timestamp precision instead of a calendar date -- see
+    // markLessonComplete in js/main.js. Exists purely so the sync merge can
+    // tell a same-day redo apart from a same-day pre-reset leftover; nothing
+    // else reads it. A lesson completed before this field existed simply
+    // has no entry here, and the merge falls back to day-granularity for
+    // it (moduleResetAt's own comment). Persisted.
+    completedAt: boot.completedAt || {},
+    // moduleId -> the timestamp "Reset progress" last wiped that module
+    // (see resetModuleProgress in js/main.js). Read by the sync merge
+    // (js/storage/syncClient.js's mergeProgressData) so a stale device's
+    // old completions don't get resurrected by the union merge -- see
+    // moduleResetAt's own comment there for why. Persisted.
+    moduleResetAt: boot.moduleResetAt || {},
     quizScores: boot.quizScores,
     exStates: boot.exStates,
     streak: boot.streak,

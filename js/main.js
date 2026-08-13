@@ -1007,6 +1007,12 @@ function activeSessionPassRatio(p) {
 function markLessonComplete(moduleId, lessonId) {
   state.completed[moduleId] = state.completed[moduleId] || {};
   state.completed[moduleId][lessonId] = todayISO(state.dailyResetHour);
+  // completedAt mirrors the date above at real-timestamp precision, kept
+  // only for the sync merge's reset cutoff (see resetModuleProgress and
+  // js/storage/syncClient.js) -- completed itself stays a calendar date
+  // since that's the format everything else already reads/persists.
+  state.completedAt[moduleId] = state.completedAt[moduleId] || {};
+  state.completedAt[moduleId][lessonId] = new Date().toISOString();
 }
 
 // Wipes all per-lesson progress for one module: completion flags, quiz
@@ -1014,9 +1020,21 @@ function markLessonComplete(moduleId, lessonId) {
 // and practice history cards. XP and badges are earned facts -- they are not
 // rolled back (this is explicitly not a full undo). The module page becomes
 // as if the learner had never opened it.
+//
+// Stamping moduleResetAt is what lets the cross-device sync merge
+// (js/storage/syncClient.js) tell this apart from "hasn't gotten here yet":
+// without it, a second device that's still holding this module's old
+// completions from before the reset would sync in later, and the merge's
+// ordinary union (present-on-either-side-wins) would silently resurrect
+// them, undoing the reset the moment that device next opens. Full timestamp
+// precision (not just a calendar date) is what lets that merge tell a
+// same-day redo apart from a same-day pre-reset leftover -- see
+// mergeCompletedRecord in js/storage/syncClient.js.
 function resetModuleProgress(moduleId) {
   const prefix = `${moduleId}_`;
   delete state.completed[moduleId];
+  delete state.completedAt[moduleId];
+  state.moduleResetAt[moduleId] = new Date().toISOString();
   for (const key of Object.keys(state.quizScores)) {
     if (key.startsWith(prefix)) delete state.quizScores[key];
   }

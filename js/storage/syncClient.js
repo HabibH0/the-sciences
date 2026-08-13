@@ -318,13 +318,62 @@ function mergeMaxRecord(localValue, remoteValue) {
   return mergeRecord(localValue, remoteValue, (localItem, remoteItem) => maxNumber(localItem, remoteItem));
 }
 
+// Every merge helper above is a pure union: present-on-either-side wins.
+// That's the right rule for "hasn't gotten there yet" vs. "got there," but
+// it has no way to represent "got there, then deliberately reset" -- a
+// completion absent on the resetting device looks identical to one that
+// simply hasn't happened yet, so a second device that's still holding the
+// pre-reset completions reintroduces them the moment it next syncs.
+// moduleResetAt (see resetModuleProgress in js/main.js) is the tombstone
+// that closes this gap: mergeCompletedRecord drops any completed lesson at
+// or before its module's most recent reset instant instead of unioning it
+// in. Precision comes from completedAt (real timestamp, see
+// markLessonComplete) when a lesson has one; a lesson completed before that
+// field existed falls back to comparing its plain completed date against
+// just the reset's calendar day, so redone-the-same-day-as-the-reset stays
+// ambiguous only for that legacy path. Either way, ties fail toward
+// dropping the lesson (redo it) rather than keeping it (silently
+// resurrecting progress that was reset on purpose) -- the safer direction.
+function mergeCompletedRecord(localCompleted, remoteCompleted, localCompletedAt, remoteCompletedAt, moduleResetAt) {
+  const local = isPlainObject(localCompleted) ? localCompleted : {};
+  const remote = isPlainObject(remoteCompleted) ? remoteCompleted : {};
+  const localAt = isPlainObject(localCompletedAt) ? localCompletedAt : {};
+  const remoteAt = isPlainObject(remoteCompletedAt) ? remoteCompletedAt : {};
+  const completed = {};
+  const completedAt = {};
+  for (const moduleId of new Set([...Object.keys(remote), ...Object.keys(local)])) {
+    const mergedModule = mergeRecord(local[moduleId], remote[moduleId], mergeCompletionValue);
+    const mergedModuleAt = mergeRecord(localAt[moduleId], remoteAt[moduleId], latestString);
+    const resetAt = moduleResetAt[moduleId];
+    if (resetAt) {
+      const resetDateOnly = resetAt.slice(0, 10);
+      for (const lessonId of Object.keys(mergedModule)) {
+        const preciseAt = mergedModuleAt[lessonId];
+        const stale = preciseAt ? preciseAt <= resetAt : mergedModule[lessonId] <= resetDateOnly;
+        if (stale) {
+          delete mergedModule[lessonId];
+          delete mergedModuleAt[lessonId];
+        }
+      }
+    }
+    completed[moduleId] = mergedModule;
+    completedAt[moduleId] = mergedModuleAt;
+  }
+  return { completed, completedAt };
+}
+
 export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   const local = isPlainObject(localProgress) ? localProgress : {};
   const remote = isPlainObject(remoteProgress) ? remoteProgress : {};
   const merged = { ...cloneValue(remote), ...cloneValue(local) };
 
   merged.courseId = local.courseId || remote.courseId || merged.courseId;
-  merged.completed = mergeNestedRecord(local.completed, remote.completed, mergeCompletionValue);
+  // Latest reset per module wins, from either side -- a reset either device
+  // knows about stays known. Computed before completed so its gate is ready.
+  merged.moduleResetAt = mergeRecord(local.moduleResetAt, remote.moduleResetAt, latestString);
+  const { completed, completedAt } = mergeCompletedRecord(local.completed, remote.completed, local.completedAt, remote.completedAt, merged.moduleResetAt);
+  merged.completed = completed;
+  merged.completedAt = completedAt;
   merged.quizScores = mergeNestedRecord(local.quizScores, remote.quizScores, mergeQuizScore);
   merged.exStates = mergeRecord(local.exStates, remote.exStates, mergeExerciseState);
   merged.lessonPos = mergeRecord(local.lessonPos, remote.lessonPos, (localItem, remoteItem) => valueOr(localItem, remoteItem));

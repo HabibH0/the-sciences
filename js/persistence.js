@@ -112,6 +112,8 @@ export async function bootProgress() {
   const next = {
     courseId,
     completed: saved.completed || {},
+    completedAt: saved.completedAt || {},
+    moduleResetAt: saved.moduleResetAt || {},
     quizScores: saved.quizScores || {},
     exStates: saved.exStates || {},
     lessonPos: saved.lessonPos || {},
@@ -200,6 +202,8 @@ function snapshot(state) {
   return {
     courseId: state.courseId,
     completed: state.completed,
+    completedAt: state.completedAt,
+    moduleResetAt: state.moduleResetAt,
     quizScores: state.quizScores,
     exStates: state.exStates,
     lessonPos: state.lessonPos,
