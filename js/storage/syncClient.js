@@ -362,6 +362,18 @@ function mergeCompletedRecord(localCompleted, remoteCompleted, localCompletedAt,
   return { completed, completedAt };
 }
 
+// { count, seenSentenceIds } -- count only ever grows (same "furthest
+// progress" rule as everywhere else), and the seen-sentence list unions so
+// a sentence already drilled on either device isn't repeated.
+function mergeLitWordRep(localValue, remoteValue) {
+  if (!isPlainObject(localValue)) return cloneValue(remoteValue);
+  if (!isPlainObject(remoteValue)) return cloneValue(localValue);
+  return {
+    count: maxNumber(localValue.count, remoteValue.count),
+    seenSentenceIds: unionArrays(localValue.seenSentenceIds, remoteValue.seenSentenceIds),
+  };
+}
+
 export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   const local = isPlainObject(localProgress) ? localProgress : {};
   const remote = isPlainObject(remoteProgress) ? remoteProgress : {};
@@ -388,6 +400,23 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.unlockedCourses = mergeBooleanRecord(local.unlockedCourses, remote.unlockedCourses);
   merged.unlockedTracks = mergeBooleanRecord(local.unlockedTracks, remote.unlockedTracks);
   merged.unlockedModules = mergeBooleanRecord(local.unlockedModules, remote.unlockedModules);
+
+  // Literature (content-lit/): chapter progress and word tracking. These
+  // were never wired into the merge before -- absent here, they just fell
+  // through the top-level `{ ...remote, ...local }` spread, so a merge
+  // silently kept whichever side happened to be "local" for this call and
+  // discarded the other device's reading entirely (which reads as "doesn't
+  // sync" from either device's point of view).
+  // `${bookId}/${chapterId} -> { para, done, at, score }` -- exactly the
+  // shape mergeProgressStatus already handles (para via its numeric-max
+  // fallback, done via its boolean-OR, at/score explicitly).
+  merged.litProgress = mergeRecord(local.litProgress, remote.litProgress, mergeProgressStatus);
+  // bookId -> lemma -> true. Plain union, same "never goes back" rule as
+  // unlockedModules above -- a word un-marked or retired on one device can
+  // reappear from a stale other device's copy, same trade-off already
+  // accepted elsewhere in this file rather than a bug specific to lit.
+  merged.litUnknown = mergeNestedRecord(local.litUnknown, remote.litUnknown, (localItem, remoteItem) => Boolean(localItem || remoteItem));
+  merged.litWordReps = mergeNestedRecord(local.litWordReps, remote.litWordReps, mergeLitWordRep);
 
   merged.badges = unionArrays(local.badges, remote.badges);
   merged.xp = maxNumber(local.xp, remote.xp);
