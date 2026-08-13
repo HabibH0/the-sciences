@@ -2658,10 +2658,26 @@ h1 + .card-kicker,
 .force-unlock-modal .modal-sub {
   line-height: 1.55;
 }
+/* Wider than the base .modal -- three buttons ("Cancel", "Free read",
+   "Practice (drills)") don't fit on one line at 420px without the
+   flex-wrap below kicking in even on a spacious desktop window. */
+.lit-chapter-modal {
+  max-width: 480px;
+}
 .modal-buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 12px 12px;
+}
+/* Without this, a viewport too narrow for three buttons on one line but
+   wider than the column-stacking breakpoint below squeezes each button
+   narrower than its label needs, wrapping the TEXT inside it instead of
+   wrapping a whole button down to its own line. flex-wrap above handles
+   the row break; this keeps each button's own label a single line either
+   way. */
+.modal-buttons > * {
+  white-space: nowrap;
 }
 
 /* ---------- Badge-unlock modal (reuses .modal/.modal-backdrop) ---------- */

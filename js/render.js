@@ -3518,11 +3518,10 @@ function litChapterPreviewHtml(state) {
 
   return `
     <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLitChapterPreview">
-      <div class="modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(chapter.title.en)}">
+      <div class="modal lit-chapter-modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(chapter.title.en)}">
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
-        ${done ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('check', 11, 2.6)} Read</div>` : ''}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="cancelLitChapterPreview">Cancel</button>
           <button class="btn btn-secondary" data-action="startLitFreeRead">Free read</button>
