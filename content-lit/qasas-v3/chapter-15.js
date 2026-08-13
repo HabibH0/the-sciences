@@ -147,14 +147,14 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c15-008',
-          ar: 'وَإِنَّا رَأَيْنَا أَنَّ الخَيْرَ لا يُخْطِئُنَا',
+          ar: 'وَإِنَّا رَأَيْنَا أَنَّ الخَيْرَ لَا يُخْطِئُنَا',
           en: 'And we have seen that good fortune never misses us',
           tokens: [
             { surface: 'وَإِنَّا', lemma: 'إِنَّ', pos: 'part', features: 'conj+part+1p', gloss: 'and indeed we' },
             { surface: 'رَأَيْنَا', lemma: 'رَأَى', pos: 'verb', features: 'perf.1p', gloss: 'to see; we have seen' },
             { surface: 'أَنَّ', lemma: 'أَنَّ', pos: 'part', features: 'part', gloss: 'that' },
             { surface: 'الخَيْرَ', lemma: 'خَيْر', pos: 'noun', features: 'def.acc', gloss: 'good fortune' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يُخْطِئُنَا', lemma: 'أَخْطَأَ', pos: 'verb', features: 'impf.3ms+1p', root: 'خ ط أ', gloss: 'to miss, err against; misses us' },
           ],
         },

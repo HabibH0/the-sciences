@@ -7,7 +7,7 @@
 // التقديري and المحلي in full plus their contrast.
 export default {
   id: '03',
-  title: 'العامل والمعمول والإعراب',
+  title: 'العامل والإعراب',
   heading: 'العامل وغير العامل',
   subheading: 'تمهيد',
   blurb: 'العامل والمعمول defined as a matched pair — what causes a grammatical state and what receives it — then الإعراب: its three لغوي senses and its three types, لفظي, تقديري, and محلي.',
@@ -260,7 +260,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الإعراب: تعريفه ومعانيه وأقسامه',
+      title: 'الإعراب',
       subtitle: 'الإعراب Defined — its three لغوي senses, its three أقسام, and الإعراب اللفظي',
       concepts: [
         {

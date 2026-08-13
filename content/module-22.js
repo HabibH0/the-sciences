@@ -47,7 +47,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'التنازع وحذف عامل المفعول المطلق',
+      title: 'التنازع',
       subtitle: 'Two Governors, One معمول — التنازع’s إيجاز, then the four قياسي patterns and the سماعي phrases where المفعول المطلق’s governor is obligatorily dropped',
       concepts: [
         {
@@ -237,7 +237,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'التحذير والإغراء والاختصاص',
+      title: 'التحذير والإغراء',
       subtitle: 'Warning, Encouragement, and Pinning Down a Pronoun — three of the خمسة مواضع under حذف عامل المفعول به, each a noun made منصوب by a permanently dropped verb',
       concepts: [
         {
@@ -629,7 +629,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'حذف عامل الحال',
+      title: 'حذف الحال',
       subtitle: 'The Third ضرب of حذف العامل المعنوي — four قياسي situations where الحال survives without its governing verb, and a سماعي handful besides',
       concepts: [
         {

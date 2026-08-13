@@ -20,7 +20,7 @@
 // each of المفعول المطلق's forms, substitutes, and نيابة categories.
 export default {
   id: '25',
-  title: 'الخبر والمفعول المطلق',
+  title: 'الخبر والمطلق',
   heading: 'المعمول وغير المعمول',
   subheading: 'الاسم والفعل',
   blurb: 'الخبر — how many a مبتدأ can take, where it sits, when it must or may vanish, and how it agrees — then المفعول المطلق, the مصدر that reinforces, specifies, or counts its فعل, and can even stand in for a dropped one.',
@@ -28,7 +28,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'الخبر: تعدده وترتيبه وحذفه',
+      title: 'أحكام الخبر',
       subtitle: 'The Predicate — تعدد الخبر, ترتيب المبتدأ والخبر, and where حذف الخبر is وجوب or جواز',
       sourceRef: 'app-lessons/127 (part 1)',
       concepts: [
@@ -264,7 +264,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الخبر: مطابقته والمبتدأ المتضمن معنى الشرط',
+      title: 'مطابقة الخبر',
       subtitle: 'Agreement and the Conditional المبتدأ — when الخبر must match, and the seven situations that license فَ on الخبر',
       sourceRef: 'app-lessons/127 (part 2)',
       concepts: [

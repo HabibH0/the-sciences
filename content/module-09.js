@@ -21,7 +21,7 @@
 // the same reason.
 export default {
   id: '09',
-  title: 'حروف الجر: التمهيد والأكثر شيوعا',
+  title: 'حروف الجر',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
   blurb: 'حروف الجر — what they are, why they carry three different names, the متعلق/مفعول به debate over الجار والمجرور, and the first six of the thirteen حروف: الباء، مِن، إلى، عَن، على، اللام.',
@@ -29,7 +29,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'حروف الجر: التمهيد وأضربها',
+      title: 'التمهيد',
       subtitle: 'Introducing حروف الجر — what they do, their three names, and whether الجار والمجرور is a متعلق or a مفعول به',
       concepts: [
         {
@@ -144,7 +144,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'حرف الجر الأول: الباء',
+      title: 'الباء',
       subtitle: 'الباء — root meaning الإلصاق, and every role it can carry across its مجرور',
       concepts: [
         {
@@ -360,7 +360,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'حرف الجر الثاني: مِنْ',
+      title: 'مِنْ',
       subtitle: 'مِنْ — root meaning ابتداء الغاية, its own roles, and what it reveals about الإضافة',
       concepts: [
         {
@@ -555,7 +555,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'حرفا الجر الثالث والرابع: إِلَى وعَنْ',
+      title: 'إِلَى وعَنْ',
       subtitle: 'إِلَى — the mirror image of مِنْ — and عَنْ, whose root meaning المجاوزة takes three distinct shapes',
       concepts: [
         {
@@ -757,7 +757,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'حرف الجر الخامس: عَلَى',
+      title: 'عَلَى',
       subtitle: 'عَلَى — الاستعلاء حقيقي or معنوي, and the pronoun that decides whether حبه means مفعول معه or مفعول له',
       concepts: [
         {
@@ -931,7 +931,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'حرف الجر السادس: اللام',
+      title: 'اللام',
       subtitle: 'اللام — three root senses at once, لام التبليغ, and the difference between لام التعليل and لام العاقبة',
       concepts: [
         {

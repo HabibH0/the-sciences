@@ -218,14 +218,14 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c18-010',
-          ar: 'أَمَا كُنَّا نَقُولُ لَكَ لا تَجْلِسْ إِلَى هَؤُلَاءِ الأَرَاذِلِ.',
+          ar: 'أَمَا كُنَّا نَقُولُ لَكَ لَا تَجْلِسْ إِلَى هَؤُلَاءِ الأَرَاذِلِ.',
           en: "Didn't we tell you not to sit with these lowest of people?",
           tokens: [
             { surface: 'أَمَا', lemma: 'أَمَا', pos: 'part', features: 'part', gloss: "did/does...not...? (interrogative-negative)" },
             { surface: 'كُنَّا', lemma: 'كَانَ', pos: 'verb', features: 'perf.1p', gloss: 'to be; we were' },
             { surface: 'نَقُولُ', lemma: 'قَالَ', pos: 'verb', features: 'impf.1p', gloss: 'to say; saying' },
             { surface: 'لَكَ', lemma: 'لِ', pos: 'prep', features: 'prep+2ms', gloss: 'to you' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'تَجْلِسْ', lemma: 'جَلَسَ', pos: 'verb', features: 'impf.2ms', gloss: 'to sit; do not sit' },
             { surface: 'إِلَى', lemma: 'إِلَى', pos: 'prep', features: 'prep', gloss: 'with' },
             { surface: 'هَؤُلَاءِ', lemma: 'هَؤُلَاءِ', pos: 'dem', features: 'dem.pl', gloss: 'these' },

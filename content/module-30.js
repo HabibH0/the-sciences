@@ -50,7 +50,7 @@
 // in this course has made (see COURSE-MAP.md).
 export default {
   id: '30',
-  title: 'خبر النواسخ والمجرور والنعت',
+  title: 'خبر النواسخ',
   heading: 'المعمول وغير المعمول',
   subheading: 'الاسم والفعل',
   blurb: 'خبر الأفعال الناقصة and خبر الحروف المشبهة بليس closing out the نواسخ family, اسم لا النافية للجنس, المجرور’s two types, and النعت opening التوابع as this course’s closing lesson.',
@@ -58,7 +58,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'خبر الأفعال الناقصة وخبر الحروف المشبهة بليس',
+      title: 'خبر الناقصة',
       subtitle: 'The Predicate of the Deficient Verbs and Their Sisters — كان’s خبر, its freedom of word order, and the three حروف that borrow ليس’s own عمل',
       concepts: [
         {
@@ -226,7 +226,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'اسم لا النافية للجنس',
+      title: 'اسم لا',
       subtitle: 'The Noun Governed by لا النافية للجنس — منصوب لفظًا when مضاف or شبيه بالمضاف, مبني elsewhere, and what تكرار and حذف do to it',
       concepts: [
         {

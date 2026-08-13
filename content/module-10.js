@@ -54,7 +54,7 @@
 // forcing invented material to hit it.
 export default {
   id: '10',
-  title: 'حروف الجر: الباقية وأحرف القسم ورُبَّ',
+  title: 'بقية الجر',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
   blurb: 'في through حتى, then أحرف القسم, مذ/منذ, and رُبَّ — closing the الحروف الشبيهة بالزائد with مِن التبعيضية وحاشا.',
@@ -62,7 +62,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'حرف الجر السابع: فِي',
+      title: 'فِي',
       subtitle: 'في — root meaning الظرفية, and every role it can carry across its مجرور',
       concepts: [
         {
@@ -769,7 +769,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'رُبَّ: التكثير والتقليل وأحكامها',
+      title: 'رُبَّ',
       subtitle: 'حرف الجر الشبيه بالزائد opens with رُبَّ — real meaning, without the syntactic tie الأصلي particles require',
       concepts: [
         {
@@ -984,7 +984,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'مِن التبعيضية وحاشا',
+      title: 'التبعيضية وحاشا',
       subtitle: `the second and third حروف شبيهة بالزائد, closing with a lingering question about الكاف's own classification`,
       concepts: [
         {

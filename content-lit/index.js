@@ -17,15 +17,42 @@ import { BOOK as QIRAAH_V2 } from './qiraah-v2/index.js';
 import { BOOK as QASAS_V1 } from './qasas-v1/index.js';
 import { BOOK as QASAS_V2 } from './qasas-v2/index.js';
 import { BOOK as QASAS_V3 } from './qasas-v3/index.js';
+import { BOOK as QASAS_V4 } from './qasas-v4/index.js';
+import { BOOK as QASAS_V5 } from './qasas-v5/index.js';
+import { BOOK as QASAS_V6 } from './qasas-v6/index.js';
+import { BOOK as QASAS_V7 } from './qasas-v7/index.js';
+import { BOOK as QASAS_V8 } from './qasas-v8/index.js';
+import { BOOK as QASAS_V9 } from './qasas-v9/index.js';
+import { BOOK as QASAS_V10 } from './qasas-v10/index.js';
+import { BOOK as QASAS_V11 } from './qasas-v11/index.js';
+import { BOOK as QASAS_V12 } from './qasas-v12/index.js';
 
 // Array order is shelf order on the Library screen. Books are independent of
 // each other -- nothing gates one behind another -- so this is a reading
 // recommendation, not a progression: each series in its own reading order,
 // and the two series side by side.
-export const LIT_BOOKS = [QIRAAH_V1, QIRAAH_V2, QASAS_V1, QASAS_V2, QASAS_V3];
+export const LIT_BOOKS = [
+  QIRAAH_V1, QIRAAH_V2,
+  QASAS_V1, QASAS_V2, QASAS_V3, QASAS_V4, QASAS_V5, QASAS_V6, QASAS_V7, QASAS_V8, QASAS_V9,
+  QASAS_V10, QASAS_V11, QASAS_V12,
+];
 
 export function getLitBook(bookId) {
   return LIT_BOOKS.find((b) => b.id === bookId) || null;
+}
+
+// A book's series -- which shelf group it falls under on the Library screen,
+// the literature equivalent of a module's `heading` on the dashboard (see
+// dashboardHtml in js/render.js). Kept here rather than repeated on all
+// twelve book shells: the id prefix already names the series (qiraah-v1/
+// qiraah-v2, qasas-v1..v12), and it's the whole taxonomy so far.
+const LIT_SERIES = {
+  qiraah: { ar: 'الْقِرَاءَةُ الرَّاشِدَةُ', en: 'Al-Qirāʾah ar-Rāshidah' },
+  qasas: { ar: 'قَصَصُ النَّبِيِّينَ', en: 'Qaṣaṣ an-Nabiyyīn' },
+};
+
+export function bookSeries(book) {
+  return LIT_SERIES[book.id.split('-')[0]] || null;
 }
 
 export function getChapterShell(bookId, chapterId) {

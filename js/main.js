@@ -25,6 +25,7 @@ import {
   setActiveCourseShell,
   ensureCoursesLoaded,
   flattenTarkeebSlots,
+  classifyTarkeebRoleTier,
   courseIdForModule,
   isCourseUnlocked,
   courseUnlockTestPool,
@@ -36,7 +37,7 @@ import {
 import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   getLitBook, isChapterUnlocked, loadChapter, getLoadedChapter,
-  litChapterKey, resumeParagraph, chapterSentences,
+  litChapterKey, resumeParagraph, chapterSentences, isBuildEligible, unknownLemmas,
 } from '../content-lit/index.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
@@ -46,8 +47,8 @@ import {
   buildPathTarkeebCheckpointQueue, buildPathRevisionQueue, buildPathSectionTestQueue,
   buildMasteryV2Queue, masteryV2Pool, masteryKey, pathCheckpointPassRatio, stillPassable,
   firstUnfinishedPathNodeIndex, buildUnlockTestQueue,
-  buildLitWorkshopQueue, buildLitBuildQueue,
-  PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT,
+  buildLitWorkshopQueue, buildLitBuildQueue, buildLitWordPracticeQueue,
+  PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT, LIT_WORD_RETIRE_COUNT,
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
@@ -183,6 +184,7 @@ function applyMergedProgressToState(envelope) {
     'revealState',
     'practiceHistory',
     'scheduleDeadline',
+    'dailyResetHour',
     'pathNodeStatus',
     'pathReps',
     'vocabExposure',
@@ -190,6 +192,7 @@ function applyMergedProgressToState(envelope) {
     'masteryV2',
     'litProgress',
     'litUnknown',
+    'litWordReps',
     'litCheckLang',
     'litTextScale',
     'streak',
@@ -872,7 +875,7 @@ function checkPathMilestones() {
   const idx = firstUnfinishedPathNodeIndex(skeleton, state.pathNodeStatus, state.completed);
   const node = skeleton[idx];
   if (node && node.type === 'milestone' && !(state.pathNodeStatus[node.id] && state.pathNodeStatus[node.id].done)) {
-    state.pathNodeStatus[node.id] = { done: true, at: todayISO() };
+    state.pathNodeStatus[node.id] = { done: true, at: todayISO(state.dailyResetHour) };
     if (node.badgeId) awardBadge(state, node.badgeId);
     return true;
   }
@@ -915,7 +918,7 @@ function completePriorPathNodes(node) {
     } else if (n.type === 'sectionHeader') {
       // Nothing to complete -- a plain label.
     } else if (!(state.pathNodeStatus[n.id] && state.pathNodeStatus[n.id].done)) {
-      state.pathNodeStatus[n.id] = { done: true, at: todayISO() };
+      state.pathNodeStatus[n.id] = { done: true, at: todayISO(state.dailyResetHour) };
       if ((n.type === 'sectionTest' || n.type === 'groupTest' || n.type === 'milestone') && n.badgeId) awardBadge(state, n.badgeId);
     }
   }
@@ -943,9 +946,9 @@ function finalizePathSession() {
   const passed = total > 0 && correct / total >= pathCheckpointPassRatio(node, p.mastery);
   if (passed) {
     if (p.mastery) {
-      state.pathCheckpointMastery[node.id] = { passed: true, at: todayISO(), score: { correct, total } };
+      state.pathCheckpointMastery[node.id] = { passed: true, at: todayISO(state.dailyResetHour), score: { correct, total } };
     } else {
-      state.pathNodeStatus[node.id] = { done: true, at: todayISO(), score: { correct, total } };
+      state.pathNodeStatus[node.id] = { done: true, at: todayISO(state.dailyResetHour), score: { correct, total } };
       if ((node.type === 'sectionTest' || node.type === 'groupTest') && node.badgeId) awardBadge(state, node.badgeId);
       if (p.skipAhead) completePriorPathNodes(node);
     }
@@ -1003,7 +1006,7 @@ function activeSessionPassRatio(p) {
 
 function markLessonComplete(moduleId, lessonId) {
   state.completed[moduleId] = state.completed[moduleId] || {};
-  state.completed[moduleId][lessonId] = todayISO();
+  state.completed[moduleId][lessonId] = todayISO(state.dailyResetHour);
 }
 
 // Wipes all per-lesson progress for one module: completion flags, quiz
@@ -1191,9 +1194,14 @@ function initTarkeeb(item, moduleId) {
     const { slots } = flattenTarkeebSlots(item, { fillBlanks });
     // Blank slots (role: null) have no chip of their own -- correct is
     // leaving them empty, so they contribute nothing to the tray.
-    const chipPool = slots.filter((s) => s.role !== null).map((s) => s.role).concat(item.distractors || []);
+    const realSlots = slots.filter((s) => s.role !== null);
+    const chipPool = realSlots.map((s) => s.role).concat(item.distractors || []);
+    // chipTier is index-aligned with chipPool -- js/render.js's colour
+    // coding only (see classifyTarkeebRoleTier in content/index.js).
+    const chipTier = chipPool.map(classifyTarkeebRoleTier);
     return {
       chipPool,
+      chipTier,
       chipOrder: shuffle(chipPool.map((_, i) => i)),
       placements: new Array(slots.length).fill(null),
       selectedChip: null,
@@ -1324,6 +1332,7 @@ function enterLitContext() {
   state.practice = null;
   state.practiceSetupOpen = false;
   state.lessonPreviewId = null;
+  state.litPractice = null;
 }
 
 function litChapter() {
@@ -1439,6 +1448,48 @@ function finishLitChapter() {
   // Re-reading a finished chapter is encouraged, but it shouldn't farm XP.
   if (firstTime) awardXp(state, LIT_CHAPTER_XP + lit.correct * LIT_ANSWER_XP);
   queueAutoUpload('literature-chapter');
+}
+
+// --- Literature: "Practice weak words" -------------------------------
+// A book-wide sibling of the chapter build stage above (state.lit), kept as
+// its own session (state.litPractice) rather than folded into state.lit:
+// state.lit and everything that reads it (litChapter, litToken, the reader
+// itself) hard-assumes one single chapterId, but a weak-words session's
+// items are drawn from every chapter in the book, so each queue item
+// carries its own chapterId instead (see buildLitWordPracticeQueue).
+
+// Shared by click-to-place and drop-to-place, same contract as placeLitChip
+// above just against state.litPractice.slots.
+function placeLitPracticeChip(chipIndex, slotIndex) {
+  const p = state.litPractice;
+  if (!p || p.submitted) return false;
+  if (slotIndex < 0 || slotIndex >= p.slots.length) return false;
+  if (p.slots.includes(chipIndex)) return false;
+  p.slots[slotIndex] = chipIndex;
+  return true;
+}
+
+// Only increments `count` on a pass (a wrong answer still records the
+// sentence as seen, for variety, but doesn't move the word closer to
+// retiring) -- same "wrong answers don't count toward the bar" idiom as
+// bumpVocabExposure. Retiring deletes the entry outright (from both
+// litWordReps and litUnknown) rather than setting a learned flag: unlike
+// vocabExposure's count, this counter isn't shared with any other mode that
+// might still want to read it afterward. Returns true the moment a word
+// retires, so the caller can tally a "words retired this session" count.
+function bumpLitWordRep(bookId, lemma, sentenceId, pass) {
+  if (!state.litWordReps[bookId]) state.litWordReps[bookId] = {};
+  const reps = state.litWordReps[bookId];
+  const rec = reps[lemma] || { count: 0, seenSentenceIds: [] };
+  if (!rec.seenSentenceIds.includes(sentenceId)) rec.seenSentenceIds.push(sentenceId);
+  if (pass) rec.count += 1;
+  reps[lemma] = rec;
+  if (rec.count >= LIT_WORD_RETIRE_COUNT) {
+    delete reps[lemma];
+    if (state.litUnknown[bookId]) delete state.litUnknown[bookId][lemma];
+    return true;
+  }
+  return false;
 }
 
 function clearActivePracticeUi() {
@@ -2315,6 +2366,14 @@ const actions = {
   setScheduleDeadline(el) {
     state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: el.value || null };
   },
+  // Same data-action-on-'change' dispatch as setScheduleDeadline above. The
+  // <select>'s values are already the ints 0-23 (see scheduleDeadlineHtml),
+  // so this only needs to guard against a tampered/missing value, not parse
+  // a free-form one.
+  setDailyResetHour(el) {
+    const n = Number(el.value);
+    state.dailyResetHour = Number.isInteger(n) && n >= 0 && n <= 23 ? n : 0;
+  },
   backToSchedule() {
     state.view = 'schedule';
     state.practice = null;
@@ -2673,6 +2732,96 @@ const actions = {
   exitLitChapter() {
     state.lit = null;
     state.view = state.litBookId ? 'litBook' : 'library';
+  },
+  // Loads every chapter of the book (memoized by loadChapter, so this only
+  // ever pays the cost once per book per session -- see content-lit/
+  // index.js) to scan for eligible sentences carrying an unknown word.
+  // Mirrors openLitChapter's disabled-when-unavailable guard: the hero
+  // button is already disabled with no unknown words, this is defense in
+  // depth against a stale click.
+  async openLitWordPractice(el) {
+    const bookId = el.dataset.bookId;
+    const book = getLitBook(bookId);
+    if (!book) return false;
+    const lemmas = unknownLemmas(state.litUnknown, bookId);
+    if (!lemmas.length) return false;
+    const lemmaSet = new Set(lemmas);
+    const chapters = await Promise.all(book.chapters.map((c) => loadChapter(bookId, c.id)));
+    const candidatesByLemma = new Map();
+    chapters.forEach((chapter, i) => {
+      if (!chapter) return;
+      const chapterId = book.chapters[i].id;
+      chapterSentences(chapter).filter(isBuildEligible).forEach((s) => {
+        s.tokens.forEach((t) => {
+          if (!lemmaSet.has(t.lemma)) return;
+          if (!candidatesByLemma.has(t.lemma)) candidatesByLemma.set(t.lemma, []);
+          const list = candidatesByLemma.get(t.lemma);
+          if (!list.some((existing) => existing.id === s.id)) list.push({ ...s, chapterId });
+        });
+      });
+    });
+    if (!candidatesByLemma.size) return false;
+    const queue = buildLitWordPracticeQueue(candidatesByLemma, state.litWordReps[bookId] || {});
+    if (!queue.length) return false;
+    enterLitContext();
+    state.litBookId = bookId;
+    state.litPractice = {
+      bookId,
+      queue,
+      index: 0,
+      slots: new Array(queue[0].solution.length).fill(null),
+      submitted: false,
+      correct: 0,
+      total: 0,
+      retired: 0,
+    };
+    state.view = 'litWordPractice';
+  },
+  exitLitWordPractice() {
+    state.litPractice = null;
+    state.view = state.litBookId ? 'litBook' : 'library';
+  },
+  litWordPracticeChip(el) {
+    const p = state.litPractice;
+    if (!p || p.submitted) return false;
+    return placeLitPracticeChip(+el.dataset.chip, p.slots.indexOf(null));
+  },
+  litWordPracticeSlot(el) {
+    const p = state.litPractice;
+    if (!p || p.submitted) return false;
+    const slot = +el.dataset.slot;
+    if (p.slots[slot] === null) return false;
+    p.slots[slot] = null;
+  },
+  litWordPracticeClear() {
+    const p = state.litPractice;
+    if (!p || p.submitted) return false;
+    p.slots = p.slots.map(() => null);
+  },
+  litWordPracticeCheck() {
+    const p = state.litPractice;
+    if (!p || p.submitted || p.slots.some((s) => s === null)) return false;
+    const item = p.queue[p.index];
+    p.submitted = true;
+    p.total += 1;
+    const pass = p.slots.every((ci, i) => item.chips[ci].surface === item.solution[i]);
+    if (pass) {
+      p.correct += 1;
+      awardXp(state, LIT_ANSWER_XP);
+    }
+    if (bumpLitWordRep(p.bookId, item.lemma, item.sentenceId, pass)) p.retired += 1;
+    queueAutoUpload('lit-word-practice');
+  },
+  litWordPracticeNext() {
+    const p = state.litPractice;
+    if (!p || !p.submitted) return false;
+    if (p.index + 1 >= p.queue.length) {
+      p.index += 1;
+      return;
+    }
+    p.index += 1;
+    p.submitted = false;
+    p.slots = new Array(p.queue[p.index].solution.length).fill(null);
   },
   rereadLitChapter() {
     const chapter = litChapter();

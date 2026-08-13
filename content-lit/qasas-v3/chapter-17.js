@@ -260,11 +260,11 @@ export const CHAPTER = {
       sentences: [
         {
           id: 'qs-v3-c17-011',
-          ar: 'لِمَاذَا لا يَغْضَبُ نُوْحٌ؟',
+          ar: 'لِمَاذَا لَا يَغْضَبُ نُوْحٌ؟',
           en: 'Why does Nūḥ not grow angry?',
           tokens: [
             { surface: 'لِمَاذَا', lemma: 'لِمَاذَا', pos: 'adv', features: 'adv', gloss: 'why' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَغْضَبُ', lemma: 'غَضِبَ', pos: 'verb', features: 'impf.3ms', gloss: 'to be angry; grow angry' },
             { surface: 'نُوْحٌ', lemma: 'نُوح', pos: 'proper', features: 'nom', gloss: 'Nūḥ' },
           ],
@@ -413,12 +413,12 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c17-021',
-          ar: 'وَقَالَ: اللَّهُمَّ لا تَتْرُكْ عَلَى الأَرْضِ أَحَداً مِنَ الكَافِرِينَ.',
+          ar: 'وَقَالَ: اللَّهُمَّ لَا تَتْرُكْ عَلَى الأَرْضِ أَحَداً مِنَ الكَافِرِينَ.',
           en: 'and said: "O Allah, do not leave upon the earth a single one of the disbelievers."',
           tokens: [
             { surface: 'وَقَالَ', lemma: 'قَالَ', pos: 'verb', features: 'conj+perf.3ms', gloss: 'to say; and said' },
             { surface: 'اللَّهُمَّ', lemma: 'اللَّهُمَّ', pos: 'proper', features: 'nom', gloss: 'O Allah' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'تَتْرُكْ', lemma: 'تَرَكَ', pos: 'verb', features: 'impf.2ms', gloss: 'to leave; do not leave' },
             { surface: 'عَلَى', lemma: 'عَلَى', pos: 'prep', features: 'prep', gloss: 'upon' },
             { surface: 'الأَرْضِ', lemma: 'أَرْض', pos: 'noun', features: 'def.gen', gloss: 'the earth' },

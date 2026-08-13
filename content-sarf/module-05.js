@@ -45,12 +45,12 @@ export default {
             { box: { title: 'Definition', lines: [
               `المُرادُ بِمَعاني صِيَغِ الزَّوائِدِ هي المَعاني الَّتِي تَدُلُّ عليها الكَلِمَةُ بِصِيغَتِها وبِنائِها لا بِحُرُوفِها`,
             ] } },
-            { html: `"The meanings of the augmented patterns," <bdi>معاني صيغ الزوائد</bdi>, means exactly this: the meaning a word carries because of its pattern and structure, not because of its particular letters. Put a root into أَفْعَلَ instead of the bare فَعَلَ, and the letters ف-ع-ل haven't changed — only the mold they're poured into has. Whatever new meaning shows up is credited to that mold, not to the root.`, list: false },
+            { html: `The meanings of the augmented patterns, <bdi>معاني صيغ الزوائد</bdi>, means exactly this: the meaning a word carries because of its pattern and structure, not because of its particular letters. Put a root into أَفْعَلَ instead of the bare فَعَلَ, and the letters ف-ع-ل haven't changed — only the mold they're poured into has. Whatever new meaning shows up is credited to that mold, not to the root.`, list: false },
             { box: { title: 'Core Text', lines: [
               `فالصِّيَغُ المُجَرَّدَةُ الأَصْلُ في مَعْناها فِعْلُ الفاعِلِ لِلْفِعْلِ`,
               `وتَحْوِيلُ الفِعْلِ من مُجَرَّدٍ إلى مَزِيدٍ، وذلك بِزِيادَةِ حَرْفٍ أو أَكْثَرَ، إنَّما يكونُ ذلك طَلَبًا لِمَعْنًى جَدِيدٍ`,
             ] } },
-            { html: `A bare pattern <bdi>الصيغة المجردة</bdi> carries, at root, only one meaning: that the doer <bdi>فاعل</bdi> performed the action, nothing more. <bdi>ذَهَبْتُ</bdi> ("I went") and <bdi>ضَرَبْتُ زَيدًا</bdi> ("I hit Zayd") say exactly that and no more — literally, "I did the going, and the hitting, to Zayd." Moving a verb from bare <bdi>مجرد</bdi> to augmented <bdi>مزيد</bdi>, by adding one letter or more, is always done to buy a new meaning beyond that baseline.`, list: false },
+            { html: `A bare pattern <bdi>الصيغة المجردة</bdi> carries, at root, only one meaning: that the doer <bdi>فاعل</bdi> performed the action, nothing more. <bdi>ذَهَبْتُ</bdi> (I went) and <bdi>ضَرَبْتُ زَيدًا</bdi> (I hit Zayd) say exactly that and no more — literally, I did the going, and the hitting, to Zayd. Moving a verb from bare <bdi>مجرد</bdi> to augmented <bdi>مزيد</bdi>, by adding one letter or more, is always done to buy a new meaning beyond that baseline.`, list: false },
             { html: `So the question this lesson answers, pattern by pattern, is: when فَعَلَ becomes أَفْعَلَ, or انْفَعَلَ, or اسْتَفْعَلَ, what new meaning is being bought?`, list: false },
           ],
           exercise: {
@@ -72,7 +72,7 @@ export default {
               `أَقَمْتُ زَيدًا، وأَقْعَدْتُهُ، وأَقْرَأْتُهُ`,
               `الأَصْلُ: قامَ زَيدٌ وقَعَدَ وقَرَأَ. فلمَّا دَخَلَتْ عليه الهَمْزَةُ صارَ زَيدٌ مُقامًا مُقْعَدًا مُقْرَأً`,
             ] } },
-            { html: `Originally, <bdi>قامَ زَيدٌ</bdi> ("Zayd stood"), <bdi>قَعَدَ</bdi> ("he sat") and <bdi>قَرَأَ</bdi> ("he read") all have Zayd performing the action himself. Add the همزة and the sentence becomes <bdi>أَقَمْتُ زَيدًا</bdi> ("I made Zayd stand"), <bdi>أَقْعَدْتُهُ</bdi> ("I made him sit") and <bdi>أَقْرَأْتُهُ</bdi> ("I made him read") — Zayd is now the one made to stand, sit, and read: the object of someone else's action. The همزة has moved the verb up one rung of transitivity, whatever rung it started on.`, list: false },
+            { html: `Originally, <bdi>قامَ زَيدٌ</bdi> (Zayd stood), <bdi>قَعَدَ</bdi> (he sat) and <bdi>قَرَأَ</bdi> (he read) all have Zayd performing the action himself. Add the همزة and the sentence becomes <bdi>أَقَمْتُ زَيدًا</bdi> (I made Zayd stand), <bdi>أَقْعَدْتُهُ</bdi> (I made him sit) and <bdi>أَقْرَأْتُهُ</bdi> (I made him read) — Zayd is now the one made to stand, sit, and read: the object of someone else's action. The همزة has moved the verb up one rung of transitivity, whatever rung it started on.`, list: false },
             { table: { title: 'درجات التعدية (Degrees of Transitivity)', headers: ['الأصل (Original)', 'بعد الهمزة (After the همزة)', 'المثال (Example)'], rows: [
               ['لازِم', 'مُتَعَدٍّ لِواحِدٍ', 'قامَ زَيدٌ ← أَقَمْتُ زَيدًا'],
               ['مُتَعَدٍّ لِواحِدٍ', 'مُتَعَدٍّ لاثْنَيْنِ', 'قَرَأَ زَيدٌ الكِتابَ ← أَقْرَأْتُهُ إيَّاهُ'],
@@ -82,7 +82,7 @@ export default {
             { box: { title: 'Careful', lines: [
               `ولم يُوجَدْ في اللُغَةِ ما هو مُتَعَدٍّ لاثْنَيْنِ، صارَ بالهَمْزَةِ مُتَعَدِّيًا لِثَلاثَةٍ، إلَّا رَأَى وعَلِمَ`,
             ] } },
-            { html: `No verb that already took two objects is pushed to three by the همزة, except two: <bdi>رَأَى</bdi> ("to see") and <bdi>عَلِمَ</bdi> ("to know"). <bdi>أَرَيْتُ زَيدًا بَكْرًا قائِمًا</bdi> ("I showed Zayd that Bakr was standing") and <bdi>أَعْلَمْتُ زَيدًا بَكْرًا قائِمًا</bdi> ("I informed Zayd that Bakr was standing") are the only three-object verbs the همزة produces this way.`, list: false },
+            { html: `No verb that already took two objects is pushed to three by the همزة, except two: <bdi>رَأَى</bdi> (to see) and <bdi>عَلِمَ</bdi> (to know). <bdi>أَرَيْتُ زَيدًا بَكْرًا قائِمًا</bdi> (I showed Zayd that Bakr was standing) and <bdi>أَعْلَمْتُ زَيدًا بَكْرًا قائِمًا</bdi> (I informed Zayd that Bakr was standing) are the only three-object verbs the همزة produces this way.`, list: false },
           ],
           exercise: {
             prompt: `Only two verbs in the language go from two objects to three by the همزة. Which?`,
@@ -100,7 +100,7 @@ export default {
               ['الثالث: الدُّخُولُ في شَيْءٍ — entering into something', 'مَكانًا كان أو زَمانًا — whether a place or a time', 'أَشْأَمَ، أَعْرَقَ، أَصْبَحَ، أَمْسَى — he entered الشام, العراق, the morning, the evening (and likewise أَفْجَرَ، أَظْهَرَ، أَعْصَرَ، أَضْحَى، أَشْهَرَ)'],
               ['الرابع: السَّلْبُ والإزالَةُ — removal, stripping away', '—', 'أَقْذَيْتُ عَيْنَ فُلانٍ، وأَعْجَمْتُ الكِتابَ — I removed the القَذَى (speck) from his eye, and I removed the عُجْمَة (ambiguity) of the book by dotting it'],
             ] } },
-            { html: `Note that the fourth reverses what a literal reading would suggest: <bdi>أَعْجَمْتُ الكِتابَ</bdi> does not mean "I made the book obscure" but "I removed its ambiguity <bdi>عُجْمَة</bdi> by dotting it."`, list: false },
+            { html: `Note that the fourth reverses what a literal reading would suggest: <bdi>أَعْجَمْتُ الكِتابَ</bdi> does not mean I made the book obscure but I removed its ambiguity <bdi>عُجْمَة</bdi> by dotting it.`, list: false },
           ],
           exercise: {
             prompt: `أَفْلَسَ الرَّجُلُ falls under which meaning?`,
@@ -118,7 +118,7 @@ export default {
               ['السادس: الاسْتِحْقاق — deserving, becoming fit for', 'أنَّ الفاعِلَ صارَ مُسْتَحِقًّا وأَهْلًا لِلْفِعْلِ — that the فاعل became deserving and fit for the action', 'أَحْصَدَ الزَّرْعُ، أَزْوَجَتْ هِنْدٌ — the crop became fit for reaping, and هند became fit for marriage'],
               ['السابع: التَعْرِيض — offering, exposing to', '—', 'أَرْهَنْتُ المَتاعَ، أَبَعْتُهُ — I offered the goods for pawning, for selling'],
             ] } },
-            { html: `<bdi>أَكْرَمْتُهُ</bdi> is worth pausing on: under التعدية it would mean "I honoured him" (I made him honourable/generous), but under المصادفة it means "I found him to be generous." The pattern alone does not decide which is meant — only context does.`, list: false },
+            { html: `<bdi>أَكْرَمْتُهُ</bdi> is worth pausing on: under التعدية it would mean I honoured him (I made him honourable/generous), but under المصادفة it means I found him to be generous. The pattern alone does not decide which is meant — only context does.`, list: false },
           ],
           exercise: {
             prompt: `أَحْصَدَ الزَّرْعُ falls under which meaning of أَفْعَلَ؟`,
@@ -139,17 +139,17 @@ export default {
             { box: { title: 'Careful', lines: [
               `ورُبَّما جاءَ المَهْمُوزُ كأَصْلِهِ`,
             ] } },
-            { html: `Sometimes the أَفْعَلَ form (called <bdi>المهموز</bdi>, "the one carrying the همزة") simply matches its bare أصل in meaning: <bdi>سَرَى</bdi> and <bdi>أَسْرَى</bdi> both mean "to travel by night," <bdi>سَقَى</bdi> and <bdi>أَسْقَى</bdi> both mean "to give to drink," and likewise <bdi>طافَ</bdi>/<bdi>أَطافَ</bdi> ("to circle") and <bdi>ضاءَ</bdi>/<bdi>أَضاءَ</bdi> ("to shine") — though some hold that even here أَفْعَلَ still adds emphasis <bdi>توكيد</bdi> or intensity <bdi>مبالغة</bdi>.`, list: false },
+            { html: `Sometimes the أَفْعَلَ form (called <bdi>المهموز</bdi>, the one carrying the همزة) simply matches its bare أصل in meaning: <bdi>سَرَى</bdi> and <bdi>أَسْرَى</bdi> both mean to travel by night, <bdi>سَقَى</bdi> and <bdi>أَسْقَى</bdi> both mean to give to drink, and likewise <bdi>طافَ</bdi>/<bdi>أَطافَ</bdi> (to circle) and <bdi>ضاءَ</bdi>/<bdi>أَضاءَ</bdi> (to shine) — though some hold that even here أَفْعَلَ still adds emphasis <bdi>توكيد</bdi> or intensity <bdi>مبالغة</bdi>.`, list: false },
             { box: { title: 'Careful', lines: [
               `أو أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ`,
             ] } },
-            { html: `Sometimes أَفْعَلَ stands in for a bare أصل that was never actually used: <bdi>أَفْلَحَ</bdi> means "he succeeded" <bdi>فازَ</bdi>, though no فَلَحَ in that sense exists at all; likewise <bdi>أَقْسَمَ باللهِ</bdi> ("he swore by Allah") and <bdi>أَدْرَكَ الشَيْءَ</bdi> ("he attained the thing").`, list: false },
+            { html: `Sometimes أَفْعَلَ stands in for a bare أصل that was never actually used: <bdi>أَفْلَحَ</bdi> means he succeeded <bdi>فازَ</bdi>, though no فَلَحَ in that sense exists at all; likewise <bdi>أَقْسَمَ باللهِ</bdi> (he swore by Allah) and <bdi>أَدْرَكَ الشَيْءَ</bdi> (he attained the thing).`, list: false },
             { box: { title: 'Careful', lines: [
               `ونَدَرَ مَجِيءُ الفِعْلِ مُتَعَدِّيًا بِلا هَمْزَةٍ، ولازِمًا بِها`,
             ] } },
-            { html: `And rarely the pattern runs backwards entirely: the bare verb is transitive and the أَفْعَلَ form built from it is intransitive — which is المطاوعة (the note just above) rather than التعدية. <bdi>نَسَلْتُ رِيشَ الطائِرِ</bdi> ("I plucked the bird's feathers") but <bdi>أَنْسَلَ الرِّيشُ</bdi> ("the feathers moulted by themselves"); <bdi>عَرَضْتُ الشَيْءَ</bdi> ("I displayed the thing") but <bdi>أَعْرَضَ الشَيْءُ</bdi> ("the thing appeared by itself"); <bdi>كَبَبْتُ زَيدًا على وَجْهِهِ</bdi> ("I threw Zayd face-down") but <bdi>أَكَبَّ زَيدٌ على وَجْهِهِ</bdi> ("Zayd fell face-down by himself"); <bdi>قَشَعَتِ الرِّيحُ السَّحابَ</bdi> ("the wind swept the clouds away") but <bdi>أَقْشَعَ السَّحابُ</bdi> ("the clouds cleared by themselves").`, list: false },
+            { html: `And rarely the pattern runs backwards entirely: the bare verb is transitive and the أَفْعَلَ form built from it is intransitive — which is المطاوعة (the note just above) rather than التعدية. <bdi>نَسَلْتُ رِيشَ الطائِرِ</bdi> (I plucked the bird's feathers) but <bdi>أَنْسَلَ الرِّيشُ</bdi> (the feathers moulted by themselves); <bdi>عَرَضْتُ الشَيْءَ</bdi> (I displayed the thing) but <bdi>أَعْرَضَ الشَيْءُ</bdi> (the thing appeared by itself); <bdi>كَبَبْتُ زَيدًا على وَجْهِهِ</bdi> (I threw Zayd face-down) but <bdi>أَكَبَّ زَيدٌ على وَجْهِهِ</bdi> (Zayd fell face-down by himself); <bdi>قَشَعَتِ الرِّيحُ السَّحابَ</bdi> (the wind swept the clouds away) but <bdi>أَقْشَعَ السَّحابُ</bdi> (the clouds cleared by themselves).`, list: false },
           ],
-          clarification: `أَكَبَّ is the case most often stumbled over, because it inverts the usual expectation. Ordinarily the همزة is what makes a verb transitive — <bdi>أَذْهَبَ</bdi> ("he sent away") from <bdi>ذَهَبَ</bdi> ("he went"). Here the reverse holds: <bdi>كَبَبْتُ زَيدًا</bdi> ("I threw Zayd down") is the transitive one, and <bdi>أَكَبَّ زَيدٌ</bdi> ("Zayd fell down"), with the همزة, is intransitive. What أفعل is doing in these four pairs is not التعدية but المطاوعة — accepting the effect of the bare verb. That is why these four pairs are marked <bdi>نادر</bdi> ("rare"): they run against the dominant use of the same صيغة.`,
+          clarification: `أَكَبَّ is the case most often stumbled over, because it inverts the usual expectation. Ordinarily the همزة is what makes a verb transitive — <bdi>أَذْهَبَ</bdi> (he sent away) from <bdi>ذَهَبَ</bdi> (he went). Here the reverse holds: <bdi>كَبَبْتُ زَيدًا</bdi> (I threw Zayd down) is the transitive one, and <bdi>أَكَبَّ زَيدٌ</bdi> (Zayd fell down), with the همزة, is intransitive. What أفعل is doing in these four pairs is not التعدية but المطاوعة — accepting the effect of the bare verb. That is why these four pairs are marked <bdi>نادر</bdi> (rare): they run against the dominant use of the same صيغة.`,
           exercise: {
             prompt: `كَبَبْتُ زَيدًا على وَجْهِهِ is transitive, and أَكَبَّ زَيدٌ على وَجْهِهِ, with the همزة, is intransitive. What is أفعل doing here?`,
             kind: 'mcq',
@@ -351,7 +351,7 @@ export default {
             { box: { title: 'Rule', lines: [
               `فإذا كان أَصْلُ الفِعْلِ لازِمًا صارَ بِهذه الصِّيغَةِ مُتَعَدِّيًا`,
             ] } },
-            { html: `If the bare verb was intransitive <bdi>لازم</bdi>, casting it into فَاعَلَ makes it transitive. <bdi>مَشَيْتُ</bdi> ("I walked") takes no object at all, but <bdi>مَاشَيْتُهُ</bdi> ("I walked alongside him") does; likewise <bdi>كَرُمَ</bdi> ("he was noble," intransitive) becomes <bdi>كارَمْتُهُ</bdi> ("I vied with him in nobility," transitive).`, list: false },
+            { html: `If the bare verb was intransitive <bdi>لازم</bdi>, casting it into فَاعَلَ makes it transitive. <bdi>مَشَيْتُ</bdi> (I walked) takes no object at all, but <bdi>مَاشَيْتُهُ</bdi> (I walked alongside him) does; likewise <bdi>كَرُمَ</bdi> (he was noble, intransitive) becomes <bdi>كارَمْتُهُ</bdi> (I vied with him in nobility, transitive).`, list: false },
           ],
           exercise: {
             prompt: `In مَاشَيْتُهُ, who is grammatically the فاعل and who the مفعول؟`,
@@ -369,9 +369,9 @@ export default {
               `ما لم يَكُنْ واوِيَّ الفاءِ، أو يائِيَّ العَيْنِ أو اللامِ، فإنَّه يَدُلُّ على الغَلَبَةِ من بابِ ضَرَبَ`,
               `ومَتَى كان (فَعَلَ) لِلدَلالَةِ على الغَلَبَةِ كان مُتَعَدِّيًا، وإنْ كان أَصْلُهُ لازِمًا، وكان من بابِ (نَصَرَ) أو (ضَرَبَ) على ما تَقَدَّمَ من أَيِّ بابٍ كان`,
             ] } },
-            { html: `<bdi>المغالبة</bdi> — expressing that one party prevailed, "outdid" the other — is not carried by فَاعَلَ at all. Instead you drop back to a bare <bdi>فَعَلَ</bdi>, conjugated on <bdi>باب نصر</bdi> — or on <bdi>باب ضرب</bdi> if the root's first letter is و (<bdi>واوي الفاء</bdi>) or its middle or last letter is ي (<bdi>يائي العين أو اللام</bdi>). Used this way, the verb is transitive no matter what باب or transitivity it originally had.`, list: false },
+            { html: `<bdi>المغالبة</bdi> — expressing that one party prevailed, outdid the other — is not carried by فَاعَلَ at all. Instead you drop back to a bare <bdi>فَعَلَ</bdi>, conjugated on <bdi>باب نصر</bdi> — or on <bdi>باب ضرب</bdi> if the root's first letter is و (<bdi>واوي الفاء</bdi>) or its middle or last letter is ي (<bdi>يائي العين أو اللام</bdi>). Used this way, the verb is transitive no matter what باب or transitivity it originally had.`, list: false },
           ],
-          clarification: `The mechanism is easy to state and easy to get backwards. فَاعَلَ says two parties did something to each other; it says nothing about who won. To say that one of them prevailed, you do not stay on فَاعَلَ — you go back to a bare فَعَلَ and read it as المغالبة. So <bdi>كَارَمْتُهُ</bdi> means "I vied with him in generosity," while <bdi>كَرَمْتُهُ</bdi> (bare, on باب نصر) means "I outdid him in it." And note the consequence stated at the end: a verb used for المغالبة is transitive whatever its original أصل was, even if that أصل was لازم.`,
+          clarification: `The mechanism is easy to state and easy to get backwards. فَاعَلَ says two parties did something to each other; it says nothing about who won. To say that one of them prevailed, you do not stay on فَاعَلَ — you go back to a bare فَعَلَ and read it as المغالبة. So <bdi>كَارَمْتُهُ</bdi> means I vied with him in generosity, while <bdi>كَرَمْتُهُ</bdi> (bare, on باب نصر) means I outdid him in it. And note the consequence stated at the end: a verb used for المغالبة is transitive whatever its original أصل was, even if that أصل was لازم.`,
           exercise: {
             prompt: `To express that one party prevailed over the other, which صيغة is used?`,
             kind: 'mcq',
@@ -386,7 +386,7 @@ export default {
               `وثانِيهِما: المُوالاة (وُقُوعُ الفِعْلِ بَعْضُهُ في أَثَرِ بَعْضٍ)، فيكونُ بِمَعْنَى (أَفْعَلَ) المُتَعَدِّي`,
               `كوالَيْتُ الصَومَ وتابَعْتُهُ، بِمَعْنَى أَوْلَيْتُ وأَتْبَعْتُ، بَعْضَهُ بَعْضًا`,
             ] } },
-            { html: `The second of the two common meanings is <bdi>الموالاة</bdi> — succession, one part of the action following straight after another — carrying the force of a transitive أَفْعَلَ. <bdi>وَالَيْتُ الصَومَ</bdi> and <bdi>تابَعْتُهُ</bdi> ("I kept up the fast without a break") both mean <bdi>أَوْلَيْتُ</bdi> and <bdi>أَتْبَعْتُ</bdi> — "I made one part of it follow directly after another."`, list: false },
+            { html: `The second of the two common meanings is <bdi>الموالاة</bdi> — succession, one part of the action following straight after another — carrying the force of a transitive أَفْعَلَ. <bdi>وَالَيْتُ الصَومَ</bdi> and <bdi>تابَعْتُهُ</bdi> (I kept up the fast without a break) both mean <bdi>أَوْلَيْتُ</bdi> and <bdi>أَتْبَعْتُ</bdi> — I made one part of it follow directly after another.`, list: false },
             { html: `Beyond those two common meanings, the صيغة turns up in three further, less common uses.`, list: false },
             { table: { title: 'استعمالات أخرى (Other Uses)', headers: ['الاستعمال (Use)', 'المثال (Example)'], rows: [
               ['بِمَعْنَى (فَعَّلَ) المُضَعَّفِ لِلتَكْثِير — the meaning of doubled فَعَّلَ, for intensification', 'ضاعَفْتُ الشَيْءَ وضَعَّفْتُهُ'],
@@ -443,7 +443,7 @@ export default {
               `أو بِمَعْنَى تَفَعَّلَ`,
               `ورُبَّما أَغْنَى عن أَصْلِهِ لِعَدَمِ وُرُودِهِ`,
             ] } },
-            { html: `Sometimes فَعَّلَ carries exactly its bare أصل's meaning, as in <bdi>﴿زُيِّنَ لِلناسِ حُبُّ الشَّهَواتِ﴾</bdi> — "the love of desires has been made attractive to mankind" — where <bdi>زَيَّنَ</bdi> and <bdi>زانَ</bdi> mean the same thing. Sometimes it carries تَفَعَّلَ's meaning instead, as in <bdi>وَلَّى</bdi> and <bdi>تَوَلَّى</bdi> (both "he turned away") or <bdi>فَكَّرَ</bdi> and <bdi>تَفَكَّرَ</bdi> (both "he reflected"). And sometimes it stands in for an أصل that was never attested at all, as in <bdi>عَيَّرَهُ</bdi> ("he reproached him," equivalent to <bdi>عابَهُ</bdi>) and <bdi>عَجَّزَتِ المَرْأَةُ</bdi> ("the woman grew old").`, list: false },
+            { html: `Sometimes فَعَّلَ carries exactly its bare أصل's meaning, as in <bdi>﴿زُيِّنَ لِلناسِ حُبُّ الشَّهَواتِ﴾</bdi> — "the love of desires has been made attractive to mankind" — where <bdi>زَيَّنَ</bdi> and <bdi>زانَ</bdi> mean the same thing. Sometimes it carries تَفَعَّلَ's meaning instead, as in <bdi>وَلَّى</bdi> and <bdi>تَوَلَّى</bdi> (both he turned away) or <bdi>فَكَّرَ</bdi> and <bdi>تَفَكَّرَ</bdi> (both he reflected). And sometimes it stands in for an أصل that was never attested at all, as in <bdi>عَيَّرَهُ</bdi> (he reproached him, equivalent to <bdi>عابَهُ</bdi>) and <bdi>عَجَّزَتِ المَرْأَةُ</bdi> (the woman grew old).`, list: false },
           ],
           exercise: {
             prompt: `Which meaning of فَعَّلَ is described as أغلب المعاني؟`,
@@ -658,7 +658,7 @@ export default {
             ] } },
             { html: `Because انفعل is confined to physical, limb-done actions, no انفعل form exists for teaching or making-understand: <bdi>عَلَّمْتُهُ فانْعَلَمَ</bdi> and <bdi>فَهَّمْتُهُ فانْفَهَمَ</bdi> are simply not said, since neither is done with the limbs.`, list: false },
           ],
-          clarification: `Two restrictions fall out of the one meaning, and it is worth seeing that they are not separate rules. المطاوعة is the acceptance of another's effect — so the subject of انفعل is by definition the thing acted upon, and a verb whose subject is being acted upon cannot itself take an object. That is why انفعل is لازم without exception. The second restriction is about which verbs can be "accepted" in a physical sense at all: breaking, cutting and opening are done to a thing with the limbs, and the thing visibly undergoes them. Teaching and making-understand are not, which is why <bdi>عَلَّمْتُهُ فانْعَلَمَ</bdi> and <bdi>فَهَّمْتُهُ فانْفَهَمَ</bdi> are simply not said.`,
+          clarification: `Two restrictions fall out of the one meaning, and it is worth seeing that they are not separate rules. المطاوعة is the acceptance of another's effect — so the subject of انفعل is by definition the thing acted upon, and a verb whose subject is being acted upon cannot itself take an object. That is why انفعل is لازم without exception. The second restriction is about which verbs can be accepted in a physical sense at all: breaking, cutting and opening are done to a thing with the limbs, and the thing visibly undergoes them. Teaching and making-understand are not, which is why <bdi>عَلَّمْتُهُ فانْعَلَمَ</bdi> and <bdi>فَهَّمْتُهُ فانْفَهَمَ</bdi> are simply not said.`,
           exercise: {
             prompt: `Why is عَلَّمْتُهُ فانْعَلَمَ not said?`,
             kind: 'mcq',
@@ -699,7 +699,7 @@ export default {
               `ورُبَّما أَتَى مُطاوِعًا لِلْمُضَعَّفِ (أي فَعَّلَ) ومَهْمُوزِ الثُلاثِيّ (أي أَفْعَلَ)`,
               `وقد يَجِيءُ بِمَعْنَى أَصْلِهِ لِعَدَمِ وُرُودِهِ`,
             ] } },
-            { html: `افتعل sometimes serves as the مطاوع of فَعَّلَ or أَفْعَلَ instead: <bdi>قَرَّبْتُهُ</bdi> ("I brought it near") <bdi>فاقْتَرَبَ</bdi> ("so it drew near"); <bdi>بَعَّدْتُهُ</bdi> ("I pushed it away") <bdi>فابْتَعَدَ</bdi> ("so it moved away"); <bdi>أَنْصَفْتُهُ</bdi> ("I gave him justice") <bdi>فانْتَصَفَ</bdi> ("so he received his due"). And, as with the patterns before it, it sometimes stands in for an أصل that was never attested: <bdi>ارْتَجَلَ الخُطْبَةَ</bdi> ("he improvised the speech"), <bdi>اشْتَمَلَ الثَوْبَ</bdi> ("he wrapped himself in the garment"), <bdi>افْتَقَرَ</bdi> ("he became poor"), <bdi>اسْتَلَمَ الحَجَرَ</bdi> ("he touched the [Black] Stone"), <bdi>انْتَهَى</bdi> ("he came to an end").`, list: false },
+            { html: `افتعل sometimes serves as the مطاوع of فَعَّلَ or أَفْعَلَ instead: <bdi>قَرَّبْتُهُ</bdi> (I brought it near) <bdi>فاقْتَرَبَ</bdi> (so it drew near); <bdi>بَعَّدْتُهُ</bdi> (I pushed it away) <bdi>فابْتَعَدَ</bdi> (so it moved away); <bdi>أَنْصَفْتُهُ</bdi> (I gave him justice) <bdi>فانْتَصَفَ</bdi> (so he received his due). And, as with the patterns before it, it sometimes stands in for an أصل that was never attested: <bdi>ارْتَجَلَ الخُطْبَةَ</bdi> (he improvised the speech), <bdi>اشْتَمَلَ الثَوْبَ</bdi> (he wrapped himself in the garment), <bdi>افْتَقَرَ</bdi> (he became poor), <bdi>اسْتَلَمَ الحَجَرَ</bdi> (he touched the [Black] Stone), <bdi>انْتَهَى</bdi> (he came to an end).`, list: false },
           ],
           exercise: {
             prompt: `Which meaning of افتعل does ﴿اقْتَرَبَ لِلناسِ حِسابُهُم﴾ display?`,
@@ -718,8 +718,8 @@ export default {
             { box: { title: 'Example', lines: [
               `كاحْمَرَّ وابْيَضَّ واعْوَرَّ واعْمَشَّ: قَوِيَتْ حُمْرَتُهُ وبَياضُهُ وعَوَرُهُ وعَمَشُهُ`,
             ] } },
-            { html: `افْعَلَّ generally carries one meaning only: the intensification of a colour or a physical defect, and it is always intransitive. <bdi>احْمَرَّ</bdi> ("he reddened"), <bdi>ابْيَضَّ</bdi> ("he whitened"), <bdi>اعْوَرَّ</bdi> ("he became one-eyed") and <bdi>اعْمَشَّ</bdi> ("his eyes became bleary") all describe that quality growing stronger in the subject.`, list: false },
-            { html: `Set beside the earlier note that <bdi>افْعَالَّ</bdi> (<bdi>احْمارَّ</bdi>) is stronger still, the ladder runs <bdi>حَمِرَ</bdi> ← <bdi>احْمَرَّ</bdi> ← <bdi>احْمارَّ</bdi> — "he was red" → "he reddened" → "he turned deep red" — each step intensifying the colour further.`, list: false },
+            { html: `افْعَلَّ generally carries one meaning only: the intensification of a colour or a physical defect, and it is always intransitive. <bdi>احْمَرَّ</bdi> (he reddened), <bdi>ابْيَضَّ</bdi> (he whitened), <bdi>اعْوَرَّ</bdi> (he became one-eyed) and <bdi>اعْمَشَّ</bdi> (his eyes became bleary) all describe that quality growing stronger in the subject.`, list: false },
+            { html: `Set beside the earlier note that <bdi>افْعَالَّ</bdi> (<bdi>احْمارَّ</bdi>) is stronger still, the ladder runs <bdi>حَمِرَ</bdi> ← <bdi>احْمَرَّ</bdi> ← <bdi>احْمارَّ</bdi> — he was red → he reddened → he turned deep red — each step intensifying the colour further.`, list: false },
           ],
           exercise: {
             prompt: `افعلَّ is said to be confined to one meaning. Which?`,
@@ -924,11 +924,11 @@ export default {
             { box: { title: 'Core Text', lines: [
               `«إنَّما العِلْمُ بِالتَعَلُّمِ، وإنَّما الحِلْمُ بِالتَحَلُّمِ، وإنَّما الفِقْهُ بِالتَفَقُّهِ»`,
             ] } },
-            { html: `"Knowledge comes only by learning it; forbearance only by forcing oneself to it; and understanding only by forcing oneself to it." Each of the three تفعَّل forms in that ḥadīth is التكلف, described as <bdi>الاجْتِهادُ فيه</bdi> — "striving for it": these qualities are acquired by effort, not automatically.`, list: false },
+            { html: `"Knowledge comes only by learning it; forbearance only by forcing oneself to it; and understanding only by forcing oneself to it." Each of the three تفعَّل forms in that ḥadīth is التكلف, described as <bdi>الاجْتِهادُ فيه</bdi> — striving for it: these qualities are acquired by effort, not automatically.`, list: false },
             { box: { title: 'Careful', lines: [
               `ورُبَّما أَغْنَتْ هذه الصِّيغَةُ عن الثُلاثِيِّ لِعَدَمِ وُرُودِهِ`,
             ] } },
-            { html: `And here too the صيغة sometimes stands in for a bare ثلاثي that was never attested: <bdi>تَكَلَّمَ</bdi> ("he spoke") and <bdi>تَصَدَّى</bdi> ("he turned his attention to").`, list: false },
+            { html: `And here too the صيغة sometimes stands in for a bare ثلاثي that was never attested: <bdi>تَكَلَّمَ</bdi> (he spoke) and <bdi>تَصَدَّى</bdi> (he turned his attention to).`, list: false },
           ],
           exercise: {
             prompt: `تَحَرَّجَ and تَهَجَّدَ are glossed تَجَنَّبَ الحَرَجَ والهُجُودَ. Which meaning of تفعَّل is that?`,
@@ -944,12 +944,12 @@ export default {
               `اشْتَهَرَتْ في أَرْبَعَةِ مَعانٍ. أَوَّلُها: التَشْرِيكُ بَيْنَ اثْنَيْنِ فَأَكْثَرَ، كُلٌّ منهما فاعِلًا في اللَفْظِ، مَفْعُولًا في المَعْنَى`,
               `وذلك بِجَعْلِ طَرَفَيِ الفِعْلِ فاعِلَيْنِ في اللَفْظِ، بِجَعْلِ الأَوَّلِ فاعِلًا والآخَرِ مَعْطُوفًا عليه`,
             ] } },
-            { html: `تَفَاعَلَ is well known in four meanings. The first is <bdi>التشريك</bdi>: the sentence puts both parties as فاعل in the wording — the first as فاعل proper, the second joined to it with a واو — while in meaning both are مفعول as well. <bdi>تَخَاصَمَ زَيدٌ وعَمْرٌو</bdi> — "Zayd and 'Amr disputed with each other."`, list: false },
+            { html: `تَفَاعَلَ is well known in four meanings. The first is <bdi>التشريك</bdi>: the sentence puts both parties as فاعل in the wording — the first as فاعل proper, the second joined to it with a واو — while in meaning both are مفعول as well. <bdi>تَخَاصَمَ زَيدٌ وعَمْرٌو</bdi> — Zayd and 'Amr disputed with each other.`, list: false },
             { html: `That is precisely what separates it from the pattern of the previous lesson.`, list: false },
             { box: { title: 'Careful', lines: [
               `بِخِلافِ (فَاعَلَ) المُتَقَدِّمِ`,
             ] } },
-            { html: `In <bdi>خَاصَمَ زَيدٌ عَمْرًا</bdi> — "Zayd disputed with 'Amr" — one party is فاعل and the other مفعول به, even though, in meaning, both did the disputing. تَفَاعَلَ puts the wording back in step with the meaning, and that has a consequence for transitivity.`, list: false },
+            { html: `In <bdi>خَاصَمَ زَيدٌ عَمْرًا</bdi> — Zayd disputed with 'Amr — one party is فاعل and the other مفعول به, even though, in meaning, both did the disputing. تَفَاعَلَ puts the wording back in step with the meaning, and that has a consequence for transitivity.`, list: false },
             { table: { title: 'أثر ذلك على التعدية (The Effect of That on Transitivity)', headers: ['فَاعَلَ', 'تَفَاعَلَ'], rows: [
               ['جَاذَبَ زَيدٌ عَمْرًا ثَوْبًا — متعدٍّ لاثنين', 'تَجَاذَبَ زَيدٌ وعَمْرٌو ثَوْبًا — متعدٍّ لواحد'],
               ['خَاصَمَ زَيدٌ عَمْرًا — متعدٍّ لواحد', 'تَخَاصَمَ زَيدٌ وعَمْرٌو — لازم'],
@@ -1006,14 +1006,14 @@ export default {
           heading: 'استفعل: بقية معانيه، وباقي الصيغ',
           lines: [
             { table: { headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
-              ['اخْتِصارُ حِكايَةِ الشَيْءِ — abbreviating the telling of something', 'اسْتَرْجَعَ — said when someone says إنَّا لله وإنَّا إليه راجعون ("Truly we belong to Allah, and truly to Him we return")'],
+              ['اخْتِصارُ حِكايَةِ الشَيْءِ — abbreviating the telling of something', `اسْتَرْجَعَ — said when someone says إنَّا لله وإنَّا إليه راجعون ("Truly we belong to Allah, and truly to Him we return")`],
               ['القُوَّة — intensity', 'اسْتُهْتِرَ، اسْتَكْبَرَ — his foolish talk, his arrogance, intensified'],
               ['المُصادَفَة — finding to be', 'اسْتَكْرَمْتُ زَيدًا أو اسْتَبْخَلْتُهُ — I found him to be generous, or miserly'],
             ] } },
             { box: { title: 'Careful', lines: [
               `ورُبَّما كان بِمَعْنَى (أَفْعَلَ)، ولِمُطاوَعَتِهِ`,
             ] } },
-            { html: `استفعل sometimes carries أَفْعَلَ's meaning, as in <bdi>أَجابَ</bdi> and <bdi>اسْتَجابَ</bdi>, both meaning "to respond." Or it serves as أَفْعَلَ's مطاوع: <bdi>أَحْكَمْتُهُ</bdi> ("I made it firm") <bdi>فاسْتَحْكَمَ</bdi> ("so it became firm"); <bdi>أَقَمْتُهُ</bdi> ("I set it upright") <bdi>فاسْتَقامَ</bdi> ("so it stood upright").`, list: false },
+            { html: `استفعل sometimes carries أَفْعَلَ's meaning, as in <bdi>أَجابَ</bdi> and <bdi>اسْتَجابَ</bdi>, both meaning to respond. Or it serves as أَفْعَلَ's مطاوع: <bdi>أَحْكَمْتُهُ</bdi> (I made it firm) <bdi>فاسْتَحْكَمَ</bdi> (so it became firm); <bdi>أَقَمْتُهُ</bdi> (I set it upright) <bdi>فاسْتَقامَ</bdi> (so it stood upright).`, list: false },
             { html: `That accounts for every pattern discussed one by one. Three are left, and the source treats them together because they share one function.`, list: false },
             { box: { title: 'Rule', lines: [
               `ثُمَّ إنَّ باقِيَ الصِّيَغِ تَدُلُّ على قُوَّةِ المَعْنَى، زِيادَةً على أَصْلِهِ`,

@@ -25,7 +25,7 @@
 // tarkeeb onto sentences app-lessons never analyses word-by-word.
 export default {
   id: '05',
-  title: 'أفعال القلوب: اليقين والظن',
+  title: 'أفعال القلوب',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
   blurb: 'أفعال القلوب — the two-object verbs of certainty (وجد، رأى، علم، درى) and assumption (ظن، حسب، زعم، جعل), the أنّ/أنْ/plain-object scale of تأكيد, and the rules governing when their objects may or may not be dropped.',
@@ -33,7 +33,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'أفعال اليقين: وَجَدَ وأَلْفَى ورَأَى',
+      title: 'وَجَدَ ورَأَى',
       subtitle: 'Verbs of Certainty — وجد’s shift from physical finding to sure knowledge, and رأى’s three readings',
       concepts: [
         {
@@ -226,7 +226,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'أفعال اليقين: عَلِمَ وعَرَفَ ودَرَى وتَعَلَّمْ',
+      title: 'عَلِمَ وعَرَفَ',
       subtitle: 'Verbs of Certainty, continued — knowing a صفة, recognising a ذات, learning after ignorance',
       concepts: [
         {
@@ -342,7 +342,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'أفعال الظن: ظَنَّ وحَسِبَ وزَعَمَ وجَعَلَ',
+      title: 'ظَنَّ وحَسِبَ',
       subtitle: 'Verbs of Assumption — رجحان, ظن used for certainty, and the difference between حسب and زعم',
       concepts: [
         {
@@ -488,7 +488,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'سُلَّم التوكيد، وبقية أفعال الظن',
+      title: 'سُلَّم التوكيد',
       subtitle: 'The أنّ / أنْ / two-object scale of emphasis with علم and ظن, plus حَجَا، عَدَّ، هَبْ، خَالَ',
       concepts: [
         {
@@ -617,7 +617,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'أَلَمْ تَرَ وأَرَأَيْتَ، وقواعد الحذف',
+      title: 'أَلَمْ تَرَ',
       subtitle: 'Two رأى-based idioms of astonishment, and when the objects of أفعال القلوب may or may not be dropped',
       concepts: [
         {

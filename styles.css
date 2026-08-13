@@ -3598,9 +3598,13 @@ select.schedule-input {
    The cells[]/rows[] parse-diagram schema -- a CSS grid, one column per
    sentence cell, label spans stacked in rows above/below the sentence (see
    flattenTarkeebSlots in content/index.js and tarkeebDiagramGridHtml in
-   js/render.js). Deliberately reuses this file's own card/accent language
-   (not the source book's blue/pink/green scheme) so it reads as part of the
-   app, not a pasted-in textbook image. */
+   js/render.js). Base look reuses this file's own card/accent language; the
+   source book's blue-primary/green-secondary role colouring (opt-in via
+   "Colour Tarkeeb labels" in Settings -- state.tarkeebLabelsBlue) is layered
+   on top through the .tarkeeb-tier-primary/.tarkeeb-tier-secondary rules
+   further down, rather than baked into these base rules, so the widget still
+   reads as the app's own when the setting is off. The sentence itself
+   (.tarkeeb-diagram-cell) is never colour-coded, only the role labels. */
 .tarkeeb-diagram-scroll {
   max-width: 100%;
   background: var(--paper-deep);
@@ -3705,14 +3709,64 @@ select.schedule-input {
 
 :root {
   --tarkeeb-label-blue: #1f63ad;
+  --tarkeeb-label-green: #1c7a4a;
 }
 
 :root[data-theme="lamp"] {
   --tarkeeb-label-blue: #7fc7ff;
+  --tarkeeb-label-green: #7fd9a8;
 }
 
-:root[data-tarkeeb-labels-blue="true"] .tarkeeb-label-text {
+/* Flat words[]/labels[] تركيب (the original, Advanced Nahw schema -- see
+   flattenTarkeebSlots' comment in content/index.js) has no rows to derive a
+   tier from, so the setting just turns every label blue there. The
+   :not()s carve out the diagram schema's own labels, which the
+   .tarkeeb-tier-primary/.tarkeeb-tier-secondary rules below colour instead
+   -- both rules target the exact same .tarkeeb-label-text element, so
+   without this exclusion the higher-specificity rule here would win and
+   flatten every diagram label back to blue regardless of tier. */
+:root[data-tarkeeb-labels-blue="true"] .tarkeeb-label-text:not(.tarkeeb-tier-primary):not(.tarkeeb-tier-secondary) {
   color: var(--tarkeeb-label-blue);
+}
+
+/* Diagram-schema (content-fstu) role colouring -- "Colour Tarkeeb labels" in
+   Settings. Emitted only when that setting is on (js/render.js), so these
+   rules don't need the [data-tarkeeb-labels-blue="true"] guard themselves.
+   .tarkeeb-chip text-only per the chip's own role (tray + placed-in-slot
+   text); .tarkeeb-diagram-label/.tarkeeb-diagram-slot also get a tinted
+   fill/border, matching "the slots should be filled with their matching
+   colour" -- the sentence (.tarkeeb-diagram-cell) is never touched. An empty
+   slot gets the lighter border-only treatment below; once filled, .filled
+   below layers in the full background wash. */
+.tarkeeb-chip.tarkeeb-tier-primary,
+.tarkeeb-label-text.tarkeeb-tier-primary {
+  color: var(--tarkeeb-label-blue);
+}
+.tarkeeb-chip.tarkeeb-tier-secondary,
+.tarkeeb-label-text.tarkeeb-tier-secondary {
+  color: var(--tarkeeb-label-green);
+}
+/* :not(.correct):not(.incorrect) -- once checked, the pass/fail feedback
+   colouring a few rules up (.tarkeeb-slot.correct/.incorrect) must win over
+   the tier colour, or a wrong answer would still read as a calm, correctly-
+   tinted slot instead of the grading feedback grey. Higher specificity here
+   (3+ classes vs .tarkeeb-slot.correct's 2) would otherwise flip that the
+   wrong way regardless of source order. */
+.tarkeeb-diagram-slot.tarkeeb-tier-primary:not(.correct):not(.incorrect) {
+  border-color: color-mix(in srgb, var(--tarkeeb-label-blue) 45%, var(--card-border));
+}
+.tarkeeb-diagram-slot.tarkeeb-tier-secondary:not(.correct):not(.incorrect) {
+  border-color: color-mix(in srgb, var(--tarkeeb-label-green) 45%, var(--card-border));
+}
+.tarkeeb-diagram-label.tarkeeb-tier-primary,
+.tarkeeb-diagram-slot.filled.tarkeeb-tier-primary:not(.correct):not(.incorrect) {
+  background: color-mix(in srgb, var(--tarkeeb-label-blue) 14%, var(--paper-deep));
+  border-color: color-mix(in srgb, var(--tarkeeb-label-blue) 45%, var(--card-border));
+}
+.tarkeeb-diagram-label.tarkeeb-tier-secondary,
+.tarkeeb-diagram-slot.filled.tarkeeb-tier-secondary:not(.correct):not(.incorrect) {
+  background: color-mix(in srgb, var(--tarkeeb-label-green) 14%, var(--paper-deep));
+  border-color: color-mix(in srgb, var(--tarkeeb-label-green) 45%, var(--card-border));
 }
 
 /* ---------- Motion: view transitions (page-turn crossfade) ---------- */
@@ -4901,6 +4955,37 @@ button.path-node:not(.locked):hover {
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 22px;
 }
+/* A shelf-group divider, one per series (see bookSeries in
+   content-lit/index.js) -- structurally the same "span every grid column,
+   line above every group but the first" as .home-chapter-heading on the
+   module dashboard, but set in the shelf's own voice: the series name large
+   in the Arabic heading face, its transliteration as a small accent kicker
+   underneath, rather than that block's two-column heading/subheading row. */
+.lit-shelf-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 28px 0 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-divider);
+}
+.lit-shelf-heading:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+.lit-shelf-heading-ar {
+  font-family: var(--font-ar-heading);
+  font-size: 20px;
+  color: var(--color-text);
+}
+.lit-shelf-heading-en {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
 
 /* A book, edge-on: a spine down the inline-start edge and a titled face. */
 .lit-book {
@@ -5497,7 +5582,8 @@ button.path-node:not(.locked):hover {
   transform: translateY(-4px) !important;
   pointer-events: none !important;
 }
-.no-hover-translate .lit-sentence:not(.is-open):hover {
+.no-hover-translate .lit-sentence:not(.is-open):hover,
+.no-hover-translate .lit-sentence:not(.is-open):focus-within {
   background: none !important;
 }
 .no-hover-translate .lit-sentence:not(.is-open):hover .lit-gloss-btn {

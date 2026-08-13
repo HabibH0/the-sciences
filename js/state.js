@@ -151,7 +151,7 @@ export async function createInitialState() {
     // Revision Mode included, but Revision no longer reads it to decide
     // what's due -- see buildModuleRevisionQueue below.
     practiceHistory: boot.practiceHistory || {},
-    tarkeebLabelsBlue: boot.tarkeebLabelsBlue === true,
+    tarkeebLabelsBlue: boot.tarkeebLabelsBlue !== false,
     // Schedule tab, "Deadline" sub-tab: courseId -> target completion date
     // (YYYY-MM-DD), so each course keeps its own deadline instead of one
     // shared across every course. Missing entry means unset for that course.
@@ -161,6 +161,13 @@ export async function createInitialState() {
     // remaining days automatically instead of needing a stored plan to be
     // kept in sync.
     scheduleDeadline: boot.scheduleDeadline || {},
+    // Schedule tab, "Deadline" sub-tab: the hour (0-23, local time) the
+    // app's notion of "today" rolls over -- read by todayISO (js/
+    // persistence.js) everywhere a calendar day is derived (the streak,
+    // this course's deadline countdown, lesson completion dates). Already
+    // normalized to an int in [0,23] by bootProgress, so no further
+    // validation needed here.
+    dailyResetHour: boot.dailyResetHour || 0,
     // My Path: nodeId -> { done: true, at: ISODate, score?: {correct,total} }.
     // Only ever written for checkpoint/revision/milestone nodes -- a LESSON
     // node has no entry here at all, since its done-ness is derived
@@ -241,6 +248,14 @@ export async function createInitialState() {
     // unknown while reading. Persisted, and read back by the build exercise
     // to decide which sentences it draws from.
     litUnknown: boot.litUnknown || {},
+    // bookId -> lemma -> { count, seenSentenceIds }, the "Practice weak
+    // words" mode's per-word rep counter (see buildLitWordPracticeQueue
+    // below) -- how many times a word has been answered correctly in that
+    // mode, and which build sentences it's already been drilled with (so a
+    // word practiced repeatedly cycles through different sentences rather
+    // than the same one). A lemma is deleted from here (and from litUnknown)
+    // the moment it retires -- see LIT_WORD_RETIRE_COUNT. Persisted.
+    litWordReps: boot.litWordReps || {},
     // 'ar' | 'en' -- which language the comprehension checks are asked in.
     // A standing reading preference rather than a per-session choice, so it
     // is persisted; `answer` indexes both option lists, so switching
@@ -1144,12 +1159,13 @@ export function buildLitWorkshopQueue(chapter) {
   return queue.map(withOptionOrder);
 }
 
-const LIT_BUILD_DISTRACTORS = 3;
+const LIT_BUILD_DISTRACTORS = 6;
+const LIT_BUILD_FILLER_DISTRACTORS = 5;
 
-// The chips for one sentence: its own words, plus up to three of those words
-// again with the ending moved one case along (see caseVariant). Choosing
-// between اللَّيْلِ and اللَّيْلُ is the actual question -- word order alone
-// would be too easy in a sentence this short.
+// The chips for one sentence: its own words, plus up to LIT_BUILD_DISTRACTORS
+// of those words again with the ending moved one case along (see
+// caseVariant). Choosing between اللَّيْلِ and اللَّيْلُ is the actual
+// question -- word order alone would be too easy in a sentence this short.
 function makeLitBuildItem(sentence, otherSurfaces) {
   const solution = sentence.tokens.map((t) => t.surface);
   const taken = new Set(solution);
@@ -1168,7 +1184,7 @@ function makeLitBuildItem(sentence, otherSurfaces) {
   // no case marks to move, so fall back to words from elsewhere in the
   // chapter rather than offering the answer with no decoys at all.
   shuffle(otherSurfaces).forEach((surface) => {
-    if (chips.length - solution.length >= 2 || taken.has(surface)) return;
+    if (chips.length - solution.length >= LIT_BUILD_FILLER_DISTRACTORS || taken.has(surface)) return;
     taken.add(surface);
     chips.push({ surface, correct: false, note: 'belongs to a different sentence in this chapter.' });
   });
@@ -1207,6 +1223,76 @@ export function buildLitBuildQueue(chapter, litUnknown, bookId) {
 
   const allSurfaces = eligible.flatMap((s) => s.tokens.map((t) => t.surface));
   return picked.map((s) => makeLitBuildItem(s, allSurfaces));
+}
+
+// --- Literature: "Practice weak words" (book-wide, not chapter-scoped) ---
+// Reuses the build stage's own item shape (makeLitBuildItem) and chip tray,
+// just sourced from every chapter in a book rather than one, and picked by
+// LEMMA (one target unknown word per drill) rather than by sentence -- see
+// js/main.js's openLitWordPractice for how candidatesByLemma is assembled
+// (it needs every chapter loaded first, which only an action handler can
+// await; this file stays synchronous like the rest of state.js).
+
+// A word retires (drops out of litUnknown AND litWordReps entirely -- see
+// bumpLitWordRep in js/main.js) once answered correctly this many times in
+// this mode specifically; unlike vocabExposure's `learned` flag, there is no
+// lower/earlier bar shared with another mode to worry about re-triggering.
+export const LIT_WORD_RETIRE_COUNT = 10;
+// No forced minimum: a book with only 2 unknown words just gets a 2-item
+// session rather than padding with words the learner already knows.
+const LIT_PRACTICE_MAX = 12;
+// Same 3-unseen : 7-seen lean as Revision Vocab's own REVISION_VOCAB_UNSEEN_RATIO
+// just above -- mostly resurface words already in progress (so they actually
+// reach the retire bar), while still trickling in words never drilled here.
+const LIT_PRACTICE_UNSEEN_RATIO = 0.3;
+
+// Same "closer to the line -> higher priority" shape as seenPriorityWeight/
+// revisionSeenPriorityWeight above: a word 8 reps into a 10-rep bar is
+// picked far more often than one just starting out, so it actually crosses
+// the line instead of being diluted among an ever-growing pool.
+function litWordSeenPriorityWeight(lemma, reps) {
+  const rec = reps[lemma];
+  const remaining = Math.max(1, LIT_WORD_RETIRE_COUNT - (rec ? rec.count : 0));
+  return 100 / remaining;
+}
+
+function pickLitWordLemmas(lemmas, count, reps) {
+  if (count <= 0) return [];
+  const seen = lemmas.filter((l) => reps[l]);
+  const unseen = lemmas.filter((l) => !reps[l]);
+  const unseenCount = Math.min(Math.round(count * LIT_PRACTICE_UNSEEN_RATIO), unseen.length);
+  let picked = shuffle(unseen).slice(0, unseenCount);
+  const seenCount = Math.min(count - picked.length, seen.length);
+  picked = picked.concat(weightedSample(seen.map((l) => ({ key: l })), seenCount, (e) => litWordSeenPriorityWeight(e.key, reps)));
+  if (picked.length < count) {
+    const used = new Set(picked);
+    const rest = lemmas.filter((l) => !used.has(l));
+    picked = picked.concat(shuffle(rest).slice(0, count - picked.length));
+  }
+  return picked;
+}
+
+// `candidatesByLemma` is a Map<lemma, sentence[]> (every isBuildEligible
+// sentence anywhere in the book that contains a token of that lemma, each
+// sentence tagged with its own chapterId -- see js/main.js). Only lemmas
+// with at least one eligible sentence can appear here at all; a word the
+// learner marked unknown but that only ever appears in an ineligible
+// sentence (too short/long, no swappable ending) simply can't be drilled
+// this way and is left out, same as it would be for the chapter build stage.
+export function buildLitWordPracticeQueue(candidatesByLemma, litWordReps) {
+  const lemmas = [...candidatesByLemma.keys()];
+  const target = Math.min(LIT_PRACTICE_MAX, lemmas.length);
+  const pickedLemmas = pickLitWordLemmas(lemmas, target, litWordReps);
+
+  const allSurfaces = [...candidatesByLemma.values()].flat().flatMap((s) => s.tokens.map((t) => t.surface));
+  return pickedLemmas.map((lemma) => {
+    const sentences = candidatesByLemma.get(lemma);
+    const rec = litWordReps[lemma];
+    const seenIds = new Set((rec && rec.seenSentenceIds) || []);
+    const sentence = sentences.find((s) => !seenIds.has(s.id)) || shuffle(sentences)[0];
+    const item = makeLitBuildItem(sentence, allSurfaces);
+    return { ...item, lemma, chapterId: sentence.chapterId };
+  });
 }
 
 export function sidebarRows(state, MODULES, helpers) {

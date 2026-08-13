@@ -28,7 +28,7 @@
 // hit for the same reason. l2 and l3 held at the 6/5 concepts estimated.
 export default {
   id: '24',
-  title: 'الفاعل ونائب الفاعل والمبتدأ',
+  title: 'الفاعل والمبتدأ',
   heading: 'المعمول وغير المعمول',
   subheading: 'الاسم والفعل',
   blurb: 'الفاعل and نائب الفاعل as a matched pair distinguished only by معلوم/مجهول فاعله, then المبتدأ opening الجملة الاسمية — its two types, when a نكرة may open it, and the four positions where it must be dropped.',
@@ -264,7 +264,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'نائب الفاعل والمبتدأ',
+      title: 'نائب الفاعل',
       subtitle: 'The Subject-Substitute and the Topic — نائب الفاعل\'s mirror definition, لام التوكيد, and when a نكرة may open a sentence',
       concepts: [
         {
@@ -464,7 +464,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'حذف المبتدأ وجوبًا',
+      title: 'حذف المبتدأ',
       subtitle: 'When the Topic Must Be Dropped — the four positions where leaving المبتدأ in place would itself be wrong',
       concepts: [
         {

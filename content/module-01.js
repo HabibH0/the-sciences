@@ -160,7 +160,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الاسم: علاماته',
+      title: 'علامات الاسم',
       subtitle: 'Signs of the Noun — اسم’s definition and the six signs that identify it',
       concepts: [
         {

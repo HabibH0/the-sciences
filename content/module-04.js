@@ -23,7 +23,7 @@
 // related material" guidance in content/README.md.
 export default {
   id: '04',
-  title: 'الفعل القياسي: اللزوم والتعدي',
+  title: 'اللزوم والتعدي',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
   blurb: 'الفعل القياسي splits into اللازم, whose effect stops at its فاعل, and المتعدي, whose effect reaches one or more مفعول به — and how the same فعل can be لازم in direct إعراب while still متعدي in meaning through a حرف جر.',
@@ -249,7 +249,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الفعل المتعدي: بنفسه وبواسطة الحرف',
+      title: 'الفعل المتعدي',
       subtitle: 'The Transitive Verb — متعدي بنفسه vs متعدي بواسطة حرف الجر, and reading the same verb from two angles',
       concepts: [
         {
@@ -399,7 +399,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'الفعل المتعدي: فعل واحد بتركيبين وأضرب المتعدي',
+      title: 'أضرب المتعدي',
       subtitle: 'One Verb, Two Structures — اهدنا vs وهداه, انتهاء الغاية, and how مفاعيل are counted',
       concepts: [
         {
@@ -572,7 +572,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'المتعدي إلى مفعولين',
+      title: 'مفعولان',
       subtitle: 'The Two-Object Verb — أفعال العطاء, حذف المفعولين, أفعال الظن, and فعل الجارحة vs فعل القلب',
       concepts: [
         {

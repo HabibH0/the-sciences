@@ -129,12 +129,12 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c21-005',
-          ar: 'وَلَكِنَّ اللَّهَ لا يَنْظُرُ إِلَى الأَنْسَابِ',
+          ar: 'وَلَكِنَّ اللَّهَ لَا يَنْظُرُ إِلَى الأَنْسَابِ',
           en: 'But Allah does not look at lineage,',
           tokens: [
             { surface: 'وَلَكِنَّ', lemma: 'لَكِنَّ', pos: 'conj', features: 'conj', gloss: 'but' },
             { surface: 'اللَّهَ', lemma: 'اللَّه', pos: 'proper', features: 'acc', gloss: 'Allah' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَنْظُرُ', lemma: 'نَظَرَ', pos: 'verb', features: 'impf.3ms', gloss: 'to look; looks' },
             { surface: 'إِلَى', lemma: 'إِلَى', pos: 'prep', features: 'prep', gloss: 'at' },
             { surface: 'الأَنْسَابِ', lemma: 'نَسَب', pos: 'noun', features: 'pl.def.gen', root: 'ن س ب', gloss: 'the lineages' },
@@ -153,11 +153,11 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c21-007',
-          ar: 'وَاللَّهُ لا يَقْبَلُ الشَّفَاعَةَ فِي الْمُشْرِكِينَ.',
+          ar: 'وَاللَّهُ لَا يَقْبَلُ الشَّفَاعَةَ فِي الْمُشْرِكِينَ.',
           en: 'And Allah does not accept intercession for those who associate partners with Him.',
           tokens: [
             { surface: 'وَاللَّهُ', lemma: 'اللَّه', pos: 'proper', features: 'conj+nom', gloss: 'and Allah' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَقْبَلُ', lemma: 'قَبِلَ', pos: 'verb', features: 'impf.3ms', root: 'ق ب ل', gloss: 'to accept; accepts' },
             { surface: 'الشَّفَاعَةَ', lemma: 'شَفَاعَة', pos: 'noun', features: 'def.acc', root: 'ش ف ع', gloss: 'intercession' },
             { surface: 'فِي', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'for' },

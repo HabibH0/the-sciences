@@ -53,7 +53,7 @@
 // constructed examples.
 export default {
   id: '21',
-  title: 'بقية الأسماء العاملة والإضافة',
+  title: 'الأسماء العاملة',
   heading: 'العامل وغير العامل',
   subheading: 'الاسم',
   blurb: 'Three leftover verb-like nouns closing out أسماء تعمل عمل الفعل, then الإضافة — معنوية and لفظية — plus أسماء الشرط and the three أعمال معنوية that govern with no spoken governor at all.',
@@ -61,7 +61,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'باقية الأسماء العاملة',
+      title: 'بقية الأسماء',
       subtitle: 'Remaining Governing Nouns — الظرف المستقر, الاسم المنسوب, and الاسم الجامد المؤول بمعنى المشتق',
       concepts: [
         {
@@ -193,7 +193,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الإضافة المعنوية: الحروف المقدرة',
+      title: 'الحروف المقدرة',
       subtitle: 'Implicit Iḍāfa — the elided اللام, مِن, or في hiding behind every plain possessive إضافة',
       concepts: [
         {
@@ -338,7 +338,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'الإضافة المعنوية: أحكام أخرى',
+      title: 'الإضافة المعنوية',
       subtitle: 'Further Rulings on Implicit Iḍāfa — dropping المضاف إليه, بناء على الضم, تنوين العوض, and borrowed gender',
       concepts: [
         {

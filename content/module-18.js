@@ -25,7 +25,7 @@
 // forcing extra تركيب items onto sentences the source never quotes.
 export default {
   id: '18',
-  title: 'التوبيخ والتنبيه والمصدر والنفي والزيادة',
+  title: 'التوبيخ والتنبيه',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
   blurb: 'أحرف التوبيخ والتحضيض، أحرف التنبيه، the non-governing أحرف المصدر and أحرف النفي, and أحرف الزيادة (أحرف الصلة) — five families of غير عامل particles told apart by tense, by a deletion test, or by who is speaking to whom, not by form alone.',
@@ -33,7 +33,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'أحرف التوبيخ والتحضيض',
+      title: 'التوبيخ والتحضيض',
       subtitle: 'Reproach and Incitement — هلا، ألا، and لولا’s tense-governed and rank-governed senses',
       concepts: [
         {
@@ -417,7 +417,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'أحرف المصدر غير العاملة',
+      title: 'أحرف المصدر',
       subtitle: 'The Non-Governing Nominalizing Particles — ما، لو بعد ودّ، and همزة التسوية',
       concepts: [
         {
@@ -545,7 +545,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'أحرف النفي غير العاملة',
+      title: 'أحرف النفي',
       subtitle: 'The Non-Governing Negators — ما، لا، and إنْ, and where each attaches',
       concepts: [
         {

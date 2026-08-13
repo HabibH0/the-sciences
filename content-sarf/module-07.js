@@ -56,8 +56,8 @@ export default {
             ] } },
             { html: `الفعل divides into <bdi>مُتَعَدٍّ</bdi> (transitive) and <bdi>لازِم</bdi> (intransitive). Each division carries a second name that describes what it does.`, list: false },
             { table: { headers: ['القسم (Division)', 'ويُسَمَّى أيضًا (Also Called)'], rows: [
-              ['مُتَعَدٍّ', 'مُجاوِزًا — "one that crosses over," because its effect passes beyond the doer'],
-              ['لازِم', 'قاصِرًا — "one that falls short," because its effect stops at the doer'],
+              ['مُتَعَدٍّ', 'مُجاوِزًا — one that crosses over, because its effect passes beyond the doer'],
+              ['لازِم', 'قاصِرًا — one that falls short, because its effect stops at the doer'],
             ] } },
             { box: { title: 'Definition', lines: [
               `المُتَعَدِّي عِنْدَ الإطْلاقِ: ما يُجاوِزُ الفاعِلَ إلى المَفْعُولِ بِهِ بِنَفْسِهِ`,
@@ -65,10 +65,10 @@ export default {
             { html: `<bdi>المتعدي</bdi>, in its unqualified sense (<bdi>عِنْدَ الإطْلاقِ</bdi>), is a verb whose effect crosses over from the <bdi>فاعل</bdi> (the doer) to a <bdi>مفعول به</bdi> (a direct object) by itself — with no preposition needed to carry it across.`, list: false },
             { box: { title: 'Example', lines: [`حَفِظَ مُحَمَّدٌ الدَّرْسَ`] } },
             { html: `Muhammad memorized the lesson. <bdi>حَفِظَ</bdi> (memorized) reaches its object, <bdi>الدَّرْسَ</bdi> (the lesson), directly, with nothing standing between the verb and the thing it acted on.`, list: false },
-            { html: `<bdi>بِنَفْسِهِ</bdi> — "by itself" — is the operative word in that definition: a verb that reaches its object only through a <bdi>حرف جر</bdi> (a preposition) does not count as متعدٍّ in this unqualified sense. That case gets its own name later in this course.`, list: false },
+            { html: `<bdi>بِنَفْسِهِ</bdi> — by itself — is the operative word in that definition: a verb that reaches its object only through a <bdi>حرف جر</bdi> (a preposition) does not count as متعدٍّ in this unqualified sense. That case gets its own name later in this course.`, list: false },
           ],
           exercise: {
-            prompt: `The definition of المتعدي adds بِنَفْسِهِ — "by itself". What does that exclude?`,
+            prompt: `The definition of المتعدي adds بِنَفْسِهِ — by itself. What does that exclude?`,
             kind: 'mcq',
             options: ['Verbs that are مزيد', 'Verbs whose فاعل is a ضمير', 'Verbs that reach their object only through a حرف جر', 'Verbs with more than one object'],
             correct: 2,
@@ -77,14 +77,14 @@ export default {
         {
           heading: 'العلامة الأولى: هاء تعود إلى غير المصدر',
           lines: [
-            { html: `Two signs identify a متعدٍّ verb. The first turns on what a <bdi>هاء</bdi> — the pronoun suffix meaning "him" or "it" — refers back to when it attaches to the verb.`, list: false },
+            { html: `Two signs identify a متعدٍّ verb. The first turns on what a <bdi>هاء</bdi> — the pronoun suffix meaning him or it — refers back to when it attaches to the verb.`, list: false },
             { box: { title: 'Definition', lines: [
               `أن تَتَّصِلَ بِهِ هاءٌ تَعُودُ إلى غَيْرِ المَصْدَرِ`,
             ] } },
             { html: `The first sign: a هاء attaches to the verb, referring back to something other than the verb's own <bdi>مصدر</bdi> (its verbal noun).`, list: false },
             { box: { title: 'Example', lines: [`زَيْدٌ ضَرَبَهُ عَمْرٌو`] } },
             { html: `Zayd — Amr struck him. The هاء on <bdi>ضَرَبَهُ</bdi> (struck him) refers back to زيد, a person the striking actually landed on — something only a transitive verb can produce.`, list: false },
-            { html: `<bdi>إلى غَيْرِ المَصْدَرِ</bdi> — "referring to other than the مصدر" — is the whole point of the sign, because a هاء that refers back to the verb's own مصدر attaches just as readily to a لازم verb as to a متعدٍّ one:`, list: false },
+            { html: `<bdi>إلى غَيْرِ المَصْدَرِ</bdi> — referring to other than the مصدر — is the whole point of the sign, because a هاء that refers back to the verb's own مصدر attaches just as readily to a لازم verb as to a متعدٍّ one:`, list: false },
             { table: { title: 'الهاء العائدة على المصدر (A هاء Referring Back to its Own مصدر)', headers: ['المثال (Example)', 'الترجمة (Translation)', 'نوع الفعل (Type of Verb)'], rows: [
               ['الضَّرْبُ ضَرَبَهُ زَيْدٌ', 'The striking — Zayd struck it', 'الفعل المُتَعَدِّي'],
               ['الفَرْحُ فَرِحَهُ زَيْدٌ', 'The joy — Zayd rejoiced it', 'الفعل اللازِم'],
@@ -93,10 +93,10 @@ export default {
               `الهاءُ في مِثْلِ ذَلِكَ لَيْسَتْ بِمَفْعُولٍ بِهِ، إنَّما هي مَفْعُولٌ مُطْلَقٌ`,
             ] } },
             { html: `In both rows above, that هاء is not a مفعول به (a direct object) at all — it is a <bdi>مفعول مطلق</bdi>, a cognate object: the action's own name, said again for emphasis. A مفعول مطلق attaches to any verb, transitive or not, so it proves nothing about transitivity.`, list: false },
-            { html: `The sign therefore reduces to a single question: what does the attached هاء refer back to? In <bdi>زَيْدٌ ضَرَبَهُ عَمْرٌو</bdi> it refers to زيد, an actual person the striking landed on. In <bdi>الفَرْحُ فَرِحَهُ زَيْدٌ</bdi> it refers to الفَرْح, the verb's own مصدر — the phrase amounts to saying "Zayd rejoiced the rejoicing," which every verb can do, transitive or not. So the sign is not "does a هاء attach" but "does a هاء attach that refers to something other than the action itself."`, list: false },
+            { html: `The sign therefore reduces to a single question: what does the attached هاء refer back to? In <bdi>زَيْدٌ ضَرَبَهُ عَمْرٌو</bdi> it refers to زيد, an actual person the striking landed on. In <bdi>الفَرْحُ فَرِحَهُ زَيْدٌ</bdi> it refers to الفَرْح, the verb's own مصدر — the phrase amounts to saying Zayd rejoiced the rejoicing, which every verb can do, transitive or not. So the sign is not does a هاء attach but does a هاء attach that refers to something other than the action itself.`, list: false },
           ],
           exercise: {
-            prompt: `In الفَرْحُ فَرِحَهُ زَيْدٌ — "the joy, Zayd rejoiced it" — a هاء has attached to the verb فَرِحَ. Why does that not prove فَرِحَ is متعدٍّ؟`,
+            prompt: `In الفَرْحُ فَرِحَهُ زَيْدٌ — the joy, Zayd rejoiced it — a هاء has attached to the verb فَرِحَ. Why does that not prove فَرِحَ is متعدٍّ؟`,
             kind: 'mcq',
             options: ['The sentence is not well formed', 'The هاء refers back to the مصدر and is a مفعول مطلق, not a مفعول به', 'The هاء is زائدة', 'فَرِحَ has no مصدر'],
             correct: 1,
@@ -112,7 +112,7 @@ export default {
             { html: `The second sign: a complete اسم مفعول can be formed from the verb — <bdi>تامّ</bdi> meaning complete in itself, not needing a حرف جر or a ظرف (an adverbial) attached to prop it up.`, list: false },
             { box: { title: 'Example', lines: [`مَضْرُوب`] } },
             { html: `Struck. مَضْرُوب stands on its own as a complete word with a complete meaning — struck by someone, understood, without anything further needing to be said.`, list: false },
-            { html: `تامّ is what does the sorting here. A لازم verb also yields an اسم مفعول, but only one that needs a preposition attached before it makes sense — <bdi>مَذْهُوبٌ بِهِ</bdi> ("gone with," i.e. departed with) rather than a bare <bdi>مَذْهُوب</bdi>. Only a متعدٍّ verb produces a form that is complete by itself.`, list: false },
+            { html: `تامّ is what does the sorting here. A لازم verb also yields an اسم مفعول, but only one that needs a preposition attached before it makes sense — <bdi>مَذْهُوبٌ بِهِ</bdi> (gone with, i.e. departed with) rather than a bare <bdi>مَذْهُوب</bdi>. Only a متعدٍّ verb produces a form that is complete by itself.`, list: false },
           ],
           exercise: {
             prompt: `A لازم verb also has an اسم مفعول, but it only makes sense with a حرف جر or ظرف attached — مَذْهُوبٌ بِهِ, not a bare مَذْهُوب. What does that show about the second علامة؟`,
@@ -350,11 +350,11 @@ export default {
             { box: { title: 'Core Text', lines: [
               `إمَّا أن يكونَ أَصْلُهُما المُبْتَدَأَ والخَبَرَ، وهو ظَنَّ وأَخَواتُها`,
             ] } },
-            { html: `Either the origin of the two objects is a مبتدأ (a topic) and its خبر (its predicate) — and this branch is <bdi>ظَنَّ وأَخَواتُها</bdi>, "ظَنَّ and its sisters."`, list: false },
+            { html: `Either the origin of the two objects is a مبتدأ (a topic) and its خبر (its predicate) — and this branch is <bdi>ظَنَّ وأَخَواتُها</bdi>, ظَنَّ and its sisters.`, list: false },
             { box: { title: 'Definition', lines: [
               `أفعال القلوب: أفعالٌ تَدُلُّ على الاعْتِقادِ أو الظَّنِّ أو اليَقِينِ، وتَنْصِبُ مفعولين`,
             ] } },
-            { html: `<bdi>أفعال القلوب</bdi> — "verbs of the heart" — are verbs indicating belief, supposition, or certainty, and they put both of their objects in the accusative.`, list: false },
+            { html: `<bdi>أفعال القلوب</bdi> — verbs of the heart — are verbs indicating belief, supposition, or certainty, and they put both of their objects in the accusative.`, list: false },
             { table: { title: 'أهمّها (The Most Important)', headers: ['الفعل (Verb)', 'المعنى (Meaning)'], rows: [
               ['ظَنَّ، حَسِبَ، خالَ، زَعَمَ', 'for الظَّنّ (supposition)'],
               ['عَلِمَ، رَأَى، وَجَدَ', 'العِلْمِيَّة (certainty, knowledge)'],
@@ -364,10 +364,10 @@ export default {
               `ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا ، عَلِمْتُ الطالِبَ مُجْتَهِدًا ، وَجَدْتُ النَّصَّ واضِحًا`,
             ] } },
             { html: `The student thought the lesson [was] easy; I knew the student [to be] hardworking; I found the text clear.`, list: false },
-            { html: `Strip the verb from any of the three and a complete جملة اسمية (nominal sentence) is left behind — <bdi>الدَّرْسُ سَهْلٌ</bdi>, "the lesson is easy" — which is exactly what <bdi>أصلهما المبتدأ والخبر</bdi> means in practice.`, list: false },
+            { html: `Strip the verb from any of the three and a complete جملة اسمية (nominal sentence) is left behind — <bdi>الدَّرْسُ سَهْلٌ</bdi>, the lesson is easy — which is exactly what <bdi>أصلهما المبتدأ والخبر</bdi> means in practice.`, list: false },
           ],
           exercise: {
-            prompt: `In ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا — "the student thought the lesson [was] easy" — what were الدَّرْسَ and سَهْلًا originally?`,
+            prompt: `In ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا — the student thought the lesson [was] easy — what were الدَّرْسَ and سَهْلًا originally?`,
             kind: 'mcq',
             options: ['A فاعل and a حال', 'A مضاف and a مضاف إليه', 'A مبتدأ and its خبر', 'Two مفعولان unrelated to each other'],
             correct: 2,
@@ -380,7 +380,7 @@ export default {
             { box: { title: 'Definition', lines: [
               `أفعال التَّصْيِير: أفعالٌ تَجْعَلُ المَفْعُولَ يَتَحَوَّلُ مِن حالَةٍ إلى أُخْرَى، وتَنْصِبُ مَفْعُولَيْنِ كذلك`,
             ] } },
-            { html: `<bdi>أفعال التصيير</bdi> — "verbs of transformation" — are verbs that make the object shift from one state into another, and they too put both objects in the accusative. Their best-known members are <bdi>جَعَلَ، صَيَّرَ، اتَّخَذَ، رَدَّ، تَرَكَ</bdi>.`, list: false },
+            { html: `<bdi>أفعال التصيير</bdi> — verbs of transformation — are verbs that make the object shift from one state into another, and they too put both objects in the accusative. Their best-known members are <bdi>جَعَلَ، صَيَّرَ، اتَّخَذَ، رَدَّ، تَرَكَ</bdi>.`, list: false },
             { box: { title: 'Example', lines: [
               `جَعَلْتُ التُّرابَ ذَهَبًا ، صَيَّرَ المُعَلِّمُ الدَّرْسَ سَهْلًا ، تَرَكَ الرَّجُلُ البابَ مَفْتُوحًا`,
             ] } },
@@ -389,13 +389,13 @@ export default {
             { box: { title: 'Core Text', lines: [
               `وإمَّا لا، وهو أَعْطَى وأَخَواتُها`,
             ] } },
-            { html: `Or [their origin is] not [a مبتدأ and خبر] — and this branch is <bdi>أَعْطَى وأَخَواتُها</bdi>, "أعطى and its sisters."`, list: false },
+            { html: `Or [their origin is] not [a مبتدأ and خبر] — and this branch is <bdi>أَعْطَى وأَخَواتُها</bdi>, أعطى and its sisters.`, list: false },
             { box: { title: 'Example', lines: [`أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا`] } },
-            { html: `Zayd gave Amr a dirham. <bdi>عَمْرٌو دِرْهَمٌ</bdi> — "Amr [is] a dirham" — asserts nothing, since Amr is not a dirham. The two objects here are simply a recipient (<bdi>عَمْرًا</bdi>) and a thing given (<bdi>دِرْهَمًا</bdi>), not a topic-and-predicate pair.`, list: false },
-            { html: `The test for which branch a two-object verb belongs to is exactly this: strip the verb away and see whether the two objects still make a sentence. Drop ظَنَّ from ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا and الدَّرْسُ سَهْلٌ remains — a complete جملة اسمية. Do the same to أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا and عَمْرٌو دِرْهَمٌ is left, which asserts nothing. That is why أعطى وأخواتها form the "وإمَّا لا" branch: their two objects are simply two separate things the giving involved, a recipient and a thing given, never a claim that one is the other.`, list: false },
+            { html: `Zayd gave Amr a dirham. <bdi>عَمْرٌو دِرْهَمٌ</bdi> — Amr [is] a dirham — asserts nothing, since Amr is not a dirham. The two objects here are simply a recipient (<bdi>عَمْرًا</bdi>) and a thing given (<bdi>دِرْهَمًا</bdi>), not a topic-and-predicate pair.`, list: false },
+            { html: `The test for which branch a two-object verb belongs to is exactly this: strip the verb away and see whether the two objects still make a sentence. Drop ظَنَّ from ظَنَّ الطالِبُ الدَّرْسَ سَهْلًا and الدَّرْسُ سَهْلٌ remains — a complete جملة اسمية. Do the same to أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا and عَمْرٌو دِرْهَمٌ is left, which asserts nothing. That is why أعطى وأخواتها form the وإمَّا لا branch: their two objects are simply two separate things the giving involved, a recipient and a thing given, never a claim that one is the other.`, list: false },
           ],
           exercise: {
-            prompt: `Strip the verb from أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا — "Zayd gave Amr a dirham" — and the two remaining objects, عَمْرًا and دِرْهَمًا, do not form a sentence. What does that establish?`,
+            prompt: `Strip the verb from أَعْطَى زَيدٌ عَمْرًا دِرْهَمًا — Zayd gave Amr a dirham — and the two remaining objects, عَمْرًا and دِرْهَمًا, do not form a sentence. What does that establish?`,
             kind: 'mcq',
             options: ['That their أصل is not a مبتدأ and خبر, so أعطى belongs to the second branch', 'That أعطى takes only one object', 'That أعطى is لازم', 'That أعطى is a فعل قلبي'],
             correct: 0,
@@ -408,7 +408,7 @@ export default {
             { box: { title: 'Definition', lines: [
               `ما يَتَعَدَّى إلى ثَلاثَةِ مَفاعِيلَ، وهو بابُ أَعْلَمَ وأَرَى`,
             ] } },
-            { html: `What takes three مفاعيل — this is <bdi>بابُ أَعْلَمَ وأَرَى</bdi>, "the pattern of أَعْلَمَ and أَرَى."`, list: false },
+            { html: `What takes three مفاعيل — this is <bdi>بابُ أَعْلَمَ وأَرَى</bdi>, the pattern of أَعْلَمَ and أَرَى.`, list: false },
             { box: { title: 'Example', lines: [`أَعْلَمَ زَيدٌ عَمْرًا الدَّرْسَ سَهْلًا`] } },
             { html: `Zayd informed Amr that the lesson was easy. زيد is the فاعل, and all three of عَمْرًا، الدَّرْسَ، سَهْلًا are مفاعيل.`, list: false },
             { box: { title: 'Core Text', lines: [`﴿كَذَٰلِكَ يُرِيهِمُ اللَّهُ أَعْمَالَهُمْ حَسَرَاتٍ عَلَيْهِمْ﴾ [البقرة: ١٦٧]`] } },
@@ -626,7 +626,7 @@ export default {
             { html: `These three are the أَفْعَلَ، فَعَّلَ and فَاعَلَ patterns covered earlier in this course, now seen from the angle of what they do to transitivity: each adds a letter to a لازم root, and each addition gives the verb an object it did not have before.`, list: false },
           ],
           exercise: {
-            prompt: `فَرَّحْتُ زَيْدًا — "I made Zayd happy." Which of the eight أسباب تعدية اللازم has made the verb transitive?`,
+            prompt: `فَرَّحْتُ زَيْدًا — I made Zayd happy. Which of the eight أسباب تعدية اللازم has made the verb transitive?`,
             kind: 'mcq',
             options: ['التضعيف — doubling the عين', 'الهمزة', 'ألف المفاعلة', 'التضمين'],
             correct: 0,
@@ -640,10 +640,10 @@ export default {
               ['٤', 'زِيادَةُ حَرْفِ الجَرِّ — adding a حرف جر', 'ذَهَبْتُ بِعَلِيٍّ', 'I went off with Ali — i.e. I took Ali away', 'مُتَعَدٍّ مَعْنًى'],
               ['٥', 'زِيادَةُ الهَمْزَةِ والسِّينِ والتاءِ — adding الهمزة والسين والتاء', 'اسْتَخْرَجَ زَيْدٌ المالَ', 'Zayd extracted the money', '—'],
             ] } },
-            { html: `The note on the fourth matters: adding a حرف جر makes the verb transitive <bdi>معنًى</bdi> — in sense — but not <bdi>بنفسه</bdi>, "by itself," which is what Lesson 1's unqualified definition of المتعدي required. ذَهَبْتُ بِعَلِيٍّ reaches عَلِيّ only through the preposition بِـ, so it counts as متعدٍّ only in this qualified, "in sense," way. The fifth سبب is the familiar اسْتَفْعَلَ pattern.`, list: false },
+            { html: `The note on the fourth matters: adding a حرف جر makes the verb transitive <bdi>معنًى</bdi> — in sense — but not <bdi>بنفسه</bdi>, by itself, which is what Lesson 1's unqualified definition of المتعدي required. ذَهَبْتُ بِعَلِيٍّ reaches عَلِيّ only through the preposition بِـ, so it counts as متعدٍّ only in this qualified, in sense, way. The fifth سبب is the familiar اسْتَفْعَلَ pattern.`, list: false },
           ],
           exercise: {
-            prompt: `ذَهَبْتُ بِعَلِيٍّ — "I went off with Ali" — is marked متعدٍّ معنًى, not a plain متعدٍّ. How does that differ from a plain متعدٍّ؟`,
+            prompt: `ذَهَبْتُ بِعَلِيٍّ — I went off with Ali — is marked متعدٍّ معنًى, not a plain متعدٍّ. How does that differ from a plain متعدٍّ؟`,
             kind: 'mcq',
             options: ['The verb reaches its object only in the past tense', 'The verb reaches its object through a حرف جر, not بنفسه', 'The verb takes two objects', 'The verb is لازم after all'],
             correct: 1,
@@ -656,18 +656,18 @@ export default {
             { box: { title: 'Definition', lines: [
               `التَّضْمِينُ النَّحْوِيُّ: أن تُشْرَبَ كَلِمَةٌ لازِمَةٌ مَعْنَى كَلِمَةٍ مُتَعَدِّيَةٍ، لِتَتَعَدَّى تَعْدِيَتَها`,
             ] } },
-            { html: `<bdi>التضمين النحوي</bdi> — "grammatical infusion" — is when a لازم word is made to absorb the meaning of a متعدٍّ word, so that it takes on that word's grammar, its transitivity, along with its meaning.`, list: false },
+            { html: `<bdi>التضمين النحوي</bdi> — grammatical infusion — is when a لازم word is made to absorb the meaning of a متعدٍّ word, so that it takes on that word's grammar, its transitivity, along with its meaning.`, list: false },
             { box: { title: 'Core Text', lines: [`﴿ولا تَعْزِمُوا عُقْدَةَ النِّكاحِ حَتَّى يَبْلُغَ الْكِتابُ أَجَلَهُ﴾ [البقرة: ٢٣٥]`] } },
-            { html: `And do not resolve upon the marriage contract until the decreed term reaches its end. عَزَمَ does not ordinarily take a direct object — it normally needs عَلَى (عَزَمَ عَلَى) — yet here it governs عُقْدَةَ النِّكاحِ directly, because it has absorbed the sense of <bdi>نَوَى</bdi> ("intended"), which does take a direct object.`, list: false },
+            { html: `"And do not resolve upon the marriage contract until the decreed term reaches its end." عَزَمَ does not ordinarily take a direct object — it normally needs عَلَى (عَزَمَ عَلَى) — yet here it governs عُقْدَةَ النِّكاحِ directly, because it has absorbed the sense of <bdi>نَوَى</bdi> (intended), which does take a direct object.`, list: false },
             { box: { title: 'Core Text', lines: [`ضُمِّنَ (تَعْزِمُوا) مَعْنَى (تَنْوُوا)، فعُدِّيَ تَعْدِيَتَهُ`] } },
             { html: `تَعْزِمُوا was made to absorb the meaning of تَنْوُوا, and so it was given تَنْوُوا's transitivity.`, list: false },
             { box: { title: 'Example', lines: [`ومنه: رَحُبَتْكُمُ الطاعَةُ، أي وَسِعَتْكُمُ الطاعَةُ`] } },
-            { html: `And of this kind: "obedience was ample enough for you" — meaning "obedience encompassed you." <bdi>رَحُبَ</bdi> (to be spacious) does not ordinarily take a direct object either; here it absorbs the sense of <bdi>وَسِعَ</bdi> ("to encompass," which does), and reaches كُم (you) directly along with it.`, list: false },
+            { html: `And of this kind: obedience was ample enough for you — meaning obedience encompassed you. <bdi>رَحُبَ</bdi> (to be spacious) does not ordinarily take a direct object either; here it absorbs the sense of <bdi>وَسِعَ</bdi> (to encompass, which does), and reaches كُم (you) directly along with it.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿ولا تَعْزِمُوا عُقْدَةَ النِّكاحِ﴾ — "and do not resolve upon the marriage contract" — تَعْزِمُوا governs its object directly, though عَزَمَ normally needs عَلَى. Whose meaning has تَعْزِمُوا absorbed to explain that?`,
             kind: 'mcq',
-            options: ['تَنْوُوا — "intend", which does take a direct object', 'تَبْلُغُوا', 'تَعْقِدُوا', 'تَحْذَرُوا'],
+            options: ['تَنْوُوا — intend, which does take a direct object', 'تَبْلُغُوا', 'تَعْقِدُوا', 'تَحْذَرُوا'],
             correct: 0,
           },
         },
@@ -678,9 +678,9 @@ export default {
             { box: { title: 'Rule', lines: [`السابع: حَذْفُ حَرْفِ الجَرِّ تَوَسُّعًا`] } },
             { html: `The seventh: dropping the حرف جر <bdi>تَوَسُّعًا</bdi> — for stylistic ease.`, list: false },
             { box: { title: 'Core Text', lines: [`كقولِهِ: تَمُرُّونَ الدِّيارَ ولَمْ تَعُوجُوا ... كَلامُكُم عَلَيَّ إذَنْ حَرامُ`] } },
-            { html: `As in the line: you pass by the abodes without turning aside; your speech to me is then forbidden. The line means <bdi>تَمُرُّونَ بالدِّيارِ</bdi> — "you pass by the abodes" — but the باء has simply been dropped and the noun left in the accusative in its place.`, list: false },
+            { html: `As in the line: "you pass by the abodes without turning aside; your speech to me is then forbidden." The line means <bdi>تَمُرُّونَ بالدِّيارِ</bdi> — "you pass by the abodes" — but the باء has simply been dropped and the noun left in the accusative in its place.`, list: false },
             { box: { title: 'Rule', lines: [`يُسَمَّى هذا النَّصْبُ: النَّصْبُ بِنَزْعِ الخافِضِ`] } },
-            { html: `That accusative, produced by dropping the preposition, has its own name: <bdi>النصب بنزع الخافض</bdi>, "the accusative from stripping away the lowering [particle]."`, list: false },
+            { html: `That accusative, produced by dropping the preposition, has its own name: <bdi>النصب بنزع الخافض</bdi>, the accusative from stripping away the lowering [particle].`, list: false },
             { box: { title: 'Rule', lines: [`ويَطَّرِدُ حَذْفُهُ مع (أَنَّ) و(أَنْ)`] } },
             { html: `And dropping the preposition is regular usage — not a poetic license — before the two particles <bdi>أَنَّ</bdi> and <bdi>أَنْ</bdi>:`, list: false },
             { table: { title: 'الاطراد مع أنَّ وأنْ (Regular Usage before أنَّ and أنْ)', headers: ['الشاهد (Evidence)', 'الترجمة (Translation)', 'التقدير (Implied Reading)'], rows: [
@@ -906,7 +906,7 @@ export default {
             { box: { title: 'Core Text', lines: [`﴿فَلْيَحْذَرِ الَّذِينَ يُخَالِفُونَ عَنْ أَمْرِهِ﴾ [النور: ٦٣]`] } },
             { html: `So let those beware who dissent from his order. <bdi>خالَفَ</bdi> would ordinarily take its object directly; here it is followed by <bdi>عَنْ</bdi> instead, which is the tell.`, list: false },
             { box: { title: 'Rule', lines: [`ضُمِّنَ يُخالِفُ مَعْنَى يَخْرُجُ، فصارَ لازِمًا مِثْلَهُ`, `والشاهِدُ دُخُولُ (عَنْ) بَعْدَ الفِعْلِ يُخالِفُ`] } },
-            { html: `يُخالِفُ was made to absorb the meaning of <bdi>يَخْرُجُ</bdi> ("to go out from"), and so became لازم like it, reaching its complement only through عَنْ. The شاهد — the evidence — is exactly that: عَنْ appearing after يُخالِفُ, a preposition it would not need if it still meant simply "to oppose."`, list: false },
+            { html: `يُخالِفُ was made to absorb the meaning of <bdi>يَخْرُجُ</bdi> (to go out from), and so became لازم like it, reaching its complement only through عَنْ. The شاهد — the evidence — is exactly that: عَنْ appearing after يُخالِفُ, a preposition it would not need if it still meant simply to oppose.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿يُخَالِفُونَ عَنْ أَمْرِهِ﴾ — "who dissent from his order" — what is the شاهد that التضمين has occurred, turning the ordinarily direct-object verb خالَفَ into one needing a preposition?`,
@@ -924,8 +924,8 @@ export default {
             ] } },
             { html: `The second: converting the متعدٍّ verb to <bdi>فَعُلَ</bdi>, with a ضمة on the عين, for the purpose of <bdi>التعجب</bdi> (exclaiming wonder) and <bdi>المبالغة</bdi> (emphasis).`, list: false },
             { box: { title: 'Example', lines: [`ضَرُبَ زَيدٌ: أي ما أَضْرَبَهُ`] } },
-            { html: `ضَرُبَ زَيدٌ — meaning "how capable he is of striking!" <bdi>ضَرَبَ</bdi> (he struck) takes a direct object; recast as <bdi>ضَرُبَ</bdi> on الباب الخامس, it takes none, because it no longer reports a striking — it exclaims at the man's capacity for it.`, list: false },
-            { html: `This is the same operation covered earlier under الباب الخامس, where فَعُلَ was described as the باب of <bdi>الأوصاف الخِلْقِيَّة</bdi> (innate qualities), and a verb moved there for التعجب was said to <bdi>تَنْسَلِخُ عن الحَدَثِ</bdi> — "shed its event." That shedding is exactly why transitivity goes with it. An object is something the event lands on; once the form stops naming an event and starts naming a quality of the subject instead, there is nothing left for an object to attach to. So losing transitivity here is not a separate rule — it follows automatically from what moving to فَعُلَ already does to the verb's meaning.`, list: false },
+            { html: `ضَرُبَ زَيدٌ — meaning how capable he is of striking! <bdi>ضَرَبَ</bdi> (he struck) takes a direct object; recast as <bdi>ضَرُبَ</bdi> on الباب الخامس, it takes none, because it no longer reports a striking — it exclaims at the man's capacity for it.`, list: false },
+            { html: `This is the same operation covered earlier under الباب الخامس, where فَعُلَ was described as the باب of <bdi>الأوصاف الخِلْقِيَّة</bdi> (innate qualities), and a verb moved there for التعجب was said to <bdi>تَنْسَلِخُ عن الحَدَثِ</bdi> — shed its event. That shedding is exactly why transitivity goes with it. An object is something the event lands on; once the form stops naming an event and starts naming a quality of the subject instead, there is nothing left for an object to attach to. So losing transitivity here is not a separate rule — it follows automatically from what moving to فَعُلَ already does to the verb's meaning.`, list: false },
           ],
           exercise: {
             prompt: `ضَرَبَ is متعدٍّ but ضَرُبَ (recast on الباب الخامس for التعجب) is لازم. Why does the shift to فَعُلَ cost the verb its object?`,
@@ -985,7 +985,7 @@ export default {
         },
         {
           q: 'ضَرُبَ زَيدٌ means:',
-          options: ['he struck him repeatedly', 'he was struck a blow', 'he became one who strikes', 'an expression of تعجب — "how well he strikes!"'],
+          options: ['he struck him repeatedly', 'he was struck a blow', 'he became one who strikes', 'an expression of تعجب — how well he strikes!'],
           correct: 3,
         },
         {

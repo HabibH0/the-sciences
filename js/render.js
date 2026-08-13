@@ -26,6 +26,7 @@ import {
   COURSES,
   courseIdForModule,
   flattenTarkeebSlots,
+  classifyTarkeebRoleTier,
   moduleHasTarkeeb,
   isCourseUnlocked,
   totalModulesAllCourses,
@@ -41,7 +42,7 @@ import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, 
 import {
   LIT_BOOKS, getLitBook, getLoadedChapter, bookProgress, isChapterDone, isChapterUnlocked,
   chapterRecord, isUnknownLemma, unknownWordsInChapter, describeFeatures, posLabel,
-  chapterSentences,
+  chapterSentences, unknownLemmas, bookSeries,
 } from '../content-lit/index.js';
 import {
   levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
@@ -168,7 +169,7 @@ function headerHtml(state, MODULES) {
   // Same reasoning as onPath, for the Library: a book belongs to no course,
   // so neither Home nor Schedule (both of which mean "this course's") should
   // sit in the bar while one is open.
-  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead';
+  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice';
   // A live practice/mastery session (quiz-like: graded, has its own
   // in-page "End session"/continue controls) -- same treatment as
   // module/lesson/quiz below, no top-bar tabs, so leaving it always goes
@@ -271,7 +272,7 @@ function headerHtml(state, MODULES) {
     // once it's changed to 'settings'/'schedule'/'achievements'.
     const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
       : onPath ? ''
-        : state.view === 'litBook' || state.view === 'litRead' ? tab('← Library', 'openLibrary', false)
+        : state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice' ? tab('← Library', 'openLibrary', false)
           : state.view === 'library' ? ''
             : state.pathHome ? tab('My Path', 'returnToPath', false)
               : state.litHome ? tab('Library', 'openLibrary', false)
@@ -1080,7 +1081,7 @@ function boxLineDir(boxLine) {
 // conceptLines can read (a real concept, or a synthetic {body: text}), so
 // a clarification note reads with the same rhythm as the prose above it
 // instead of landing as one dense paragraph.
-function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, forceReveal = false) {
+function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, forceReveal = false, colorOn = false) {
   let html = '';
   let openList = false;
   let lineIdx = 0;
@@ -1131,7 +1132,7 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
       }
       const cls = itemKey ? revealCls(itemKey, 'tarkeeb-diagram-wrap', revealedKeys, forceReveal) : 'tarkeeb-diagram-wrap';
       const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
-      html += `<div class="${cls}"${attr}>${tarkeebDiagramReadOnlyHtml(line.tarkeebDiagram)}</div>`;
+      html += `<div class="${cls}"${attr}>${tarkeebDiagramReadOnlyHtml(line.tarkeebDiagram, colorOn)}</div>`;
       return;
     }
 
@@ -1309,7 +1310,7 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
   const exCardKey = `ex_${mod.id}_${lesson.id}_${i}`;
   const clKey = `cl_${mod.id}_${lesson.id}_${i}`;
 
-  let lines = conceptProseHtml(concept, `${cbKey}_prose`, revealedKeys, isFirstConcept);
+  let lines = conceptProseHtml(concept, `${cbKey}_prose`, revealedKeys, isFirstConcept, state.tarkeebLabelsBlue === true);
   if (i === 0) lines = applyDropCap(lines);
 
   let tail = '';
@@ -1639,14 +1640,32 @@ function tarkeebDiagramGridHtml(item, slotContent, { fillBlanks = false } = {}) 
 
 // A worked تركيب diagram reproduced inline in a lesson's teaching content
 // (sections[].blocks[] type:"tarkeeb" -> a concept line with `.tarkeebDiagram`,
-// see conceptProseHtml) -- read-only, every role label already shown.
-function tarkeebDiagramReadOnlyHtml(item) {
-  const grid = tarkeebDiagramGridHtml(item, (slot) => `<div class="tarkeeb-diagram-label"><span class="tarkeeb-label-text">${escBidi(slot.role)}</span></div>`);
+// see conceptProseHtml) -- read-only, every role label already shown, so
+// colouring by the role's own tier (unlike the practice widget) never leaks
+// anything.
+function tarkeebDiagramReadOnlyHtml(item, colorOn) {
+  const grid = tarkeebDiagramGridHtml(item, (slot) => {
+    const tierCls = colorOn ? tarkeebTierClass(classifyTarkeebRoleTier(slot.role)) : '';
+    return `<div class="tarkeeb-diagram-label${tierCls}"><span class="tarkeeb-label-text${tierCls}">${escBidi(slot.role)}</span></div>`;
+  });
   return `
     <div class="tarkeeb-diagram tarkeeb-diagram-static">
       ${grid}
       ${item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
     </div>`;
+}
+
+// Diagram-schema (content-fstu) تركيب colour-coding, gated behind the
+// "Colour Tarkeeb labels" setting (state.tarkeebLabelsBlue -- same flag the
+// flat words[]/labels[] schema's flat-blue styling already used; see the
+// settings copy in settingsPageHtml). 'primary' (a sentence's own core
+// members) and 'secondary' (a التوابع/الإضافة-style row explaining a span
+// another row already labelled) come from flattenTarkeebSlots' tier field
+// (content/index.js) or, for a distractor with no row of its own,
+// classifyTarkeebRoleTier's text guess. Returns '' when tier is falsy so
+// callers can splice this straight into a class attribute unconditionally.
+function tarkeebTierClass(tier) {
+  return tier === 'primary' ? ' tarkeeb-tier-primary' : tier === 'secondary' ? ' tarkeeb-tier-secondary' : '';
 }
 
 // Shared by both تركيب schemas (diagram cells[] and flat words[]) -- the
@@ -1655,18 +1674,22 @@ function tarkeebDiagramReadOnlyHtml(item) {
 // Keyboard-operable: role="button" + tabindex makes each chip a real Tab
 // stop so a mouse isn't required to select one (see tarkeebFocusSelector
 // in js/main.js for how focus survives the re-render a selection triggers).
-function tarkeebTrayHtml(ts, key) {
+// colorOn: only true for the diagram schema with the setting on (ts.chipTier
+// only exists there -- see initTarkeeb in js/main.js); the flat schema never
+// passes it, so its chips keep today's flat-blue-or-default styling.
+function tarkeebTrayHtml(ts, key, { colorOn = false } = {}) {
   const usedChipIdx = new Set(ts.placements.filter((p) => p !== null && p !== undefined));
   return ts.chipOrder.map((chipIdx) => {
     const used = usedChipIdx.has(chipIdx);
     const selected = ts.selectedChip === chipIdx;
     const interactive = !used && !ts.submitted;
-    let cls = 'tarkeeb-chip';
+    const tierCls = colorOn ? tarkeebTierClass(ts.chipTier && ts.chipTier[chipIdx]) : '';
+    let cls = 'tarkeeb-chip' + tierCls;
     if (used) cls += ' used';
     if (selected) cls += ' selected';
     const label = ts.chipPool[chipIdx];
     const ariaLabel = used ? `${label}, placed` : label;
-    return `<div class="${cls}" draggable="${interactive ? 'true' : 'false'}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-pressed="${selected}" aria-label="${escAttr(ariaLabel)}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}"><span class="tarkeeb-label-text">${esc(label)}</span></div>`;
+    return `<div class="${cls}" draggable="${interactive ? 'true' : 'false'}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-pressed="${selected}" aria-label="${escAttr(ariaLabel)}" data-action="tarkeebChipClick" data-chip="${chipIdx}" data-key="${escAttr(key)}"><span class="tarkeeb-label-text${tierCls}">${esc(label)}</span></div>`;
   }).join('');
 }
 
@@ -1686,6 +1709,10 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
   const submitted = !!ts.submitted;
   const feedback = ts.feedback;
   const showTranslation = shouldShowTarkeebTranslation(state);
+  // "Colour Tarkeeb labels" (settingsPageHtml) -- only ts.chipTier (diagram
+  // schema, initTarkeeb in js/main.js) ever has tiers to colour by, so this
+  // is a no-op for the flat words[]/labels[] schema regardless.
+  const colorOn = state.tarkeebLabelsBlue === true;
   // Blank slots for every unlabeled cell are an Advanced Nahw (annahw) thing
   // -- fstu's تركيب was designed without them, so filling them in there just
   // clutters a layout that was never meant to show "no match here" boxes.
@@ -1696,13 +1723,19 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     const chipIdx = ts.placements[i];
     const chipText = chipIdx === null || chipIdx === undefined ? null : ts.chipPool[chipIdx];
     const isBlank = slot.role === null;
+    // Coloured whether filled or not -- an empty slot's dashed border tints
+    // to the colour its correct chip will be, same as a sighted learner
+    // already sees which row (above/below the sentence) it sits in just from
+    // the grid layout. Slot.role itself stays unrevealed either way (see the
+    // ariaLabel below), so this is a category hint, not the answer.
+    const slotTierCls = colorOn && !isBlank ? tarkeebTierClass(classifyTarkeebRoleTier(slot.role)) : '';
     // Both classes: .tarkeeb-slot is what the drag-and-drop delegation in
     // js/main.js queries for (dragover/dragleave/drop), .tarkeeb-diagram-slot
     // carries this layout's own sizing -- see styles.css.
-    let slotCls = 'tarkeeb-slot tarkeeb-diagram-slot';
+    let slotCls = 'tarkeeb-slot tarkeeb-diagram-slot' + slotTierCls;
     if (isBlank) slotCls += ' blank';
     let slotState = 'empty';
-    let content = chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : '';
+    let content = chipText ? `<span class="tarkeeb-label-text${slotTierCls}">${esc(chipText)}</span>` : '';
     // Keyboard/screen-reader label for this slot: identifies it by the
     // word(s) it sits under (same cue a sighted learner uses), never by
     // slot.role -- that's the graded answer, and leaking it here would hand
@@ -1721,7 +1754,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
         // Reveal the correct answer in place of whatever was (or wasn't)
         // dropped here, rather than just marking it wrong and leaving the
         // learner to guess what it should have been.
-        content = `<span class="tarkeeb-slot-answer"><span class="tarkeeb-label-text">${isBlank ? 'leave blank' : esc(slot.role)}</span></span>`;
+        content = `<span class="tarkeeb-slot-answer"><span class="tarkeeb-label-text${slotTierCls}">${isBlank ? 'leave blank' : esc(slot.role)}</span></span>`;
       } else if (isBlank) {
         // Correctly left empty -- a faint marker so the learner knows that
         // was a deliberate right answer, not just an unnoticed slot.
@@ -1735,7 +1768,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     return `<div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${content}</div>`;
   }, { fillBlanks });
 
-  const tray = tarkeebTrayHtml(ts, key);
+  const tray = tarkeebTrayHtml(ts, key, { colorOn });
 
   // Only real slots (role !== null) need a chip before the learner can
   // check -- blank slots are allowed to stay empty, that's the point.
@@ -2272,10 +2305,21 @@ function scheduleUpcomingHtml(state, MODULES, revealedKeys, attempt) {
     </div>`;
 }
 
+// 12-hour labels for the reset-hour <select> below -- e.g. 4 -> "4:00 AM",
+// 16 -> "4:00 PM". state.dailyResetHour itself stays a plain 0-23 int
+// (that's what todayISO/main.js/persistence.js all consume); this is
+// display-only.
+function formatResetHour(h) {
+  const period = h < 12 ? 'AM' : 'PM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  return `${hour12}:00 ${period}`;
+}
+
 function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
   const total = totalLessons();
   const cleared = totalLessonsCleared(state.completed);
   const remaining = Math.max(0, total - cleared);
+  const resetHour = state.dailyResetHour || 0;
 
   // How many lessons were finished today specifically -- state.completed's
   // per-lesson value is already the ISO completion date (see main.js's
@@ -2286,24 +2330,36 @@ function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
   const deadline = state.scheduleDeadline[state.courseId];
   let completedToday = 0;
   MODULES.forEach((m) => {
-    Object.values(state.completed[m.id] || {}).forEach((v) => { if (v === todayISO()) completedToday += 1; });
+    Object.values(state.completed[m.id] || {}).forEach((v) => { if (v === todayISO(resetHour)) completedToday += 1; });
   });
 
+  // App-wide (not per-course, unlike the deadline below) -- it's also what
+  // the streak's day boundary uses (see bootProgress in js/persistence.js),
+  // so it lives at the top of the panel rather than folded into the
+  // per-course deadline fields further down.
+  const resetHourOptions = Array.from({ length: 24 }, (_, h) => `<option value="${h}" ${h === resetHour ? 'selected' : ''}>${formatResetHour(h)}</option>`).join('');
+  const resetHourInput = `
+    <div class="schedule-field" ${animAttr(`sched${attempt}_reset`, 0)}>
+      <label for="schedule-reset-hour-input">Daily reset time</label>
+      <select id="schedule-reset-hour-input" class="schedule-input" data-action="setDailyResetHour">${resetHourOptions}</select>
+      <p class="lede" style="font-size:12.5px;margin-top:6px;">When a new day starts, for your streak and today's target below — study past midnight without it counting as tomorrow.</p>
+    </div>`;
+
   const dateInput = `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_date`, 0)}>
+    <div class="schedule-field" ${animAttr(`sched${attempt}_date`, 1)}>
       <label for="schedule-deadline-input">Target completion date</label>
-      <input id="schedule-deadline-input" type="date" class="schedule-input" value="${escAttr(deadline || '')}" min="${todayISO()}" data-action="setScheduleDeadline" />
+      <input id="schedule-deadline-input" type="date" class="schedule-input" value="${escAttr(deadline || '')}" min="${todayISO(resetHour)}" data-action="setScheduleDeadline" />
     </div>`;
   const upcoming = scheduleUpcomingHtml(state, MODULES, revealedKeys, attempt);
 
   if (remaining === 0) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${dateInput}<p class="lede" style="margin-top:16px;">You've completed every lesson in the course — nothing left to schedule.</p></div>`;
+    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${resetHourInput}${dateInput}<p class="lede" style="margin-top:16px;">You've completed every lesson in the course — nothing left to schedule.</p></div>`;
   }
   if (!deadline) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${dateInput}${upcoming}<p class="empty-state">Pick a date to see how many lessons a day that works out to.</p></div>`;
+    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${resetHourInput}${dateInput}${upcoming}<p class="empty-state">Pick a date to see how many lessons a day that works out to.</p></div>`;
   }
 
-  const today = new Date(`${todayISO()}T00:00:00`);
+  const today = new Date(`${todayISO(resetHour)}T00:00:00`);
   const deadlineDate = new Date(`${deadline}T00:00:00`);
   const diffDays = Math.round((deadlineDate - today) / 86400000);
   const overdue = diffDays < 0;
@@ -2313,14 +2369,15 @@ function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
 
   return `
     <div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>
+      ${resetHourInput}
       ${dateInput}
-      ${overdue ? `<p class="lede" style="margin-top:14px;color:var(--brick);" ${animAttr(`sched${attempt}_overdue`, 1)}>Your deadline was ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? '' : 's'} ago, with ${remaining} lesson${remaining === 1 ? '' : 's'} still left — catch up as soon as you can.</p>` : ''}
-      <div class="stat-row" style="margin-top:20px;" ${animAttr(`sched${attempt}_stats`, 1)}>
+      ${overdue ? `<p class="lede" style="margin-top:14px;color:var(--brick);" ${animAttr(`sched${attempt}_overdue`, 2)}>Your deadline was ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? '' : 's'} ago, with ${remaining} lesson${remaining === 1 ? '' : 's'} still left — catch up as soon as you can.</p>` : ''}
+      <div class="stat-row" style="margin-top:20px;" ${animAttr(`sched${attempt}_stats`, 2)}>
         <div class="card stat-card"><div class="stat-kicker">Lessons left</div><div class="stat-value">${remaining}</div></div>
         <div class="card stat-card"><div class="stat-kicker">${overdue ? 'Days overdue' : 'Days left'}</div><div class="stat-value">${Math.abs(diffDays)}</div></div>
         <div class="card stat-card"><div class="stat-kicker">Today's target</div><div class="stat-value">${dailyTarget}</div></div>
       </div>
-      <div class="card" style="margin-top:16px;" ${animAttr(`sched${attempt}_checklist`, 2)}>
+      <div class="card" style="margin-top:16px;" ${animAttr(`sched${attempt}_checklist`, 3)}>
         <div class="card-kicker">TODAY'S CHECKLIST</div>
         <p class="lede">${todayDone} / ${dailyTarget} lesson${dailyTarget === 1 ? '' : 's'} completed today</p>
         ${progressBar(todayPct)}
@@ -3114,10 +3171,10 @@ function settingsHtml(state) {
   const tarkeebLabelColorToggle = `
     <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
       <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Blue Tarkeeb labels</span>
-        <span class="settings-toggle-sub">Colour only the grammar label text; boxes and slots keep their normal style.</span>
+        <span class="settings-toggle-title">Colour Tarkeeb labels</span>
+        <span class="settings-toggle-sub">Introductory Nahw's diagram exercises show blue for primary sentence roles (فعل، فاعل، مبتدأ، خبر...) and green for secondary ones (نعت، مضاف، معطوف...); boxes and slots pick up the colour too. Advanced Nahw's labels turn blue.</span>
       </span>
-      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Blue' : 'Default'}</span>
+      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Coloured' : 'Default'}</span>
     </button>`;
 
   const forceUnlockToggle = `
@@ -3356,6 +3413,17 @@ function litBookCardHtml(state, book, index) {
     </button>`;
 }
 
+// One divider per distinct series, the shelf's equivalent of dashboardHtml's
+// per-(heading,subheading) chapter divider -- same "only when the group
+// changes" logic, grouping books by series (qiraah-v1/qiraah-v2, all twelve
+// qasas volumes) instead of by module heading/subheading.
+function litShelfHeadingHtml(series) {
+  return `<div class="lit-shelf-heading">
+    <span class="lit-shelf-heading-ar" lang="ar" dir="rtl">${esc(series.ar)}</span>
+    <span class="lit-shelf-heading-en">${esc(series.en)}</span>
+  </div>`;
+}
+
 function libraryHtml(state) {
   const hero = heroPanelHtml({
     watermark: 'الأدب',
@@ -3363,12 +3431,21 @@ function libraryHtml(state) {
     title: 'The Library',
     body: 'Graded readers, read the way a book is read: a paragraph at a time, with the translation a hover away and every word one click from its form. Each chapter ends with the patterns it just used and a set of sentences to build.',
   });
+  let lastSeries = null;
+  const cards = LIT_BOOKS.map((b, i) => {
+    const series = bookSeries(b);
+    const seriesKey = series ? series.ar : '';
+    const seriesChanged = seriesKey !== lastSeries;
+    lastSeries = seriesKey;
+    const headingHtml = seriesChanged && series ? litShelfHeadingHtml(series) : '';
+    return `${headingHtml}${litBookCardHtml(state, b, i)}`;
+  }).join('');
   return `
     <div class="hero-page lit-library-page">
       ${hero}
       ${separatorHtml()}
       <div class="col-wide">
-        <div class="lit-shelf">${LIT_BOOKS.map((b, i) => litBookCardHtml(state, b, i)).join('')}</div>
+        <div class="lit-shelf">${cards}</div>
       </div>
     </div>`;
 }
@@ -3409,6 +3486,7 @@ function litBookHtml(state) {
   const book = getLitBook(state.litBookId);
   if (!book) return libraryHtml(state);
   const { done, total } = bookProgress(book, state.litProgress);
+  const weakCount = unknownLemmas(state.litUnknown, book.id).length;
   return `
     <div class="hero-page lit-book-page">
       <section class="lit-cover">
@@ -3420,8 +3498,12 @@ function litBookHtml(state) {
           <p class="lit-cover-body">${escBidi(book.blurb)}</p>
           ${heroLedgerHtml([
             ['Chapters read', `${done} / ${total}`],
+            ['Words to practice', String(weakCount)],
             ['Book', book.title.en],
           ])}
+          <div class="action-row">
+            <button class="btn btn-secondary" ${weakCount ? `data-action="openLitWordPractice" data-book-id="${escAttr(book.id)}"` : 'disabled'}>${icon('archive', 15, 1.7)} Practice weak words (${weakCount})</button>
+          </div>
         </div>
         ${cornerBracketsHtml()}
       </section>
@@ -3841,6 +3923,97 @@ function litReadHtml(state) {
     </div>`;
 }
 
+// --- "Practice weak words" -- a book-wide sibling of the build stage above,
+// reached from the book hero rather than from inside one chapter (see
+// state.litPractice in js/main.js for why it's a separate session instead
+// of reusing state.lit: its items span every chapter in the book, not one).
+
+function litWordPracticeDrillHtml(p, item) {
+  const submitted = p.submitted;
+  const answer = p.slots.map((ci) => (ci === null ? null : item.chips[ci].surface));
+  const correct = answer.every((s, i) => s === item.solution[i]);
+  const filled = p.slots.every((s) => s !== null);
+  const isLast = p.index + 1 >= p.queue.length;
+  const wrongNote = submitted && !correct
+    ? (p.slots.map((ci) => (ci === null ? null : item.chips[ci])).find((chip) => chip && !chip.correct) || {}).note
+    : '';
+  return `
+    <section class="lit-drill lit-build" data-anim-key="litwp${p.index}">
+      <div class="lit-drill-head">
+        <span class="card-kicker">Build the sentence</span>
+        <span class="lit-drill-count">${p.index + 1} / ${p.queue.length}</span>
+      </div>
+      <p class="lit-drill-lede">${escBidi(item.en)}</p>
+      <div class="lit-slots" lang="ar" dir="rtl">
+        ${p.slots.map((ci, i) => {
+          const chip = ci === null ? null : item.chips[ci];
+          const ok = submitted && chip && chip.surface === item.solution[i];
+          const cls = ['lit-slot', chip ? '' : 'is-empty', submitted ? (ok ? 'is-correct' : 'is-incorrect') : ''].filter(Boolean).join(' ');
+          return `<span class="${cls}" data-action="litWordPracticeSlot" data-slot="${i}" role="button" tabindex="0"
+            title="${chip ? 'Take this word back' : 'Word ' + (i + 1)}"
+            aria-label="Word ${i + 1} of ${p.slots.length}${chip ? `: ${esc(chip.surface)}. Activate to take it back.` : ', empty'}">${chip ? esc(chip.surface) : ''}</span>`;
+        }).join('')}
+      </div>
+      ${litChipsHtml(item.chips, {
+        used: new Set(p.slots.filter((s) => s !== null)),
+        action: 'litWordPracticeChip',
+        disabled: submitted,
+      })}
+      ${submitted ? `
+        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : 'Not quite.'}</div>
+        ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
+        ${wrongNote ? `<div class="quiz-feedback-explanation">${escBidi(wrongNote)}</div>` : ''}` : ''}
+      <div class="action-row">
+        ${submitted
+          ? `<button class="btn btn-primary" data-action="litWordPracticeNext">${isLast ? 'Finish' : 'Next sentence'}</button>`
+          : `<button class="btn btn-primary" data-action="litWordPracticeCheck" ${filled ? '' : 'disabled'}>Check</button>`}
+        ${submitted ? '' : `<button class="btn btn-secondary" data-action="litWordPracticeClear" ${p.slots.some((s) => s !== null) ? '' : 'disabled'}>Clear</button>`}
+      </div>
+    </section>`;
+}
+
+function litWordPracticeCompleteHtml(p, book) {
+  const pct = p.total ? Math.round((p.correct / p.total) * 100) : 0;
+  return `
+    <section class="lit-complete" data-anim-key="litwpdone${p.bookId}">
+      ${heroBadgeHtml('تمّت المراجعة')}
+      <h2 class="lit-complete-title" lang="ar" dir="rtl">${book ? esc(book.title.ar) : ''}</h2>
+      <p class="lit-complete-sub">Weak-words practice — reviewed and scored.</p>
+      ${heroLedgerHtml([
+        ['Answered', `${p.correct} / ${p.total}`],
+        ['Accuracy', `${pct}%`],
+        ['Words retired', String(p.retired)],
+      ])}
+      <div class="action-row">
+        <button class="btn btn-primary" data-action="exitLitWordPractice">Back to the book</button>
+      </div>
+    </section>`;
+}
+
+function litWordPracticeHtml(state) {
+  const p = state.litPractice;
+  if (!p) return state.litBookId ? litBookHtml(state) : libraryHtml(state);
+  const book = getLitBook(p.bookId);
+  const item = p.queue[p.index];
+  const pct = Math.round((p.index / Math.max(1, p.queue.length)) * 100);
+  const bodyHtml = item ? litWordPracticeDrillHtml(p, item) : litWordPracticeCompleteHtml(p, book);
+  return `
+    <div class="lit-reader">
+      <div class="lit-reader-head">
+        ${backLink('Back to the book', 'exitLitWordPractice')}
+        <div class="lit-reader-titles">
+          <span class="lit-reader-book">${escBidi(book ? book.title.en : '')}</span>
+          <h1 class="lit-reader-title" lang="ar" dir="rtl">${book ? esc(book.title.ar) : ''}</h1>
+          <span class="lit-reader-en">Practice weak words</span>
+        </div>
+        ${progressBar(pct)}
+      </div>
+      <div class="lit-reader-body" style="grid-template-columns:minmax(0,1fr);">
+        <div class="lit-page">${bodyHtml}</div>
+      </div>
+    </div>`;
+}
+
 // --- top-level dispatch ---------------------------------------------------
 
 export function render(state, MODULES, revealedKeys = new Set()) {
@@ -3881,6 +4054,9 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       break;
     case 'litRead':
       body = litReadHtml(state);
+      break;
+    case 'litWordPractice':
+      body = litWordPracticeHtml(state);
       break;
     case 'path':
       body = pathMapHtml(state, revealedKeys);

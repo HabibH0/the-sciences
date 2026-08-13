@@ -103,25 +103,25 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c13-003',
-          ar: 'وَكَانُوا يَرَوْنَ أَنَّ الَّذِي لا يَعْبُدُ الأَصْنَامَ',
+          ar: 'وَكَانُوا يَرَوْنَ أَنَّ الَّذِي لَا يَعْبُدُ الأَصْنَامَ',
           en: "whoever wouldn't worship idols, in their eyes,",
           tokens: [
             { surface: 'وَكَانُوا', lemma: 'كَانَ', pos: 'verb', features: 'conj+perf.3mp', gloss: 'to be; and they were' },
             { surface: 'يَرَوْنَ', lemma: 'رَأَى', pos: 'verb', features: 'impf.3mp', gloss: 'to see, consider; consider' },
             { surface: 'أَنَّ', lemma: 'أَنَّ', pos: 'part', features: 'part', gloss: 'that' },
             { surface: 'الَّذِي', lemma: 'الَّذِي', pos: 'rel', features: 'rel.m', gloss: 'the one who' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَعْبُدُ', lemma: 'عَبَدَ', pos: 'verb', features: 'impf.3ms', gloss: 'to worship; worship' },
             { surface: 'الأَصْنَامَ', lemma: 'صَنَم', pos: 'noun', features: 'def.acc.pl', gloss: 'the idols' },
           ],
         },
         {
           id: 'qs-v3-c13-004',
-          ar: 'هُوَ في ضَلالَةٍ وَسَفَاهَةٍ.',
+          ar: 'هُوَ فِي ضَلالَةٍ وَسَفَاهَةٍ.',
           en: 'was misguided and foolish.',
           tokens: [
             { surface: 'هُوَ', lemma: 'هُوَ', pos: 'part', features: 'part', gloss: 'he (is)' },
-            { surface: 'في', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
+            { surface: 'فِي', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
             { surface: 'ضَلالَةٍ', lemma: 'ضَلَالَة', pos: 'noun', features: 'indef.gen', root: 'ض ل ل', gloss: 'misguidance' },
             { surface: 'وَسَفَاهَةٍ', lemma: 'سَفَاهَة', pos: 'noun', features: 'conj+indef.gen', root: 'س ف ه', gloss: 'and foolishness' },
           ],
@@ -142,11 +142,11 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c13-006',
-          ar: 'فَلِمَاذَا لا يَعْبُدُهَا هَذَا؟!!',
+          ar: 'فَلِمَاذَا لَا يَعْبُدُهَا هَذَا؟!!',
           en: "so why won't this man worship them?!",
           tokens: [
             { surface: 'فَلِمَاذَا', lemma: 'لِمَاذَا', pos: 'adv', features: 'conj+adv', gloss: 'so why' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَعْبُدُهَا', lemma: 'عَبَدَ', pos: 'verb', features: 'impf.3ms+3fp', gloss: 'to worship; worship them' },
             { surface: 'هَذَا', lemma: 'هَذَا', pos: 'dem', features: 'dem.m', gloss: 'this (man)' },
           ],
@@ -200,7 +200,7 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c13-009',
-          ar: 'وَكَانَ نُوحٌ يَرَى أَنَّ الآبَاءَ كَانُوا في ضَلالَةٍ وَسَفَاهَةٍ',
+          ar: 'وَكَانَ نُوحٌ يَرَى أَنَّ الآبَاءَ كَانُوا فِي ضَلالَةٍ وَسَفَاهَةٍ',
           en: 'And Nūḥ saw that the forefathers themselves had been misguided and foolish,',
           tokens: [
             { surface: 'وَكَانَ', lemma: 'كَانَ', pos: 'verb', features: 'conj+perf.3ms', gloss: 'to be; and was' },
@@ -209,7 +209,7 @@ export const CHAPTER = {
             { surface: 'أَنَّ', lemma: 'أَنَّ', pos: 'part', features: 'part', gloss: 'that' },
             { surface: 'الآبَاءَ', lemma: 'أَب', pos: 'noun', features: 'def.acc.pl', gloss: 'the forefathers' },
             { surface: 'كَانُوا', lemma: 'كَانَ', pos: 'verb', features: 'perf.3mp', gloss: 'to be; were' },
-            { surface: 'في', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
+            { surface: 'فِي', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
             { surface: 'ضَلالَةٍ', lemma: 'ضَلَالَة', pos: 'noun', features: 'indef.gen', gloss: 'misguidance' },
             { surface: 'وَسَفَاهَةٍ', lemma: 'سَفَاهَة', pos: 'noun', features: 'conj+indef.gen', gloss: 'and foolishness' },
           ],
@@ -243,12 +243,12 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c13-012',
-          ar: 'وَأَنَّ الْقَوْمَ في ضَلالَةٍ وَسَفَاهَةٍ إِذْ يَعْبُدُونَ الْحِجَارَةَ',
+          ar: 'وَأَنَّ الْقَوْمَ فِي ضَلالَةٍ وَسَفَاهَةٍ إِذْ يَعْبُدُونَ الْحِجَارَةَ',
           en: 'and that the people were misguided and foolish, worshiping mere stone',
           tokens: [
             { surface: 'وَأَنَّ', lemma: 'أَنَّ', pos: 'part', features: 'conj+part', gloss: 'and that' },
             { surface: 'الْقَوْمَ', lemma: 'قَوْم', pos: 'noun', features: 'def.acc', gloss: 'the people' },
-            { surface: 'في', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
+            { surface: 'فِي', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'in' },
             { surface: 'ضَلالَةٍ', lemma: 'ضَلَالَة', pos: 'noun', features: 'indef.gen', gloss: 'misguidance' },
             { surface: 'وَسَفَاهَةٍ', lemma: 'سَفَاهَة', pos: 'noun', features: 'conj+indef.gen', gloss: 'and foolishness' },
             { surface: 'إِذْ', lemma: 'إِذْ', pos: 'adv', features: 'adv', gloss: 'since, when' },
@@ -258,13 +258,13 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c13-013',
-          ar: 'وَلا يَعْبُدُونَ اللَّهَ الذي خَلَقَهُمْ.',
+          ar: 'وَلا يَعْبُدُونَ اللَّهَ الَّذِي خَلَقَهُمْ.',
           en: 'instead of the Allah who created them.',
           tokens: [
             { surface: 'وَلا', lemma: 'لَا', pos: 'part', features: 'conj+neg', gloss: 'and not' },
             { surface: 'يَعْبُدُونَ', lemma: 'عَبَدَ', pos: 'verb', features: 'impf.3mp', gloss: 'to worship; worship' },
             { surface: 'اللَّهَ', lemma: 'اللَّه', pos: 'proper', features: 'acc', gloss: 'Allah' },
-            { surface: 'الذي', lemma: 'الَّذِي', pos: 'rel', features: 'rel.m', gloss: 'who' },
+            { surface: 'الَّذِي', lemma: 'الَّذِي', pos: 'rel', features: 'rel.m', gloss: 'who' },
             { surface: 'خَلَقَهُمْ', lemma: 'خَلَقَ', pos: 'verb', features: 'perf.3ms+3mp', gloss: 'to create; created them' },
           ],
         },
@@ -292,12 +292,12 @@ export const CHAPTER = {
       sentences: [
         {
           id: 'qs-v3-c13-014',
-          ar: 'قَامَ نُوحٌ في القَوْمِ يَقُولُ بِأَعْلَى صَوْتِهِ:',
+          ar: 'قَامَ نُوحٌ فِي القَوْمِ يَقُولُ بِأَعْلَى صَوْتِهِ:',
           en: 'So Nūḥ stood among his people, declaring at the top of his voice:',
           tokens: [
             { surface: 'قَامَ', lemma: 'قَامَ', pos: 'verb', features: 'perf.3ms', gloss: 'to stand; stood' },
             { surface: 'نُوحٌ', lemma: 'نُوح', pos: 'proper', features: 'nom', gloss: 'Nūḥ' },
-            { surface: 'في', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'among' },
+            { surface: 'فِي', lemma: 'فِي', pos: 'prep', features: 'prep', gloss: 'among' },
             { surface: 'القَوْمِ', lemma: 'قَوْم', pos: 'noun', features: 'def.gen', gloss: 'the people' },
             { surface: 'يَقُولُ', lemma: 'قَالَ', pos: 'verb', features: 'impf.3ms', gloss: 'to say; declaring' },
             { surface: 'بِأَعْلَى', lemma: 'أَعْلَى', pos: 'adj', features: 'prep+constr', root: 'ع ل و', gloss: 'at the top (of), loudest (of)' },

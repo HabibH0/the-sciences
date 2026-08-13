@@ -33,14 +33,14 @@
 // the source never analyses.
 export default {
   id: '02',
-  title: 'الجملة وشبه الجملة والكلام',
+  title: 'الجملة والكلام',
   heading: 'المقدمة',
   blurb: 'الجملة’s division by إسناد into اسمية and فعلية, by meaning into خبرية and إنشائية, شبه الجملة’s two classifications, and الكلام vs الجملة.',
   lessons: [
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'الجملة: الإسناد والاسمية والفعلية',
+      title: 'الاسمية والفعلية',
       subtitle: 'The Sentence — إسناد, its two essential parts, and جملة اسمية vs جملة فعلية',
       sourceRef: 'app-lessons/009–010',
       concepts: [
@@ -286,7 +286,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الجملة: الخبرية والإنشائية والكبرى والصغرى',
+      title: 'خبرية وإنشائية',
       subtitle: 'Kinds of Meaning — خبر vs إنشاء, and جملة كبرى containing a جملة صغرى',
       sourceRef: 'app-lessons/011–012',
       concepts: [
@@ -464,7 +464,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'شبه الجملة: أقسامها بالبنية',
+      title: 'البنية',
       subtitle: `شبه الجملة by Structure — الجار والمجرور vs الظرف والمضاف إليه`,
       sourceRef: 'app-lessons/013',
       concepts: [
@@ -611,7 +611,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'شبه الجملة: أقسامها بالعامل',
+      title: 'العامل',
       subtitle: `شبه الجملة by Governor — الظرف اللغو vs الظرف المستقر`,
       sourceRef: 'app-lessons/014',
       concepts: [
@@ -798,7 +798,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'الكلام: مفيد وموجب وغير موجب',
+      title: 'الكلام',
       subtitle: 'الكلام — قول مفيد, and its division into موجب and غير موجب',
       sourceRef: 'app-lessons/015',
       concepts: [

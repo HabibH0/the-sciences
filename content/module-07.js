@@ -37,7 +37,7 @@
 // analyses.
 export default {
   id: '07',
-  title: 'الأفعال الناقصة: كان وأخواتها',
+  title: 'كان وأخواتها',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
   blurb: 'The ناقص فعل family: كان’s own senses, its time-of-day and transformation sisters, continuation, and the two closing members.',
@@ -45,7 +45,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'الأفعال الناقصة: التعريف ومعاني كان',
+      title: 'الأفعال الناقصة',
       subtitle: 'The Deficient Verb — why كان is called ناقص, and the eight senses it carries',
       sourceRef: 'app-lessons/028 (part 1)',
       concepts: [
@@ -238,7 +238,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'حذف نون كان وحذف كان مع اسمها',
+      title: 'حذف كان',
       subtitle: 'Dropping كان — the three conditions for حذف النون, and the Kufi/Basri split over حذف كان واسمها',
       sourceRef: 'app-lessons/028 (part 2)',
       concepts: [
@@ -374,7 +374,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'أصبح وأضحى وأمسى وظل وبات',
+      title: 'أصبح وأضحى',
       subtitle: 'The Time-of-Day Sisters — كان’s five sisters, distinguished only by the part of day each one fixes',
       sourceRef: 'app-lessons/029',
       concepts: [
@@ -616,7 +616,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'صار وأخواتها بمعناها',
+      title: 'صار وأخواتها',
       subtitle: 'صار and Its Borrowed Meaning — تحول الذات and تحول الصفات, then which verbs can carry صار’s sense',
       sourceRef: 'app-lessons/030',
       concepts: [
@@ -876,7 +876,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'أفعال الاستمرار: ما برح، ما انفك، ما زال، ما فتئ',
+      title: 'أفعال الاستمرار',
       subtitle: 'The Continuity Verbs — four أخوات كان whose older, complete-verb meaning still works inside their ناقص use',
       sourceRef: 'app-lessons/031',
       concepts: [
@@ -1122,7 +1122,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'ما دام وليس، وأحكام عامة للأفعال الناقصة',
+      title: 'دام وليس',
       subtitle: 'Closing the List — the last two أخوات كان, then word order and تامة usage across the whole family',
       sourceRef: 'app-lessons/032',
       concepts: [

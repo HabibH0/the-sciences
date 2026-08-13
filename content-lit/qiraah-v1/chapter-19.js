@@ -926,11 +926,11 @@ export const CHAPTER = {
         {
           "id": "qr1-19-003",
           "page": 80,
-          "ar": "لا يَكْذِبُ وَلَا يَغْضَبُ ،",
+          "ar": "لَا يَكْذِبُ وَلَا يَغْضَبُ ،",
           "en": "who does not lie and does not get angry,",
           "tokens": [
             {
-              "surface": "لا",
+              "surface": "لَا",
               "lemma": "لا",
               "features": "part",
               "root": "",

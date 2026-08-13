@@ -287,6 +287,30 @@ export function flattenTarkeebSlots(item, { fillBlanks = false } = {}) {
   return { slots, sentenceGridRow, totalRows: aboveRows.length + 1 + belowRows.length, rowLabels };
 }
 
+// 'primary'/'secondary' colour tier for a تركيب role label (js/render.js's
+// colour coding only; checker.js grading never looks at this). NOT derived
+// from row position -- above vs. below is purely a layout choice (a
+// stand-alone phrase illustration with nothing larger to sit under, e.g.
+// module-06's مَنْعُوْتٌ/نَعْتٌ pair, still lists as "above" for lack of
+// anything to be below), not a grammatical one. 'secondary' instead follows
+// which family the role itself belongs to: التوابع (نعت, توكيد, عطف, بدل),
+// الإضافة, the demonstrative/relative-clause pairs, and عدد/مميز -- these
+// attach to or further describe another word rather than filling a sentence
+// slot of their own. Confirmed against content-fstu's own teaching text
+// (module-06 l1's summary card: "Tarkib: green ink -- parts of a phrase are
+// labelled under the word in green", for exactly a مَنْعُوْتٌ/نَعْتٌ pair).
+// Matched by substring, so a parenthetical aside on a role ("مَعْطُوْفٌ (أ)",
+// "فِعْلٌ وَفَاعِلٌ (هُوَ) وَمَفْعُوْلٌ بِهِ") doesn't need its own entry.
+const SECONDARY_ROLE_KEYWORDS = [
+  'نَعْت', 'مَنْعُوْت', 'تَأْكِيْد', 'مُؤَكَّد', 'تَوْكِيْد', 'مَعْطُوْف', 'عَطْف',
+  'بَدَل', 'مُبْدَل', 'مُضَاف', 'إِشَارَة', 'مُشَار', 'عَدَد', 'مَعْدُوْد', 'مُمَيَّز',
+  'مَوْصُوْل', 'صِلَة',
+];
+
+export function classifyTarkeebRoleTier(role) {
+  return SECONDARY_ROLE_KEYWORDS.some((kw) => role.includes(kw)) ? 'secondary' : 'primary';
+}
+
 // A lesson's own single exercise (lesson.exercise.items[]) -- distinct from
 // a per-concept exercise (conceptKey's "_c" namespace above): one lesson can
 // have both a concept with its own exercise AND a lesson-level exercise, so

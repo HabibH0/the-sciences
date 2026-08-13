@@ -997,7 +997,7 @@ export const CHAPTER = {
         },
         {
           id: "qr2-33-038",
-          ar: "أَفَلَا يَحْسُنُ بِكَ أَنْ تَقُوْلَ: «الْحَمْدُ لله الَّذِيْ أَطْعَمَنِيْ وَسَقَانِيْ وَجَعَلَنِيْ مِنَ الْمُسْلِمِيْنَ».",
+          ar: "أَفَلَا يَحْسُنُ بِكَ أَنْ تَقُوْلَ: «الْحَمْدُ لِلَّهِ الَّذِيْ أَطْعَمَنِيْ وَسَقَانِيْ وَجَعَلَنِيْ مِنَ الْمُسْلِمِيْنَ».",
           en: "Would it not be fitting for you to say: \"Praise be to Allah, who fed me, gave me drink, and made me one of the Muslims\"?",
           tokens: [
             { surface: "أَفَلَا", lemma: "لا", pos: "part", features: "part+neg", root: "", gloss: "would...not" },
@@ -1006,7 +1006,7 @@ export const CHAPTER = {
             { surface: "أَنْ", lemma: "أن", pos: "part", features: "part", root: "", gloss: "to" },
             { surface: "تَقُوْلَ", lemma: "قال", pos: "verb", features: "subj.2ms", root: "ق و ل", gloss: "say" },
             { surface: "الْحَمْدُ", lemma: "حمد", pos: "noun", features: "def.nom", root: "ح م د", gloss: "praise" },
-            { surface: "لله", lemma: "لله", pos: "proper", features: "prep+gen", root: "", gloss: "be to Allah" },
+            { surface: "لِلَّهِ", lemma: "لله", pos: "proper", features: "prep+gen", root: "", gloss: "be to Allah" },
             { surface: "الَّذِيْ", lemma: "الذي", pos: "rel", features: "rel", root: "", gloss: "who" },
             { surface: "أَطْعَمَنِيْ", lemma: "أطعم", pos: "verb", features: "perf.3ms+1s", root: "ط ع م", gloss: "fed me" },
             { surface: "وَسَقَانِيْ", lemma: "سقى", pos: "verb", features: "conj+perf.3ms+1s", root: "س ق ي", gloss: "and gave me drink" },
@@ -1019,7 +1019,7 @@ export const CHAPTER = {
       checks: [
         {
           q: "بِمَاذَا نَصَحَتِ الْكِسْرَةُ الْوَلَدَ أَنْ يَقُوْلَ بَعْدَ الطَّعَامِ؟",
-          options: ["الْحَمْدُ لله الَّذِيْ أَطْعَمَنِيْ وَسَقَانِيْ وَجَعَلَنِيْ مِنَ الْمُسْلِمِيْنَ", "شُكْراً جَزِيْلاً أَيَّتُهَا الْكِسْرَةُ", "لَنْ آكُلَ خُبْزاً بَعْدَ الْيَوْمِ"],
+          options: ["الْحَمْدُ لِلَّهِ الَّذِيْ أَطْعَمَنِيْ وَسَقَانِيْ وَجَعَلَنِيْ مِنَ الْمُسْلِمِيْنَ", "شُكْراً جَزِيْلاً أَيَّتُهَا الْكِسْرَةُ", "لَنْ آكُلَ خُبْزاً بَعْدَ الْيَوْمِ"],
           answer: 0,
           qEn: "What did the piece of bread advise the boy to say after eating?",
           optionsEn: ["\"Praise be to Allah who fed me, gave me drink, and made me one of the Muslims\"", "\"Thank you very much, piece of bread\"", "\"I will never eat bread again\""]

@@ -31,7 +31,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'المفعول به: تقديمه وتأخيره',
+      title: 'تقديم المفعول',
       subtitle: 'The Direct Object\'s Word Order — إياك نعبد\'s جوازًا fronting, and the وجوبًا fronting that صدارة الكلام forces',
       concepts: [
         {
@@ -208,7 +208,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'المفعول فيه: الظرف',
+      title: 'الظرف',
       subtitle: 'The Locative and Temporal Object — ظرف زمان vs مكان, each مبهم or محدود, and what stands in for a ظرف',
       concepts: [
         {

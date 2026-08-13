@@ -23,7 +23,7 @@
 // this file for the specifics per lesson.
 export default {
   id: '11',
-  title: 'زوائد حروف الجر وحذفها، وإلا',
+  title: 'الزوائد والحذف',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
   blurb: 'The أحرف صِلَة family — الباء، مِن، اللام، and الكاف in their meaning-free زائدة role, plus the handful of words some grammarians add as حرف جر — then حذف حرف الجر, and إلا as the bridge from حروف الجر into الاستثناء.',
@@ -568,7 +568,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'الكاف الزائدة، وحروف عند البعض',
+      title: 'الكاف الزائدة',
       subtitle: 'الكاف الزائدة closing the أحرف صلة, then لعلّ، خلا/عدا، متى، وكي — words a minority additionally treat as حرف جر',
       concepts: [
         {
@@ -723,7 +723,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'حذف حرف الجر',
+      title: 'حذف الجر',
       subtitle: 'حذف حرف الجر — قياسا قبل أنْ وأنّ, سماعا elsewhere, and the noun that survives the drop as منصوب بنزع الخافض',
       concepts: [
         {

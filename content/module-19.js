@@ -28,7 +28,7 @@
 // discipline every prior module applied to its own thin spots.
 export default {
   id: '19',
-  title: 'الاستفهام والاستقبال والتفسير والتنوين',
+  title: 'الاستفهام والتفسير',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
   blurb: 'حرفا الاستفهام (الهمزة وهل), حرفا الاستقبال (السين وسوف), حرفا التفسير (أيْ وأنْ), then التنوين and its four أقسام, closing out الحرف غير العامل.',
@@ -36,7 +36,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'حرفا الاستفهام وحرفا الاستقبال',
+      title: 'الاستفهام والاستقبال',
       subtitle: 'The Two Interrogatives and the Two Futurizers — الهمزة وهل’s تصديق vs تصوّر, and السين وسوف’s near vs far future',
       concepts: [
         {
@@ -393,7 +393,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'التنوين وأقسامه',
+      title: 'أقسام التنوين',
       subtitle: 'Nunation — why it counts as a حرف, and its four أقسام: تمكين, تنكير, مقابلة, تعويض',
       concepts: [
         {

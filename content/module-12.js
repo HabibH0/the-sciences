@@ -32,7 +32,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'إنّ: مواقع كسر الهمزة (الأولى)',
+      title: 'كسر الهمزة',
       subtitle: 'إنّ — the first of the seven حروف تنصب الاسم وترفع الخبر, and where the الابتداء, القسم, and القول contexts keep its همزة مكسورة',
       concepts: [
         {
@@ -223,7 +223,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'إنّ: مواقع كسر الهمزة (تتمة)',
+      title: 'بقية الكسر',
       subtitle: 'إنّ — the remaining كسر contexts: الصلة, النعت, تعليق العامل اللفظي, إلا للحصر, حيث, and خبر اسم عين',
       concepts: [
         {
@@ -415,7 +415,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'أنّ: مواقع فتح الهمزة',
+      title: 'فتح الهمزة',
       subtitle: 'أنّ — the second of the seven, and the twelve مواضع مفرد where its همزة is فتح',
       concepts: [
         {
@@ -608,7 +608,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'مواضع جواز إنّ وأنّ معًا',
+      title: 'إنّ وأنّ',
       subtitle: 'Five positions where either إنّ or أنّ works — علة سابقة, فاء الجزاء, لا جرم, عطف بعد جملة ومفرد, and إذا الفجائية',
       concepts: [
         {
@@ -779,7 +779,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'أحكام تكميلية لإنّ وأنّ',
+      title: 'بقية',
       subtitle: 'What their اسم can be, where their خبر can sit, how عطف works around them, and two extensions of أنّ',
       concepts: [
         {
@@ -954,7 +954,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'كأنّ ولكنّ ولعلّ',
+      title: 'كأنّ ولعلّ',
       subtitle: 'Three more of the seven — the حرف تشبيه, the حرف استدراك, and the حرف توقع — closing this module short of ليت',
       concepts: [
         {

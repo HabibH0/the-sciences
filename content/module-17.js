@@ -41,7 +41,7 @@
 // explicitly-labelled example sentences, so both carry the full 6.
 export default {
   id: '17',
-  title: 'أحرف الشرط غير العاملة',
+  title: 'أحرف الشرط',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
   blurb: 'لَوْ, لَوْلا/لَوْما, and أَمّا — the four أحرف الشرط that trigger a جواب without governing the mood of a following فعل, closing out الحرف غير العامل.',

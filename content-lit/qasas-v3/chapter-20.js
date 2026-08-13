@@ -229,11 +229,11 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c20-008',
-          ar: 'وَكَيْفَ لا يَحْزَنُ وَهُوَ ابْنُهُ.',
+          ar: 'وَكَيْفَ لَا يَحْزَنُ وَهُوَ ابْنُهُ.',
           en: 'and how could he not grieve, when he was his son?',
           tokens: [
             { surface: 'وَكَيْفَ', lemma: 'كَيْفَ', pos: 'adv', features: 'conj+adv', gloss: 'and how' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَحْزَنُ', lemma: 'حَزِنَ', pos: 'verb', features: 'impf.3ms', gloss: 'to grieve; would he grieve' },
             { surface: 'وَهُوَ', lemma: 'هُوَ', pos: 'part', features: 'conj+3ms', gloss: 'when he' },
             { surface: 'ابْنُهُ', lemma: 'اِبْن', pos: 'noun', features: 'nom+3ms', gloss: 'his son' },

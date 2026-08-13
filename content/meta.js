@@ -1989,7 +1989,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "الاسم: علاماته",
+            "title": "علامات الاسم",
             "subtitle": "Signs of the Noun — اسم’s definition and the six signs that identify it",
             "sourceRef": ""
           },
@@ -2015,38 +2015,38 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "02",
-        "title": "الجملة وشبه الجملة والكلام",
+        "title": "الجملة والكلام",
         "heading": "المقدمة",
         "subheading": "",
         "blurb": "الجملة’s division by إسناد into اسمية and فعلية, by meaning into خبرية and إنشائية, شبه الجملة’s two classifications, and الكلام vs الجملة.",
         "lessons": [
           {
             "id": "l1",
-            "title": "الجملة: الإسناد والاسمية والفعلية",
+            "title": "الاسمية والفعلية",
             "subtitle": "The Sentence — إسناد, its two essential parts, and جملة اسمية vs جملة فعلية",
             "sourceRef": "app-lessons/009–010"
           },
           {
             "id": "l2",
-            "title": "الجملة: الخبرية والإنشائية والكبرى والصغرى",
+            "title": "خبرية وإنشائية",
             "subtitle": "Kinds of Meaning — خبر vs إنشاء, and جملة كبرى containing a جملة صغرى",
             "sourceRef": "app-lessons/011–012"
           },
           {
             "id": "l3",
-            "title": "شبه الجملة: أقسامها بالبنية",
+            "title": "البنية",
             "subtitle": "شبه الجملة by Structure — الجار والمجرور vs الظرف والمضاف إليه",
             "sourceRef": "app-lessons/013"
           },
           {
             "id": "l4",
-            "title": "شبه الجملة: أقسامها بالعامل",
+            "title": "العامل",
             "subtitle": "شبه الجملة by Governor — الظرف اللغو vs الظرف المستقر",
             "sourceRef": "app-lessons/014"
           },
           {
             "id": "l5",
-            "title": "الكلام: مفيد وموجب وغير موجب",
+            "title": "الكلام",
             "subtitle": "الكلام — قول مفيد, and its division into موجب and غير موجب",
             "sourceRef": "app-lessons/015"
           }
@@ -2054,7 +2054,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "03",
-        "title": "العامل والمعمول والإعراب",
+        "title": "العامل والإعراب",
         "heading": "العامل وغير العامل",
         "subheading": "تمهيد",
         "blurb": "العامل والمعمول defined as a matched pair — what causes a grammatical state and what receives it — then الإعراب: its three لغوي senses and its three types, لفظي, تقديري, and محلي.",
@@ -2067,7 +2067,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "الإعراب: تعريفه ومعانيه وأقسامه",
+            "title": "الإعراب",
             "subtitle": "الإعراب Defined — its three لغوي senses, its three أقسام, and الإعراب اللفظي",
             "sourceRef": ""
           },
@@ -2081,7 +2081,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "04",
-        "title": "الفعل القياسي: اللزوم والتعدي",
+        "title": "اللزوم والتعدي",
         "heading": "العامل وغير العامل",
         "subheading": "الفعل",
         "blurb": "الفعل القياسي splits into اللازم, whose effect stops at its فاعل, and المتعدي, whose effect reaches one or more مفعول به — and how the same فعل can be لازم in direct إعراب while still متعدي in meaning through a حرف جر.",
@@ -2094,19 +2094,19 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "الفعل المتعدي: بنفسه وبواسطة الحرف",
+            "title": "الفعل المتعدي",
             "subtitle": "The Transitive Verb — متعدي بنفسه vs متعدي بواسطة حرف الجر, and reading the same verb from two angles",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "الفعل المتعدي: فعل واحد بتركيبين وأضرب المتعدي",
+            "title": "أضرب المتعدي",
             "subtitle": "One Verb, Two Structures — اهدنا vs وهداه, انتهاء الغاية, and how مفاعيل are counted",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "المتعدي إلى مفعولين",
+            "title": "مفعولان",
             "subtitle": "The Two-Object Verb — أفعال العطاء, حذف المفعولين, أفعال الظن, and فعل الجارحة vs فعل القلب",
             "sourceRef": ""
           }
@@ -2114,38 +2114,38 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "05",
-        "title": "أفعال القلوب: اليقين والظن",
+        "title": "أفعال القلوب",
         "heading": "العامل وغير العامل",
         "subheading": "الفعل",
         "blurb": "أفعال القلوب — the two-object verbs of certainty (وجد، رأى، علم، درى) and assumption (ظن، حسب، زعم، جعل), the أنّ/أنْ/plain-object scale of تأكيد, and the rules governing when their objects may or may not be dropped.",
         "lessons": [
           {
             "id": "l1",
-            "title": "أفعال اليقين: وَجَدَ وأَلْفَى ورَأَى",
+            "title": "وَجَدَ ورَأَى",
             "subtitle": "Verbs of Certainty — وجد’s shift from physical finding to sure knowledge, and رأى’s three readings",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "أفعال اليقين: عَلِمَ وعَرَفَ ودَرَى وتَعَلَّمْ",
+            "title": "عَلِمَ وعَرَفَ",
             "subtitle": "Verbs of Certainty, continued — knowing a صفة, recognising a ذات, learning after ignorance",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "أفعال الظن: ظَنَّ وحَسِبَ وزَعَمَ وجَعَلَ",
+            "title": "ظَنَّ وحَسِبَ",
             "subtitle": "Verbs of Assumption — رجحان, ظن used for certainty, and the difference between حسب and زعم",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "سُلَّم التوكيد، وبقية أفعال الظن",
+            "title": "سُلَّم التوكيد",
             "subtitle": "The أنّ / أنْ / two-object scale of emphasis with علم and ظن, plus حَجَا، عَدَّ، هَبْ، خَالَ",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "أَلَمْ تَرَ وأَرَأَيْتَ، وقواعد الحذف",
+            "title": "أَلَمْ تَرَ",
             "subtitle": "Two رأى-based idioms of astonishment, and when the objects of أفعال القلوب may or may not be dropped",
             "sourceRef": ""
           }
@@ -2153,7 +2153,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "06",
-        "title": "أفعال التحويل والتعليق والإلغاء",
+        "title": "التحويل والتعليق",
         "heading": "العامل وغير العامل",
         "subheading": "الفعل",
         "blurb": "أفعال التحويل completing the two-object verb family, then التعليق and الإلغاء that decide whether a فعل قلب governs the جملة after it.",
@@ -2166,13 +2166,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "الأفعال الثلاثية المفعول والتعليق",
+            "title": "التعليق",
             "subtitle": "Three-Object قلب Verbs and Suspension — how a جملة can fill both مفعولي فعل القلب, and what التعليق does to its عمل",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "المعلقات وأحكام الإلغاء والترجيح",
+            "title": "الإلغاء والترجيح",
             "subtitle": "What Triggers التعليق, and الإلغاء — the full list of صدارة particles, then when to cancel a فعل قلب's عمل entirely",
             "sourceRef": ""
           }
@@ -2180,44 +2180,44 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "07",
-        "title": "الأفعال الناقصة: كان وأخواتها",
+        "title": "كان وأخواتها",
         "heading": "العامل وغير العامل",
         "subheading": "الفعل",
         "blurb": "The ناقص فعل family: كان’s own senses, its time-of-day and transformation sisters, continuation, and the two closing members.",
         "lessons": [
           {
             "id": "l1",
-            "title": "الأفعال الناقصة: التعريف ومعاني كان",
+            "title": "الأفعال الناقصة",
             "subtitle": "The Deficient Verb — why كان is called ناقص, and the eight senses it carries",
             "sourceRef": "app-lessons/028 (part 1)"
           },
           {
             "id": "l2",
-            "title": "حذف نون كان وحذف كان مع اسمها",
+            "title": "حذف كان",
             "subtitle": "Dropping كان — the three conditions for حذف النون, and the Kufi/Basri split over حذف كان واسمها",
             "sourceRef": "app-lessons/028 (part 2)"
           },
           {
             "id": "l3",
-            "title": "أصبح وأضحى وأمسى وظل وبات",
+            "title": "أصبح وأضحى",
             "subtitle": "The Time-of-Day Sisters — كان’s five sisters, distinguished only by the part of day each one fixes",
             "sourceRef": "app-lessons/029"
           },
           {
             "id": "l4",
-            "title": "صار وأخواتها بمعناها",
+            "title": "صار وأخواتها",
             "subtitle": "صار and Its Borrowed Meaning — تحول الذات and تحول الصفات, then which verbs can carry صار’s sense",
             "sourceRef": "app-lessons/030"
           },
           {
             "id": "l5",
-            "title": "أفعال الاستمرار: ما برح، ما انفك، ما زال، ما فتئ",
+            "title": "أفعال الاستمرار",
             "subtitle": "The Continuity Verbs — four أخوات كان whose older, complete-verb meaning still works inside their ناقص use",
             "sourceRef": "app-lessons/031"
           },
           {
             "id": "l6",
-            "title": "ما دام وليس، وأحكام عامة للأفعال الناقصة",
+            "title": "دام وليس",
             "subtitle": "Closing the List — the last two أخوات كان, then word order and تامة usage across the whole family",
             "sourceRef": "app-lessons/032"
           }
@@ -2225,7 +2225,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "08",
-        "title": "الرجاء والمقاربة والشروع والمدح والذم والتعجب",
+        "title": "المقاربة والرجاء",
         "heading": "العامل وغير العامل",
         "subheading": "الفعل",
         "blurb": "أفعال الرجاء والمقاربة والشروع close out الأفعال الناقصة, أفعال المدح والذم raise their own فاعل and مخصوص, and صيغ التعجب express wonder — five families of السماعي (mostly) verb behaviour.",
@@ -2250,13 +2250,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l4",
-            "title": "أفعال المدح والذم",
+            "title": "المدح والذم",
             "subtitle": "Verbs of Praise and Blame — نعم، حبذا، بئس، ساء and لا حبذا, and how they raise فاعل and مخصوص",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "أحكام تكميلية لأفعال المدح والذم",
+            "title": "بقية",
             "subtitle": "Further Rulings on Praise and Blame — ما after نعم/بئس, حذف المخصوص, and حبذا’s منصوب companion",
             "sourceRef": ""
           },
@@ -2270,44 +2270,44 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "09",
-        "title": "حروف الجر: التمهيد والأكثر شيوعا",
+        "title": "حروف الجر",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف العامل",
         "blurb": "حروف الجر — what they are, why they carry three different names, the متعلق/مفعول به debate over الجار والمجرور, and the first six of the thirteen حروف: الباء، مِن، إلى، عَن، على، اللام.",
         "lessons": [
           {
             "id": "l1",
-            "title": "حروف الجر: التمهيد وأضربها",
+            "title": "التمهيد",
             "subtitle": "Introducing حروف الجر — what they do, their three names, and whether الجار والمجرور is a متعلق or a مفعول به",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "حرف الجر الأول: الباء",
+            "title": "الباء",
             "subtitle": "الباء — root meaning الإلصاق, and every role it can carry across its مجرور",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "حرف الجر الثاني: مِنْ",
+            "title": "مِنْ",
             "subtitle": "مِنْ — root meaning ابتداء الغاية, its own roles, and what it reveals about الإضافة",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "حرفا الجر الثالث والرابع: إِلَى وعَنْ",
+            "title": "إِلَى وعَنْ",
             "subtitle": "إِلَى — the mirror image of مِنْ — and عَنْ, whose root meaning المجاوزة takes three distinct shapes",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "حرف الجر الخامس: عَلَى",
+            "title": "عَلَى",
             "subtitle": "عَلَى — الاستعلاء حقيقي or معنوي, and the pronoun that decides whether حبه means مفعول معه or مفعول له",
             "sourceRef": ""
           },
           {
             "id": "l6",
-            "title": "حرف الجر السادس: اللام",
+            "title": "اللام",
             "subtitle": "اللام — three root senses at once, لام التبليغ, and the difference between لام التعليل and لام العاقبة",
             "sourceRef": ""
           }
@@ -2315,14 +2315,14 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "10",
-        "title": "حروف الجر: الباقية وأحرف القسم ورُبَّ",
+        "title": "بقية الجر",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف العامل",
         "blurb": "في through حتى, then أحرف القسم, مذ/منذ, and رُبَّ — closing the الحروف الشبيهة بالزائد with مِن التبعيضية وحاشا.",
         "lessons": [
           {
             "id": "l1",
-            "title": "حرف الجر السابع: فِي",
+            "title": "فِي",
             "subtitle": "في — root meaning الظرفية, and every role it can carry across its مجرور",
             "sourceRef": ""
           },
@@ -2346,13 +2346,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l5",
-            "title": "رُبَّ: التكثير والتقليل وأحكامها",
+            "title": "رُبَّ",
             "subtitle": "حرف الجر الشبيه بالزائد opens with رُبَّ — real meaning, without the syntactic tie الأصلي particles require",
             "sourceRef": ""
           },
           {
             "id": "l6",
-            "title": "مِن التبعيضية وحاشا",
+            "title": "التبعيضية وحاشا",
             "subtitle": "the second and third حروف شبيهة بالزائد, closing with a lingering question about الكاف's own classification",
             "sourceRef": ""
           }
@@ -2360,7 +2360,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "11",
-        "title": "زوائد حروف الجر وحذفها، وإلا",
+        "title": "الزوائد والحذف",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف العامل",
         "blurb": "The أحرف صِلَة family — الباء، مِن، اللام، and الكاف in their meaning-free زائدة role, plus the handful of words some grammarians add as حرف جر — then حذف حرف الجر, and إلا as the bridge from حروف الجر into الاستثناء.",
@@ -2385,13 +2385,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l4",
-            "title": "الكاف الزائدة، وحروف عند البعض",
+            "title": "الكاف الزائدة",
             "subtitle": "الكاف الزائدة closing the أحرف صلة, then لعلّ، خلا/عدا، متى، وكي — words a minority additionally treat as حرف جر",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "حذف حرف الجر",
+            "title": "حذف الجر",
             "subtitle": "حذف حرف الجر — قياسا قبل أنْ وأنّ, سماعا elsewhere, and the noun that survives the drop as منصوب بنزع الخافض",
             "sourceRef": ""
           },
@@ -2412,37 +2412,37 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "إنّ: مواقع كسر الهمزة (الأولى)",
+            "title": "كسر الهمزة",
             "subtitle": "إنّ — the first of the seven حروف تنصب الاسم وترفع الخبر, and where the الابتداء, القسم, and القول contexts keep its همزة مكسورة",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "إنّ: مواقع كسر الهمزة (تتمة)",
+            "title": "بقية الكسر",
             "subtitle": "إنّ — the remaining كسر contexts: الصلة, النعت, تعليق العامل اللفظي, إلا للحصر, حيث, and خبر اسم عين",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "أنّ: مواقع فتح الهمزة",
+            "title": "فتح الهمزة",
             "subtitle": "أنّ — the second of the seven, and the twelve مواضع مفرد where its همزة is فتح",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "مواضع جواز إنّ وأنّ معًا",
+            "title": "إنّ وأنّ",
             "subtitle": "Five positions where either إنّ or أنّ works — علة سابقة, فاء الجزاء, لا جرم, عطف بعد جملة ومفرد, and إذا الفجائية",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "أحكام تكميلية لإنّ وأنّ",
+            "title": "بقية",
             "subtitle": "What their اسم can be, where their خبر can sit, how عطف works around them, and two extensions of أنّ",
             "sourceRef": ""
           },
           {
             "id": "l6",
-            "title": "كأنّ ولكنّ ولعلّ",
+            "title": "كأنّ ولعلّ",
             "subtitle": "Three more of the seven — the حرف تشبيه, the حرف استدراك, and the حرف توقع — closing this module short of ليت",
             "sourceRef": ""
           }
@@ -2450,38 +2450,38 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "13",
-        "title": "ليت، والحروف المشبهة بالفعل، وتخفيفها",
+        "title": "الحروف المشبهة",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف العامل",
         "blurb": "The last of the six حروف تنصب الاسم وترفع الخبر, the five وجوه that earn the whole group the name مشبهة بالفعل, تخفيف across the family, and the two remaining نواسخ — لا لنفي الجنس and الحروف المشبهة بليس.",
         "lessons": [
           {
             "id": "l1",
-            "title": "ليت والحروف المشبهة بالفعل",
+            "title": "ليت",
             "subtitle": "ليت and Why the Family Is \"مشبهة بالفعل\" — the last of six حروف, and the five ways they all resemble a verb",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "تخفيف إنّ وأنّ",
+            "title": "تخفيف إنّ",
             "subtitle": "Lightening إنّ and أنّ — the five-قراءة ayah, اللام الفارقة, and the dropped ضمير الشأن",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "تخفيف كأنّ وما الكافّة",
+            "title": "تخفيف كأنّ",
             "subtitle": "كأنّ under تخفيف, and How ما الكافّة Neutralizes the Whole Family",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "لا النافية للجنس",
+            "title": "لا النافية",
             "subtitle": "لا Negating the Whole جنس — the seventh حرف تنصب الاسم وترفع الخبر, its two names, and when it stops governing",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "الحروف المشبهة بليس",
+            "title": "شبيهات ليس",
             "subtitle": "Particles Resembling لَيْسَ — ما الحجازية, لا الشعرية, لاتَ, and إنْ عند أهل العالية",
             "sourceRef": ""
           },
@@ -2502,13 +2502,13 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "أنْ: الناصبة والمضمرة جوازًا",
+            "title": "أنْ الناصبة",
             "subtitle": "أنْ — يقين vs ظنّ distinction, and the 2 جوازًا positions",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "أنْ: المضمرة وجوبًا",
+            "title": "أنْ المضمرة",
             "subtitle": "أنْ — the 5 وجوبًا positions (حتى، لام الجحود، أو، واو المعية، فاء السببية)",
             "sourceRef": ""
           },
@@ -2520,13 +2520,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l4",
-            "title": "إذن، وخلاصة النواصب الأربعة",
+            "title": "إذن",
             "subtitle": "إِذَنْ — حرف/اسم debate, 3 شروط العمل, plus a recap of أنْ/كَيْ/لَنْ/إِذَنْ",
             "sourceRef": ""
           },
           {
             "id": "l5",
-            "title": "جوازم تجزم فعلا واحدا",
+            "title": "جازم واحد",
             "subtitle": "لَمْ، لَمّا، لام الأمر، لا الناهية",
             "sourceRef": ""
           },
@@ -2585,44 +2585,44 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "16",
-        "title": "أحرف الجواب والنفي والتأكيد",
+        "title": "الجواب والتأكيد",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف غير العامل",
         "blurb": "أحرف الجواب answering a question or statement in one word, حرفا النفي — لا وكلّا — with كلّا’s layered senses, and the five أحرف التأكيد that add emphasis without changing a sentence’s basic meaning.",
         "lessons": [
           {
             "id": "l1",
-            "title": "أحرف الجواب: نَعَمْ وبَلَى",
+            "title": "نَعَمْ وبَلَى",
             "subtitle": "Affirmative Response Particles — نعم confirms a question’s own polarity, بلى flips a negative one",
             "sourceRef": "app-lessons/089 (part 1)"
           },
           {
             "id": "l2",
-            "title": "أحرف الجواب الأقل شيوعا",
+            "title": "أحرف نادرة",
             "subtitle": "إي، أجل، إنّه، وجير — the four rarer أحرف الإيجاب, each with its own strict condition",
             "sourceRef": "app-lessons/089 (part 2)"
           },
           {
             "id": "l3",
-            "title": "لا وكَلَّا: المعنى الأصلي",
+            "title": "لا وكَلَّا",
             "subtitle": "لا wholly neutral, كلّا carrying الزجر والردع — a firm, scolding rejection of what came before",
             "sourceRef": "app-lessons/090 (part 1)"
           },
           {
             "id": "l4",
-            "title": "كَلَّا: المعاني المجازية وأحكام الوقف",
+            "title": "كَلَّا المجازية",
             "subtitle": "التصديق and الاستفتاح beyond الردع, where the recitation pause falls, and how to read an ambiguous كلا",
             "sourceRef": "app-lessons/090 (part 2)"
           },
           {
             "id": "l5",
-            "title": "ثلاثة من أحرف التأكيد",
+            "title": "أحرف التأكيد",
             "subtitle": "لام الابتداء على المبتدأ، اللام المزحلقة على خبر إنّ، ولام جواب القسم — three أحرف تأكيد built around one shared لام",
             "sourceRef": "app-lessons/091 (part 1)"
           },
           {
             "id": "l6",
-            "title": "نونا التأكيد وقَدْ",
+            "title": "نونا التأكيد",
             "subtitle": "The two forms of an emphatic ن, and قَدْ — always تحقيق with الماضي, usually تقليل with المضارع",
             "sourceRef": "app-lessons/091 (part 2)"
           }
@@ -2630,7 +2630,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "17",
-        "title": "أحرف الشرط غير العاملة",
+        "title": "أحرف الشرط",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف غير العامل",
         "blurb": "لَوْ, لَوْلا/لَوْما, and أَمّا — the four أحرف الشرط that trigger a جواب without governing the mood of a following فعل, closing out الحرف غير العامل.",
@@ -2657,14 +2657,14 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "18",
-        "title": "التوبيخ والتنبيه والمصدر والنفي والزيادة",
+        "title": "التوبيخ والتنبيه",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف غير العامل",
         "blurb": "أحرف التوبيخ والتحضيض، أحرف التنبيه، the non-governing أحرف المصدر and أحرف النفي, and أحرف الزيادة (أحرف الصلة) — five families of غير عامل particles told apart by tense, by a deletion test, or by who is speaking to whom, not by form alone.",
         "lessons": [
           {
             "id": "l1",
-            "title": "أحرف التوبيخ والتحضيض",
+            "title": "التوبيخ والتحضيض",
             "subtitle": "Reproach and Incitement — هلا، ألا، and لولا’s tense-governed and rank-governed senses",
             "sourceRef": ""
           },
@@ -2676,13 +2676,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l3",
-            "title": "أحرف المصدر غير العاملة",
+            "title": "أحرف المصدر",
             "subtitle": "The Non-Governing Nominalizing Particles — ما، لو بعد ودّ، and همزة التسوية",
             "sourceRef": ""
           },
           {
             "id": "l4",
-            "title": "أحرف النفي غير العاملة",
+            "title": "أحرف النفي",
             "subtitle": "The Non-Governing Negators — ما، لا، and إنْ, and where each attaches",
             "sourceRef": ""
           },
@@ -2696,14 +2696,14 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "19",
-        "title": "الاستفهام والاستقبال والتفسير والتنوين",
+        "title": "الاستفهام والتفسير",
         "heading": "العامل وغير العامل",
         "subheading": "الحرف غير العامل",
         "blurb": "حرفا الاستفهام (الهمزة وهل), حرفا الاستقبال (السين وسوف), حرفا التفسير (أيْ وأنْ), then التنوين and its four أقسام, closing out الحرف غير العامل.",
         "lessons": [
           {
             "id": "l1",
-            "title": "حرفا الاستفهام وحرفا الاستقبال",
+            "title": "الاستفهام والاستقبال",
             "subtitle": "The Two Interrogatives and the Two Futurizers — الهمزة وهل’s تصديق vs تصوّر, and السين وسوف’s near vs far future",
             "sourceRef": ""
           },
@@ -2715,7 +2715,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l3",
-            "title": "التنوين وأقسامه",
+            "title": "أقسام التنوين",
             "subtitle": "Nunation — why it counts as a حرف, and its four أقسام: تمكين, تنكير, مقابلة, تعويض",
             "sourceRef": ""
           }
@@ -2723,7 +2723,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "20",
-        "title": "العامل من الأسماء المشتقة",
+        "title": "الأسماء المشتقة",
         "heading": "العامل وغير العامل",
         "subheading": "الاسم",
         "blurb": "المصدر, then the derived-noun governors: اسم الفاعل, اسم المفعول, الصفة المشبهة, اسم التفضيل, and اسم الفعل — nouns that govern a معمول the way a فعل does.",
@@ -2736,7 +2736,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "اسم الفاعل واسم المفعول",
+            "title": "الفاعل والمفعول",
             "subtitle": "Active and Passive Derived Nouns — عمل عمل الفعل المعلوم أو المجهول, the شروط for a نكرة to govern, and متصل vs منفصل معمول",
             "sourceRef": ""
           },
@@ -2754,13 +2754,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l5",
-            "title": "اسم الفعل: تعريفه وعمله وأقسامه",
+            "title": "اسم الفعل",
             "subtitle": "The Verb-Noun — governing like its underlying verb, its three tenses, and مرتجلة vs منقولة origin",
             "sourceRef": ""
           },
           {
             "id": "l6",
-            "title": "اسم الفعل: أحكام تكميلية",
+            "title": "بقية",
             "subtitle": "Closing اسم الفعل — تنوين flipping بله and رويد's meaning, هلم's missing مفعول به, the one قياسي pattern, and why its معمول can never front",
             "sourceRef": ""
           }
@@ -2768,26 +2768,26 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "21",
-        "title": "بقية الأسماء العاملة والإضافة",
+        "title": "الأسماء العاملة",
         "heading": "العامل وغير العامل",
         "subheading": "الاسم",
         "blurb": "Three leftover verb-like nouns closing out أسماء تعمل عمل الفعل, then الإضافة — معنوية and لفظية — plus أسماء الشرط and the three أعمال معنوية that govern with no spoken governor at all.",
         "lessons": [
           {
             "id": "l1",
-            "title": "باقية الأسماء العاملة",
+            "title": "بقية الأسماء",
             "subtitle": "Remaining Governing Nouns — الظرف المستقر, الاسم المنسوب, and الاسم الجامد المؤول بمعنى المشتق",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "الإضافة المعنوية: الحروف المقدرة",
+            "title": "الحروف المقدرة",
             "subtitle": "Implicit Iḍāfa — the elided اللام, مِن, or في hiding behind every plain possessive إضافة",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "الإضافة المعنوية: أحكام أخرى",
+            "title": "الإضافة المعنوية",
             "subtitle": "Further Rulings on Implicit Iḍāfa — dropping المضاف إليه, بناء على الضم, تنوين العوض, and borrowed gender",
             "sourceRef": ""
           },
@@ -2820,13 +2820,13 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "التنازع وحذف عامل المفعول المطلق",
+            "title": "التنازع",
             "subtitle": "Two Governors, One معمول — التنازع’s إيجاز, then the four قياسي patterns and the سماعي phrases where المفعول المطلق’s governor is obligatorily dropped",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "التحذير والإغراء والاختصاص",
+            "title": "التحذير والإغراء",
             "subtitle": "Warning, Encouragement, and Pinning Down a Pronoun — three of the خمسة مواضع under حذف عامل المفعول به, each a noun made منصوب by a permanently dropped verb",
             "sourceRef": ""
           },
@@ -2838,7 +2838,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l4",
-            "title": "حذف عامل الحال",
+            "title": "حذف الحال",
             "subtitle": "The Third ضرب of حذف العامل المعنوي — four قياسي situations where الحال survives without its governing verb, and a سماعي handful besides",
             "sourceRef": ""
           }
@@ -2853,19 +2853,19 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "النداء: أركانه وأحرفه",
+            "title": "أركان النداء",
             "subtitle": "The Construction of Calling Out — a dropped أدعو, its three أركان, and the seven أحرف that stand in its place",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "النداء: إعراب المنادى وأحكامه",
+            "title": "إعراب المنادى",
             "subtitle": "The إعراب of المنادى — منصوب لفظًا vs مبني cases, المضاف لياء المتكلم, ترخيم, and اللهم",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "الاستغاثة ونداء التعجب",
+            "title": "الاستغاثة",
             "subtitle": "Calling Out for Rescue and in Astonishment — الاستغاثة’s three أركان, its فتحة/كسرة contrast, and نداء التعجب reusing the same skeleton",
             "sourceRef": ""
           },
@@ -2879,7 +2879,7 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "24",
-        "title": "الفاعل ونائب الفاعل والمبتدأ",
+        "title": "الفاعل والمبتدأ",
         "heading": "المعمول وغير المعمول",
         "subheading": "الاسم والفعل",
         "blurb": "الفاعل and نائب الفاعل as a matched pair distinguished only by معلوم/مجهول فاعله, then المبتدأ opening الجملة الاسمية — its two types, when a نكرة may open it, and the four positions where it must be dropped.",
@@ -2892,13 +2892,13 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "نائب الفاعل والمبتدأ",
+            "title": "نائب الفاعل",
             "subtitle": "The Subject-Substitute and the Topic — نائب الفاعل's mirror definition, لام التوكيد, and when a نكرة may open a sentence",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "حذف المبتدأ وجوبًا",
+            "title": "حذف المبتدأ",
             "subtitle": "When the Topic Must Be Dropped — the four positions where leaving المبتدأ in place would itself be wrong",
             "sourceRef": ""
           }
@@ -2906,20 +2906,20 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "25",
-        "title": "الخبر والمفعول المطلق",
+        "title": "الخبر والمطلق",
         "heading": "المعمول وغير المعمول",
         "subheading": "الاسم والفعل",
         "blurb": "الخبر — how many a مبتدأ can take, where it sits, when it must or may vanish, and how it agrees — then المفعول المطلق, the مصدر that reinforces, specifies, or counts its فعل, and can even stand in for a dropped one.",
         "lessons": [
           {
             "id": "l1",
-            "title": "الخبر: تعدده وترتيبه وحذفه",
+            "title": "أحكام الخبر",
             "subtitle": "The Predicate — تعدد الخبر, ترتيب المبتدأ والخبر, and where حذف الخبر is وجوب or جواز",
             "sourceRef": "app-lessons/127 (part 1)"
           },
           {
             "id": "l2",
-            "title": "الخبر: مطابقته والمبتدأ المتضمن معنى الشرط",
+            "title": "مطابقة الخبر",
             "subtitle": "Agreement and the Conditional المبتدأ — when الخبر must match, and the seven situations that license فَ on الخبر",
             "sourceRef": "app-lessons/127 (part 2)"
           },
@@ -2940,13 +2940,13 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "المفعول به: تقديمه وتأخيره",
+            "title": "تقديم المفعول",
             "subtitle": "The Direct Object's Word Order — إياك نعبد's جوازًا fronting, and the وجوبًا fronting that صدارة الكلام forces",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "المفعول فيه: الظرف",
+            "title": "الظرف",
             "subtitle": "The Locative and Temporal Object — ظرف زمان vs مكان, each مبهم or محدود, and what stands in for a ظرف",
             "sourceRef": ""
           },
@@ -2973,19 +2973,19 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "الحال: تعريفه وصاحبه واشتقاقه",
+            "title": "تعريف الحال",
             "subtitle": "Defining الحال — صاحب الحال, when ذو الحال or الحال itself may be نكرة, and مشتقة vs جامدة",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "أقسام الحال: الثبات والاستقلال والزمن",
+            "title": "الثبات والاستقلال",
             "subtitle": "Three Classification Axes — متنقلة/لازمة, مؤسِّسة/مؤكِّدة, and محكية/مقارِنة/مقدَّرة",
             "sourceRef": ""
           },
           {
             "id": "l3",
-            "title": "أقسام الحال: القصد والتعدد والمتعلَّق",
+            "title": "القصد والتعدد",
             "subtitle": "The Remaining Axes — مقصودة/موطِّئة, تعدد الحال, and حقيقية/سببية",
             "sourceRef": ""
           }
@@ -3006,7 +3006,7 @@ export const COURSE_SHELLS = [
           },
           {
             "id": "l2",
-            "title": "تمييز النسبة وإعراب العدد",
+            "title": "تمييز النسبة",
             "subtitle": "Specifying a Relation, and How to إعراب a Number — غير محوّل vs محوّل, and كم الخبرية",
             "sourceRef": ""
           }
@@ -3021,19 +3021,19 @@ export const COURSE_SHELLS = [
         "lessons": [
           {
             "id": "l1",
-            "title": "المستثنى: أركانه وأنواعه",
+            "title": "أركان المستثنى",
             "subtitle": "The Excepted Noun — its three أركان, then التام vs غير التام and المتصل vs المنقطع",
             "sourceRef": "app-lessons/135 (part 1)"
           },
           {
             "id": "l2",
-            "title": "أدوات الاستثناء وإعرابه",
+            "title": "أدوات الاستثناء",
             "subtitle": "The Tools of Exception — أداة الاستثناء as حرف, فعل, or اسم, and إعراب المستثنى across موجب, غير موجب, and تقديم",
             "sourceRef": "app-lessons/135 (part 2)"
           },
           {
             "id": "l3",
-            "title": "أحكام خاصة: حاشا وغير واللهم",
+            "title": "حاشا وغير",
             "subtitle": "Special Rulings — فعل استثناء, حاشا, the غير/إلا interchange, and المستثنى in المنقطع",
             "sourceRef": "app-lessons/135 (part 3)"
           }
@@ -3041,20 +3041,20 @@ export const COURSE_SHELLS = [
       },
       {
         "id": "30",
-        "title": "خبر النواسخ والمجرور والنعت",
+        "title": "خبر النواسخ",
         "heading": "المعمول وغير المعمول",
         "subheading": "الاسم والفعل",
         "blurb": "خبر الأفعال الناقصة and خبر الحروف المشبهة بليس closing out the نواسخ family, اسم لا النافية للجنس, المجرور’s two types, and النعت opening التوابع as this course’s closing lesson.",
         "lessons": [
           {
             "id": "l1",
-            "title": "خبر الأفعال الناقصة وخبر الحروف المشبهة بليس",
+            "title": "خبر الناقصة",
             "subtitle": "The Predicate of the Deficient Verbs and Their Sisters — كان’s خبر, its freedom of word order, and the three حروف that borrow ليس’s own عمل",
             "sourceRef": ""
           },
           {
             "id": "l2",
-            "title": "اسم لا النافية للجنس",
+            "title": "اسم لا",
             "subtitle": "The Noun Governed by لا النافية للجنس — منصوب لفظًا when مضاف or شبيه بالمضاف, مبني elsewhere, and what تكرار and حذف do to it",
             "sourceRef": ""
           },

@@ -53,7 +53,7 @@ export default {
               `المَزِيد: ما زِيدَ فيه حَرْفٌ أو أَكْثَرُ على حُرُوفِهِ الأَصْلِيَّةِ`,
             ] } },
             { html: `In plain English: <bdi>المجرد</bdi> is the verb all of whose letters are <bdi>أصلية</bdi> (original root letters) — none of them drops out across the word's conjugations without a cause. <bdi>المزيد</bdi> is the verb that has had one or more letters added on top of its original root letters.`, list: false },
-            { html: `The qualifier <bdi>بِغَيْرِ عِلَّةٍ</bdi> ("without a cause") in the first definition is doing real work: a مجرد verb can still lose a letter in some of its forms — قَالَ becomes قُلْتُ ("I said") — but that loss happens for a reason belonging to <bdi>إعلال</bdi> (regular weak-letter change), never because the letter was a bolted-on addition to begin with. Losing a letter through إعلال never turns a مجرد verb into a مزيد one.`, list: false },
+            { html: `The qualifier <bdi>بِغَيْرِ عِلَّةٍ</bdi> (without a cause) in the first definition is doing real work: a مجرد verb can still lose a letter in some of its forms — قَالَ becomes قُلْتُ (I said) — but that loss happens for a reason belonging to <bdi>إعلال</bdi> (regular weak-letter change), never because the letter was a bolted-on addition to begin with. Losing a letter through إعلال never turns a مجرد verb into a مزيد one.`, list: false },
           ],
           exercise: {
             prompt: `قُلْتُ has lost the عين (the middle root letter) of قَالَ. Does that loss stop قَالَ from being classified as المجرد?`,
@@ -84,7 +84,7 @@ export default {
         {
           heading: 'أبواب الثلاثي باعتبار الماضي وحده',
           lines: [
-            { html: `Taking just the <bdi>ماضي</bdi> (past-tense form) on its own, the <bdi>ثلاثي مجرد</bdi> (three-letter bare verb) falls into exactly <bdi>ثلاثة أبواب</bdi> — three "chapters," or patterns. The reason there are only three: the verb's <bdi>فاء</bdi> (first root letter) is always <bdi>مفتوح</bdi> (carries a fatḥa, a short "a" vowel) in the ماضي, so the only letter free to vary is the <bdi>عين</bdi> (middle root letter) — and a single letter can carry only one of three short vowels.`, list: false },
+            { html: `Taking just the <bdi>ماضي</bdi> (past-tense form) on its own, the <bdi>ثلاثي مجرد</bdi> (three-letter bare verb) falls into exactly <bdi>ثلاثة أبواب</bdi> — three chapters, or patterns. The reason there are only three: the verb's <bdi>فاء</bdi> (first root letter) is always <bdi>مفتوح</bdi> (carries a fatḥa, a short a vowel) in the ماضي, so the only letter free to vary is the <bdi>عين</bdi> (middle root letter) — and a single letter can carry only one of three short vowels.`, list: false },
             { table: { title: 'The Three Patterns of the عين in the الماضي', headers: ['حركة العين (Vowel on the عين)', 'أمثلة (Examples)', 'Meaning'], rows: [
               ['مفتوحة (fatḥa)', 'نَصَرَ، ضَرَبَ، فَتَحَ', 'to help/aid; to hit/strike; to open'],
               ['مضمومة (ḍamma)', 'كَرُمَ', 'to be noble/generous'],
@@ -102,7 +102,7 @@ export default {
         {
           heading: 'ستة أبواب بالماضي مع المضارع',
           lines: [
-            { html: `Bringing the <bdi>مضارع</bdi> (present/future-tense form) into the picture raises the count of أبواب — but not all the way to nine. The <bdi>عين المضارع</bdi> (the middle root letter of the present-tense form) can likewise carry a ضمة, فتحة, or كسرة. Pairing three possible ماضي vowels with three possible مضارع vowels gives <bdi>ثلاثة في ثلاثة بتسعة</bdi> — "three by three is nine" — theoretically possible combinations. But the language refuses two of those nine pairings outright.`, list: false },
+            { html: `Bringing the <bdi>مضارع</bdi> (present/future-tense form) into the picture raises the count of أبواب — but not all the way to nine. The <bdi>عين المضارع</bdi> (the middle root letter of the present-tense form) can likewise carry a ضمة, فتحة, or كسرة. Pairing three possible ماضي vowels with three possible مضارع vowels gives <bdi>ثلاثة في ثلاثة بتسعة</bdi> — three by three is nine — theoretically possible combinations. But the language refuses two of those nine pairings outright.`, list: false },
             { table: { title: 'The Two Refused Combinations', headers: ['الممتنع (What Is Disallowed)', 'التفصيل (Detail)'], rows: [
               ['A كسرة on the عين in the ماضي together with a ضمة on it in the مضارع', 'فَعِلَ يَفْعُل'],
               ['A ضمة on the عين in the ماضي together with either a كسرة or a فتحة on it in the مضارع', 'فَعُلَ يَفْعِل ، فَعُلَ يَفْعَل'],
@@ -181,7 +181,7 @@ export default {
               `الباب الثالث: فَعَلَ يَفْعَل، بالفتح فيهما`,
               `كفَتَحَ يَفْتَح، وذَهَبَ يَذْهَب، وسَعَى يَسْعَى، ووَضَعَ يَضَع، وسَأَلَ يَسْأَل، وقَرَأَ يَقْرَأ`,
             ] } },
-            { html: `The third باب keeps a فتحة on the عين in both tenses — فَتَحَ يَفْتَح "to open", ذَهَبَ يَذْهَب "to go", سَعَى يَسْعَى "to strive", وَضَعَ يَضَع "to put", سَأَلَ يَسْأَل "to ask", قَرَأَ يَقْرَأ "to read". Unlike the first two أبواب, this one carries a condition on which letters its root may contain.`, list: false },
+            { html: `The third باب keeps a فتحة on the عين in both tenses — فَتَحَ يَفْتَح to open, ذَهَبَ يَذْهَب to go, سَعَى يَسْعَى to strive, وَضَعَ يَضَع to put, سَأَلَ يَسْأَل to ask, قَرَأَ يَقْرَأ to read. Unlike the first two أبواب, this one carries a condition on which letters its root may contain.`, list: false },
             { box: { title: 'Rule', lines: [
               `وكُلُّ ما كانَتْ عَيْنُهُ مَفْتُوحَةً في الماضي والمُضارِعِ، فهو حَلْقِيُّ العَيْنِ أو اللَّامِ. وليس كُلُّ ما كان حَلْقِيًّا مَفْتُوحًا فيهما`,
               `وحُرُوفُ الحَلْقِ سِتَّةٌ: الهَمْزَةُ والهاءُ، والحاءُ والخاءُ، والعَيْنُ والغَيْنُ`,
@@ -190,7 +190,7 @@ export default {
             { box: { title: 'Careful', lines: [
               `وما جاءَ من هذا البابِ بِدُونِ حَرْفٍ حَلْقِيٍّ فشاذٌّ`,
             ] } },
-            { html: `A verb that is مفتوح العين in both tenses like this باب, yet has no throat letter in its عين or لام, is judged شاذ (irregular) rather than simply reassigned. The standing example is أَبَى يَأْبَى ("to refuse") — مفتوح in both tenses, but its همزة sits in the فاء position, which the rule does not count, so neither its عين nor its لام is a throat letter. A handful of other irregular or dialectal forms are recorded in the classical grammars, but أبى يأبى is the one worth fixing in memory, since it is exactly what the exception clause of the rule points to.`, list: false },
+            { html: `A verb that is مفتوح العين in both tenses like this باب, yet has no throat letter in its عين or لام, is judged شاذ (irregular) rather than simply reassigned. The standing example is أَبَى يَأْبَى (to refuse) — مفتوح in both tenses, but its همزة sits in the فاء position, which the rule does not count, so neither its عين nor its لام is a throat letter. A handful of other irregular or dialectal forms are recorded in the classical grammars, but أبى يأبى is the one worth fixing in memory, since it is exactly what the exception clause of the rule points to.`, list: false },
           ],
           clarification: `The direction of the rule is what trips people up. Every verb in the third باب has a throat letter in its عين or لام — that holds without exception among the regular cases. But the converse fails: a verb can contain a throat letter and still belong to a different باب altogether. So a throat letter is not what earns a verb membership here; it is only that its absence, in a verb that is otherwise شكل like this باب, is what marks that verb as شاذ.`,
           exercise: {
@@ -208,7 +208,7 @@ export default {
               `الباب الرابع: فَعِلَ يَفْعَل، بكسر العين في الماضي وفتحها في المضارع`,
               `كفَرِحَ يَفْرَح، وعَلِمَ يَعْلَم، ووَجِلَ يَوْجَل، ويَبِسَ يَيْبَس، وخَافَ يَخَاف، وهَابَ يَهَاب، ورَضِيَ يَرْضَى، وقَوِيَ يَقْوَى، وعَضَّ يَعَضّ، وأَمِنَ يَأْمَن، وسَئِمَ يَسْأَم، وصَدِئَ يَصْدَأ`,
             ] } },
-            { html: `A كسرة sits on the عين in the ماضي, and a فتحة takes its place in the مضارع — as in فَرِحَ يَفْرَح "to be joyful", عَلِمَ يَعْلَم "to know", خَافَ يَخَاف "to fear", رَضِيَ يَرْضَى "to be pleased", spanning صحيح, مهموز, أجوف, ناقص and مضاعف roots alike. What marks this باب out, though, is not its vowelling alone but the four families of meaning that cluster in it.`, list: false },
+            { html: `A كسرة sits on the عين in the ماضي, and a فتحة takes its place in the مضارع — as in فَرِحَ يَفْرَح to be joyful, عَلِمَ يَعْلَم to know, خَافَ يَخَاف to fear, رَضِيَ يَرْضَى to be pleased, spanning صحيح, مهموز, أجوف, ناقص and مضاعف roots alike. What marks this باب out, though, is not its vowelling alone but the four families of meaning that cluster in it.`, list: false },
             { table: { title: 'ما يأتي من هذا الباب (What Comes from This باب)', headers: ['المعنى (Meaning)', 'أمثلة (Examples)'], rows: [
               ['الفَرَح وتَوابِعُه — joy, and what follows from it', 'فَرِحَ، طَرِبَ، بَطِرَ، أَشِرَ، غَضِبَ، حَزِنَ'],
               ['الامْتِلاء والخُلُو — fullness and emptiness', 'شَبِعَ، رَوِيَ، سَكِرَ'],
@@ -217,7 +217,7 @@ export default {
             ] } },
           ],
           exercise: {
-            prompt: `A verb means "to become one-eyed". Which باب would you expect it in؟`,
+            prompt: `A verb means to become one-eyed. Which باب would you expect it in؟`,
             kind: 'mcq',
             options: ['الرابع — الألوان والعيوب gather there', 'الأول', 'الثاني', 'السادس'],
             correct: 0,
@@ -231,9 +231,9 @@ export default {
               `الباب الخامس: فَعُلَ يَفْعُل، بضم العين فيهما`,
               `كشَرُفَ يَشْرُف، وحَسُنَ يَحْسُن، ووَسُمَ يَوْسُم، ويَمُنَ يَيْمُن، ولَؤُمَ يَلْؤُم، وجَرُؤَ يَجْرُؤ، وسَرُوَ يَسْرُو`,
             ] } },
-            { html: `A ضمة sits on the عين in both tenses — شَرُفَ يَشْرُف "to be noble", حَسُنَ يَحْسُن "to be good, beautiful", جَرُؤَ يَجْرُؤ "to be bold", among others. This is the only باب whose ماضي itself opens on a ضمة, and that unusual shape brings three restrictions on which roots may appear here:`, list: false },
-            { html: `Nothing <bdi>يائي العين</bdi> (with a و or ي as its middle root letter) came from this باب except a single verb, <bdi>هَيُؤَ</bdi> — <bdi>صار ذا هَيْئَةٍ</bdi>, "he took on a certain form".`, list: true, bullet: true },
-            { html: `Nothing <bdi>يائي اللام</bdi> that is <bdi>مُتَصَرِّف</bdi> (inflecting through all forms, not frozen) came from it except <bdi>نَهُوَ</bdi>, from <bdi>النُّهْيَة</bdi>, "intellect" — so "he became intelligent".`, list: true, bullet: true },
+            { html: `A ضمة sits on the عين in both tenses — شَرُفَ يَشْرُف to be noble, حَسُنَ يَحْسُن to be good, beautiful, جَرُؤَ يَجْرُؤ to be bold, among others. This is the only باب whose ماضي itself opens on a ضمة, and that unusual shape brings three restrictions on which roots may appear here:`, list: false },
+            { html: `Nothing <bdi>يائي العين</bdi> (with a و or ي as its middle root letter) came from this باب except a single verb, <bdi>هَيُؤَ</bdi> — <bdi>صار ذا هَيْئَةٍ</bdi>, he took on a certain form.`, list: true, bullet: true },
+            { html: `Nothing <bdi>يائي اللام</bdi> that is <bdi>مُتَصَرِّف</bdi> (inflecting through all forms, not frozen) came from it except <bdi>نَهُوَ</bdi>, from <bdi>النُّهْيَة</bdi>, intellect — so he became intelligent.`, list: true, bullet: true },
             { html: `Nothing <bdi>مضاعف</bdi> (doubled root) came from it except rarely — <bdi>شَرُرْتَ</bdi> and <bdi>لَبُبْتَ</bdi>, whose مضارع is <bdi>تَلَبُّ</bdi> with only a فتحة on the عين.`, list: true, bullet: true },
             { html: `Its meaning is as narrow as its shape:`, list: false },
             { box: { title: 'Rule', lines: [
@@ -244,7 +244,7 @@ export default {
               `ولك أن تُحَوِّلَ كلَّ فِعْلٍ ثُلاثِيٍّ إلى هذا البابِ، لِلدَلالَةِ على أنَّ معناه صارَ كالغَرِيزَةِ في صاحِبِهِ`,
               `ورُبَّما اسْتُعْمِلَتْ أفعالُ هذا البابِ لِلتَعَجُّبِ، فَتَنْسَلِخُ عن الحَدَثِ`,
             ] } },
-            { html: `First, any ثلاثي verb may be recast into this باب's pattern to say that its meaning has become instinctive in the person — جَهِلَ ("he was ignorant," a passing event) becomes جَهُلَ ("ignorance is simply his nature"), and أَكَلَ ("he ate") becomes أَكُلَ the same way. Second, verbs of this باب can be used for <bdi>التعجب</bdi> (expressing amazement), and when they are, the verb sheds its normal sense of reporting an event: ضَرُبَتْ يَدُهُ does not report that his hand struck something — it means ما أَضْرَبَهُ, "how striking his hand is!", wonder at a quality rather than narration of an action.`, list: false },
+            { html: `First, any ثلاثي verb may be recast into this باب's pattern to say that its meaning has become instinctive in the person — جَهِلَ (he was ignorant, a passing event) becomes جَهُلَ (ignorance is simply his nature), and أَكَلَ (he ate) becomes أَكُلَ the same way. Second, verbs of this باب can be used for <bdi>التعجب</bdi> (expressing amazement), and when they are, the verb sheds its normal sense of reporting an event: ضَرُبَتْ يَدُهُ does not report that his hand struck something — it means ما أَضْرَبَهُ, how striking his hand is!, wonder at a quality rather than narration of an action.`, list: false },
           ],
           exercise: {
             prompt: `You take جَهِلَ and recast it as جَهُلَ, moving it to the fifth باب. What have you added to the meaning؟`,
@@ -262,7 +262,7 @@ export default {
               `كحَسِبَ يَحْسِب، ونَعِمَ يَنْعِم`,
               `وهو قَلِيلٌ في الصَحِيحِ، كَثِيرٌ في المُعْتَلِّ`,
             ] } },
-            { html: `A كسرة sits on the عين in both tenses, as in حَسِبَ يَحْسِب "to reckon, to think" and نَعِمَ يَنْعِم "to live comfortably, to be glad". This pattern is rare among <bdi>الصحيح</bdi> (sound roots) but common among <bdi>المعتل</bdi> (weak roots, where a و or ي sits in the عين or لام) — the classical grammars count twenty-four verbs of this shape among the معتل.`, list: false },
+            { html: `A كسرة sits on the عين in both tenses, as in حَسِبَ يَحْسِب to reckon, to think and نَعِمَ يَنْعِم to live comfortably, to be glad. This pattern is rare among <bdi>الصحيح</bdi> (sound roots) but common among <bdi>المعتل</bdi> (weak roots, where a و or ي sits in the عين or لام) — the classical grammars count twenty-four verbs of this shape among the معتل.`, list: false },
             { html: `That completes the set of six: (1) فَعَلَ يَفْعُل (2) فَعَلَ يَفْعِل (3) فَعَلَ يَفْعَل (4) فَعِلَ يَفْعَل (5) فَعُلَ يَفْعُل (6) فَعِلَ يَفْعِل.`, list: false },
           ],
           exercise: {
@@ -334,19 +334,19 @@ export default {
         {
           heading: 'الأفعال المنحوتة',
           lines: [
-            { html: `Not every فَعْلَلَ-shaped verb comes from a genuine four-letter root. Some are <bdi>نَحْت</bdi> — literally "carving": the Arabs built them by taking a letter or more from each word of a common phrase and fusing the pieces into a single verb.`, list: false },
+            { html: `Not every فَعْلَلَ-shaped verb comes from a genuine four-letter root. Some are <bdi>نَحْت</bdi> — literally carving: the Arabs built them by taking a letter or more from each word of a common phrase and fusing the pieces into a single verb.`, list: false },
             { box: { title: 'Definition', lines: [`ومنه أَفْعالٌ نَحَتَتْها العَرَبُ من مُرَكَّباتٍ، فتُحْفَظُ ولا يُقاسُ عليها`] } },
-            { html: `Each منحوت verb means "he said" the phrase it was carved from. Because these verbs are manufactured this way rather than derived by a general rule, the source is explicit: تُحفظ ولا يُقاس عليها — (1) each one is memorised individually, exactly as attested, and (2) their pattern is not licence to coin further verbs of your own on the same model.`, list: false },
+            { html: `Each منحوت verb means he said the phrase it was carved from. Because these verbs are manufactured this way rather than derived by a general rule, the source is explicit: تُحفظ ولا يُقاس عليها — (1) each one is memorised individually, exactly as attested, and (2) their pattern is not licence to coin further verbs of your own on the same model.`, list: false },
             { table: { title: 'الأفعال المنحوتة', headers: ['الفعل (Verb)', 'إذا قال... (If He Said...)'], rows: [
-              ['بَسْمَلَ', 'بسم الله — "In the name of Allah"'],
-              ['حَوْقَلَ', 'لا حول ولا قوة إلا بالله — "There is no power nor strength except with Allah"'],
-              ['طَلْبَقَ', 'أطالَ اللهُ بَقاءَك — "May Allah prolong your life"'],
-              ['دَمْعَزَ', 'أدامَ اللهُ عِزَّكَ — "May Allah perpetuate your might"'],
-              ['جَعْفَلَ', 'جَعَلَني اللهُ فِداءَك — "May Allah make me a ransom for you"'],
-              ['سَبْحَلَ', 'سبحان الله — "Glory be to Allah"'],
-              ['هَلَّلَ', 'لا إله إلا الله — "There is no god but Allah"'],
-              ['سَمْعَلَ', 'السلام عليكم — "Peace be upon you"'],
-              ['حَمْدَلَ', 'الحمد لله — "Praise be to Allah"'],
+              ['بَسْمَلَ', `بسم الله — "In the name of Allah"`],
+              ['حَوْقَلَ', `لا حول ولا قوة إلا بالله — "There is no power nor strength except with Allah"`],
+              ['طَلْبَقَ', `أطالَ اللهُ بَقاءَك — "May Allah prolong your life"`],
+              ['دَمْعَزَ', `أدامَ اللهُ عِزَّكَ — "May Allah perpetuate your might"`],
+              ['جَعْفَلَ', `جَعَلَني اللهُ فِداءَك — "May Allah make me a ransom for you"`],
+              ['سَبْحَلَ', `سبحان الله — "Glory be to Allah"`],
+              ['هَلَّلَ', `لا إله إلا الله — "There is no god but Allah"`],
+              ['سَمْعَلَ', `السلام عليكم — "Peace be upon you"`],
+              ['حَمْدَلَ', `الحمد لله — "Praise be to Allah"`],
             ] } },
             { html: `<bdi>بَسْمَلَ</bdi> and <bdi>حَمْدَلَ</bdi> show the mechanism clearly: بَسْمَلَ keeps a fragment of بِسْمِ and of the rest of the phrase, standing in for the whole of بسم الله; حَمْدَلَ does the same for الحمد لله. Every entry in the table works the same way.`, list: false },
           ],
@@ -361,9 +361,9 @@ export default {
         {
           heading: 'ملحقات الرباعي السبعة',
           lines: [
-            { html: `Besides the true رباعي and the منحوت verbs, there is a third source of فَعْلَلَ-shaped verbs: the seven <bdi>ملحقات</bdi> — "attachments." Each starts life as a genuine <bdi>ثلاثي</bdi> root, three letters only, and has one letter added so it can be remoulded onto a رباعي-shaped وزن.`, list: false },
+            { html: `Besides the true رباعي and the منحوت verbs, there is a third source of فَعْلَلَ-shaped verbs: the seven <bdi>ملحقات</bdi> — attachments. Each starts life as a genuine <bdi>ثلاثي</bdi> root, three letters only, and has one letter added so it can be remoulded onto a رباعي-shaped وزن.`, list: false },
             { box: { title: 'Definition', lines: [`ومُلْحَقاتُهُ سَبْعَةٌ، وهي أَفْعالٌ ثُلاثِيَّةٌ مَزِيدَةٌ`] } },
-            { html: `"Seven ملحقات, and they are ثلاثي verbs that have been augmented" — three root letters plus one added letter, arranged onto seven distinct patterns so each conjugates the way a true رباعي does.`, list: false },
+            { html: `Seven ملحقات, and they are ثلاثي verbs that have been augmented — three root letters plus one added letter, arranged onto seven distinct patterns so each conjugates the way a true رباعي does.`, list: false },
             { table: { title: 'The Seven', headers: ['#', 'الوزن (Pattern)', 'المثال (Example)', 'المعنى (Meaning)'], rows: [
               ['١', 'فَعْلَلَ (بتضعيف اللام)', 'جَلْبَبَ', 'he dressed him in the جِلْباب (garment)'],
               ['٢', 'فَوْعَلَ', 'جَوْرَبَ', 'he dressed him in the جَوْرَب (sock)'],
@@ -373,7 +373,7 @@ export default {
               ['٦', 'فَعْلَى', 'سَلْقَى', 'he threw him onto his back'],
               ['٧', 'فَعْنَلَ', 'قَلْنَسَهُ', 'he dressed him in the قَلَنْسُوَة (cap)'],
             ] } },
-            { html: `<bdi>جَلْبَبَ</bdi> shows the mechanism plainly. Its أصول (root letters) are ج-ل-ب; a second باء is added so the verb stands on four letters; it is then built on فَعْلَل <bdi>كي يَتَصَرَّفَ مِثْلَهُ</bdi> — "so that it conjugates the way فَعْلَل does" — giving <bdi>جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً</bdi>, exactly parallel in shape to <bdi>دَحْرَجَ يُدَحْرِجُ دَحْرَجَةً</bdi>.`, list: false },
+            { html: `<bdi>جَلْبَبَ</bdi> shows the mechanism plainly. Its أصول (root letters) are ج-ل-ب; a second باء is added so the verb stands on four letters; it is then built on فَعْلَل <bdi>كي يَتَصَرَّفَ مِثْلَهُ</bdi> — so that it conjugates the way فَعْلَل does — giving <bdi>جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً</bdi>, exactly parallel in shape to <bdi>دَحْرَجَ يُدَحْرِجُ دَحْرَجَةً</bdi>.`, list: false },
           ],
           exercise: {
             prompt: `جَوْرَبَ is built on which of the seven ملحق patterns؟`,
@@ -388,12 +388,12 @@ export default {
           lines: [
             { html: `The seven ملحقات raise an obvious question: what exactly is happening when a letter is added to a ثلاثي root to make it act like a رباعي؟ The source now defines the operation itself.`, list: false },
             { box: { title: 'Definition', lines: [`والإلْحاقُ: أن تَزِيدَ في البِناءِ زِيادَةً، لِتُلْحِقَهُ بِآخَرَ أَكْثَرَ منه، فَيَتَصَرَّفَ تَصَرُّفَهُ`] } },
-            { html: `Put in English: <bdi>الإلحاق</bdi> is adding a letter (or more) to a word's <bdi>بناء</bdi> (structural shape) purely to bring it level — <bdi>لتلحقه</bdi>, "to attach it" — with a heavier بناء that has more letters, so that the word then conjugates <bdi>تصرف</bdi> the way that heavier بناء conjugates. Nothing about the word's meaning changes; only its conjugational behaviour is upgraded to match a bigger pattern.`, list: false },
+            { html: `Put in English: <bdi>الإلحاق</bdi> is adding a letter (or more) to a word's <bdi>بناء</bdi> (structural shape) purely to bring it level — <bdi>لتلحقه</bdi>, to attach it — with a heavier بناء that has more letters, so that the word then conjugates <bdi>تصرف</bdi> the way that heavier بناء conjugates. Nothing about the word's meaning changes; only its conjugational behaviour is upgraded to match a bigger pattern.`, list: false },
             { html: `That leaves an obvious problem, since <bdi>المزيد</bdi> — the augmented verb, covered elsewhere in this module — also works by adding letters to a root. So what actually separates الإلحاق from المزيد؟`, list: false },
             { box: { title: 'Rule', lines: [`والمُلْحَقُ يَخْتَلِفُ عن المَزِيدِ، بأنَّ المُلْحَقَ فائِدَتُهُ لَفْظِيَّةٌ لا مَعْنَوِيَّةٌ، فلا يكونُ لِمَعْنًى جَدِيدٍ كالمَزِيدِ`] } },
             { html: `The whole distinction in one line: both add letters to a root, but for different payoffs. <bdi>المزيد</bdi>'s addition has a <bdi>فائدة معنوية</bdi> — a semantic payoff: it changes what the verb means, for example turning an intransitive verb transitive. <bdi>الملحق</bdi>'s addition has only a <bdi>فائدة لفظية</bdi> — a formal payoff: the meaning stays exactly what the bare root meant, and all that changes is which وزن (conjugation pattern) the verb now follows.`, list: false },
           ],
-          clarification: `The pair to hold onto is جَلْبَبَ against أَكْرَمَ. Both start from a ثلاثي root and both add one letter, ending up longer than they began. But أَكْرَمَ's added همزة does real semantic work: it turns the لازم (intransitive) كَرُمَ into a متعدٍّ (transitive) verb — a meaning the bare root did not carry. جَلْبَبَ's added باء does no such work: جَلْبَبَ still just means "he clothed him in a جلباب", the same sense its root already pointed to; there is no shorter form whose meaning it modifies. What the addition bought was purely formal — the right to conjugate جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً on the pattern of دَحْرَجَ. Hence فائدته لفظية لا معنوية.
+          clarification: `The pair to hold onto is جَلْبَبَ against أَكْرَمَ. Both start from a ثلاثي root and both add one letter, ending up longer than they began. But أَكْرَمَ's added همزة does real semantic work: it turns the لازم (intransitive) كَرُمَ into a متعدٍّ (transitive) verb — a meaning the bare root did not carry. جَلْبَبَ's added باء does no such work: جَلْبَبَ still just means he clothed him in a جلباب, the same sense its root already pointed to; there is no shorter form whose meaning it modifies. What the addition bought was purely formal — the right to conjugate جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً on the pattern of دَحْرَجَ. Hence فائدته لفظية لا معنوية.
 
 It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not الإلحاق at all. بَعْثَرَ's four letters (ب ع ث ر) are أصول from the start — a genuine رباعي root, nothing added. جَلْبَبَ only reaches four letters because a باء was supplied to a three-letter root. Both end up فَعْلَلَ in shape and conjugate identically, but only جَلْبَبَ got there by الإلحاق.`,
           exercise: {
@@ -419,7 +419,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         { title: 'زلزل مقابل جلبب', kind: 'mcq', prompt: `زَلْزَلَ and جَلْبَبَ both weigh فَعْلَلَ. What actually distinguishes them at the level of أصول؟`, options: ['زلزل has four root letters outright; جلبب has three root letters plus one added for الإلحاق', 'جلبب has four root letters; زلزل has three', 'زلزل is منحوت, not رباعي at all', 'They do not differ — both are identical in structure'], correct: 0 },
         { title: 'النحت', kind: 'mcq', prompt: `In general, how is a منحوت verb formed from a phrase؟`, options: ['By adding a واو after the فاء', 'By prefixing a تاء to the phrase', 'By taking a letter or more from each word of the phrase and fusing them into one verb', 'By doubling the لام of a ثلاثي root'], correct: 2 },
         { title: 'تحفظ ولا يقاس عليها', kind: 'mcq', prompt: `The منحوتة verbs are described as تُحفظ ولا يُقاسُ عليها. What does that mean in practice؟`, options: ['They occur only in poetry, never in prose', 'Each one is memorised individually as attested, and their pattern may not be used to coin new verbs', 'They are pronounced but never written', 'They are all considered شاذ (irregular) and excluded from grammar'], correct: 1 },
-        { title: 'دمعز', kind: 'mcq', prompt: `Which phrase does the منحوت verb دَمْعَزَ stand for؟`, options: ['أطال الله بقاءك — "May Allah prolong your life"', 'الحمد لله — "Praise be to Allah"', 'لا إله إلا الله — "There is no god but Allah"', 'أدام الله عزك — "May Allah perpetuate your might"'], correct: 3 },
+        { title: 'دمعز', kind: 'mcq', prompt: `Which phrase does the منحوت verb دَمْعَزَ stand for؟`, options: [`أطال الله بقاءك — "May Allah prolong your life"`, `الحمد لله — "Praise be to Allah"`, `لا إله إلا الله — "There is no god but Allah"`, `أدام الله عزك — "May Allah perpetuate your might"`], correct: 3 },
         { title: 'أصل الملحقات', kind: 'mcq', prompt: `The seven ملحقات of the رباعي are described as أفعال ثلاثية مزيدة (augmented ثلاثي verbs). What does that tell you about their أصول؟`, options: ['Each has three root letters, with one letter added to reach four', 'Each has four root letters natively', 'Each has only two root letters', 'Their root-letter count varies from verb to verb'], correct: 0 },
         { title: 'جلبب', kind: 'mcq', prompt: `What are the أصول of جَلْبَبَ, and what letter was added to it؟`, options: ['The أصول are ج-ل-ب, and a second باء was added', 'The أصول are ج-ل-ب-ب, and nothing was added', 'The أصول are ج-ب-ب, and a لام was added', 'The أصول are ل-ب-ب, and a جيم was added'], correct: 0 },
         { title: 'تصريف جلبب', kind: 'mcq', prompt: `جَلْبَبَ conjugates as جَلْبَبَ يُجَلْبِبُ جَلْبَبَةً. Which verb's conjugation pattern is it following؟`, options: ['أَكْرَمَ يُكْرِمُ إكرامًا', 'كَتَبَ يَكْتُبُ كِتابَةً', 'اسْتَخْرَجَ يَسْتَخْرِجُ اسْتِخْراجًا', 'دَحْرَجَ يُدَحْرِجُ دَحْرَجَةً'], correct: 3 },
@@ -427,12 +427,12 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         { title: 'بيطر وشيطن', kind: 'mcq', prompt: `بَيْطَرَ and شَيْطَنَ, two of the seven ملحق examples, share which pattern؟`, options: ['فَوْعَلَ', 'فَعْوَلَ', 'فَيْعَلَ', 'فَعْيَلَ'], correct: 2 },
         { title: 'قلنسه', kind: 'mcq', prompt: `قَلْنَسَهُ is built on the ملحق pattern فَعْنَلَ. What does it mean؟`, options: ['He put a قَلَنْسُوَة (cap) on him', 'He put a جَوْرَب (sock) on him', 'He put a جِلْباب (garment) on him', 'He threw him down on his back'], correct: 0 },
         { title: 'غاية الإلحاق', kind: 'mcq', prompt: `What does a ملحق verb gain from its added letter؟`, options: ['The conjugation pattern of the heavier بناء it has been brought level with', 'A new meaning distinct from its root', 'Transitivity it did not have before', 'The ability to take نون التوكيد'], correct: 0 },
-        { title: 'تعريف الإلحاق', kind: 'mcq', prompt: `Which of these best states the definition of الإلحاق؟`, options: ['Coining a new verb by نحت from a set phrase', 'Adding a letter to a root purely to raise its meaning to a new sense', 'Adding a letter to a بناء so as to bring it level with a heavier بناء, so it conjugates the way that heavier بناء does', "Doubling a root's middle letter to intensify its meaning"], correct: 2 },
-        { title: 'الملحق مقابل المزيد', kind: 'mcq', prompt: `Both الملحق and المزيد add a letter to a bare root. What is the actual difference between them؟`, options: ["The ملحق's benefit is لفظية — only a conjugation pattern; the مزيد's benefit is معنوية — an actual new meaning", 'The ملحق adds exactly one letter, the مزيد always adds two or more', 'The ملحق is always رباعي in origin, the مزيد always ثلاثي', 'There is no real difference — the two terms describe the same operation'], correct: 0 },
-        { title: 'أكرم وجلبب', kind: 'mcq', prompt: `Both أَكْرَمَ and جَلْبَبَ add one letter to a three-letter root. What does each addition actually buy؟`, options: ["أَكْرَمَ's همزة buys a new meaning (it makes the verb متعدٍّ); جَلْبَبَ's باء buys only a conjugation pattern, with no change in meaning", 'Both additions buy the same thing — a new meaning', 'Both additions buy the same thing — only a conjugation pattern', "أَكْرَمَ's addition is لفظية only; جَلْبَبَ's is معنوية"], correct: 0 },
+        { title: 'تعريف الإلحاق', kind: 'mcq', prompt: `Which of these best states the definition of الإلحاق؟`, options: ['Coining a new verb by نحت from a set phrase', 'Adding a letter to a root purely to raise its meaning to a new sense', 'Adding a letter to a بناء so as to bring it level with a heavier بناء, so it conjugates the way that heavier بناء does', `Doubling a root's middle letter to intensify its meaning`], correct: 2 },
+        { title: 'الملحق مقابل المزيد', kind: 'mcq', prompt: `Both الملحق and المزيد add a letter to a bare root. What is the actual difference between them؟`, options: [`The ملحق's benefit is لفظية — only a conjugation pattern; the مزيد's benefit is معنوية — an actual new meaning`, 'The ملحق adds exactly one letter, the مزيد always adds two or more', 'The ملحق is always رباعي in origin, the مزيد always ثلاثي', 'There is no real difference — the two terms describe the same operation'], correct: 0 },
+        { title: 'أكرم وجلبب', kind: 'mcq', prompt: `Both أَكْرَمَ and جَلْبَبَ add one letter to a three-letter root. What does each addition actually buy؟`, options: [`أَكْرَمَ's همزة buys a new meaning (it makes the verb متعدٍّ); جَلْبَبَ's باء buys only a conjugation pattern, with no change in meaning`, 'Both additions buy the same thing — a new meaning', 'Both additions buy the same thing — only a conjugation pattern', `أَكْرَمَ's addition is لفظية only; جَلْبَبَ's is معنوية`], correct: 0 },
         { title: 'بعثر مقابل جلبب', kind: 'mcq', prompt: `بَعْثَرَ and جَلْبَبَ both surface as four-letter, فَعْلَلَ-shaped verbs. Why is بعثر not an example of الإلحاق while جلبب is؟`, options: ['Because بعثر\'s four letters are all أصول from the start, while جلبب has only three أصول plus one letter added to reach four', 'Because بعثر is transitive and جلبب is not', 'Because بعثر is منحوت and جلبب is not', 'There is no difference — both are equally examples of الإلحاق'], correct: 0 },
-        { title: 'فائدة الملحق', kind: 'mcq', prompt: `A grammar student says a given verb's added letter "لم يُفِدْ معنى جديدًا، وإنما أفاد وزنًا جديدًا فقط" (added no new meaning, only a new pattern). Which category does that put the verb in؟`, options: ['ملحق', 'مزيد لغرض معنوي', 'منحوت', 'مضاعف'], correct: 0 },
-        { title: 'اختبار المعنى', kind: 'mcq', prompt: `To tell whether an added letter makes a verb ملحق or مزيد, what should you check؟`, options: ["Whether the verb's meaning changed from what the bare root meant, or only its conjugation pattern changed", 'Whether the added letter is a حرف علة or not', "Whether the verb is used in the Qur'an", 'Whether the verb has three or four syllables'], correct: 0 },
+        { title: 'فائدة الملحق', kind: 'mcq', prompt: `A grammar student says a given verb's added letter لم يُفِدْ معنى جديدًا، وإنما أفاد وزنًا جديدًا فقط (added no new meaning, only a new pattern). Which category does that put the verb in؟`, options: ['ملحق', 'مزيد لغرض معنوي', 'منحوت', 'مضاعف'], correct: 0 },
+        { title: 'اختبار المعنى', kind: 'mcq', prompt: `To tell whether an added letter makes a verb ملحق or مزيد, what should you check؟`, options: [`Whether the verb's meaning changed from what the bare root meant, or only its conjugation pattern changed`, 'Whether the added letter is a حرف علة or not', `Whether the verb is used in the Qur'an`, 'Whether the verb has three or four syllables'], correct: 0 },
       ],
     },
     // ---------------------------------------------------------------- L4
@@ -508,7 +508,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
               ['تَفَعَّلَ', 'تَعَلَّمَ، تَزَكَّى'],
               ['تَفَاعَلَ', 'تَبَاعَدَ، تَشَاوَرَ'],
             ] } },
-            { html: `Of these five, افْعَلَّ is marked as غالِبًا في الأَلْوانِ والعُيُوبِ — mostly used for colours and physical defects, the way احْمَرَّ means "turned red" and اعْوَرَّ means "went blind in one eye." Outside that meaning it shows up only rarely, in isolated examples such as ارْفَضَّ عَرَقًا, اخْضَلَّ الرَّوْضُ, and ارْعَوَى.`, list: false },
+            { html: `Of these five, افْعَلَّ is marked as غالِبًا في الأَلْوانِ والعُيُوبِ — mostly used for colours and physical defects, the way احْمَرَّ means turned red and اعْوَرَّ means went blind in one eye. Outside that meaning it shows up only rarely, in isolated examples such as ارْفَضَّ عَرَقًا, اخْضَلَّ الرَّوْضُ, and ارْعَوَى.`, list: false },
             { html: `Two of the تَفَعَّلَ forms undergo إدغام — two letters close together in مَخْرَج (place of articulation) merging into a single doubled letter, for ease of pronunciation. اذَّكَرَ is one case: it comes from تَذَكَّرَ through the chain تَذَكَّرَ ← ذَذَكَّرَ (the ت shifts to match the ذ) ← ذَّكَّرَ (the two ذ's fuse into one doubled letter) ← اذَّكَر (a helper أَلِف is prefixed because the word can no longer open on a doubled consonant). اطَّهَّرَ works the same way, from تَطَهَّرَ. Under تَفَاعَلَ the identical merging happens in اثَّاقَلَ and ادَّارَكَ; تَبارَكَ and تَعالَى are classed under this وزن as well.`, list: false },
           ],
           exercise: {
@@ -536,7 +536,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
             { html: `Three plus five plus four is twelve — the full count of أوزان for the ثلاثي مزيد فيه.`, list: false },
           ],
           exercise: {
-            prompt: `اعْشَوْشَبَ المَكانُ ("the place's grass grew abundant") is built on which وزن؟`,
+            prompt: `اعْشَوْشَبَ المَكانُ (the place's grass grew abundant) is built on which وزن؟`,
             kind: 'mcq',
             options: ['اسْتَفْعَلَ', 'افْعَوْعَلَ', 'افْعَوَّلَ', 'افْعَالَّ'],
             correct: 1,
@@ -549,7 +549,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         { q: 'How many أوزان belong to ما زيد فيه حرفان؟', options: ['أربعة', 'ستة', 'خمسة', 'ثلاثة'], correct: 2 },
         { q: 'Which of these is a وزن of ما زيد فيه حرف واحد؟', options: ['اسْتَفْعَلَ', 'تَفَاعَلَ', 'فَاعَلَ', 'انْفَعَلَ'], correct: 2 },
         { q: 'افْعَلَّ is said to occur غالبًا in:', options: ['الألوان والعيوب', 'المطاوعة', 'الطلب', 'التشارك'], correct: 0 },
-        { q: 'اجْلَوَّذَ ("he hurried") is built on which وزن؟', options: ['افْعَالَّ', 'افْعَنْلَلَ', 'افْعَوَّلَ', 'افْعَوْعَلَ'], correct: 2 },
+        { q: 'اجْلَوَّذَ (he hurried) is built on which وزن؟', options: ['افْعَالَّ', 'افْعَنْلَلَ', 'افْعَوَّلَ', 'افْعَوْعَلَ'], correct: 2 },
       ],
       bank: [
         { title: 'ثلاثة أقسام', kind: 'mcq', prompt: 'On what basis is the ثلاثي مزيد فيه divided into three؟', options: ['On whether the verb is صحيح or معتل', 'On how many letters have been added — one, two or three', 'On the meaning the addition produces', 'On whether the verb is لازم or متعدٍّ'], correct: 1 },
@@ -590,9 +590,9 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
             ] } },
             { html: `In words: the augmented quadriliteral divides into (1) what has had one letter added, and (2) what has had two letters added.`, list: false },
             { table: { headers: ['القسم (Division)', 'الوزن (Pattern)', 'المثال (Example)'], rows: [
-              ['المزيد بحرف واحد — one letter added, one وزن', 'تَفَعْلَلَ', 'تَدَحْرَجَ "to roll, tumble down" ، تَزَلْزَلَ "to shake, quake"'],
-              ['المزيد بحرفين — two letters added, first of two أوزان', 'افْعَنْلَلَ', 'احْرَنْجَمَ "to gather, crowd together" (= اجْتَمَعَ), from حَرْجَمَ meaning جَمَعَ (to gather)'],
-              ['— second of the two; opens with a هَمْزَة وَصْل and doubles its second لام', 'افْعَلَلَّ', 'اقْشَعَرَّ "to shudder" ، اطْمَأَنَّ "to feel at ease, reassured"'],
+              ['المزيد بحرف واحد — one letter added, one وزن', 'تَفَعْلَلَ', 'تَدَحْرَجَ to roll, tumble down ، تَزَلْزَلَ to shake, quake'],
+              ['المزيد بحرفين — two letters added, first of two أوزان', 'افْعَنْلَلَ', 'احْرَنْجَمَ to gather, crowd together (= اجْتَمَعَ), from حَرْجَمَ meaning جَمَعَ (to gather)'],
+              ['— second of the two; opens with a هَمْزَة وَصْل and doubles its second لام', 'افْعَلَلَّ', 'اقْشَعَرَّ to shudder ، اطْمَأَنَّ to feel at ease, reassured'],
             ] } },
             { html: `اقْشَعَرَّ is worth flagging: its bare root قَشْعَر is itself <bdi>غير مستعمل</bdi> — not actually used on its own. What speakers actually say for that meaning is a different مزيد form, <bdi>تَقَشْعَرَ</bdi>. So اقشعر is listed here by وزن even though its own unaugmented root never surfaces in speech.`, list: false },
           ],
@@ -614,17 +614,17 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
             { html: `That is: what is likened (ملحق) to the singly-augmented quadriliteral comes on six أوزان.`, list: false },
             { html: `Each of the six prefixes a تاء to a ملحق pattern already met for the trilateral in the previous lesson — four of the six answer directly to patterns covered there. The fifth, <bdi>تَمَفْعَلَ</bdi> (as in تَمَسْكَنَ), answers to <bdi>مَفْعَلَ</bdi>, a pattern that was not among those four.`, list: false },
             { table: { headers: ['الوزن (Pattern)', 'المثال (Example)'], rows: [
-              ['تَفَعْلَلَ', 'تَجَلْبَبَ "to wrap oneself in a garment (جِلْبَاب)"'],
-              ['تَفَعْوَلَ', 'تَرَهْوَكَ "to walk with a swaying, unsteady gait"'],
-              ['تَفَيْعَلَ', 'تَشَيْطَنَ "to act like a devil (شَيْطَان), to misbehave wildly"'],
-              ['تَفَوْعَلَ', 'تَجَوْرَبَ "to put on socks (جَوْرَب)"'],
-              ['تَمَفْعَلَ', 'تَمَسْكَنَ "to feign poverty, to play the مِسْكِين"'],
-              ['تَفَعْلَى', 'تَسَلْقَى "to stretch out lying on one\'s back"'],
+              ['تَفَعْلَلَ', 'تَجَلْبَبَ to wrap oneself in a garment (جِلْبَاب)'],
+              ['تَفَعْوَلَ', 'تَرَهْوَكَ to walk with a swaying, unsteady gait'],
+              ['تَفَيْعَلَ', 'تَشَيْطَنَ to act like a devil (شَيْطَان), to misbehave wildly'],
+              ['تَفَوْعَلَ', 'تَجَوْرَبَ to put on socks (جَوْرَب)'],
+              ['تَمَفْعَلَ', 'تَمَسْكَنَ to feign poverty, to play the مِسْكِين'],
+              ['تَفَعْلَى', 'تَسَلْقَى to stretch out lying on one\'s back'],
             ] } },
             { box: { title: 'Definition', lines: [
               `والمُلْحَقُ بما زِيدَ فيه حَرْفانِ، وَزْنانِ`,
             ] } },
-            { html: `And what is likened to the doubly-augmented quadriliteral has two أوزان: <bdi>افْعَنْلَلَ</bdi>, as in اقْعَنْسَسَ "to draw back stubbornly, to recoil", and <bdi>افْعَنْلَى</bdi>, as in اسْلَنْقَى "to lie flat on one's back".`, list: false },
+            { html: `And what is likened to the doubly-augmented quadriliteral has two أوزان: <bdi>افْعَنْلَلَ</bdi>, as in اقْعَنْسَسَ to draw back stubbornly, to recoil, and <bdi>افْعَنْلَى</bdi>, as in اسْلَنْقَى to lie flat on one's back.`, list: false },
           ],
           exercise: {
             prompt: `How are the six ملحقات of the singly-augmented رباعي formed؟`,
@@ -637,7 +637,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         {
           heading: 'الفرق بين احرنجم واقعنسس',
           lines: [
-            { html: `احْرَنْجَمَ ("to gather, crowd together") and اقْعَنْسَسَ ("to draw back stubbornly") both weigh <bdi>افْعَنْلَلَ</bdi>, yet one counts as a true رباعي مزيد and the other only as a ملحق to one. The difference lies entirely in their two لام letters.`, list: false },
+            { html: `احْرَنْجَمَ (to gather, crowd together) and اقْعَنْسَسَ (to draw back stubbornly) both weigh <bdi>افْعَنْلَلَ</bdi>, yet one counts as a true رباعي مزيد and the other only as a ملحق to one. The difference lies entirely in their two لام letters.`, list: false },
             { table: { headers: ['الفعل (Verb)', 'التصنيف (Classification)', 'لاماه (Its Two لام Letters)'], rows: [
               ['احْرَنْجَمَ', 'رباعي مزيد — a genuine augmented quadriliteral', 'Both letters are original root letters (أَصْلِيَّتان)'],
               ['اقْعَنْسَسَ', 'ملحق — likened to the doubly-augmented pattern', 'One of the two is added only to reach الإلحاق, the other is original'],
@@ -646,7 +646,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
             { box: { title: 'Example', lines: [
               `وهذا كالفَرْقِ بَيْنَ بَعْثَرَ وجَلْبَبَ`,
             ] } },
-            { html: `The same pattern repeats one level down, among the bare quadriliterals: بَعْثَرَ ("to scatter, turn things upside down") has four genuine root letters, while جَلْبَبَ has only three, with one letter repeated to fill out the وزن.`, list: false },
+            { html: `The same pattern repeats one level down, among the bare quadriliterals: بَعْثَرَ (to scatter, turn things upside down) has four genuine root letters, while جَلْبَبَ has only three, with one letter repeated to fill out the وزن.`, list: false },
           ],
           clarification: `The pattern repeats at every level, which is why the comparison to بَعْثَرَ and جَلْبَبَ is exact. In both pairs, two verbs arrive at the same وزن by different routes: one because its root genuinely has that many letters, the other because a letter was repeated to reach the count. The وزن alone cannot tell you which — you have to know the root. حَرْجَمَ exists as a رباعي meaning جَمَعَ, so احْرَنْجَمَ's four consonants are all أصول; قَعِسَ is a ثلاثي, so the second سين in اقْعَنْسَسَ is a repetition put there for الإلحاق.`,
           exercise: {
@@ -686,12 +686,12 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
               `ولا فيما اسْتُعْمِلَ فيه بَعْضُ المَزِيداتِ، أن يُسْتَعْمَلَ فيه البَعْضُ الآخَرُ`,
               `بَلِ المَدارُ في كُلِّ ذلك السَّماعُ`,
             ] } },
-            { html: `Three separate denials: (1) a مجرد root need not have any مزيد form actually in use, (2) a مزيد verb need not have a bare مجرد in use alongside it — اِفْتَقَرَ "to become poor, to be in need" is a real, commonly used verb, yet there is no plain فَقَرَ used with that meaning, and (3) if some مزيد forms of a root are in use, the rest are not automatically in use too. In every one of these three cases, what actually exists is decided only by <bdi>السَّماع</bdi> — what has actually been heard from the Arabs — not by what the pattern would permit.`, list: false },
+            { html: `Three separate denials: (1) a مجرد root need not have any مزيد form actually in use, (2) a مزيد verb need not have a bare مجرد in use alongside it — اِفْتَقَرَ to become poor, to be in need is a real, commonly used verb, yet there is no plain فَقَرَ used with that meaning, and (3) if some مزيد forms of a root are in use, the rest are not automatically in use too. In every one of these three cases, what actually exists is decided only by <bdi>السَّماع</bdi> — what has actually been heard from the Arabs — not by what the pattern would permit.`, list: false },
             { html: `One case is exempted from that reliance on hearing:`, list: false },
             { box: { title: 'Careful', lines: [
               `ويُسْتَثْنَى من ذلك الثُلاثِيُّ اللازِمُ، فَتَطَّرِدُ زِيادَةُ الهَمْزَةِ في أَوَّلِهِ لِلتَعْدِيَةِ، فيُقالُ في ذَهَبَ أَذْهَبَ، وفي خَرَجَ أَخْرَجَ`,
             ] } },
-            { html: `For an intransitive ثلاثي (<bdi>ثلاثي لازم</bdi>), prefixing a همزة to make it transitive (<bdi>متعدٍّ</bdi>) is <bdi>قياسي</bdi> — regular and predictable — so you may form it for any لازم ثلاثي without first needing to hear that exact مزيد form used. ذَهَبَ "to go" becomes أَذْهَبَ "to make go, to take away", and خَرَجَ "to go out" becomes أَخْرَجَ "to take out, to expel".`, list: false },
+            { html: `For an intransitive ثلاثي (<bdi>ثلاثي لازم</bdi>), prefixing a همزة to make it transitive (<bdi>متعدٍّ</bdi>) is <bdi>قياسي</bdi> — regular and predictable — so you may form it for any لازم ثلاثي without first needing to hear that exact مزيد form used. ذَهَبَ to go becomes أَذْهَبَ to make go, to take away, and خَرَجَ to go out becomes أَخْرَجَ to take out, to expel.`, list: false },
           ],
           exercise: {
             prompt: `What does اِفْتَقَرَ illustrate in this تنبيه؟`,
@@ -710,15 +710,15 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         { q: 'Which single case is excepted from that reliance on السماع, and why؟', options: ['الرباعي المجرد, because it has only one وزن', 'المضاعف, because its two identical letters make it predictable', 'المهموز, because همزة never changes its form', 'الثلاثي اللازم, because adding a همزة to make it متعدٍّ is مطَّرِد (regular), as in ذهب/أذهب and خرج/أخرج'], correct: 3 },
       ],
       bank: [
-        { title: 'تدحرج وتزلزل', kind: 'mcq', prompt: 'تَدَحْرَجَ "to roll, tumble down" and تَزَلْزَلَ "to shake, quake" are built on which وزن of الرباعي المزيد فيه؟', options: ['افْعَنْلَلَ', 'افْعَلَلَّ', 'تَفَعْوَلَ', 'تَفَعْلَلَ'], correct: 3 },
+        { title: 'تدحرج وتزلزل', kind: 'mcq', prompt: 'تَدَحْرَجَ to roll, tumble down and تَزَلْزَلَ to shake, quake are built on which وزن of الرباعي المزيد فيه؟', options: ['افْعَنْلَلَ', 'افْعَلَلَّ', 'تَفَعْوَلَ', 'تَفَعْلَلَ'], correct: 3 },
         { title: 'وزنا المزيد بحرفين', kind: 'mcq', prompt: 'Which two أوزان belong to الرباعي المزيد بحرفين (the quadriliteral augmented by two letters)؟', options: ['افْعَنْلَلَ وافْعَلَلَّ', 'تَفَعْلَلَ وافْعَنْلَلَ', 'افْعَلَلَّ وتَفَعْلَلَ', 'افْعَنْلَى وافْعَنْلَلَ'], correct: 0 },
         { title: 'ضبط افعلَلَّ', kind: 'mcq', prompt: 'The وزن افْعَلَلَّ opens with a هَمْزَة وصل and doubles its second لام. Which pair of verbs carries this pattern؟', options: ['احْرَنْجَمَ واقْعَنْسَسَ', 'تَدَحْرَجَ وتَزَلْزَلَ', 'احْمارَّ واشْهابَّ', 'اقْشَعَرَّ واطْمَأَنَّ'], correct: 3 },
-        { title: 'قشعر', kind: 'mcq', prompt: 'What is said about قَشْعَر, the bare root that اقْشَعَرَّ ("to shudder") is built from؟', options: ['It is itself a ملحق pattern', 'It is منحوت, coined by blending two words', 'It is غير مستعمل — not actually used; what is used instead is the مزيد form تَقَشْعَرَ', 'It is the commonest form of the root, more common than اقشعر itself'], correct: 2 },
-        { title: 'تجلبب', kind: 'mcq', prompt: 'تَجَلْبَبَ ("to wrap oneself in a garment") relates to جَلْبَبَ the same way which other pair relates to each other؟', options: ['اسْتَخْرَجَ to خَرَجَ', 'تَدَحْرَجَ to دَحْرَجَ — a تاء prefixed to a رباعي pattern', 'أَكْرَمَ to كَرُمَ', 'انْكَسَرَ to كَسَرَ'], correct: 1 },
-        { title: 'تمسكن', kind: 'mcq', prompt: 'تَمَسْكَنَ ("to feign poverty") is built on which of the six ملحق patterns of الرباعي المزيد بحرف واحد؟', options: ['تَفَيْعَلَ', 'تَفَعْلَى', 'تَمَفْعَلَ', 'تَفَعْلَلَ'], correct: 2 },
-        { title: 'تسلقى', kind: 'mcq', prompt: 'تَسَلْقَى ("to lie stretched out on one\'s back") is built on which pattern؟', options: ['تَمَفْعَلَ', 'تَفَوْعَلَ', 'تَفَعْلَى', 'تَفَعْوَلَ'], correct: 2 },
-        { title: 'تشيطن وتجورب', kind: 'mcq', prompt: 'تَشَيْطَنَ ("to act like a devil") and تَجَوْرَبَ ("to put on socks") are built on which two patterns respectively؟', options: ['تَفَيْعَلَ وتَفَوْعَلَ', 'تَفَوْعَلَ وتَفَيْعَلَ', 'تَفَعْوَلَ وتَفَعْلَى', 'تَمَفْعَلَ وتَفَعْلَلَ'], correct: 0 },
-        { title: 'اسلنقى', kind: 'mcq', prompt: 'اسْلَنْقَى ("to lie flat on one\'s back") is built on which pattern؟', options: ['افْعَنْلَى', 'افْعَنْلَلَ', 'افْعَلَلَّ', 'تَفَعْلَى'], correct: 0 },
+        { title: 'قشعر', kind: 'mcq', prompt: 'What is said about قَشْعَر, the bare root that اقْشَعَرَّ (to shudder) is built from؟', options: ['It is itself a ملحق pattern', 'It is منحوت, coined by blending two words', 'It is غير مستعمل — not actually used; what is used instead is the مزيد form تَقَشْعَرَ', 'It is the commonest form of the root, more common than اقشعر itself'], correct: 2 },
+        { title: 'تجلبب', kind: 'mcq', prompt: 'تَجَلْبَبَ (to wrap oneself in a garment) relates to جَلْبَبَ the same way which other pair relates to each other؟', options: ['اسْتَخْرَجَ to خَرَجَ', 'تَدَحْرَجَ to دَحْرَجَ — a تاء prefixed to a رباعي pattern', 'أَكْرَمَ to كَرُمَ', 'انْكَسَرَ to كَسَرَ'], correct: 1 },
+        { title: 'تمسكن', kind: 'mcq', prompt: 'تَمَسْكَنَ (to feign poverty) is built on which of the six ملحق patterns of الرباعي المزيد بحرف واحد؟', options: ['تَفَيْعَلَ', 'تَفَعْلَى', 'تَمَفْعَلَ', 'تَفَعْلَلَ'], correct: 2 },
+        { title: 'تسلقى', kind: 'mcq', prompt: 'تَسَلْقَى (to lie stretched out on one\'s back) is built on which pattern؟', options: ['تَمَفْعَلَ', 'تَفَوْعَلَ', 'تَفَعْلَى', 'تَفَعْوَلَ'], correct: 2 },
+        { title: 'تشيطن وتجورب', kind: 'mcq', prompt: 'تَشَيْطَنَ (to act like a devil) and تَجَوْرَبَ (to put on socks) are built on which two patterns respectively؟', options: ['تَفَيْعَلَ وتَفَوْعَلَ', 'تَفَوْعَلَ وتَفَيْعَلَ', 'تَفَعْوَلَ وتَفَعْلَى', 'تَمَفْعَلَ وتَفَعْلَلَ'], correct: 0 },
+        { title: 'اسلنقى', kind: 'mcq', prompt: 'اسْلَنْقَى (to lie flat on one\'s back) is built on which pattern؟', options: ['افْعَنْلَى', 'افْعَنْلَلَ', 'افْعَلَلَّ', 'تَفَعْلَى'], correct: 0 },
         { title: 'لاما اقعنسس', kind: 'mcq', prompt: 'In اقْعَنْسَسَ, what is the status of its two سينان (its two لام letters)؟', options: ['Both are أصليتان', 'Both are زائدتان', 'Neither is a لام of the word', 'One is أصلية and the other زائدة للإلحاق'], correct: 3 },
         { title: 'لاما احرنجم', kind: 'mcq', prompt: 'In احْرَنْجَمَ, what is the status of its two لامان؟', options: ['One is زائدة للإلحاق, the other أصلية', 'Both are زائدتان', 'They cannot be determined without more context', 'Both are أصليتان, because حرجم is itself an existing رباعي root'], correct: 3 },
         { title: 'الوزن لا يكفي', kind: 'mcq', prompt: 'احرنجم and اقعنسس share a وزن but are classified differently — one a true رباعي مزيد, the other only a ملحق. What general lesson does that teach؟', options: ['That the وزن alone does not settle which letters are original — you must know the underlying root', 'That the وزن of a verb is irrelevant to its classification', 'That one of the two verbs is شاذ and should be avoided', 'That both verbs must be ملحقات since they share a وزن'], correct: 0 },
@@ -727,7 +727,7 @@ It also helps to contrast جَلْبَبَ with بَعْثَرَ, which is not �
         { title: 'الهيئة', kind: 'mcq', prompt: 'What does باعتبار هيئته (by its هيئة) mean when counting أبواب الفعل؟', options: ['By whether it is لازم or متعدٍّ', 'By the pattern of حركات and سكنات its letters carry', 'By its total number of letters', 'By whether it is مجرد or مزيد'], correct: 1 },
         { title: 'سبعة وثلاثون بابا', kind: 'mcq', prompt: 'The figure سبعة وثلاثون بابًا for الفعل is reached by counting it according to which measure؟', options: ['الهيئة — its pattern of vowelling', 'المادة — its total letter count', 'المعنى — its meaning', 'عدد أصوله فقط — its root letters alone'], correct: 0 },
         { title: 'لا يلزم مزيد لكل مجرد', kind: 'mcq', prompt: 'The second تنبيه denies that every مجرد root must have a مزيد form in use. What settles whether it actually does؟', options: ['السماع alone — whether it has actually been heard used that way', 'القياس alone, since any مزيد وزن can be freely applied to any root', 'The meaning of the root', 'Whether the root is ثلاثي or رباعي'], correct: 0 },
-        { title: 'افتقر بلا فقر', kind: 'mcq', prompt: 'اِفْتَقَرَ "to become poor, to be in need" is in common use, yet no plain مجرد فَقَرَ with that meaning is used alongside it. Which denial of the second تنبيه does this illustrate؟', options: ['That not every مزيد form requires a مجرد form to be in use alongside it', 'That not every مجرد form requires a مزيد form', 'That a ثلاثي لازم can always take a همزة', 'That some مزيد forms have no meaning at all'], correct: 0 },
+        { title: 'افتقر بلا فقر', kind: 'mcq', prompt: 'اِفْتَقَرَ to become poor, to be in need is in common use, yet no plain مجرد فَقَرَ with that meaning is used alongside it. Which denial of the second تنبيه does this illustrate؟', options: ['That not every مزيد form requires a مجرد form to be in use alongside it', 'That not every مجرد form requires a مزيد form', 'That a ثلاثي لازم can always take a همزة', 'That some مزيد forms have no meaning at all'], correct: 0 },
         { title: 'بعض المزيدات', kind: 'mcq', prompt: 'The third denial concerns a root where only some of its possible مزيد forms are actually in use. What does it deny؟', options: ['That the root must be ثلاثي', 'That the remaining, unheard مزيد forms must also automatically be in use', 'That those forms carry any meaning at all', 'That the root can have a مجرد form'], correct: 1 },
         { title: 'همزة التعدية', kind: 'mcq', prompt: 'ذَهَبَ becomes أَذْهَبَ and خَرَجَ becomes أَخْرَجَ by prefixing a همزة. Why is this exempted from needing to be heard case by case؟', options: ['Because it is the only case of زيادة that exists in the language', 'Because it applies only to verbs that are already متعدٍّ', 'Because it is شاذ and memorized individually', 'Because prefixing a همزة to a ثلاثي لازم for تعدية is مطَّرِد — regular and predictable — rather than depending on السماع'], correct: 3 },
       ],

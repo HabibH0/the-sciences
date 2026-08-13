@@ -36,7 +36,7 @@
 // parsed Qur'anic and poetic examples with an unambiguous single reading.
 export default {
   id: '13',
-  title: 'ليت، والحروف المشبهة بالفعل، وتخفيفها',
+  title: 'الحروف المشبهة',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف العامل',
   blurb: 'The last of the six حروف تنصب الاسم وترفع الخبر, the five وجوه that earn the whole group the name مشبهة بالفعل, تخفيف across the family, and the two remaining نواسخ — لا لنفي الجنس and الحروف المشبهة بليس.',
@@ -44,7 +44,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'ليت والحروف المشبهة بالفعل',
+      title: 'ليت',
       subtitle: 'ليت and Why the Family Is "مشبهة بالفعل" — the last of six حروف, and the five ways they all resemble a verb',
       concepts: [
         {
@@ -218,7 +218,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'تخفيف إنّ وأنّ',
+      title: 'تخفيف إنّ',
       subtitle: 'Lightening إنّ and أنّ — the five-قراءة ayah, اللام الفارقة, and the dropped ضمير الشأن',
       concepts: [
         {
@@ -386,7 +386,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'تخفيف كأنّ وما الكافّة',
+      title: 'تخفيف كأنّ',
       subtitle: 'كأنّ under تخفيف, and How ما الكافّة Neutralizes the Whole Family',
       concepts: [
         {
@@ -535,7 +535,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'لا النافية للجنس',
+      title: 'لا النافية',
       subtitle: 'لا Negating the Whole جنس — the seventh حرف تنصب الاسم وترفع الخبر, its two names, and when it stops governing',
       concepts: [
         {
@@ -713,7 +713,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'الحروف المشبهة بليس',
+      title: 'شبيهات ليس',
       subtitle: 'Particles Resembling لَيْسَ — ما الحجازية, لا الشعرية, لاتَ, and إنْ عند أهل العالية',
       concepts: [
         {

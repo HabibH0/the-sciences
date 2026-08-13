@@ -29,7 +29,7 @@
 // are single-tier (word-to-role), so the flat schema is the closer match.
 export default {
   id: '20',
-  title: 'العامل من الأسماء المشتقة',
+  title: 'الأسماء المشتقة',
   heading: 'العامل وغير العامل',
   subheading: 'الاسم',
   blurb: 'المصدر, then the derived-noun governors: اسم الفاعل, اسم المفعول, الصفة المشبهة, اسم التفضيل, and اسم الفعل — nouns that govern a معمول the way a فعل does.',
@@ -209,7 +209,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'اسم الفاعل واسم المفعول',
+      title: 'الفاعل والمفعول',
       subtitle: 'Active and Passive Derived Nouns — عمل عمل الفعل المعلوم أو المجهول, the شروط for a نكرة to govern, and متصل vs منفصل معمول',
       concepts: [
         {
@@ -723,7 +723,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'اسم الفعل: تعريفه وعمله وأقسامه',
+      title: 'اسم الفعل',
       subtitle: 'The Verb-Noun — governing like its underlying verb, its three tenses, and مرتجلة vs منقولة origin',
       concepts: [
         {
@@ -896,7 +896,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'اسم الفعل: أحكام تكميلية',
+      title: 'بقية',
       subtitle: 'Closing اسم الفعل — تنوين flipping بله and رويد\'s meaning, هلم\'s missing مفعول به, the one قياسي pattern, and why its معمول can never front',
       concepts: [
         {

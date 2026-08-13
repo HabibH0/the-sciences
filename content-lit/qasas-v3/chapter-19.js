@@ -130,14 +130,14 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c19-003',
-          ar: 'حَتَّى كَأَنَّ السَّمَاءَ مِنْخَلَةٌ لا تُمْسِكُ مَاءً.',
+          ar: 'حَتَّى كَأَنَّ السَّمَاءَ مِنْخَلَةٌ لَا تُمْسِكُ مَاءً.',
           en: 'until it was as if the sky were a sieve that could not hold water back.',
           tokens: [
             { surface: 'حَتَّى', lemma: 'حَتَّى', pos: 'conj', features: 'conj', gloss: 'until' },
             { surface: 'كَأَنَّ', lemma: 'كَأَنَّ', pos: 'part', features: 'part', root: 'ك أ ن', gloss: 'as if, as though' },
             { surface: 'السَّمَاءَ', lemma: 'سَمَاء', pos: 'noun', features: 'def.acc', gloss: 'the sky' },
             { surface: 'مِنْخَلَةٌ', lemma: 'مِنْخَلَة', pos: 'noun', features: 'indef.nom', root: 'ن خ ل', gloss: 'a sieve' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'تُمْسِكُ', lemma: 'أَمْسَكَ', pos: 'verb', features: 'impf.3fs', root: 'م س ك', gloss: 'to hold, withhold; hold back' },
             { surface: 'مَاءً', lemma: 'مَاء', pos: 'noun', features: 'indef.acc', gloss: 'water' },
           ],
@@ -243,13 +243,13 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c19-010',
-          ar: 'لأَنَّ الطُّوفَانَ عَامٌّ لا يَنْجُو مِنْهُ إِنْسَانٌ وَلَا حَيَوَانٌ.',
+          ar: 'لأَنَّ الطُّوفَانَ عَامٌّ لَا يَنْجُو مِنْهُ إِنْسَانٌ وَلَا حَيَوَانٌ.',
           en: 'Because the Flood was universal -- no human or animal could escape it.',
           tokens: [
             { surface: 'لأَنَّ', lemma: 'لِأَنَّ', pos: 'part', features: 'part', root: 'أ ن ن', gloss: 'because' },
             { surface: 'الطُّوفَانَ', lemma: 'طُوفَان', pos: 'noun', features: 'def.acc', root: 'ط و ف', gloss: 'the Flood' },
             { surface: 'عَامٌّ', lemma: 'عَامّ', pos: 'adj', features: 'indef.nom', root: 'ع م م', gloss: 'general, universal' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'not' },
             { surface: 'يَنْجُو', lemma: 'نَجَا', pos: 'verb', features: 'impf.3ms', gloss: 'to be saved, escape; escape' },
             { surface: 'مِنْهُ', lemma: 'مِنْ', pos: 'prep', features: 'prep+3ms', gloss: 'from it' },
             { surface: 'إِنْسَانٌ', lemma: 'إِنْسَان', pos: 'noun', features: 'indef.nom', gloss: 'a human' },
@@ -358,11 +358,11 @@ export const CHAPTER = {
         },
         {
           id: 'qs-v3-c19-017',
-          ar: 'وَلَكِنْ لا مَلْجَأَ مِنَ اللَّهِ إِلَّا إِلَيْهِ.',
+          ar: 'وَلَكِنْ لَا مَلْجَأَ مِنَ اللَّهِ إِلَّا إِلَيْهِ.',
           en: 'But there is no refuge from Allah except in Him.',
           tokens: [
             { surface: 'وَلَكِنْ', lemma: 'لَكِنْ', pos: 'conj', features: 'conj+conj', gloss: 'but' },
-            { surface: 'لا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'there is no' },
+            { surface: 'لَا', lemma: 'لَا', pos: 'part', features: 'neg', gloss: 'there is no' },
             { surface: 'مَلْجَأَ', lemma: 'مَلْجَأ', pos: 'noun', features: 'indef.acc', root: 'ل ج أ', gloss: 'a refuge' },
             { surface: 'مِنَ', lemma: 'مِنْ', pos: 'prep', features: 'prep', gloss: 'from' },
             { surface: 'اللَّهِ', lemma: 'اللَّه', pos: 'proper', features: 'gen', gloss: 'Allah' },

@@ -28,7 +28,7 @@
 // than forced in. L1 and L3 each hit six.
 export default {
   id: '06',
-  title: 'أفعال التحويل والتعليق والإلغاء',
+  title: 'التحويل والتعليق',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
   blurb: 'أفعال التحويل completing the two-object verb family, then التعليق and الإلغاء that decide whether a فعل قلب governs the جملة after it.',
@@ -237,7 +237,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'الأفعال الثلاثية المفعول والتعليق',
+      title: 'التعليق',
       subtitle: 'Three-Object قلب Verbs and Suspension — how a جملة can fill both مفعولي فعل القلب, and what التعليق does to its عمل',
       concepts: [
         {
@@ -412,7 +412,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'المعلقات وأحكام الإلغاء والترجيح',
+      title: 'الإلغاء والترجيح',
       subtitle: 'What Triggers التعليق, and الإلغاء — the full list of صدارة particles, then when to cancel a فعل قلب\'s عمل entirely',
       concepts: [
         {

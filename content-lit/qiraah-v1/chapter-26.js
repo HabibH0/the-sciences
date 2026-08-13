@@ -522,9 +522,9 @@ export const CHAPTER = {
             { surface: 'الْوَحَلِ', lemma: 'وحل', features: 'def.gen', root: 'و ح ل', pos: 'noun', gloss: 'the mud' }
           ]
         },
-        { id: 'qr1-26-016', page: 99, ar: 'هذا لَيْسَ يَوْمَ الْخُرُوْجِ مِنَ الْبَيْتِ،', en: 'This is not a day for going out,',
+        { id: 'qr1-26-016', page: 99, ar: 'هٰذَا لَيْسَ يَوْمَ الْخُرُوْجِ مِنَ الْبَيْتِ،', en: 'This is not a day for going out,',
           tokens: [
-            { surface: 'هذا', lemma: 'هذا', features: 'dem', root: '—', pos: 'dem', gloss: 'this' },
+            { surface: 'هٰذَا', lemma: 'هذا', features: 'dem', root: '—', pos: 'dem', gloss: 'this' },
             { surface: 'لَيْسَ', lemma: 'ليس', features: 'perf.3ms', root: 'ل ي س', pos: 'verb', gloss: 'is not' },
             { surface: 'يَوْمَ', lemma: 'يوم', features: 'acc', root: 'ي و م', pos: 'noun', gloss: 'a day of' },
             { surface: 'الْخُرُوْجِ', lemma: 'خروج', features: 'def.gen', root: 'خ ر ج', pos: 'noun', gloss: 'going out' },

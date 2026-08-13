@@ -40,7 +40,7 @@ export default {
             { box: { title: 'Definition', lines: [
               `المُشْتَقّ: ما أُخِذَ من غيره، ودلَّ على ذاتٍ مع ملاحظة صفة`,
             ] } },
-            { html: `A <bdi>مشتقّ</bdi> word is taken from another word, and it points to a <bdi>ذات</bdi> — an entity — while keeping a quality in view. So it names the possessor of the meaning rather than the meaning itself: <bdi>عالِم</bdi> ("one who has knowledge") rather than <bdi>علم</bdi> ("knowledge"), <bdi>ظَريف</bdi> ("a witty person") rather than <bdi>ظَرْف</bdi> ("wit"), <bdi>مَضْروب</bdi> ("something struck") rather than <bdi>ضَرْب</bdi> ("striking").`, list: false },
+            { html: `A <bdi>مشتقّ</bdi> word is taken from another word, and it points to a <bdi>ذات</bdi> — an entity — while keeping a quality in view. So it names the possessor of the meaning rather than the meaning itself: <bdi>عالِم</bdi> (one who has knowledge) rather than <bdi>علم</bdi> (knowledge), <bdi>ظَريف</bdi> (a witty person) rather than <bdi>ظَرْف</bdi> (wit), <bdi>مَضْروب</bdi> (something struck) rather than <bdi>ضَرْب</bdi> (striking).`, list: false },
             { html: `Where a مشتقّ is taken from is narrower than might be expected.`, list: false },
             { box: { title: 'Rule', lines: [
               `ومن أسماء الأجناس المعنوية المصدرية يكون الاشتقاق، كفَهِمَ من الفهم، ونَصَرَ من النصر`,
@@ -120,7 +120,7 @@ export default {
               `وعند الكوفيين: الأصل الفعل`,
               `والذي عليه الصرفيّون: الأوّل`,
             ] } },
-            { html: `البصريون hold that every مشتقّ is ultimately taken from the مصدر; الكوفيون hold that the فعل is the أصل instead; and الصرفيّون — the grammarians who specialise in الصرف — side with the البصري view, called <bdi>الأوّل</bdi> ("the first") here because it was named first.`, list: false },
+            { html: `البصريون hold that every مشتقّ is ultimately taken from the مصدر; الكوفيون hold that the فعل is the أصل instead; and الصرفيّون — the grammarians who specialise in الصرف — side with the البصري view, called <bdi>الأوّل</bdi> (the first) here because it was named first.`, list: false },
             { html: `Each side argues from a different kind of priority. البصريون argue from simplicity of meaning: the مصدر is بسيط, pointing to الحَدَث — the event — alone, while الفعل points to الحدث together with a زمن, a tense, so the simpler of the two must come first. الكوفيون argue from order instead: in التصريف, conjugation, المصدر يجيء بعده — it comes listed after الفعل, not before it — so they take الفعل to be prior.`, list: false },
           ],
           exercise: {
@@ -204,7 +204,7 @@ export default {
                 ['اسم الآلة', 'مِضْرَب'],
               ],
             } },
-            { html: `<bdi>لا يُوجَد</bdi> ("none exists") against الصفة المشبهة is not an oversight: ضَرَبَ is مُتَعَدٍّ (transitive), and الصفة مشبهة is built only from the مصدر of a لازم (intransitive) verb — so a transitive root simply has none. <bdi>حَسَن</bdi> ("good-looking") is put beside it instead, as a specimen of what the form itself looks like.`, list: false },
+            { html: `<bdi>لا يُوجَد</bdi> (none exists) against الصفة المشبهة is not an oversight: ضَرَبَ is مُتَعَدٍّ (transitive), and الصفة مشبهة is built only from the مصدر of a لازم (intransitive) verb — so a transitive root simply has none. <bdi>حَسَن</bdi> (good-looking) is put beside it instead, as a specimen of what the form itself looks like.`, list: false },
           ],
           clarification: `Two entries in this table repay attention. The صفة مشبهة is blank because a مُتَعَدٍّ verb has no صفة مشبهة at all, and the reason is given when that noun is defined. And مَضْرِب against اسما الزمان والمكان versus مِضْرَب against اسم الآلة differ in two vowels at once, and in opposite directions: fatḥa on the ميم and kasra on the عين for the time or place, kasra on the ميم and fatḥa on the عين for the tool.`,
           exercise: {
@@ -222,8 +222,8 @@ export default {
               `وكلٌّ يحتاج إلى البيان`,
             ] } },
             { html: `Two further reshapings of a word are attached to this list of ten, without themselves counting as derivations in the sense just defined.`, list: false },
-            { html: `<bdi>المنسوب</bdi> — the relational adjective, formed by adding a doubled <bdi>يّ</bdi> ending to a noun to mean "belonging to" or "from" it: <bdi>رجلٌ مِصْرِيٌّ</bdi>, "an Egyptian man", from <bdi>مِصْر</bdi>, "Egypt".`, list: true, bullet: true },
-            { html: `<bdi>المُصَغَّر</bdi> — the diminutive, a form that shrinks a noun's size or marks it as few, young, or slight, such as turning <bdi>رَجُل</bdi> ("a man") into <bdi>رُجَيْل</bdi> ("a little man").`, list: true, bullet: true },
+            { html: `<bdi>المنسوب</bdi> — the relational adjective, formed by adding a doubled <bdi>يّ</bdi> ending to a noun to mean belonging to or from it: <bdi>رجلٌ مِصْرِيٌّ</bdi>, an Egyptian man, from <bdi>مِصْر</bdi>, Egypt.`, list: true, bullet: true },
+            { html: `<bdi>المُصَغَّر</bdi> — the diminutive, a form that shrinks a noun's size or marks it as few, young, or slight, such as turning <bdi>رَجُل</bdi> (a man) into <bdi>رُجَيْل</bdi> (a little man).`, list: true, bullet: true },
             { html: `Each is treated fully in its own place elsewhere in the course. They are only appended here because, like the ten proper derivations, each reshapes a word's form — without being اشتقاق by the definition given earlier in this module.`, list: false },
           ],
           exercise: {
@@ -236,7 +236,7 @@ export default {
         {
           heading: 'اسم المبالغة مع اسم الفاعل',
           lines: [
-            { html: `The seven أسماء stay seven even though this lesson's opening list named اسم المبالغة — the noun of intensification, e.g. <bdi>ضَرَّاب</bdi>, "one who strikes a great deal" — right alongside اسم الفاعل. That is because اسم المبالغة is a variant صِيغَة (form) of the very same derivation, not a further member of the list of seven.`, list: false },
+            { html: `The seven أسماء stay seven even though this lesson's opening list named اسم المبالغة — the noun of intensification, e.g. <bdi>ضَرَّاب</bdi>, one who strikes a great deal — right alongside اسم الفاعل. That is because اسم المبالغة is a variant صِيغَة (form) of the very same derivation, not a further member of the list of seven.`, list: false },
             { html: `That is why <bdi>ضَرَّاب</bdi> stands in the ضَرْب table above in the same cell as <bdi>ضَارِب</bdi>, rather than in a row of its own.`, list: false },
           ],
           exercise: {
@@ -296,8 +296,8 @@ export default {
               title: 'أوزان الماضي الثلاثي',
               headers: ['الوزن (Pattern)', 'الضبط (Vowelling)', 'اللزوم والتعدّي (Transitivity)'],
               rows: [
-                ['فَعَلَ', 'بفتح العين — a فتحة on the عين', 'it may be متعدٍّ (transitive), as in ضَرَبَه, "he struck him", or لازم (intransitive), as in قَعَدَ, "he sat"'],
-                ['فَعِلَ', 'بكسر العين — a كسرة on the عين', 'it too may be متعدٍّ, as in فَهِمَ الدَّرسَ, "he understood the lesson", or لازم, as in رَضِيَ, "he was pleased"'],
+                ['فَعَلَ', 'بفتح العين — a فتحة on the عين', 'it may be متعدٍّ (transitive), as in ضَرَبَه, he struck him, or لازم (intransitive), as in قَعَدَ, he sat'],
+                ['فَعِلَ', 'بكسر العين — a كسرة on the عين', 'it too may be متعدٍّ, as in فَهِمَ الدَّرسَ, he understood the lesson, or لازم, as in رَضِيَ, he was pleased'],
                 ['فَعُلَ', 'بضم العين — a ضمة on the عين', 'and it is always لازم'],
               ],
             } },

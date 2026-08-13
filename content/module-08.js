@@ -19,7 +19,7 @@
 // 02-03.
 export default {
   id: '08',
-  title: 'الرجاء والمقاربة والشروع والمدح والذم والتعجب',
+  title: 'المقاربة والرجاء',
   heading: 'العامل وغير العامل',
   subheading: 'الفعل',
   blurb: 'أفعال الرجاء والمقاربة والشروع close out الأفعال الناقصة, أفعال المدح والذم raise their own فاعل and مخصوص, and صيغ التعجب express wonder — five families of السماعي (mostly) verb behaviour.',
@@ -535,7 +535,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'أفعال المدح والذم',
+      title: 'المدح والذم',
       subtitle: 'Verbs of Praise and Blame — نعم، حبذا، بئس، ساء and لا حبذا, and how they raise فاعل and مخصوص',
       concepts: [
         {
@@ -725,7 +725,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'أحكام تكميلية لأفعال المدح والذم',
+      title: 'بقية',
       subtitle: 'Further Rulings on Praise and Blame — ما after نعم/بئس, حذف المخصوص, and حبذا’s منصوب companion',
       concepts: [
         {

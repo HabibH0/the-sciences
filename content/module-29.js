@@ -40,7 +40,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'المستثنى: أركانه وأنواعه',
+      title: 'أركان المستثنى',
       subtitle: 'The Excepted Noun — its three أركان, then التام vs غير التام and المتصل vs المنقطع',
       sourceRef: 'app-lessons/135 (part 1)',
       concepts: [
@@ -211,7 +211,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'أدوات الاستثناء وإعرابه',
+      title: 'أدوات الاستثناء',
       subtitle: 'The Tools of Exception — أداة الاستثناء as حرف, فعل, or اسم, and إعراب المستثنى across موجب, غير موجب, and تقديم',
       sourceRef: 'app-lessons/135 (part 2)',
       concepts: [
@@ -403,7 +403,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'أحكام خاصة: حاشا وغير واللهم',
+      title: 'حاشا وغير',
       subtitle: 'Special Rulings — فعل استثناء, حاشا, the غير/إلا interchange, and المستثنى in المنقطع',
       sourceRef: 'app-lessons/135 (part 3)',
       concepts: [

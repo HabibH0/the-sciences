@@ -5,10 +5,12 @@
 // them: قَصَصُ النَّبِيِّينَ لِلْأَطْفَالِ is the series on the cover, «مَنْ كَسَرَ
 // الأَصْنَامَ؟» is the story that opens it (pages 9-26), and «١ ـ بَائِعُ
 // الأَصْنَامِ» is the chapter. A story is what a learner actually reads through,
-// so the STORY is the app's book and the series is named in volumeLabel --
-// otherwise every story in the series would sit on the shelf under one
-// identical title. Chapter numbering restarts with each story, exactly as the
-// print does.
+// so the STORY is the app's book; the series itself is named once, in the
+// shelf-group heading the Library screen draws above every "qasas-*" book
+// (see bookSeries in content-lit/index.js and litShelfHeadingHtml in
+// js/render.js), so volumeLabel here stays "Volume N" like every other
+// book's rather than repeating the series name. Chapter numbering restarts
+// with each story, exactly as the print does.
 //
 // Chapter BODIES are lazy: only `load()` pulls in a chapter-NN.js, so the
 // shells here stay cheap enough to import eagerly from content-lit/index.js.
@@ -19,7 +21,7 @@
 export const BOOK = {
   id: 'qasas-v1',
   title: { ar: 'مَنْ كَسَرَ الأَصْنَامَ؟', en: 'Who Broke the Idols?' },
-  volumeLabel: 'Qaṣaṣ an-Nabiyyīn · Story One',
+  volumeLabel: 'Volume One',
   author: { ar: 'أَبُو الْحَسَنِ عَلِيٌّ الْحَسَنِيُّ النَّدْوِيُّ', en: 'Abū al-Ḥasan ʿAlī al-Ḥasanī an-Nadwī' },
   blurb: 'The story of Ibrāhīm ﷺ in sixteen short vowelled chapters of a page each — the idols of Āzar, the axe and the fire, the search for a Lord, Zamzam, and the raising of the Kaʿbah.',
   chapters: [

@@ -716,7 +716,7 @@ export const CHAPTER = {
       sentences: [
         {
           id: "qr2-32-027",
-          ar: "قَالَ سَهْلٌ وَسُهَيْلٌ: هُوَ يَا رَسُوْلَ اللهِ لله، لَا نَشْتَرِيْ بِهِ ثَمَناً، فَابْنِ الْمَسْجِدَ.",
+          ar: "قَالَ سَهْلٌ وَسُهَيْلٌ: هُوَ يَا رَسُوْلَ اللهِ لِلَّهِ، لَا نَشْتَرِيْ بِهِ ثَمَناً، فَابْنِ الْمَسْجِدَ.",
           en: "Sahl and Suhayl said: \"It is, O Messenger of Allah, for Allah's sake -- we will not take a price for it, so build the mosque.\"",
           tokens: [
             { surface: "قَالَ", lemma: "قال", pos: "verb", features: "perf.3ms", root: "ق و ل", gloss: "said" },
@@ -726,7 +726,7 @@ export const CHAPTER = {
             { surface: "يَا", lemma: "يا", pos: "part", features: "part", root: "", gloss: "O" },
             { surface: "رَسُوْلَ", lemma: "رسول", pos: "noun", features: "acc.constr", root: "ر س ل", gloss: "Messenger of" },
             { surface: "اللهِ", lemma: "الله", pos: "proper", features: "gen", root: "", gloss: "Allah" },
-            { surface: "لله", lemma: "الله", pos: "proper", features: "prep+gen", root: "", gloss: "for Allah's sake" },
+            { surface: "لِلَّهِ", lemma: "الله", pos: "proper", features: "prep+gen", root: "", gloss: "for Allah's sake" },
             { surface: "لَا", lemma: "لا", pos: "part", features: "neg", root: "", gloss: "not" },
             { surface: "نَشْتَرِيْ", lemma: "نشتري", pos: "verb", features: "impf.1p", root: "ش ر ي", gloss: "we take (in exchange)" },
             { surface: "بِهِ", lemma: "ب", pos: "prep", features: "prep+3ms", root: "", gloss: "for it" },

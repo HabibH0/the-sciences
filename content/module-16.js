@@ -46,7 +46,7 @@
 // distinct worked examples.
 export default {
   id: '16',
-  title: 'أحرف الجواب والنفي والتأكيد',
+  title: 'الجواب والتأكيد',
   heading: 'العامل وغير العامل',
   subheading: 'الحرف غير العامل',
   blurb: 'أحرف الجواب answering a question or statement in one word, حرفا النفي — لا وكلّا — with كلّا’s layered senses, and the five أحرف التأكيد that add emphasis without changing a sentence’s basic meaning.',
@@ -54,7 +54,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'أحرف الجواب: نَعَمْ وبَلَى',
+      title: 'نَعَمْ وبَلَى',
       subtitle: 'Affirmative Response Particles — نعم confirms a question’s own polarity, بلى flips a negative one',
       sourceRef: 'app-lessons/089 (part 1)',
       concepts: [
@@ -201,7 +201,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'أحرف الجواب الأقل شيوعا',
+      title: 'أحرف نادرة',
       subtitle: 'إي، أجل، إنّه، وجير — the four rarer أحرف الإيجاب, each with its own strict condition',
       sourceRef: 'app-lessons/089 (part 2)',
       concepts: [
@@ -334,7 +334,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'لا وكَلَّا: المعنى الأصلي',
+      title: 'لا وكَلَّا',
       subtitle: 'لا wholly neutral, كلّا carrying الزجر والردع — a firm, scolding rejection of what came before',
       sourceRef: 'app-lessons/090 (part 1)',
       concepts: [
@@ -464,7 +464,7 @@ export default {
     // ---------------------------------------------------------------- L4
     {
       id: 'l4',
-      title: 'كَلَّا: المعاني المجازية وأحكام الوقف',
+      title: 'كَلَّا المجازية',
       subtitle: 'التصديق and الاستفتاح beyond الردع, where the recitation pause falls, and how to read an ambiguous كلا',
       sourceRef: 'app-lessons/090 (part 2)',
       concepts: [
@@ -603,7 +603,7 @@ export default {
     // ---------------------------------------------------------------- L5
     {
       id: 'l5',
-      title: 'ثلاثة من أحرف التأكيد',
+      title: 'أحرف التأكيد',
       subtitle: 'لام الابتداء على المبتدأ، اللام المزحلقة على خبر إنّ، ولام جواب القسم — three أحرف تأكيد built around one shared لام',
       sourceRef: 'app-lessons/091 (part 1)',
       concepts: [
@@ -770,7 +770,7 @@ export default {
     // ---------------------------------------------------------------- L6
     {
       id: 'l6',
-      title: 'نونا التأكيد وقَدْ',
+      title: 'نونا التأكيد',
       subtitle: 'The two forms of an emphatic ن, and قَدْ — always تحقيق with الماضي, usually تقليل with المضارع',
       sourceRef: 'app-lessons/091 (part 2)',
       concepts: [

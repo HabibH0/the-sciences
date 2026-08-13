@@ -56,15 +56,15 @@ export default {
           heading: 'الملازم للمضي: النواسخ والمقاربة والرجاء والشروع',
           lines: [
             { table: { headers: ['الفعل (Verb)', 'بابه (Its Category)', 'البيان (Explanation)'], rows: [
-              ['لَيْسَ — "is not"', 'one of أخوات كان (kān’s sisters), used to negate', 'a bare negating verb: لَيْسَ زَيْدٌ قائِمًا — "Zayd is not standing"'],
-              ['كَرَبَ', 'one of أفعال المُقارَبَة (verbs of imminence)', 'كَرَبَ الأَمْرُ يَنْتَهِي — "the matter was about to end", meaning كادَ ("was about to")'],
-              ['عَسَى، حَرَى، اخْلَوْلَقَ', 'one of أفعال الرَّجاء (verbs of hope)', 'all three mean roughly "perhaps" or "it is likely that"'],
-              ['أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'one of أفعال الشُّرُوع (verbs of commencement)', 'all five mean roughly "began to" — أَخَذَ الرَّجُلُ يَقْرَأُ, "the man began to read"'],
+              ['لَيْسَ — is not', 'one of أخوات كان (kān’s sisters), used to negate', 'a bare negating verb: لَيْسَ زَيْدٌ قائِمًا — Zayd is not standing'],
+              ['كَرَبَ', 'one of أفعال المُقارَبَة (verbs of imminence)', 'كَرَبَ الأَمْرُ يَنْتَهِي — the matter was about to end, meaning كادَ (was about to)'],
+              ['عَسَى، حَرَى، اخْلَوْلَقَ', 'one of أفعال الرَّجاء (verbs of hope)', 'all three mean roughly perhaps or it is likely that'],
+              ['أَنْشَأَ، طَفِقَ، أَخَذَ، جَعَلَ، عَلِقَ', 'one of أفعال الشُّرُوع (verbs of commencement)', 'all five mean roughly began to — أَخَذَ الرَّجُلُ يَقْرَأُ, the man began to read'],
             ] } },
-            { html: `The last row also shows the test in miniature: <bdi>لا يُقالُ يَأْخُذُ الرَّجُلُ يَقْرَأُ</bdi> — one does not say يَأْخُذُ الرَّجُلُ يَقْرَأُ ("the man begins to read"). أَخَذَ exists in the ماضي, and there is simply no مضارع of it in this sense to be had.`, list: false },
+            { html: `The last row also shows the test in miniature: <bdi>لا يُقالُ يَأْخُذُ الرَّجُلُ يَقْرَأُ</bdi> — one does not say يَأْخُذُ الرَّجُلُ يَقْرَأُ (the man begins to read). أَخَذَ exists in the ماضي, and there is simply no مضارع of it in this sense to be had.`, list: false },
           ],
           exercise: {
-            prompt: `أَخَذَ الرَّجُلُ يَقْرَأُ ("the man began to read") is said, but يَأْخُذُ الرَّجُلُ يَقْرَأُ is not. What does that establish?`,
+            prompt: `أَخَذَ الرَّجُلُ يَقْرَأُ (the man began to read) is said, but يَأْخُذُ الرَّجُلُ يَقْرَأُ is not. What does that establish?`,
             kind: 'mcq',
             options: ['That يَقْرَأُ cannot follow a ماضٍ', 'That أَخَذَ, as a فعل شروع, is جامد — locked into the ماضي', 'That أَخَذَ is متعدٍّ', 'That أَخَذَ is ناقص التصرف'],
             correct: 1,
@@ -74,9 +74,9 @@ export default {
           heading: 'الملازم للمضي: المدح والذم والاستثناء',
           lines: [
             { table: { headers: ['الفعل (Verb)', 'بابه (Its Category)', 'المثال (Example, with Translation)'], rows: [
-              ['نِعْمَ، حَبَّذَا', 'used for المَدْح (praise)', 'نِعْمَ الرَّجُلُ زَيْدٌ — "What an excellent man Zayd is!"'],
+              ['نِعْمَ، حَبَّذَا', 'used for المَدْح (praise)', 'نِعْمَ الرَّجُلُ زَيْدٌ — What an excellent man Zayd is!'],
               ['بِئْسَ، ساءَ', 'used for الذَّمّ (blame) — the opposite of المدح, praise', '—'],
-              ['خَلا، عَدا، حاشا', 'used for الاسْتِثْناء (exception)', 'جاءَ القَوْمُ خَلا زَيدٍ — "The people came, except Zayd"'],
+              ['خَلا، عَدا، حاشا', 'used for الاسْتِثْناء (exception)', 'جاءَ القَوْمُ خَلا زَيدٍ — The people came, except Zayd'],
             ] } },
             { html: `The list is not agreed in full, and the disagreement is flagged in the text itself:`, list: false },
             { box: { title: 'Core Text', lines: [
@@ -84,7 +84,7 @@ export default {
             ] } },
             { html: `Three of the six are held by some to be حروف rather than أفعال at all, and two more are held by the الكوفيون to be أسماء.`, list: false },
           ],
-          clarification: `The dispute is worth understanding, because it is not about these words' meaning but about their class. A word can only be called جامد if it is a فعل to begin with — a حرف has no forms to inflect through, so calling it "frozen" says nothing. Those who count خلا، عدا and حاشا as حروف are therefore removing them from this باب altogether, not disagreeing about their behaviour. The same holds for the Kūfan view of نِعْمَ and بِئْسَ: classing them as أسماء takes them out of the question. On the view followed here all six are أفعال, and their never leaving the ماضي is what makes them جامدة.`,
+          clarification: `The dispute is worth understanding, because it is not about these words' meaning but about their class. A word can only be called جامد if it is a فعل to begin with — a حرف has no forms to inflect through, so calling it frozen says nothing. Those who count خلا، عدا and حاشا as حروف are therefore removing them from this باب altogether, not disagreeing about their behaviour. The same holds for the Kūfan view of نِعْمَ and بِئْسَ: classing them as أسماء takes them out of the question. On the view followed here all six are أفعال, and their never leaving the ماضي is what makes them جامدة.`,
           exercise: {
             prompt: `Some hold خَلا، عَدا and حاشا to be حروف. What follows for this باب if that view is taken?`,
             kind: 'mcq',
@@ -97,15 +97,15 @@ export default {
           lines: [
             { html: `This kind is small.`, list: false },
             { table: { headers: ['الفعل', 'بمعنى (Meaning)', 'المثال (Example, with Translation)'], rows: [
-              ['هَبْ', 'ظُنَّ — "suppose"', 'هَبْ زَيدًا مُسافِرًا — "Suppose Zayd is a traveler"'],
-              ['تَعَلَّمْ', 'اعْلَمْ — "know (that)"', '—'],
-              ['تَعالَ', '"come!"', 'مختلَف فيه — contested (see below)'],
-              ['هَلُمَّ', '"come here! / bring!"', 'مختلَف فيه — contested (see below)'],
+              ['هَبْ', 'ظُنَّ — suppose', 'هَبْ زَيدًا مُسافِرًا — Suppose Zayd is a traveler'],
+              ['تَعَلَّمْ', 'اعْلَمْ — know (that)', '—'],
+              ['تَعالَ', 'come!', 'مختلَف فيه — contested (see below)'],
+              ['هَلُمَّ', 'come here! / bring!', 'مختلَف فيه — contested (see below)'],
             ] } },
             { box: { title: 'Core Text', lines: [
               `ولا ثالِثَ لَهُما`,
             ] } },
-            { html: `Said of the first two — "and there is no third for them" — meaning هَبْ and تَعَلَّمْ have no third verb joining them in this settled category. تَعالَ and هَلُمَّ are nonetheless commonly listed alongside them, and are marked as contested.`, list: false },
+            { html: `Said of the first two — and there is no third for them — meaning هَبْ and تَعَلَّمْ have no third verb joining them in this settled category. تَعالَ and هَلُمَّ are nonetheless commonly listed alongside them, and are marked as contested.`, list: false },
             { html: `Note that هَبْ here is not the imperative of وَهَبَ, and تَعَلَّمْ is not the imperative of تَعَلَّمَ. Each is a distinct frozen form carrying a meaning of its own.`, list: false },
           ],
           clarification: `The tension between ولا ثالث لهما and the two extra verbs is a real one, not a slip. On the strict reading, هَبْ and تَعَلَّمْ are the only two that are unambiguously أفعال locked into the أمر with no ماضٍ and no مضارع anywhere in the language. تَعالَ and هَلُمَّ behave the same way in use, but their status is argued over — تَعالَ is traced by some back to تَعالَى, giving it a ماضٍ after all, and هَلُمَّ is held by the Ḥijāzīs to be an اسم فعل rather than a فعل, which would put it outside this باب for the same reason that classing خلا as a حرف puts خلا outside it. So learn هَبْ and تَعَلَّمْ as the settled pair, and تَعالَ and هَلُمَّ as the two that are commonly added.`,
@@ -167,7 +167,7 @@ export default {
         {
           title: 'كرَب',
           kind: 'mcq',
-          prompt: 'كَرَبَ الأَمْرُ يَنْتَهِي ("the matter was about to end") means the same as كادَ. Which family does كَرَبَ belong to?',
+          prompt: 'كَرَبَ الأَمْرُ يَنْتَهِي (the matter was about to end) means the same as كادَ. Which family does كَرَبَ belong to?',
           options: ['أفعال الشروع', 'أخوات كان', 'أفعال المقاربة', 'أفعال الرجاء'],
           correct: 2,
         },
@@ -181,7 +181,7 @@ export default {
         {
           title: 'تعالَ وهلمّ',
           kind: 'mcq',
-          prompt: 'تَعالَ ("come!") and هَلُمَّ ("come here!") are commonly added to هَبْ and تَعَلَّمْ as جامدة ملازمة للأمرية, but their status is contested. Why?',
+          prompt: 'تَعالَ (come!) and هَلُمَّ (come here!) are commonly added to هَبْ and تَعَلَّمْ as جامدة ملازمة للأمرية, but their status is contested. Why?',
           options: [
             'They are held by the الكوفيون to be أسماء',
             'تَعالَ is traced by some back to a ماضٍ (تَعالَى), and هَلُمَّ is held by the الحجازيّون to be an اسم فعل rather than a فعل',
@@ -331,7 +331,7 @@ export default {
               `وهو أَغْلَبُ الأَفْعالِ`,
             ] } },
             { html: `All three forms come from it, and this is the ordinary case — by far the commonest kind of verb.`, list: false },
-            { html: `نَصَرَ ("he helped") is a ثلاثي مجرد and دَحْرَجَ ("he rolled") a رباعي مجرد, and both inflect fully — so both bases of the earlier division are covered.`, list: false },
+            { html: `نَصَرَ (he helped) is a ثلاثي مجرد and دَحْرَجَ (he rolled) a رباعي مجرد, and both inflect fully — so both bases of the earlier division are covered.`, list: false },
           ],
           exercise: {
             prompt: `Which class of verb is described as أغلب الأفعال؟`,
@@ -377,7 +377,7 @@ export default {
             ] } },
             { html: `Said of كادَ and أَوْشَكَ: they are among أفعال المقاربة, the verbs of nearness — verbs that say an action is about to happen rather than reporting that it has. Set that beside the جامد list of the previous lesson and a pattern appears: كَرَبَ is also a فعل مقاربة, yet it is جامد, while كادَ and أَوْشَكَ are ناقصة التصرف. Membership of a semantic family does not settle how a verb inflects — each verb has to be taken on its own.`, list: false },
           ],
-          clarification: `The same holds inside أفعال المقاربة as inside every other family here. كَرَبَ has only a ماضي, so it is جامد; كادَ and أَوْشَكَ have a ماضي and a مضارع but no أمر, so they are ناقصة التصرف. Nothing about "being a فعل مقاربة" determines which. That is why this division cuts across the semantic classifications rather than following them — it is asking a purely formal question about which of the three forms a given verb actually has in use.`,
+          clarification: `The same holds inside أفعال المقاربة as inside every other family here. كَرَبَ has only a ماضي, so it is جامد; كادَ and أَوْشَكَ have a ماضي and a مضارع but no أمر, so they are ناقصة التصرف. Nothing about being a فعل مقاربة determines which. That is why this division cuts across the semantic classifications rather than following them — it is asking a purely formal question about which of the three forms a given verb actually has in use.`,
           exercise: {
             prompt: `كَرَبَ and كادَ are both أفعال مقاربة, yet they fall on different sides of this division. Why?`,
             kind: 'mcq',
@@ -576,10 +576,10 @@ export default {
             ] } },
             { html: `Which letter is a matter of person and number; what vowel it takes is fixed by the length of the ماضي.`, list: false },
             { table: { title: 'ضبط حرف المضارعة', headers: ['الحالة', 'الضبط', 'أمثلة (with Meaning)'], rows: [
-              ['في الرُّباعي', 'مَضْمُومًا', 'يُدَحْرِج — "he rolls"'],
-              ['في غَيْرِهِ', 'مَفْتُوحًا', 'يَكْتُب — "he writes", يَنْطَلِق — "he sets off", يَسْتَغْفِر — "he seeks forgiveness"'],
+              ['في الرُّباعي', 'مَضْمُومًا', 'يُدَحْرِج — he rolls'],
+              ['في غَيْرِهِ', 'مَفْتُوحًا', 'يَكْتُب — he writes, يَنْطَلِق — he sets off, يَسْتَغْفِر — he seeks forgiveness'],
             ] } },
-            { html: `الرُّباعي here means a ماضي of four letters, however those letters arose — دَحْرَجَ ("he rolled"), but equally أَكْرَمَ ("he honored"), عَظَّمَ ("he magnified"), قاتَلَ ("he fought"), whose مضارع is يُكْرِم، يُعَظِّم، يُقاتِل. Anything longer or shorter takes a fatḥa, which is why يَسْتَغْفِر at six letters and يَكْتُب at three both do.`, list: false },
+            { html: `الرُّباعي here means a ماضي of four letters, however those letters arose — دَحْرَجَ (he rolled), but equally أَكْرَمَ (he honored), عَظَّمَ (he magnified), قاتَلَ (he fought), whose مضارع is يُكْرِم، يُعَظِّم، يُقاتِل. Anything longer or shorter takes a fatḥa, which is why يَسْتَغْفِر at six letters and يَكْتُب at three both do.`, list: false },
           ],
           exercise: {
             prompt: `يَسْتَغْفِر has six letters, more than يُدَحْرِج. Why does it take a fatḥa on its حرف مضارعة rather than a ḍamma?`,
@@ -595,7 +595,7 @@ export default {
               `إن كان الماضي ثُلاثِيًّا، سُكِّنَتْ فاؤُهُ، وحُرِّكَتْ عَيْنُهُ بِضَمَّةٍ أو فَتْحَةٍ أو كَسْرَةٍ، حَسَبَما يَقْتَضِيهِ نَصُّ اللُغَةِ`,
               `كيَنْصُرُ ويَفْتَحُ ويَضْرِبُ`,
             ] } },
-            { html: `Two operations: the فاء is silenced, and the عين takes whichever of the three vowels the language has fixed for that verb — which is to say, whichever باب it belongs to. نص اللغة is doing the work that a rule cannot: there is nothing in the ماضي itself to predict it from. The three examples are يَنْصُرُ ("he helps"), يَفْتَحُ ("he opens") and يَضْرِبُ ("he strikes") — one verb per vowel, ضمة، فتحة، كسرة respectively.`, list: false },
+            { html: `Two operations: the فاء is silenced, and the عين takes whichever of the three vowels the language has fixed for that verb — which is to say, whichever باب it belongs to. نص اللغة is doing the work that a rule cannot: there is nothing in the ماضي itself to predict it from. The three examples are يَنْصُرُ (he helps), يَفْتَحُ (he opens) and يَضْرِبُ (he strikes) — one verb per vowel, ضمة، فتحة، كسرة respectively.`, list: false },
           ],
           exercise: {
             prompt: `What decides which of the three vowels the عين of the مضارع carries?`,
@@ -612,9 +612,9 @@ export default {
             ] } },
             { html: `Three rules then apply in turn.`, list: false },
             { table: { headers: ['القاعدة (Rule)', 'أمثلة (Examples, with Meaning)'], rows: [
-              ['بَقِيَ على حالِهِ إن كان مَبْدُوءًا بِتاءٍ زائِدَةٍ — it stays as it is, if it begins with an added تاء', 'يَتَشارَك — "he shares", يَتَعَلَّم — "he learns", يَتَدَحْرَج — "he rolls (himself)"'],
-              ['وإلَّا كُسِرَ ما قَبْلَ آخِرِهِ — otherwise, the letter before its last one takes a كسرة', 'يُعَظِّم — "he magnifies", يُقاتِل — "he fights"'],
-              ['وحُذِفَتِ الهَمْزَةُ الزائِدَةُ في أَوَّلِهِ إن كانَتْ — and the added همزة at its start, if any, is dropped', 'يُكْرِم — "he honors", يَسْتَخْرِج — "he extracts"'],
+              ['بَقِيَ على حالِهِ إن كان مَبْدُوءًا بِتاءٍ زائِدَةٍ — it stays as it is, if it begins with an added تاء', 'يَتَشارَك — he shares, يَتَعَلَّم — he learns, يَتَدَحْرَج — he rolls (himself)'],
+              ['وإلَّا كُسِرَ ما قَبْلَ آخِرِهِ — otherwise, the letter before its last one takes a كسرة', 'يُعَظِّم — he magnifies, يُقاتِل — he fights'],
+              ['وحُذِفَتِ الهَمْزَةُ الزائِدَةُ في أَوَّلِهِ إن كانَتْ — and the added همزة at its start, if any, is dropped', 'يُكْرِم — he honors, يَسْتَخْرِج — he extracts'],
             ] } },
             { html: `The first rule is the exception and the second the default: a verb beginning with a زائدة تاء keeps its vowelling untouched, everything else takes a kasra before its last letter.`, list: false },
           ],
@@ -633,7 +633,7 @@ export default {
               `أن يُحْذَفَ حَرْفُ المُضارَعَةِ، كعَظِّمْ، تَشارَكْ، تَعَلَّمْ`,
               `فإن كان أَوَّلُ الباقي ساكِنًا زِيدَ في أَوَّلِهِ هَمْزَةٌ، كانْصُرْ، افْتَحْ، اضْرِبْ، وأَكْرِمْ، انْطَلِقْ، اسْتَغْفِرْ`,
             ] } },
-            { html: `The first line gives three أمر forms with nothing added — عَظِّمْ ("magnify!"), تَشارَكْ ("share!"), تَعَلَّمْ ("learn!"). The second gives six with an added همزة — انْصُرْ ("help!"), افْتَحْ ("open!"), اضْرِبْ ("strike!"), أَكْرِمْ ("honor!"), انْطَلِقْ ("set off!"), اسْتَغْفِرْ ("seek forgiveness!"). The condition explains the split: عَظِّمْ and تَشارَكْ begin with a vowelled letter once the حرف مضارعة is gone, so nothing is added; انْصُرْ and اسْتَغْفِرْ would begin with a sukūn, which Arabic cannot start a word on, so a همزة is supplied.`, list: false },
+            { html: `The first line gives three أمر forms with nothing added — عَظِّمْ (magnify!), تَشارَكْ (share!), تَعَلَّمْ (learn!). The second gives six with an added همزة — انْصُرْ (help!), افْتَحْ (open!), اضْرِبْ (strike!), أَكْرِمْ (honor!), انْطَلِقْ (set off!), اسْتَغْفِرْ (seek forgiveness!). The condition explains the split: عَظِّمْ and تَشارَكْ begin with a vowelled letter once the حرف مضارعة is gone, so nothing is added; انْصُرْ and اسْتَغْفِرْ would begin with a sukūn, which Arabic cannot start a word on, so a همزة is supplied.`, list: false },
           ],
           clarification: `Why can a word not begin on a sukūn? Because a سَاكِن letter carries no vowel of its own to be pronounced with, and Arabic has no way of voicing one at the very start of an utterance — there is nothing before it to lean on. Strip يَنْصُرُ of its ياء and you are left with نْصُرْ, whose first letter is silent and therefore unpronounceable in isolation. The همزة supplied at the front of انْصُرْ، افْتَحْ، انْطَلِقْ and اسْتَغْفِرْ is a هَمْزَة وَصْل: it carries a vowel, gets the word started, and drops away in pronunciation as soon as something precedes it. أَكْرِمْ is the odd one in that list — its همزة is the همزة of أَفْعَلَ, a هَمْزَة قَطْع, which never drops.`,
           exercise: {

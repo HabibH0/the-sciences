@@ -82,7 +82,7 @@ export default {
               ['إِنْ زُرْتَنِي أُكْرِمْكَ', 'زُرْتَنِي is ماضٍ in form, but the visit lies ahead — إِنْ الشرطية has thrown it forward'],
               ['﴿إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ﴾', 'أَعْطَيْنَا is ماضٍ, yet the giving is promised, not completed — the ماضي form conveys the certainty of the promise'],
             ] } },
-            { html: `In both cases the form says "past" and the meaning says "future", which is exactly why غالبًا stands in the definition.`, list: false },
+            { html: `In both cases the form says past and the meaning says future, which is exactly why غالبًا stands in the definition.`, list: false },
           ],
           clarification: `Why would Arabic put a future event in the ماضي form at all? For two different reasons in these two examples. After إِنْ الشرطية the ماضي form loses its own time reference and simply supplies the condition — the time is then fixed by the شرط structure, not by the verb. In ﴿إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ﴾ the reason is rhetorical: casting a promise in the ماضي presents it as already accomplished, and so as beyond doubt. The form is the same; what makes it non-past differs.`,
           exercise: {
@@ -128,7 +128,7 @@ export default {
         },
         {
           q: 'What are the two علامات of الماضي؟',
-          options: ['قَدْ والسين', 'لام الابتداء و"لا" النافية', 'نون التوكيد وياء المخاطبة', 'تاء الفاعل وتاء التأنيث الساكنة'],
+          options: ['قَدْ والسين', 'لام الابتداء ولا النافية', 'نون التوكيد وياء المخاطبة', 'تاء الفاعل وتاء التأنيث الساكنة'],
           correct: 3,
         },
         {
@@ -158,7 +158,7 @@ export default {
           correct: 1,
         },
         {
-          title: 'قوة "غالبًا"',
+          title: 'قوة غالبًا',
           kind: 'mcq',
           prompt: 'In which of the three verb definitions does the qualifier غالبًا occur?',
           options: ['In the definition of اسم الفعل', 'In the definitions of both الماضي and المضارع', 'In the definition of الماضي only', 'In the definition of الأمر only'],
@@ -344,7 +344,7 @@ export default {
             { box: { title: 'Core Text', lines: [
               `خَرَجَ منه ﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾`,
             ] } },
-            { html: `Excluded from the definition is He begets not, nor is He begotten. يَلِدْ and يُولَدْ are مضارع in form, but لَمْ has turned their meaning to the past — so here the form says "present or future" and the meaning says "past".`, list: false },
+            { html: `Excluded from the definition is "He begets not, nor is He begotten." يَلِدْ and يُولَدْ are مضارع in form, but لَمْ has turned their meaning to the past — so here the form says present or future and the meaning says past.`, list: false },
             { html: `Note the symmetry with the previous lesson: الماضي could be pulled forward in time, and المضارع can be pushed back. In both cases the form is unaffected.`, list: false },
           ],
           exercise: {
@@ -357,11 +357,11 @@ export default {
         {
           heading: 'ما يعينه للحال',
           lines: [
-            { html: `Three things fix a مضارع to the present: <bdi>لَامُ الابْتِدَاءِ</bdi>, and the two negating particles <bdi>"لا"</bdi> and <bdi>"ما"</bdi>.`, list: false },
+            { html: `Three things fix a مضارع to the present: <bdi>لَامُ الابْتِدَاءِ</bdi>, and the two negating particles <bdi>لا</bdi> and <bdi>ما</bdi>.`, list: false },
             { table: { title: 'شواهد التعيين للحال', headers: ['المعيِّن', 'الشاهد', 'Translation'], rows: [
               ['لام الابتداء', '﴿إِنِّي لَيَحْزُنُنِي أَنْ تَذْهَبُوا بِهِ﴾ [يوسف: ١٣]', 'Indeed it grieves me that you should take him away'],
-              ['"لا" النافية', '﴿لَا يُحِبُّ اللهُ الْجَهْرَ بِالسُّوءِ مِنَ الْقَوْلِ﴾ [النساء: ١٤٨]', 'Allah does not like the public mention of evil in speech'],
-              ['"ما" النافية', '﴿وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا﴾ [لقمان: ٣٤]', 'No soul knows what it will earn tomorrow'],
+              ['لا النافية', '﴿لَا يُحِبُّ اللهُ الْجَهْرَ بِالسُّوءِ مِنَ الْقَوْلِ﴾ [النساء: ١٤٨]', 'Allah does not like the public mention of evil in speech'],
+              ['ما النافية', '﴿وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا﴾ [لقمان: ٣٤]', 'No soul knows what it will earn tomorrow'],
             ] } },
             { html: `In every case something present is being asserted, not something still to come.`, list: false },
             { html: `But لام الابتداء does not always succeed:`, list: false },
@@ -404,7 +404,7 @@ export default {
             { html: `The مضارع has one test to identify it and one requirement on its opening letter.`, list: false },
             { box: { title: 'Core Text', lines: [
               `وعَلَامَتُهُ: أن يَصِحَّ وُقُوعُهُ بَعْدَ لَمْ، نحو: ﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾`,
-              `ولا بُدَّ أن يكونَ مَبْدُوءًا بِحَرْفٍ من حُرُوفِ "أَنَيْتُ"، وتُسَمَّى أَحْرُفَ المُضَارَعَةِ`,
+              `ولا بُدَّ أن يكونَ مَبْدُوءًا بِحَرْفٍ من حُرُوفِ أَنَيْتُ، وتُسَمَّى أَحْرُفَ المُضَارَعَةِ`,
             ] } },
             { html: `The test is whether the verb can stand after لَمْ; the requirement is that it open with one of ء، ن، ي، ت, collected in the mnemonic أَنَيْتُ.`, list: false },
             { html: `Note that the same آية which was an exception to the definition is the شاهد for the علامة. لَمْ shifts the meaning to the past, but the ability to sit after لَمْ at all is precisely what proves the form is مضارع.`, list: false },
@@ -430,7 +430,7 @@ export default {
         },
         {
           q: 'Which three things fix المضارع to الحال؟',
-          options: ['أَنْ وإِنْ ولَنْ', 'قَدْ ولَمْ ولَنْ', 'السين وسوف ولن', 'لام الابتداء و"لا" و"ما" النافيتان'],
+          options: ['أَنْ وإِنْ ولَنْ', 'قَدْ ولَمْ ولَنْ', 'السين وسوف ولن', 'لام الابتداء ولا وما النافيتان'],
           correct: 3,
         },
         {
@@ -468,7 +468,7 @@ export default {
           title: 'لم يلد',
           kind: 'mcq',
           prompt: '﴿لَمْ يَلِدْ وَلَمْ يُولَدْ﴾ — He begets not, nor is He begotten — serves two separate roles in the treatment of المضارع. What are they?',
-          options: ['As an exception to the definition, and as the شاهد for the علامة', 'As a شاهد for لام الابتداء, and for "لا" النافية', 'As an exception, and as a شاهد for الاستقبال', 'As a شاهد for الأمر, and for المضارع'],
+          options: ['As an exception to the definition, and as the شاهد for the علامة', 'As a شاهد for لام الابتداء, and for لا النافية', 'As an exception, and as a شاهد for الاستقبال', 'As a شاهد for الأمر, and for المضارع'],
           correct: 0,
         },
         {
@@ -496,7 +496,7 @@ export default {
           title: 'ليحكم بينهم',
           kind: 'mcq',
           prompt: '﴿إِنَّ رَبَّكَ لَيَحْكُمُ بَيْنَهُمْ يَوْمَ الْقِيَامَةِ﴾ — indeed your Lord will judge between them on the Day of Resurrection — is marked خرج منه. What is it an exception to?',
-          options: ['To the علامة of المضارع', 'To "ما" النافية fixing it to الحال', 'To لام الابتداء fixing المضارع to الحال', 'To the definition of المضارع'],
+          options: ['To the علامة of المضارع', 'To ما النافية fixing it to الحال', 'To لام الابتداء fixing المضارع to الحال', 'To the definition of المضارع'],
           correct: 2,
         },
         {
@@ -507,17 +507,17 @@ export default {
           correct: 1,
         },
         {
-          title: '"لا" النافية',
+          title: 'لا النافية',
           kind: 'mcq',
           prompt: 'In ﴿لَا يُحِبُّ اللهُ الْجَهْرَ بِالسُّوءِ مِنَ الْقَوْلِ﴾ — Allah does not like the public mention of evil in speech — which معيِّن is at work?',
-          options: ['لَنْ', '"لا" النافية fixing المضارع to الحال', 'لام الابتداء', '"ما" النافية'],
+          options: ['لَنْ', 'لا النافية fixing المضارع to الحال', 'لام الابتداء', 'ما النافية'],
           correct: 1,
         },
         {
-          title: '"ما" النافية',
+          title: 'ما النافية',
           kind: 'mcq',
           prompt: 'In ﴿وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا﴾ — no soul knows what it will earn tomorrow — which particle is the معيِّن للحال؟',
-          options: ['مَاذَا', 'غَدًا', 'The و at the start', '"ما" النافية before تَدْرِي'],
+          options: ['مَاذَا', 'غَدًا', 'The و at the start', 'ما النافية before تَدْرِي'],
           correct: 3,
         },
         {
@@ -607,7 +607,7 @@ export default {
         {
           title: 'التعيين للحال',
           kind: 'mcq',
-          prompt: 'A مضارع is preceded by "لا" النافية and the sentence says nothing else about time. What time does it carry?',
+          prompt: 'A مضارع is preceded by لا النافية and the sentence says nothing else about time. What time does it carry?',
           options: ['الحال', 'الاستقبال', 'الماضي', 'It remains ambiguous'],
           correct: 0,
         },
@@ -676,7 +676,7 @@ export default {
             { html: `This is why they are called أسماء and not أفعال: the meaning is verbal, but the word behaves as a noun.`, list: false },
           ],
           exercise: {
-            prompt: `صَهْ means "be quiet" (اسْكُتْ). Why is it an اسم فعل rather than a فعل أمر?`,
+            prompt: `صَهْ means be quiet (اسْكُتْ). Why is it an اسم فعل rather than a فعل أمر?`,
             kind: 'mcq',
             options: ['Because it is مبني', 'Because it has only three letters', 'Because it carries the meaning but does not accept the علامات of الفعل', 'Because its meaning is not really a command'],
             correct: 2,
@@ -687,9 +687,9 @@ export default {
           lines: [
             { html: `اسم الفعل divides in parallel with الفعل itself.`, list: false },
             { table: { title: 'The Three Kinds', headers: ['القسم', 'أمثلة', 'بمعنى', 'Meaning'], rows: [
-              ['اسْمُ فِعْلٍ مَاضٍ', 'هَيْهَاتَ، شَتَّانَ', 'بَعُدَ، افْتَرَقَ', '"to be far" (هَيْهَاتَ); "to differ, be separated" (شَتَّانَ)'],
-              ['اسْمُ فِعْلٍ مُضَارِعٍ', 'وَيْ، أُفٍّ', 'أَتَعَجَّبُ، أَتَضَجَّرُ', '"how amazing!" (وَيْ); "ugh, how tiresome!" (أُفٍّ)'],
-              ['اسْمُ فِعْلٍ أَمْرٍ', 'صَهْ، آمِينَ', 'اسْكُتْ، اسْتَجِبْ', '"be quiet" (صَهْ); "answer [our prayer]" (آمِينَ)'],
+              ['اسْمُ فِعْلٍ مَاضٍ', 'هَيْهَاتَ، شَتَّانَ', 'بَعُدَ، افْتَرَقَ', 'to be far (هَيْهَاتَ); to differ, be separated (شَتَّانَ)'],
+              ['اسْمُ فِعْلٍ مُضَارِعٍ', 'وَيْ، أُفٍّ', 'أَتَعَجَّبُ، أَتَضَجَّرُ', 'how amazing! (وَيْ); ugh, how tiresome! (أُفٍّ)'],
+              ['اسْمُ فِعْلٍ أَمْرٍ', 'صَهْ، آمِينَ', 'اسْكُتْ، اسْتَجِبْ', 'be quiet (صَهْ); answer [our prayer] (آمِينَ)'],
             ] } },
             { box: { title: 'Core Text', lines: [
               `وهو أَكْثَرُهَا وُجُودًا`,
@@ -697,7 +697,7 @@ export default {
             { html: `Said of the third kind: اسم فعل أمر is the commonest of the three.`, list: false },
           ],
           exercise: {
-            prompt: `هَيْهَاتَ means "to be far" (بَعُدَ). Which kind of اسم فعل is it?`,
+            prompt: `هَيْهَاتَ means to be far (بَعُدَ). Which kind of اسم فعل is it?`,
             kind: 'mcq',
             options: ['اسم فعل ماضٍ', 'اسم فعل مضارع', 'اسم فعل أمر', 'It is a فعل ماضٍ, not an اسم فعل'],
             correct: 0,
@@ -722,7 +722,7 @@ export default {
         },
         {
           q: 'شَتَّانَ is an اسم فعل meaning:',
-          options: ['"to differ, be separated" (افْتَرَقَ)', '"how amazing!" (أَتَعَجَّبُ)', '"be quiet" (اسْكُتْ)', '"to be far" (بَعُدَ)'],
+          options: ['to differ, be separated (افْتَرَقَ)', 'how amazing! (أَتَعَجَّبُ)', 'be quiet (اسْكُتْ)', 'to be far (بَعُدَ)'],
           correct: 0,
         },
         {
@@ -752,7 +752,7 @@ export default {
           correct: 3,
         },
         {
-          title: 'غياب "غالبًا"',
+          title: 'غياب غالبًا',
           kind: 'mcq',
           prompt: 'Unlike الماضي and المضارع, the definition of الأمر carries no غالبًا. What does that indicate?',
           options: ['No exception to the definition is admitted', 'The definition is incomplete', 'الأمر has no time reference', 'الأمر has no علامة'],
@@ -825,34 +825,34 @@ export default {
           title: 'هيهات',
           kind: 'mcq',
           prompt: 'هَيْهَاتَ means:',
-          options: ['"how amazing!" (أَتَعَجَّبُ)', '"answer [our prayer]" (اسْتَجِبْ)', '"to be far" (بَعُدَ)', '"to differ, be separated" (افْتَرَقَ)'],
+          options: ['how amazing! (أَتَعَجَّبُ)', 'answer [our prayer] (اسْتَجِبْ)', 'to be far (بَعُدَ)', 'to differ, be separated (افْتَرَقَ)'],
           correct: 2,
         },
         {
           title: 'وَيْ',
           kind: 'mcq',
           prompt: 'وَيْ means:',
-          options: ['"how amazing!" (أَتَعَجَّبُ)', '"how tiresome!" (أَتَضَجَّرُ)', '"to be far" (بَعُدَ)', '"be quiet" (اسْكُتْ)'],
+          options: ['how amazing! (أَتَعَجَّبُ)', 'how tiresome! (أَتَضَجَّرُ)', 'to be far (بَعُدَ)', 'be quiet (اسْكُتْ)'],
           correct: 0,
         },
         {
           title: 'صه',
           kind: 'mcq',
           prompt: 'صَهْ means:',
-          options: ['"answer [our prayer]" (اسْتَجِبْ)', '"to differ, be separated" (افْتَرَقَ)', '"how tiresome!" (أَتَضَجَّرُ)', '"be quiet" (اسْكُتْ)'],
+          options: ['answer [our prayer] (اسْتَجِبْ)', 'to differ, be separated (افْتَرَقَ)', 'how tiresome! (أَتَضَجَّرُ)', 'be quiet (اسْكُتْ)'],
           correct: 3,
         },
         {
           title: 'آمين',
           kind: 'mcq',
           prompt: 'آمِينَ is an اسم فعل أمر meaning:',
-          options: ['"be quiet" (اسْكُتْ)', '"to be far" (بَعُدَ)', '"how amazing!" (أَتَعَجَّبُ)', '"answer [our prayer]" (اسْتَجِبْ)'],
+          options: ['be quiet (اسْكُتْ)', 'to be far (بَعُدَ)', 'how amazing! (أَتَعَجَّبُ)', 'answer [our prayer] (اسْتَجِبْ)'],
           correct: 3,
         },
         {
           title: 'أُفٍّ',
           kind: 'mcq',
-          prompt: 'أُفٍّ means "how tiresome!" (أَتَضَجَّرُ). Which kind of اسم فعل does that make it?',
+          prompt: 'أُفٍّ means how tiresome! (أَتَضَجَّرُ). Which kind of اسم فعل does that make it?',
           options: ['It is a حرف of complaint', 'اسم فعل مضارع', 'اسم فعل ماضٍ', 'اسم فعل أمر'],
           correct: 1,
         },
@@ -874,13 +874,13 @@ export default {
           title: 'شتان وهيهات',
           kind: 'mcq',
           prompt: 'What do شَتَّانَ and هَيْهَاتَ have in common?',
-          options: ['Both accept تاء الفاعل', 'Both are أسماء أفعال ماضية', 'Both mean "to be far" (بَعُدَ)', 'Both are أسماء أفعال أمر'],
+          options: ['Both accept تاء الفاعل', 'Both are أسماء أفعال ماضية', 'Both mean to be far (بَعُدَ)', 'Both are أسماء أفعال أمر'],
           correct: 1,
         },
         {
           title: 'اختبار اسم الفعل',
           kind: 'mcq',
-          prompt: 'How would you show that هَيْهَاتَ is not a فعل ماضٍ despite meaning "to be far" (بَعُدَ)؟',
+          prompt: 'How would you show that هَيْهَاتَ is not a فعل ماضٍ despite meaning to be far (بَعُدَ)؟',
           options: ['By showing it begins with a حرف مضارعة', 'By showing it accepts neither تاء الفاعل nor تاء التأنيث الساكنة', 'By showing it does not refer to the past', 'By showing it cannot stand after لَمْ'],
           correct: 1,
         },

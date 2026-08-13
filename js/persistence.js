@@ -1,11 +1,29 @@
 import { loadProgress, saveProgress } from './storage/storageManager.js';
 
-export function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+function isoDateAt(ts) {
+  const d = new Date(ts);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
-function yesterdayISO() {
-  return new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+// The calendar day the app currently treats as "today", shifted back by
+// resetHour hours first -- so with resetHour 4, a 1am session still counts
+// as the previous day. resetHour is state.dailyResetHour (Schedule tab ->
+// Daily reset time); callers that predate the setting, or run before state
+// exists (bootProgress below), default to 0 (plain local midnight).
+export function todayISO(resetHour = 0) {
+  return isoDateAt(Date.now() - resetHour * 3600000);
+}
+
+function yesterdayISO(resetHour = 0) {
+  return isoDateAt(Date.now() - resetHour * 3600000 - 86400000);
+}
+
+function normalizeResetHour(value) {
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 0 && n <= 23 ? n : 0;
 }
 
 // scheduleDeadline used to be one flat value shared by every course's
@@ -76,8 +94,9 @@ export async function saveRaw(data) {
 // unchanged on a same-day revisit.
 export async function bootProgress() {
   const saved = await loadRaw();
-  const today = todayISO();
-  const yesterday = yesterdayISO();
+  const dailyResetHour = normalizeResetHour(saved.dailyResetHour);
+  const today = todayISO(dailyResetHour);
+  const yesterday = yesterdayISO(dailyResetHour);
 
   let streak = saved.streak || 1;
   if (saved.lastVisit === today) {
@@ -99,6 +118,7 @@ export async function bootProgress() {
     revealState: saved.revealState || {},
     practiceHistory: saved.practiceHistory || {},
     scheduleDeadline: migratePerCourse(saved.scheduleDeadline, courseId),
+    dailyResetHour,
     pathNodeStatus: saved.pathNodeStatus || {},
     pathReps: saved.pathReps || {},
     vocabExposure: saved.vocabExposure || {},
@@ -109,6 +129,7 @@ export async function bootProgress() {
     // Library existed, hence the usual default-don't-throw treatment.
     litProgress: saved.litProgress || {},
     litUnknown: saved.litUnknown || {},
+    litWordReps: saved.litWordReps || {},
     litCheckLang: saved.litCheckLang === 'en' ? 'en' : 'ar',
     litTextScale: normalizeLitTextScale(saved.litTextScale),
     litHoverTranslate: saved.litHoverTranslate !== false,
@@ -127,7 +148,7 @@ export async function bootProgress() {
     arabicHeadingFace,
     lessonTextScale: normalizeLessonTextScale(saved.lessonTextScale),
     tarkeebTranslations: saved.tarkeebTranslations !== false,
-    tarkeebLabelsBlue: saved.tarkeebLabelsBlue === true,
+    tarkeebLabelsBlue: saved.tarkeebLabelsBlue !== false,
     forceUnlockAll: defaultForceUnlockAll(saved),
     forceUnlockAllExplicit: defaultForceUnlockAllExplicit(saved),
     kufiHeadings: arabicHeadingFace === 'kufi',
@@ -185,6 +206,7 @@ function snapshot(state) {
     revealState: state.revealState,
     practiceHistory: state.practiceHistory,
     scheduleDeadline: state.scheduleDeadline,
+    dailyResetHour: state.dailyResetHour,
     pathNodeStatus: state.pathNodeStatus,
     pathReps: state.pathReps,
     vocabExposure: state.vocabExposure,
@@ -192,6 +214,7 @@ function snapshot(state) {
     masteryV2: state.masteryV2,
     litProgress: state.litProgress,
     litUnknown: state.litUnknown,
+    litWordReps: state.litWordReps,
     litCheckLang: state.litCheckLang === 'en' ? 'en' : 'ar',
     litTextScale: normalizeLitTextScale(state.litTextScale),
     litHoverTranslate: state.litHoverTranslate !== false,

@@ -57,7 +57,7 @@ export default {
     // ---------------------------------------------------------------- L1
     {
       id: 'l1',
-      title: 'النداء: أركانه وأحرفه',
+      title: 'أركان النداء',
       subtitle: 'The Construction of Calling Out — a dropped أدعو, its three أركان, and the seven أحرف that stand in its place',
       concepts: [
         {
@@ -209,7 +209,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'النداء: إعراب المنادى وأحكامه',
+      title: 'إعراب المنادى',
       subtitle: 'The إعراب of المنادى — منصوب لفظًا vs مبني cases, المضاف لياء المتكلم, ترخيم, and اللهم',
       concepts: [
         {
@@ -406,7 +406,7 @@ export default {
     // ---------------------------------------------------------------- L3
     {
       id: 'l3',
-      title: 'الاستغاثة ونداء التعجب',
+      title: 'الاستغاثة',
       subtitle: 'Calling Out for Rescue and in Astonishment — الاستغاثة’s three أركان, its فتحة/كسرة contrast, and نداء التعجب reusing the same skeleton',
       concepts: [
         {

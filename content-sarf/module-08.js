@@ -30,12 +30,12 @@ export default {
           lines: [
             { table: { title: 'قسما الفعل (The Two Divisions of الفعل)', headers: ['القسم (Division)', 'ويُسَمَّى (Also Called)', 'التعريف (Definition)'], rows: [
               ['مَبْنِيٌّ لِلْفاعِل', 'مَعْلُومًا', 'that with which its فاعل is mentioned'],
-              ['مَبْنِيٌّ لِلْمَفْعُول', 'مَجْهُولًا', 'that whose فاعل has been dropped — i.e. not mentioned — and something else put in its place, e.g. حُفِظَ الدَّرْسُ, "the lesson was memorized"'],
+              ['مَبْنِيٌّ لِلْمَفْعُول', 'مَجْهُولًا', 'that whose فاعل has been dropped — i.e. not mentioned — and something else put in its place, e.g. حُفِظَ الدَّرْسُ, the lesson was memorized'],
             ] } },
             { box: { title: 'Core Text', lines: [
               `نحو: حَفِظَ مُحَمَّدٌ الدَّرْسَ`,
             ] } },
-            { html: `That example reads "Muhammad memorized the lesson" — the doer, مُحَمَّدٌ, is named right there in the sentence, which is what makes the verb مَعْلُوم. Note the precision of غَيْرُ مَذْكُورٍ in the second definition: the doer is not absent from the event, only from the sentence. Something did the deed; the speaker has simply chosen not to name it.`, list: false },
+            { html: `That example reads Muhammad memorized the lesson — the doer, مُحَمَّدٌ, is named right there in the sentence, which is what makes the verb مَعْلُوم. Note the precision of غَيْرُ مَذْكُورٍ in the second definition: the doer is not absent from the event, only from the sentence. Something did the deed; the speaker has simply chosen not to name it.`, list: false },
           ],
           exercise: {
             prompt: `A verb is called مجهول. What exactly is unknown or absent?`,
@@ -55,7 +55,7 @@ export default {
               ['الجَهْلُ بِهِ — not knowing who it is', 'سُرِقَ المَتاعُ'],
               ['العِلْمُ بِهِ — it being already known', 'أُنْزِلَ المَطَرُ'],
             ] } },
-            { html: `سُرِقَ المَتاعُ, "the goods were stolen," drops the thief because he is unknown. أُنْزِلَ المَطَرُ, "the rain was sent down," drops the sender for the opposite reason — everyone already knows it is Allah who sends it, so naming Him adds nothing. The first two are opposites and both work: you drop the doer because you do not know who it was, or because everyone already knows who it was and naming him would be redundant.`, list: false },
+            { html: `سُرِقَ المَتاعُ, the goods were stolen, drops the thief because he is unknown. أُنْزِلَ المَطَرُ, the rain was sent down, drops the sender for the opposite reason — everyone already knows it is Allah who sends it, so naming Him adds nothing. The first two are opposites and both work: you drop the doer because you do not know who it was, or because everyone already knows who it was and naming him would be redundant.`, list: false },
           ],
           clarification: `That the two opposite reasons both produce the same construction is not a paradox. In سُرِقَ المَتاعُ the thief is unidentified, so there is no name to supply; in أُنْزِلَ المَطَرُ the sender of rain is known to every listener, so supplying the name adds nothing and may distract from the point being made about the rain. What the passive does in both cases is shift attention onto the thing affected — the goods, the rain — and it does that whether the doer is unknown or too well known to need saying. The construction is about focus, not about ignorance.`,
           exercise: {
@@ -98,7 +98,7 @@ export default {
             { box: { title: 'Core Text', lines: [
               `وفي هذه الحالَةِ يَجِبُ أن تُغَيَّرَ صُورَةُ الفِعْلِ عن أَصْلِها`,
             ] } },
-            { html: `صِيمَ رَمَضانُ means "Ramaḍān was fasted," and جُلِسَ أمامُ الأميرِ means "sitting took place before the prince" — in both, a ظرف has taken the فاعل's empty place. Whichever of these stands in — or the مفعول به itself — the verb must change shape. That change is the subject of the next two lessons.`, list: false },
+            { html: `صِيمَ رَمَضانُ means Ramaḍān was fasted, and جُلِسَ أمامُ الأميرِ means sitting took place before the prince — in both, a ظرف has taken the فاعل's empty place. Whichever of these stands in — or the مفعول به itself — the verb must change shape. That change is the subject of the next two lessons.`, list: false },
           ],
           exercise: {
             prompt: `In ﴿فإذا نُفِخَ في الصُّورِ نَفْخَةٌ واحِدَةٌ﴾, what stands in for the dropped فاعل؟`,
@@ -296,13 +296,13 @@ export default {
               `فإن كان ماضِيًا غَيْرَ مَبْدُوءٍ بِهَمْزَةِ وَصْلٍ ولا تاءٍ زائِدَةٍ، ولَيْسَتْ عَيْنُهُ أَلِفًا، ضُمَّ أَوَّلُهُ وكُسِرَ ما قَبْلَ آخِرِهِ`,
               `نحو: ضُرِبَ عَلِيٌّ`,
             ] } },
-            { html: `A ماضي that does not begin with a همزة وصل or an added تاء, and whose عين is not an ألف, takes a ḍamma on its first letter and a kasra on the letter before its last — ضُرِبَ عَلِيٌّ, "Ali was struck." Two vowel changes, and three exclusions built into the statement — each of which becomes a case of its own in the concepts that follow.`, list: false },
+            { html: `A ماضي that does not begin with a همزة وصل or an added تاء, and whose عين is not an ألف, takes a ḍamma on its first letter and a kasra on the letter before its last — ضُرِبَ عَلِيٌّ, Ali was struck. Two vowel changes, and three exclusions built into the statement — each of which becomes a case of its own in the concepts that follow.`, list: false },
             { html: `The kasra need not be visible to be there:`, list: false },
             { box: { title: 'Core Text', lines: [
               `ولو تَقْدِيرًا، نحو: رُدَّ المَبِيعُ`,
               `الأَصْلُ فيها مع فَكِّ الإدْغامِ: رُدِدَ ومُدِدَ وعُدِدَ`,
             ] } },
-            { html: `رُدَّ المَبِيعُ, "the sold item was returned," shows no kasra on the surface because the doubled letters have merged (إدغام). Undo that merger and the underlying forms — رُدِدَ، مُدِدَ، عُدِدَ — show the kasra exactly where the rule says it should be.`, list: false },
+            { html: `رُدَّ المَبِيعُ, the sold item was returned, shows no kasra on the surface because the doubled letters have merged (إدغام). Undo that merger and the underlying forms — رُدِدَ، مُدِدَ، عُدِدَ — show the kasra exactly where the rule says it should be.`, list: false },
           ],
           exercise: {
             prompt: `رُدَّ shows no kasra before its last letter. How does the rule still hold?`,
@@ -318,7 +318,7 @@ export default {
               ['مَبْدُوءًا بِتاءٍ زائِدَةٍ — beginning with an added تاء', 'ضُمَّ الثاني مع الأوَّلِ — the second letter takes a ضمة along with the first', 'تُعُلِّمَ الحِسابُ ، تُقُوتِلَ مع زَيْدٍ'],
               ['مَبْدُوءًا بِهَمْزَةِ وَصْلٍ — beginning with a همزة وصل', 'ضُمَّ الثالثُ مع الأوَّلِ — the third letter takes a ضمة along with the first', 'انْطُلِقَ بِزَيْدٍ ، اسْتُخْرِجَ المَعْدِنُ'],
             ] } },
-            { html: `تُعُلِّمَ الحِسابُ means "arithmetic was learned," and تُقُوتِلَ مع زَيْدٍ means "a fight was had with Zayd" — both begin with an added تاء, so both take the extra ḍamma on their second letter. انْطُلِقَ بِزَيْدٍ, "a setting-off was made with Zayd," and اسْتُخْرِجَ المَعْدِنُ, "the mineral was extracted," begin instead with a همزة وصل, so the extra ḍamma falls on the third letter. Both rules add a second ḍamma to the general one, and they differ only in which letter receives it — the second in one case, the third in the other. The general rule's kasra before the last letter still applies in both.`, list: false },
+            { html: `تُعُلِّمَ الحِسابُ means arithmetic was learned, and تُقُوتِلَ مع زَيْدٍ means a fight was had with Zayd — both begin with an added تاء, so both take the extra ḍamma on their second letter. انْطُلِقَ بِزَيْدٍ, a setting-off was made with Zayd, and اسْتُخْرِجَ المَعْدِنُ, the mineral was extracted, begin instead with a همزة وصل, so the extra ḍamma falls on the third letter. Both rules add a second ḍamma to the general one, and they differ only in which letter receives it — the second in one case, the third in the other. The general rule's kasra before the last letter still applies in both.`, list: false },
           ],
           clarification: `Take the two rules as they stand rather than looking for a deeper principle behind them: after a زائدة تاء the second letter takes the ḍamma, after a همزة وصل the third does, and that is the whole of it. It is tempting to try to derive the difference from how many letters sit at the front of each form, but the attempt fails — اسْتَخْرَجَ has three letters before its فاء and still takes its ḍamma on the third, exactly as انْطَلَقَ does with two. Note also that the ḍamma falls on those two positions only: in انْطُلِقَ and اسْتُخْرِجَ the letters in between stay sākin. What is constant across all three cases is the general rule's second half — a kasra on the letter before the last.`,
           exercise: {
@@ -336,11 +336,11 @@ export default {
               `وإن كانَتْ عَيْنُهُ أَلِفًا قُلِبَتْ ياءً، وكُسِرَ أَوَّلُهُ، بِإخْلاصِ الكَسْرِ، أو إشْمامِهِ الضَّمَّ`,
               `كما في قالَ وباعَ واخْتارَ وانْقادَ، تَقُولُ: بِيعَ الثَّوْبُ، وقِيلَ القَوْلُ، واخْتِيرَ هذا، وانْقِيدَ لَهُ`,
             ] } },
-            { html: `So the ألف becomes a ياء and the first letter takes a kasra rather than the usual ḍamma. بِيعَ الثَّوْبُ is "the garment was sold," قِيلَ القَوْلُ is "the saying was said," اخْتِيرَ هذا is "this was chosen," and انْقِيدَ لَهُ is "obedience was given to him" — قالَ، باعَ، اخْتارَ، انْقادَ all rebuilt the same way. إشْمامُهُ الضَّمَّ is the alternative: giving that kasra a hint of ḍamma, a single blended sound lying between the two.`, list: false },
+            { html: `So the ألف becomes a ياء and the first letter takes a kasra rather than the usual ḍamma. بِيعَ الثَّوْبُ is the garment was sold, قِيلَ القَوْلُ is the saying was said, اخْتِيرَ هذا is this was chosen, and انْقِيدَ لَهُ is obedience was given to him — قالَ، باعَ، اخْتارَ، انْقادَ all rebuilt the same way. إشْمامُهُ الضَّمَّ is the alternative: giving that kasra a hint of ḍamma, a single blended sound lying between the two.`, list: false },
             { box: { title: 'Core Text', lines: [
               `وبَعْضُهُم يُبْقِي الضَّمَّ، ويَقْلِبُ الأَلِفَ واوًا`,
             ] } },
-            { html: `On that third way the ḍamma stays and the ألف becomes a واو, as in the verse لَيْتَ وهل يَنْفَعُ شَيْئًا لَيْتُ ... لَيْتَ شَبابًا بُوعَ فاشْتَرَيْتُ — would that, and does "would that" help anything? Would that youth, once sold, could be bought back.`, list: false },
+            { html: `On that third way the ḍamma stays and the ألف becomes a واو, as in the verse لَيْتَ وهل يَنْفَعُ شَيْئًا لَيْتُ ... لَيْتَ شَبابًا بُوعَ فاشْتَرَيْتُ — would that, and does would that help anything? Would that youth, once sold, could be bought back.`, list: false },
           ],
           exercise: {
             prompt: `قالَ becomes قِيلَ. What has happened to the ألف؟`,
@@ -358,7 +358,7 @@ export default {
               `والكُوفِيُّونَ أَجازُوا الكَسْرَ، وهي لُغَةُ بَنِي ضَبَّةَ`,
               `وقد قُرِئَ ﴿هَذِهِ بِضَاعَتُنَا رِدَّتْ إِلَيْنَا﴾، ﴿وَلَوْ رِدُّوا لَعَادُوا لِمَا نُهُوا عَنْهُ﴾ بالكَسْرِ فيهما`,
             ] } },
-            { html: `The majority require a ḍamma on the فاء of the doubled ثلاثي — شُدَّ, "it was pulled tight," and مُدَّ, "it was stretched" — but the الكوفيون permit a kasra instead, the dialect of بنو ضبَّة, and both readings with a kasra are attested in the Qur'an: this is our merchandise, returned to us, and had they been sent back, they would have returned to what they were forbidden. The kasra readings are not a slip but an attested dialect, and there is a mechanism behind them:`, list: false },
+            { html: `The majority require a ḍamma on the فاء of the doubled ثلاثي — شُدَّ, it was pulled tight, and مُدَّ, it was stretched — but the الكوفيون permit a kasra instead, the dialect of بنو ضبَّة, and both readings with a kasra are attested in the Qur'an: this is our merchandise, returned to us, and had they been sent back, they would have returned to what they were forbidden. The kasra readings are not a slip but an attested dialect, and there is a mechanism behind them:`, list: false },
             { box: { title: 'Core Text', lines: [
               `وذلك بِنَقْلِ حَرَكَةِ العَيْنِ إلى الفاءِ، بعد تَوَهُّمِ سَلْبِ حَرَكَتِها`,
               `وجَوَّزَ ابنُ مالِكٍ الإشْمامَ في المُضَعَّفِ أيضًا حيثُ قال: «وَمَا لِبَاعَ قَدْ يُرَى لِنَحْوِ حَبّ»`,
@@ -561,7 +561,7 @@ export default {
               `وإن كان مُضارِعًا ضُمَّ أَوَّلُهُ، وفُتِحَ ما قَبْلَ آخِرِهِ ولو تَقْدِيرًا`,
               `نحو: يُضْرَبُ عَلِيٌّ، ويُرَدُّ المَبِيعُ`,
             ] } },
-            { html: `يُضْرَبُ عَلِيٌّ means "Ali is struck," and يُرَدُّ المَبِيعُ means "the sold item is returned." The أصل of the second is يُرْدَدُ, where the fatḥa is visible.`, list: false },
+            { html: `يُضْرَبُ عَلِيٌّ means Ali is struck, and يُرَدُّ المَبِيعُ means the sold item is returned. The أصل of the second is يُرْدَدُ, where the fatḥa is visible.`, list: false },
             { html: `Set the two rules side by side and only the second half differs: the ماضي takes a kasra before its last letter, the مضارع a fatḥa. The ḍamma on the first letter is common to both.`, list: false },
           ],
           exercise: {
@@ -581,7 +581,7 @@ export default {
               ['يَقُولُ', 'يُقالُ'],
               ['يَبِيعُ', 'يُباعُ'],
             ] } },
-            { html: `يَقُولُ, "he says," becomes يُقالُ, "it is said"; يَبِيعُ, "he sells," becomes يُباعُ, "it is sold." Note the symmetry with the ماضي: there an ألف turned into a ياء; here a واو or a ياء turns into an ألف. In each case the weak letter is remade to match the vowel the rule has just imposed — a kasra pulling towards ياء, a fatḥa towards ألف.`, list: false },
+            { html: `يَقُولُ, he says, becomes يُقالُ, it is said; يَبِيعُ, he sells, becomes يُباعُ, it is sold. Note the symmetry with the ماضي: there an ألف turned into a ياء; here a واو or a ياء turns into an ألف. In each case the weak letter is remade to match the vowel the rule has just imposed — a kasra pulling towards ياء, a fatḥa towards ألف.`, list: false },
           ],
           exercise: {
             prompt: `يَقُولُ becomes يُقالُ. Why does the واو become an ألف rather than staying?`,
@@ -601,7 +601,7 @@ export default {
               ['الظَّرْف', 'سِيرَ يَوْمُ الجُمْعَةِ ، وُقِفَ أمامُ الأميرِ'],
               ['المَصْدَر', 'جُلِسَ جُلُوسٌ حَسَنٌ'],
             ] } },
-            { html: `سِيرَ يَوْمُ الجُمْعَةِ is "traveling took place on Friday," وُقِفَ أمامُ الأميرِ is "standing took place before the prince," and جُلِسَ جُلُوسٌ حَسَنٌ is "a good sitting took place" — a ظرف or a مصدر filling in for the missing فاعل each time. The two conditions on that ظرف or مصدر are the subject of the next concept.`, list: false },
+            { html: `سِيرَ يَوْمُ الجُمْعَةِ is traveling took place on Friday, وُقِفَ أمامُ الأميرِ is standing took place before the prince, and جُلِسَ جُلُوسٌ حَسَنٌ is a good sitting took place — a ظرف or a مصدر filling in for the missing فاعل each time. The two conditions on that ظرف or مصدر are the subject of the next concept.`, list: false },
           ],
           exercise: {
             prompt: `Why does a لازم verb need special conditions before it can be built للمجهول؟`,
@@ -618,14 +618,14 @@ export default {
               ['المُتَصَرِّفَيْنِ', 'ما يَخْرُجُ عن النَّصْبِ على الظَّرْفِيَّةِ أو المَصْدَرِيَّةِ — what can leave the accusative of الظرفية or المصدرية', '—'],
               ['المُخْتَصَّيْنِ', 'ما خُصَّ بِإضافَةٍ ، أو بِوَصْفٍ ، أو دَلَّ على نَوْعٍ — what is narrowed by إضافة, by a وصف, or by naming a specific kind', 'صِيمَ يَوْمُ الجُمْعَةِ ، ضُرِبَ ضَرْبٌ شَدِيدٌ ، عُمِلَ عَمَلُ الصالِحِينَ'],
             ] } },
-            { html: `صِيمَ يَوْمُ الجُمْعَةِ, "Friday was fasted," is narrowed by إضافة; ضُرِبَ ضَرْبٌ شَدِيدٌ, "a severe striking took place," is narrowed by a وصف; عُمِلَ عَمَلُ الصالِحِينَ, "the deed of the righteous was done," is narrowed by naming the kind of deed. A third stand-in is admitted on the same principle:`, list: false },
+            { html: `صِيمَ يَوْمُ الجُمْعَةِ, Friday was fasted, is narrowed by إضافة; ضُرِبَ ضَرْبٌ شَدِيدٌ, a severe striking took place, is narrowed by a وصف; عُمِلَ عَمَلُ الصالِحِينَ, the deed of the righteous was done, is narrowed by naming the kind of deed. A third stand-in is admitted on the same principle:`, list: false },
             { box: { title: 'Core Text', lines: [
               `أو المَجْرُورُ الذي لم يَلْزَمِ الجارُّ لهُ طَرِيقَةً واحِدَةً، نحو: وفُرِحَ بِقُدُومِ مُحَمَّدٍ`,
               `بِخِلافِ اللازِمِ حالَةً واحِدَةً، نحو: عِنْدَ، وإذا، وسُبْحانَ، ومَعاذَ`,
             ] } },
-            { html: `فُرِحَ بِقُدُومِ مُحَمَّدٍ, "delight was felt at Muhammad's arrival," shows a مجرور — بِقُدُومِ مُحَمَّدٍ — standing in for the فاعل. عِنْدَ, إذا, سُبْحانَ and مَعاذَ are locked into a single construction and never leave it, which is exactly why they cannot stand in for a فاعل.`, list: false },
+            { html: `فُرِحَ بِقُدُومِ مُحَمَّدٍ, delight was felt at Muhammad's arrival, shows a مجرور — بِقُدُومِ مُحَمَّدٍ — standing in for the فاعل. عِنْدَ, إذا, سُبْحانَ and مَعاذَ are locked into a single construction and never leave it, which is exactly why they cannot stand in for a فاعل.`, list: false },
           ],
-          clarification: `The two conditions are asking the same question from two sides: can this word behave like an ordinary noun? المتصرف tests whether it can ever leave the accusative — عِنْدَ and سُبْحانَ never can, so they are frozen and unavailable. المختص tests whether it names something definite enough to be the subject of a statement — a bare ظرف like "a time" is too vague to be what a sentence is about, so it must be narrowed, by إضافة (يومُ الجمعة), by a وصف (ضَرْبٌ شديدٌ), or by naming a kind (عملُ الصالحين). Only a word that passes both can carry the weight the فاعل has set down.`,
+          clarification: `The two conditions are asking the same question from two sides: can this word behave like an ordinary noun? المتصرف tests whether it can ever leave the accusative — عِنْدَ and سُبْحانَ never can, so they are frozen and unavailable. المختص tests whether it names something definite enough to be the subject of a statement — a bare ظرف like a time is too vague to be what a sentence is about, so it must be narrowed, by إضافة (يومُ الجمعة), by a وصف (ضَرْبٌ شديدٌ), or by naming a kind (عملُ الصالحين). Only a word that passes both can carry the weight the فاعل has set down.`,
           exercise: {
             prompt: `عِنْدَ، إذا، سُبْحانَ and مَعاذَ are excluded from standing in for the فاعل. On what ground?`,
             kind: 'mcq',

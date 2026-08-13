@@ -210,7 +210,7 @@ export default {
     // ---------------------------------------------------------------- L2
     {
       id: 'l2',
-      title: 'تمييز النسبة وإعراب العدد',
+      title: 'تمييز النسبة',
       subtitle: 'Specifying a Relation, and How to إعراب a Number — غير محوّل vs محوّل, and كم الخبرية',
       concepts: [
         {

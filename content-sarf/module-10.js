@@ -118,7 +118,7 @@ export default {
             { table: { headers: ['الوزن', 'الضبط (Vowelling)', 'اسم (Noun)', 'صفة (Adjective)'], rows: [
               ['فُعْل', 'بضم فسكون — ḍamma then سكون', 'قُفْل (a lock)', 'حُلْو (sweet)'],
               ['فُعَل', 'بضم ففتح — ḍamma then fatḥa', 'صُرَد (a bird — a shrike)', 'حُطَم (one who breaks rank)'],
-              ['فُعُل', 'بضمتين — ḍamma on both', 'عُنُق (a neck)', 'ناقة سُرُح (a swift she-camel — سُرُح glosses as سَرِيعة, "swift")'],
+              ['فُعُل', 'بضمتين — ḍamma on both', 'عُنُق (a neck)', 'ناقة سُرُح (a swift she-camel — سُرُح glosses as سَرِيعة, swift)'],
             ] } },
             { html: `Four أوزان open on a fatḥa, three on a kasra, three on a ḍamma — 4 + 3 + 3 = 10, which is the count the باب opened with. The only thing that ever varies between one ثلاثي وزن and the next is this pair of vowels, on the فاء and the عين; the letters weighed are always ف ع ل, in the same order, for every one of the ten.`, list: false },
           ],
@@ -314,7 +314,7 @@ export default {
         {
           heading: 'القسمة العقلية تقتضي اثني عشر',
           lines: [
-            { html: `Ten أوزان are attested and agreed upon, but working out every mathematically possible combination — <bdi>القِسْمَةُ العَقْلِيَّة</bdi>, "reasoned division" — predicts more than that.`, list: false },
+            { html: `Ten أوزان are attested and agreed upon, but working out every mathematically possible combination — <bdi>القِسْمَةُ العَقْلِيَّة</bdi>, reasoned division — predicts more than that.`, list: false },
             { box: { title: 'Core Text', lines: [
               `وكانَتِ القِسْمَةُ العَقْلِيَّةُ تَقْتَضِي اثْنَيْ عَشَرَ وَزْنًا`,
               `لأنَّ حَرَكاتِ الفاءِ ثَلاثٌ، وهي: الفَتْحُ والضَّمُّ والكَسْرُ`,
@@ -357,7 +357,7 @@ export default {
             { box: { title: 'Core Text', lines: [
               `وأمَّا فِعُل، بِكَسْرٍ فَضَمٍّ، فغَيْرُ مَوْجُودٍ، وذلك لِعُسْرِ الانْتِقالِ من كَسْرٍ إلى ضَمٍّ`,
             ] } },
-            { html: `The second missing pattern is <bdi>فِعُل</bdi> — kasra then ḍamma — and unlike فُعِل, it does not occur at all (<bdi>غَيْر مَوْجُود</bdi>). The reason given is purely phonetic: moving the mouth straight from a kasra into a ḍamma (<bdi>عُسْرُ الانْتِقالِ مِنْ كَسْرٍ إلى ضَمٍّ</bdi>, "the difficulty of moving from kasra to ḍamma") is awkward to pronounce. The same pairing was refused for the same reason among the أبواب of the ثلاثي verb — فَعِلَ يَفْعُل is not one of the attested بابs.`, list: false },
+            { html: `The second missing pattern is <bdi>فِعُل</bdi> — kasra then ḍamma — and unlike فُعِل, it does not occur at all (<bdi>غَيْر مَوْجُود</bdi>). The reason given is purely phonetic: moving the mouth straight from a kasra into a ḍamma (<bdi>عُسْرُ الانْتِقالِ مِنْ كَسْرٍ إلى ضَمٍّ</bdi>, the difficulty of moving from kasra to ḍamma) is awkward to pronounce. The same pairing was refused for the same reason among the أبواب of the ثلاثي verb — فَعِلَ يَفْعُل is not one of the attested بابs.`, list: false },
             { html: `One apparent counter-example is raised and then explained away. A قراءة (a transmitted reading) of the verse below is reported <bdi>بكسر فضم</bdi> — kasra then ḍamma:`, list: false },
             { box: { title: 'Example', lines: [`﴿وَالسَّمَاءِ ذَاتِ الْحِبُكِ﴾`] } },
             { html: `"By the sky full of paths" — <bdi>الحِبُك</bdi> here names the interwoven tracks or paths across the sky, and on this reading its vowelling is كسرة then ضمة, apparently landing right on the pattern just ruled out. Two answers are offered.`, list: false },
@@ -383,7 +383,7 @@ export default {
             { html: `Some of the ten أوزان may be <bdi>يُخَفَّف</bdi> — lightened — in ordinary pronunciation, without the word actually changing which وزن it belongs to. Lightening is a spoken variant on the same pattern, not a different pattern.`, list: false },
             { table: { headers: ['الحالة (Case)', 'التخفيف (The Lightening)', 'المثال (Example)'], rows: [
               ['نحو كَتِف (a shoulder)', 'بِإسْكانِ العَيْنِ فقط، أو بِهِ مع كَسْرِ الفاءِ — dropping the vowel on the عين alone, or that together with switching the فاء to a kasra', 'كَتْف ، كِتْف'],
-              ['إذا كان ثانيه حَرْفَ حَلْقٍ — if the word’s second letter is one of the حروف الحلق, the six "throat letters" (ء هـ ح خ ع غ)', 'a further lightening is possible too, بِكَسْرَتَيْنِ (kasra on both letters), giving four dialectal forms (لُغات) in all', 'كفَخِذ (a thigh)'],
+              ['إذا كان ثانيه حَرْفَ حَلْقٍ — if the word’s second letter is one of the حروف الحلق, the six throat letters (ء هـ ح خ ع غ)', 'a further lightening is possible too, بِكَسْرَتَيْنِ (kasra on both letters), giving four dialectal forms (لُغات) in all', 'كفَخِذ (a thigh)'],
               ['نحو عَضُد، إبِل، وعُنُق (upper arm, camels, neck)', 'يُخَفَّفُ بِإسْكانِ العَيْنِ — lightened by dropping the vowel on the عين', 'عَضْد ، إبْل ، عُنْق'],
             ] } },
             { html: `<bdi>فَخِذ</bdi> (a thigh) is the fullest case: كسرة on both letters is the base form, and because its second letter, خ, is a <bdi>حرف حلق</bdi> (a letter articulated in the throat), all four lightenings above are attested for it — فَخِذ، فَخْذ، فِخْذ، and فِخِذ.`, list: false },
@@ -395,7 +395,7 @@ export default {
           exercise: {
             prompt: `فَخِذ (a thigh) is said to admit four لغات (dialectal pronunciations) — one more than كَتِف’s two. What earns it that extra one?`,
             kind: 'mcq',
-            options: ['Its second letter is a حرف حلق (a "throat letter"), which admits a further lightening to كسرتين on both letters', 'It is a صفة rather than a plain اسم', 'It is رباعي rather than ثلاثي', 'Its فاء is مضمومة rather than مكسورة'],
+            options: ['Its second letter is a حرف حلق (a throat letter), which admits a further lightening to كسرتين on both letters', 'It is a صفة rather than a plain اسم', 'It is رباعي rather than ثلاثي', 'Its فاء is مضمومة rather than مكسورة'],
             correct: 0,
           },
         },
@@ -492,7 +492,7 @@ export default {
         {
           title: 'تداخل اللغتين',
           kind: 'mcq',
-          prompt: 'On the تداخل اللغتين ("overlap of two dialects") account of حِبُك, which two independently-attested forms have been blended?',
+          prompt: 'On the تداخل اللغتين (overlap of two dialects) account of حِبُك, which two independently-attested forms have been blended?',
           options: ['حِبِك بكسرتين and حَبِك بفتح فكسر', 'حُبُك بضمتين and حِبِك بكسرتين', 'حُبْك and حِبْك, both بسكون العين', 'حَبَك بفتحتين and حُبُك بضمتين'],
           correct: 1,
         },
@@ -506,7 +506,7 @@ export default {
         {
           title: 'الإتباع',
           kind: 'mcq',
-          prompt: 'On the الإتباع ("assimilation") account of حِبُك, why does the حاء carry a كسرة?',
+          prompt: 'On the الإتباع (assimilation) account of حِبُك, why does the حاء carry a كسرة?',
           options: ['To match the vowel on the following عين', 'To avoid placing a ḍamma directly after a سكون', 'To mark the word as a صفة', 'It has assimilated to the كسرة on the تاء of the preceding word, ذَاتِ, not to any vowel of its own وزن'],
           correct: 3,
         },
@@ -604,7 +604,7 @@ export default {
             ] } },
             { html: `Five agreed أوزان — where the bare رباعي <em>verb</em> had exactly one shape, فَعْلَلَ.`, list: false },
             { table: { headers: ['الوزن', 'الضبط', 'المثال'], rows: [
-              ['فَعْلَل', 'فتحة on the first and third letters, سكون on the second', 'جَعْفَر (a personal name — "Jaʿfar")'],
+              ['فَعْلَل', 'فتحة on the first and third letters, سكون on the second', 'جَعْفَر (a personal name — Jaʿfar)'],
               ['فِعْلِل', 'كسرة on both first and third, سكون on the second', 'زِبْرِج (ornamentation, finery — لِلزِّينَة)'],
               ['فُعْلُل', 'ضمة on both first and third, سكون on the second', 'بُرْثُن (a claw — specifically a lion’s claw, لِمَخْلِبِ الأَسَد)'],
               ['فِعَلّ', 'كسرة then فتحة, with the doubled (شدة-carrying) لام', 'قِمَطْر (a case or satchel for books)'],
@@ -622,7 +622,7 @@ export default {
         {
           heading: 'زيادة الأخفش',
           lines: [
-            { html: `The matn’s own wording — <bdi>المُتَّفَق عليها</bdi>, "agreed upon" — signals that a sixth pattern exists but is disputed.`, list: false },
+            { html: `The matn’s own wording — <bdi>المُتَّفَق عليها</bdi>, agreed upon — signals that a sixth pattern exists but is disputed.`, list: false },
             { box: { title: 'Core Text', lines: [
               `وزادَ الأَخْفَشُ وَزْنَ فُعْلَل، بِضَمٍّ فَسُكُونٍ فَفَتْحٍ، كجُخْدَب: اسْمٌ لِلْأَسَدِ`,
               `وبَعْضُهُم يَقُولُ إنَّهُ فَرْعُ جُخْدُب بِالضَّمِّ. والصَّحِيحُ أنَّهُ أَصْلٌ ولكنَّهُ قَلِيلٌ`,
@@ -653,7 +653,7 @@ export default {
             { html: `Three of the four carry a شدة (a doubled letter), and they differ in exactly which لام it lands on: the first لام in فَعَلَّل and فُعَلِّل, the second in فِعْلَلّ. Only فَعْلَلِل carries no doubled letter at all.`, list: false },
           ],
           exercise: {
-            prompt: `قِرْطَعْب and قُذَعْمِل are synonyms — both mean "something small and trifling" — but weigh different أوزان. What actually distinguishes their patterns?`,
+            prompt: `قِرْطَعْب and قُذَعْمِل are synonyms — both mean something small and trifling — but weigh different أوزان. What actually distinguishes their patterns?`,
             kind: 'mcq',
             options: ['The شدة falls on the second لام in فِعْلَلّ (قِرْطَعْب) and on the first in فُعَلِّل (قُذَعْمِل)', 'One word is رباعي and the other خماسي', 'Only one of the two carries a شدة at all', 'They in fact share one وزن'],
             correct: 0,
@@ -672,7 +672,7 @@ export default {
             { html: `An <bdi>اسم مُتَمَكِّن</bdi> (a declinable noun) never shows fewer than three root letters — unless <bdi>حَذْف</bdi> (elision) has taken one away. Four words are cited as examples: <bdi>يَد</bdi> (a hand) and <bdi>دَم</bdi> (blood) each dropped their لام, the third root letter — يد’s full root is ي د ي, and دم’s is د م و; <bdi>عِدَة</bdi> (a promise) and <bdi>سِنَة</bdi> (drowsiness, slumber) each dropped their فاء, the first root letter, an و — their full roots are و ع د and و س ن — and each grew a تاء مربوطة at the end to compensate for the letter lost at the front.`, list: false },
             { html: `The running total of أوزان across all three lessons is <bdi>عِشْرُون، أو واحِد وعِشْرُون</bdi> — twenty, or twenty-one. And the ceiling on how long a noun may grow once <bdi>زيادة</bdi> (augmentation) is added is seven letters — one more than the six-letter ceiling given earlier for the augmented verb.`, list: false },
           ],
-          clarification: `The count "twenty, or twenty-one" is the running total from all three lessons, and it is worth assembling explicitly. Start with the ten agreed ثلاثي أوزان from Lesson 1; add the rare-but-attested فُعِل from Lesson 2, and the ثلاثي alone gives eleven. Add five for the رباعي and four for the خماسي, both from this lesson, and the total reaches twenty. Admit الأخفش’s disputed sixth رباعي وزن, فُعْلَل, as well, and the total becomes twenty-one. The two figures in the matn are not vagueness — they are a direct record of the one point still argued over: whether that sixth رباعي pattern counts.`,
+          clarification: `The count twenty, or twenty-one is the running total from all three lessons, and it is worth assembling explicitly. Start with the ten agreed ثلاثي أوزان from Lesson 1; add the rare-but-attested فُعِل from Lesson 2, and the ثلاثي alone gives eleven. Add five for the رباعي and four for the خماسي, both from this lesson, and the total reaches twenty. Admit الأخفش’s disputed sixth رباعي وزن, فُعْلَل, as well, and the total becomes twenty-one. The two figures in the matn are not vagueness — they are a direct record of the one point still argued over: whether that sixth رباعي pattern counts.`,
           exercise: {
             prompt: `يَد، دَم، عِدَة and سِنَة each show only two letters, below the usual three-letter floor. What accounts for that?`,
             kind: 'mcq',
@@ -732,7 +732,7 @@ export default {
           title: 'قِمَطْر',
           kind: 'mcq',
           prompt: 'قِمَطْر carries كسرة then فتحة with a doubled لام. Which وزن is that, and what does the word mean?',
-          options: ['فِعْلَل — a dirham', 'فُعْلَل — الأخفش’s addition, meaning "lion"', 'فَعْلَل — a personal name', 'فِعَلّ — a case for books'],
+          options: ['فِعْلَل — a dirham', 'فُعْلَل — الأخفش’s addition, meaning lion', 'فَعْلَل — a personal name', 'فِعَلّ — a case for books'],
           correct: 3,
         },
         {
