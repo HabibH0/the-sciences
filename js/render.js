@@ -3076,11 +3076,11 @@ function achievementsHtml(state) {
     badge: 'أوسمة الإنجاز',
     title: 'Achievements',
     body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
-    ledger: `${heroLedgerHtml([
+    ledger: `<div class="ach-ledger-block">${heroLedgerHtml([
       ['Badges earned', `${state.badges.length} / ${totalBadges}`],
       ['Level', li.level],
       ['XP', state.xp],
-    ])}${levelProgressHtml(li)}`,
+    ])}${levelProgressHtml(li)}</div>`,
   });
 
   return `

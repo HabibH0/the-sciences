@@ -1299,6 +1299,17 @@ h1 + .card-kicker,
   color: var(--color-text);
 }
 
+/* Wraps the Achievements hero's ledger + level-progress row together as one
+   flex item in .home-hero-row -- heroPanelHtml drops its `ledger` argument
+   straight into that flex row, so without this wrapper the two pieces would
+   be independent flex siblings (free to land side by side or wrap
+   separately depending on viewport width) instead of one stacked column.
+   Carries .home-ledger's own min-width since that now sizes the wrapper,
+   not the <dl> directly. */
+.ach-ledger-block {
+  min-width: 232px;
+}
+
 /* The Achievements hero's own row, directly under the ledger's Level/XP --
    same label/value language as .home-ledger-label/-value above, just a size
    down since this is a caption on those numbers rather than a headline
@@ -4946,7 +4957,8 @@ button.path-node:not(.locked):hover {
     flex-direction: column;
     gap: 28px;
   }
-  .home-ledger {
+  .home-ledger,
+  .ach-ledger-block {
     width: 100%;
   }
   .path-group-grid {
@@ -6339,7 +6351,8 @@ button.path-node:not(.locked):hover {
   .account-actions > * {
     width: 100%;
   }
-  .home-ledger {
+  .home-ledger,
+  .ach-ledger-block {
     min-width: 0;
   }
   .home-ledger-row {
