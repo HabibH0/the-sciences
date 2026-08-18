@@ -526,6 +526,10 @@ function launchCourseCardHtml(course, index, state) {
 // "Sits on top of the courses" -- a small banner between the course
 // picker's subtitle and its card grid, leading to My Path's group-selection
 // screen (see openMyPath in js/main.js) rather than one specific course.
+// UNUSED as of 2026-08-18: the only call site (launchHtml below) was
+// removed to pull My Path out of the app -- kept here, along with the rest
+// of My Path's render/main.js/state machinery and content/path-advanced.js,
+// in case the feature comes back rather than being rebuilt from scratch.
 // Progress phrasing reads live off PATH_TRACKS/state.pathNodeStatus via
 // firstUnfinishedPathNodeIndex, the same derive-don't-store idiom the rest
 // of the app uses for "how far along" (see e.g. content/index.js's
@@ -600,7 +604,6 @@ function launchHtml(state) {
           <h1 class="launch-title">Choose a course</h1>
           <p class="launch-sub">Four paths through Arabic grammar. Pick one to enter its dashboard — you can switch anytime from the header.</p>
         </div>
-        ${launchPathBannerHtml(state)}
         ${launchLibraryBannerHtml(state)}
         <div class="launch-grid">${cards}</div>
       </div>
