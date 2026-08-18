@@ -769,6 +769,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "One night he had guests with him, so he got up himself to fix the lamp; when told, 'O Commander of the Believers, we will do that for you,' he said: 'What harm has it done me? I got up as Umar bin Abdul Aziz, and I came back as Umar bin Abdul Aziz.'",
       sentences: [
         {
@@ -944,6 +945,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "He had a boy who used to bring him a vessel of heated water for ablution; one day he asked the boy, 'Do you heat this water in the Muslims' kitchen?' The boy said, 'Yes.' Umar said, 'You've cost us for it,' then paid back the cost of those days himself and had firewood brought in for the kitchen. Another time he was a little late to Friday prayer and was reproached for it, so he said: 'I was only waiting for my shirt, which I had washed, to dry.'",
       sentences: [
         {

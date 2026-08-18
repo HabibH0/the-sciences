@@ -42,6 +42,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "ʿĀd heard all of that, but they did not believe! Hūd's advice was wasted on them, and Hūd's wisdom was wasted on them. They said: 'O Hūd, you have no proof and no clear sign! We will not leave, O Hūd, our old gods for your new saying. Shall we leave the gods which our fathers used to worship for the word of some speaker, never, ever? And O Hūd, indeed you do not believe in our gods nor fear them. So indeed we do not believe in your god nor fear his punishment. And indeed we often hear you mention the punishment, so where is it, O Hūd, and when does it come?' Hūd said: 'Indeed the knowledge is with Allah, and I am only a clear warner.' ʿĀd said: 'We await that punishment and long to see it.' Hūd was amazed at their boldness, and grieved over their foolishness.",
       sentences: [
         {

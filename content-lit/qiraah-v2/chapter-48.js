@@ -164,6 +164,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "A short maxim-poem (by Abu al-'Atahiya) on the world's delusive nature: none is truly noble except the contented ascetic -- how honored is one who is content, and how debased is one who is greedy! Your world is beloved for its beauty and goodness, but it is treacherous, deceitful, delusive. It keeps no true beloved -- its passing is ever near; fickle and treacherous, it has no trustworthiness. It separates loved ones and scatters companions; it wars on whoever makes peace with it, and wearies of whoever clings to it. Its mighty one is in truth lowly, its abundance in truth scant; its union is toil, its aversion affliction. The ignorant attain fortune through it, and the vile find comfort through it -- while the wise suffer through it, and the cultured grow weary.",
       sentences: [
         {

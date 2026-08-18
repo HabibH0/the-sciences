@@ -54,6 +54,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "The cupbearer said: this is Yūsuf, the truthful one, and he is the one who told me that I would be a cupbearer to my lord the king. The king longed to meet Yūsuf, so he sent for him, and the king said: 'Bring him to me; I will select him exclusively for myself.'",
       sentences: [
         {

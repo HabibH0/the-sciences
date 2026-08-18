@@ -51,6 +51,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'Yūsuf spoke to them and said to them: \'Where are you from?\' They said: \'From Canaan!\' He said: \'Who is your father?\' They said: \'Yaʿqūb, son of Isḥāq, son of Ibrāhīm -- peace and blessings be upon them.\' He said: \'Do you have another brother?\'',
       sentences: [
         {
@@ -134,6 +135,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'They said: \'Yes, we have a brother named Binyāmīn!\' He said: \'Why didn\'t he come with you?\' They said: \'Because our father will not let him go, and does not want him far from him.\' He said: \'For what reason will he not let him go -- is he a very small child?\'',
       sentences: [
         {

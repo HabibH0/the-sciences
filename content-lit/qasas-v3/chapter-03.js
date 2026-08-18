@@ -181,6 +181,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'and said to them: "Worship the idols and do not worship Allah," the people would surely have cursed him and struck him. "They said: \'God forbid! Should we associate partners with our Lord? Should we worship idols? You are truly a cursed devil! You are truly a wicked devil!"',
       sentences: [
         {

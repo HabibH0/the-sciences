@@ -176,6 +176,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Two baskets of fresh dates arrived for him from Jordan. He asked what they were, and was told they were dates from Jordan, brought on the postal service's mounts. He said that Allah had not made him more entitled to the postal mounts than the rest of the Muslims, so he had them taken out and sold, with the price put toward the mounts' fodder; his nephew bought them back in the market and gave him one basket as a gift, and only then did he eat, saying: 'Now it is pleasant to eat.'",
       sentences: [
         {
@@ -555,6 +556,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "He never put off today's work for tomorrow, nor did he ever fall behind. One of his brothers said: 'O Commander of the Believers, if only you would ride out and take some rest.' He said: 'Then who would finish that day's business?' The brother said: 'You could finish it the next day.' He said: 'A single day's work is already heavy enough — how would it be if two days' work were combined?'",
       sentences: [
         {

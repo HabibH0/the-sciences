@@ -1395,6 +1395,19 @@ function toggleLitUnknown(lemma) {
 // free reading never gates on checks, never falls into the Patterns/Build
 // drills, and never marks the chapter done -- only Practice mode does that.
 function startLitSession(chapter, para, freeRead) {
+  // `${paragraphIndex}:${checkIndex}` -> shuffled display order (a
+  // permutation of original option indices). Built once here rather than
+  // per render -- like shuffleQuizOrder/shuffleLessonOptions, options need
+  // to stay put once shown so answering doesn't reorder them underneath the
+  // cursor. Authors write the correct option first while drafting a check,
+  // so without this every comprehension check would show its answer in the
+  // same spot.
+  const checkOrder = {};
+  chapter.paragraphs.forEach((p, pi) => {
+    (p.checks || []).forEach((c, ci) => {
+      checkOrder[`${pi}:${ci}`] = shuffle(c.options.map((_, i) => i));
+    });
+  });
   state.lit = {
     bookId: state.litBookId,
     chapterId: state.litChapterId,
@@ -1404,6 +1417,7 @@ function startLitSession(chapter, para, freeRead) {
     freeRead,
     // `${paragraphIndex}:${checkIndex}` -> { selected, correct }.
     checks: {},
+    checkOrder,
     gloss: null,
     fullPara: null,
     word: null,

@@ -273,6 +273,7 @@ export const CHAPTER = {
       checks: [],
     },
     {
+      lines: true,
       en: 'Yūsuf had a precious vessel, and he used to drink from it. He placed this vessel in Binyāmīn\'s belongings, and a herald proclaimed: "You are indeed thieves!" The brothers turned around and said: "What are you missing?" "We are missing the king\'s cup (vessel)," they said, "and whoever brings it gets a camel-load [of grain]." "They said: \'By Allah, you know well we did not come to cause corruption in the land, and we were not thieves.\'',
       sentences: [
         {
@@ -388,6 +389,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"They (the Egyptians) said: \'Then what is his penalty, if you are lying?\'" "They said: \'His penalty is that the one in whose bag it is found -- he himself is the penalty.\' \'Thus do we recompense the wrongdoers.\'" The vessel came out of Binyāmīn\'s belongings, and the brothers were ashamed, but they said, without any shame: "If he (Binyāmīn) has stolen, a brother of his stole before, too."',
       sentences: [
         {
@@ -474,6 +476,7 @@ export const CHAPTER = {
       checks: [],
     },
     {
+      lines: true,
       en: 'Yūsuf heard this slander, and stayed silent, and did not become angry, for Yūsuf was generous and forbearing. "They said: \'O ʿAzīz, he has an old father, elderly, so take one of us in his place -- we see you as one of the doers of good.\'" "He said: \'God forbid that we take other than the one with whom we found our property -- we would then indeed be wrongdoers.\'"',
       sentences: [
         {

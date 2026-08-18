@@ -124,6 +124,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "A short descriptive poem (by Abu Ishaq al-Sabi) about a pet parrot: the poet grew fond of her, a fair, pretty creature articulate in eloquent speech. Though counted among the birds, her tongue makes him imagine she is a human being -- she relays news to her owner and uncovers secrets and hidden things. She cannot truly speak on her own (she is mute, except that she hears); by nature she only repeats what she hears. She came to visit you from her distant homeland and settled with you like a permanent companion -- a guest whose fare is walnuts and rice, and a guest is honored in his coming. You see her, in her slender beak, like a pearl she picks up, herself of carnelian; she looks out from two eyes like two gems, gleaming in both light and darkness. She is a pristine, unpierced pearl whose only chambers are her cage, with no escape from her confinement -- she is caged though she has no fault of her own; that is only from an excess of love.",
       sentences: [
         {

@@ -209,6 +209,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'And Makkah had no animal and no human in it. And Ibrāhīm arrived at Makkah and settled in it. And Ibrāhīm left his wife Hājar and his son Ismāʿīl, and when Ibrāhīm wanted to leave, his wife Hājar said: \'To where, my master? Will you leave me here? Will you leave me when there is no water and no food here! Did Allah command you to do this?\' Ibrāhīm said: \'Yes!\' Hājar said: \'Then He will not neglect us!\'',
       sentences: [
         {

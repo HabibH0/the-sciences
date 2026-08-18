@@ -352,6 +352,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Mūsā set out for his Lord's appointed meeting, but longing for his Lord urged him on, so he hastened and went ahead to the Mount. \u201cAnd what made you hasten ahead of your people, O Mūsā?\u201d \u201cHe said, 'They are there following in my footsteps, and I hastened to You, my Lord, so that You would be pleased.'\u201d Allah commanded him to complete his Lord's appointed time, forty nights. Mūsā reached Mount Sinai, and his Lord spoke to him, conversed privately with him, drew him near, and brought him closer \u2014 and that increased him in longing, so he said: \u201cMy Lord, show me, that I may look at You.\u201d",
       sentences: [
         {

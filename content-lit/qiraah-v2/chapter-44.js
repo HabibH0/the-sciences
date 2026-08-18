@@ -132,6 +132,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "A short didactic poem of advice on the etiquette of good company: conduct yourself politely with people, and you will see wonders from how time repays you. Don't compete in wealth or boast in lineage -- true honor lies in trustworthiness, and true cleverness in perceptiveness. Don't anger your companion or make your friend feel unwelcome; don't be excessive in blaming others, or you will drive your friends away -- too much reproach leads only to estrangement. And if you take a seat among noble, eminent people, seek the group's good pleasure and be an obedient companion. Say only what suits the occasion -- fine poetry and good report -- and leave off the speech of lowly people and cheap jokes. Don't be a pest, and avoid excessive joking, for too much frivolity is a kind of madness.",
       sentences: [
         {

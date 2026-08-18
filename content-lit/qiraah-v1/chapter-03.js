@@ -325,6 +325,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "My effort has grown long, fuelled by hope — I am not content with laziness. My aim is to attain what I seek, and I do not mind the hardship. I build myself a fine house, in an orderly way, for dwelling, and for my sustenance I go out — I am never idle. Every summer I gather for myself food enough to satisfy me, so that when the rain comes, my house is my shelter. That is my way in youth, and my discipline in adulthood: indeed I am an excellent example, through my diligence in work.",
       "sentences": [
         {

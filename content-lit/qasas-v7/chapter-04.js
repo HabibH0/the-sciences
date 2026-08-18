@@ -279,6 +279,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "But Mūsā did not panic, and Mūsā did not despair! [Qur'an: He said, 'It may be that your Lord will destroy your enemy and make you successors in the land, then observe how you act.'] [Qur'an: And Mūsā said, 'O my people, if you have believed in Allah, then place your trust in Him, if you are Muslims.'] [Qur'an: So they said, 'In Allah we have placed our trust. Our Lord, do not make us a trial for the wrongdoing people, and save us by Your mercy from the disbelieving people.']",
       sentences: [
         {

@@ -179,6 +179,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'And Ibrāhīm\'s father became angry, and said: \'I will strike you; so leave me and say nothing.\' And Ibrāhīm was forbearing, and said to his father: \'Peace be upon you.\' (Qur\'an 19:47)',
       sentences: [
         {

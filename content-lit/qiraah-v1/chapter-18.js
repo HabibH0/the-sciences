@@ -310,6 +310,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "A child's morning hymn: the sun has risen and darkness has fled, so thanks be to God, the One -- a great, obligatory thanks. How beautiful the light in which all things seem to smile, and the birds sing at dawn on the branches. How beautiful that radiant light, in which I find myself hard at work -- for I always wish never to be idle. God has protected me from every evil in the dark, so thanks to Him who has guarded me, thanks to Him always.",
       "sentences": [
         {

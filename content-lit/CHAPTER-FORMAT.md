@@ -56,6 +56,29 @@ export const CHAPTER = {
 | `en` | yes | The whole paragraph in English, revealed by the `EN` toggle in the margin. |
 | `sentences` | yes | The paragraph's clauses, in order. They are the unit the reader glosses on hover, so split roughly where the Arabic punctuates — at each ، and . |
 | `checks` | no | Questions on **that** paragraph. The reader won't move on until each has been answered, so a question has to be answerable from the paragraph it sits on. A paragraph of pure narration between two scenes can have none, and then the reader just offers the way onward — but a chapter with no checks anywhere is an error. |
+| `lines` | no | `true` if this paragraph's sentences should each render on their own line instead of running together as one justified block. Use it where a `sentences[]` entry is a whole speaker's turn (a dialogue paragraph) or a whole bayt of verse (a poem paragraph) — see below. Omit for ordinary prose. |
+
+### Dialogue and verse paragraphs
+
+The schema has no dedicated speaker or verse field. Instead:
+
+-   **Dialogue.** Fold the speaker's name into the `ar` text of their turn as
+    its own sentence (`عُمَرُ: هَلْ زُرْتَ سُوْقَ هٰذَا الْبَلَدِ...`), one sentence
+    per turn, exactly as for ordinary prose. Then set `lines: true` on the
+    paragraph so each turn prints on its own line instead of running into the
+    next like continuous prose. Reserve this for paragraphs that are
+    genuinely structured as back-and-forth exchange; a narrative paragraph
+    that merely quotes someone in passing (`فَقَالَ: ...`) reads fine inline
+    and should stay `lines`-less.
+-   **Verse.** One `sentences[]` entry is one full bayt (both hemistichs),
+    with the mid-bayt pause written as `،` and the bayt-end as `.` in `ar`
+    even where the print marks these only by column layout. Set `lines: true`
+    on the paragraph so each bayt gets its own line. A poem quoted inline
+    inside an essay (a single bayt mid-paragraph) can stay off — `lines` is a
+    per-paragraph, not per-sentence, switch.
+
+Both are pure presentation: `lines` changes nothing about how sentences are
+authored, tokenized, or validated.
 
 **Break a chapter into paragraphs at its narrative breaks**, roughly 6–12
 sentences each. The reader shows one paragraph at a time and asks its

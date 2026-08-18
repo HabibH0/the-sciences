@@ -175,6 +175,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"So he said: Why don\'t you two water your flock?" "They said: We cannot water our flock until the people finish, because they are strong and we are weak, and because they are men and we are women." And as if they knew Mūsā would ask them why one of the men of their household didn\'t water for them, they spoke first and said, "And our father is a very old man."',
       sentences: [
         {

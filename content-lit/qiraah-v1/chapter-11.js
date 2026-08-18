@@ -697,6 +697,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "Harith asks Sa'id the time and learns his own watch has stopped -- Sa'id guesses he forgot to wind it, and Harith admits he did, forgetting the night before.",
       "sentences": [
         {
@@ -984,6 +985,7 @@ export const CHAPTER = {
     },
     {
       "id": "p2",
+      "lines": true,
       "en": "Harith explains he normally winds his watch at ten each night but was too tired last night and fell asleep; Sa'id offers to help him set it by his own watch, and Harith agrees, so long as Sa'id's watch is accurate.",
       "sentences": [
         {
@@ -1310,6 +1312,7 @@ export const CHAPTER = {
     },
     {
       "id": "p3",
+      "lines": true,
       "en": "Sa'id explains his watch runs two minutes fast every twenty-four hours and that he corrected it yesterday, then gives the current time; Harith thanks him and asks to see the watch.",
       "sentences": [
         {
@@ -1597,6 +1600,7 @@ export const CHAPTER = {
     },
     {
       "id": "p4",
+      "lines": true,
       "en": "Harith admires the watch -- its beautiful face, fine hands, and clean cover -- and asks the price; Sa'id says his older brother gave it to him as a gift, bought for thirty rupees, and asks about Harith's.",
       "sentences": [
         {
@@ -1764,6 +1768,7 @@ export const CHAPTER = {
     },
     {
       "id": "p5",
+      "lines": true,
       "en": "Sa'id says his older brother gave him the watch as a gift, bought for thirty rupees, and asks about Harith's; Harith's own watch is cheaper, twenty rupees, a gift from his uncle after a trip.",
       "sentences": [
         {
@@ -2058,6 +2063,7 @@ export const CHAPTER = {
     },
     {
       "id": "p6",
+      "lines": true,
       "en": "Sa'id reflects that a watch is necessary nowadays, letting a student know the school schedule and a Muslim know the prayer times.",
       "sentences": [
         {
@@ -2249,6 +2255,7 @@ export const CHAPTER = {
     },
     {
       "id": "p7",
+      "lines": true,
       "en": "Harith admits he used to be late for school and sometimes missed the congregational prayer before he had a watch, but hasn't since.",
       "sentences": [
         {
@@ -2496,6 +2503,7 @@ export const CHAPTER = {
     },
     {
       "id": "p8",
+      "lines": true,
       "en": "Sa'id excuses himself -- he is traveling today and the train leaves at ten to twelve.",
       "sentences": [
         {
@@ -2631,6 +2639,7 @@ export const CHAPTER = {
     },
     {
       "id": "p9",
+      "lines": true,
       "en": "Harith says there's plenty of time since the station is near, but Sa'id still has market errands to finish.",
       "sentences": [
         {
@@ -2902,6 +2911,7 @@ export const CHAPTER = {
     },
     {
       "id": "p10",
+      "lines": true,
       "en": "The two part with the Islamic greeting of peace.",
       "sentences": [
         {

@@ -248,6 +248,7 @@ export const CHAPTER = {
       ]
     },
     {
+      lines: true,
       en: "It was a Friday. He said: 'Yes!' I said: 'This is the bathing place.' He said: 'No, I will bathe in the river.'",
       sentences: [
         {

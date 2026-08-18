@@ -587,6 +587,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '[Qur\'an:] "O Mūsā, indeed in it is a tyrannical people, and we will never enter it until they leave it." And they said, with a show of dignity and calm: [Qur\'an:] "But if they leave it, then we shall enter." [Qur\'an:] "Two men from among those who feared [Allah], upon whom He had bestowed His favor, said: Enter upon them through the gate; for if you enter it, you will surely be victorious. And put your trust in Allah, if you are believers." But that did not move them, and they said: "If entering is unavoidable, then you go in with a miracle; and when we hear that you have entered it, we will come and enter too, safe and secure."',
       sentences: [
         {

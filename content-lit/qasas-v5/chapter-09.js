@@ -69,6 +69,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'And O my brothers, why do you flee from me? What do you fear? I do not diminish any of your wealth, I do not ask anything of you. I advise you and convey to you the messages of my Lord. "And I do not ask you for it any reward -- my reward is only upon the Lord of the worlds." And O my brothers, why do you not obey me, when I am to you a trustworthy advisor? And why do you obey those who wrong the people and eat their wealth, and those who transgress and cause corruption in the earth and do not set it right! And the people were unable, and could not find an answer to that. So they said: "You are but one of the bewitched." "You are nothing but a human being like us -- so bring a sign, if you are among the truthful."',
       sentences: [
         {

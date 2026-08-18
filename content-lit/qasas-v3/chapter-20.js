@@ -92,6 +92,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'Nūḥ had a son who was with the disbelievers. And Nūḥ saw his son amid the Flood, and said: "O my son, ride with us, and do not be with the disbelievers!" "He said: I will take shelter on a mountain that will protect me from the water." "He said: there is no protector today from the command of Allah, except him on whom He has mercy." "And the waves came between them, and he was among the drowned."',
       sentences: [
         {

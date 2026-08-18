@@ -189,6 +189,7 @@ export const CHAPTER = {
   paragraphs: [
     {
       id: 'p1',
+      lines: true,
       en: 'The worst of speech is lying; the best of traits is good manners. Stinginess is a disgraceful flaw; generosity is a becoming veil. Reason is a just judge; vanity is a fatal disease. Life is a departing guest; wealth is a vanishing shadow. Kindness is a cause for love; indeed, the miser is not loved. Purity of character comes from noble lineage. Lying, backbiting, and treachery are the worst of traits.',
       sentences: [
         { id: 'qr1-25-001', page: 96, ar: 'شَرُّ الْمَقَالِ الْكَذِبُ، خَيْرُ الْخِصَالِ الأَدَبُ.', en: 'The worst of speech is lying; the best of traits is good manners.',
@@ -280,6 +281,7 @@ export const CHAPTER = {
     },
     {
       id: 'p2',
+      lines: true,
       en: "Be deliberate in matters, especially in times of joy -- but hasten to good deeds, for fear of missing them. You have nothing but yourself; do not withhold from it. (Abu al-'Atahiyah)",
       sentences: [
         { id: 'qr1-25-008', page: 97, ar: 'تَأَنَّ فِي الأُمُوْرِ، لَا سِيَّمَا السُّرُوْرِ.', en: 'Be deliberate in matters, especially in times of joy.',

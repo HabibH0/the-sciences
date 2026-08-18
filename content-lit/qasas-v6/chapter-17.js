@@ -118,6 +118,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'Mūsā stayed with them as an honored guest, indeed taking the place of a beloved son. One day, one daughter simply and modestly told her father to hire him, since the best to hire is the strong, trustworthy one. Asked what she knew of his strength and trustworthiness, she explained: his strength, because he alone lifted the cover off the well that normally took a group to lift; his trustworthiness, because he walked ahead of her the whole way without looking at her. Both a hired hand and a servant must be strong and trustworthy -- weak, he fails the work; untrustworthy, his strength is of no use despite his betrayal.',
       sentences: [
         {

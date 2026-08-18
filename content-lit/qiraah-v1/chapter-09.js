@@ -1236,6 +1236,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "The teacher once asked the students in the classroom, one by one: \"What do you like to be?\" And he said: \"Everyone is free in his answer, so let him not fear and not be shy.\"",
       "sentences": [
         {
@@ -1451,6 +1452,7 @@ export const CHAPTER = {
     },
     {
       "id": "p2",
+      "lines": true,
       "en": "Ahmad, who was the youngest of the students, said: \"I want to be a driver on the train, so I would always ride, and travel for free, and go on outings.\"",
       "sentences": [
         {
@@ -1626,6 +1628,7 @@ export const CHAPTER = {
     },
     {
       "id": "p3",
+      "lines": true,
       "en": "Abdul Rahman said: \"The train driver is in tremendous fatigue, heat, and blazing fire. But I like to be a captain on a ship, so I would travel by sea, visit far-off lands for free, and witness the wonders of the world.\"",
       "sentences": [
         {
@@ -1897,6 +1900,7 @@ export const CHAPTER = {
     },
     {
       "id": "p4",
+      "lines": true,
       "en": "Ibrahim said: \"The captain and his ship are in danger of drowning. But I like to be a doctor, so I would treat people, and treat the poor for free, and serve creation, and take care of my health, and live in security and peace.\"",
       "sentences": [
         {
@@ -2152,6 +2156,7 @@ export const CHAPTER = {
     },
     {
       "id": "p5",
+      "lines": true,
       "en": "Abdul Rahman answered him and said: \"This isn't correct. The ship isn't in danger in this age, and ships always travel these days in security and peace. On the contrary, I see doctors get sick and die.\" Ibrahim interrupted him and said: \"Haven't you heard that a ship sank two or three days ago?\" Ibrahim wanted to answer him, but the teacher said: \"This isn't the time for debate, and many students remain -- what do you say, Qasim?\"",
       "sentences": [
         {
@@ -2718,6 +2723,7 @@ export const CHAPTER = {
     },
     {
       "id": "p6",
+      "lines": true,
       "en": "Qasim said: \"I don't like to be a driver, or a captain, or a doctor -- rather I like to be a farmer. I sow and plow. And no one serves and benefits people like the farmer, and he is the one who grows the grains and vegetables, so people and animals eat.\"",
       "sentences": [
         {
@@ -3037,6 +3043,7 @@ export const CHAPTER = {
     },
     {
       "id": "p7",
+      "lines": true,
       "en": "Sulayman said: \"I like to be a merchant -- I'd have a big shop in a big market; people would come to me and buy.\"",
       "sentences": [
         {
@@ -3212,6 +3219,7 @@ export const CHAPTER = {
     },
     {
       "id": "p8",
+      "lines": true,
       "en": "Hamid said: \"I like to be a skilled craftsman and an inventor -- I make and invent wondrous things.\"",
       "sentences": [
         {
@@ -3347,6 +3355,7 @@ export const CHAPTER = {
     },
     {
       "id": "p9",
+      "lines": true,
       "en": "Khalid said: \"I like to be a strong soldier -- I fight the disbelievers and polytheists and strive in Allah's cause.\"",
       "sentences": [
         {
@@ -3498,6 +3507,7 @@ export const CHAPTER = {
     },
     {
       "id": "p10",
+      "lines": true,
       "en": "Abdul Kareem said: \"I like to be very rich. I would wear what I like, eat what I crave, and travel wherever I want. And I'd always have much money, and live in a big palace.\" The boys laughed at Abdul Kareem's statement, and Abdul Kareem was embarrassed.",
       "sentences": [
         {
@@ -3856,6 +3866,7 @@ export const CHAPTER = {
     },
     {
       "id": "p11",
+      "lines": true,
       "en": "Muhammad said: \"I like to be a scholar who fears Allah and worships Him, and admonishes people, commanding them to good, forbidding them from evil, and warning them of Allah's punishment.\"",
       "sentences": [
         {
@@ -4055,6 +4066,7 @@ export const CHAPTER = {
     },
     {
       "id": "p12",
+      "lines": true,
       "en": "The teacher said: \"Well done, my children -- I pray for your success and achievement. But be Muslims, seek Allah through your work, benefit the faith through your occupation, and serve the ummah through your knowledge.\"",
       "sentences": [
         {
@@ -4270,6 +4282,7 @@ export const CHAPTER = {
     },
     {
       "id": "p13",
+      "lines": true,
       "en": "The students said: \"And what do you say, teacher, about Abdul Kareem and his palace?\" The teacher said: \"Wealth is a blessing from Allah for which gratitude is due. Very happy is he to whom Allah gives wealth, for he spends from it secretly and openly, seeking through it Allah's pleasure, and serving Islam through it. And it has come in the noble hadith: 'There is no envy except in two cases: a man to whom Allah gave wealth, and He empowered him to spend it in truth, and a man to whom Allah gave wisdom, so he judges by it and teaches it.'\"",
       "sentences": [
         {
@@ -4876,6 +4889,7 @@ export const CHAPTER = {
     },
     {
       "id": "p14",
+      "lines": true,
       "en": "Our master Uthman was rich, and our master Abdul Rahman ibn Awf was rich. Abdul Kareem raised his head and said: \"I will strive to serve Islam with my wealth and seek Allah's pleasure through it.\"",
       "sentences": [
         {

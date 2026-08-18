@@ -46,6 +46,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "The people were occupied with nothing but eating, drinking, amusement, and play. They were content with the worldly life and were at ease with it. Their hearts grew distressed at Hūd's words, and some of them said to others: 'What is Hūd saying? What does Hūd want? We do not understand his words!' They said: 'A fool, or a madman!' When Hūd called them once again, the nobles of his people said: 'Indeed we see you in foolishness, and indeed we think you to be among the liars.' He said: 'O my people, there is not in me any foolishness, but I am a messenger from the Lord of the worlds. I convey to you the messages of my Lord, and I am to you a trustworthy advisor.'",
       sentences: [
         {

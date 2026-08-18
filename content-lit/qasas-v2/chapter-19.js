@@ -91,6 +91,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'They returned to their father, told him the news, and said to him: "Send our brother with us, otherwise we will find no good treatment with al-ʿAzīz." They asked Yaʿqūb for Binyāmīn and said: "and we will indeed guard him." Yaʿqūb said: "Can I trust you with him except as I trusted you with his brother before?" Have you forgotten the story of Yūsuf? Will you guard Binyāmīn as you guarded Yūsuf? "But Allah is the best guardian, and He is the most merciful of the merciful."',
       sentences: [
         {
@@ -240,6 +241,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'They found their money in their belongings, and said to their father: "al-ʿAzīz is a generous man, he has given us back our money and has not taken any price from us." "Send Binyāmīn with us so we may get his share too." Yaʿqūb said to them, "I will never send him with you until you pledge to Allah that you will bring him back, unless you are overpowered."',
       sentences: [
         {

@@ -43,6 +43,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'And a feast day came, so the people rejoiced. And the people went out for the feast, and the children went out. And Ibrāhīm\'s father went out and said to Ibrāhīm: Won\'t you come out with us? Ibrāhīm said: I am sick!',
       sentences: [
         {

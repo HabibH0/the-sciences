@@ -51,6 +51,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "The Devil asks: how deep is their grief, their longing? When they admit it is intense, he asks why they don't look at these men every day -- but how, they object, when they've died? His answer: make images of them, and look at the images every morning. The people are taken with Iblīs's idea and make images of the righteous, looking at them daily -- and every time they see the images, they remember those righteous men.",
       sentences: [
         {

@@ -57,6 +57,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "ʿĀd could not find an answer, and they did not know how to answer Hūd! But when they grew unable, they said: 'Our gods have become angry with you, so a sickness has afflicted your mind!' A curse from the gods has befallen you. Hūd said: 'Indeed these idols are stones that benefit no one and do not harm! And indeed these idols are stones that do not speak, do not hear, and do not see! Indeed these idols possess no good and no harm. They possess no benefit or harm for anyone. And you too do not possess good or harm. You possess no benefit or harm for me. Indeed I do not believe in your gods, nor do I fear them. Indeed I am innocent of what you associate with Allah. Nor do I fear you either -- so plot against me, all of you together. Indeed I have put my trust in Allah, my Lord and your Lord. Everything is under His hand, and no leaf falls except by His permission.'",
       sentences: [
         {

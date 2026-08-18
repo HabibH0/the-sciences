@@ -71,6 +71,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "Ṣāliḥ stood up among his people, saying in his loudest voice: \"O my people, worship Allah -- you have no god other than Him.\" The wealthy were absorbed in eating and drinking, engrossed in amusement and play. They worshiped idols and recognized no god besides them, so Ṣāliḥ's call did not please them at all. Thamūd's wealthy grew angry and said: \"Who is this?\" The servants said: \"This is Ṣāliḥ.\" They said: \"What does he say?\" They said: \"He says: Worship Allah -- you have no god other than Him. And he says Allah will raise you after your death and repay you. And he says: I am the messenger of Allah, He has sent me to my people.\" The wealthy laughed and said: \"Poor wretch! Can this be a messenger? He has no palace and no orchard, and he has no crops and no palm trees! So how can this be a messenger?\"",
       sentences: [
         {

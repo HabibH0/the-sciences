@@ -203,6 +203,7 @@ export const CHAPTER = {
   paragraphs: [
     {
       id: 'p1',
+      lines: true,
       en: 'Khalid finds Tariq writing a letter to his brother Amir in Delhi -- Tariq explains how it travels without either of them going anywhere: written, sealed in an envelope addressed and stamped, or written on a postcard instead.',
       sentences: [
         {
@@ -370,6 +371,7 @@ export const CHAPTER = {
     },
     {
       id: 'p2',
+      lines: true,
       en: 'Khalid notices a picture printed on the envelope and asks about it, since he has heard that pictures of living beings are not allowed in Islam -- Tariq agrees, and says a properly Islamic government’s post wouldn’t carry one.',
       sentences: [
         {
@@ -442,6 +444,7 @@ export const CHAPTER = {
     },
     {
       id: 'p3',
+      lines: true,
       en: 'Khalid asks what happens after the address is written -- Tariq explains the letter goes into a red mailbox out on the streets, and a postal worker sorts what a postman brings in from those boxes to the post office, stamping and routing each letter toward its city.',
       sentences: [
         {
@@ -582,6 +585,7 @@ export const CHAPTER = {
     },
     {
       id: 'p4',
+      lines: true,
       en: 'Tariq explains the next leg of the journey: the sorted letters are carried to the station and loaded onto the train that runs to their city, so a Delhi letter travels on the Delhi train and a Calcutta letter on the Calcutta train.',
       sentences: [
         {
@@ -645,6 +649,7 @@ export const CHAPTER = {
     },
     {
       id: 'p5',
+      lines: true,
       en: "Khalid guesses the letter's recipient has to fetch it himself at the station -- Tariq corrects him twice: it moves on to the post office instead, is sorted and stamped there too, and only then does a postman carry it the final stretch to the door.",
       sentences: [
         {

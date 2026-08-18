@@ -3608,6 +3608,14 @@ function litSentenceHtml(state, sentence) {
 function litParagraphHtml(state, para, pi, active) {
   const fullOpen = state.lit.fullPara === pi;
   const hoverOn = state.litHoverTranslate !== false;
+  // `para.lines` opts a paragraph out of running prose: each sentence is
+  // already authored as one speaker's turn or one verse (see
+  // content-lit/CHAPTER-FORMAT.md), so a dialogue or poem paragraph renders
+  // one sentence per line instead of joining them all with a space into a
+  // single justified block, which otherwise erases that structure.
+  const text = para.lines
+    ? `<div class="lit-para-text is-lines" lang="ar" dir="rtl">${para.sentences.map((s) => `<p class="lit-line">${litSentenceHtml(state, s)}</p>`).join('')}</div>`
+    : `<p class="lit-para-text" lang="ar" dir="rtl">${para.sentences.map((s) => litSentenceHtml(state, s)).join(' ')}</p>`;
   return `
     <article class="lit-para${active ? ' is-active' : ''}" data-anim-key="litpara${pi}">
       <div class="lit-para-gutter">
@@ -3617,7 +3625,7 @@ function litParagraphHtml(state, para, pi, active) {
         <button class="lit-para-hover-btn${hoverOn ? ' is-active' : ''}" data-action="toggleLitHoverTranslate"
           aria-pressed="${hoverOn ? 'true' : 'false'}" title="${hoverOn ? 'Hover translation: ON (click to turn off)' : 'Hover translation: OFF (click to turn on)'}">${icon('pointer', 11, 2)}</button>
       </div>
-      <p class="lit-para-text" lang="ar" dir="rtl">${para.sentences.map((s) => litSentenceHtml(state, s)).join(' ')}</p>
+      ${text}
       ${fullOpen ? `<p class="lit-para-full">${escBidi(para.en)}</p>` : ''}
     </article>`;
 }
@@ -3678,6 +3686,7 @@ function litChecksHtml(state, para, pi) {
             actionName: 'litCheckOption',
             extraData: `data-check="${ci}"`,
             animScope: `litc${pi}_${ci}${inEnglish ? 'e' : ''}`,
+            order: state.lit.checkOrder[`${pi}:${ci}`],
           })}
         </div>`;
       }).join('')}

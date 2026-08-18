@@ -5495,6 +5495,20 @@ button.path-node:not(.locked):hover {
 .lit-para:not(.is-active) .lit-para-text {
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
 }
+/* Dialogue turns and poem verses (para.lines) each get their own line
+   instead of running together as justified prose -- justification looks
+   wrong on a short line that isn't meant to fill the column, so lines are
+   ragged at the start edge instead. */
+.lit-para-text.is-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  text-align: right;
+  text-justify: auto;
+}
+.lit-line {
+  margin: 0;
+}
 /* The whole-paragraph translation is the same object as the phrase gloss,
    one step down in emphasis: the same box, the same padding, squared to the
    same Arabic column, just below the paragraph instead of above it. */

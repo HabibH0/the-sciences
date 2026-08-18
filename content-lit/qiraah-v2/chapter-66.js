@@ -183,6 +183,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"Who are you, that you defied the order of the Commander of the Believers and went out at an hour like this?" One of them said (verse): "I am the son of him to whom necks have submitted, from among its Makhzum and its Hashim; it comes to him despite itself, humbled — he takes from its wealth and from its blood." The chief held back from him and said: "Perhaps he is a relative of the Commander of the Believers."',
       sentences: [
         {
@@ -266,6 +267,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'Then he said to another: "And who are you?" He said (verse): "I am the son of one whose worth time never lowers, and if it falls one day, it will surely return; you see people in throngs toward the light of his fire — some standing around it, some sitting." The chief held back from him and said: "Perhaps he is the son of the noblest of the Arabs."',
       sentences: [
         {
@@ -337,6 +339,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'Then he said to another: "And who are you?" He recited, saying (verse): "I am the son of one who plunged into the ranks with his resolve and straightened them with the sword until they stood firm; his two stirrups — his feet never leave them — when the horses turn to flee on the day of dread." The chief held back from him and said: "Perhaps he is the son of the bravest of the Arabs," and kept them safe.',
       sentences: [
         {

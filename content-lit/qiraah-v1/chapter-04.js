@@ -845,6 +845,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "Umar asks Khalid if he has visited the market of this town. Khalid says he is a newcomer who doesn't know the way. Umar invites him along, promising they will be back before Maghrib since the market isn't far.",
       "sentences": [
         {
@@ -1235,6 +1236,7 @@ export const CHAPTER = {
     },
     {
       "id": "p2",
+      "lines": true,
       "en": "Khalid admires the big, clean market and asks about a shop. Umar explains it's a fruit-seller's, with people haggling over the fruit. Khalid wants to buy bananas, guava, and oranges for a breakfast with friends. Umar notes guava is dear, oranges sour, but the bananas are fine; still, he suggests buying fruit tomorrow at the vegetable market instead, where it's plentiful and cheap.",
       "sentences": [
         {
@@ -1993,6 +1995,7 @@ export const CHAPTER = {
     },
     {
       "id": "p3",
+      "lines": true,
       "en": "Khalid agrees and asks about the cloth shops; Umar explains people haggle there with the merchants over cloth, then says he wants to buy a pair of shoes. At the shop, Khalid defers to Umar, who asks for a matching pair. The shopkeeper offers one that's a little wide, then another that fits exactly.",
       "sentences": [
         {
@@ -2519,6 +2522,7 @@ export const CHAPTER = {
     },
     {
       "id": "p4",
+      "lines": true,
       "en": "The shopkeeper offers another pair that fits exactly. Umar asks the price — six rupees — and tries to haggle, but the shopkeeper insists it's the cheapest in the market. Umar believes him, because a Muslim does not lie or cheat.",
       "sentences": [
         {
@@ -2909,6 +2913,7 @@ export const CHAPTER = {
     },
     {
       "id": "p5",
+      "lines": true,
       "en": "Khalid asks about the place where people eat. Umar explains it's a restaurant, common in town because strangers and travellers without houses eat there; villages, having few strangers, have no need of one.",
       "sentences": [
         {
@@ -3395,6 +3400,7 @@ export const CHAPTER = {
     },
     {
       "id": "p6",
+      "lines": true,
       "en": "Khalid asks where to find paper, ink, and writing tools. Umar points him to the stationer's shop, which has everything the school needs. Khalid thanks Umar warmly for all he's learned and suggests they head home to pray Maghrib; Umar agrees, having nothing else to do.",
       "sentences": [
         {

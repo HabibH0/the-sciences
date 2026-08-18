@@ -128,6 +128,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "Unable to answer Mūsā's rebuke, Pharaoh tried to change the subject: 'And what is this Lord of the worlds you keep mentioning?' Mūsā answered plainly -- Lord of the heavens and earth, if you would only be certain -- and Pharaoh, furious, turned to mock him before the court, calling him mad. Musa did not stop; he answered again -- Lord of the east and the west. Pharaoh grew more desperate with each exchange.",
       sentences: [
         {
@@ -233,6 +234,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Pharaoh's anger only deepened -- he called Mūsā's messenger-hood madness, and Mūsā answered a third time: Lord of the east and the west. Cornered, Pharaoh tried a different trap, mocking the fate of \"earlier generations\" -- reasoning privately that whichever way Mūsā answered, he could turn the crowd against him. But Mūsā, wiser and guided by his Lord's light, deflected the trap entirely: that knowledge belongs to Allah alone, who never errs or forgets, who spread the earth and sent water from the sky. Baffled and humiliated before his own court, Pharaoh fell back on the oldest threat of kings -- he threatened to imprison Mūsā for worshiping any god but himself.",
       sentences: [
         {

@@ -226,6 +226,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '[Qurʾān, al-Baqarah 2:67: "And [recall] when Mūsā said to his people, \'Indeed, Allah commands you to slaughter a cow.\' They said, \'Do you take us in mockery?\' He said, \'I seek refuge in Allah from being among the ignorant.\'"]',
       sentences: [
         {
@@ -284,6 +285,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'And here they sent forth their questions. [Qurʾān, al-Baqarah 2:68: "They said, \'Call upon your Lord for us to make clear to us what it is.\' He said, \'He says: it is a cow neither old nor young, middling between that; so do what you are commanded.\'"] But they did not stop at this question -- rather they began to ask about its color.',
       sentences: [
         {
@@ -371,6 +373,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '[Qurʾān, al-Baqarah 2:69: "They said, \'Call upon your Lord for us to make clear to us what its color is.\' He said, \'He says: it is a bright yellow cow, pleasing to those who look at it.\'"] They found no [further] question, so they threw the question wide open.',
       sentences: [
         {
@@ -431,6 +434,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '[Qurʾān, al-Baqarah 2:70: "They said, \'Call upon your Lord for us to make clear to us what it is; indeed the cows are all alike to us, and indeed we, Allah willing, will be guided.\'" 2:71: "He said, \'He says: it is a cow not broken to plow the earth or water the crops, sound and without blemish.\'"] And this time they were granted success, because they said, "and indeed we, Allah willing, will be guided" -- so they were guided.',
       sentences: [
         {

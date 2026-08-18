@@ -132,6 +132,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'Ibrāhīm came, and Ibrāhīm feared no one, except Allah. The king said: \'Who is your Lord, O Ibrāhīm?\' Ibrāhīm said: \'My Lord is Allah!\' The king said: \'Who is Allah, O Ibrāhīm?\' Ibrāhīm said: \'He who gives life and causes death.\' (Qur\'an 2:258)',
       sentences: [
         {

@@ -104,6 +104,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'When the men set out with Yūsuf\'s shirt toward Canaan, Yaʿqūb sensed Yūsuf\'s scent, and said: "Indeed, I find the scent of Yūsuf," "They said: \'By Allah, you are still in your old confusion.\'" But Yaʿqūb had been truthful, "So when the bearer of good news came and cast it over his face, he became seeing again,',
       sentences: [
         {
@@ -202,6 +203,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"he said: \'Did I not tell you that I know from Allah what you all do not know?\'" "They said: \'O our father, ask forgiveness for us for our sins, indeed we have been sinners.\'" "He said: \'I will ask my Lord to forgive you; indeed He is the Forgiving, the Merciful.\'"',
       sentences: [
         {

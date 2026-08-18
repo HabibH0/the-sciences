@@ -305,6 +305,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"And when your Lord called out to Mūsā: Go to the wrongdoing people -- the people of Pharaoh -- will they not fear? He said: My Lord, indeed I fear that they will deny me, and my chest will tighten and my tongue will not speak fluently, so send to Hārūn. And they have a charge against me, so I fear that they will kill me. He said: No indeed -- so go, both of you, with Our signs; indeed We are with you, listening. So go to Pharaoh and say: Indeed we are messengers of the Lord of the worlds -- send with us the Children of Israel."',
       sentences: [
         {

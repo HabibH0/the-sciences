@@ -209,6 +209,7 @@ export const CHAPTER = {
   paragraphs: [
     {
       id: 'p1',
+      lines: true,
       en: 'Khalid says he has never seen the postman -- Tariq describes him: a grey uniform with brass buttons, a turban, a leather satchel. Khalid confirms he has seen exactly that, and Tariq explains people wait for him eagerly, especially in villages, whenever they are expecting a reply or a book they ordered.',
       sentences: [
         {
@@ -345,6 +346,7 @@ export const CHAPTER = {
     },
     {
       id: 'p2',
+      lines: true,
       en: "Khalid describes another man in a similar uniform but without the leather bag, riding a red bicycle in a hurry -- Tariq explains he is also a postman, but one who delivers telegrams rather than letters, riding fast because telegrams are only ever sent when they need to arrive quickly.",
       sentences: [
         {
@@ -442,6 +444,7 @@ export const CHAPTER = {
     },
     {
       id: 'p3',
+      lines: true,
       en: "Khalid wonders how one man could possibly deliver letters across a whole city -- Tariq explains there isn't just one: the post office has many men, one postman assigned to each district and each neighborhood.",
       sentences: [
         {
@@ -512,6 +515,7 @@ export const CHAPTER = {
     },
     {
       id: 'p4',
+      lines: true,
       en: "Khalid asks how the post office affords its wages and equipment for so many men -- Tariq explains it charges a fee for every letter sent, and shows Khalid the stamp he bought, which is that very fee.",
       sentences: [
         {
@@ -622,6 +626,7 @@ export const CHAPTER = {
     },
     {
       id: 'p5',
+      lines: true,
       en: 'Khalid thanks Tariq for the useful conversation and says he will write to his own friend Jameel, send the letter by post, and bring it to Tariq first to check over -- Tariq is glad to help.',
       sentences: [
         {

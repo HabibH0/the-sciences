@@ -269,6 +269,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"Have you seen, my sister, the new child?!" "Yes, I have seen him -- a very beautiful child. But he is a strange child, not like other children! He does not nurse. Whenever a wet-nurse takes him he cries and refuses to nurse -- poor thing, how will he live? He will die!" "Yes, days have passed over him and he has not nursed."',
       sentences: [
         {

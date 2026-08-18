@@ -80,6 +80,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "When Pharaoh let loose his arrow, Mūsā answered with Allah's: 'Even if I bring you something clear?' 'Then bring it,' said Pharaoh, 'if you speak the truth.' Mūsā cast down his staff and it became a plain serpent; he drew out his hand and it shone white to all who looked. Pharaoh, scrambling for a response, told his court this was a skilled sorcerer, and they agreed it was plain sorcery. Mūsā answered them back: how can you call the truth sorcery, when it has just come to you? Sorcerers never prosper.",
       sentences: [
         {

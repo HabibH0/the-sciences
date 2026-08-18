@@ -101,6 +101,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'But Yaʿqūb was a human being, in his chest a human heart, not a piece of stone. He remembered Yūsuf, and his grief was renewed, and he said: "O my grief for Yūsuf!" His sons blamed him and said, You keep remembering Yūsuf until you will perish.',
       sentences: [
         {
@@ -599,6 +600,7 @@ export const CHAPTER = {
       checks: [],
     },
     {
+      lines: true,
       en: '"They said: \'Are you indeed Yūsuf?\'" "He said: \'I am Yūsuf, and this is my brother. Allah has indeed favored us -- indeed, whoever is mindful of Allah and is patient, then indeed Allah does not waste the reward of the doers of good.\'" "They said: \'By Allah, Allah has indeed preferred you over us, and we were indeed sinners.\'" Yūsuf did not blame them for their deed -- instead he said: "May Allah forgive you, and He is the most merciful of the merciful."',
       sentences: [
         {

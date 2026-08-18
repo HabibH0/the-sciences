@@ -168,6 +168,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"What do you think, my brother -- who will win?" "Egypt has thrown in her own most precious children -- do you think anyone can defeat them? And how could Mūsā and his brother defeat them, and where did they even learn magic? He grew up in the king\'s palace, then left Egypt afraid and watchful, and was in Madyan for years. So where did they learn magic? In Egypt? No! In Madyan? We never heard there was such an art there!"',
       sentences: [
         {

@@ -444,6 +444,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Allah asked what was in his right hand, and Mūsā answered simply and artlessly: 'It is my staff.' Then, wanting to prolong the conversation with Allah, he began listing its uses in detail: 'It is my staff; I lean on it, and I beat down leaves with it for my sheep, and I have other uses for it besides.' Allah told him to throw it down -- and when he threw it, it became a snake, gliding about. Allah told him to take it, without fear, for it would be restored to its former state. Then Mūsā was granted a second sign, the white hand, when Allah said: 'And draw your hand to your side; it will come out white, without blemish -- another sign.'",
       sentences: [
         {

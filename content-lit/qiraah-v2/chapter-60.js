@@ -872,6 +872,7 @@ export const CHAPTER = {
       ]
     },
     {
+      lines: true,
       en: "Harun al-Rashid asked Malik to come, but he refused, so Harun came to Malik, while he was in his house, and with him were his sons, and he asked that he recite to them, so he said: \"I have not recited to anyone for a long time, rather, it is recited to me.\" So Harun said: \"Send the people out, so that I myself may recite to you,\" so he said: \"If the general public is denied for the sake of some of the elite, the elite will not benefit.\"",
       sentences: [
         {
@@ -995,6 +996,7 @@ export const CHAPTER = {
       ]
     },
     {
+      lines: true,
       en: "Malik entered upon the Commander of the Believers, al-Mansur, while he was on his bed, when a boy came, going out then coming back, so he said to me: \"Do you know who this is?\" I said: \"No!\" He said: \"My son, he is only startled by the awe you inspire.\"",
       sentences: [
         {

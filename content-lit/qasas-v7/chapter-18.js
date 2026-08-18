@@ -412,6 +412,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"Who among the people is most knowledgeable?" He said: "I am most knowledgeable!" So Allah reproached him, since he did not refer knowledge back to Allah. So Allah revealed to him that a servant among His servants at the confluence of the two seas was more knowledgeable than him. He said: "My Lord, how do I reach him?" And it was said to him: "Carry a fish in a basket (زَنْبِيل); wherever you lose it, he is there."',
       sentences: [
         {
@@ -641,6 +642,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'His companion said to him: "Did you see, when we took refuge at the rock -- indeed I forgot the fish." Mūsā said: "That is what we were seeking." So the two of them turned back, retracing their footsteps exactly.',
       sentences: [
         {
@@ -700,6 +702,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'When they reached the rock, there was a man covered (مُغَطّى) with a garment, and Mūsā greeted him with salām. Al-Khiḍr said: "And how does salām [reach] your land?" He said: "I am Mūsā!" He said: "The Mūsā of the Children of Israel?" He said: "Yes!" Mūsā said: "May I follow you, so that you may teach me some of the right guidance you have been taught?" He said: "Indeed you will not be able to have patience with me! O Mūsā, I am upon knowledge from the knowledge of Allah which He taught me, which you do not know, and you are upon knowledge which Allah taught you, which I do not know!" So the two of them set out, walking along the shore of the sea, having no ship,',
       sentences: [
         {
@@ -980,6 +983,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'Mūsā said: "A people who carried us without a fare -- you went and made a hole in their ship, to drown its people?!" Al-Khiḍr said: "Did I not say that you would not be able to have patience with me?" Mūsā said: "Do not take me to task for what I forgot, and do not burden me with hardship in my affair." So the first [objection] from Mūsā was [due to] forgetfulness.',
       sentences: [
         {
@@ -1083,6 +1087,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'So the two of them set out, and there was a young boy playing among the boys, and al-Khiḍr took hold of his head from the top of it and pulled his head off with his hand. Mūsā said: "Have you killed a pure soul, without [it having killed another] soul?" He said: "Did I not tell you that you would not be able to have patience with me?" [Qur\'an:] "So the two of them went on, until, when they came to the people of a town, they asked its people for food, but they refused to host them; then they found in it a wall about to collapse." Al-Khiḍr set to it with his hand and set it upright. Mūsā said: "If you had wished, you could have taken a wage for it!" He said: "This is the parting between me and you!" The Prophet said: "May Allah have mercy on Mūsā -- how we wish he had been patient, so that more of their story would have been related to us!"',
       sentences: [
         {

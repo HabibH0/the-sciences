@@ -225,6 +225,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: '"Goodness! What is the matter with this child? Perhaps this is the sixth wet-nurse the queen has tried." "Yes, and they say she is a very clean wet-nurse, and everyone nurses from her." Mūsā\'s sister heard this talk and said, politely and gently, "I know a woman in the town -- the child is sure to nurse from her." A woman said, "I don\'t believe it -- we have tried six wet-nurses, and the child has not nursed." Another said, "And why don\'t we try the seventh? What do we have to lose?"',
       sentences: [
         {

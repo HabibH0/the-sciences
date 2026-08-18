@@ -270,6 +270,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "When they crossed the sea, they came upon a people devoted to idols of their own, and said: 'O Mūsā, make for us a god just as they have gods!' Mūsā grew angry and said: 'You are truly an ignorant people.' What wonder! What injustice! Allah had blessed you, favored you, and given you what He gave no other people in all the worlds -- 'Should I seek a god for you other than Allah, when He has favored you above all the worlds?'",
       sentences: [
         {
@@ -487,6 +488,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Do they not see that it does not answer them a word, and has no power to harm or benefit them? Have they not seen that it does not speak to them, nor guide them to any way? Hārūn forbade them from this and strove hard, saying: 'O my people, you have only been tested by it; your Lord is truly the Most Merciful, so follow me and obey my command!' But the Children of Israel were bewitched by al-Sāmirī's sorcery, and love of the calf had been made to soak into their hearts, so they said: 'We will not cease to cling to it until Mūsā returns to us.'",
       sentences: [
         {

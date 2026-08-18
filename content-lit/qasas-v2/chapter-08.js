@@ -299,6 +299,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'The woman\'s anger intensified, and she said to Yūsuf: \'Then you shall go to prison!\' Yūsuf said: \'Prison is dearer to me.\' After some days, al-ʿAzīz decided to send Yūsuf to prison -- though al-ʿAzīz knew Yūsuf was innocent. And Yūsuf entered the prison.',
       sentences: [
         {

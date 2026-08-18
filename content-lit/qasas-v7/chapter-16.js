@@ -312,6 +312,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: "Then Mūsā turned to al-Sāmirī and said: 'What is your business, O Sāmirī?' Al-Sāmirī confessed his crime and said: 'Thus did my soul entice me.' He said: 'Then go, for it is your lot in this life to say: No touching!' Mūsā punished him with isolation -- he walks alone and lives alone, like a wild creature, neither growing familiar with others nor they with him.",
       sentences: [
         {

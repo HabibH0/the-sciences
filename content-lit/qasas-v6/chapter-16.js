@@ -102,6 +102,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: "The two girls reached home before the appointed time, and their father, surprised, asked them why. He asked how they had managed to arrive early. They told him Allah had provided a noble man who had watered their flock for them. The old man was astonished -- he knew it was strange, since no one had ever shown them such mercy before -- and asked where they had left him. They said they had left him where he was, a stranger with nowhere to stay.",
       sentences: [
         {

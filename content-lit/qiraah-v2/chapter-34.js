@@ -265,6 +265,7 @@ export const CHAPTER = {
       ]
     },
     {
+      lines: true,
       en: "Hamid went to Husayn's house, greeted, and asked permission. Husayn's father came out. Hamid said: \"I want to visit my friend Husayn, for Ali told me he is sick.\" His father said: \"Yes! The fever struck him on Thursday, and you may visit him.\"",
       sentences: [
         {

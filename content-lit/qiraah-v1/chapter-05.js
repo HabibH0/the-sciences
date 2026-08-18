@@ -236,6 +236,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "Captivity is not my way, and there is no joy in it. I do not accept a cage, even if it were made of gold. The groves of my Lord are my goal, and life among them is my desire. My food has been delightful there, and my drink has been pleasing there. I go about there and drink from the water of a spring, sweeter still. I sing freely there, for captivity is not my way.",
       "sentences": [
         {

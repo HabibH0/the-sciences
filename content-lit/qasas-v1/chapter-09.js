@@ -50,6 +50,7 @@ export const CHAPTER = {
   },
   paragraphs: [
     {
+      lines: true,
       en: 'Ibrāhīm called his people to Allah and restrained them from worshipping the idols. Ibrāhīm said to his people: What do you worship? They said, \'We worship idols.\' (Qur\'an 26:71)',
       sentences: [
         {
@@ -130,6 +131,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'Ibrāhīm said: \'Do they hear you when you call?\' (Qur\'an 26:72) Or do they benefit you, or harm you?\' (Qur\'an 26:73) They said, \'Rather,',
       sentences: [
         {

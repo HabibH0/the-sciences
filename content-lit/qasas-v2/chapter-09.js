@@ -189,6 +189,7 @@ export const CHAPTER = {
       checks: [],
     },
     {
+      lines: true,
       en: '\'One of them said, Indeed I see myself pressing wine.\' The other said, \'Indeed I see myself carrying on top of my head bread which the birds are eating from.\'',
       sentences: [
         {

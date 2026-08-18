@@ -331,6 +331,7 @@ export const CHAPTER = {
   "paragraphs": [
     {
       "id": "p1",
+      "lines": true,
       "en": "Sleep always in the soft bed. Sleep, my beloved, sleep safely, sleep safely. The day has gone and withdrawn, taking with it toil and weariness, and the night has drawn near in safety -- sleep safely, sleep safely. The warbling birds have settled for the night in the keeping of our Lord, the Self-Sufficient, who is never heedless of anyone -- sleep safely in His protection. Sleep safely until dawn from all wrong or distress; sleep in the protection of the Creator of mankind, sleep safely in His protection.",
       "sentences": [
         {

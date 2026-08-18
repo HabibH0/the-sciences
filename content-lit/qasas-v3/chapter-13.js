@@ -288,6 +288,7 @@ export const CHAPTER = {
       ],
     },
     {
+      lines: true,
       en: 'So Nūḥ stood among his people, declaring at the top of his voice: "O my people, worship Allah -- you have no god but Him. I fear for you the punishment of a tremendous day." "The chiefs among his people said: We surely see you in plain error." "He said: O my people, there is no error in me, rather I am a messenger from the Lord of the worlds, conveying to you the messages of my Lord and sincerely advising you, and I know from Allah what you do not know."',
       sentences: [
         {
