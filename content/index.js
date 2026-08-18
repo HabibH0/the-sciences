@@ -403,7 +403,11 @@ export function lessonProgress(lesson, exStates, moduleId, lessonId) {
 // A concept's `body` is authored as one prose string but renders as one <p>
 // per sentence, for breathing room on the combined lesson page. The split
 // lives here so content files stay readable prose; a concept can also
-// author a `lines` array directly to override the automatic split.
+// author a `lines` array directly to interleave boxes/tables/diagrams with
+// prose -- each plain-prose entry in that array still gets the same
+// sentence split (see expandAuthoredLine below), so hand-placed prose reads
+// with the same rhythm as body-authored prose instead of landing as a
+// multi-sentence block on one line.
 
 // Words that end in a period without ending a sentence.
 const ABBREVIATIONS = new Set(['e.g', 'i.e', 'etc', 'vs', 'cf', 'approx']);
@@ -471,15 +475,10 @@ function splitList(sentence) {
   return null;
 }
 
-// Returns [{ html, list, bullet }] -- `list` entries render as list items.
-export function conceptLines(concept) {
-  // Authored lines are already in final { html, list, bullet } shape --
-  // unlike the auto-split path below, they don't go through splitList
-  // (which expects plain sentence strings, not these objects).
-  if (Array.isArray(concept.lines)) return concept.lines;
-
+// Splits one prose string into trimmed sentences on '.', '?', '!', '؟',
+// skipping HTML tags and abbreviation false-positives (see endsSentence).
+function splitSentences(html) {
   const sentences = [];
-  const html = concept.body || '';
   let start = 0;
   let inTag = false;
   for (let i = 0; i < html.length; i++) {
@@ -494,8 +493,23 @@ export function conceptLines(concept) {
   const tail = html.slice(start).trim();
   if (tail) sentences.push(tail);
   if (!sentences.length) sentences.push(html);
+  return sentences;
+}
 
-  return sentences.flatMap((s) => splitList(s) || [{ html: s, list: false }]);
+// A structural authored-line entry (table/box/tarkeebDiagram) or an
+// already-authored list item is placed by hand and passes through as-is.
+// A plain prose entry -- { html, list: false } -- gets the same sentence
+// and enumeration split `body` gets, so authored lines don't need to be
+// hand-wrapped one sentence per entry to read that way.
+function expandAuthoredLine(line) {
+  if (line.list || !line.html) return [line];
+  return splitSentences(line.html).flatMap((s) => splitList(s) || [{ html: s, list: false }]);
+}
+
+// Returns [{ html, list, bullet }] -- `list` entries render as list items.
+export function conceptLines(concept) {
+  if (Array.isArray(concept.lines)) return concept.lines.flatMap(expandAuthoredLine);
+  return splitSentences(concept.body || '').flatMap((s) => splitList(s) || [{ html: s, list: false }]);
 }
 
 // Practice pool: the larger practice pool (lesson.bank), unlocked once that
