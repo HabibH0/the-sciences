@@ -355,6 +355,127 @@ function navSignature() {
 }
 let lastNav = null;
 const scrollPositions = new Map();
+let activeViewTransition = null;
+
+// --- browser back/forward -------------------------------------------------
+// The app never changes the URL and previously never touched
+// window.history at all, so on the web target the browser's own Back/
+// Forward buttons had nothing to do -- the first Back press left the app
+// entirely instead of stepping back one screen. This wires just the
+// "stable" screens (not a live practice/reading session, which has no
+// serializable position worth restoring and isn't persisted across a
+// reload either -- see state.practice's own comment) into real history
+// entries, so Back/Forward step through them the way the in-app back
+// affordances already do. A screen not in this set is reached WITHOUT its
+// own history entry, so it stays associated with whichever trackable
+// screen led into it -- Back from mid-session lands on that screen, not on
+// some half-reconstructed session.
+const HISTORY_TRACKED_VIEWS = new Set([
+  'dashboard', 'module', 'lesson', 'quiz', 'schedule', 'settings', 'account',
+  'achievements', 'pathGroups', 'path', 'library', 'litBook',
+]);
+
+function historySignature() {
+  return [
+    state.launchScreen ? 'launch' : 'app',
+    state.courseId || '',
+    state.view || '',
+    state.moduleId || '',
+    state.lessonId || '',
+    state.pathGroupId || '',
+    state.litBookId || '',
+  ].join('|');
+}
+
+function navSnapshot() {
+  return {
+    launchScreen: state.launchScreen,
+    courseId: state.courseId,
+    view: state.view,
+    moduleId: state.moduleId,
+    lessonId: state.lessonId,
+    pathGroupId: state.pathGroupId,
+    pathActive: state.pathActive,
+    pathHome: state.pathHome,
+    litHome: state.litHome,
+    litBookId: state.litBookId,
+    litChapterId: state.litChapterId,
+  };
+}
+
+let lastHistorySig = null;
+let restoringHistory = false;
+
+// Called from rerender() itself, so every action that reaches a trackable
+// screen picks it up automatically -- no call site elsewhere needs to know
+// this exists. Seeds the tab's own initial entry with replaceState (so
+// there's no phantom extra "back" to a blank state before the app loaded);
+// every later trackable change pushes a new one.
+function trackHistory() {
+  if (restoringHistory) return;
+  if (!HISTORY_TRACKED_VIEWS.has(state.view)) return;
+  const sig = historySignature();
+  if (sig === lastHistorySig) return;
+  if (lastHistorySig === null) {
+    history.replaceState(navSnapshot(), '', location.href);
+  } else {
+    history.pushState(navSnapshot(), '', location.href);
+  }
+  lastHistorySig = sig;
+}
+
+// Restores a screen from a history entry. Only ever called with a snapshot
+// this same session pushed (see trackHistory), so it only ever names a
+// HISTORY_TRACKED_VIEWS screen -- never a live session that would need
+// state this lightweight snapshot doesn't carry.
+//
+// Takes `token` so a rapid run of Back/Forward clicks can't land its
+// mutations out of order: setActiveCourse is awaited (a real network/import
+// wait when switching courses), so an EARLIER popstate's course load can
+// resolve AFTER a LATER one's if the user clicks faster than either
+// finishes. Bailing out here (not just before the eventual rerender) means
+// a superseded snapshot never touches state at all, not just never gets
+// painted.
+async function applyNavSnapshot(snap, token) {
+  if (snap.courseId && snap.courseId !== state.courseId) {
+    await setActiveCourse(snap.courseId);
+    if (token !== historyRestoreToken) return false;
+  }
+  state.courseId = snap.courseId || state.courseId;
+  state.launchScreen = !!snap.launchScreen;
+  state.view = snap.view || 'dashboard';
+  state.moduleId = snap.moduleId || null;
+  state.lessonId = snap.lessonId || null;
+  state.pathGroupId = snap.pathGroupId || null;
+  state.pathActive = !!snap.pathActive;
+  state.pathHome = !!snap.pathHome;
+  state.litHome = !!snap.litHome;
+  state.litBookId = snap.litBookId || null;
+  state.litChapterId = snap.litChapterId || null;
+  // A restored screen has no live session or open transient overlay --
+  // matches how every other route into a stable screen leaves these.
+  state.practice = null;
+  state.lit = null;
+  state.lessonPreviewId = null;
+  state.litChapterPreviewId = null;
+  state.pathCheckpointSetupNodeId = null;
+  state.pathSkipAheadPromptNodeId = null;
+  return true;
+}
+
+let historyRestoreToken = 0;
+
+window.addEventListener('popstate', (e) => {
+  if (!e.state) return;
+  const token = ++historyRestoreToken;
+  restoringHistory = true;
+  applyNavSnapshot(e.state, token).then((applied) => {
+    if (!applied) return; // a later popstate has since superseded this one
+    lastHistorySig = historySignature();
+    rerender();
+    restoringHistory = false;
+  });
+});
 
 function mainScrollContainer() {
   return root.querySelector('.main-content') || root.querySelector('.main');
@@ -707,17 +828,36 @@ function rerender(focusSelector) {
       if (toFocus) toFocus.focus();
     }
   };
-  if (usingViewTransition) {
-    const transition = document.startViewTransition(swap);
-    transition.finished.finally(() => {
-      deferredEntrances.forEach((el) => {
-        el.classList.remove('entrance-pending');
-        el.classList.add('anim-in');
-      });
+  const settleEntrances = () => {
+    deferredEntrances.forEach((el) => {
+      el.classList.remove('entrance-pending');
+      el.classList.add('anim-in');
     });
+  };
+  if (usingViewTransition) {
+    // Two navigating actions fired close together (an impatient click, or
+    // popstate during an in-flight transition) make startViewTransition()
+    // throw a synchronous InvalidStateError once a transition is already
+    // active. Skip the in-flight one first so the browser never sees two at
+    // once, and still fall back to a plain swap() -- settling any deferred
+    // entrances immediately, since there is no transition left to flip them
+    // later -- if it throws anyway.
+    if (activeViewTransition) activeViewTransition.skipTransition?.();
+    try {
+      const transition = document.startViewTransition(swap);
+      activeViewTransition = transition;
+      transition.finished.catch(() => {}).finally(() => {
+        if (activeViewTransition === transition) activeViewTransition = null;
+        settleEntrances();
+      });
+    } catch (err) {
+      swap();
+      settleEntrances();
+    }
   } else {
     swap();
   }
+  trackHistory();
   if (!suppressPersist) persistSoon(state);
 }
 
@@ -768,6 +908,23 @@ function startQuizAttempt(lesson) {
   state.quizAnswers = [];
   state.quizShowResult = false;
   state.quizAttempt += 1;
+}
+
+// Shared by startLesson (from the "Start lesson" preview modal) and
+// continueLesson (the dashboard hero's "Continue lesson N" -- skips the
+// preview since it already declared its own intent, unlike a lesson row
+// that might just be getting browsed). Resolves whichever position the
+// lesson was last left at (concepts vs quiz) and gets straight into it.
+function enterLesson(moduleId, lessonId) {
+  state.moduleId = moduleId;
+  state.lessonId = lessonId;
+  // Only two positions exist inside a lesson now. Older save files can hold
+  // 'drill'/'drillComplete' here -- treat anything else as the concepts page
+  // rather than navigating to a view that no longer exists.
+  const pos = state.lessonPos[`${moduleId}_${lessonId}`];
+  state.view = pos && pos.view === 'quiz' ? 'quiz' : 'lesson';
+  shuffleLessonOptions(moduleId, lessonId);
+  if (state.view === 'quiz') startQuizAttempt(getLesson(moduleId, lessonId));
 }
 
 // Resets a bank item's per-attempt display state fresh, whether it's an MCQ
@@ -1094,6 +1251,26 @@ function rerenderAccountIfOpen() {
   if (state.view === 'account') rerender();
 }
 
+// Same email shape the server checks (server/server.js's assertEmailPassword)
+// -- kept in sync so a client-side rejection here always matches what the
+// server would also reject, never stricter or looser.
+const ACCOUNT_EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+// Catches the "obviously incomplete" case (empty/malformed fields) before a
+// real network round trip, so that class of mistake gets instant, specific
+// feedback instead of the same generic "Invalid email or password" a wrong
+// password also produces. Deliberately not a stricter check than the
+// server's own (e.g. no password-strength rules beyond length on register)
+// -- this is a UX shortcut for the obvious case, not a second source of
+// truth for what's a valid account.
+function accountFieldError(email, password, { minPasswordLength = 1 } = {}) {
+  if (!ACCOUNT_EMAIL_PATTERN.test(email.trim())) return 'Enter a valid email address.';
+  if (password.length < minPasswordLength) {
+    return minPasswordLength > 1 ? `Password must be at least ${minPasswordLength} characters.` : 'Enter a password.';
+  }
+  return null;
+}
+
 async function refreshCloudSaveStatus() {
   try {
     state.account.cloudStatus = await getCloudSaveStatus();
@@ -1295,6 +1472,25 @@ function findBankItem(key) {
 // launch screen / My Path group list) -- a null exitView flips
 // state.launchScreen back on instead of naming a view, since that's what
 // actually shows those cards again.
+// True while leaving the current screen right now would silently discard a
+// real attempt in progress -- the header's brand logo, course-switch
+// button, and achievements pill stay clickable even mid-session (unlike
+// Schedule/Settings/Account, which a live session's header hides
+// entirely), so those three route through this guard. Matches
+// endPracticeSession's own "has anything been answered yet" check.
+// Also true mid-quiz once at least one question has been answered -- the
+// same three controls this guards stay clickable during a live quiz (quiz
+// isn't in the header's inSession set, since Schedule/Settings/Account
+// deliberately stay reachable there -- see headerHtml's inSession comment),
+// and a click on them discarded the attempt exactly as silently as it did
+// for Practice/Mastery before this guard existed. quizShowResult excludes
+// the result screen itself -- that quiz is already finished and scored, so
+// leaving it loses nothing.
+function hasUnsavedSessionProgress() {
+  return !!(state.practice && state.practice.log.length > 0)
+    || (state.view === 'quiz' && !state.quizShowResult && state.quizAnswers.length > 0);
+}
+
 function exitPracticeSession(p) {
   const src = p && p.source;
   if (src === 'unlockTest') {
@@ -1327,6 +1523,7 @@ async function activateCourse(id) {
   state.pathActive = false;
   state.pathHome = false;
   state.litHome = false;
+  state.lessonSearchQuery = '';
 }
 
 // --- Literature helpers ---------------------------------------------------
@@ -1373,6 +1570,13 @@ function litToken(sentenceId, index) {
   return sentence ? sentence.tokens[index] || null : null;
 }
 
+// para/done track Practice's graded, comprehension-checked pass -- Practice
+// resumes from para (see resumeParagraph in content-lit/index.js) and only
+// Practice ever sets done. freePara is a separate furthest-reached marker
+// for Free read (see litNextParagraph below): it must stay out of para,
+// since Free read has no comprehension checks -- letting it feed Practice's
+// resume position would silently skip Practice past paragraphs the learner
+// never actually answered checks for.
 function litChapterRecord(bookId, chapterId) {
   const key = litChapterKey(bookId, chapterId);
   if (!state.litProgress[key]) state.litProgress[key] = { para: 0, done: false };
@@ -1571,6 +1775,10 @@ function returnToValidLockedView() {
 
 const actions = {
   openDashboard() {
+    if (hasUnsavedSessionProgress()) {
+      state.leaveSessionPromptTarget = 'openDashboard';
+      return;
+    }
     state.view = 'dashboard';
     state.moduleId = null;
     state.lessonId = null;
@@ -1578,13 +1786,19 @@ const actions = {
     state.pathActive = false;
     state.pathHome = false;
     state.litHome = false;
+    state.lessonSearchQuery = '';
   },
   // Header's course button (see courseSwitchHtml in js/render.js) -- sends
   // the learner back to the launch screen's course picker rather than
   // switching in place. The next course-card tap resets to that course's
   // module list via chooseCourse.
   openLaunch() {
+    if (hasUnsavedSessionProgress()) {
+      state.leaveSessionPromptTarget = 'openLaunch';
+      return;
+    }
     state.launchScreen = true;
+    state.practice = null;
   },
   // Launch screen's course cards (see js/render.js launchHtml), shown ahead
   // of Home on every boot. A card tap always enters that course's own
@@ -2025,6 +2239,10 @@ const actions = {
     state.pathActive = false;
   },
   openAchievements() {
+    if (hasUnsavedSessionProgress()) {
+      state.leaveSessionPromptTarget = 'openAchievements';
+      return;
+    }
     state.view = 'achievements';
     state.practice = null;
     state.pathActive = false;
@@ -2149,6 +2367,26 @@ const actions = {
       rerenderAccountIfOpen();
     }
   },
+  // --- Leave-session confirmation (see leaveSessionPromptTarget in
+  // js/state.js) ---
+  closeLeaveSessionPrompt(el, e) {
+    if (e && e.target !== el) return false;
+    state.leaveSessionPromptTarget = null;
+  },
+  cancelLeaveSessionPrompt() {
+    state.leaveSessionPromptTarget = null;
+  },
+  confirmLeaveSession() {
+    const target = state.leaveSessionPromptTarget;
+    state.leaveSessionPromptTarget = null;
+    state.practice = null;
+    // Also clears the quiz side of hasUnsavedSessionProgress() -- without
+    // this, target's own action (e.g. openDashboard) re-checks the guard
+    // before state.view has moved off 'quiz', sees the same answered
+    // questions still sitting there, and just reopens this same prompt.
+    state.quizAnswers = [];
+    if (target && actions[target]) actions[target]();
+  },
   toggleKufiHeadings() {
     state.arabicHeadingFace = state.kufiHeadings ? 'body' : 'kufi';
     state.kufiHeadings = state.arabicHeadingFace === 'kufi';
@@ -2165,6 +2403,12 @@ const actions = {
   async registerAccount() {
     const email = document.getElementById('account-email')?.value || '';
     const password = document.getElementById('account-password')?.value || '';
+    const fieldError = accountFieldError(email, password, { minPasswordLength: 8 });
+    if (fieldError) {
+      state.account.message = fieldError;
+      rerender();
+      return;
+    }
     state.account.status = 'working';
     state.account.message = 'Creating account...';
     rerender();
@@ -2188,6 +2432,12 @@ const actions = {
   async loginAccount() {
     const email = document.getElementById('account-email')?.value || '';
     const password = document.getElementById('account-password')?.value || '';
+    const fieldError = accountFieldError(email, password);
+    if (fieldError) {
+      state.account.message = fieldError;
+      rerender();
+      return;
+    }
     state.account.status = 'working';
     state.account.message = 'Signing in...';
     rerender();
@@ -2318,11 +2568,16 @@ const actions = {
   // already that module), the hero can fire from the dashboard with no
   // module context set yet, so this sets it first.
   continueLesson(el) {
-    state.moduleId = el.dataset.moduleId;
-    state.lessonPreviewId = el.dataset.lessonId;
     state.pathActive = false;
     state.pathHome = false;
     state.litHome = false;
+    // Goes straight into the lesson rather than through the "Start lesson"
+    // preview modal -- the hero button already said "Continue lesson N",
+    // so a second confirm click just re-states information the learner
+    // already acted on. The preview modal still gates browsing a lesson
+    // row out of order (openLessonPreview, above), where that confirm
+    // click is doing real work.
+    enterLesson(el.dataset.moduleId, el.dataset.lessonId);
   },
   // Home hero's "Review N cards" -- same moduleId problem as continueLesson
   // above, for openPractice's own reliance on state.moduleId already being
@@ -2330,6 +2585,27 @@ const actions = {
   reviewModule(el) {
     state.moduleId = el.dataset.moduleId;
     actions.openPractice();
+  },
+  // Dashboard's lesson search box -- see the dedicated 'input' listener
+  // below for why this is called directly from there (with its own
+  // refocus) rather than through the generic click/change dispatch alone.
+  searchLessons(el) {
+    state.lessonSearchQuery = el.value;
+  },
+  // A search result row -- spans every unlocked module of the course, so
+  // (unlike openLessonPreview, reached only from inside a module page
+  // where state.moduleId is already that module) this sets it first, same
+  // reasoning as continueLesson/reviewModule above. Still opens the
+  // preview modal rather than jumping straight in -- unlike continueLesson,
+  // there's no prior "I already decided to open this" click to skip a
+  // confirm step for.
+  searchOpenLesson(el) {
+    state.moduleId = el.dataset.moduleId;
+    state.lessonPreviewId = el.dataset.lessonId;
+    state.lessonSearchQuery = '';
+    state.pathActive = false;
+    state.pathHome = false;
+    state.litHome = false;
   },
   setScheduleTab(el) {
     state.scheduleTab = el.dataset.tab;
@@ -2470,16 +2746,8 @@ const actions = {
     state.lessonPreviewId = null;
   },
   startLesson(el) {
-    const lessonId = el.dataset.lessonId;
     state.lessonPreviewId = null;
-    state.lessonId = lessonId;
-    // Only two positions exist inside a lesson now. Older save files can
-    // hold 'drill'/'drillComplete' here -- treat anything else as the
-    // concepts page rather than navigating to a view that no longer exists.
-    const pos = state.lessonPos[`${state.moduleId}_${lessonId}`];
-    state.view = pos && pos.view === 'quiz' ? 'quiz' : 'lesson';
-    shuffleLessonOptions(state.moduleId, lessonId);
-    if (state.view === 'quiz') startQuizAttempt(getLesson(state.moduleId, lessonId));
+    enterLesson(state.moduleId, el.dataset.lessonId);
   },
 
   backToLesson() {
@@ -2703,7 +2971,7 @@ const actions = {
     // p.kind === 'tarkeeb' guard -- see selectPracticeOption's matching
     // comment on why a My Path revision node needs this.
     if (p && p.queue[p.index] === key) {
-      recordPracticeAnswer(key, entry.item.sentence, allPass);
+      recordPracticeAnswer(key, entry.item.source, allPass);
       if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);
@@ -3009,11 +3277,13 @@ const actions = {
       return;
     }
     lit.para += 1;
-    if (!lit.freeRead) {
-      const rec = litChapterRecord(lit.bookId, lit.chapterId);
-      if (lit.para > (rec.para || 0)) rec.para = lit.para;
-      queueAutoUpload('literature-paragraph');
-    }
+    // Free read never wrote anything here before -- a full read start to
+    // finish left no record at all (see litChapterRecord's freePara comment
+    // for why this can't just reuse rec.para the way Practice does).
+    const rec = litChapterRecord(lit.bookId, lit.chapterId);
+    const field = lit.freeRead ? 'freePara' : 'para';
+    if (lit.para > (rec[field] || 0)) rec[field] = lit.para;
+    queueAutoUpload('literature-paragraph');
   },
   // Back through paragraphs already read. Their answered checks are still on
   // the session (lit.checks is keyed by paragraph index), so a revisited
@@ -3096,7 +3366,12 @@ const actions = {
     lit.bSlots = new Array(lit.build[lit.bIndex].solution.length).fill(null);
   },
 
-  closeBadgeModal() {
+  // Doubles as the "Continue" button's own action (where el is that button,
+  // so e.target === el and the guard below is a no-op) and the backdrop's
+  // click-to-close (where the guard blocks a bubbled click from a
+  // non-interactive descendant of the modal from closing it).
+  closeBadgeModal(el, e) {
+    if (e && e.target !== el) return false;
     state.badgeModal = state.badgeQueue.length ? state.badgeQueue.shift() : null;
   },
 
@@ -3125,7 +3400,59 @@ const actions = {
 // "needs Enter/Space wired up manually" apart from "already handled by the
 // browser", and gives rerender() a stable selector to refocus after a chip
 // select or slot placement blows away and recreates the whole DOM.
+// Remembers which element opened the currently-open modal, so closing it
+// (Cancel, Escape, or the backdrop -- any of them) can return focus there
+// instead of dropping it to <body>, same problem opening a modal had
+// before refocusSelector's dialog check below existed, just on the way
+// out instead of the way in. Built from the trigger's own data-* attributes
+// (every trigger already carries what its own action handler needs to run,
+// e.g. data-lesson-id), so this needs no per-modal-type wiring -- it works
+// for whichever trigger opened the dialog without knowing its shape.
+let modalTriggerSelector = null;
+
+function triggerSelectorFor(el) {
+  if (!el || !el.dataset || !el.dataset.action) return null;
+  return Object.entries(el.dataset)
+    .map(([key, value]) => `[data-${key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}="${value}"]`)
+    .join('');
+}
+
+// Escape closes a modal without going through refocusSelector at all (see
+// the keydown handler below) -- this is what lets it restore focus too.
+function consumeModalTriggerSelector() {
+  if (!modalTriggerSelector) return null;
+  const sel = modalTriggerSelector;
+  modalTriggerSelector = null;
+  return sel;
+}
+
 function refocusSelector(el) {
+  // Any of these mean a modal dialog is about to render -- checked by state
+  // rather than el.dataset.action because a badge can pop up as a side
+  // effect of several different actions (finishing a lesson, a Practice
+  // Mode streak, a module reset, ...), not one dedicated "open badge"
+  // action. Every dialog shares role="dialog" and a tabindex="-1" on its
+  // own root (render.js), so this one selector covers all of them --
+  // without it, focus reverts to <body> on every dialog open, forcing a
+  // keyboard user to Tab back in from the top of the document to reach it.
+  if (
+    state.lessonPreviewId || state.litChapterPreviewId
+    || state.pathCheckpointSetupNodeId || state.pathSkipAheadPromptNodeId
+    || state.unlockPrompt || state.resetModulePromptId
+    || state.forceUnlockPrompt || state.badgeModal
+    || state.leaveSessionPromptTarget
+  ) {
+    // Only capture on the transition into open -- an action that fires
+    // while the SAME modal stays open (e.g. a direction-picker toggle
+    // inside pathCheckpointSetupHtml) must not overwrite the real opener
+    // with an inside-the-modal element that won't exist once it closes.
+    if (!modalTriggerSelector) modalTriggerSelector = triggerSelectorFor(el);
+    return '[role="dialog"]';
+  }
+  // No dialog will be open after this action. If one was open a moment ago
+  // (modalTriggerSelector still set), this action just closed it -- return
+  // focus to whatever opened it rather than falling through to <body>.
+  if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
   // The literature drills' chips and slots have the same problem and the
   // same fix. A placed chip becomes disabled, so focus goes to whichever
@@ -3170,7 +3497,27 @@ document.addEventListener('click', (e) => {
   rerender(refocusSelector(el));
 });
 
+// The mobile header's "..." menu is a native <details> -- opening/closing
+// via its own <summary> is free browser behaviour, but a native <details>
+// has no built-in "tap outside to dismiss", unlike every state-tracked
+// modal (which all get one via their backdrop's data-action). Runs on
+// every click, not just [data-action] ones, since the whole point is
+// catching clicks that land on inert page content. A click on a menu item
+// closes it too, but as a side effect of that action's own rerender
+// (which rebuilds the header with a fresh, closed <details>) -- this only
+// has to handle the outside-tap case that leaves everything else alone.
+document.addEventListener('click', (e) => {
+  const openMenu = document.querySelector('.app-header-mobile-menu[open]');
+  if (openMenu && !openMenu.contains(e.target)) openMenu.open = false;
+});
+
 document.addEventListener('keydown', (e) => {
+  // Same gap as the modals above, for the one overlay that isn't
+  // state-tracked -- native <details> doesn't close on Escape by itself.
+  if (e.key === 'Escape') {
+    const openMenu = document.querySelector('.app-header-mobile-menu[open]');
+    if (openMenu) openMenu.open = false;
+  }
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
   // a real <button>/<a> gets that key handling from the browser for free;
@@ -3188,22 +3535,58 @@ document.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
-    rerender();
+    rerender(consumeModalTriggerSelector());
   } else if (state.litChapterPreviewId) {
     state.litChapterPreviewId = null;
-    rerender();
+    rerender(consumeModalTriggerSelector());
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;
-    rerender();
+    rerender(consumeModalTriggerSelector());
+  } else if (state.pathSkipAheadPromptNodeId) {
+    state.pathSkipAheadPromptNodeId = null;
+    rerender(consumeModalTriggerSelector());
   } else if (state.forceUnlockPrompt) {
     state.forceUnlockPrompt = false;
-    rerender();
+    rerender(consumeModalTriggerSelector());
   } else if (state.resetModulePromptId) {
     state.resetModulePromptId = null;
-    rerender();
+    rerender(consumeModalTriggerSelector());
   } else if (state.unlockPrompt) {
     state.unlockPrompt = null;
-    rerender();
+    rerender(consumeModalTriggerSelector());
+  } else if (state.leaveSessionPromptTarget) {
+    state.leaveSessionPromptTarget = null;
+    rerender(consumeModalTriggerSelector());
+  } else if (state.badgeModal) {
+    actions.closeBadgeModal();
+    rerender(consumeModalTriggerSelector());
+  }
+});
+
+// Traps Tab/Shift+Tab inside an open modal so a keyboard user can't
+// wander into the (visually covered, but not actually inert) page behind
+// the backdrop -- without this, Tab from a dialog's last button reached the
+// header's brand logo next, which was reachable and clickable despite
+// sitting under an opaque backdrop. Only the two boundary crossings are
+// handled (last->first, first->last); every Tab in between is left to the
+// browser's own default behaviour, which already moves through the
+// dialog's own children correctly on its own.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const dialog = document.querySelector('[role="dialog"]');
+  if (!dialog) return;
+  const focusable = dialog.querySelectorAll(
+    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  );
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
   }
 });
 
@@ -3238,6 +3621,19 @@ document.addEventListener('input', (e) => {
   const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
   if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
   persistSoon(state);
+});
+
+// The dashboard's lesson search box also wants a live-as-you-type result
+// list, which (unlike the sliders above) genuinely needs a full rerender to
+// show. A full rerender replaces the whole #root, which would normally
+// yank focus off the input after every keystroke (see rerender's own
+// comment on focus/scroll not surviving a re-render) -- passing this
+// input's own id back as the refocus selector is what keeps typing usable.
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('#lesson-search-input');
+  if (!el) return;
+  actions.searchLessons(el);
+  rerender('#lesson-search-input');
 });
 
 // --- drag-and-drop for tarkeeb (native events bubble, so this is delegated

@@ -240,16 +240,21 @@ function headerHtml(state, MODULES) {
         <button class="app-header-back" data-action="${backAction}" ${backExtra} aria-label="Back">${icon('arrowLeft', 16, 2)}</button>
         <div class="app-header-crumbs">${crumbsHtml}</div>
       </div>`;
-  } else if (inSession) {
-    // No tabs at all while a session is live -- same reasoning as the
-    // crumbs branch above (module/lesson/quiz): the only sanctioned way
-    // out is the session's own in-page "End session"/continue controls,
-    // which route through exitPracticeSession (js/main.js) and know how
-    // to get back to wherever the session actually started (My Path,
-    // Schedule, a module, ...). A top-bar tab here would skip that and
-    // strand state.practice/pathActive as orphaned data (see openSettings/
-    // openSchedule/openAchievements in js/main.js for the defensive
-    // cleanup that covers it if this is ever bypassed).
+  }
+
+  // The tab row (and its mobile-menu mirror) lives in the header's *right*
+  // side -- a separate flex container from the crumbs above, which live in
+  // the left side -- so the two are not competing for the same space, and
+  // browsing a module/lesson/quiz is not on its own a reason to drop
+  // Schedule/Settings/Account access. Only a genuinely live session
+  // suppresses them: it has its own in-page "End session"/continue
+  // controls, which route through exitPracticeSession (js/main.js) and know
+  // how to get back to wherever the session actually started (My Path,
+  // Schedule, a module, ...). A top-bar tab there would skip that and
+  // strand state.practice/pathActive as orphaned data (see openSettings/
+  // openSchedule/openAchievements in js/main.js for the defensive cleanup
+  // that covers it if this is ever bypassed).
+  if (inSession) {
     rightInner = '';
   } else {
     // Highlights Schedule for the whole time a Revision session it launched
@@ -271,17 +276,34 @@ function headerHtml(state, MODULES) {
     // instead offers a direct way back in, since state.view alone can't
     // tell "detoured off My Path" from "detoured off a course dashboard"
     // once it's changed to 'settings'/'schedule'/'achievements'.
+    //
+    // litRead/litWordPractice get the one-level step back to the book
+    // (mirroring the course lesson/quiz breadcrumb's own one-level back),
+    // not a jump straight to the shelf -- that jump lives in librarySlot
+    // below instead, same relationship the brand logo (jump home) has to
+    // the breadcrumb back-arrow (one level) on a course page.
+    const litReadBook = (state.view === 'litRead' || state.view === 'litWordPractice') ? getLitBook(state.litBookId) : null;
     const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
       : onPath ? ''
-        : state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice' ? tab('← Library', 'openLibrary', false)
-          : state.view === 'library' ? ''
-            : state.pathHome ? tab('My Path', 'returnToPath', false)
-              : state.litHome ? tab('Library', 'openLibrary', false)
-                : tab('Home', 'openDashboard', state.view === 'dashboard');
+        : litReadBook ? tab(`← ${litReadBook.title.en}`, 'openLitBook', false)
+          : state.view === 'litBook' ? tab('← Library', 'openLibrary', false)
+            : state.view === 'library' ? ''
+              : state.pathHome ? tab('My Path', 'returnToPath', false)
+                : state.litHome ? tab('Library', 'openLibrary', false)
+                  : tab('Home', 'openDashboard', state.view === 'dashboard');
+    // Always-available direct jump to the Library shelf, same "always
+    // shown, `active` reflects whether we're already there" treatment as
+    // the Home tab gets on the dashboard -- except on litBook, where
+    // homeSlot right above already says "← Library" for the exact same
+    // action, and a second identical tab next to it would only confuse.
+    // Without this, a course page had no path to the Library at all short
+    // of "Switch course" back to the full launch splash.
+    const librarySlot = state.view === 'litBook' ? '' : tab('Library', 'openLibrary', state.view === 'library');
 
     rightInner = `
       <nav class="app-header-nav" aria-label="Primary">
         ${homeSlot}
+        ${librarySlot}
         ${onPath || onLit ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
         ${tab('Settings', 'openSettings', state.view === 'settings')}
         ${tab('Account', 'openAccount', state.view === 'account')}
@@ -699,13 +721,20 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
       </button>`;
   }).join('');
 
+  const query = (state.lessonSearchQuery || '').trim();
+
   return `
     <div class="dashboard-page">
       ${homeHeroHtml(state, MODULES)}
       ${separatorHtml()}
       <section class="home-chapters">
-        <h2>Chapters</h2>
-        <div class="chapter-grid">${cards}</div>
+        <div class="home-chapters-head">
+          <h2>Chapters</h2>
+          <input id="lesson-search-input" class="schedule-input lesson-search-input" type="search" data-action="searchLessons"
+            placeholder="Search lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
+            autocomplete="off" aria-label="Search lessons">
+        </div>
+        ${query ? lessonSearchResultsHtml(MODULES, state, query) : `<div class="chapter-grid">${cards}</div>`}
       </section>
       <section class="home-badges-teaser">
         <div class="home-badges-teaser-head">
@@ -717,6 +746,40 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
           ${state.badges.slice(-12).map((id) => `<span class="tag tag-outline badge-tag">${icon('award', 13, 2)}${esc(BADGE_DEFS[id].name)}</span>`).join('')}
         </div>` : '<p class="home-badges-empty">Earn your first badge by completing a lesson.</p>'}
       </section>
+    </div>`;
+}
+
+// Live "which module was that lesson in again?" search over lesson
+// titles/subtitles across every unlocked module of the current course --
+// scoped to titles/subtitles only, not full-text over concept bodies, to
+// keep this a lightweight lookup rather than a search engine. Locked
+// lessons are excluded: search is for finding something you've already
+// seen, not previewing what's still ahead (which the module page's own
+// lock affordance already handles).
+function lessonSearchResultsHtml(MODULES, state, query) {
+  const q = query.toLowerCase();
+  const results = [];
+  MODULES.forEach((m) => {
+    if (!isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll)) return;
+    m.lessons.forEach((l) => {
+      if (!isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll)) return;
+      const haystack = `${l.title} ${l.subtitle || ''}`.toLowerCase();
+      if (haystack.includes(q)) results.push({ mod: m, lesson: l });
+    });
+  });
+  if (!results.length) {
+    return `<p class="empty-state">No lessons match "${escBidi(query)}".</p>`;
+  }
+  return `
+    <div class="lesson-search-results">
+      ${results.map(({ mod: m, lesson: l }) => `
+        <button class="lesson-search-row" data-action="searchOpenLesson" data-module-id="${escAttr(m.id)}" data-lesson-id="${escAttr(l.id)}">
+          <span class="lesson-search-row-body">
+            <span class="lesson-search-row-title" lang="ar" dir="rtl">${esc(l.title)}</span>
+            <span class="lesson-search-row-sub">${escBidi(l.subtitle || '')}</span>
+          </span>
+          <span class="lesson-search-row-module" lang="ar" dir="rtl">${esc(m.title)}</span>
+        </button>`).join('')}
     </div>`;
 }
 
@@ -770,7 +833,7 @@ function modulePageHtml(state, MODULES) {
     title: `<bdi lang="ar">${esc(mod.title)}</bdi>`,
     body: escBidi(mod.blurb),
     actions: `
-      <button class="ds-btn ds-btn-secondary" ${bankPool.length ? 'data-action="openPractice"' : 'disabled'}>${icon('archive', 15, 1.7)} Practice Mode</button>
+      <button class="ds-btn ds-btn-secondary" ${bankPool.length ? 'data-action="openPractice"' : 'disabled title="Complete a lesson first -- Practice Mode only draws from finished lessons\' cards"'}>${icon('archive', 15, 1.7)} Practice Mode</button>
       ${done > 0 ? `<button class="ds-btn ds-btn-danger" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">${icon('trash-2', 14, 1.7)} Reset progress</button>` : ''}`,
     ledger: heroLedgerHtml([
       ['Lessons done', `${done} / ${mod.lessons.length}`],
@@ -802,6 +865,14 @@ function lessonPreviewHtml(state, MODULES) {
   const complete = isLessonComplete(mod.id, lesson.id, state.completed);
   const masteryEntry = state.masteryV2[`${mod.id}_${lesson.id}`];
   const mastered = complete && masteryEntry && masteryEntry.passed;
+  // enterLesson (js/main.js) resumes an incomplete lesson at whichever
+  // position it was last left -- concepts or a live quiz question -- so
+  // this button's copy needs to say which one is actually about to happen.
+  // Without this, "Start lesson" was shown even when the real result was
+  // dropping straight into "Question 1 of N" with no re-read of the
+  // content, surprising anyone returning after a few days expecting a
+  // refresher.
+  const resumingQuiz = !complete && state.lessonPos[`${mod.id}_${lesson.id}`]?.view === 'quiz';
 
   // A completed lesson offers both Review (reopen the lesson content) and
   // Mastery (a fresh 100%-required test over its تركيب+mcq+quiz pool, see
@@ -813,11 +884,11 @@ function lessonPreviewHtml(state, MODULES) {
     ? `
       <button class="btn btn-secondary" data-action="startMasteryV2" data-lesson-id="${escAttr(lesson.id)}">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
       <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Review</button>`
-    : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Start lesson</button>`;
+    : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${resumingQuiz ? 'Resume the quiz' : 'Start lesson'}</button>`;
 
   return `
     <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLessonPreview">
-      <div class="modal" data-anim-key="modal:${escAttr(lesson.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(lesson.title)}">
+      <div class="modal" data-anim-key="modal:${escAttr(lesson.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(lesson.title)}">
         <div class="card-kicker modal-kicker">LESSON ${idx + 1} &middot; ${esc(mod.title)}</div>
         <h3>${esc(lesson.title)}</h3>
         <p class="modal-sub">${escBidi(lesson.subtitle || '')}</p>
@@ -841,8 +912,8 @@ function badgeModalHtml(state) {
   if (!state.badgeModal) return '';
   const b = state.badgeModal;
   return `
-    <div class="modal-backdrop" data-anim-key="badgemodalbd" style="z-index:60;">
-      <div class="modal" data-anim-key="badgemodal:${escAttr(b.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(b.name)}">
+    <div class="modal-backdrop" data-anim-key="badgemodalbd" style="z-index:60;" data-action="closeBadgeModal">
+      <div class="modal" data-anim-key="badgemodal:${escAttr(b.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(b.name)}">
         <div class="badge-modal-icon">${icon('award', 36, 1.6)}</div>
         <div class="badge-modal-title">Badge Earned</div>
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
@@ -857,7 +928,7 @@ function forceUnlockPromptHtml(state) {
   if (!state.forceUnlockPrompt) return '';
   return `
     <div class="modal-backdrop" data-anim-key="forceunlockbd" data-action="closeForceUnlockPrompt">
-      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" aria-label="Turn off course locks">
+      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Turn off course locks">
         <div class="card-kicker modal-kicker">COURSE LOCKS</div>
         <h3>Unlock everything?</h3>
         <p class="modal-sub">This opens every lesson, path group, vocab item, Tarkeeb exercise, and quiz. It does not mark lessons complete, award badges, or change your scores.</p>
@@ -882,7 +953,7 @@ function resetModulePromptHtml(state, MODULES) {
   if (!mod) return '';
   return `
     <div class="modal-backdrop" data-anim-key="resetmodbd" data-action="closeResetModulePrompt">
-      <div class="modal" data-anim-key="resetmodmodal" role="dialog" aria-modal="true" aria-label="Reset module progress">
+      <div class="modal" data-anim-key="resetmodmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Reset module progress">
         <div class="card-kicker modal-kicker">RESET PROGRESS</div>
         <h3>${esc(mod.title)}</h3>
         <p class="modal-sub">This will clear all completed lessons, quiz scores, exercise states, and mastery results for this module. Your XP and badges are not affected.</p>
@@ -890,6 +961,28 @@ function resetModulePromptHtml(state, MODULES) {
         <div class="modal-buttons">
           <button class="ds-btn ds-btn-secondary" data-action="cancelResetModulePrompt">Cancel</button>
           <button class="ds-btn ds-btn-danger" data-action="confirmResetModule" data-module-id="${escAttr(mod.id)}">Reset module</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// Confirms before a header control (brand logo, course-switch, achievements
+// pill -- the three that stay clickable even mid-session, see headerHtml)
+// silently discards an in-progress Practice/Revision/Mastery/checkpoint
+// attempt, or a live lesson quiz, that already has an answer logged. Mirrors
+// resetModulePromptHtml's
+// shape; see state.leaveSessionPromptTarget's own comment in js/state.js.
+function leaveSessionPromptHtml(state) {
+  if (!state.leaveSessionPromptTarget) return '';
+  return `
+    <div class="modal-backdrop" data-anim-key="leavesessionbd" data-action="closeLeaveSessionPrompt">
+      <div class="modal" data-anim-key="leavesessionmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Leave this session?">
+        <div class="card-kicker modal-kicker">IN PROGRESS</div>
+        <h3>Leave this session?</h3>
+        <p class="modal-sub">Your answers so far in this attempt won't be saved. Anything you'd already completed before it isn't affected.</p>
+        <div class="modal-buttons">
+          <button class="ds-btn ds-btn-secondary" data-action="cancelLeaveSessionPrompt">Cancel</button>
+          <button class="ds-btn ds-btn-danger" data-action="confirmLeaveSession">Leave session</button>
         </div>
       </div>
     </div>`;
@@ -958,7 +1051,7 @@ function unlockPromptHtml(state) {
       : `It does not mark any lessons complete, award badges, or unlock the matching advanced ${label.noun === 'path' ? 'courses' : 'path'}.`;
     return `
     <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
-      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" aria-label="Unlock ${escAttr(label.noun)}">
+      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock ${escAttr(label.noun)}">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
         <h3 class="unlock-modal-title">Unlock ${esc(label.name)}?</h3>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
@@ -974,7 +1067,7 @@ function unlockPromptHtml(state) {
   const canStart = label.pool.length > 0;
   return `
     <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
-      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" aria-label="Unlock test">
+      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock test">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
         <h3 class="unlock-modal-title">${esc(label.name)} is locked</h3>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
@@ -1500,6 +1593,29 @@ function quizResultHtml(state, mod, lesson) {
     ? Array.from({ length: 10 }, (_, i) => `<span class="confetti-piece" style="left:${i * 9 + 5}%;animation-delay:${(i * 0.08).toFixed(2)}s;"></span>`).join('')
     : '';
 
+  // Missed-question review -- without this, "review what you missed" was a
+  // dead end: nothing on this screen said which questions were wrong, and
+  // Practice Mode's own practiceReviewHtml already solves the same problem
+  // for itself a few hundred lines down. Reuses that screen's .review-row
+  // shape, stacked instead of single-line since a quiz question also needs
+  // its correct answer + explanation shown, not just a pass/fail tag.
+  const missedHtml = frac < 1 ? `
+    <div class="review-list quiz-missed-list">
+      ${lesson.quiz.map((q, qi) => {
+        if (state.quizAnswers[qi] === q.correct) return '';
+        return `
+          <div class="review-row quiz-missed-row incorrect">
+            <div class="quiz-missed-row-head">
+              <span class="review-row-num">${qi + 1}</span>
+              <span class="review-row-title">${escBidi(q.q)}</span>
+              <span class="tag tag-outline">✗</span>
+            </div>
+            <div class="quiz-missed-answer">Correct answer: ${escBidi(q.options[q.correct])}</div>
+            ${q.explanation ? `<div class="quiz-feedback-explanation" style="margin:2px 0 0;">${escBidi(q.explanation)}</div>` : ''}
+          </div>`;
+      }).join('')}
+    </div>` : '';
+
   const footer = passed ? `
       <div class="action-row" style="justify-content:center;">
         <button class="btn btn-secondary" data-action="retakeQuiz">Retake Quiz</button>
@@ -1521,6 +1637,7 @@ function quizResultHtml(state, mod, lesson) {
         ${tier ? `<span class="tag tag-outline">${icon('award', 13, 2)} ${tier}</span>` : ''}
         ${best > 1 ? `<span class="tag tag-neutral">Best streak ${best}</span>` : ''}
       </div>
+      ${missedHtml}
       ${footer}
       ${cornerBracketsHtml()}
     </div>`;
@@ -1590,19 +1707,33 @@ function lessonCompleteHtml(state, MODULES) {
   // back to the path map instead of the module page it technically belongs
   // to -- the whole point of the path is not needing to think in terms of
   // "which module am I in".
+  // Off My Path, working through a course top-to-bottom is the whole point
+  // of a sequential grammar course -- so when there's a next lesson in this
+  // module, it's the primary CTA (startLesson already knows how to jump
+  // straight into a lesson given its id, no preview modal needed since the
+  // intent here is as explicit as My Path's own "Continue" button). Only
+  // the module's last lesson keeps the old "Practice this chapter" primary,
+  // since there's no cross-module "next" to route into automatically.
+  const nextLesson = mod.lessons[mod.lessons.findIndex((l) => l.id === lesson.id) + 1];
   const buttons = state.pathActive
     ? `<button class="btn btn-primary" data-action="backToPath">Continue on My Path →</button>`
-    : `
+    : nextLesson ? `
+      <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
+      <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(nextLesson.id)}">Next lesson →</button>`
+      : `
       <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
       <button class="btn btn-primary" data-action="openPractice">Practice this chapter →</button>`;
 
   return `
     <div class="col complete-col">
-      <div class="kicker" style="justify-content:center;display:flex;">LESSON CLEARED</div>
-      <h1 style="text-align:center;">أحسنت! — Well done</h1>
-      <p class="lede" style="text-align:center;margin:0 auto;">You've completed <strong>${esc(lesson.title)}</strong>. Progress saved to disk.</p>
-      <div style="text-align:center;">${xpTag}</div>
-      <div class="complete-buttons">${buttons}</div>
+      <div class="lesson-complete-card">
+        <div class="kicker" style="justify-content:center;display:flex;">LESSON CLEARED</div>
+        <h1 style="text-align:center;">أحسنت! — Well done</h1>
+        <p class="lede" style="text-align:center;margin:0 auto;">You've completed <strong>${esc(lesson.title)}</strong>. Progress saved to disk.</p>
+        <div style="text-align:center;">${xpTag}</div>
+        <div class="complete-buttons">${buttons}</div>
+        ${cornerBracketsHtml()}
+      </div>
     </div>`;
 }
 
@@ -1784,7 +1915,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     ${item.instruction ? `<p class="exercise-prompt">${escBidi(item.instruction)}</p>` : ''}
     ${grid}
     ${showTranslation && item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
-    <div class="tarkeeb-tray-label">Drag each label onto its slot (tap a filled slot to clear it)</div>
+    <div class="tarkeeb-tray-label">Drag each label onto its slot, or tap a label then its slot to place it (tap a filled slot to clear it)</div>
     <div class="tarkeeb-tray" dir="rtl">${tray}</div>
     <div class="action-row">
       ${!submitted ? checkButton('checkTarkeeb', allPlaced, `data-key="${escAttr(key)}"`) : ''}
@@ -1839,7 +1970,7 @@ function renderTarkeeb(state, item, key, moduleId) {
     <p class="exercise-prompt">${escBidi(item.instruction)}</p>
     <div class="tarkeeb-row" dir="rtl">${wordCols}</div>
     ${showTranslation && item.translation ? `<div class="tarkeeb-diagram-translation">${esc(item.translation)}</div>` : ''}
-    <div class="tarkeeb-tray-label">Drag each label onto its word (tap a filled slot to clear it)</div>
+    <div class="tarkeeb-tray-label">Drag each label onto its word, or tap a label then its word to place it (tap a filled slot to clear it)</div>
     <div class="tarkeeb-tray" dir="rtl">${tray}</div>
     <div class="action-row">
       ${!submitted ? checkButton('checkTarkeeb', allPlaced, `data-key="${escAttr(key)}"`) : ''}
@@ -2666,7 +2797,7 @@ function pathCheckpointSetupHtml(state) {
 
   return `
     <div class="modal-backdrop" data-anim-key="pathcheckpointmodalbd" data-action="closePathCheckpointSetup">
-      <div class="modal" data-anim-key="pathcheckpointmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(label)}">
+      <div class="modal" data-anim-key="pathcheckpointmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(label)}">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(label)}</div>
         <h3>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h3>
         ${directionPicker}
@@ -2700,7 +2831,7 @@ function pathSkipAheadPromptHtml(state) {
   const scopeWord = node.type === 'groupTest' ? 'group' : 'section';
   return `
     <div class="modal-backdrop" data-anim-key="pathskipaheadmodalbd" data-action="closePathSkipAheadPrompt">
-      <div class="modal" data-anim-key="pathskipaheadmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" aria-label="Jump ahead">
+      <div class="modal" data-anim-key="pathskipaheadmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="Jump ahead">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(node.label)}</div>
         <h3>Jump ahead to this ${scopeWord}?</h3>
         <p class="modal-sub">A placement test covering everything up through this ${scopeWord}. Pass it at ${Math.round(node.passRatio * 100)}% and every lesson and checkpoint before it &mdash; ${lessonCount} lesson${lessonCount === 1 ? '' : 's'} in all, across both courses &mdash; gets marked complete, same as if you'd walked the path there normally.</p>
@@ -3299,6 +3430,28 @@ function settingsHtml(state) {
     </div>`;
 }
 
+// A plain-language stand-in for the raw completedLessons/xp counters in the
+// status grid below -- merging is a safe union either way (mergeProgressData
+// in storage/syncClient.js keeps whichever side is further along per field,
+// nothing is ever dropped), so this isn't "pick a winner," just "here's
+// roughly what's about to combine," in terms someone can actually picture
+// instead of guessing from field names like "Exercise states."
+function formatSyncGapPart(diff, singular, plural) {
+  if (!diff) return null;
+  const label = Math.abs(diff) === 1 ? singular : plural;
+  const leader = diff > 0 ? 'this device' : 'the cloud save';
+  return `${Math.abs(diff)} more ${label} on ${leader}`;
+}
+function describeSyncGap(local, cloud) {
+  if (!local?.exists || !cloud?.exists) return null;
+  const parts = [
+    formatSyncGapPart(local.completedLessons - cloud.completedLessons, 'completed lesson', 'completed lessons'),
+    formatSyncGapPart(local.xp - cloud.xp, 'XP', 'XP'),
+  ].filter(Boolean);
+  if (!parts.length) return 'This device and the cloud save already match on completed lessons and XP.';
+  return `Right now: ${parts.join(', and ')}. Merging combines both, so nothing is lost either way.`;
+}
+
 function accountHtml(state) {
   const account = state.account || {};
   const working = account.status === 'working';
@@ -3347,12 +3500,14 @@ function accountHtml(state) {
   const saveStatusHtml = signedIn ? `
     ${statusBlock('Cloud save status', cloud, 'refreshCloudSaveStatus', 'No cloud save data found yet.')}
     ${statusBlock('This device save status', local, 'refreshLocalSaveStatus', 'No local save data found yet.')}` : '';
+  const syncGapSummary = describeSyncGap(local, cloud);
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
       <h2 class="settings-group-title">${pendingSync === 'download' ? 'Merge cloud save data?' : 'Merge this device save data?'}</h2>
       <p class="settings-group-sub">${pendingSync === 'download'
         ? 'This combines the cloud save with this device. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'
         : 'This combines this device with the cloud save. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'}</p>
+      ${syncGapSummary ? `<p class="settings-group-sub">${esc(syncGapSummary)}</p>` : ''}
       <div class="account-actions">
         <button class="ds-btn ds-btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>Confirm merge</button>
         <button class="ds-btn ds-btn-ghost" data-action="cancelAccountSync" ${working ? 'disabled' : ''}>Cancel</button>
@@ -3473,7 +3628,12 @@ function litChapterRowHtml(state, book, chapter, index) {
   const unlocked = isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll);
   const done = isChapterDone(state.litProgress, book.id, chapter.id);
   const rec = chapterRecord(state.litProgress, book.id, chapter.id);
-  const started = !done && rec && rec.para > 0;
+  // rec.freePara alone (no Practice progress) still counts as "started" here
+  // -- this is a general "you've touched this chapter" row tag, not a
+  // specific promise about which mode resumes where (see the Practice-only
+  // `started` a few lines down in litChapterPreviewHtml, and litChapterRecord's
+  // freePara comment in js/main.js for why the two stay separate).
+  const started = !done && rec && (rec.para > 0 || rec.freePara > 0);
   // A chapter that sits on one printed page is "p. 9", not "pp. 9" -- Qaṣaṣ
   // runs a chapter per page, so the single-page case is the common one there.
   const pageList = chapter.pages || [];
@@ -3516,12 +3676,16 @@ function litChapterPreviewHtml(state) {
   const chapter = book.chapters[idx];
   const done = isChapterDone(state.litProgress, book.id, chapter.id);
   const rec = chapterRecord(state.litProgress, book.id, chapter.id);
+  // rec.para only, deliberately -- this labels the Practice button
+  // specifically, so it must reflect Practice's own resumability, not
+  // unrelated Free read progress (rec.freePara) that Practice wouldn't
+  // actually resume into.
   const started = !done && rec && rec.para > 0;
   const practiceLabel = done ? 'Practice (drills)' : started ? 'Resume' : 'Practice';
 
   return `
     <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLitChapterPreview">
-      <div class="modal lit-chapter-modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" aria-label="${escAttr(chapter.title.en)}">
+      <div class="modal lit-chapter-modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(chapter.title.en)}">
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
@@ -4147,5 +4311,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
   const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}`;
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
 }

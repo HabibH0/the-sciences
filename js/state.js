@@ -37,6 +37,13 @@ export async function createInitialState() {
     lessonPos: boot.lessonPos || {},
     // Transient: the lesson whose "Start lesson" modal is open. Not persisted.
     lessonPreviewId: null,
+    // Transient: the dashboard's lesson-title/subtitle search box (see
+    // searchLessons in js/main.js). Not persisted -- always reopens empty,
+    // same treatment as scheduleTab/practiceSetupOpen. Cleared whenever the
+    // dashboard is (re-)entered (openDashboard/activateCourse) and when a
+    // result is picked, so returning to the dashboard never shows a stale
+    // filtered view.
+    lessonSearchQuery: '',
     // Transient: true while the lesson/mastery flow currently open was
     // entered from the My Path map (see enterPathLesson in js/main.js),
     // rather than from a course's own module page -- so finishLesson and
@@ -339,6 +346,23 @@ export async function createInitialState() {
     // Transient: { type: 'course'|'track'|'module', id } for the unlock-test
     // prompt modal (unlockPromptHtml in js/render.js), or null when closed.
     unlockPrompt: null,
+    // Transient: the action name (e.g. 'openDashboard') pending confirmation
+    // because it was clicked while a practice/mastery/checkpoint session (or
+    // a live lesson quiz) had answers already logged -- see
+    // leaveSessionPromptHtml in js/render.js and
+    // confirmLeaveSession/cancelLeaveSessionPrompt in js/main.js, and
+    // hasUnsavedSessionProgress in js/main.js for what counts as "had
+    // answers already logged" for each. Null when no such prompt is open.
+    // The header's brand logo, course-switch button, and achievements pill
+    // are the only actions that route through this -- everywhere else that
+    // can end a session (Schedule/Settings/Achievements tabs, the session's
+    // own "End session") already goes through exitPracticeSession directly,
+    // either because a live session's header hides them entirely
+    // (inSession) or because ending deliberately is the whole point of the
+    // click. A live quiz isn't in inSession (Schedule/Settings/Account
+    // deliberately stay reachable there too), so it relies on this same
+    // guard rather than a session-exit button it doesn't have.
+    leaveSessionPromptTarget: null,
     // Independent of arabicFace -- layers a heading face onto headings
     // app-wide over whichever body face is set, rather than being another
     // body face. See applyAppearance in main.js.

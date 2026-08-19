@@ -590,8 +590,10 @@ button:disabled {
   color: var(--color-accent);
 }
 
-/* Breadcrumb mode -- same slot as the tabs, shown instead of them on
-   module/lesson/quiz screens. */
+/* Breadcrumb mode -- appended after the brand/course-switch buttons inside
+   .app-header-left on module/lesson/quiz screens. The tab row on the right
+   (Schedule/Settings/Account, in the separate .app-header-right container)
+   stays visible alongside it. */
 .app-header-crumbs-group {
   display: flex;
   align-items: center;
@@ -828,6 +830,17 @@ button:disabled {
 .launch-scroll::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-accent);
 }
+/* The native up/down arrow buttons at each end of the track aren't covered
+   by the thumb/track rules above and default back to the browser's own
+   skeuomorphic gray triangles -- the one unstyled control left in an
+   otherwise fully bespoke scrollbar. Their glyph isn't restylable via CSS
+   (only the button box is), so hiding them (rather than half-theming a box
+   around an un-themeable triangle) is what actually matches the rest of
+   this design's flat, chrome-free language. */
+.main-content::-webkit-scrollbar-button,
+.launch-scroll::-webkit-scrollbar-button {
+  display: none;
+}
 
 /* Scroll-driven reveal of the lesson title into the header: a plain fade,
    not a tracked slide/morph. main.js clones the real <h1> into this fixed,
@@ -881,17 +894,29 @@ button:disabled {
      measure instead of the app-wide 64px. */
   margin: -56px -64px 0;
   padding: 0 56px;
-  /* Scroll-reveal trigger line sits at the scroll container's vertical
-     center (see handleScrollReveal in main.js), so the last row of
-     chapter cards needs guaranteed scroll room below it to ever reach
-     that line. Applied here rather than on .chapter-grid directly so the
-     gap lands after the badges row, at the true end of the page, instead
-     of pushing in right under the grid itself. */
-  padding-bottom: 50vh;
+  /* Just enough trailing room to breathe below the badges row -- NOT the
+     50vh this used to carry to guarantee the reveal-on-scroll trigger line
+     could always be reached by the last row of chapter cards. That left
+     ~550px of visibly empty page below the real content on a normal-height
+     window. handleScrollReveal now force-reveals anything left over once
+     you hit true max scroll (see the atBottom check there, same fix
+     .lesson-main already got), so this can be small without ever leaving
+     an unrevealed, stuck-invisible last row. */
+  padding-bottom: 40px;
 }
 .complete-col {
   max-width: 560px;
   margin: 80px auto 0;
+}
+/* Same bordered, corner-bracketed treatment as .quiz-result (see
+   cornerBracketsHtml/.home-hero-corner) -- lesson-complete is the same kind
+   of reward/summary moment as a passed quiz, and used to be bare centered
+   text with no frame at all. */
+.lesson-complete-card {
+  position: relative;
+  border: 1px solid var(--card-border);
+  border-radius: 2px;
+  padding: 40px 36px 34px;
 }
 
 .kicker {
@@ -1380,6 +1405,71 @@ h1 + .card-kicker,
   font-size: 30px;
   margin: 0 0 20px;
   color: var(--color-text);
+}
+/* Search box sits next to the "Chapters" heading rather than above it, so
+   it reads as a tool for the grid below rather than a separate section of
+   its own. The heading's own bottom margin above moves onto this wrapper
+   instead, once it's here (same total spacing, just on the row as a
+   whole). */
+.home-chapters-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin: 0 0 20px;
+}
+.home-chapters-head h2 {
+  margin: 0;
+}
+.lesson-search-input {
+  max-width: 260px;
+}
+/* Flat hairline rows, same "colour is stroke" treatment as .lesson-row --
+   reads as a sibling of the module page's own lesson list rather than a
+   new visual language, since that's exactly what each row represents. */
+.lesson-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lesson-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 13px 16px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  font: inherit;
+  cursor: pointer;
+}
+.lesson-search-row:hover {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: var(--color-accent);
+}
+.lesson-search-row-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lesson-search-row-title {
+  font-size: 16px;
+  color: var(--ink);
+}
+.lesson-search-row-sub {
+  font-size: 12px;
+  opacity: 0.6;
+}
+.lesson-search-row-module {
+  flex: none;
+  font-size: 13px;
+  opacity: 0.65;
+  padding-left: 12px;
 }
 .home-chapter-heading {
   /* .chapter-grid is a CSS grid, not flex -- this has to span every
@@ -2015,15 +2105,21 @@ h1 + .card-kicker,
 
 .settings-page {
   margin: -56px -64px 0;
-  padding: 0 56px 80px;
+  padding: 0 56px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 384px;
   gap: 1px;
   background: var(--color-divider);
 }
 .settings-col {
+  /* The extra bottom space used to live on .settings-page's own padding,
+     which left the container's translucent divider background exposed as a
+     mismatched band below both columns (they stretch to equal height via
+     grid's default align-items: stretch, so the container padding was the
+     only thing showing through). Keeping it on the column instead means an
+     opaque .settings-col background covers it. */
   background: var(--color-bg);
-  padding: 46px 44px 56px;
+  padding: 46px 44px 136px;
 }
 .settings-kicker {
   font-size: 12px;
@@ -4922,6 +5018,25 @@ button.path-node:not(.locked):hover {
   flex-wrap: wrap;
 }
 
+.quiz-missed-list {
+  text-align: left;
+}
+.quiz-missed-row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.quiz-missed-row-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.quiz-missed-answer {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding-left: 32px;
+}
+
 .confetti-piece {
   position: absolute;
   top: 0;
@@ -6325,7 +6440,7 @@ button.path-node:not(.locked):hover {
   }
   .dashboard-page {
     padding-top: 0;
-    padding-bottom: 32vh;
+    padding-bottom: 40px;
   }
   .lesson-layout,
   .lesson-main,
@@ -6436,9 +6551,11 @@ button.path-node:not(.locked):hover {
     margin: -28px -16px 0;
   }
   .settings-page {
-    padding: 0 16px 56px;
+    padding: 0 16px;
   }
-  .settings-col,
+  .settings-col {
+    padding: 32px 22px 94px;
+  }
   .account-card {
     padding: 32px 22px 38px;
   }
