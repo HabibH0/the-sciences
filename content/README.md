@@ -282,6 +282,11 @@ without knowing the material, which defeats the point of testing it.
 - Every concept exercise, quiz question, and bank MCQ gets a fresh shuffle
   of its options on every view (see `js/state.js`) — you don't need to
   (and shouldn't) hand-place the correct answer in a particular position.
+- Same-family isn't enough on its own: a distractor that's a bare 2-4 word
+  label next to a correct answer written as a full explanatory clause gives
+  itself away by shape alone, regardless of shuffling. See
+  `md-files/MCQ-DISTRACTORS.md` for the length/style-parity standard and the
+  module-by-module rollout checklist (Module 24 is the pilot).
 
 ## Checklist for a new module
 
