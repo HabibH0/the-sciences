@@ -8,4 +8,7 @@ web/
 .claude/
 /CLAUDE.md
 /AUDIT.md
+/NAV_AUDIT.md
+/NAV_UX_IDEAS.md
 /PATH_GENERATION_GUIDE.md
+/UI_TEST_AUDIT.md
