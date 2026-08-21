@@ -3573,11 +3573,20 @@ document.addEventListener('click', (e) => {
   applyActionMotion(root, el);
 });
 
-// The mobile header's "..." menu is a native <details> -- opening/closing
-// via its own <summary> is free browser behaviour, but a native <details>
-// has no built-in "tap outside to dismiss", unlike every state-tracked
-// modal (which all get one via their backdrop's data-action). Runs on
-// every click, not just [data-action] ones, since the whole point is
+// Home's course menu is the one popout with no backdrop of its own, so
+// nothing dismissed it: every modal in the app closes on an outside click
+// through its backdrop's data-action, and this dropped out of a heading
+// with no backdrop to give it one. Left open, it sat over the module list
+// until the trigger was pressed a second time. Runs on every click, not
+// only [data-action] ones, since the whole point is the clicks that are
+// neither the menu nor its trigger.
+document.addEventListener('click', (e) => {
+  if (!state.courseMenuOpen) return;
+  if (e.target.closest('.course-menu, [data-action="toggleCourseMenu"]')) return;
+  state.courseMenuOpen = false;
+  rerender();
+});
+
 document.addEventListener('keydown', (e) => {
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
@@ -3606,7 +3615,12 @@ document.addEventListener('keydown', (e) => {
     if (exitMs) setTimeout(() => rerender(focusSel), exitMs);
     else rerender(focusSel);
   };
-  if (state.lessonPreviewId) {
+  if (state.courseMenuOpen) {
+    // Shallower than any modal, and never open at the same time as one --
+    // a course menu click either closes it or leaves Home entirely.
+    state.courseMenuOpen = false;
+    rerender('[data-action="toggleCourseMenu"]');
+  } else if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.litChapterPreviewId) {

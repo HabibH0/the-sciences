@@ -628,7 +628,7 @@ function moduleRingHtml(index, { done, current, unlocked }) {
 // card did rather than switching to a course that cannot be entered.
 function courseMenuHtml(state) {
   return `
-    <div class="course-menu" role="menu">
+    <div class="course-menu" role="group" aria-label="Courses">
       ${COURSES.map((course) => {
         const active = course.id === state.courseId;
         const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
@@ -637,7 +637,7 @@ function courseMenuHtml(state) {
           ? `data-action="chooseCourse" data-course-id="${escAttr(course.id)}"`
           : `data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}"`;
         return `
-          <button class="course-menu-item${active ? ' is-active' : ''}${unlocked ? '' : ' is-locked'}" ${attrs} role="menuitem">
+          <button class="course-menu-item${active ? ' is-active' : ''}${unlocked ? '' : ' is-locked'}" ${attrs}${active ? ' aria-current="true"' : ''}>
             <span class="course-menu-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
             <span class="course-menu-meta">${esc(course.name)} · ${count} module${count === 1 ? '' : 's'}${unlocked ? '' : ' · locked'}</span>
           </button>`;
@@ -724,7 +724,8 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
           <div class="section-head">
             <h2 class="section-head-title">Your modules</h2>
             <button class="home-course-switch" data-action="toggleCourseMenu" title="Switch course"
-              aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
+              aria-label="Switch course — currently ${escAttr(activeCourse ? activeCourse.name : '')}"
+              aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
               <span lang="ar" dir="rtl">${esc(activeCourse ? activeCourse.arabicName || activeCourse.name : '')}</span>
               <span aria-hidden="true">▾</span>
             </button>
