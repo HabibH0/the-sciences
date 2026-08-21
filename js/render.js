@@ -941,11 +941,11 @@ function lessonPreviewHtml(state, MODULES) {
     <div class="modal-backdrop" data-action="closeLessonPreview">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(lesson.title)}">
         <div class="card-kicker modal-kicker">LESSON ${idx + 1} &middot; ${esc(mod.title)}</div>
-        <h3>${esc(lesson.title)}</h3>
+        <h2>${esc(lesson.title)}</h2>
         <p class="modal-sub">${escBidi(lesson.subtitle || '')}</p>
         ${mastered ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
         <div class="modal-buttons">
-          <button class="btn btn-ghost" data-action="cancelLessonPreview">Cancel</button>
+          <button class="btn btn-secondary" data-action="cancelLessonPreview">Cancel</button>
           ${actionButtons}
         </div>
       </div>
@@ -966,7 +966,7 @@ function badgeModalHtml(state) {
     <div class="modal-backdrop" style="z-index:60;" data-action="closeBadgeModal">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(b.name)}">
         <div class="badge-modal-icon">${icon('award', 36, 1.6)}</div>
-        <div class="badge-modal-title">Badge Earned</div>
+        <h2 class="badge-modal-title">Badge earned</h2>
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
         <div class="modal-buttons">
           <button class="btn btn-primary" data-action="closeBadgeModal">Continue</button>
@@ -981,12 +981,12 @@ function forceUnlockPromptHtml(state) {
     <div class="modal-backdrop" data-action="closeForceUnlockPrompt">
       <div class="modal force-unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Turn off course locks">
         <div class="card-kicker modal-kicker">COURSE LOCKS</div>
-        <h3>Unlock everything?</h3>
+        <h2>Unlock everything?</h2>
         <p class="modal-sub">This opens every lesson, path group, vocab item, Tarkeeb exercise, and quiz. It does not mark lessons complete, award badges, or change your scores.</p>
         <p class="modal-sub">You can turn course locks back on later and your original progress will still be there.</p>
         <div class="modal-buttons">
-          <button class="ds-btn ds-btn-secondary" data-action="cancelForceUnlockAll">Cancel</button>
-          <button class="ds-btn ds-btn-primary" data-action="confirmForceUnlockAll">Unlock everything</button>
+          <button class="btn btn-secondary" data-action="cancelForceUnlockAll">Cancel</button>
+          <button class="btn btn-primary" data-action="confirmForceUnlockAll">Unlock everything</button>
         </div>
       </div>
     </div>`;
@@ -1006,12 +1006,12 @@ function resetModulePromptHtml(state, MODULES) {
     <div class="modal-backdrop" data-action="closeResetModulePrompt">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Reset module progress">
         <div class="card-kicker modal-kicker">RESET PROGRESS</div>
-        <h3>${esc(mod.title)}</h3>
+        <h2>${esc(mod.title)}</h2>
         <p class="modal-sub">This will clear all completed lessons, quiz scores, exercise states, and mastery results for this module. Your XP and badges are not affected.</p>
         <p class="modal-sub">This cannot be undone.</p>
         <div class="modal-buttons">
-          <button class="ds-btn ds-btn-secondary" data-action="cancelResetModulePrompt">Cancel</button>
-          <button class="ds-btn ds-btn-danger" data-action="confirmResetModule" data-module-id="${escAttr(mod.id)}">Reset module</button>
+          <button class="btn btn-secondary" data-action="cancelResetModulePrompt">Cancel</button>
+          <button class="btn btn-danger" data-action="confirmResetModule" data-module-id="${escAttr(mod.id)}">Reset module</button>
         </div>
       </div>
     </div>`;
@@ -1029,11 +1029,11 @@ function leaveSessionPromptHtml(state) {
     <div class="modal-backdrop" data-action="closeLeaveSessionPrompt">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Leave this session?">
         <div class="card-kicker modal-kicker">IN PROGRESS</div>
-        <h3>Leave this session?</h3>
+        <h2>Leave this session?</h2>
         <p class="modal-sub">Your answers so far in this attempt won't be saved. Anything you'd already completed before it isn't affected.</p>
         <div class="modal-buttons">
-          <button class="ds-btn ds-btn-secondary" data-action="cancelLeaveSessionPrompt">Cancel</button>
-          <button class="ds-btn ds-btn-danger" data-action="confirmLeaveSession">Leave session</button>
+          <button class="btn btn-secondary" data-action="cancelLeaveSessionPrompt">Cancel</button>
+          <button class="btn btn-danger" data-action="confirmLeaveSession">Leave session</button>
         </div>
       </div>
     </div>`;
@@ -1104,12 +1104,12 @@ function unlockPromptHtml(state) {
     <div class="unlock-modal-backdrop" data-action="closeUnlockPrompt">
       <div class="unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock ${escAttr(label.noun)}">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
-        <h3 class="unlock-modal-title">Unlock ${esc(label.name)}?</h3>
+        <h2 class="unlock-modal-title">Unlock ${esc(label.name)}?</h2>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
         <p class="unlock-modal-sub">This opens only this ${esc(label.noun)}. ${esc(consequence)}</p>
         <div class="unlock-modal-buttons">
-          <button class="ds-btn ds-btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
-          <button class="ds-btn ds-btn-primary" data-action="confirmIndividualUnlock">Unlock ${esc(label.noun)}</button>
+          <button class="btn btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
+          <button class="btn btn-primary" data-action="confirmIndividualUnlock">Unlock ${esc(label.noun)}</button>
         </div>
       </div>
     </div>`;
@@ -1120,12 +1120,12 @@ function unlockPromptHtml(state) {
     <div class="unlock-modal-backdrop" data-action="closeUnlockPrompt">
       <div class="unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock test">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
-        <h3 class="unlock-modal-title">${esc(label.name)} is locked</h3>
+        <h2 class="unlock-modal-title">${esc(label.name)} is locked</h2>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
         <p class="unlock-modal-sub">Pass a test on ${esc(label.sourceDescription)} to unlock it early. ${esc(composition)}</p>
         <div class="unlock-modal-buttons">
-          <button class="ds-btn ds-btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
-          ${canStart ? `<button class="ds-btn ds-btn-primary" data-action="startUnlockTest">Start Test</button>` : ''}
+          <button class="btn btn-secondary" data-action="closeUnlockPrompt">Cancel</button>
+          ${canStart ? `<button class="btn btn-primary" data-action="startUnlockTest">Start Test</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -2947,7 +2947,7 @@ function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
       <div class="path-node-indicator">${indicator}</div>
       <div class="path-node-body">
         <span class="path-node-course-badge" lang="ar" dir="rtl">${esc(courseLabel)}</span>
-        <h3>${esc(lesson.title)}</h3>
+        <h2>${esc(lesson.title)}</h2>
         <div class="path-node-subtitle">${escBidi(lesson.subtitle || '')}</div>
       </div>
       ${tag}
@@ -3032,7 +3032,7 @@ function pathCheckpointSetupHtml(state) {
     <div class="modal-backdrop" data-action="closePathCheckpointSetup">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(label)}">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(label)}</div>
-        <h3>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h3>
+        <h2>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h2>
         ${directionPicker}
         ${mastered ? `<div class="tag tag-accent" style="margin:4px 0 0;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
         <div class="modal-buttons">
@@ -3066,7 +3066,7 @@ function pathSkipAheadPromptHtml(state) {
     <div class="modal-backdrop" data-action="closePathSkipAheadPrompt">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Jump ahead">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(node.label)}</div>
-        <h3>Jump ahead to this ${scopeWord}?</h3>
+        <h2>Jump ahead to this ${scopeWord}?</h2>
         <p class="modal-sub">A placement test covering everything up through this ${scopeWord}. Pass it at ${Math.round(node.passRatio * 100)}% and every lesson and checkpoint before it &mdash; ${lessonCount} lesson${lessonCount === 1 ? '' : 's'} in all, across both courses &mdash; gets marked complete, same as if you'd walked the path there normally.</p>
         <p class="modal-sub">${esc(composition)}</p>
         <div class="modal-buttons">
@@ -3090,7 +3090,7 @@ function pathMilestoneRowHtml(node, index, unlocked, done, revealedKeys) {
     <div class="${rowCls}">
       <div class="path-node-indicator">${icon('award', 19, 2)}</div>
       <div class="path-node-body">
-        <h3>${esc(node.label)}</h3>
+        <h2>${esc(node.label)}</h2>
         <div class="path-node-subtitle">${done ? 'Earned' : unlocked ? 'Reach here to earn it' : 'Keep going'}</div>
       </div>
     </div>`;
@@ -3650,7 +3650,7 @@ function settingsHtml(state) {
             <div class="specimen-gloss" dir="ltr">Indeed Allah is with the patient. The ḥarf inna governs naṣb in the noun that follows it.</div>
           </div>
           <div class="specimen-actions">
-            <button class="ds-btn ds-btn-ghost" data-action="resetAppearance">Reset to Manuscript &amp; Gold</button>
+            <button class="btn btn-ghost" data-action="resetAppearance">Reset to Manuscript &amp; Gold</button>
           </div>
         </div>
       </aside>

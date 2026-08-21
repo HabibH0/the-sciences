@@ -913,22 +913,42 @@ bdi,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-base);
   font-weight: 500;
   line-height: 1.2;
-  padding: 9px 18px;
+  /* Height stated rather than inferred from padding, so a button, an input
+     and a select on one line are the same height to the pixel. */
+  min-height: var(--control-h);
+  padding: 0 var(--space-4);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-divider);
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
+  white-space: nowrap;
 }
 .btn:focus-visible,
 .ds-btn:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+/* Icons inside a button are decoration for the label beside them: sized
+   down and set at the label's own optical weight, so a button never reads
+   as an icon with some text after it. */
+.btn > .icon,
+.ds-btn > .icon {
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+/* A quieter button for dense rows -- a card footer, a table row action --
+   where the full control height would set the row's height. */
+.btn-sm {
+  min-height: var(--control-h-sm);
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
 }
 .btn-primary,
 .ds-btn-primary,
@@ -964,21 +984,36 @@ bdi,
   color: var(--color-text);
   background: var(--color-neutral-100);
 }
+/* Destructive. This used to be indistinguishable from .btn-secondary -- a
+   neutral hairline with neutral text -- so "Reset module" and "Cancel" sat
+   side by side looking identical, and the one that cannot be undone was the
+   one on the right. It now takes the danger stroke and text.
+
+   Still a stroke, not a slab: the accent is never a fill in this design and
+   neither is this, so a confirm dialog stays a page with a warning on it
+   rather than an alarm. The fill only arrives on hover, at the moment the
+   pointer is actually over the irreversible thing. */
 .btn-danger,
 .ds-btn-danger {
-  border-color: var(--color-neutral-400);
-  color: var(--color-neutral-700);
+  border-color: var(--color-danger-line);
+  color: var(--color-danger-text);
 }
 .btn-danger:hover:not(:disabled),
 .ds-btn-danger:hover:not(:disabled) {
-  border-color: var(--color-neutral-700);
-  background: var(--color-neutral-100);
+  border-color: var(--color-danger);
+  background: var(--color-danger-tint);
 }
 .btn:disabled,
 .ds-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
+/* Button loading state is NOT defined here: the Motion layer already owns
+   it as [data-action].is-busy, applied by the dispatcher when an async
+   action starts. Its spinner is absolutely positioned at right: 10px, so a
+   button that can go busy needs room on that edge -- which is what the
+   padding above leaves. Defining a second one here would put two spinners
+   on the same control. */
 .btn-block,
 .ds-btn-block {
   display: flex;
@@ -4513,50 +4548,77 @@ bdi,
 
 /* ---------- Modals ---------- */
 
-.modal-backdrop {
+/* One dialog spec. .unlock-modal* was a byte-for-byte duplicate of this
+   block; both name sets now resolve here so they cannot drift apart again
+   (they already had, on which button variant Cancel used). */
+.modal-backdrop,
+.unlock-modal-backdrop {
   position: fixed;
   inset: 0;
   background: color-mix(in srgb, var(--color-text) 45%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px;
+  padding: var(--space-5);
   z-index: 50;
 }
-.modal {
+.modal,
+.unlock-modal,
+.force-unlock-modal {
   width: 100%;
   max-width: 420px;
   background: var(--color-bg);
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: 20px 22px;
+  padding: var(--space-5) var(--space-6) var(--space-6);
 }
 .modal h2,
-.modal h3 {
+.modal h3,
+.unlock-modal h2,
+.force-unlock-modal h2 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
   font-size: 21px;
-  margin: 6px 0 0;
+  line-height: var(--leading-tight);
+  margin: var(--space-1) 0 0;
 }
 .modal-kicker {
-  font-size: 10px;
+  font-size: var(--text-micro);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--tracking-caps);
   color: var(--color-accent-700);
 }
 .modal-sub {
-  font-size: 12.5px;
+  font-size: var(--text-sm);
   color: var(--color-neutral-700);
-  margin-top: 8px;
-  line-height: 1.6;
+  margin-top: var(--space-2);
+  line-height: var(--leading-body);
 }
-.modal-buttons {
+/* The primary sits at the trailing edge and takes its own width; Cancel
+   stays beside it, quieter. Both used to be flex:1, which gave a dismissal
+   and an irreversible confirm exactly the same footprint. */
+.modal-buttons,
+.unlock-modal-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 18px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
 }
-.modal-buttons .btn {
+.unlock-modal .unlock-modal-buttons,
+.force-unlock-modal .modal-buttons,
+.unlock-modal .modal-buttons {
+  justify-content: center;
+}
+.modal-buttons .btn,
+.unlock-modal-buttons .btn {
+  flex: none;
+}
+/* A single action fills the dialog -- there is nothing for it to compete
+   with, and a lone small button in a corner reads as an afterthought. */
+.modal-buttons .btn:only-child,
+.unlock-modal-buttons .btn:only-child {
   flex: 1;
 }
 .lit-chapter-modal {
@@ -4975,25 +5037,14 @@ bdi,
 
 /* ---------- Modals + toast ---------- */
 
-.unlock-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: color-mix(in srgb, var(--color-text) 45%, transparent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  z-index: 50;
-}
+/* .unlock-modal-backdrop / .unlock-modal were a second, byte-for-byte
+   duplicate of .modal-backdrop / .modal -- two dialog systems that could
+   drift apart, and had already started to (their Cancel buttons used
+   different variants). Both names now resolve to the one spec, declared up
+   with .modal. The class names stay on the markup because the Motion layer
+   animates :is(.modal, .unlock-modal, .force-unlock-modal) by name. */
 .unlock-modal,
 .force-unlock-modal {
-  width: 100%;
-  max-width: 420px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  padding: 20px 22px;
   text-align: center;
 }
 .unlock-modal-icon,
