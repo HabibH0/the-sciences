@@ -81,6 +81,11 @@ const ICON_PATHS = {
   eye: '<path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
   'eye-off': '<path d="M4 4l16 16"/><path d="M10.6 5.8A10 10 0 0 1 12 5.5c6.5 0 10 6.5 10 6.5a17.5 17.5 0 0 1-3 3.6M6.4 6.9A16.7 16.7 0 0 0 2 12s3.5 6.5 10 6.5a10 10 0 0 0 4-1"/><path d="M9.9 9.9a2.8 2.8 0 1 0 4 4"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>',
+  // Errors carry this so colour is never the only thing marking them --
+  // the one signal a reader with a colour deficiency, or on a washed-out
+  // screen, would otherwise miss entirely.
+  alert: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 16.2v.3"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.8v.3"/>',
 };
 
 function icon(name, size = 16, strokeWidth = 1.6) {
@@ -338,6 +343,45 @@ function pageHeaderHtml({ title, ar = '', lede = '', actions = '', tools = '' })
       ${lede ? `<p class="page-header-lede">${lede}</p>` : ''}
       ${tools ? `<div class="page-header-tools">${tools}</div>` : ''}
     </header>`;
+}
+
+// The range track paints its travelled portion from --range-pct, because
+// WebKit has no ::-moz-range-progress equivalent and the alternative is the
+// native track, which Chromium renders as a solid dark bar. Set here for the
+// first paint; kept in step while dragging by the input handler in main.js.
+function rangePct(value, min, max) {
+  const v = Number(value);
+  const lo = Number(min);
+  const hi = Number(max);
+  if (!Number.isFinite(v) || !Number.isFinite(lo) || !Number.isFinite(hi) || hi === lo) return '50%';
+  const pct = ((v - lo) / (hi - lo)) * 100;
+  return `${Math.max(0, Math.min(100, Math.round(pct)))}%`;
+}
+
+// One field: label, control, then either its hint or -- if this is the field
+// that failed -- its error, right under the input it belongs to rather than
+// in a status line at the foot of the form. `control` is raw markup.
+function accountFieldHtml({ id, label, control, hint = '', error = null, required = true }) {
+  const failed = error && error.field === fieldIdToName(id);
+  const errId = `${id}-error`;
+  const hintId = `${id}-hint`;
+  return `
+    <div class="field${failed ? ' field-invalid' : ''}">
+      <label class="field-label" for="${escAttr(id)}">${esc(label)}${required ? '<span class="field-required" aria-hidden="true">*</span>' : ''}</label>
+      ${control}
+      ${failed
+        ? `<span class="field-error" id="${escAttr(errId)}" role="alert">${icon('alert', 13, 2)}<span>${esc(error.message)}</span></span>`
+        : hint ? `<span class="field-hint" id="${escAttr(hintId)}">${esc(hint)}</span>` : ''}
+    </div>`;
+}
+function fieldIdToName(id) {
+  return String(id).replace(/^account-/, '');
+}
+// aria-invalid + aria-describedby, so the error reaches a screen reader as
+// the field's own error and not as an unrelated line of text further down.
+function fieldAttrs(name, error) {
+  if (!error || error.field !== name) return '';
+  return ` aria-invalid="true" aria-describedby="account-${name}-error"`;
 }
 
 // A framed, intentional empty state -- icon, a serif title, one line of
@@ -3550,7 +3594,7 @@ function settingsHtml(state) {
             <label class="lesson-size-label" for="lesson-text-scale">Lesson text size</label>
             <output class="lesson-size-value" for="lesson-text-scale" data-lesson-text-scale-value>${lessonTextScale}%</output>
           </div>
-          <input id="lesson-text-scale" class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonTextScale}" data-action="setLessonTextScale" aria-label="Lesson text size">
+          <input id="lesson-text-scale" class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonTextScale}" style="--range-pct:${rangePct(lessonTextScale, 85, 130)}" data-action="setLessonTextScale" aria-label="Lesson text size">
           <div class="lesson-size-ticks" aria-hidden="true">
             <span>Small</span>
             <span>Default</span>
@@ -3567,7 +3611,7 @@ function settingsHtml(state) {
             <label class="lesson-size-label" for="lit-text-scale">Reading text size</label>
             <output class="lesson-size-value" for="lit-text-scale" data-lit-text-scale-value>${litTextScale}%</output>
           </div>
-          <input id="lit-text-scale" class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litTextScale}" data-action="setLitTextScale" aria-label="Reading text size">
+          <input id="lit-text-scale" class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litTextScale}" style="--range-pct:${rangePct(litTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX)}" data-action="setLitTextScale" aria-label="Reading text size">
           <div class="lesson-size-ticks" aria-hidden="true">
             <span>Small</span>
             <span>Default</span>
@@ -3763,7 +3807,7 @@ function accountHtml(state) {
         <span class="lesson-size-label">Lesson text size</span>
         <span class="lesson-size-value">${lessonScale}%</span>
       </div>
-      <input class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonScale}" data-action="setLessonTextScale" aria-label="Lesson text size">
+      <input class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonScale}" style="--range-pct:${rangePct(lessonScale, 85, 130)}" data-action="setLessonTextScale" aria-label="Lesson text size">
       <div class="lesson-size-preview" style="font-size:${(lessonScale / 100 * 15).toFixed(1)}px;">A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</div>
     </div>
     <div class="lesson-size-control">
@@ -3771,13 +3815,19 @@ function accountHtml(state) {
         <span class="lesson-size-label">Reading text size</span>
         <span class="lesson-size-value">${litScale}%</span>
       </div>
-      <input class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litScale}" data-action="setLitTextScale" aria-label="Reading text size">
+      <input class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litScale}" style="--range-pct:${rangePct(litScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX)}" data-action="setLitTextScale" aria-label="Reading text size">
       <div class="lesson-size-preview lit-size-preview-line" lang="ar" dir="rtl" style="font-size:${(litScale / 100 * 19).toFixed(1)}px;">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</div>
     </div>`;
 
+  // Three different things used to share one grey line: progress ("Signing
+  // in..."), success ("Signed in and save data synced.") and failure ("Could
+  // not sign in."). The tone now distinguishes them, and a failure is
+  // announced assertively rather than politely.
+  const tone = account.messageTone || 'info';
   const message = account.message
-    ? `<div class="account-message" role="status">${esc(account.message)}</div>`
+    ? `<div class="account-message account-message-${esc(tone)}" role="${tone === 'error' ? 'alert' : 'status'}">${tone === 'error' ? icon('alert', 13, 2) : ''}<span>${esc(account.message)}</span></div>`
     : '';
+  const fieldError = account.fieldError || null;
   const syncGapSummary = describeSyncGap(local, cloud);
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
@@ -3831,21 +3881,31 @@ function accountHtml(state) {
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Cloud save</h2>
     </div>
-    <p class="lede account-text-lede">Sign in to keep this device's progress backed up and in step with your other devices.</p>
+    <p class="lede account-text-lede">Sign in to keep this device's progress backed up and in step with your other devices. Signing in never overwrites what is on this device without asking first.</p>
     <div class="account-fields">
-      <label class="account-label" for="account-email">Email</label>
-      <input class="account-input schedule-input" id="account-email" type="email" autocomplete="email">
-      <label class="account-label" for="account-password">Password</label>
-      <div class="password-field">
-        <input class="account-input schedule-input" id="account-password" type="password" autocomplete="current-password">
-        <button class="password-reveal" type="button" data-action="togglePasswordVisibility" aria-label="Show password" aria-pressed="false">
-          <span class="icon-eye">${icon('eye', 15, 1.7)}</span>
-          <span class="icon-eye-off">${icon('eye-off', 15, 1.7)}</span>
-        </button>
-      </div>
+      ${accountFieldHtml({
+        id: 'account-email',
+        label: 'Email',
+        error: fieldError,
+        control: `<input class="account-input schedule-input" id="account-email" type="email" autocomplete="email" placeholder="you@example.com"${fieldAttrs('email', fieldError)}>`,
+      })}
+      ${accountFieldHtml({
+        id: 'account-password',
+        label: 'Password',
+        hint: 'At least 8 characters if you are creating an account.',
+        error: fieldError,
+        control: `
+          <div class="password-field">
+            <input class="account-input schedule-input" id="account-password" type="password" autocomplete="current-password"${fieldAttrs('password', fieldError)}>
+            <button class="password-reveal" type="button" data-action="togglePasswordVisibility" aria-label="Show password" aria-pressed="false">
+              <span class="icon-eye">${icon('eye', 15, 1.7)}</span>
+              <span class="icon-eye-off">${icon('eye-off', 15, 1.7)}</span>
+            </button>
+          </div>`,
+      })}
     </div>
     <div class="account-actions">
-      <button class="btn btn-primary" data-action="loginAccount" ${working ? 'disabled' : ''}>Sign in</button>
+      <button class="btn btn-primary" data-action="loginAccount" ${working ? 'disabled' : ''}>${working ? 'Signing in…' : 'Sign in'}</button>
       <button class="btn btn-secondary" data-action="registerAccount" ${working ? 'disabled' : ''}>Create account</button>
     </div>
     ${message}`;

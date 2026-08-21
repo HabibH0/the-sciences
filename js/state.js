@@ -373,6 +373,15 @@ export async function createInitialState() {
       user: null,
       status: 'idle',
       message: '',
+      // How `message` should read: 'info' while something is in flight,
+      // 'success' once it landed, 'error' when it did not. Without this the
+      // status line rendered "Signing in...", "Signed in" and "Could not
+      // sign in" in exactly the same grey.
+      messageTone: 'info',
+      // A validation failure that belongs to one field, so it can be shown
+      // under that field rather than in the status line at the foot of the
+      // form: { field: 'email' | 'password', message }.
+      fieldError: null,
       backendUrl: '',
       pendingSyncAction: null,
       cloudStatus: null,

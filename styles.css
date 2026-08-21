@@ -537,12 +537,16 @@ input,
 select,
 textarea {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
   color: var(--color-text);
   background: transparent;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
-  padding: 8px 12px;
+  /* A stated height, so an input and the button beside it agree. Padding
+     alone left every control a pixel or two off whatever it sat next to. */
+  min-height: var(--control-h);
+  padding: 0 var(--space-3);
   /* Only lever the platform exposes for a native control's own popup (the
      date input's calendar overlay, a <select>'s option list where the
      browser honours it) -- the popup chrome itself is otherwise outside
@@ -550,14 +554,90 @@ textarea {
      the browser's default blue. */
   accent-color: var(--color-accent);
 }
+textarea {
+  padding: var(--space-2) var(--space-3);
+  line-height: var(--leading-body);
+}
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+input:hover:not(:disabled):not(:focus),
+select:hover:not(:disabled):not(:focus),
+textarea:hover:not(:disabled):not(:focus) {
+  border-color: var(--color-neutral-400);
+}
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 ::placeholder {
   color: var(--color-neutral-500);
+}
+
+/* ---------- Range ----------
+   The text-size sliders were bare natives carrying only accent-color, which
+   on Chromium paints the unfilled half of the track solid dark -- a black
+   bar, and the single heaviest object, on a page whose whole premise is
+   paper. Drawn here instead: a hairline groove, the travelled part in the
+   accent, and a thumb sized to be draggable. */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  min-height: 0;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--color-accent) 0 var(--range-pct, 50%),
+    var(--color-neutral-200) var(--range-pct, 50%) 100%
+  );
+}
+input[type='range']::-moz-range-track {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-200);
+}
+input[type='range']::-moz-range-progress {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6.5px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+input[type='range']:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-pill);
 }
 
 /* Arabic runs are isolated so a bare space against the boundary doesn't
@@ -3025,23 +3105,83 @@ bdi,
   align-items: center;
   gap: 13px;
 }
-.account-label {
-  display: block;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-accent-700);
-  margin-bottom: 6px;
+/* ---------- Fields ----------
+   One field system for the whole app. There were two: Schedule set its
+   labels in 12.5px sentence-case neutral beside the control, Account set
+   the same kind of label in 10px uppercase gold above it -- so the two
+   forms in this product read as belonging to two different ones, and
+   neither had anywhere to put a validation message.
+
+   .field stacks: label -> control -> hint or error.
+   .field-row lays label and control on one line, which is the right shape
+   for a settings row whose control is narrow (a date, an hour).
+
+   .account-label is kept as an alias rather than renamed, so markup this
+   branch does not touch keeps working. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
+.field + .field {
+  margin-top: var(--space-4);
+}
+.field-label,
+.account-label,
+.plan-row label {
+  display: block;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin-bottom: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+/* Required is marked on the label, not left for the reader to infer from a
+   failed submit. Gold rather than the danger colour: nothing has gone wrong
+   yet, so nothing should look as though it has. */
+.field-required {
+  color: var(--color-accent-700);
+  margin-left: 2px;
+}
+.field-hint {
+  font-size: var(--text-meta);
+  line-height: var(--leading-body);
+  color: var(--color-neutral-600);
+  max-width: var(--measure-prose);
+}
+/* The error sits under the field it belongs to, carries an icon so colour
+   is never the only signal, and is announced -- see role="alert" on the
+   markup side. */
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: var(--text-meta);
+  line-height: var(--leading-body);
+  color: var(--color-danger-text);
+  max-width: var(--measure-prose);
+}
+.field-error .icon {
+  margin-top: 2px;
+}
+.field-invalid .account-input,
+.field-invalid input,
+.field-invalid textarea,
+.field-invalid select {
+  border-color: var(--color-danger);
+}
+
 .account-input {
   width: 100%;
   max-width: 340px;
 }
 .account-actions {
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
   flex-wrap: wrap;
-  margin-top: 14px;
+  margin-top: var(--space-4);
+  align-items: center;
 }
 .account-status-grid {
   display: flex;
@@ -3054,9 +3194,28 @@ bdi,
 }
 .account-cloud-status,
 .account-message {
-  font-size: 12px;
+  font-size: var(--text-sm);
   color: var(--color-neutral-700);
-  margin-top: 10px;
+  margin-top: var(--space-3);
+}
+/* Progress, success and failure used to render in exactly the same grey.
+   Failure additionally carries an icon, so colour is not the only signal. */
+.account-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: var(--leading-body);
+  max-width: var(--measure-prose);
+}
+.account-message .icon {
+  flex: none;
+  margin-top: 2px;
+}
+.account-message-success {
+  color: var(--color-success-text);
+}
+.account-message-error {
+  color: var(--color-danger-text);
 }
 .account-confirm {
   font-size: 12px;
@@ -5389,28 +5548,33 @@ button.concept-dot {
 }
 
 /* Plan: the two settings the whole page is computed from. */
+/* A field laid on one line -- the right shape when the control is narrow
+   and the label is short. .plan-row is the Schedule instance of it. */
+.field-row,
 .plan-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 11px 0;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--color-divider);
 }
-.plan-row label {
-  font-size: 12.5px;
-  color: var(--color-neutral-700);
+.field-row:last-of-type,
+.plan-row:last-of-type {
+  border-bottom: 0;
 }
 .plan-input {
   width: auto;
+  min-width: 150px;
   max-width: 190px;
   font-variant-numeric: tabular-nums;
 }
 .plan-note {
-  font-size: 11px;
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
-  margin-top: 10px;
-  line-height: 1.55;
+  margin-top: var(--space-3);
+  line-height: var(--leading-body);
+  max-width: var(--measure-prose);
 }
 
 /* Daily-reset-time picker: the app's own popover in place of a native

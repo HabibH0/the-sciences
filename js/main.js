@@ -1039,10 +1039,16 @@ const ACCOUNT_EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 // server's own (e.g. no password-strength rules beyond length on register)
 // -- this is a UX shortcut for the obvious case, not a second source of
 // truth for what's a valid account.
+// Returns which field failed as well as why, so the message can be shown
+// under that field instead of in the status line at the foot of the form --
+// which is where it used to land, several controls away from the input it
+// was about.
 function accountFieldError(email, password, { minPasswordLength = 1 } = {}) {
-  if (!ACCOUNT_EMAIL_PATTERN.test(email.trim())) return 'Enter a valid email address.';
+  if (!email.trim()) return { field: 'email', message: 'Enter the email address for your account.' };
+  if (!ACCOUNT_EMAIL_PATTERN.test(email.trim())) return { field: 'email', message: 'That does not look like an email address — check for a missing @ or a typo.' };
+  if (!password) return { field: 'password', message: 'Enter your password.' };
   if (password.length < minPasswordLength) {
-    return minPasswordLength > 1 ? `Password must be at least ${minPasswordLength} characters.` : 'Enter a password.';
+    return { field: 'password', message: `Use at least ${minPasswordLength} characters.` };
   }
   return null;
 }
@@ -2190,13 +2196,15 @@ const actions = {
     const email = document.getElementById('account-email')?.value || '';
     const password = document.getElementById('account-password')?.value || '';
     const fieldError = accountFieldError(email, password, { minPasswordLength: 8 });
+    state.account.fieldError = fieldError;
     if (fieldError) {
-      state.account.message = fieldError;
+      state.account.message = '';
       rerender();
       return;
     }
     state.account.status = 'working';
     state.account.message = 'Creating account...';
+    state.account.messageTone = 'info';
     rerender();
     try {
       const result = await register(email, password);
@@ -2204,13 +2212,16 @@ const actions = {
       state.account.user = result.user;
       state.account.pendingSyncAction = null;
       state.account.message = 'Account created. Syncing save data...';
+      state.account.messageTone = 'info';
       await flushPersist();
       await mergeAccountSaveWithRetry();
       state.account.autoUploadStatus = 'synced';
       state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
       state.account.message = 'Account created and save data synced.';
+      state.account.messageTone = 'success';
     } catch (e) {
       state.account.message = e.message || 'Could not create account.';
+      state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
     }
@@ -2231,13 +2242,15 @@ const actions = {
     const email = document.getElementById('account-email')?.value || '';
     const password = document.getElementById('account-password')?.value || '';
     const fieldError = accountFieldError(email, password);
+    state.account.fieldError = fieldError;
     if (fieldError) {
-      state.account.message = fieldError;
+      state.account.message = '';
       rerender();
       return;
     }
     state.account.status = 'working';
     state.account.message = 'Signing in...';
+    state.account.messageTone = 'info';
     rerender();
     try {
       const result = await login(email, password);
@@ -2245,13 +2258,16 @@ const actions = {
       state.account.user = result.user;
       state.account.pendingSyncAction = null;
       state.account.message = 'Signed in. Syncing save data...';
+      state.account.messageTone = 'info';
       await flushPersist();
       await mergeAccountSaveWithRetry();
       state.account.autoUploadStatus = 'synced';
       state.account.autoUploadMessage = 'Automatic sync is ready for future lesson, quiz, and practice progress.';
       state.account.message = 'Signed in and save data synced.';
+      state.account.messageTone = 'success';
     } catch (e) {
       state.account.message = e.message || 'Could not sign in.';
+      state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
     }
@@ -2259,6 +2275,7 @@ const actions = {
   async logoutAccount() {
     state.account.status = 'working';
     state.account.message = 'Signing out...';
+    state.account.messageTone = 'info';
     rerender();
     try {
       await logout();
@@ -2272,8 +2289,10 @@ const actions = {
       clearTimeout(autoUploadTimer);
       autoUploadTimer = null;
       state.account.message = 'Signed out. Local offline progress remains on this device.';
+      state.account.messageTone = 'success';
     } catch (e) {
       state.account.message = e.message || 'Could not sign out.';
+      state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
     }
@@ -3498,6 +3517,17 @@ document.addEventListener('input', (e) => {
   applyAppearance(state);
   const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
   if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  // The track's travelled portion is painted from --range-pct (see the range
+  // rules in styles.css -- WebKit has no ::-moz-range-progress, and the
+  // native track it would otherwise use is a solid dark bar). Patched by
+  // hand for the same reason the readout above is: this drag deliberately
+  // does not re-render.
+  const lo = Number(el.min);
+  const hi = Number(el.max);
+  if (hi !== lo) {
+    const pct = Math.max(0, Math.min(100, Math.round(((Number(el.value) - lo) / (hi - lo)) * 100)));
+    el.style.setProperty('--range-pct', `${pct}%`);
+  }
   persistSoon(state);
 });
 
