@@ -3350,6 +3350,18 @@ document.addEventListener('click', (e) => {
   // control. Without this guard, that opening click would fire the action
   // immediately with the stale pre-drag value.
   if (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') return;
+  // Primary navigation is real links now (see headerHtml/tabBarHtml in
+  // js/render.js): an <a href> so the browser can offer "open in new tab",
+  // and so cmd/ctrl/shift-click does what it does everywhere else on the
+  // web. A modified click is left entirely to the browser -- the action must
+  // NOT also run, or the current tab would navigate as well as the new one.
+  // An unmodified click is ours: the action owns the transition (it clears
+  // session state the href knows nothing about), and trackHistory writes the
+  // very same URL a moment later.
+  if (el.tagName === 'A' && el.getAttribute('href')) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+  }
   const handler = actions[el.dataset.action];
   if (!handler) return;
   const result = handler(el, e);

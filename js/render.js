@@ -52,6 +52,7 @@ import {
 } from './gamification.js';
 import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
 import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
+import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
 // --- Line icons -----------------------------------------------------------
 // Lucide-style strokes, no fills, inheriting `currentColor` so the colour is
@@ -169,19 +170,26 @@ function headingFaceKey(state) {
 // Two bars, never both: a top nav on the screens you navigate between
 // (wordmark, tabs, streak/level cluster), and a back chevron + breadcrumb on
 // the screens you go *into*. On a phone the tabs move to a bottom bar (see
-// tabBarHtml) and the top bar keeps only the wordmark and the stats.
+// tabBarHtml) and the top bar is dropped entirely -- the phone design has
+// every screen lead with its own head row instead.
 //
 // Settings and Achievements are reached through Account rather than owning
 // tabs of their own, per the handoff -- which is why the tab list is four
 // items on both layouts.
+//
+// Which tab is current, what the trail above a screen is, and where back
+// goes all come from js/nav.js now. Those three used to be three separate
+// expressions that each had to be taught about every new screen, so any two
+// of them could disagree; one table means a screen can no longer light one
+// bar and not the other, or offer a back control pointing somewhere its own
+// breadcrumb never mentions.
 
 // Which screens sit "inside" something and therefore get the back bar rather
 // than the tabs. A live practice/mastery session is neither: it has its own
 // in-page End-session control, which knows how to unwind state.practice /
 // state.pathActive properly, and a bar-level escape hatch would skip it.
-// Screens that still lean on the shell for their back affordance. The core
-// inner screens (module, lesson, quiz, book, reader) carry their own back
-// control in their own head rows now, per both mockups.
+// The core inner screens (module, lesson, quiz, book, reader) carry their own
+// back control in their own head rows now, per both mockups.
 const SHELL_INNER_VIEWS = new Set(['path']);
 // The four tab destinations plus Account's two children -- the only screens
 // the phone's bottom tab bar appears on (inner screens and live sessions
@@ -189,95 +197,82 @@ const SHELL_INNER_VIEWS = new Set(['path']);
 const SHELL_TAB_VIEWS = new Set(['dashboard', 'library', 'schedule', 'account', 'achievements', 'settings']);
 const SHELL_SESSION_VIEWS = new Set(['practice', 'practiceReview', 'masteryV2Complete']);
 
-// Where the back chevron goes, and what the breadcrumb says. Mirrors the
-// destinations the old header's back arrow used -- including the two
-// context overrides: a lesson/quiz opened from My Path unwinds to the path
-// map rather than to the module page it nominally belongs to, and a reader
-// screen steps back to its book rather than jumping to the shelf.
-function shellBackTarget(state, MODULES) {
-  const mod = MODULES.find((m) => m.id === state.moduleId);
-  const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
-  const course = COURSES.find((c) => c.id === state.courseId);
-  const courseName = course ? course.name : '';
-
-  switch (state.view) {
-    case 'module': {
-      const index = mod ? MODULES.indexOf(mod) + 1 : 0;
-      return { action: 'openDashboard', extra: '', crumb: `${courseName}${index ? ` · Module ${index}` : ''}` };
-    }
-    case 'lesson':
-      return {
-        action: state.pathActive ? 'backToPath' : 'openModule',
-        extra: state.pathActive || !mod ? '' : `data-module-id="${escAttr(mod.id)}"`,
-        crumb: mod ? mod.title : courseName,
-      };
-    case 'quiz':
-      return {
-        action: state.pathActive ? 'backToPath' : 'backToLesson',
-        extra: '',
-        crumb: [mod && mod.title, lesson && lesson.title].filter(Boolean).join(' · ') || courseName,
-      };
-    case 'lessonComplete':
-      return {
-        action: state.pathActive ? 'backToPath' : 'openModule',
-        extra: state.pathActive || !mod ? '' : `data-module-id="${escAttr(mod.id)}"`,
-        crumb: mod ? mod.title : courseName,
-      };
-    case 'litBook': {
-      const book = getLitBook(state.litBookId);
-      return { action: 'openLibrary', extra: '', crumb: book ? book.title.en : 'Library' };
-    }
-    case 'litRead':
-    case 'litWordPractice': {
-      const book = getLitBook(state.litBookId);
-      const tail = state.view === 'litWordPractice' ? 'Weak words' : '';
-      return {
-        action: 'openLitBook',
-        extra: '',
-        crumb: [book && book.title.en, tail].filter(Boolean).join(' · ') || 'Library',
-      };
-    }
-    case 'path':
-      return { action: 'backToPathGroups', extra: '', crumb: 'My Path' };
-    default:
-      return { action: 'openDashboard', extra: '', crumb: courseName };
-  }
+// `extra` comes off a nav.js trail entry as a plain object so nav.js can stay
+// markup-free; this is the one place it becomes data-attributes.
+function dataAttrs(extra) {
+  if (!extra) return '';
+  return Object.entries(extra).map(([k, v]) => `data-${k}="${escAttr(v)}"`).join(' ');
 }
 
-// The four destinations, shared by the desktop tab row and the phone tab
+// A trail label, kept in its own direction. Arabic module/lesson titles sit
+// inside an English chain (Home / Advanced Nahw / الكلمة), so each one is
+// isolated rather than letting the bidi algorithm reorder the separators
+// around it.
+function crumbLabelHtml(crumb) {
+  return crumb.lang === 'ar'
+    ? `<bdi lang="ar" dir="rtl">${esc(crumb.label)}</bdi>`
+    : `<bdi>${esc(crumb.label)}</bdi>`;
+}
+
+// The full clickable chain, for screens deep enough to have one (three
+// levels or more). Two-level screens get navBackRowHtml's single back
+// control instead -- a breadcrumb reading "Account > Achievements" says
+// nothing the back chevron doesn't already.
+function navCrumbsHtml(state, extraCls = 'only-desktop') {
+  const trail = crumbTrail(state);
+  if (trail.length < 3) return '';
+  const items = trail.map((c, i) => {
+    const sep = i ? '<span class="module-crumb-sep" aria-hidden="true">›</span>' : '';
+    if (c.current || !c.action) {
+      return `${sep}<span class="module-crumb-current" aria-current="page">${crumbLabelHtml(c)}</span>`;
+    }
+    return `${sep}<button class="module-crumb-link" data-action="${c.action}" ${dataAttrs(c.extra)}>${crumbLabelHtml(c)}</button>`;
+  }).join('');
+  return `<nav class="module-crumbs${extraCls ? ` ${extraCls}` : ''}" aria-label="Breadcrumb">${items}</nav>`;
+}
+
+// The single back control every inner screen leads with. One implementation
+// instead of the near-identical copies that had drifted across the module
+// page, the book page and the shell -- and it names its destination ("Back
+// to الكلمة") rather than saying only "Back", so a keyboard or screen-reader
+// user is told where it goes before pressing it.
+function navBackRowHtml(state, extraCls = '') {
+  const back = backTargetFor(state);
+  if (!back) return '';
+  return `
+    <div class="module-backrow${extraCls ? ` ${extraCls}` : ''}">
+      ${backLink(`Back to ${back.label}`, back.action, dataAttrs(back.extra))}
+      <span class="app-crumb">${esc(back.crumb)}</span>
+    </div>`;
+}
+
+// The primary destinations, shared by the desktop tab row and the phone tab
 // bar so the two can never disagree about which one is current.
 function shellTabs(state) {
-  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice';
-  // Schedule stays lit for the whole time a Revision session it launched is
-  // running -- that session has no screen of its own to look active under.
-  const onSchedule = state.view === 'schedule' || (state.practice && state.practice.source === 'revision');
-  const onAccount = state.view === 'account' || state.view === 'settings' || state.view === 'achievements';
-  return [
-    { label: 'Home', action: 'openDashboard', icon: 'home', active: state.view === 'dashboard' },
-    { label: 'Library', action: 'openLibrary', icon: 'book', active: onLit },
-    { label: 'Schedule', action: 'openSchedule', icon: 'calendar', active: onSchedule },
-    { label: 'Account', action: 'openAccount', icon: 'user', active: onAccount },
-  ];
+  const activeId = sectionIdFor(state);
+  return SECTIONS.map((s) => ({ ...s, active: s.id === activeId }));
 }
 
 function shellStatsHtml(state) {
   const li = levelInfo(state.xp);
   return `
-    <button class="app-stats" data-action="openAchievements" title="Streak and level">
+    <a class="app-stats" href="#/account/achievements" data-action="openAchievements" title="Streak and level">
       <span class="app-stat" title="Current streak">${icon('flame', 13, 2)}${state.streak || 1}</span>
       <span class="app-stats-sep" aria-hidden="true"></span>
       <span class="app-stat" title="Level ${li.level}">Level ${li.level}</span>
-    </button>`;
+    </a>`;
 }
 
 function headerHtml(state, MODULES) {
   if (SHELL_INNER_VIEWS.has(state.view)) {
-    const back = shellBackTarget(state, MODULES);
-    return `
-      <header class="app-backbar">
-        <button class="app-back" data-action="${back.action}" ${back.extra} aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
-        <span class="app-crumb">${esc(back.crumb)}</span>
-      </header>`;
+    const back = backTargetFor(state);
+    if (back) {
+      return `
+        <header class="app-backbar">
+          <button class="app-back" data-action="${back.action}" ${dataAttrs(back.extra)} aria-label="Back to ${escAttr(back.label)}" title="Back to ${escAttr(back.label)}">${icon('arrowLeft', 20, 2)}</button>
+          <span class="app-crumb">${esc(back.crumb)}</span>
+        </header>`;
+    }
   }
 
   // A live session keeps the wordmark and the stats but loses the tabs --
@@ -285,35 +280,34 @@ function headerHtml(state, MODULES) {
   const inSession = SHELL_SESSION_VIEWS.has(state.view);
   const tabs = inSession ? '' : `
       <nav class="app-tabs" aria-label="Primary">
-        ${shellTabs(state).map((t) => `<button class="app-tab${t.active ? ' app-tab-active' : ''}" data-action="${t.action}">${esc(t.label)}</button>`).join('')}
+        ${shellTabs(state).map((t) => `<a class="app-tab${t.active ? ' app-tab-active' : ''}" href="${escAttr(t.href)}" data-action="${t.action}"${t.active ? ' aria-current="page"' : ''}>${esc(t.label)}</a>`).join('')}
       </nav>`;
 
   return `
     <header class="app-nav">
       <div class="app-nav-inner">
-        <button class="app-wordmark" data-action="openDashboard" title="Home" aria-label="Home">
+        <a class="app-wordmark" href="#/" data-action="openDashboard" title="Home" aria-label="Home">
           <span class="app-wordmark-name">The Sciences</span>
           <span class="app-wordmark-ar" lang="ar" dir="rtl">العُلُوم</span>
-        </button>
+        </a>
         ${tabs || '<span style="flex:1;"></span>'}
         ${shellStatsHtml(state)}
       </div>
     </header>`;
 }
 
-// Phone-only bottom bar (CSS hides it above 900px, where the same four
-// destinations sit in the top bar instead). Suppressed on the screens that
-// show a back chevron and during a live session, for the same reason the
-// tab row is.
+// Phone-only bottom bar (CSS hides it above 900px, where the same tabs live
+// in the top bar instead). Suppressed on the screens that show a back
+// chevron and during a live session, for the same reason the tab row is.
 function tabBarHtml(state) {
   if (!SHELL_TAB_VIEWS.has(state.view)) return '';
   return `
     <nav class="app-tabbar" aria-label="Primary">
       ${shellTabs(state).map((t) => `
-        <button class="app-tabbar-item${t.active ? ' app-tabbar-item-active' : ''}" data-action="${t.action}">
+        <a class="app-tabbar-item${t.active ? ' app-tabbar-item-active' : ''}" href="${escAttr(t.href)}" data-action="${t.action}"${t.active ? ' aria-current="page"' : ''}>
           ${icon(t.icon, 19, 2)}
           <span>${esc(t.label)}</span>
-        </button>`).join('')}
+        </a>`).join('')}
     </nav>`;
 }
 
@@ -863,20 +857,9 @@ function modulePageHtml(state, MODULES) {
       </button>`;
   }).join('');
 
-  const courseName = (COURSES.find((c) => c.id === state.courseId) || {}).name || '';
   return `
     <div class="module-page-wrap">
-      <div class="module-crumbs only-desktop">
-        <button class="module-crumb-link" data-action="openDashboard">Home</button>
-        <span aria-hidden="true">›</span>
-        <button class="module-crumb-link" data-action="openDashboard">${esc(courseName)}</button>
-        <span aria-hidden="true">›</span>
-        <span>Module ${index}</span>
-      </div>
-      <div class="module-backrow only-phone">
-        <button class="back-chevron" data-action="openDashboard" aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
-        <span class="app-crumb">${esc(courseName)} · Module ${index}</span>
-      </div>
+      ${navBackRowHtml(state)}
     <div class="module-page">
       <section>
         <div class="plate module-cover">
@@ -3480,6 +3463,7 @@ function achievementsHtml(state) {
 
   return `
     <div class="hero-page">
+      ${navBackRowHtml(state)}
       ${hero}
       ${separatorHtml()}
       <div class="col-wide achievements-page">${sectionsHtml}</div>
@@ -3602,6 +3586,7 @@ function settingsHtml(state) {
   return `
     <div class="settings-page">
       <div class="settings-col">
+        ${navBackRowHtml(state)}
         ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand. Everything here is a preference — how the text is set, and how much of the course is open at once. None of it changes what is taught.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
@@ -4200,10 +4185,7 @@ function litBookHtml(state) {
 
   return `
     <div class="lit-book-page">
-      <div class="module-backrow">
-        <button class="back-chevron" data-action="openLibrary" aria-label="Back to the Library">${icon('arrowLeft', 20, 2)}</button>
-        <span class="app-crumb">Library${series ? ` · <bdi lang="ar">${esc(series.ar)}</bdi>` : ''}</span>
-      </div>
+      ${navBackRowHtml(state)}
       <div class="plate lit-cover">
         <span aria-hidden="true" class="plate-ghost" lang="ar" dir="rtl">${esc(arabicNumeral(volumeNumber))}</span>
         <div class="lit-cover-inner">
