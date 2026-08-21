@@ -533,6 +533,22 @@ button {
   color: inherit;
 }
 
+/* ---------- Focus ----------
+   Roughly twenty components declared this exact treatment one at a time,
+   which left everything else -- module rows, lesson rows, book cards,
+   chapter rows, entry rows, theme cards, accent chips, تركيب chips and
+   slots, the tab bar, the wordmark -- falling back to the browser's own
+   ring: a blue or black rectangle that belongs to no part of this design,
+   and on some of them barely visible against the row's own border.
+
+   :where() holds this at zero specificity, so it is a floor rather than an
+   override: every existing per-component focus rule still wins, and any
+   component that wants a tighter ring can simply declare one. */
+:where(a, button, input, select, textarea, summary, [tabindex], [role='button'], [role='radio'], [role='option']):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 input,
 select,
 textarea {
@@ -1444,7 +1460,33 @@ bdi,
   border: 1px solid var(--color-accent);
   border-radius: var(--radius-lg);
   background: var(--accent-tint-weak);
-  padding: 16px 18px;
+  padding: var(--space-4) var(--space-5);
+}
+/* The same slot before a target date exists. Deliberately quieter than
+   .home-rail-card: this is an offer, not the day's standing instruction, so
+   it takes a neutral hairline and no accent wash -- otherwise the emptiest
+   thing on Home would also be its most emphatic. */
+.home-rail-invite {
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.home-rail-invite-title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin: 0;
+}
+.home-rail-invite .home-rail-note {
+  margin: 0;
+}
+.home-rail-invite .btn {
+  margin-top: var(--space-1);
 }
 .home-rail-figure {
   font-size: 13px;
@@ -2960,11 +3002,23 @@ bdi,
   border-radius: 2px;
   background: var(--color-neutral-200);
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: var(--space-3);
 }
 .progress-bar-fill {
   height: 100%;
   background: var(--color-accent);
+}
+/* On an ink plate the neutral ramp inverts against you: --color-neutral-200
+   is a mix of the ink into the PAPER, so on a dark panel the track painted
+   near-white while the gold fill at 0% painted nothing -- a bar that read as
+   completely full at zero progress, which is what the Achievements plate was
+   showing. Plates get a track drawn from the plate's own hairline instead. */
+.plate .progress-bar,
+.home-hero .progress-bar,
+.plate .account-xp-track,
+.plate .lit-book-track,
+.plate .home-rail-track {
+  background: color-mix(in srgb, var(--color-bg) 20%, transparent);
 }
 
 /* Up Next: the lessons queued by the course's own ordering. */
@@ -6035,17 +6089,23 @@ span.deadline-day {
   color: var(--color-accent-700);
   font-variant-numeric: tabular-nums;
 }
+/* Four weeks by seven days, with aspect-ratio: 1 and no cap, meant each
+   cell grew to fill a seventh of the column -- roughly 70px square on
+   desktop, so a month of activity took 280px of height to say almost
+   nothing. Capped to a calendar strip: the cells are still square and still
+   read at a glance, but the section now costs a quarter of the page it did. */
 .streak-labels,
 .streak-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
+  max-width: 268px;
 }
 .streak-labels {
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 .streak-labels span {
-  font-size: 9px;
+  font-size: var(--text-micro);
   color: var(--color-neutral-600);
   text-align: center;
 }
@@ -6869,35 +6929,43 @@ span.deadline-day {
    A framed, intentional empty state -- icon, a serif title, one line of
    why-it's-empty, and (when there is one) the next action (emptyStateHtml
    in js/render.js). */
+/* An empty state is a real state, not a placeholder waiting to be replaced,
+   so it takes the same hairline every other panel in this design takes. The
+   dashed border it used to carry is the visual language of a drop zone or
+   an unfinished mock -- it made a perfectly normal "nothing here yet" read
+   as something broken. The title is also full-strength ink now: it was set
+   in neutral-700, which had the effect of greying out the one sentence
+   explaining the situation. */
 .empty-state-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 4px;
-  padding: 26px 20px;
-  margin: 14px 0;
-  border: 1px dashed var(--color-neutral-300);
+  gap: var(--space-1);
+  padding: var(--space-6) var(--space-5);
+  margin: var(--space-3) 0;
+  border: 1px solid var(--color-divider);
   border-radius: var(--radius-lg);
+  background: var(--color-neutral-100);
 }
 .empty-state-icon {
   color: var(--color-neutral-400);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 .empty-state-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 16px;
-  color: var(--color-neutral-700);
+  font-size: var(--text-lg);
+  color: var(--color-text);
 }
 .empty-state-note {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
   color: var(--color-neutral-600);
   max-width: 46ch;
 }
 .empty-state-box .btn {
-  margin-top: 10px;
+  margin-top: var(--space-3);
 }
 
 /* ---------- Password visibility (account sign-in) ---------- */
@@ -6951,6 +7019,94 @@ span.deadline-day {
 }
 .home-course-switch[aria-expanded='true'] > span[aria-hidden] {
   transform: rotate(-180deg);
+}
+
+/* ---------- Nested surfaces ----------
+   A row inside a bordered, shadowed pane is already sitting on a raised
+   surface; giving it a second shadow of its own stacks two depth cues for
+   one level of hierarchy, and across a list of thirty it is what made the
+   Library and the module list read as cards inside a card. The hairline
+   border stays -- that is what separates one row from the next -- and only
+   the redundant lift comes off. Depth in this design is: page, then panel,
+   then (for the one current row) an accent. */
+.module-list .module-row,
+.lit-shelves .lit-book,
+.lit-chapter-list .lit-chapter,
+.lesson-list .lesson-row {
+  box-shadow: none;
+}
+/* The current row keeps its lift: it is the one row on the list that is
+   meant to come forward. */
+.module-list .module-row-current,
+.lit-chapter-list .lit-chapter.is-current,
+.lesson-list .lesson-row-current {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Bounded scroll panes ----------
+   Three lists scroll inside a bounded box on desktop -- Home's modules, the
+   Library shelves, a book's contents -- so a 30-module course cannot push
+   the rail off the fold. But scrollbars are hidden app-wide (see the Base
+   section), which left these panes with no affordance at all: the list
+   simply stopped mid-row, reading as a rendering fault rather than as more
+   content below.
+
+   These three get their scrollbar back, drawn as a hairline in the neutral
+   ramp so it belongs to the paper. It is the plainest possible signal that
+   a region scrolls, and unlike a fade it is also something you can grab. It
+   is deliberately scoped to bounded panes: the page itself still scrolls
+   without one, which is the look the design asked for. */
+.module-list,
+.lit-shelves,
+.lit-chapter-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-300) transparent;
+
+  /* And a shaded edge, because a thin scrollbar is easy to miss and is
+     absent entirely where the platform draws overlay scrollbars. Four
+     gradient layers: two "covers" in the paper colour attached to the
+     CONTENT (so they slide out of the way as you scroll) and two shades
+     attached to the PANE. The result is a soft edge that appears at the top
+     only once you have scrolled and disappears at the bottom once you reach
+     it -- the classic scroll shadow, drawn here in ink over paper rather
+     than as a drop shadow. */
+  background-image:
+    linear-gradient(to bottom, var(--color-bg), transparent),
+    linear-gradient(to top, var(--color-bg), transparent),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-text) 9%, transparent), transparent),
+    linear-gradient(to top, color-mix(in srgb, var(--color-text) 9%, transparent), transparent);
+  background-position: top center, bottom center, top center, bottom center;
+  background-repeat: no-repeat;
+  background-size: 100% 18px, 100% 18px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}
+.module-list::-webkit-scrollbar,
+.lit-shelves::-webkit-scrollbar,
+.lit-chapter-list::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+}
+.module-list::-webkit-scrollbar-thumb,
+.lit-shelves::-webkit-scrollbar-thumb,
+.lit-chapter-list::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: var(--radius-pill);
+  /* Inset from the track so the thumb reads as a hairline rule rather than
+     as a bar bolted to the edge of the panel. */
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.module-list:hover::-webkit-scrollbar-thumb,
+.lit-shelves:hover::-webkit-scrollbar-thumb,
+.lit-chapter-list:hover::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-400);
+  background-clip: content-box;
+}
+.module-list::-webkit-scrollbar-track,
+.lit-shelves::-webkit-scrollbar-track,
+.lit-chapter-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* ---------- Phone: lists flow with the page ----------

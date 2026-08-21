@@ -556,7 +556,17 @@ function homeHeroHtml(state, MODULES) {
   const li = levelInfo(state.xp);
   const summary = deadlineSummary(state, MODULES);
 
-  let title = "Keep going, you're close.";
+  // The hero's headline is the largest type on the app's first screen, so it
+  // had better be true. It was fixed at "Keep going, you're close." -- which
+  // a reader opening the app for the first time, with 0 of 138 lessons done,
+  // reads as the app not knowing anything about them. Three states instead:
+  // an opening, the long middle, and the last stretch.
+  const clearedRatio = totalLessons() ? lessonsCleared / totalLessons() : 0;
+  let title = lessonsCleared === 0
+    ? 'Begin at the beginning.'
+    : clearedRatio >= 0.8
+      ? "Keep going, you're close."
+      : 'Pick up where you left off.';
   let resumeHtml;
   if (continueInfo) {
     const { mod, lesson, index } = continueInfo;
@@ -730,7 +740,18 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
               ? `Your deadline passed ${Math.abs(summary.diffDays)} day${Math.abs(summary.diffDays) === 1 ? '' : 's'} ago with ${summary.remaining} left.`
               : `${summary.done >= summary.dailyTarget ? "You're on course for" : 'Keep this pace to finish by'} ${esc(formatDeadlineDate(summary.deadline))}.`}
               <button class="text-link-btn" data-action="openSchedule">Open schedule</button></p>
-          </div>` : ''}
+          </div>` : `
+          <!-- Without this, the desktop rail rendered nothing at all until a
+               deadline existed: a new reader met a 320px column of blank
+               paper beside the one list on the page. The rail's whole subject
+               is progress against a target, so with no target set the honest
+               thing for it to hold is the invitation to set one. -->
+          <div class="home-rail-invite only-desktop">
+            <div class="kicker">Today</div>
+            <p class="home-rail-invite-title">No target date yet</p>
+            <p class="home-rail-note">Pick the date you want to finish this course and this rail will track the day's target against it.</p>
+            <button class="btn btn-secondary btn-sm" data-action="openSchedule">Set a target date</button>
+          </div>`}
           <div class="home-explore only-phone">
             <div class="home-explore-title">Explore</div>
             <div class="home-explore-grid">
@@ -2768,10 +2789,15 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
     ? scheduleRevisionVocabHtml(state, attempt, hasVocab ? 1 : 0)
     : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, hasVocab ? 1 : 0);
 
+  // The "30 questions" note used to print unconditionally, so a reader with
+  // nothing yet to revise was told the size of a quiz they cannot take,
+  // directly above the panel explaining that there isn't one. Section
+  // metadata should describe what the section is actually showing.
+  const anyRevisable = MODULES.some((m) => isModuleComplete(m.id, state.completed));
   return `
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Revision quiz</h2>
-      <span class="lesson-section-note">30 questions</span>
+      ${anyRevisable ? '<span class="lesson-section-note">30 questions</span>' : ''}
     </div>
     <div class="schedule-panel">
       ${kindTabs}
