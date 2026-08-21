@@ -1467,8 +1467,18 @@ bdi,
 .module-row-current:hover {
   background: var(--accent-tint);
 }
-.module-row-locked {
-  opacity: 0.5;
+/* Locked rows mute their type rather than dimming the whole row. A blanket
+   opacity took the row's SECONDARY line down with it -- the "Locked" status
+   sits at --color-neutral-600, and half of that lands around 2.3:1 against
+   the paper, under the floor for the one word explaining why the row cannot
+   be opened. Muting by colour also matches .lesson-row-locked, which was
+   already doing it this way. These rows are still clickable (they open the
+   unlock prompt), so they should read as unavailable, not as inert. */
+.module-row-locked .module-row-title {
+  color: var(--color-neutral-700);
+}
+.module-row-locked .module-row-status {
+  color: var(--color-neutral-600);
 }
 .module-row-body {
   flex: 1;
@@ -1749,9 +1759,28 @@ bdi,
   border-color: var(--color-accent);
   background: var(--accent-tint-weak);
 }
+/* A disabled entry row is still saying something -- "Nothing marked yet --
+   tap a word twice while reading", "Finish a lesson to unlock" -- and that
+   sentence is the whole reason the row is dead. Dimming the row to 0.5
+   opacity made the explanation the least legible thing on it. So the title
+   mutes, the explanation stays readable, and the chevron goes: a row that
+   leads nowhere should not advertise a destination. */
 .entry-row:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
+  box-shadow: none;
+  background: var(--color-neutral-100);
+}
+.entry-row:disabled .entry-row-title {
+  color: var(--color-neutral-600);
+}
+.entry-row:disabled .entry-row-meta {
+  color: var(--color-neutral-700);
+}
+.entry-row:disabled > .icon {
+  color: var(--color-neutral-400);
+}
+.entry-row:disabled .entry-row-chevron {
+  display: none;
 }
 .entry-row-body {
   flex: 1;
@@ -4204,8 +4233,12 @@ bdi,
   background: var(--accent-tint-weak);
   box-shadow: var(--shadow-md);
 }
-.lit-chapter.is-locked {
-  opacity: 0.5;
+.lit-chapter.is-locked .lit-chapter-title {
+  color: var(--color-neutral-700);
+}
+.lit-chapter.is-locked .lit-chapter-blurb,
+.lit-chapter.is-locked .lit-chapter-pages {
+  color: var(--color-neutral-600);
 }
 .lit-chapter-num {
   flex: none;
@@ -5460,8 +5493,11 @@ bdi,
 .course-menu-item.is-active {
   background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
 }
-.course-menu-item.is-locked {
-  opacity: 0.55;
+.course-menu-item.is-locked .course-menu-ar {
+  color: var(--color-neutral-700);
+}
+.course-menu-item.is-locked .course-menu-meta {
+  color: var(--color-neutral-600);
 }
 .course-menu-ar {
   display: block;
@@ -5749,7 +5785,6 @@ button.concept-dot {
   background: var(--color-neutral-100);
 }
 .up-next-row.is-locked {
-  opacity: 0.6;
   cursor: default;
 }
 .up-next-ring {
