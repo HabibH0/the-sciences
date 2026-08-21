@@ -4814,5 +4814,12 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
   const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${tabBarHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
+  // <main> is the landing point for focus after every screen change (see
+  // rerender in js/main.js), so it carries the screen's own name and a
+  // tabindex to be focusable at all. The name is the last crumb of the same
+  // trail the back control and breadcrumb read, so what a screen reader
+  // announces on arrival is what the breadcrumb says you arrived at.
+  const trail = crumbTrail(state);
+  const pageName = trail.length ? trail[trail.length - 1].label : '';
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}" tabindex="-1" aria-label="${escAttr(pageName)}"><div class="${contentClasses}">${body}</div></main>${tabBarHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
 }

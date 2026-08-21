@@ -552,6 +552,20 @@ window.addEventListener('popstate', (e) => {
   // real rather than being ignored.
   const snap = e.state || navFromHash(location.hash);
   if (!snap) return;
+  // Back out of a part-answered quiz or drill asks first, exactly as the
+  // in-app exits do -- it discarded the attempt silently before. The browser
+  // has already moved by the time this fires, so the current screen is
+  // pushed back on before asking; confirming runs historyBack below, which
+  // steps off it again with nothing left to lose.
+  if (hasUnsavedSessionProgress()) {
+    history.pushState(navSnapshot(), '', hashForState(state));
+    state.leaveSessionPromptTarget = 'historyBack';
+    // Focus the dialog explicitly: this render is a same-screen one (the
+    // nav signature has not moved), and there is no click trigger to
+    // restore focus from, so nothing else would move focus into it.
+    rerender('.modal');
+    return;
+  }
   restoreNav(snap);
 });
 
@@ -711,6 +725,19 @@ function rerender(focusSelector) {
   if (focusSelector) {
     const toFocus = root.querySelector(focusSelector);
     if (toFocus) toFocus.focus();
+  } else if (changedScreen) {
+    // root.innerHTML replaces every element on every render, so focus lands
+    // back on <body> each time. On a same-screen update that is invisible;
+    // on a screen CHANGE it means a keyboard user restarts their tab order
+    // from the top of the document, and a screen-reader user is told nothing
+    // at all -- the page silently became a different page. Moving focus to
+    // the new <main> (labelled with the screen's own name, see render()) is
+    // the standard single-page answer to both: the new screen is announced,
+    // and the next Tab continues inside it rather than back through the nav.
+    // preventScroll matters -- the scrollTop restored two lines above must
+    // survive being focused.
+    const main = root.querySelector('.main');
+    if (main) main.focus({ preventScroll: true });
   }
   trackHistory();
   if (!suppressPersist) persistSoon(state);
@@ -1367,8 +1394,27 @@ function findBankItem(key) {
 // the result screen itself -- that quiz is already finished and scored, so
 // leaving it loses nothing.
 function hasUnsavedSessionProgress() {
+  // quizRevealed counts as progress as much as quizAnswers does: an answer
+  // is only pushed into quizAnswers by nextQuizQuestion, so a question
+  // already chosen and graded on screen was invisible to this check until
+  // the learner pressed Next -- and leaving in that gap threw the answer
+  // away just as silently.
+  const liveQuiz = state.view === 'quiz' && !state.quizShowResult;
   return !!(state.practice && state.practice.log.length > 0)
-    || (state.view === 'quiz' && !state.quizShowResult && state.quizAnswers.length > 0);
+    || (liveQuiz && (state.quizAnswers.length > 0 || state.quizRevealed));
+}
+
+// Every way OUT of a live attempt asks the same question, in one place.
+// Previously only openDashboard and openAchievements checked, which was the
+// full set of exits the header offered mid-PRACTICE -- but a live quiz keeps
+// the whole tab row (Schedule and Account stay deliberately reachable
+// there), so Library/Schedule/Account each discarded a part-finished quiz
+// with no prompt at all. Returns true when it has taken over, so the caller
+// stops.
+function guardSessionExit(target) {
+  if (!hasUnsavedSessionProgress()) return false;
+  state.leaveSessionPromptTarget = target;
+  return true;
 }
 
 function exitPracticeSession(p) {
@@ -1664,10 +1710,7 @@ function returnToValidLockedView() {
 
 const actions = {
   openDashboard() {
-    if (hasUnsavedSessionProgress()) {
-      state.leaveSessionPromptTarget = 'openDashboard';
-      return;
-    }
+    if (guardSessionExit('openDashboard')) return;
     state.view = 'dashboard';
     state.courseMenuOpen = false;
     state.moduleId = null;
@@ -2110,25 +2153,25 @@ const actions = {
   // later, unrelated action could misread (e.g. openPractice picking up an
   // abandoned session's moduleId -- see openPractice below).
   openSchedule() {
+    if (guardSessionExit('openSchedule')) return;
     state.view = 'schedule';
     state.practice = null;
     state.pathActive = false;
   },
   openSettings() {
+    if (guardSessionExit('openSettings')) return;
     state.view = 'settings';
     state.practice = null;
     state.pathActive = false;
   },
   openAccount() {
+    if (guardSessionExit('openAccount')) return;
     state.view = 'account';
     state.practice = null;
     state.pathActive = false;
   },
   openAchievements() {
-    if (hasUnsavedSessionProgress()) {
-      state.leaveSessionPromptTarget = 'openAchievements';
-      return;
-    }
+    if (guardSessionExit('openAchievements')) return;
     state.view = 'achievements';
     state.practice = null;
     state.pathActive = false;
@@ -2267,6 +2310,12 @@ const actions = {
   cancelLeaveSessionPrompt() {
     state.leaveSessionPromptTarget = null;
   },
+  // Only ever reached as a confirmLeaveSession target (see the popstate
+  // handler): the session state has just been cleared, so stepping back off
+  // the entry pushed there now goes through the ordinary restore path.
+  historyBack() {
+    history.back();
+  },
   confirmLeaveSession() {
     const target = state.leaveSessionPromptTarget;
     state.leaveSessionPromptTarget = null;
@@ -2275,7 +2324,13 @@ const actions = {
     // this, target's own action (e.g. openDashboard) re-checks the guard
     // before state.view has moved off 'quiz', sees the same answered
     // questions still sitting there, and just reopens this same prompt.
+    // quizRevealed/quizSelected belong to that same "would be discarded"
+    // set: an answer chosen but not yet advanced past counts as progress
+    // (see hasUnsavedSessionProgress), so leaving it set re-armed the guard
+    // the moment the target action ran.
     state.quizAnswers = [];
+    state.quizRevealed = false;
+    state.quizSelected = null;
     if (target && actions[target]) actions[target]();
   },
   toggleKufiHeadings() {
@@ -2987,6 +3042,7 @@ const actions = {
   // that outlive it are how far the chapter got and whether it finished
   // (state.litProgress), and the words marked unknown (state.litUnknown).
   openLibrary() {
+    if (guardSessionExit('openLibrary')) return;
     enterLitContext();
     state.view = 'library';
     state.lit = null;

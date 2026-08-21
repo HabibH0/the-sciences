@@ -896,6 +896,13 @@ bdi,
   flex-direction: column;
   min-height: 0;
 }
+/* <main> takes focus after every screen change so the new screen is
+   announced and the tab order resumes inside it (see rerender in
+   js/main.js). That focus is programmatic, never a landing the learner
+   pointed at, so it must not paint a ring around the whole page. */
+.main:focus {
+  outline: none;
+}
 .main-content {
   flex: 1;
   overflow-y: auto;
