@@ -22,15 +22,22 @@
 //  3. Overlay exit -- the dispatcher asks dismissDelay() before rerendering
 //     a pure-dismiss action; the OLD overlay (still on screen) plays a short
 //     exit and the swap is deferred until it lands.
-//  4. Indicator FLIP -- the active-tab underline is measured before the swap
-//     and again after; the fresh underline starts translated/scaled to the
-//     old position and eases home, so the indicator appears to slide even
-//     though both elements are strangers.
+//  4. Indicator FLIP -- every selection indicator (desktop tabs, the phone
+//     tab bar, the segmented pills) is measured before the swap and again
+//     after; the fresh one starts translated/scaled to the old position and
+//     eases home, so the indicator appears to slide between the two choices
+//     even though both elements are strangers.
 //  5. Action feedback -- the event dispatcher tells us which action ran and
 //     which (now-detached) element it hit; we find that element's
 //     freshly-rendered counterpart and mark whatever should acknowledge the
 //     action (the just-graded option group, the chip slot just filled, the
 //     ledger a new deadline just rewrote).
+//
+// One thing is deliberately gated tighter than "on entrance": the progress
+// meters (bars, rings, XP) draw to their value the FIRST time a screen is
+// seen in a session and never again (drawnMeters below). A ring that redraws
+// on every glance at Home stops reading as "this moved" and starts reading
+// as decoration.
 //
 // Reduced motion: styles.css zeroes every animation/transition under
 // prefers-reduced-motion, so classes applied here become inert no-ops there.
@@ -44,6 +51,19 @@ const reduceQuery = typeof matchMedia === 'function'
 export function prefersReducedMotion() {
   return !!(reduceQuery && reduceQuery.matches);
 }
+
+// The JS half of the duration scale in styles.css's Motion layer. These are
+// the only timings this file is allowed to use, and each one has a twin
+// there: DUR.exit is --t-exit, DUR.pop is the .anim-drop-out duration, and
+// DUR.meter is --t-meter. Keeping them in one object (rather than as
+// literals at their call sites) is what stops the two halves of the system
+// drifting apart -- if a duration changes in the CSS, it changes here.
+export const DUR = {
+  exit: 120,    // --t-exit: modal/backdrop dismissal
+  pop: 100,     // .anim-drop-out: popovers close faster still
+  meter: 520,   // --t-meter + its delay: the count-up runs with the bars
+  toastOut: 160, // --t-exit plus a frame, before the node is removed
+};
 
 function cssEsc(value) {
   return String(value ?? '').replace(/["\\]/g, '\\$&');
@@ -69,35 +89,68 @@ const OVERLAYS = [
   { sel: '.quiz-feedback', cls: 'anim-rise-in' },
 ];
 
+// --- selection indicators --------------------------------------------------
+// The three "which one is selected" controls in the app. Each is measured
+// before the swap and matched up again after by `key`, so the fresh
+// indicator can start where the outgoing one sat and ease home.
+//
+// The key is what makes this safe across families: a screen can hold several
+// segmented groups at once (Schedule shows three), and each group's buttons
+// carry their own action name, so keying a pill group by that action pairs
+// each outgoing indicator with the right incoming one and never with a
+// neighbour's.
+const INDICATORS = [
+  { sel: '.app-tabs .app-tab-active', key: () => 'top-tabs' },
+  { sel: '.app-tabbar .app-tabbar-item-active', key: () => 'tab-bar' },
+  { sel: '.practice-tabs .practice-tab.active', key: (el) => `seg:${el.dataset.action || ''}` },
+];
+
+function measureIndicators(root) {
+  const rects = new Map();
+  for (const { sel, key } of INDICATORS) {
+    for (const el of root.querySelectorAll(sel)) {
+      const r = el.getBoundingClientRect();
+      // Zero width means the control is hidden at this breakpoint (the top
+      // tabs on a phone, the tab bar on desktop) -- nothing to slide from.
+      if (r.width) rects.set(key(el), r);
+    }
+  }
+  return rects;
+}
+
 // Called just BEFORE root.innerHTML is replaced: which overlay families the
-// outgoing DOM shows, and where the active-tab underline currently sits.
+// outgoing DOM shows, and where each selection indicator currently sits.
 export function snapshotMotion(root) {
   const overlays = new Set();
   for (const { sel } of OVERLAYS) {
     if (root.querySelector(sel)) overlays.add(sel);
   }
-  const activeTab = root.querySelector('.app-tabs .app-tab-active');
-  const tabRect = activeTab ? activeTab.getBoundingClientRect() : null;
-  return { overlays, tabRect: tabRect && tabRect.width ? tabRect : null };
+  return { overlays, indicators: measureIndicators(root) };
 }
 
-// The desktop tab row's underline slides between tabs: the freshly-rendered
-// active tab gets custom props describing where the OLD underline was, and a
-// from-only keyframe eases its ::after home from there. Skipped when either
-// side is missing (a screen without the tab row) or hidden (phone, where the
-// row is display:none and measures 0).
-function applyIndicatorMotion(root, prevRect) {
-  if (!prevRect) return;
-  const el = root.querySelector('.app-tabs .app-tab-active');
-  if (!el) return;
-  const now = el.getBoundingClientRect();
-  if (!now.width) return;
-  const dx = prevRect.left - now.left;
-  const sx = prevRect.width / now.width;
-  if (Math.abs(dx) < 1 && Math.abs(sx - 1) < 0.02) return;
-  el.style.setProperty('--m-dx', `${dx.toFixed(1)}px`);
-  el.style.setProperty('--m-sx', sx.toFixed(3));
-  el.classList.add('anim-indicator-slide');
+// The FLIP itself: the freshly-rendered indicator gets custom props
+// describing where the OLD one was, and a from-only keyframe eases its
+// pseudo-element home from there.
+function applyIndicatorMotion(root, prevRects) {
+  if (!prevRects || !prevRects.size) return;
+  for (const { sel, key } of INDICATORS) {
+    for (const el of root.querySelectorAll(sel)) {
+      const prev = prevRects.get(key(el));
+      if (!prev) continue;
+      const now = el.getBoundingClientRect();
+      if (!now.width) continue;
+      // A wrapped pill group can put the new selection on a different line;
+      // sliding horizontally between two rows would describe a path the
+      // selection never took, so those just swap.
+      if (Math.abs(prev.top - now.top) > 2) continue;
+      const dx = prev.left - now.left;
+      const sx = prev.width / now.width;
+      if (Math.abs(dx) < 1 && Math.abs(sx - 1) < 0.02) continue;
+      el.style.setProperty('--m-dx', `${dx.toFixed(1)}px`);
+      el.style.setProperty('--m-sx', sx.toFixed(3));
+      el.classList.add('anim-indicator-slide');
+    }
+  }
 }
 
 // --- number count-ups ------------------------------------------------------
@@ -117,7 +170,10 @@ function runCountUps(root) {
     if (!target) return;
     const [, prefix, , suffix] = match;
     const start = performance.now();
-    const duration = 650;
+    // Same beat as the bars and rings drawing beside it (DUR.meter), so the
+    // whole plate resolves as one gesture rather than as three that finish
+    // at three different moments.
+    const duration = DUR.meter;
     const step = (nowTs) => {
       if (!el.isConnected) return;
       const t = Math.min(1, (nowTs - start) / duration);
@@ -131,15 +187,28 @@ function runCountUps(root) {
 
 let firstPaint = true;
 
+// Which screens have already drawn their meters this session. Progress bars,
+// XP rails and completion rings animating to their value is a good moment
+// exactly once -- the first time you see that screen. Replaying it on every
+// return trip (which is what a plain entrance class does, and what this used
+// to do) turns a status readout into wallpaper, and puts a 600ms paint on
+// the critical path of every single navigation. Keyed by the nav signature,
+// so a different lesson's completion plate still gets its own draw.
+const drawnMeters = new Set();
+
 // Called just AFTER the swap (and after scroll restoration, so entrance
 // motion never fights a scrollTop being reapplied).
-export function applyRenderMotion(root, snap, changedScreen) {
+export function applyRenderMotion(root, snap, changedScreen, nav) {
   const enterScreen = changedScreen || firstPaint;
   firstPaint = false;
   if (enterScreen) {
     const main = root.querySelector('.main');
     if (main) main.classList.add('screen-enter');
-    if (root.querySelector('.complete-page')) runCountUps(root);
+    if (main && nav != null && !drawnMeters.has(nav)) {
+      drawnMeters.add(nav);
+      main.classList.add('screen-enter-meters');
+      if (root.querySelector('.complete-page')) runCountUps(root);
+    }
   }
   for (const { sel, cls } of OVERLAYS) {
     if (snap.overlays.has(sel)) continue;
@@ -152,7 +221,7 @@ export function applyRenderMotion(root, snap, changedScreen) {
     if (enterScreen && el.closest('.main')) continue;
     el.classList.add(cls);
   }
-  applyIndicatorMotion(root, snap.tabRect);
+  applyIndicatorMotion(root, snap.indicators);
 }
 
 // --- overlay dismissal -----------------------------------------------------
@@ -180,8 +249,8 @@ const POP_DISMISS = {
   closePracticeSetup: '.practice-popout',
 };
 
-const MODAL_EXIT_MS = 130;
-const POP_EXIT_MS = 110;
+const MODAL_EXIT_MS = DUR.exit;
+const POP_EXIT_MS = DUR.pop;
 
 export function dismissDelay(root, actionName) {
   if (prefersReducedMotion()) return 0;
@@ -225,14 +294,38 @@ function counterpartSelector(el) {
     .join('');
 }
 
+// Several controls can share one action with no data-* to tell them apart:
+// Home is reachable from the wordmark, the desktop tab AND the phone tab bar,
+// so `[data-action="openDashboard"]` matches three elements. Taking the first
+// match made the feedback land on whichever came first in the markup -- which
+// meant clicking the Home TAB made the WORDMARK settle, an acknowledgement
+// pointing at something the user never touched. Where the data alone is
+// ambiguous, the element's own shape breaks the tie: same classes first, then
+// same tag, then (for a genuinely identical twin, e.g. the practice panel
+// rendered once inline and once in the rail) the one that is actually
+// on screen.
 function counterpart(root, el) {
   const sel = counterpartSelector(el);
   if (!sel) return null;
+  let matches;
   try {
-    return root.querySelector(sel);
+    matches = root.querySelectorAll(sel);
   } catch {
     return null;
   }
+  if (matches.length < 2) return matches[0] || null;
+  // The FIRST class is the component's own name in this codebase's markup
+  // (`app-tab app-tab-active`, `mcq-option correct`); the rest are state. So
+  // it identifies the component across a rerender that changed its state,
+  // which a full className comparison would not -- clicking an INACTIVE tab
+  // produces a counterpart carrying an extra `-active` class.
+  const kind = el.classList && el.classList[0];
+  const same = kind ? [...matches].filter((m) => m.classList[0] === kind) : [];
+  const pool = same.length ? same : [...matches].filter((m) => m.tagName === el.tagName);
+  // A truly identical twin (the practice panel is rendered once inline for
+  // phones and once in the rail for desktop) is resolved by which copy the
+  // current breakpoint actually shows.
+  return pool.find((m) => m.offsetParent) || pool[0] || matches[0];
 }
 
 function mark(el, cls) {
@@ -276,6 +369,11 @@ function stepQuestion(root) {
   const plate = root.querySelector('.complete-page');
   if (plate) {
     mark(plate, 'anim-rise-in');
+    // A result plate is the one screen whose meters are the whole point, and
+    // it arrives here without a nav change to hand out the meter class -- so
+    // it gets one directly. (Only ever once: the plate is replaced the
+    // moment the learner leaves it.)
+    mark(root.querySelector('.main'), 'screen-enter-meters');
     runCountUps(root);
     return;
   }

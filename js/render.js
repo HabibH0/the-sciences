@@ -320,6 +320,26 @@ function progressBar(pct) {
   return `<div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
 }
 
+// The masthead every non-full-bleed screen opens with. Library, Schedule,
+// Account and Settings each used to emit their own arrangement of title,
+// Arabic name and description -- three different description sizes, three
+// different top margins, and a Settings page whose display title matched
+// nothing else -- so four screens doing the same job looked like four
+// different products. `lede` and `actions` are inserted raw so callers can
+// pass escBidi'd copy and real buttons; `title`/`ar` are escaped here.
+function pageHeaderHtml({ title, ar = '', lede = '', actions = '', tools = '' }) {
+  return `
+    <header class="page-header">
+      <div class="page-title-row">
+        <h1 class="page-title">${esc(title)}</h1>
+        ${ar ? `<span class="page-title-ar" lang="ar" dir="rtl">${esc(ar)}</span>` : ''}
+        ${actions ? `<div class="page-header-actions">${actions}</div>` : ''}
+      </div>
+      ${lede ? `<p class="page-header-lede">${lede}</p>` : ''}
+      ${tools ? `<div class="page-header-tools">${tools}</div>` : ''}
+    </header>`;
+}
+
 // A framed, intentional empty state -- icon, a serif title, one line of
 // why-it's-empty, and (when there is one) the next action. Replaces the
 // bare .empty-state sentences, which read as the screen having given up.
@@ -2372,8 +2392,8 @@ function practiceReviewHtml(state, MODULES) {
         ${missedCount ? `
           <div class="kicker">Worth another look</div>
           <div class="review-list">${missedRows}</div>` : ''}
-        <div class="section-head" style="margin-top:22px;">
-          <span class="section-head-title" style="font-size:16px;">All ${total} card${total === 1 ? '' : 's'}</span>
+        <div class="section-head section-head-sub">
+          <h3 class="section-head-title">All ${total} card${total === 1 ? '' : 's'}</h3>
           <span class="section-head-meta">In the order you answered</span>
         </div>
         <div class="review-log">${rows}</div>
@@ -2444,7 +2464,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
 
   const upNext = upcoming.length ? `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Up next</span>
+      <h2 class="section-head-title">Up next</h2>
       <span class="lesson-section-note">In course order</span>
     </div>
     <div class="up-next-list">
@@ -2476,11 +2496,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
 
   return `
     <div class="schedule-page">
-      <div class="page-title-row">
-        <h1 class="page-title">Schedule</h1>
-        <span class="page-title-ar" lang="ar" dir="rtl">الجدول الزمني</span>
-      </div>
-      <p class="lede schedule-lede">${lede}</p>
+      ${pageHeaderHtml({ title: 'Schedule', ar: 'الجدول الزمني', lede })}
       <div class="two-col">
       <div class="two-col-main">
       ${todayCard}
@@ -2490,7 +2506,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       <div class="two-col-side">
       ${scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)}
       <div class="section-head schedule-section">
-        <span class="section-head-title">Plan</span>
+        <h2 class="section-head-title">Plan</h2>
       </div>
       <div class="plan-row">
         <label id="schedule-deadline-label">Target completion date</label>
@@ -2671,7 +2687,7 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
 
   return `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Revision quiz</span>
+      <h2 class="section-head-title">Revision quiz</h2>
       <span class="lesson-section-note">30 questions</span>
     </div>
     <div class="schedule-panel">
@@ -3471,9 +3487,7 @@ function settingsHtml(state) {
   return `
     <div class="settings-page">
       <div class="settings-col">
-        <span class="settings-kicker">Preferences</span>
-        <h1 class="settings-title">The page, set to your hand</h1>
-        <p class="settings-lede">Everything here changes only how the text is set. Nothing changes what is taught.</p>
+        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand — everything here changes only how the text is set, never what is taught.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
         <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
@@ -3669,7 +3683,7 @@ function accountHtml(state) {
   }
   const streakSection = `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Streak</span>
+      <h2 class="section-head-title">Streak</h2>
       <span class="account-streak-meta">${icon('flame', 12, 2)}${state.streak || 1} day${(state.streak || 1) === 1 ? '' : 's'}</span>
     </div>
     <div class="streak-labels">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
@@ -3702,7 +3716,7 @@ function accountHtml(state) {
   const litScale = normalizeLitTextScale(state.litTextScale);
   const textSection = `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Reading &amp; text</span>
+      <h2 class="section-head-title">Reading &amp; text</h2>
     </div>
     <p class="lede account-text-lede">These change only how the text is set. Nothing changes what is taught.</p>
     <div class="lesson-size-control">
@@ -3757,7 +3771,7 @@ function accountHtml(state) {
 
   const cloudSection = signedIn ? `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Cloud save</span>
+      <h2 class="section-head-title">Cloud save</h2>
       <span class="account-sync-flag${syncFlag.mod}" role="status"><span class="sync-dot" aria-hidden="true"></span>${syncFlag.label}</span>
     </div>
     <div class="entry-row account-sync-row">
@@ -3776,7 +3790,7 @@ function accountHtml(state) {
     <button class="btn btn-ghost btn-block account-signout" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>`
     : `
     <div class="section-head schedule-section">
-      <span class="section-head-title">Cloud save</span>
+      <h2 class="section-head-title">Cloud save</h2>
     </div>
     <p class="lede account-text-lede">Sign in to keep this device's progress backed up and in step with your other devices.</p>
     <div class="account-fields">
@@ -3799,17 +3813,14 @@ function accountHtml(state) {
 
   return `
     <div class="account-page">
-      <div class="page-title-row">
-        <h1 class="page-title">Account</h1>
-        <span class="page-title-ar" lang="ar" dir="rtl">الحساب</span>
-      </div>
+      ${pageHeaderHtml({ title: 'Account', ar: 'الحساب', lede: 'Your level, streak and course progress, and where this device keeps its save.' })}
       <div class="two-col">
       <div class="two-col-main">
       ${levelCard}
       ${ledger}
       ${streakSection}
       <div class="section-head schedule-section">
-        <span class="section-head-title">Courses</span>
+        <h2 class="section-head-title">Courses</h2>
         <span class="lesson-section-note">Modules complete</span>
       </div>
       <div class="course-rows">${courseRows}</div>
@@ -3936,11 +3947,7 @@ function libraryHtml(state) {
 
   return `
     <div class="lit-library-page">
-      <div class="page-title-row">
-        <h1 class="page-title">Library</h1>
-        <span class="page-title-ar" lang="ar" dir="rtl">المكتبة</span>
-      </div>
-      <p class="lede library-lede">Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.</p>
+      ${pageHeaderHtml({ title: 'Library', ar: 'المكتبة', lede: 'Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.' })}
       ${resumeCard}
       <div class="lit-shelves">${shelvesHtml}</div>
     </div>`;

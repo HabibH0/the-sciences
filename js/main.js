@@ -65,7 +65,7 @@ import {
 } from './gamification.js';
 import {
   prefersReducedMotion, snapshotMotion, applyRenderMotion, applyActionMotion,
-  dismissDelay, dismissOpenModal, markBusy, unmarkBusy,
+  dismissDelay, dismissOpenModal, markBusy, unmarkBusy, DUR,
 } from './motion.js';
 
 const THEME_CHROME = {
@@ -519,7 +519,7 @@ function restoreContainerScrollPositions() {
 // completion nor takes a duration. Instant under prefers-reduced-motion, for
 // trivial distances, and if the container disappears mid-flight (a rerender
 // replacing the DOM cancels the loop safely).
-function smoothScrollTo(container, targetY, duration = 420) {
+function smoothScrollTo(container, targetY, duration = 380) {
   const from = container.scrollTop;
   const delta = targetY - from;
   if (prefersReducedMotion() || Math.abs(delta) < 4 || duration <= 0) {
@@ -608,7 +608,7 @@ function rerender(focusSelector) {
   // (the live value on a same-screen update, the last-known one from a
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
-  applyRenderMotion(root, motionSnap, changedScreen);
+  applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (focusSelector) {
     const toFocus = root.querySelector(focusSelector);
     if (toFocus) toFocus.focus();
@@ -992,7 +992,7 @@ function scheduleToastClear() {
     // replaced this node before the exit finishes.
     toast.classList.remove('anim-toast-in');
     toast.classList.add('anim-toast-out');
-    setTimeout(() => document.querySelector('.xp-toast.anim-toast-out')?.remove(), 260);
+    setTimeout(() => document.querySelector('.xp-toast.anim-toast-out')?.remove(), DUR.toastOut);
   }, 1800);
 }
 
@@ -2631,7 +2631,12 @@ const actions = {
     const key = conceptKey(state.moduleId, state.lessonId, idx);
     state.revealState[key] = 1;
 
-    setTimeout(() => {
+    // Deferred to the next frame rather than to an arbitrary delay: the
+    // dispatcher rerenders synchronously once this handler returns, so by
+    // the first rAF the revealed card exists and has been laid out. A timer
+    // was doing the same job with tens of milliseconds of dead air in front
+    // of the scroll, which read as the reveal hesitating.
+    requestAnimationFrame(() => {
       const scrollContainer = root.querySelector('.main-content') || root.querySelector('.main');
       const exCard = root.querySelector(`[data-concept-index="${idx}"] .exercise-card`);
       if (exCard && scrollContainer) {
@@ -2641,7 +2646,7 @@ const actions = {
 
         smoothScrollTo(scrollContainer, Math.max(0, targetY));
       }
-    }, 40);
+    });
   },
   // Sidebar "In This Lesson" list -- clicking a concept you've already
   // reached scrolls back up to it. No state changes, so this returns
@@ -2656,7 +2661,7 @@ const actions = {
       const cardRect = target.getBoundingClientRect();
       const containerRect = scrollContainer.getBoundingClientRect();
       const targetY = scrollContainer.scrollTop + (cardRect.top - containerRect.top) - (containerRect.height / 2) + (cardRect.height / 2);
-      smoothScrollTo(scrollContainer, Math.max(0, targetY), 850);
+      smoothScrollTo(scrollContainer, Math.max(0, targetY), 620);
     }
     return false;
   },

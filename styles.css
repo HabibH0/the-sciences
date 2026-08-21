@@ -944,26 +944,39 @@ bdi,
   margin-top: 12px;
 }
 
-/* A heading with a hairline running out to the end of the line. */
+/* A heading with a hairline running out to the end of the line. Renders an
+   <h2> (or <h3> under .section-head-sub) rather than the <span> it used to,
+   so a screen reader gets the page's structure instead of one <h1> and a
+   flat run of text. */
 .section-head {
   display: flex;
   align-items: baseline;
-  gap: 10px;
-  padding-bottom: 10px;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-divider);
 }
 .section-head-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 20px;
+  font-size: var(--text-title);
+  line-height: var(--leading-tight);
   color: var(--color-text);
   margin: 0;
 }
+/* A section nested inside another section's content -- one step down, so
+   the two levels are told apart by size rather than by an inline style. */
+.section-head-sub {
+  margin-top: var(--space-6);
+}
+.section-head-sub .section-head-title {
+  font-size: var(--text-lg);
+}
 .section-head-meta {
   margin-left: auto;
-  font-size: 12px;
+  font-size: var(--text-sm);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 /* Arabic chapter heading + hairline, inside a list. */
@@ -2750,10 +2763,8 @@ bdi,
   width: 100%;
   padding: 20px 32px 44px;
 }
-.schedule-lede {
-  margin-top: 12px;
-  font-size: 12.5px;
-}
+/* .schedule-lede's own size/margin now come from the shared page-header
+   lede rule further down, with the other two per-screen descriptions. */
 
 .schedule-panel {
   margin-top: 20px;
@@ -2877,18 +2888,38 @@ bdi,
   max-width: 1180px;
 }
 
+/* ---------- Page header ----------
+   The one masthead every non-full-bleed screen opens with, so a reader can
+   tell at a glance which page they are on and what it is for without
+   re-reading the tab bar. Four slots, all optional after the title:
+
+     .page-header
+       .page-title-row    h1 + its Arabic name (+ .page-header-actions)
+       .page-header-lede  one line of what this page is for
+       .page-header-tools filters / switchers, on their own line
+
+   Before this, Library/Schedule/Account each had their own description
+   class (.library-lede, .schedule-lede, .account-text-lede) at three
+   different sizes and three different top margins, and Settings opened
+   with a display title in a shape no other page used -- so four screens
+   that do the same thing looked like four different products. The header
+   owns the gap down to the content, which is why the ledes no longer carry
+   margins of their own. */
+.page-header {
+  margin-bottom: var(--space-6);
+}
 /* Page title: display face left, its Arabic name in accent on the right. */
 .page-title-row {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: var(--space-3);
+  margin-bottom: 0;
 }
 .page-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 26px;
+  font-size: var(--text-page);
+  line-height: var(--leading-tight);
   color: var(--color-text);
   margin: 0;
 }
@@ -2896,6 +2927,41 @@ bdi,
   font-family: var(--font-ar);
   font-size: 15px;
   color: var(--color-accent-700);
+}
+/* The Arabic name is the title's own second half, so it sits with the title
+   rather than being pushed to the far margin -- at 1180px the old
+   space-between put 900px of nothing between a word and its translation.
+   Actions take the far edge instead, where a primary action belongs. */
+.page-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+.page-header-lede {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-neutral-700);
+  max-width: var(--measure-prose);
+}
+.page-header-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+/* The three per-screen description classes now defer to the shared one so
+   the pages that still emit them stay in step. */
+.library-lede,
+.schedule-lede,
+.account-text-lede {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  max-width: var(--measure-prose);
 }
 
 /* ---------- Account ---------- */
@@ -3067,33 +3133,23 @@ bdi,
 
 /* ---------- Settings ---------- */
 
-.settings-title {
+/* This page's masthead now comes from pageHeaderHtml, same as Library,
+   Schedule and Account -- and it is titled "Appearance", matching the
+   Account row that opens it, so the destination names itself the way the
+   link that led here named it. .settings-title/.settings-lede/
+   .settings-kicker went with the bespoke header they styled. */
+
+/* Group heading: one step below .section-head-title, matching the section
+   heads the rest of the app uses (hairline out to the end of the line)
+   rather than being a fourth heading style on a page that already had
+   three. */
+.settings-group-title {
+  font-size: var(--text-lg);
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 26px;
-  margin: 0 0 6px;
-}
-.settings-lede {
-  font-size: 12.5px;
-  color: var(--color-neutral-700);
-  margin-bottom: 20px;
-}
-.settings-kicker,
-.settings-group-title {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-accent-700);
-  margin-bottom: 10px;
-}
-.settings-group-title {
-  font-size: 17px;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  text-transform: none;
-  letter-spacing: 0;
   color: var(--color-text);
-  padding-bottom: 8px;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-divider);
 }
 .settings-subgroup-title,
@@ -5770,10 +5826,6 @@ span.deadline-day {
   background: var(--color-accent);
 }
 
-.account-text-lede {
-  margin-top: 9px;
-  font-size: 11.5px;
-}
 .account-sync-flag {
   font-size: 10px;
   text-transform: uppercase;
@@ -5801,11 +5853,6 @@ span.deadline-day {
 }
 
 /* ---------- Library: continue card + shelf ---------- */
-.library-lede {
-  margin-top: 5px;
-  font-size: 12.5px;
-  max-width: 60ch;
-}
 .lit-continue {
   display: flex;
   gap: 14px;
@@ -7157,6 +7204,12 @@ body {
    did; the pills are flex: 1 siblings, so the slide is a pure translate. */
 .practice-tab {
   position: relative;
+  /* Confines the ::before below to this button's own stacking context. Its
+     z-index: -1 puts it behind the button's (transparent) background but in
+     front of everything outside the button -- without the isolate it escapes
+     to the nearest ancestor context instead and disappears behind whichever
+     panel the pills happen to sit on. */
+  isolation: isolate;
 }
 .practice-tab.active {
   border-color: transparent;
