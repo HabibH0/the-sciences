@@ -52,6 +52,7 @@ import {
   PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT, LIT_WORD_RETIRE_COUNT,
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
+import { hashForState, navFromHash } from './nav.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import {
   persistSoon, flushPersist, cancelPendingPersist, persist, todayISO,
@@ -411,23 +412,34 @@ let restoringHistory = false;
 // this exists. Seeds the tab's own initial entry with replaceState (so
 // there's no phantom extra "back" to a blank state before the app loaded);
 // every later trackable change pushes a new one.
+//
+// The URL is written too, not just the state object. It used to be
+// location.href on every entry, which meant Back/Forward worked but nothing
+// else about a URL did: no bookmarking a lesson, no sending someone a link
+// to a book, no opening a tab in a new window, and a refresh that could only
+// fall back to whatever localStorage last remembered. hashForState (js/nav.js)
+// projects the current screen onto a real route, and navFromHash reads one
+// back -- see the hashchange handler and the boot block at the end of this
+// file.
 function trackHistory() {
   if (restoringHistory) return;
   if (!HISTORY_TRACKED_VIEWS.has(state.view)) return;
   const sig = historySignature();
   if (sig === lastHistorySig) return;
+  const url = hashForState(state);
   if (lastHistorySig === null) {
-    history.replaceState(navSnapshot(), '', location.href);
+    history.replaceState(navSnapshot(), '', url);
   } else {
-    history.pushState(navSnapshot(), '', location.href);
+    history.pushState(navSnapshot(), '', url);
   }
   lastHistorySig = sig;
 }
 
-// Restores a screen from a history entry. Only ever called with a snapshot
-// this same session pushed (see trackHistory), so it only ever names a
-// HISTORY_TRACKED_VIEWS screen -- never a live session that would need
-// state this lightweight snapshot doesn't carry.
+// Restores a screen from a history entry. The snapshot is either one this
+// session pushed (see trackHistory) or one navFromHash built out of a typed
+// or pasted URL, so it only ever names a HISTORY_TRACKED_VIEWS screen --
+// never a live session that would need state this lightweight snapshot
+// doesn't carry.
 //
 // Takes `token` so a rapid run of Back/Forward clicks can't land its
 // mutations out of order: setActiveCourse is awaited (a real network/import
@@ -459,21 +471,108 @@ async function applyNavSnapshot(snap, token) {
   state.litChapterPreviewId = null;
   state.pathCheckpointSetupNodeId = null;
   state.pathSkipAheadPromptNodeId = null;
+  state.courseMenuOpen = false;
+  state.lessonSearchQuery = '';
   return true;
 }
 
 let historyRestoreToken = 0;
 
-window.addEventListener('popstate', (e) => {
-  if (!e.state) return;
+// A restored screen has to be checked the same way a booted one is: a hash
+// can be typed, and a history entry can outlive the progress that made its
+// screen reachable (resetting a module, or turning course locks back on,
+// both invalidate entries already sitting in the stack). Mirrors
+// sanitizeBootNav above, including its respect for forceUnlockAll -- an
+// unlocked-everything profile must not be bounced off its own module page.
+function sanitizeRestoredNav() {
+  if (state.moduleId && !getModule(state.moduleId)) {
+    state.view = 'dashboard';
+    state.moduleId = null;
+    state.lessonId = null;
+  } else if (state.moduleId
+    && !isModuleUnlocked(state.moduleId, state.completed, state.unlockedModules, state.forceUnlockAll)) {
+    state.view = 'dashboard';
+    state.moduleId = null;
+    state.lessonId = null;
+  }
+  if (['lesson', 'quiz', 'lessonComplete'].includes(state.view)) {
+    const reachable = state.moduleId && state.lessonId
+      && isLessonUnlocked(state.moduleId, state.lessonId, state.completed, state.unlockedModules, state.forceUnlockAll);
+    if (!reachable) {
+      state.view = state.moduleId ? 'module' : 'dashboard';
+      state.lessonId = null;
+    }
+  }
+  // A quiz is a live attempt, so arriving at one -- by link, by Forward, by
+  // refresh -- starts a fresh one rather than rendering whatever answers
+  // happened to be left in state from the last attempt.
+  if (state.view === 'quiz') {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (lesson) startQuizAttempt(lesson);
+    else state.view = state.moduleId ? 'module' : 'dashboard';
+  } else if (state.view === 'lesson') {
+    shuffleLessonOptions(state.moduleId, state.lessonId);
+  }
+  if (state.view === 'lessonComplete') state.view = state.moduleId ? 'module' : 'dashboard';
+}
+
+// One path for "put the app on the screen this snapshot names", shared by
+// popstate, hashchange and boot. restoringHistory is cleared on EVERY exit,
+// including the superseded one -- it used to be set only on the success
+// path, so a Back press that lost a race left the flag stuck true and
+// trackHistory silently stopped recording anything for the rest of the
+// session.
+async function restoreNav(snap, { rerenderAfter = true } = {}) {
   const token = ++historyRestoreToken;
   restoringHistory = true;
-  applyNavSnapshot(e.state, token).then((applied) => {
-    if (!applied) return; // a later popstate has since superseded this one
+  try {
+    const applied = await applyNavSnapshot(snap, token);
+    if (!applied) return false; // a later restore has since superseded this one
+    sanitizeRestoredNav();
+    // The screen actually landed on can differ from the one the URL asked
+    // for -- a link to a module this profile has not unlocked yet resolves
+    // to Home. Rewriting the address bar to match means the URL never claims
+    // to be somewhere the app is not, and a bookmark taken from here is the
+    // screen in front of the learner rather than the one they asked for and
+    // did not get.
+    const landed = hashForState(state);
+    if (landed !== location.hash) history.replaceState(navSnapshot(), '', landed);
     lastHistorySig = historySignature();
-    rerender();
-    restoringHistory = false;
-  });
+    if (rerenderAfter) rerender();
+    return true;
+  } finally {
+    if (token === historyRestoreToken) restoringHistory = false;
+  }
+}
+
+window.addEventListener('popstate', (e) => {
+  // An entry this session pushed carries its own snapshot. One that doesn't
+  // (a hash the learner typed, or an entry from before this tab loaded) is
+  // read off the URL instead, so both kinds of history step land somewhere
+  // real rather than being ignored.
+  const snap = e.state || navFromHash(location.hash);
+  if (!snap) return;
+  restoreNav(snap);
+});
+
+// Editing the address bar, or following a link to a different hash on the
+// same page, fires this rather than popstate. Anything the app itself did
+// has already been applied by the time the hash changes (pushState doesn't
+// fire hashchange at all, and a restore in flight holds restoringHistory),
+// so this only ever handles a URL the app did not write.
+window.addEventListener('hashchange', () => {
+  if (restoringHistory) return;
+  const current = hashForState(state);
+  if (current === (location.hash || '#/')) return;
+  const snap = navFromHash(location.hash);
+  // A hash that names nothing (a typo, a stale link from an older build)
+  // leaves the app exactly where it is -- but the address bar is put back in
+  // step with it rather than left showing a route that was never taken.
+  if (!snap) {
+    history.replaceState(navSnapshot(), '', current);
+    return;
+  }
+  restoreNav(snap);
 });
 
 function mainScrollContainer() {
@@ -3683,6 +3782,25 @@ document.addEventListener('dragend', (e) => {
 // --- lifecycle ----------------------------------------------------------
 
 window.addEventListener('beforeunload', flushPersist);
+
+// A URL wins over the persisted position. Opening a bookmark, following a
+// shared link, or cmd-clicking a tab into a new window all have to land on
+// the screen the URL names -- otherwise the link is decorative and the app
+// quietly reopens wherever this profile happened to be last. A hash naming
+// something this profile cannot reach is not an error: navFromHash and
+// sanitizeRestoredNav between them fall back to the nearest screen that IS
+// reachable, the same way boot sanitation does for a stale saved position.
+if (location.hash && location.hash !== '#/') {
+  const bootSnap = navFromHash(location.hash);
+  if (bootSnap) {
+    await restoreNav(bootSnap, { rerenderAfter: false });
+    // restoreNav leaves lastHistorySig pointing at the screen it landed on,
+    // which would make trackHistory skip seeding this tab's very first entry
+    // (and so leave history.state null on it). Clearing it hands that job
+    // back to the replaceState branch, exactly as on a hash-less boot.
+    lastHistorySig = null;
+  }
+}
 
 // Pre-seed lastNav so the first paint's scroll bookkeeping starts from the
 // screen the learner actually lands on.
