@@ -110,6 +110,29 @@ export function crumbTrail(state) {
     ? { label: mod.title, lang: 'ar', action: 'openModule', extra: { 'module-id': mod.id } }
     : null;
 
+  // A lesson opened from My Path belongs to the path, not to the module it
+  // technically sits in -- not having to think in terms of "which module am
+  // I in" is the point of the path, and every other affordance on those
+  // screens already unwinds that way (see finishLesson/backToPath in
+  // js/main.js). So the trail above it is the path's, which is also what
+  // makes the back control say so instead of naming a module.
+  if (state.pathActive && ['lesson', 'quiz', 'lessonComplete'].includes(state.view)) {
+    const group = findPathGroup(state.pathGroupId);
+    const tail = state.view === 'quiz'
+      ? [
+        lesson ? { label: lesson.title, lang: 'ar', action: 'backToLesson' } : null,
+        { label: 'Quiz', current: true },
+      ]
+      : [{ label: lesson ? lesson.title : 'Lesson', lang: lesson ? 'ar' : null, current: true }];
+    return [
+      { label: 'My Path', action: 'backToPathGroups' },
+      group
+        ? { label: group.title, lang: 'ar', action: 'backToPath' }
+        : { label: 'My Path', action: 'backToPath' },
+      ...tail,
+    ].filter(Boolean);
+  }
+
   switch (state.view) {
     case 'module':
       return [

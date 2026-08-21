@@ -1642,10 +1642,15 @@ function lessonHtml(state, MODULES, revealedKeys) {
       : 'Answer the exercise above to carry on.';
   }
 
+  // The back control reads its destination from the same trail the
+  // breadcrumb and every other inner screen do, so a lesson opened from My
+  // Path still unwinds to the path map and the label says which it is --
+  // it said only "Back" before, whichever of the two it was about to do.
+  const lessonBack = backTargetFor(state);
   return `
     <div class="lesson-page">
       <div class="lesson-head">
-        <button class="back-chevron" data-action="${state.pathActive ? 'backToPath' : 'openModule'}" ${state.pathActive ? '' : `data-module-id="${escAttr(mod.id)}"`} aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
+        ${backLink(`Back to ${lessonBack ? lessonBack.label : 'the module'}`, lessonBack ? lessonBack.action : 'openModule', lessonBack ? dataAttrs(lessonBack.extra) : `data-module-id="${escAttr(mod.id)}"`)}
         <div class="lesson-head-body">
           <div class="lesson-head-crumb">Module ${moduleIdx} · <bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} of ${mod.lessons.length}</div>
           <h1 class="lesson-head-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
