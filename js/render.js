@@ -3424,20 +3424,20 @@ function achievementsHtml(state) {
   const card = (id, current, threshold, unit) => achievementCardHtml(state, id, current, threshold, unit);
 
   const sections = [
-    { title: 'Getting Started', cards: [card('first-steps', 0, null, null)] },
+    { title: 'Getting started', cards: [card('first-steps', 0, null, null)] },
     { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null)) },
     { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days')) },
-    { title: 'Perfect Quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes')) },
-    { title: 'Practice Volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills')) },
+    { title: 'Perfect quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes')) },
+    { title: 'Practice volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills')) },
     {
-      title: 'Modules Completed',
+      title: 'Modules completed',
       cards: [
         ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules')),
         card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules'),
       ],
     },
     {
-      title: 'Lessons Cleared',
+      title: 'Lessons cleared',
       cards: [
         ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons')),
         card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons'),
@@ -3570,7 +3570,7 @@ function settingsHtml(state) {
         <span class="settings-toggle-title">Translate Tarkeeb sentence</span>
         <span class="settings-toggle-sub">Default for the small English line under Tarkeeb exercises.</span>
       </span>
-      <span class="settings-toggle-pill">${tarkeebTranslationsOn ? 'Shown' : 'Hidden'}</span>
+      <span class="settings-toggle-pill">${tarkeebTranslationsOn ? `${icon('check', 11, 2.6)} Shown` : 'Hidden'}</span>
     </button>`;
 
   const tarkeebLabelColorToggle = `
@@ -3579,7 +3579,7 @@ function settingsHtml(state) {
         <span class="settings-toggle-title">Colour Tarkeeb labels</span>
         <span class="settings-toggle-sub">Introductory Nahw's diagram exercises show blue for primary sentence roles (فعل، فاعل، مبتدأ، خبر...) and green for secondary ones (نعت، مضاف، معطوف...); boxes and slots pick up the colour too. Advanced Nahw's labels turn blue.</span>
       </span>
-      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? 'Coloured' : 'Default'}</span>
+      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? `${icon('check', 11, 2.6)} Coloured` : 'Default'}</span>
     </button>`;
 
   const forceUnlockToggle = `
@@ -3590,13 +3590,13 @@ function settingsHtml(state) {
           ? 'Lessons, modules, paths, vocab, Tarkeeb exercises, and quizzes unlock through normal progress.'
           : 'Everything is open by default. Turn this on if you want the course to unlock step by step.'}</span>
       </span>
-      <span class="settings-toggle-pill">${courseLocksOn ? 'Locked' : 'Unlocked'}</span>
+      <span class="settings-toggle-pill">${courseLocksOn ? `${icon('check', 11, 2.6)} On` : 'Off'}</span>
     </button>`;
 
   return `
     <div class="settings-page">
       <div class="settings-col">
-        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand — everything here changes only how the text is set, never what is taught.' })}
+        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand. Everything here is a preference — how the text is set, and how much of the course is open at once. None of it changes what is taught.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
         <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
@@ -3612,7 +3612,7 @@ function settingsHtml(state) {
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
 
         <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
-        <p class="settings-group-sub">Independent of the paper -- any accent pairs with any ground.</p>
+        <p class="settings-group-sub">Independent of the paper — any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
 
         <div class="lesson-size-control">
@@ -3627,7 +3627,7 @@ function settingsHtml(state) {
             <span>Large</span>
           </div>
           <div class="lesson-size-preview">
-            <span class="settings-kicker">Lesson Preview</span>
+            <span class="settings-kicker">Lesson preview</span>
             <p>A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
           </div>
         </div>
@@ -3644,11 +3644,15 @@ function settingsHtml(state) {
             <span>Large</span>
           </div>
           <div class="lesson-size-preview">
-            <span class="settings-kicker">Library Preview</span>
+            <span class="settings-kicker">Reading preview</span>
             <p class="lit-size-preview-line" lang="ar" dir="rtl">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</p>
           </div>
         </div>
-        ${forceUnlockToggle}
+        <hr class="settings-hr">
+
+        <h2 class="settings-group-title">Course progress</h2>
+        <p class="settings-group-sub">The only setting here that is not about how the page looks.</p>
+        <div class="settings-toggle-stack">${forceUnlockToggle}</div>
 
         <hr class="settings-hr">
 
@@ -3656,7 +3660,7 @@ function settingsHtml(state) {
         <p class="settings-group-sub">Each specimen is set in the face it names.</p>
         <div class="face-list">
           <div class="face-group" role="radiogroup" aria-label="Arabic body face">${faceRows}</div>
-          <h3 class="settings-group-title settings-subgroup-title">Arabic headings</h3>
+          <h3 class="settings-subgroup-title">Arabic headings</h3>
           <div class="face-group" role="radiogroup" aria-label="Arabic heading face">${headingRows}</div>
         </div>
       </div>
