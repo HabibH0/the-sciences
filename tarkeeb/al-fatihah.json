@@ -1,0 +1,1686 @@
+{
+  "chapter": 1,
+  "name": {
+    "ar": "سورة الفاتحة",
+    "translit": "sūrat al-fātiḥah",
+    "en": "The Opening"
+  },
+  "coverage": "complete (7 verses)",
+  "graphCount": 8,
+  "graphs": [
+    {
+      "id": "1:1",
+      "title": "1:1",
+      "words": [
+        {
+          "ar": "(*)",
+          "elided": true,
+          "segments": [
+            {
+              "id": "e1",
+              "pos": "V"
+            }
+          ]
+        },
+        {
+          "ar": "بِسْمِ",
+          "ref": "(1:1:1)",
+          "translit": "bis'mi",
+          "gloss": "In (the) name",
+          "segments": [
+            {
+              "id": "p",
+              "pos": "P",
+              "location": "1:1:1:1",
+              "ar": "بِ",
+              "translit": "bi",
+              "posName": "prefixed preposition bi",
+              "root": "س م و"
+            },
+            {
+              "id": "n",
+              "pos": "N",
+              "location": "1:1:1:2",
+              "ar": "سْمِ",
+              "translit": "s'mi",
+              "root": "س م و",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:1:1",
+            "root": "س م و",
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "prefixed preposition bi"
+              },
+              {
+                "tag": "N",
+                "description": "genitive masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱللَّهِ",
+          "ref": "(1:1:2)",
+          "translit": "l-lahi",
+          "gloss": "(of) Allah,",
+          "segments": [
+            {
+              "id": "pn",
+              "pos": "PN",
+              "location": "1:1:2:1",
+              "ar": "ٱللَّهِ",
+              "translit": "l-lahi",
+              "root": "أ ل ه",
+              "features": {
+                "case": "genitive"
+              },
+              "posName": "genitive proper noun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:1:2",
+            "root": "أ ل ه",
+            "irab": "لفظ الجلالة مجرور",
+            "segments": [
+              {
+                "tag": "PN",
+                "description": "genitive proper noun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلرَّحْمَٰنِ",
+          "ref": "(1:1:3)",
+          "translit": "l-raḥmāni",
+          "gloss": "the Most Gracious,",
+          "segments": [
+            {
+              "id": "a1",
+              "pos": "ADJ",
+              "location": "1:1:3:1",
+              "ar": "ٱلرَّحْمَٰنِ",
+              "translit": "l-raḥmāni",
+              "root": "ر ح م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine singular adjective"
+            }
+          ],
+          "morphology": {
+            "location": "1:1:3",
+            "root": "ر ح م",
+            "irab": "صفة مجرورة",
+            "segments": [
+              {
+                "tag": "ADJ",
+                "description": "genitive masculine singular adjective"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلرَّحِيمِ",
+          "ref": "(1:1:4)",
+          "translit": "l-raḥīmi",
+          "gloss": "the Most Merciful.",
+          "segments": [
+            {
+              "id": "a2",
+              "pos": "ADJ",
+              "location": "1:1:4:1",
+              "ar": "ٱلرَّحِيمِ",
+              "translit": "l-raḥīmi",
+              "root": "ر ح م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine singular adjective"
+            }
+          ],
+          "morphology": {
+            "location": "1:1:4",
+            "root": "ر ح م",
+            "irab": "صفة مجرورة",
+            "segments": [
+              {
+                "tag": "ADJ",
+                "description": "genitive masculine singular adjective"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [
+        {
+          "id": "pp1",
+          "type": "PP",
+          "members": [
+            "p",
+            "n"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "dep": "n",
+          "head": "p",
+          "rel": "مجرور",
+          "note": "سْمِ is governed by بِ, so it is genitive."
+        },
+        {
+          "dep": "pn",
+          "head": "n",
+          "rel": "مضاف إليه",
+          "note": "ٱللَّهِ is the second term of the iḍāfah — \"the name OF Allah\"."
+        },
+        {
+          "dep": "a1",
+          "head": "pn",
+          "rel": "صفة",
+          "note": "ٱلرَّحْمَٰنِ describes ٱللَّهِ, matching it in case and definiteness."
+        },
+        {
+          "dep": "a2",
+          "head": "pn",
+          "rel": "صفة",
+          "note": "ٱلرَّحِيمِ is a second adjective of ٱللَّهِ — its arc reaches past ٱلرَّحْمَٰنِ."
+        }
+      ],
+      "attachments": [
+        {
+          "dep": "pp1",
+          "head": "e1",
+          "rel": "متعلق",
+          "note": "The whole jār-majrūr hangs on a verb never said aloud — أَبْتَدِئُ."
+        }
+      ]
+    },
+    {
+      "id": "1:2",
+      "title": "1:2",
+      "words": [
+        {
+          "ar": "ٱلْحَمْدُ",
+          "ref": "(1:2:1)",
+          "translit": "al-ḥamdu",
+          "gloss": "All praises and thanks",
+          "segments": [
+            {
+              "id": "n1",
+              "pos": "N",
+              "location": "1:2:1:1",
+              "ar": "ٱلْحَمْدُ",
+              "translit": "al-ḥamdu",
+              "root": "ح م د",
+              "features": {
+                "case": "nominative",
+                "gender": "masculine",
+                "number": "singular",
+                "definite": true
+              },
+              "posName": "nominative masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:1",
+            "root": "ح م د",
+            "irab": "اسم مرفوع",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "nominative masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "(*)",
+          "elided": true,
+          "segments": [
+            {
+              "id": "e1",
+              "pos": "N"
+            }
+          ]
+        },
+        {
+          "ar": "لِلَّهِ",
+          "ref": "(1:2:2)",
+          "translit": "lillahi",
+          "gloss": "(be) to Allah,",
+          "segments": [
+            {
+              "id": "p",
+              "pos": "P",
+              "location": "1:2:2:1",
+              "ar": "لِ",
+              "translit": "li",
+              "posName": "prefixed preposition lām",
+              "root": "أ ل ه"
+            },
+            {
+              "id": "pn",
+              "pos": "PN",
+              "location": "1:2:2:2",
+              "ar": "لَّهِ",
+              "translit": "lahi",
+              "root": "أ ل ه",
+              "features": {
+                "case": "genitive"
+              },
+              "posName": "genitive proper noun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:2",
+            "root": "أ ل ه",
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "prefixed preposition lām"
+              },
+              {
+                "tag": "PN",
+                "description": "genitive proper noun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "رَبِّ",
+          "ref": "(1:2:3)",
+          "translit": "rabbi",
+          "gloss": "the Lord",
+          "segments": [
+            {
+              "id": "n2",
+              "pos": "N",
+              "location": "1:2:3:1",
+              "ar": "رَبِّ",
+              "translit": "rabbi",
+              "root": "ر ب ب",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:3",
+            "root": "ر ب ب",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلْعَٰلَمِينَ",
+          "ref": "(1:2:4)",
+          "translit": "l-ʿālamīna",
+          "gloss": "of the universe",
+          "segments": [
+            {
+              "id": "n3",
+              "pos": "N",
+              "location": "1:2:4:1",
+              "ar": "ٱلْعَٰلَمِينَ",
+              "translit": "l-ʿālamīna",
+              "root": "ع ل م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "plural"
+              },
+              "posName": "genitive masculine plural noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:4",
+            "root": "ع ل م",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine plural noun"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [
+        {
+          "id": "pp1",
+          "type": "PP",
+          "members": [
+            "p",
+            "pn"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "dep": "e1",
+          "head": "n1",
+          "rel": "خبر",
+          "note": "The predicate is an omitted noun — the arrow runs from that unwritten node to ٱلْحَمْدُ."
+        },
+        {
+          "dep": "pn",
+          "head": "p",
+          "rel": "مجرور",
+          "note": "ٱللَّه is genitive because of the لِ prefixed to it."
+        },
+        {
+          "dep": "n2",
+          "head": "pn",
+          "rel": "بدل",
+          "note": "رَبِّ restates ٱللَّه — apposition, not description."
+        },
+        {
+          "dep": "n3",
+          "head": "n2",
+          "rel": "مضاف إليه",
+          "note": "ٱلْعَٰلَمِينَ completes \"Lord OF the worlds\"."
+        }
+      ],
+      "attachments": [
+        {
+          "dep": "pp1",
+          "head": "e1",
+          "rel": "متعلق",
+          "note": "The jār-majrūr hangs on that omitted predicate, not on ٱلْحَمْدُ directly."
+        }
+      ]
+    },
+    {
+      "id": "1:3",
+      "title": "1:3",
+      "words": [
+        {
+          "ar": "لِلَّهِ",
+          "ref": "(1:2:2)",
+          "translit": "lillahi",
+          "gloss": "(be) to Allah,",
+          "context": true,
+          "segments": [
+            {
+              "id": "p",
+              "pos": "P",
+              "location": "1:2:2:1",
+              "ar": "لِ",
+              "translit": "li",
+              "posName": "prefixed preposition lām",
+              "root": "أ ل ه"
+            },
+            {
+              "id": "pn",
+              "pos": "PN",
+              "location": "1:2:2:2",
+              "ar": "لَّهِ",
+              "translit": "lahi",
+              "root": "أ ل ه",
+              "features": {
+                "case": "genitive"
+              },
+              "posName": "genitive proper noun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:2",
+            "root": "أ ل ه",
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "prefixed preposition lām"
+              },
+              {
+                "tag": "PN",
+                "description": "genitive proper noun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلرَّحْمَٰنِ",
+          "ref": "(1:3:1)",
+          "translit": "al-raḥmāni",
+          "gloss": "The Most Gracious,",
+          "segments": [
+            {
+              "id": "a1",
+              "pos": "ADJ",
+              "location": "1:3:1:1",
+              "ar": "ٱلرَّحْمَٰنِ",
+              "translit": "al-raḥmāni",
+              "root": "ر ح م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine singular adjective"
+            }
+          ],
+          "morphology": {
+            "location": "1:3:1",
+            "root": "ر ح م",
+            "irab": "صفة مجرورة",
+            "segments": [
+              {
+                "tag": "ADJ",
+                "description": "genitive masculine singular adjective"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلرَّحِيمِ",
+          "ref": "(1:3:2)",
+          "translit": "l-raḥīmi",
+          "gloss": "the Most Merciful.",
+          "segments": [
+            {
+              "id": "a2",
+              "pos": "ADJ",
+              "location": "1:3:2:1",
+              "ar": "ٱلرَّحِيمِ",
+              "translit": "l-raḥīmi",
+              "root": "ر ح م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular"
+              },
+              "posName": "genitive masculine singular adjective"
+            }
+          ],
+          "morphology": {
+            "location": "1:3:2",
+            "root": "ر ح م",
+            "irab": "صفة مجرورة",
+            "segments": [
+              {
+                "tag": "ADJ",
+                "description": "genitive masculine singular adjective"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [],
+      "edges": [
+        {
+          "dep": "pn",
+          "head": "p",
+          "rel": "مجرور",
+          "context": true
+        },
+        {
+          "dep": "a1",
+          "head": "pn",
+          "rel": "صفة",
+          "note": "ٱلرَّحْمَٰنِ still describes ٱللَّه back in verse 2 — hence the genitive."
+        },
+        {
+          "dep": "a2",
+          "head": "pn",
+          "rel": "صفة",
+          "note": "ٱلرَّحِيمِ is a further adjective of that same ٱللَّه."
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": "1:4",
+      "title": "1:4",
+      "words": [
+        {
+          "ar": "لِلَّهِ",
+          "ref": "(1:2:2)",
+          "translit": "lillahi",
+          "gloss": "(be) to Allah,",
+          "context": true,
+          "segments": [
+            {
+              "id": "p",
+              "pos": "P",
+              "location": "1:2:2:1",
+              "ar": "لِ",
+              "translit": "li",
+              "posName": "prefixed preposition lām",
+              "root": "أ ل ه"
+            },
+            {
+              "id": "pn",
+              "pos": "PN",
+              "location": "1:2:2:2",
+              "ar": "لَّهِ",
+              "translit": "lahi",
+              "root": "أ ل ه",
+              "features": {
+                "case": "genitive"
+              },
+              "posName": "genitive proper noun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:2:2",
+            "root": "أ ل ه",
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "prefixed preposition lām"
+              },
+              {
+                "tag": "PN",
+                "description": "genitive proper noun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "مَٰلِكِ",
+          "ref": "(1:4:1)",
+          "translit": "māliki",
+          "gloss": "(The) Master",
+          "segments": [
+            {
+              "id": "n1",
+              "pos": "N",
+              "location": "1:4:1:1",
+              "ar": "مَٰلِكِ",
+              "translit": "māliki",
+              "root": "م ل ك",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular",
+                "derivation": "active participle"
+              },
+              "posName": "genitive masculine active participle"
+            }
+          ],
+          "morphology": {
+            "location": "1:4:1",
+            "root": "م ل ك",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine active participle"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "يَوْمِ",
+          "ref": "(1:4:2)",
+          "translit": "yawmi",
+          "gloss": "(of the) Day",
+          "segments": [
+            {
+              "id": "n2",
+              "pos": "N",
+              "location": "1:4:2:1",
+              "ar": "يَوْمِ",
+              "translit": "yawmi",
+              "root": "ي و م",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular",
+                "state": "construct"
+              },
+              "posName": "genitive masculine noun → Day of Resurrection"
+            }
+          ],
+          "morphology": {
+            "location": "1:4:2",
+            "root": "ي و م",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine noun → Day of Resurrection"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلدِّينِ",
+          "ref": "(1:4:3)",
+          "translit": "l-dīni",
+          "gloss": "(of the) Judgment.",
+          "segments": [
+            {
+              "id": "n3",
+              "pos": "N",
+              "location": "1:4:3:1",
+              "ar": "ٱلدِّينِ",
+              "translit": "l-dīni",
+              "root": "د ي ن",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular",
+                "definite": true
+              },
+              "posName": "genitive masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:4:3",
+            "root": "د ي ن",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine noun"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [],
+      "edges": [
+        {
+          "dep": "pn",
+          "head": "p",
+          "rel": "مجرور",
+          "context": true
+        },
+        {
+          "dep": "n1",
+          "head": "pn",
+          "rel": "بدل",
+          "note": "مَٰلِكِ restates ٱللَّه, exactly as رَبِّ did in verse 2."
+        },
+        {
+          "dep": "n2",
+          "head": "n1",
+          "rel": "مضاف إليه",
+          "note": "يَوْمِ is what مَٰلِكِ is master OF."
+        },
+        {
+          "dep": "n3",
+          "head": "n2",
+          "rel": "مضاف إليه",
+          "note": "ٱلدِّينِ completes the inner iḍāfah — one genitive nested in another."
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": "1:5",
+      "title": "1:5",
+      "words": [
+        {
+          "ar": "إِيَّاكَ",
+          "ref": "(1:5:1)",
+          "translit": "iyyāka",
+          "gloss": "You Alone",
+          "segments": [
+            {
+              "id": "r1",
+              "pos": "PRON",
+              "location": "1:5:1:1",
+              "ar": "إِيَّاكَ",
+              "translit": "iyyāka",
+              "features": {
+                "person": 2,
+                "gender": "masculine",
+                "number": "singular",
+                "type": "detached",
+                "case": "accusative"
+              },
+              "posName": "2nd person masculine singular personal pronoun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:5:1",
+            "root": null,
+            "irab": "ضمير منفصل",
+            "segments": [
+              {
+                "tag": "PRON",
+                "description": "2nd person masculine singular personal pronoun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "نَعْبُدُ",
+          "ref": "(1:5:2)",
+          "translit": "na'budu",
+          "gloss": "we worship,",
+          "segments": [
+            {
+              "id": "v1",
+              "pos": "V",
+              "location": "1:5:2:1",
+              "ar": "نَعْبُدُ",
+              "translit": "naʿbudu",
+              "root": "ع ب د",
+              "features": {
+                "aspect": "imperfect",
+                "mood": "indicative",
+                "person": 1,
+                "number": "plural",
+                "form": "I"
+              },
+              "posName": "1st person plural imperfect verb"
+            }
+          ],
+          "morphology": {
+            "location": "1:5:2",
+            "root": "ع ب د",
+            "irab": "فعل مضارع",
+            "segments": [
+              {
+                "tag": "V",
+                "description": "1st person plural imperfect verb"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "(نَحْنُ)",
+          "elided": true,
+          "segments": [
+            {
+              "id": "s1",
+              "pos": "PRON"
+            }
+          ]
+        },
+        {
+          "ar": "وَإِيَّاكَ",
+          "ref": "(1:5:3)",
+          "translit": "wa-iyyāka",
+          "gloss": "and You Alone",
+          "segments": [
+            {
+              "id": "cj",
+              "pos": "CONJ",
+              "location": "1:5:3:1",
+              "ar": "وَ",
+              "translit": "wa",
+              "posName": "prefixed conjunction wa (and)"
+            },
+            {
+              "id": "r2",
+              "pos": "PRON",
+              "location": "1:5:3:2",
+              "ar": "إِيَّاكَ",
+              "translit": "iyyāka",
+              "features": {
+                "person": 2,
+                "gender": "masculine",
+                "number": "singular",
+                "type": "detached",
+                "case": "accusative"
+              },
+              "posName": "2nd person masculine singular personal pronoun → Allah"
+            }
+          ],
+          "morphology": {
+            "location": "1:5:3",
+            "root": null,
+            "irab": "الواو عاطفة / ضمير منفصل",
+            "segments": [
+              {
+                "tag": "CONJ",
+                "description": "prefixed conjunction wa (and)"
+              },
+              {
+                "tag": "PRON",
+                "description": "2nd person masculine singular personal pronoun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "نَسْتَعِينُ",
+          "ref": "(1:5:4)",
+          "translit": "nasta'īnu",
+          "gloss": "we ask for help.",
+          "segments": [
+            {
+              "id": "v2",
+              "pos": "V",
+              "location": "1:5:4:1",
+              "ar": "نَسْتَعِينُ",
+              "translit": "nastaʿīnu",
+              "root": "ع و ن",
+              "features": {
+                "aspect": "imperfect",
+                "mood": "indicative",
+                "person": 1,
+                "number": "plural",
+                "form": "X"
+              },
+              "posName": "1st person plural (form X) imperfect verb"
+            }
+          ],
+          "morphology": {
+            "location": "1:5:4",
+            "root": "ع و ن",
+            "irab": "فعل مضارع",
+            "segments": [
+              {
+                "tag": "V",
+                "description": "1st person plural (form X) imperfect verb"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "(نَحْنُ)",
+          "elided": true,
+          "segments": [
+            {
+              "id": "s2",
+              "pos": "PRON"
+            }
+          ]
+        }
+      ],
+      "phrases": [
+        {
+          "id": "vs1",
+          "type": "VS",
+          "members": [
+            "r1",
+            "v1",
+            "s1"
+          ]
+        },
+        {
+          "id": "vs2",
+          "type": "VS",
+          "members": [
+            "r2",
+            "v2",
+            "s2"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "dep": "r1",
+          "head": "v1",
+          "rel": "مفعول به",
+          "note": "إِيَّاكَ is the object, placed BEFORE its verb — that fronting is what gives \"You alone\"."
+        },
+        {
+          "dep": "s1",
+          "head": "v1",
+          "rel": "فاعل",
+          "note": "The subject is the hidden pronoun نَحْنُ, which the corpus draws as its own grey node."
+        },
+        {
+          "dep": "r2",
+          "head": "v2",
+          "rel": "مفعول به",
+          "note": "The second إِيَّاكَ is likewise a fronted object."
+        },
+        {
+          "dep": "s2",
+          "head": "v2",
+          "rel": "فاعل",
+          "note": "نَسْتَعِينُ carries its own hidden نَحْنُ."
+        }
+      ],
+      "attachments": [
+        {
+          "dep": "vs2",
+          "head": "vs1",
+          "rel": "معطوف",
+          "note": "The whole second sentence is coordinated onto the whole first one — the arc runs between the two VS nodes, not between the verbs."
+        }
+      ]
+    },
+    {
+      "id": "1:6",
+      "title": "1:6",
+      "words": [
+        {
+          "ar": "ٱهْدِنَا",
+          "ref": "(1:6:1)",
+          "translit": "ih'dinā",
+          "gloss": "Guide us",
+          "segments": [
+            {
+              "id": "v",
+              "pos": "V",
+              "location": "1:6:1:1",
+              "ar": "ٱهْدِ",
+              "translit": "ih'di",
+              "root": "ه د ي",
+              "features": {
+                "mood": "imperative",
+                "person": 2,
+                "gender": "masculine",
+                "number": "singular",
+                "form": "I"
+              }
+            },
+            {
+              "id": "r",
+              "pos": "PRON",
+              "location": "1:6:1:2",
+              "ar": "نَا",
+              "translit": "nā",
+              "features": {
+                "person": 1,
+                "number": "plural",
+                "case": "accusative",
+                "type": "attached"
+              }
+            }
+          ],
+          "morphology": {
+            "location": "1:6:1",
+            "root": "ه د ي",
+            "irab": "فعل أمر و«نا» ضمير متصل في محل نصب مفعول به",
+            "segments": [
+              {
+                "tag": "V",
+                "description": "2nd person masculine singular imperative verb"
+              },
+              {
+                "tag": "PRON",
+                "description": "1st person plural object pronoun"
+              },
+              {
+                "tag": "PRON",
+                "description": "implicit subject pronoun → Allah"
+              }
+            ]
+          },
+          "segmentCountMismatch": {
+            "graph": 2,
+            "site": 3
+          }
+        },
+        {
+          "ar": "(أَنْتَ)",
+          "elided": true,
+          "segments": [
+            {
+              "id": "s",
+              "pos": "PRON"
+            }
+          ]
+        },
+        {
+          "ar": "ٱلصِّرَٰطَ",
+          "ref": "(1:6:2)",
+          "translit": "l-ṣirāṭa",
+          "gloss": "(to) the path,",
+          "segments": [
+            {
+              "id": "n1",
+              "pos": "N",
+              "location": "1:6:2:1",
+              "ar": "ٱلصِّرَٰطَ",
+              "translit": "l-ṣirāṭa",
+              "root": "ص ر ط",
+              "features": {
+                "case": "accusative",
+                "gender": "masculine",
+                "number": "singular",
+                "definite": true
+              },
+              "posName": "accusative masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:6:2",
+            "root": "ص ر ط",
+            "irab": "اسم منصوب",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "accusative masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلْمُسْتَقِيمَ",
+          "ref": "(1:6:3)",
+          "translit": "l-mus'taqīma",
+          "gloss": "the straight.",
+          "segments": [
+            {
+              "id": "a1",
+              "pos": "ADJ",
+              "location": "1:6:3:1",
+              "ar": "ٱلْمُسْتَقِيمَ",
+              "translit": "l-mus'taqīma",
+              "root": "ق و م",
+              "features": {
+                "case": "accusative",
+                "gender": "masculine",
+                "number": "singular",
+                "form": "X",
+                "derivation": "active participle"
+              },
+              "posName": "accusative masculine (form X) active participle"
+            }
+          ],
+          "morphology": {
+            "location": "1:6:3",
+            "root": "ق و م",
+            "irab": "صفة منصوبة",
+            "segments": [
+              {
+                "tag": "ADJ",
+                "description": "accusative masculine (form X) active participle"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [],
+      "edges": [
+        {
+          "dep": "r",
+          "head": "v",
+          "rel": "مفعول به",
+          "note": "نَا (\"us\") is attached to the verb as an object."
+        },
+        {
+          "dep": "s",
+          "head": "v",
+          "rel": "فاعل",
+          "note": "The subject is the hidden أَنْتَ — its own grey node on the graph."
+        },
+        {
+          "dep": "n1",
+          "head": "v",
+          "rel": "مفعول به",
+          "note": "هدى takes two objects; ٱلصِّرَٰطَ is the other one, accusative with no preposition."
+        },
+        {
+          "dep": "a1",
+          "head": "n1",
+          "rel": "صفة",
+          "note": "ٱلْمُسْتَقِيمَ describes ٱلصِّرَٰطَ, accusative and definite to match."
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": "1:7a",
+      "title": "1:7 · 1–4",
+      "words": [
+        {
+          "ar": "ٱلصِّرَٰطَ",
+          "ref": "(1:6:2)",
+          "translit": "l-ṣirāṭa",
+          "gloss": "(to) the path,",
+          "context": true,
+          "segments": [
+            {
+              "id": "ctx",
+              "pos": "N",
+              "location": "1:6:2:1",
+              "ar": "ٱلصِّرَٰطَ",
+              "translit": "l-ṣirāṭa",
+              "root": "ص ر ط",
+              "features": {
+                "case": "accusative",
+                "gender": "masculine",
+                "number": "singular",
+                "definite": true
+              },
+              "posName": "accusative masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:6:2",
+            "root": "ص ر ط",
+            "irab": "اسم منصوب",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "accusative masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "صِرَٰطَ",
+          "ref": "(1:7:1)",
+          "translit": "ṣirāṭa",
+          "gloss": "(The) path",
+          "segments": [
+            {
+              "id": "n1",
+              "pos": "N",
+              "location": "1:7:1:1",
+              "ar": "صِرَٰطَ",
+              "translit": "ṣirāṭa",
+              "root": "ص ر ط",
+              "features": {
+                "case": "accusative",
+                "gender": "masculine",
+                "number": "singular",
+                "state": "construct"
+              },
+              "posName": "accusative masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:1",
+            "root": "ص ر ط",
+            "irab": "اسم منصوب",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "accusative masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلَّذِينَ",
+          "ref": "(1:7:2)",
+          "translit": "alladhīna",
+          "gloss": "(of) those",
+          "segments": [
+            {
+              "id": "rel",
+              "pos": "REL",
+              "location": "1:7:2:1",
+              "ar": "ٱلَّذِينَ",
+              "translit": "alladhīna",
+              "features": {
+                "gender": "masculine",
+                "number": "plural",
+                "case": "genitive"
+              },
+              "posName": "masculine plural relative pronoun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:2",
+            "root": null,
+            "irab": "اسم موصول",
+            "segments": [
+              {
+                "tag": "REL",
+                "description": "masculine plural relative pronoun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "أَنْعَمْتَ",
+          "ref": "(1:7:3)",
+          "translit": "an'amta",
+          "gloss": "You have bestowed (Your) Favors",
+          "segments": [
+            {
+              "id": "v",
+              "pos": "V",
+              "location": "1:7:3:1",
+              "ar": "أَنْعَمْ",
+              "translit": "anʿam",
+              "root": "ن ع م",
+              "features": {
+                "aspect": "perfect",
+                "person": 2,
+                "gender": "masculine",
+                "number": "singular",
+                "form": "IV"
+              },
+              "posName": "2nd person masculine singular (form IV) perfect verb"
+            },
+            {
+              "id": "t",
+              "pos": "PRON",
+              "location": "1:7:3:2",
+              "ar": "تَ",
+              "translit": "ta",
+              "features": {
+                "person": 2,
+                "gender": "masculine",
+                "number": "singular",
+                "case": "nominative",
+                "type": "attached"
+              },
+              "posName": "subject pronoun → Allah",
+              "root": "ن ع م"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:3",
+            "root": "ن ع م",
+            "irab": "فعل ماض والتاء ضمير متصل في محل رفع فاعل",
+            "segments": [
+              {
+                "tag": "V",
+                "description": "2nd person masculine singular (form IV) perfect verb"
+              },
+              {
+                "tag": "PRON",
+                "description": "subject pronoun → Allah"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "عَلَيْهِمْ",
+          "ref": "(1:7:4)",
+          "translit": "ʿalayhim",
+          "gloss": "on them,",
+          "segments": [
+            {
+              "id": "p1",
+              "pos": "P",
+              "location": "1:7:4:1",
+              "ar": "عَلَيْ",
+              "translit": "ʿalay",
+              "posName": "preposition"
+            },
+            {
+              "id": "h1",
+              "pos": "PRON",
+              "location": "1:7:4:2",
+              "ar": "هِمْ",
+              "translit": "him",
+              "features": {
+                "person": 3,
+                "gender": "masculine",
+                "number": "plural",
+                "type": "attached"
+              },
+              "posName": "3rd person masculine plural object pronoun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:4",
+            "root": null,
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "preposition"
+              },
+              {
+                "tag": "PRON",
+                "description": "3rd person masculine plural object pronoun"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [
+        {
+          "id": "pp1",
+          "type": "PP",
+          "members": [
+            "p1",
+            "h1"
+          ]
+        },
+        {
+          "id": "vs1",
+          "type": "VS",
+          "members": [
+            "v",
+            "t",
+            "p1",
+            "h1"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "dep": "n1",
+          "head": "ctx",
+          "rel": "بدل",
+          "note": "The path of verse 7 restates ٱلصِّرَٰطَ of verse 6 — accusative to match it."
+        },
+        {
+          "dep": "rel",
+          "head": "n1",
+          "rel": "مضاف إليه",
+          "note": "ٱلَّذِينَ is the second term — \"the path OF those…\"."
+        },
+        {
+          "dep": "t",
+          "head": "v",
+          "rel": "فاعل",
+          "note": "The attached تَ is the subject: \"YOU bestowed\"."
+        },
+        {
+          "dep": "h1",
+          "head": "p1",
+          "rel": "مجرور",
+          "note": "هِمْ is governed by عَلَىٰ."
+        }
+      ],
+      "attachments": [
+        {
+          "dep": "pp1",
+          "head": "v",
+          "rel": "متعلق",
+          "note": "عَلَيْهِمْ hangs on the verb أَنْعَمْتَ."
+        },
+        {
+          "dep": "vs1",
+          "head": "rel",
+          "rel": "صلة",
+          "note": "The whole verbal sentence is the relative clause completing ٱلَّذِينَ — the arc leaves the VS node, not the verb."
+        }
+      ]
+    },
+    {
+      "id": "1:7b",
+      "title": "1:7 · 5–9",
+      "words": [
+        {
+          "ar": "ٱلَّذِينَ",
+          "ref": "(1:7:2)",
+          "translit": "alladhīna",
+          "gloss": "(of) those",
+          "context": true,
+          "segments": [
+            {
+              "id": "ctx",
+              "pos": "REL",
+              "location": "1:7:2:1",
+              "ar": "ٱلَّذِينَ",
+              "translit": "alladhīna",
+              "features": {
+                "gender": "masculine",
+                "number": "plural",
+                "case": "genitive"
+              },
+              "posName": "masculine plural relative pronoun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:2",
+            "root": null,
+            "irab": "اسم موصول",
+            "segments": [
+              {
+                "tag": "REL",
+                "description": "masculine plural relative pronoun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "غَيْرِ",
+          "ref": "(1:7:5)",
+          "translit": "ghayri",
+          "gloss": "not (of)",
+          "segments": [
+            {
+              "id": "n2",
+              "pos": "N",
+              "location": "1:7:5:1",
+              "ar": "غَيْرِ",
+              "translit": "ghayri",
+              "root": "غ ي ر",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular",
+                "state": "construct"
+              },
+              "posName": "genitive masculine noun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:5",
+            "root": "غ ي ر",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine noun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلْمَغْضُوبِ",
+          "ref": "(1:7:6)",
+          "translit": "l-maghḍūbi",
+          "gloss": "those who earned (Your) wrath",
+          "segments": [
+            {
+              "id": "n3",
+              "pos": "N",
+              "location": "1:7:6:1",
+              "ar": "ٱلْمَغْضُوبِ",
+              "translit": "l-maghḍūbi",
+              "root": "غ ض ب",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "singular",
+                "derivation": "passive participle",
+                "definite": true
+              },
+              "posName": "genitive masculine passive participle"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:6",
+            "root": "غ ض ب",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine passive participle"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "عَلَيْهِمْ",
+          "ref": "(1:7:7)",
+          "translit": "ʿalayhim",
+          "gloss": "on themselves",
+          "segments": [
+            {
+              "id": "p2",
+              "pos": "P",
+              "location": "1:7:7:1",
+              "ar": "عَلَيْ",
+              "translit": "ʿalay",
+              "posName": "preposition"
+            },
+            {
+              "id": "h2",
+              "pos": "PRON",
+              "location": "1:7:7:2",
+              "ar": "هِمْ",
+              "translit": "him",
+              "features": {
+                "person": 3,
+                "gender": "masculine",
+                "number": "plural",
+                "type": "attached"
+              },
+              "posName": "3rd person masculine plural object pronoun"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:7",
+            "root": null,
+            "irab": "جار ومجرور",
+            "segments": [
+              {
+                "tag": "P",
+                "description": "preposition"
+              },
+              {
+                "tag": "PRON",
+                "description": "3rd person masculine plural object pronoun"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "وَلَا",
+          "ref": "(1:7:8)",
+          "translit": "walā",
+          "gloss": "and not",
+          "segments": [
+            {
+              "id": "cj",
+              "pos": "CONJ",
+              "location": "1:7:8:1",
+              "ar": "وَ",
+              "translit": "wa",
+              "posName": "prefixed conjunction wa (and)"
+            },
+            {
+              "id": "neg",
+              "pos": "NEG",
+              "location": "1:7:8:2",
+              "ar": "لَا",
+              "translit": "lā",
+              "posName": "negative particle"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:8",
+            "root": null,
+            "irab": "الواو عاطفة / حرف نفي",
+            "segments": [
+              {
+                "tag": "CONJ",
+                "description": "prefixed conjunction wa (and)"
+              },
+              {
+                "tag": "NEG",
+                "description": "negative particle"
+              }
+            ]
+          }
+        },
+        {
+          "ar": "ٱلضَّآلِّينَ",
+          "ref": "(1:7:9)",
+          "translit": "l-ḍālīna",
+          "gloss": "(of) those who go astray.",
+          "segments": [
+            {
+              "id": "n4",
+              "pos": "N",
+              "location": "1:7:9:1",
+              "ar": "ٱلضَّآلِّينَ",
+              "translit": "l-ḍālīna",
+              "root": "ض ل ل",
+              "features": {
+                "case": "genitive",
+                "gender": "masculine",
+                "number": "plural",
+                "derivation": "active participle",
+                "definite": true
+              },
+              "posName": "genitive masculine plural active participle"
+            }
+          ],
+          "morphology": {
+            "location": "1:7:9",
+            "root": "ض ل ل",
+            "irab": "اسم مجرور",
+            "segments": [
+              {
+                "tag": "N",
+                "description": "genitive masculine plural active participle"
+              }
+            ]
+          }
+        }
+      ],
+      "phrases": [
+        {
+          "id": "pp2",
+          "type": "PP",
+          "members": [
+            "p2",
+            "h2"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "dep": "n2",
+          "head": "ctx",
+          "rel": "بدل",
+          "note": "غَيْرِ restates ٱلَّذِينَ, genitive to match it."
+        },
+        {
+          "dep": "n3",
+          "head": "n2",
+          "rel": "مضاف إليه",
+          "note": "ٱلْمَغْضُوبِ completes غَيْرِ ٱلْمَغْضُوبِ."
+        },
+        {
+          "dep": "h2",
+          "head": "p2",
+          "rel": "مجرور",
+          "note": "The second هِمْ is governed by its own عَلَىٰ."
+        },
+        {
+          "dep": "neg",
+          "head": "n4",
+          "rel": "توكيد",
+          "note": "The لَا of وَلَا adds emphasis to ٱلضَّآلِّينَ — the corpus tags it توكيد, and its arrow runs to ٱلضَّآلِّينَ."
+        },
+        {
+          "dep": "n4",
+          "head": "n3",
+          "rel": "معطوف",
+          "note": "ٱلضَّآلِّينَ is coordinated onto ٱلْمَغْضُوبِ — the long magenta arc across the graph."
+        }
+      ],
+      "attachments": [
+        {
+          "dep": "pp2",
+          "head": "n3",
+          "rel": "نائب فاعل",
+          "note": "ٱلْمَغْضُوبِ is a passive participle; عَلَيْهِمْ stands in for its missing subject."
+        }
+      ]
+    }
+  ],
+  "morphologySource": "corpus.quran.com/wordmorphology.jsp — root, part-of-speech description and Arabic iʿrāb per token"
+}

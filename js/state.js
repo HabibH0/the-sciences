@@ -116,8 +116,7 @@ export async function createInitialState() {
     quizShowResult: false,
     quizPassed: false,
     quizOptionOrder: {},
-    // Bumped on every fresh attempt; keys the quiz entrance animations so a
-    // retake's reshuffled options cascade in again.
+    // Bumped on every fresh attempt (see startQuizAttempt in js/main.js).
     quizAttempt: 0,
     // Which item of the CURRENT lesson's own exercise (lesson.exercise.items,
     // content-fstu lessons only) the single exercise box is showing. Seeded
@@ -210,14 +209,7 @@ export async function createInitialState() {
     // Transient: which of the two Schedule sub-tabs is showing. Not
     // persisted -- always reopens on "deadline".
     scheduleTab: 'deadline',
-    // Bumped on every tab switch (see setScheduleTab in main.js). Threaded
-    // into that tab's content as part of its data-anim-key/data-reveal-key
-    // scope, so switching Deadline -> Revision -> Deadline re-triggers the
-    // slide-in every time, rather than the entrance/reveal-on-scroll systems'
-    // usual "already seen this key, don't replay" behavior (see
-    // markEntrances/revealedKeys in main.js) -- switching schedule sub-tabs
-    // doesn't change state.view, so without this the content would look
-    // identical to a screen those systems have already animated once.
+    // Bumped on every tab switch (see setScheduleTab in main.js).
     scheduleTabAttempt: 0,
     // Transient: Revision's top-level toggle -- 'module' (the module quiz)
     // or 'vocab'. Not persisted -- always reopens on "module".

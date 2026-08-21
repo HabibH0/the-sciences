@@ -51,7 +51,7 @@ import {
   perfectQuizCount,
 } from './gamification.js';
 import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
-import { todayISO, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
+import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
 
 // --- Line icons -----------------------------------------------------------
 // Lucide-style strokes, no fills, inheriting `currentColor` so the colour is
@@ -69,15 +69,31 @@ const ICON_PATHS = {
   arrowRight: '<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>',
   cross: '<path d="M6 6l12 12M18 6L6 18"/>',
   calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 2.5v4M16 2.5v4"/>',
+  shield: '<path d="M12 2 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/>',
+  pencil: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  chevronRight: '<path d="m9 18 6-6-6-6"/>',
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
   'trash-2': '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
   pointer: '<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/>',
+  eye: '<path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
+  'eye-off': '<path d="M4 4l16 16"/><path d="M10.6 5.8A10 10 0 0 1 12 5.5c6.5 0 10 6.5 10 6.5a17.5 17.5 0 0 1-3 3.6M6.4 6.9A16.7 16.7 0 0 0 2 12s3.5 6.5 10 6.5a10 10 0 0 0 4-1"/><path d="M9.9 9.9a2.8 2.8 0 1 0 4 4"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>',
 };
 
 function icon(name, size = 16, strokeWidth = 1.6) {
   return `<svg class="icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"
     aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
+}
+
+// Western digits -> Arabic-Indic, for the ghost numeral bleeding off the
+// bottom-right of an ink plate (module covers, book covers, completions).
+const ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+function arabicNumeral(n) {
+  return String(n).replace(/d/g, (d) => ARABIC_DIGITS[Number(d)]);
 }
 
 function formatDateTime(value) {
@@ -144,253 +160,179 @@ function headingFaceKey(state) {
   return state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
 }
 
-// --- Header -------------------------------------------------------------
-// One bar, every screen: wordmark left, nav right -- Home, Schedule, and
-// Settings, the only three screens that actually exist. On module/lesson/
-// quiz screens the same right-hand slot swaps the tab list for a back-arrow
-// + breadcrumb instead, so it's always exactly one bar, never two stacked.
-// Streak/XP/level (no equivalent in the design handoff, which has no
-// gamification layer) rides along in the same right-hand group as a small
-// tabular cluster.
+// --- App shell ----------------------------------------------------------
+// Two bars, never both: a top nav on the screens you navigate between
+// (wordmark, tabs, streak/level cluster), and a back chevron + breadcrumb on
+// the screens you go *into*. On a phone the tabs move to a bottom bar (see
+// tabBarHtml) and the top bar keeps only the wordmark and the stats.
+//
+// Settings and Achievements are reached through Account rather than owning
+// tabs of their own, per the handoff -- which is why the tab list is four
+// items on both layouts.
+
+// Which screens sit "inside" something and therefore get the back bar rather
+// than the tabs. A live practice/mastery session is neither: it has its own
+// in-page End-session control, which knows how to unwind state.practice /
+// state.pathActive properly, and a bar-level escape hatch would skip it.
+// Screens that still lean on the shell for their back affordance. The core
+// inner screens (module, lesson, quiz, book, reader) carry their own back
+// control in their own head rows now, per both mockups.
+const SHELL_INNER_VIEWS = new Set(['path']);
+// The four tab destinations plus Account's two children -- the only screens
+// the phone's bottom tab bar appears on (inner screens and live sessions
+// navigate through their own heads instead).
+const SHELL_TAB_VIEWS = new Set(['dashboard', 'library', 'schedule', 'account', 'achievements', 'settings']);
+const SHELL_SESSION_VIEWS = new Set(['practice', 'practiceReview', 'masteryV2Complete']);
+
+// Where the back chevron goes, and what the breadcrumb says. Mirrors the
+// destinations the old header's back arrow used -- including the two
+// context overrides: a lesson/quiz opened from My Path unwinds to the path
+// map rather than to the module page it nominally belongs to, and a reader
+// screen steps back to its book rather than jumping to the shelf.
+function shellBackTarget(state, MODULES) {
+  const mod = MODULES.find((m) => m.id === state.moduleId);
+  const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
+  const course = COURSES.find((c) => c.id === state.courseId);
+  const courseName = course ? course.name : '';
+
+  switch (state.view) {
+    case 'module': {
+      const index = mod ? MODULES.indexOf(mod) + 1 : 0;
+      return { action: 'openDashboard', extra: '', crumb: `${courseName}${index ? ` · Module ${index}` : ''}` };
+    }
+    case 'lesson':
+      return {
+        action: state.pathActive ? 'backToPath' : 'openModule',
+        extra: state.pathActive || !mod ? '' : `data-module-id="${escAttr(mod.id)}"`,
+        crumb: mod ? mod.title : courseName,
+      };
+    case 'quiz':
+      return {
+        action: state.pathActive ? 'backToPath' : 'backToLesson',
+        extra: '',
+        crumb: [mod && mod.title, lesson && lesson.title].filter(Boolean).join(' · ') || courseName,
+      };
+    case 'lessonComplete':
+      return {
+        action: state.pathActive ? 'backToPath' : 'openModule',
+        extra: state.pathActive || !mod ? '' : `data-module-id="${escAttr(mod.id)}"`,
+        crumb: mod ? mod.title : courseName,
+      };
+    case 'litBook': {
+      const book = getLitBook(state.litBookId);
+      return { action: 'openLibrary', extra: '', crumb: book ? book.title.en : 'Library' };
+    }
+    case 'litRead':
+    case 'litWordPractice': {
+      const book = getLitBook(state.litBookId);
+      const tail = state.view === 'litWordPractice' ? 'Weak words' : '';
+      return {
+        action: 'openLitBook',
+        extra: '',
+        crumb: [book && book.title.en, tail].filter(Boolean).join(' · ') || 'Library',
+      };
+    }
+    case 'path':
+      return { action: 'backToPathGroups', extra: '', crumb: 'My Path' };
+    default:
+      return { action: 'openDashboard', extra: '', crumb: courseName };
+  }
+}
+
+// The four destinations, shared by the desktop tab row and the phone tab
+// bar so the two can never disagree about which one is current.
+function shellTabs(state) {
+  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice';
+  // Schedule stays lit for the whole time a Revision session it launched is
+  // running -- that session has no screen of its own to look active under.
+  const onSchedule = state.view === 'schedule' || (state.practice && state.practice.source === 'revision');
+  const onAccount = state.view === 'account' || state.view === 'settings' || state.view === 'achievements';
+  return [
+    { label: 'Home', action: 'openDashboard', icon: 'home', active: state.view === 'dashboard' },
+    { label: 'Library', action: 'openLibrary', icon: 'book', active: onLit },
+    { label: 'Schedule', action: 'openSchedule', icon: 'calendar', active: onSchedule },
+    { label: 'Account', action: 'openAccount', icon: 'user', active: onAccount },
+  ];
+}
+
+function shellStatsHtml(state) {
+  const li = levelInfo(state.xp);
+  return `
+    <button class="app-stats" data-action="openAchievements" title="Streak and level">
+      <span class="app-stat" title="Current streak">${icon('flame', 13, 2)}${state.streak || 1}</span>
+      <span class="app-stats-sep" aria-hidden="true"></span>
+      <span class="app-stat" title="Level ${li.level}">Level ${li.level}</span>
+    </button>`;
+}
 
 function headerHtml(state, MODULES) {
-  const li = levelInfo(state.xp);
-  const inCourse = state.view === 'module' || state.view === 'lesson' || state.view === 'quiz';
-  const mod = inCourse ? MODULES.find((m) => m.id === state.moduleId) : null;
-  const lesson = mod && (state.view === 'lesson' || state.view === 'quiz')
-    ? mod.lessons.find((l) => l.id === state.lessonId)
-    : null;
-  // Falls back to the plain tab list if the course context is somehow gone
-  // (e.g. a stale moduleId) rather than rendering a broken breadcrumb.
-  const showCrumbs = inCourse && mod && (state.view === 'module' || lesson);
-  // My Path isn't "inside" any single course the way Home/Schedule are --
-  // both read as one specific course's own dashboard/planner, which is
-  // exactly what My Path deliberately isn't (it spans fstu+sarf at once).
-  const onPath = state.view === 'path' || state.view === 'pathGroups';
-  // Same reasoning as onPath, for the Library: a book belongs to no course,
-  // so neither Home nor Schedule (both of which mean "this course's") should
-  // sit in the bar while one is open.
-  const onLit = state.view === 'library' || state.view === 'litBook' || state.view === 'litRead' || state.view === 'litWordPractice';
-  // A live practice/mastery session (quiz-like: graded, has its own
-  // in-page "End session"/continue controls) -- same treatment as
-  // module/lesson/quiz below, no top-bar tabs, so leaving it always goes
-  // through exitPracticeSession (js/main.js) instead of a tab silently
-  // orphaning state.practice/pathActive.
-  const inSession = state.view === 'practice' || state.view === 'practiceReview' || state.view === 'masteryV2Complete';
-  const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
-
-  // Back button + breadcrumb live on the left, next to the brand -- "where
-  // you are / how to get back" reads as one group there, distinct from the
-  // right side's forward-navigation (tabs) and stats.
-  let leftExtra = '';
-  let rightInner = '';
-  let mobileMenuInner = '';
-  let dotsHtml = '';
-
-  if (showCrumbs) {
-    let crumbs;
-    let backAction;
-    let backExtra;
-    if (state.view === 'module') {
-      crumbs = [{ label: mod.title }];
-      backAction = 'openDashboard';
-      backExtra = '';
-    } else if (state.view === 'lesson') {
-      crumbs = [{ label: mod.title, action: 'openModule', extra: `data-module-id="${escAttr(mod.id)}"` }];
-      // No static "mini title" markup here -- on the lesson view, main.js
-      // clones the real page <h1> (and .concept-dots) into fixed-position
-      // elements it drives continuously from scroll position, so the
-      // title visually keeps traveling into this header instead of
-      // crossfading with a separate pre-rendered copy. See
-      // setupScrollObserver's docking section.
-      backAction = 'openModule';
-      backExtra = `data-module-id="${escAttr(mod.id)}"`;
-    } else {
-      crumbs = [
-        { label: mod.title, action: 'openModule', extra: `data-module-id="${escAttr(mod.id)}"` },
-        { label: lesson.title, action: 'backToLesson' },
-        { label: 'Quiz', en: true },
-      ];
-      backAction = 'backToLesson';
-      backExtra = '';
-      const activeIdx = state.quizShowResult ? lesson.quiz.length - 1 : state.quizIndex;
-      dotsHtml = `<div class="app-header-dots">${lesson.quiz.map((_, i) => {
-        const cls = ['app-header-dot', i === activeIdx ? 'active' : '', i < activeIdx || state.quizShowResult ? 'done' : ''].join(' ').trim();
-        return `<div class="${cls}"></div>`;
-      }).join('')}</div>`;
-    }
-
-    // A lesson/quiz reached via My Path routes "back" to the path map
-    // instead of the module page it would otherwise belong to -- the crumb
-    // LABELS stay the same (still names the actual module/lesson for
-    // context), only the arrow button's destination changes.
-    if (state.pathActive) backAction = 'backToPath';
-
-    const crumbsHtml = crumbs.map((c, i) => {
-      const sep = i > 0 ? '<span class="app-header-crumb-sep">/</span>' : '';
-      const nodeCls = ['app-header-crumb-current', c.en ? 'app-header-crumb-en' : ''].join(' ').trim();
-      const node = c.action
-        ? `<button class="app-header-crumb-link" data-action="${c.action}" ${c.extra || ''}>${esc(c.label)}</button>`
-        : `<span class="${nodeCls}">${esc(c.label)}</span>`;
-      return sep + node;
-    }).join('');
-
-    leftExtra = `
-      <div class="app-header-crumbs-group">
-        <button class="app-header-back" data-action="${backAction}" ${backExtra} aria-label="Back">${icon('arrowLeft', 16, 2)}</button>
-        <div class="app-header-crumbs">${crumbsHtml}</div>
-      </div>`;
+  if (SHELL_INNER_VIEWS.has(state.view)) {
+    const back = shellBackTarget(state, MODULES);
+    return `
+      <header class="app-backbar">
+        <button class="app-back" data-action="${back.action}" ${back.extra} aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
+        <span class="app-crumb">${esc(back.crumb)}</span>
+      </header>`;
   }
 
-  // The tab row (and its mobile-menu mirror) lives in the header's *right*
-  // side -- a separate flex container from the crumbs above, which live in
-  // the left side -- so the two are not competing for the same space, and
-  // browsing a module/lesson/quiz is not on its own a reason to drop
-  // Schedule/Settings/Account access. Only a genuinely live session
-  // suppresses them: it has its own in-page "End session"/continue
-  // controls, which route through exitPracticeSession (js/main.js) and know
-  // how to get back to wherever the session actually started (My Path,
-  // Schedule, a module, ...). A top-bar tab there would skip that and
-  // strand state.practice/pathActive as orphaned data (see openSettings/
-  // openSchedule/openAchievements in js/main.js for the defensive cleanup
-  // that covers it if this is ever bypassed).
-  if (inSession) {
-    rightInner = '';
-  } else {
-    // Highlights Schedule for the whole time a Revision session it launched
-    // is running too, not just on the Schedule screen itself -- that
-    // session has no module page of its own to look "active" under instead.
-    const scheduleActive = state.view === 'schedule'
-      || (state.practice && state.practice.source === 'revision');
-    const tab = (label, action, active) =>
-      `<button class="app-header-tab ${active ? 'is-active' : ''}" data-action="${action}">${esc(label)}</button>`;
-
-    // My Path replaces Home/Schedule with its own "back" step where each
-    // would sit -- neither reads as "this course's dashboard/planner"
-    // while browsing something that spans both courses at once. A group's
-    // own map (state.view === 'path') gets "All groups" where Home was
-    // (its own back-navigation, one level up); the group-selection hub
-    // itself has nothing further to go back to, so that slot is just empty.
-    // Off of My Path but still in state.pathHome (a Settings/Schedule/
-    // Achievements detour -- see state.pathHome in js/state.js), the slot
-    // instead offers a direct way back in, since state.view alone can't
-    // tell "detoured off My Path" from "detoured off a course dashboard"
-    // once it's changed to 'settings'/'schedule'/'achievements'.
-    //
-    // litRead/litWordPractice get the one-level step back to the book
-    // (mirroring the course lesson/quiz breadcrumb's own one-level back),
-    // not a jump straight to the shelf -- that jump lives in librarySlot
-    // below instead, same relationship the brand logo (jump home) has to
-    // the breadcrumb back-arrow (one level) on a course page.
-    const litReadBook = (state.view === 'litRead' || state.view === 'litWordPractice') ? getLitBook(state.litBookId) : null;
-    const homeSlot = state.view === 'path' ? tab('← All groups', 'backToPathGroups', false)
-      : onPath ? ''
-        : litReadBook ? tab(`← ${litReadBook.title.en}`, 'openLitBook', false)
-          : state.view === 'litBook' ? tab('← Library', 'openLibrary', false)
-            : state.view === 'library' ? ''
-              : state.pathHome ? tab('My Path', 'returnToPath', false)
-                : state.litHome ? tab('Library', 'openLibrary', false)
-                  : tab('Home', 'openDashboard', state.view === 'dashboard');
-    // Always-available direct jump to the Library shelf, same "always
-    // shown, `active` reflects whether we're already there" treatment as
-    // the Home tab gets on the dashboard -- except on litBook, where
-    // homeSlot right above already says "← Library" for the exact same
-    // action, and a second identical tab next to it would only confuse.
-    // Without this, a course page had no path to the Library at all short
-    // of "Switch course" back to the full launch splash.
-    const librarySlot = state.view === 'litBook' ? '' : tab('Library', 'openLibrary', state.view === 'library');
-
-    rightInner = `
-      <nav class="app-header-nav" aria-label="Primary">
-        ${homeSlot}
-        ${librarySlot}
-        ${onPath || onLit ? '' : tab('Schedule', 'openSchedule', scheduleActive)}
-        ${tab('Settings', 'openSettings', state.view === 'settings')}
-        ${tab('Account', 'openAccount', state.view === 'account')}
+  // A live session keeps the wordmark and the stats but loses the tabs --
+  // leaving through a tab would strand state.practice / state.pathActive.
+  const inSession = SHELL_SESSION_VIEWS.has(state.view);
+  const tabs = inSession ? '' : `
+      <nav class="app-tabs" aria-label="Primary">
+        ${shellTabs(state).map((t) => `<button class="app-tab${t.active ? ' app-tab-active' : ''}" data-action="${t.action}">${esc(t.label)}</button>`).join('')}
       </nav>`;
-    mobileMenuInner = rightInner;
-  }
-
-  // Always rendered, on every screen (dashboard, module, lesson, quiz, ...)
-  // -- reachable no matter where the learner currently is, not just from
-  // Home. Names the active course and, rather than switching in place (the
-  // old inline pill row), sends the learner back to the launch screen's
-  // course picker (see openLaunch in js/main.js) to choose from there.
-  // While browsing My Path (or detoured off it into Settings/Schedule/
-  // Achievements -- state.pathHome, same reasoning as homeSlot above) this
-  // reads "My Path" instead of a single course's name -- state.courseId
-  // still holds whichever course a path lesson last activated (see
-  // enterPathLesson), which would otherwise show a misleading
-  // single-course label while actually spanning both.
-  const activeCourse = COURSES.find((c) => c.id === state.courseId);
-  const courseSwitchHtml = `
-    <button class="app-header-course-btn" data-action="openLaunch" title="Switch course">
-      ${icon('book', 14, 1.7)}
-      <span>${onPath || state.pathHome ? 'My Path' : onLit || state.litHome ? 'Literature' : esc(activeCourse ? activeCourse.name : '')}</span>
-    </button>`;
-  const headerClasses = [
-    'app-header',
-    showCrumbs ? 'has-crumbs' : '',
-    inSession ? 'in-session' : '',
-    isLiveQuestion ? 'is-question-session' : '',
-    dotsHtml ? 'has-dots' : '',
-  ].filter(Boolean).join(' ');
 
   return `
-    <header class="${headerClasses}">
-      <div class="app-header-left">
-        <button class="app-header-brand" data-action="openDashboard" title="Home" aria-label="Home">
-          <span class="app-header-kicker">العلوم</span>
+    <header class="app-nav">
+      <div class="app-nav-inner">
+        <button class="app-wordmark" data-action="openDashboard" title="Home" aria-label="Home">
+          <span class="app-wordmark-name">The Sciences</span>
+          <span class="app-wordmark-ar" lang="ar" dir="rtl">العُلُوم</span>
         </button>
-        <span class="app-header-rule" aria-hidden="true"></span>
-        ${courseSwitchHtml}
-        ${leftExtra}
+        ${tabs || '<span style="flex:1;"></span>'}
+        ${shellStatsHtml(state)}
       </div>
-      <div class="app-header-right">
-        ${rightInner}
-        <button class="app-header-stats" data-action="openAchievements" title="Achievements">
-          <span class="app-header-stat" title="Current streak">${icon('flame', 15, 1.7)}${state.streak || 1}</span>
-          <span class="app-header-stat" title="Total XP">${icon('star', 14, 1.8)}${state.xp} XP</span>
-          <span class="app-header-level" title="Level ${li.level}">${li.level}</span>
-        </button>
-        ${mobileMenuInner ? `
-          <details class="app-header-mobile-menu">
-            <summary aria-label="Header menu"><span aria-hidden="true">...</span></summary>
-            <div class="app-header-menu-panel">
-              ${mobileMenuInner}
-            </div>
-          </details>` : ''}
-      </div>
-      ${dotsHtml}
     </header>`;
 }
 
-// --- Footer ---------------------------------------------------------------
-
-function footerHtml(state) {
-  const theme = THEMES[state.theme] || THEMES.manuscript;
-  const face = FACES[bodyFaceKey(state.arabicFace)] || FACES.naskh;
-  const heading = HEADING_FACES[headingFaceKey(state)] || HEADING_FACES.body;
-  const faceLabel = face.name + (heading.font ? ` + ${heading.name}` : '');
+// Phone-only bottom bar (CSS hides it above 900px, where the same four
+// destinations sit in the top bar instead). Suppressed on the screens that
+// show a back chevron and during a live session, for the same reason the
+// tab row is.
+function tabBarHtml(state) {
+  if (!SHELL_TAB_VIEWS.has(state.view)) return '';
   return `
-    <footer class="app-footer">
-      <span>The Sciences — a private study desk</span>
-      <span class="app-footer-state">${esc(theme.name)} · ${esc(faceLabel)}</span>
-    </footer>`;
+    <nav class="app-tabbar" aria-label="Primary">
+      ${shellTabs(state).map((t) => `
+        <button class="app-tabbar-item${t.active ? ' app-tabbar-item-active' : ''}" data-action="${t.action}">
+          ${icon(t.icon, 19, 2)}
+          <span>${esc(t.label)}</span>
+        </button>`).join('')}
+    </nav>`;
 }
 
 function backLink(label, action, extra = '') {
-  return `<button class="back-link" data-action="${action}" ${extra}>← ${esc(label)}</button>`;
+  return `<button class="back-chevron" data-action="${action}" ${extra} aria-label="${escAttr(label)}" title="${escAttr(label)}">${icon('arrowLeft', 20, 2)}</button>`;
 }
 
 function progressBar(pct) {
   return `<div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
 }
 
-// --- Dashboard (Home) -------------------------------------------------
-// Per the design handoff's Screen 1 -- hero panel, arabesque separator,
-// chapters grid -- populated with real progress data rather than the
-// handoff's fixed sample copy.
+// A framed, intentional empty state -- icon, a serif title, one line of
+// why-it's-empty, and (when there is one) the next action. Replaces the
+// bare .empty-state sentences, which read as the screen having given up.
+// `note` is inserted raw so callers can escBidi mixed-direction copy.
+function emptyStateHtml({ icon: iconName, title, note, action = '' }) {
+  return `
+    <div class="empty-state-box">
+      ${iconName ? `<span class="empty-state-icon">${icon(iconName, 22, 1.5)}</span>` : ''}
+      <span class="empty-state-title">${esc(title)}</span>
+      ${note ? `<span class="empty-state-note">${note}</span>` : ''}
+      ${action}
+    </div>`;
+}
 
 // The next thing to do: the first incomplete lesson in course order. Since
 // isLessonUnlocked already gates lessons sequentially within an unlocked
@@ -431,321 +373,317 @@ const ARABESQUE_SVG = `
 // card on Quiz/Practice Mode/تركيب, per the user's request to carry this
 // same treatment across the whole app rather than confine it to Home.
 
+// The corner-bracket motif belonged to the previous design; the current one
+// carries structure on hairlines and plate edges instead. Kept as a no-op so
+// the call sites that frame a panel with it don't each need editing.
 function cornerBracketsHtml() {
-  return `
-    <span aria-hidden="true" class="home-hero-corner tl"></span>
-    <span aria-hidden="true" class="home-hero-corner tr"></span>
-    <span aria-hidden="true" class="home-hero-corner bl"></span>
-    <span aria-hidden="true" class="home-hero-corner br"></span>`;
+  return '';
 }
 
 function heroBadgeHtml(text) {
-  return `
-    <div class="home-hero-badge">
-      <span class="home-hero-badge-mark" aria-hidden="true"></span>
-      <span class="home-hero-badge-text" lang="ar" dir="rtl">${esc(text)}</span>
-      <span class="home-hero-badge-mark" aria-hidden="true"></span>
-    </div>`;
+  return `<div class="kicker hero-plate-kicker" lang="ar" dir="rtl">${esc(text)}</div>`;
 }
 
 // `rows` is [label, value] pairs; value is inserted raw (tabular numbers,
 // so callers pass already-formatted strings/numbers, not HTML).
 function heroLedgerHtml(rows) {
   return `
-    <dl class="home-ledger">
-      ${rows.map(([label, value]) => `<div class="home-ledger-row"><dt class="home-ledger-label">${esc(label)}</dt><dd class="home-ledger-value">${value}</dd></div>`).join('')}
+    <dl class="hero-plate-ledger">
+      ${rows.map(([label, value]) => `<div class="ledger-row"><dt class="ledger-label">${esc(label)}</dt><dd class="ledger-value">${value}</dd></div>`).join('')}
     </dl>`;
 }
 
 // title/body are inserted raw (callers esc/escBidi their own content, since
 // title often wraps a term in <bdi>); badge/watermark are plain strings.
-// sourceRef is a plain string too (e.g. "pp. 6–10") -- only the lesson hero
-// (js/render.js's lessonHtml) passes it, so it never surfaces on the home
-// hero or a module's lesson-list page, just inside the lesson itself.
+// sourceRef is a plain string too (e.g. "pp. 6-10").
+//
+// The shared ink plate: a dark panel with an oversized ghost word bleeding
+// off its bottom-right, a gold kicker, a display title over a short gold
+// rule, and an optional ledger set against it. Every screen still built on
+// this helper (My Path, the library shelf, a book page, mastery complete)
+// gets the plate treatment from here rather than restating it.
 function heroPanelHtml({ watermark, badge, title, body, actions, ledger, sourceRef }) {
   return `
-    <section class="home-hero">
-      ${watermark ? `<span aria-hidden="true" class="home-hero-watermark" lang="ar" dir="rtl">${esc(watermark)}</span>` : ''}
-      <div class="home-hero-row">
-        <div class="home-hero-main">
+    <section class="plate hero-plate">
+      ${watermark ? `<span aria-hidden="true" class="plate-ghost" lang="ar" dir="rtl">${esc(watermark)}</span>` : ''}
+      <div class="hero-plate-inner">
+        <div class="hero-plate-main">
           ${badge ? heroBadgeHtml(badge) : ''}
-          <h1 class="home-hero-title">${title}</h1>
-          ${sourceRef ? `<p class="home-hero-source-ref">${esc(sourceRef)}</p>` : ''}
-          ${body ? `<p class="home-hero-body">${body}</p>` : ''}
-          ${actions ? `<div class="home-hero-actions">${actions}</div>` : ''}
+          <h1 class="hero-plate-title">${title}</h1>
+          <div class="hero-plate-rule" aria-hidden="true"></div>
+          ${sourceRef ? `<p class="hero-plate-ref">${esc(sourceRef)}</p>` : ''}
+          ${body ? `<p class="hero-plate-body">${body}</p>` : ''}
+          ${actions ? `<div class="hero-plate-actions">${actions}</div>` : ''}
         </div>
         ${ledger || ''}
       </div>
-      ${cornerBracketsHtml()}
     </section>`;
 }
 
+// A plain hairline between stacked sections -- the arabesque medallion the
+// previous design used between blocks has no counterpart in this one.
 function separatorHtml() {
-  return `
-    <div class="home-separator">
-      <span class="home-separator-line" aria-hidden="true"></span>
-      <span class="home-separator-icon" style="color:var(--color-accent);display:flex;">${ARABESQUE_SVG}</span>
-      <span class="home-separator-line" aria-hidden="true"></span>
-    </div>`;
+  return '<div class="section-rule" aria-hidden="true"></div>';
 }
 
-// --- Launch screen (course picker) ---------------------------------------
-// The very first thing the app shows on every boot, ahead of Home itself
-// (see js/main.js: state.launchScreen, cleared by the chooseCourse action).
-// Reuses the same hero-panel visual language (badge, arabesque-adjacent
-// framing) as Home rather than inventing a new one, so it reads as the
-// cover of the same book, not a separate app.
+// --- Dashboard (Home) -------------------------------------------------
+// Rebuilt against design_handoff_ui_redesign: a full-bleed ink hero band
+// carrying the greeting, the resume card and the stats ledger; below it the
+// module list grouped by chapter heading with status rings, and a rail
+// holding today's progress against the deadline. The data and the
+// data-action wiring are the pre-existing ones -- this is markup only.
 
-// Per-course lesson/module counts, computed straight from `course.modules`
-// rather than via completedCount/isModuleComplete (content/index.js) --
-// those resolve against the single active MODULES binding, so they can't
-// answer "how far along is course X" for a course that isn't the active
-// one, which is exactly what every card here needs to do at once.
-function courseStats(course, completed) {
-  let total = 0;
-  let done = 0;
-  course.modules.forEach((m) => {
-    total += m.lessons.length;
-    const doneMap = completed[m.id] || {};
-    done += m.lessons.filter((l) => doneMap[l.id]).length;
+// Circular progress indicator on the hero's resume card. r=22 inside a
+// 52-unit box gives a 138.23 circumference, which the dash offset works
+// against; the ring reads as a stroke, never a filled pie.
+const RING_CIRCUMFERENCE = 138.2;
+function progressRingHtml(pct, size = 46) {
+  const clamped = Math.max(0, Math.min(100, Math.round(pct)));
+  const offset = RING_CIRCUMFERENCE * (1 - clamped / 100);
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 52 52" style="flex:none;" aria-hidden="true">
+      <circle class="ring-track" cx="26" cy="26" r="22" fill="none" stroke="var(--color-plate-line)" stroke-width="3"/>
+      <circle class="ring-fill" cx="26" cy="26" r="22" fill="none" stroke="var(--color-accent)" stroke-width="3"
+        stroke-dasharray="${RING_CIRCUMFERENCE}" stroke-dashoffset="${offset.toFixed(1)}" transform="rotate(-90 26 26)"/>
+      <text x="26" y="30" text-anchor="middle" font-size="11" fill="var(--color-plate-text)" class="home-ring-label">${clamped}%</text>
+    </svg>`;
+}
+
+function formatDeadlineDate(iso) {
+  const parsed = new Date(`${iso}T00:00:00`);
+  if (Number.isNaN(parsed.getTime())) return iso;
+  return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// Today's target against the course deadline -- the same arithmetic the
+// Schedule tab already shows, surfaced on Home's
+// rail so the deadline isn't invisible until you go looking for it. Returns
+// null when no deadline is set, or when there is nothing left to schedule.
+function deadlineSummary(state, MODULES) {
+  const remaining = Math.max(0, totalLessons() - totalLessonsCleared(state.completed));
+  const deadline = state.scheduleDeadline?.[state.courseId];
+  if (!deadline || remaining === 0) return null;
+  const resetHour = state.dailyResetHour || 0;
+  const today = todayISO(resetHour);
+  const diffDays = Math.round((new Date(`${deadline}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
+  // Scoped to this course's modules: state.completed is a flat dict shared
+  // by every course, so a lesson finished today elsewhere must not count.
+  let completedToday = 0;
+  MODULES.forEach((m) => {
+    Object.values(state.completed[m.id] || {}).forEach((v) => { if (v === today) completedToday += 1; });
   });
-  return { total, done, moduleCount: course.modules.length };
-}
-
-function launchCourseCardHtml(course, index, state) {
-  const { total, done, moduleCount } = courseStats(course, state.completed);
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const isCurrent = course.id === state.courseId;
-  const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
-  if (!unlocked) {
-    return `
-      <button class="launch-card locked" data-anim-key="lc${index}" data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}">
-        <div class="launch-card-top">
-          <span class="launch-card-kicker">${moduleCount} CHAPTER${moduleCount === 1 ? '' : 'S'}</span>
-          <span class="tag tag-neutral">${icon('lock', 11, 2.6)} Locked</span>
-        </div>
-        <h3 class="launch-card-arabic" lang="ar" dir="rtl">${esc(course.arabicName)}</h3>
-        <p class="launch-card-body">${esc(course.lockedMessage || 'Locked.')}</p>
-        <span class="launch-card-cta">Unlock this course &rarr;</span>
-      </button>`;
-  }
-  return `
-    <button class="launch-card ${isCurrent ? 'is-current' : ''}" data-anim-key="lc${index}" data-action="chooseCourse" data-course-id="${escAttr(course.id)}">
-      <div class="launch-card-top">
-        <span class="launch-card-kicker">${moduleCount} CHAPTER${moduleCount === 1 ? '' : 'S'}</span>
-        ${isCurrent ? '<span class="tag tag-accent">Last opened</span>' : ''}
-      </div>
-      <h3 class="launch-card-arabic" lang="ar" dir="rtl">${esc(course.arabicName)}</h3>
-      <p class="launch-card-body">${escBidi(course.blurb)}</p>
-      <div class="launch-card-footer">
-        <span class="launch-card-track"><span class="launch-card-fill" style="width:${pct}%"></span></span>
-        <span class="launch-card-meta">${done} / ${total}</span>
-      </div>
-      <span class="launch-card-cta">${done > 0 ? 'Continue' : 'Begin'} &rarr;</span>
-    </button>`;
-}
-
-// "Sits on top of the courses" -- a small banner between the course
-// picker's subtitle and its card grid, leading to My Path's group-selection
-// screen (see openMyPath in js/main.js) rather than one specific course.
-// UNUSED as of 2026-08-18: the only call site (launchHtml below) was
-// removed to pull My Path out of the app -- kept here, along with the rest
-// of My Path's render/main.js/state machinery and content/path-advanced.js,
-// in case the feature comes back rather than being rebuilt from scratch.
-// Progress phrasing reads live off PATH_TRACKS/state.pathNodeStatus via
-// firstUnfinishedPathNodeIndex, the same derive-don't-store idiom the rest
-// of the app uses for "how far along" (see e.g. content/index.js's
-// completedCount).
-// Always opens the group-selection screen (req: a separate "choose a
-// group" hub, see openMyPath in js/main.js) -- the label just names overall
-// progress across every POPULATED group, across BOTH tracks (only the
-// introductory path's Group 1-and-the-advanced path's Group 1 exist so far;
-// empty "Coming soon" groups don't count toward "started" either way).
-function launchPathBannerHtml(state) {
-  const populated = PATH_TRACKS.flatMap((t) => t.groups.filter((g) => g.sections.length));
-  let groupsDone = 0;
-  let anyStarted = false;
-  populated.forEach((group) => {
-    const skeleton = groupSkeleton(group);
-    const idx = firstUnfinishedPathNodeIndex(skeleton, state.pathNodeStatus, state.completed);
-    if (idx > 1) anyStarted = true;
-    if (idx >= skeleton.length) groupsDone += 1;
-  });
-  const label = groupsDone > 0
-    ? `Continue — ${groupsDone} of ${populated.length} group${populated.length === 1 ? '' : 's'} complete`
-    : anyStarted ? 'Continue My Path' : 'Start My Path';
-  return `
-    <button class="launch-path-banner" data-anim-key="launchpathbanner" data-action="openMyPath">
-      <div class="launch-path-banner-text">
-        <span class="launch-path-banner-kicker">MY PATH</span>
-        <span class="launch-path-banner-title">${esc(label)}</span>
-        <span class="launch-path-banner-sub">Nahw + Sarf, introductory and advanced — guided routes through both.</span>
-      </div>
-      <span class="launch-path-banner-cta">${anyStarted ? 'Continue' : 'Begin'} &rarr;</span>
-    </button>`;
-}
-
-// Literature sits alongside My Path rather than in the course grid: it isn't
-// a course (see content-lit/index.js) and its cards below wouldn't mean the
-// same thing -- "3 of 12 lessons" versus "a book you're partway through".
-function launchLibraryBannerHtml(state) {
-  const totals = LIT_BOOKS.reduce((acc, book) => {
-    const { done, total } = bookProgress(book, state.litProgress);
-    return { done: acc.done + done, total: acc.total + total };
-  }, { done: 0, total: 0 });
-  const label = totals.done > 0
-    ? `Continue reading — ${totals.done} of ${totals.total} chapter${totals.total === 1 ? '' : 's'} read`
-    : 'Start reading';
-  return `
-    <button class="launch-path-banner launch-lit-banner" data-anim-key="launchlitbanner" data-action="openLibrary">
-      <div class="launch-path-banner-text">
-        <span class="launch-path-banner-kicker">LITERATURE</span>
-        <span class="launch-path-banner-title">${esc(label)}</span>
-        <span class="launch-path-banner-sub">Graded classical readers — one paragraph at a time, with every word and phrase explained where it stands.</span>
-      </div>
-      <span class="launch-path-banner-cta">${totals.done > 0 ? 'Continue' : 'Open the library'} &rarr;</span>
-    </button>`;
-}
-
-function launchHtml(state) {
-  const cards = COURSES.map((c, i) => launchCourseCardHtml(c, i, state)).join('');
-  return `
-    <div class="launch-screen">
-      <span aria-hidden="true" class="launch-watermark" lang="ar" dir="rtl">العلوم</span>
-      <div class="launch-scroll">
-      <div class="launch-inner">
-        <div class="launch-head" data-anim-key="launchhead">
-          <div class="launch-brand-row">
-            <div class="launch-brand">
-              <span class="launch-brand-kicker" lang="ar" dir="rtl">العلوم</span>
-              <span class="launch-brand-rule" aria-hidden="true"></span>
-              <span class="launch-brand-name">The Sciences</span>
-            </div>
-            ${heroBadgeHtml('وَالْعِلْمُ نُورٌ')}
-          </div>
-          <h1 class="launch-title">Choose a course</h1>
-          <p class="launch-sub">Four paths through Arabic grammar. Pick one to enter its dashboard — you can switch anytime from the header.</p>
-        </div>
-        ${launchLibraryBannerHtml(state)}
-        <div class="launch-grid">${cards}</div>
-      </div>
-      </div>
-      ${unlockPromptHtml(state)}
-    </div>`;
+  const dailyTarget = Math.ceil(remaining / Math.max(1, diffDays));
+  const done = Math.min(completedToday, dailyTarget);
+  return {
+    deadline,
+    diffDays,
+    overdue: diffDays < 0,
+    dailyTarget,
+    done,
+    remaining,
+    pct: dailyTarget ? Math.round((done / dailyTarget) * 100) : 100,
+  };
 }
 
 function homeHeroHtml(state, MODULES) {
   const continueInfo = findContinueLesson(state, MODULES);
   const lessonsCleared = totalLessonsCleared(state.completed);
+  const streak = state.streak || 1;
   const li = levelInfo(state.xp);
-  const ledger = heroLedgerHtml([
-    ['Lessons done', `${lessonsCleared} / ${totalLessons()}`],
-    ['Level', li.level],
-    ['XP', state.xp],
-    ['Streak', `${state.streak || 1}d`],
-  ]);
+  const summary = deadlineSummary(state, MODULES);
 
+  let title = "Keep going, you're close.";
+  let resumeHtml;
   if (continueInfo) {
     const { mod, lesson, index } = continueInfo;
-    const started = lessonsCleared > 0;
-    const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
-    const actions = `
-      <button class="ds-btn ds-btn-primary" data-action="continueLesson" data-module-id="${escAttr(mod.id)}" data-lesson-id="${escAttr(lesson.id)}">${started ? 'Continue' : 'Start'} lesson ${index + 1}</button>
-      ${bankPool.length ? `<button class="ds-btn ds-btn-secondary" data-action="reviewModule" data-module-id="${escAttr(mod.id)}">Review ${bankPool.length} cards</button>` : ''}`;
-    return heroPanelHtml({
-      watermark: 'وَالْعِلْمُ نُورٌ',
-      badge: mod.heading || mod.title,
-      title: `${started ? 'Continue' : 'Begin'}: <bdi lang="ar">${esc(lesson.title)}</bdi>`,
-      body: escBidi(lesson.subtitle || ''),
-      actions,
-      ledger,
-    });
+    const done = completedCount(mod.id, state.completed);
+    const pct = mod.lessons.length ? (done / mod.lessons.length) * 100 : 0;
+    resumeHtml = `
+      <div class="home-resume">
+        ${progressRingHtml(pct)}
+        <div class="home-resume-body">
+          <div class="kicker">Continue</div>
+          <div class="home-resume-title" lang="ar" dir="rtl">${esc(mod.title)}</div>
+          <div class="home-resume-meta">Lesson ${index + 1} · <bdi lang="ar">${esc(lesson.title)}</bdi></div>
+        </div>
+        <button class="btn btn-primary only-desktop" data-action="continueLesson" data-module-id="${escAttr(mod.id)}" data-lesson-id="${escAttr(lesson.id)}">${lessonsCleared > 0 ? 'Resume' : 'Start'} lesson</button>
+      </div>
+      <button class="btn btn-primary btn-block only-phone home-resume-cta" data-action="continueLesson" data-module-id="${escAttr(mod.id)}" data-lesson-id="${escAttr(lesson.id)}">${lessonsCleared > 0 ? 'Resume' : 'Start'} lesson</button>`;
+  } else {
+    title = 'Every lesson, complete.';
+    resumeHtml = `
+      <div class="home-resume">
+        <div class="home-resume-body">
+          <div class="kicker">تمّ بحمد الله</div>
+          <div class="home-resume-meta">All ${totalLessons()} lessons across every chapter are finished.</div>
+        </div>
+        <button class="btn btn-primary" data-action="openSchedule">Go to Schedule</button>
+      </div>`;
   }
 
-  return heroPanelHtml({
-    watermark: 'وَالْعِلْمُ نُورٌ',
-    badge: 'تمّ بحمد الله',
-    title: 'Every lesson, complete',
-    body: `All ${totalLessons()} lessons across every chapter are done. Revisit anything from Schedule, or step back into a module to drill it further.`,
-    actions: '<button class="ds-btn ds-btn-primary" data-action="openSchedule">Go to Schedule</button>',
-    ledger,
-  });
+  return `
+    <section class="home-hero">
+      <div class="home-hero-inner">
+        <div>
+          <div class="home-hero-top">
+            <div class="home-hero-greeting" lang="ar" dir="rtl">السلام عليكم</div>
+            <button class="home-hero-pill only-phone" data-action="openAchievements" title="Streak and level">
+              <span>${icon('flame', 13, 2)}${streak}</span>
+              <span class="home-hero-pill-sep" aria-hidden="true"></span>
+              <span>${icon('shield', 13, 2)}${li.level}</span>
+            </button>
+          </div>
+          <h1 class="home-hero-title">${title}</h1>
+          <div class="rule-accent" aria-hidden="true"></div>
+          ${resumeHtml}
+        </div>
+        <div class="home-hero-ledger only-desktop">
+          <div class="ledger-row"><span class="ledger-label">Lessons cleared</span><span class="ledger-value">${lessonsCleared} / ${totalLessons()}</span></div>
+          <div class="ledger-row"><span class="ledger-label">Streak</span><span class="ledger-value">${streak} day${streak === 1 ? '' : 's'}</span></div>
+          <div class="ledger-row"><span class="ledger-label">Level</span><span class="ledger-value">${li.level} · ${state.xp.toLocaleString('en-GB')} XP</span></div>
+          ${summary ? `<div class="ledger-row"><span class="ledger-label">${summary.overdue ? 'Deadline passed' : 'Deadline'}</span><span class="ledger-value ledger-value-accent">${esc(formatDeadlineDate(summary.deadline))}</span></div>` : ''}
+        </div>
+      </div>
+    </section>`;
+}
+
+// Status ring for a module row: a check once it's finished, its own number
+// while it's the one in hand, a lock when it isn't reachable yet.
+function moduleRingHtml(index, { done, current, unlocked }) {
+  if (done) return `<span class="status-ring status-ring-done">${icon('check', 13, 2.6)}</span>`;
+  if (!unlocked) return `<span class="status-ring">${icon('lock', 11, 2)}</span>`;
+  return `<span class="status-ring${current ? ' status-ring-current' : ''}">${index + 1}</span>`;
+}
+
+// The course switcher, in place of the picker screen the previous design
+// opened for this. A locked course routes to the same unlock prompt its old
+// card did rather than switching to a course that cannot be entered.
+function courseMenuHtml(state) {
+  return `
+    <div class="course-menu" role="menu">
+      ${COURSES.map((course) => {
+        const active = course.id === state.courseId;
+        const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
+        const count = course.modules.length;
+        const attrs = unlocked
+          ? `data-action="chooseCourse" data-course-id="${escAttr(course.id)}"`
+          : `data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}"`;
+        return `
+          <button class="course-menu-item${active ? ' is-active' : ''}${unlocked ? '' : ' is-locked'}" ${attrs} role="menuitem">
+            <span class="course-menu-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
+            <span class="course-menu-meta">${esc(course.name)} · ${count} module${count === 1 ? '' : 's'}${unlocked ? '' : ' · locked'}</span>
+          </button>`;
+      }).join('')}
+    </div>`;
 }
 
 function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
+  const continueInfo = findContinueLesson(state, MODULES);
+  const currentModuleId = continueInfo ? continueInfo.mod.id : null;
+  const summary = deadlineSummary(state, MODULES);
+  const activeCourse = COURSES.find((c) => c.id === state.courseId);
+  const completedModules = MODULES.filter((m) => m.lessons.length && completedCount(m.id, state.completed) === m.lessons.length).length;
+
   let lastGroupKey = null;
-  const cards = MODULES.map((m, i) => {
-    // One divider per distinct (heading, subheading) pair -- every module
-    // that starts a new pair gets its own line, always showing both the
-    // heading (right) and the subheading (left); modules with no
-    // subheading of their own repeat the heading there instead, rather
-    // than leaving that side blank. Heading on the right, subheading on
-    // the left is a two-child flex row relying on RTL + space-between
-    // (the first DOM child lands at the inline-start, the right edge in
-    // RTL) rather than separate left/right markup.
+  const rows = MODULES.map((m, i) => {
+    // One heading per distinct (heading, subheading) pair, exactly as the
+    // grid did -- the chapter rule replaces the old two-sided divider.
     const groupKey = `${m.heading || ''}|${m.subheading || ''}`;
     const groupChanged = groupKey !== lastGroupKey;
+    const headingChanged = groupChanged && m.heading && m.heading !== (lastGroupKey || '').split('|')[0];
+    const subheadingChanged = groupChanged && m.subheading && m.subheading !== m.heading;
     lastGroupKey = groupKey;
-    let chapterHtml = '';
-    if (groupChanged && m.heading) {
-      const subText = m.subheading || m.heading;
-      chapterHtml = `<div class="home-chapter-heading" lang="ar" dir="rtl"><span class="home-chapter-heading-main">${esc(m.heading)}</span><span class="home-chapter-subheading">${esc(subText)}</span></div>`;
+
+    let headingHtml = '';
+    if (headingChanged) {
+      headingHtml += `<div class="chapter-rule"><span class="chapter-rule-text" lang="ar" dir="rtl">${esc(m.heading)}</span><span class="chapter-rule-line" aria-hidden="true"></span></div>`;
+    }
+    if (subheadingChanged) {
+      headingHtml += `<div class="chapter-subrule" lang="ar" dir="rtl">${esc(m.subheading)}</div>`;
     }
 
+    const total = m.lessons.length;
     const done = completedCount(m.id, state.completed);
     const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
-    const cardKey = `dash_card_${m.id}`;
-    // Row 1 (however many cards that turns out to be -- see js/main.js's
-    // cascadeGrid/setupScrollObserver) is revealed on arrival rather than
-    // gated behind the scroll trigger like every row after it; which cards
-    // land in row 1 is a real-layout question, not something this string
-    // render can know (auto-fit column count depends on window width, and
-    // courses vary in how many modules share a first heading).
-    // A locked module opens a confirmation prompt instead of just sitting
-    // disabled, matching locked course/path cards without writing progress.
+    const isDone = total > 0 && done === total;
+    const isCurrent = m.id === currentModuleId;
+
+    let status;
+    if (!unlocked) status = 'Locked';
+    else if (isDone) status = 'Complete';
+    else if (done > 0) status = `In progress · ${done} of ${total}`;
+    else status = `${total} lesson${total === 1 ? '' : 's'}`;
+
+    // A locked module opens the confirmation prompt rather than sitting
+    // dead, same as the card grid it replaces.
     const clickAttrs = unlocked
       ? `data-action="openModule" data-module-id="${escAttr(m.id)}"`
       : `data-action="openUnlockPrompt" data-target-type="module" data-target-id="${escAttr(m.id)}"`;
-    return `${chapterHtml}
-      <button class="${revealCls(cardKey, 'chapter-card', revealedKeys)}" data-reveal-key="${cardKey}" ${clickAttrs}>
-        <div class="chapter-card-top">
-          <span class="chapter-card-kicker">${unlocked ? `MODULE ${String(i + 1).padStart(2, '0')}` : icon('lock', 12, 2)}</span>
-          <span class="chapter-card-arabic" lang="ar" dir="rtl">${esc(m.heading || '')}</span>
-        </div>
-        <h3 class="chapter-card-title" lang="ar" dir="rtl">${esc(m.title)}</h3>
-        <p class="chapter-card-body">${escBidi(m.blurb)}</p>
-        <div class="chapter-card-footer">
-          <span class="chapter-card-track"><span class="chapter-card-fill" style="width:${m.lessons.length ? Math.round((done / m.lessons.length) * 100) : 0}%"></span></span>
-          <span class="chapter-card-meta">${unlocked ? `${done} of ${m.lessons.length}` : 'Unlock module'}</span>
-        </div>
+    const rowCls = [
+      'module-row',
+      isCurrent ? 'module-row-current' : '',
+      isDone ? 'module-row-done' : '',
+      !unlocked ? 'module-row-locked' : '',
+    ].filter(Boolean).join(' ');
+
+    const stateIcon = isDone ? icon('check', 14, 2.4) : isCurrent ? icon('clock', 14, 1.8) : !unlocked ? icon('lock', 13, 2) : '';
+    return `${headingHtml}
+      <button class="${rowCls}" ${clickAttrs}>
+        <span class="only-desktop module-row-ringwrap">${moduleRingHtml(i, { done: isDone, current: isCurrent, unlocked })}</span>
+        <span class="module-row-num only-phone">${i + 1}</span>
+        <span class="module-row-body">
+          <span class="module-row-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+          <span class="module-row-status">${esc(status)}</span>
+        </span>
+        ${stateIcon ? `<span class="module-row-state only-phone">${stateIcon}</span>` : ''}
       </button>`;
   }).join('');
 
-  const query = (state.lessonSearchQuery || '').trim();
-
   return `
-    <div class="dashboard-page">
+    <div class="home-page">
       ${homeHeroHtml(state, MODULES)}
-      ${separatorHtml()}
-      <section class="home-chapters">
-        <div class="home-chapters-head">
-          <h2>Chapters</h2>
-          <input id="lesson-search-input" class="schedule-input lesson-search-input" type="search" data-action="searchLessons"
-            placeholder="Search lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
-            autocomplete="off" aria-label="Search lessons">
-        </div>
-        ${query ? lessonSearchResultsHtml(MODULES, state, query) : `<div class="chapter-grid">${cards}</div>`}
-      </section>
-      <section class="home-badges-teaser">
-        <div class="home-badges-teaser-head">
-          <h2>Badges</h2>
-          <button class="text-link-btn" data-action="openAchievements">View all achievements →</button>
-        </div>
-        ${state.badges.length ? `
-        <div class="badges-row">
-          ${state.badges.slice(-12).map((id) => `<span class="tag tag-outline badge-tag">${icon('award', 13, 2)}${esc(BADGE_DEFS[id].name)}</span>`).join('')}
-        </div>` : '<p class="home-badges-empty">Earn your first badge by completing a lesson.</p>'}
-      </section>
+      <div class="home-body">
+        <section class="home-modules-col">
+          <div class="section-head">
+            <h2 class="section-head-title">Your modules</h2>
+            <button class="home-course-switch" data-action="toggleCourseMenu" title="Switch course"
+              aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
+              <span lang="ar" dir="rtl">${esc(activeCourse ? activeCourse.arabicName || activeCourse.name : '')}</span>
+              <span aria-hidden="true">▾</span>
+            </button>
+            <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
+          </div>
+          ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
+          <div class="module-list noscroll">${rows}</div>
+        </section>
+        <aside class="home-rail">
+          ${summary ? `
+          <div class="home-rail-card only-desktop">
+            <div class="kicker">Today</div>
+            <div class="home-rail-figure"><strong>${summary.done}</strong> of ${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} done</div>
+            <div class="home-rail-track" aria-hidden="true"><span class="home-rail-fill" style="width:${summary.pct}%"></span></div>
+            <p class="home-rail-note">${summary.overdue
+              ? `Your deadline passed ${Math.abs(summary.diffDays)} day${Math.abs(summary.diffDays) === 1 ? '' : 's'} ago with ${summary.remaining} left.`
+              : `${summary.done >= summary.dailyTarget ? "You're on course for" : 'Keep this pace to finish by'} ${esc(formatDeadlineDate(summary.deadline))}.`}
+              <button class="text-link-btn" data-action="openSchedule">Open schedule</button></p>
+          </div>` : ''}
+          <div class="home-explore only-phone">
+            <div class="home-explore-title">Explore</div>
+            <div class="home-explore-grid">
+              <button class="home-explore-card" data-action="openLibrary">
+                ${icon('book', 16, 2)}
+                <span class="home-explore-name">Library</span>
+                <span class="home-explore-meta">Graded readers</span>
+              </button>
+              <button class="home-explore-card" data-action="openSchedule">
+                ${icon('calendar', 16, 2)}
+                <span class="home-explore-name">Schedule</span>
+                <span class="home-explore-meta">${summary ? `${summary.dailyTarget} a day` : 'Set a deadline'}</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>`;
 }
 
@@ -768,7 +706,11 @@ function lessonSearchResultsHtml(MODULES, state, query) {
     });
   });
   if (!results.length) {
-    return `<p class="empty-state">No lessons match "${escBidi(query)}".</p>`;
+    return emptyStateHtml({
+      icon: 'search',
+      title: 'No matches',
+      note: `No unlocked lesson is titled anything like "${escBidi(query)}". Try a shorter word, or the Arabic title.`,
+    });
   }
   return `
     <div class="lesson-search-results">
@@ -789,68 +731,113 @@ function modulePageHtml(state, MODULES) {
   const mod = MODULES.find((m) => m.id === state.moduleId);
   if (!mod) return dashboardHtml(state, MODULES);
 
+  const total = mod.lessons.length;
   const done = completedCount(mod.id, state.completed);
-  const pct = mod.lessons.length ? Math.round((done / mod.lessons.length) * 100) : 0;
+  const pct = total ? Math.round((done / total) * 100) : 0;
   const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
+  const index = MODULES.indexOf(mod) + 1;
+  const chapterPath = [mod.heading, mod.subheading].filter(Boolean).join(' · ');
+  // The first lesson still to do -- the one the row list points at.
+  const currentLesson = mod.lessons.find((l) => !isLessonComplete(mod.id, l.id, state.completed)
+    && isLessonUnlocked(mod.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll));
 
   const rows = mod.lessons.map((lesson, i) => {
     const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed, state.unlockedModules, state.forceUnlockAll);
     const complete = isLessonComplete(mod.id, lesson.id, state.completed);
-    // Mastered: this lesson's Mastery test (mixed تركيب+mcq, launched from
-    // the "Start lesson" preview modal -- see lessonPreviewHtml) has been
-    // passed at 100%. Display-only here; the row itself doesn't launch
-    // Mastery directly, same click as ever (openLessonPreview).
+    // Mastered: this lesson's Mastery test has been passed at 100%.
+    // Display-only -- the row's own click is openLessonPreview either way.
     const masteryEntry = state.masteryV2[`${mod.id}_${lesson.id}`];
     const mastered = complete && masteryEntry && masteryEntry.passed;
-    const rowCls = ['lesson-row', unlocked ? '' : 'locked', mastered ? 'mastered' : ''].join(' ').trim();
-    const indicatorCls = ['lesson-row-indicator', unlocked ? '' : 'locked'].join(' ').trim();
-    const indicator = !unlocked
-      ? icon('lock', 17, 2)
-      : complete
-        ? icon('check', 19, 2.4)
-        : String(i + 1);
-    const tag = !unlocked
-      ? `<span class="tag tag-neutral">Locked</span>`
-      : mastered
-        ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
-        : complete
-          ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Done</span>`
-          : `<span class="tag tag-accent">Start</span>`;
+    const isCurrent = currentLesson && lesson.id === currentLesson.id;
+    const score = (state.quizScores[mod.id] || {})[lesson.id];
+
+    let meta = '';
+    if (complete && score) {
+      meta = `<span class="lesson-row-meta">Quiz ${score.correct} / ${score.total}${mastered ? ' · Mastered' : ''}</span>`;
+    } else if (complete) {
+      meta = `<span class="lesson-row-meta">Complete${mastered ? ' · Mastered' : ''}</span>`;
+    } else if (isCurrent) {
+      const conceptCount = (lesson.concepts || []).length;
+      meta = `<span class="lesson-row-cta">Continue · ${conceptCount} concept${conceptCount === 1 ? '' : 's'}, then a quiz${icon('chevronRight', 13, 2)}</span>`;
+    }
+
+    const rowCls = [
+      'lesson-row',
+      isCurrent ? 'lesson-row-current' : '',
+      !unlocked ? 'lesson-row-locked' : '',
+    ].filter(Boolean).join(' ');
+
     return `
-    <button class="${rowCls}" data-anim-key="lr${i}" ${unlocked ? `data-action="openLessonPreview" data-lesson-id="${escAttr(lesson.id)}"` : 'disabled'}>
-      <div class="${indicatorCls}">${indicator}</div>
-      <div class="lesson-row-body">
-        <h3>${esc(lesson.title)}</h3>
-        <div class="lesson-row-subtitle">${escBidi(lesson.subtitle || '')}</div>
-      </div>
-      ${tag}
-    </button>`;
+      <button class="${rowCls}" ${unlocked ? `data-action="openLessonPreview" data-lesson-id="${escAttr(lesson.id)}"` : 'disabled'}>
+        ${moduleRingHtml(i, { done: complete, current: isCurrent, unlocked })}
+        <span class="lesson-row-body">
+          <span class="lesson-row-title" lang="ar" dir="rtl">${esc(lesson.title)}</span>
+          <span class="lesson-row-subtitle">${escBidi(lesson.subtitle || '')}</span>
+          ${meta}
+        </span>
+      </button>`;
   }).join('');
 
-  const hero = heroPanelHtml({
-    watermark: mod.title,
-    badge: mod.heading || null,
-    title: `<bdi lang="ar">${esc(mod.title)}</bdi>`,
-    body: escBidi(mod.blurb),
-    actions: `
-      <button class="ds-btn ds-btn-secondary" ${bankPool.length ? 'data-action="openPractice"' : 'disabled title="Complete a lesson first -- Practice Mode only draws from finished lessons\' cards"'}>${icon('archive', 15, 1.7)} Practice Mode</button>
-      ${done > 0 ? `<button class="ds-btn ds-btn-danger" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">${icon('trash-2', 14, 1.7)} Reset progress</button>` : ''}`,
-    ledger: heroLedgerHtml([
-      ['Lessons done', `${done} / ${mod.lessons.length}`],
-      ['Progress', `${pct}%`],
-      ['Cards in pool', `${bankPool.length}`],
-    ]),
-  });
-
+  const courseName = (COURSES.find((c) => c.id === state.courseId) || {}).name || '';
   return `
-    <div class="hero-page">
-      ${hero}
-      ${separatorHtml()}
-      <div class="col-wide">
-        ${progressBar(pct)}
-        ${state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : ''}
-        <div class="lesson-list">${rows}</div>
+    <div class="module-page-wrap">
+      <div class="module-crumbs only-desktop">
+        <button class="module-crumb-link" data-action="openDashboard">Home</button>
+        <span aria-hidden="true">›</span>
+        <button class="module-crumb-link" data-action="openDashboard">${esc(courseName)}</button>
+        <span aria-hidden="true">›</span>
+        <span>Module ${index}</span>
       </div>
+      <div class="module-backrow only-phone">
+        <button class="back-chevron" data-action="openDashboard" aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
+        <span class="app-crumb">${esc(courseName)} · Module ${index}</span>
+      </div>
+    <div class="module-page">
+      <section>
+        <div class="plate module-cover">
+          <span class="plate-ghost" aria-hidden="true">${esc(arabicNumeral(index))}</span>
+          <div class="module-cover-inner">
+            ${chapterPath ? `<div class="module-cover-path" lang="ar" dir="rtl">${esc(chapterPath)}</div>` : ''}
+            <h1 class="module-cover-title" lang="ar" dir="rtl">${esc(mod.title)}</h1>
+            <div class="module-cover-rule" aria-hidden="true"></div>
+            <p class="module-cover-blurb">${escBidi(mod.blurb)}</p>
+            <div class="module-cover-progress">
+              <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
+              <span class="module-cover-count">${done} / ${total} lesson${total === 1 ? '' : 's'}</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="entry-row" ${bankPool.length ? 'data-action="openPractice"' : 'disabled title="Complete a lesson first — Practice Mode only draws from finished lessons\' cards"'}>
+          ${icon('pencil', 17, 1.8)}
+          <span class="entry-row-body">
+            <span class="entry-row-title">Practice Mode</span>
+            <span class="entry-row-meta">${bankPool.length ? `${bankPool.length} cards from lessons you've finished` : 'Finish a lesson to unlock'}</span>
+          </span>
+          <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+        </button>
+
+        <div class="module-setup-inline">${state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : ''}</div>
+
+        <div class="lesson-section-head">
+          <span class="lesson-section-title">Lessons</span>
+          <span class="lesson-section-note">In order</span>
+        </div>
+        <div class="lesson-list">${rows}</div>
+
+        ${done > 0 ? `<button class="module-reset" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">Reset this module's progress</button>` : ''}
+      </section>
+
+      <aside class="module-rail">
+        <div class="module-setup-rail">${state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : ''}</div>
+        <div class="module-rail-card">
+          <div class="kicker">This module</div>
+          <div class="ledger-row"><span class="ledger-label">Lessons done</span><span class="ledger-value">${done} / ${total}</span></div>
+          <div class="ledger-row"><span class="ledger-label">Progress</span><span class="ledger-value">${pct}%</span></div>
+          <div class="ledger-row"><span class="ledger-label">Cards in pool</span><span class="ledger-value">${bankPool.length}</span></div>
+        </div>
+      </aside>
+    </div>
     </div>`;
 }
 
@@ -887,8 +874,8 @@ function lessonPreviewHtml(state, MODULES) {
     : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${resumingQuiz ? 'Resume the quiz' : 'Start lesson'}</button>`;
 
   return `
-    <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLessonPreview">
-      <div class="modal" data-anim-key="modal:${escAttr(lesson.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(lesson.title)}">
+    <div class="modal-backdrop" data-action="closeLessonPreview">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(lesson.title)}">
         <div class="card-kicker modal-kicker">LESSON ${idx + 1} &middot; ${esc(mod.title)}</div>
         <h3>${esc(lesson.title)}</h3>
         <p class="modal-sub">${escBidi(lesson.subtitle || '')}</p>
@@ -905,15 +892,15 @@ function lessonPreviewHtml(state, MODULES) {
 
 function toastHtml(state) {
   if (!state.toast) return '';
-  return `<div class="xp-toast">${esc(state.toast)}</div>`;
+  return `<div class="xp-toast" role="status">${esc(state.toast)}</div>`;
 }
 
 function badgeModalHtml(state) {
   if (!state.badgeModal) return '';
   const b = state.badgeModal;
   return `
-    <div class="modal-backdrop" data-anim-key="badgemodalbd" style="z-index:60;" data-action="closeBadgeModal">
-      <div class="modal" data-anim-key="badgemodal:${escAttr(b.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(b.name)}">
+    <div class="modal-backdrop" style="z-index:60;" data-action="closeBadgeModal">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(b.name)}">
         <div class="badge-modal-icon">${icon('award', 36, 1.6)}</div>
         <div class="badge-modal-title">Badge Earned</div>
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
@@ -927,8 +914,8 @@ function badgeModalHtml(state) {
 function forceUnlockPromptHtml(state) {
   if (!state.forceUnlockPrompt) return '';
   return `
-    <div class="modal-backdrop" data-anim-key="forceunlockbd" data-action="closeForceUnlockPrompt">
-      <div class="modal force-unlock-modal" data-anim-key="forceunlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Turn off course locks">
+    <div class="modal-backdrop" data-action="closeForceUnlockPrompt">
+      <div class="modal force-unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Turn off course locks">
         <div class="card-kicker modal-kicker">COURSE LOCKS</div>
         <h3>Unlock everything?</h3>
         <p class="modal-sub">This opens every lesson, path group, vocab item, Tarkeeb exercise, and quiz. It does not mark lessons complete, award badges, or change your scores.</p>
@@ -952,8 +939,8 @@ function resetModulePromptHtml(state, MODULES) {
   const mod = MODULES.find((m) => m.id === moduleId);
   if (!mod) return '';
   return `
-    <div class="modal-backdrop" data-anim-key="resetmodbd" data-action="closeResetModulePrompt">
-      <div class="modal" data-anim-key="resetmodmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Reset module progress">
+    <div class="modal-backdrop" data-action="closeResetModulePrompt">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Reset module progress">
         <div class="card-kicker modal-kicker">RESET PROGRESS</div>
         <h3>${esc(mod.title)}</h3>
         <p class="modal-sub">This will clear all completed lessons, quiz scores, exercise states, and mastery results for this module. Your XP and badges are not affected.</p>
@@ -975,8 +962,8 @@ function resetModulePromptHtml(state, MODULES) {
 function leaveSessionPromptHtml(state) {
   if (!state.leaveSessionPromptTarget) return '';
   return `
-    <div class="modal-backdrop" data-anim-key="leavesessionbd" data-action="closeLeaveSessionPrompt">
-      <div class="modal" data-anim-key="leavesessionmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Leave this session?">
+    <div class="modal-backdrop" data-action="closeLeaveSessionPrompt">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Leave this session?">
         <div class="card-kicker modal-kicker">IN PROGRESS</div>
         <h3>Leave this session?</h3>
         <p class="modal-sub">Your answers so far in this attempt won't be saved. Anything you'd already completed before it isn't affected.</p>
@@ -989,7 +976,7 @@ function leaveSessionPromptHtml(state) {
 }
 
 // --- Advanced-course/path/module unlock prompt -----------------------------
-// Opened from a locked launch-screen course card, a locked My Path
+// Opened from a locked course row in Home's course menu, a locked My Path
 // advanced-track card, or a locked module's dashboard card (all use
 // data-action="openUnlockPrompt", see the actions in js/main.js). These are
 // direct, confirmed access overrides; they do not mark progress complete.
@@ -1037,7 +1024,7 @@ function unlockTestCompositionText(pool, length) {
 
 // Its own flat/sharp-cornered shape (NOT the shared .modal/.modal-backdrop
 // that the badge and lesson-preview modals use) -- this one is opened from
-// the launch screen's course cards, My Path's group cards, and the
+// Home's course menu, My Path's group cards, and the
 // dashboard's module cards, so it's styled to match those (hairline divider
 // border, 2px corners, no drop shadow, .ds-btn buttons) rather than the
 // rounder legacy modal shape.
@@ -1050,8 +1037,8 @@ function unlockPromptHtml(state) {
       ? 'It does not mark previous modules or lessons complete.'
       : `It does not mark any lessons complete, award badges, or unlock the matching advanced ${label.noun === 'path' ? 'courses' : 'path'}.`;
     return `
-    <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
-      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock ${escAttr(label.noun)}">
+    <div class="unlock-modal-backdrop" data-action="closeUnlockPrompt">
+      <div class="unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock ${escAttr(label.noun)}">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
         <h3 class="unlock-modal-title">Unlock ${esc(label.name)}?</h3>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
@@ -1066,8 +1053,8 @@ function unlockPromptHtml(state) {
   const composition = unlockTestCompositionText(label.pool, label.length);
   const canStart = label.pool.length > 0;
   return `
-    <div class="unlock-modal-backdrop" data-anim-key="unlockmodalbd" data-action="closeUnlockPrompt">
-      <div class="unlock-modal" data-anim-key="unlockmodal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock test">
+    <div class="unlock-modal-backdrop" data-action="closeUnlockPrompt">
+      <div class="unlock-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Unlock test">
         <span class="unlock-modal-icon">${icon('lock', 18, 1.8)}</span>
         <h3 class="unlock-modal-title">${esc(label.name)} is locked</h3>
         <p class="unlock-modal-sub">${esc(label.message || '')}</p>
@@ -1085,26 +1072,21 @@ function unlockPromptHtml(state) {
 // `order` lists the ORIGINAL option indices in the order they should appear.
 // data-option always carries the original index, so `selected` and `correct`
 // stay meaningful no matter how the options are arranged on screen.
-function renderMcqOptions({ options, correct, selected, submitted, actionName, extraData = '', animScope = '', order }) {
+function renderMcqOptions({ options, correct, selected, submitted, actionName, extraData = '', order }) {
   const seq = order && order.length === options.length ? order : options.map((_, i) => i);
   return `
   <div class="mcq-options">
     ${seq.map((orig, pos) => {
       let cls = 'mcq-option';
-      // Part of the anim key, so pass/fail feedback animates on the render
-      // it appears -- but merely selecting an option does not replay it.
-      let feedback = 'n';
       if (selected === orig) cls += ' selected';
       if (submitted) {
         if (orig === correct) {
           cls += ' correct';
-          feedback = 'c';
         } else if (orig === selected) {
           cls += ' incorrect';
-          feedback = 'x';
         }
       }
-      return `<button class="${cls}" data-anim-key="${escAttr(animScope)}o${orig}${feedback}" data-action="${actionName}" data-option="${orig}" ${extraData} ${submitted ? 'disabled' : ''}>
+      return `<button class="${cls}" data-action="${actionName}" data-option="${orig}" ${extraData} ${submitted ? 'disabled' : ''}>
         <span class="mcq-letter">${String.fromCharCode(65 + pos)}</span>
         <span class="mcq-text">${escBidi(options[orig])}</span>
       </button>`;
@@ -1121,28 +1103,23 @@ function checkButton(actionName, enabled, extraData = '') {
 // lesson quiz and Practice Mode MCQ, see the handoff's separate Quiz-screen
 // component) -- concept exercises render as small wrapping pill buttons,
 // matching the handoff's "Try It" exercise cards.
-function renderExerciseChoices({ options, correct, selected, submitted, actionName, extraData = '', animScope = '', order, prefix = '', revealedKeys = null }) {
+function renderExerciseChoices({ options, correct, selected, submitted, actionName, extraData = '', order, prefix = '', revealedKeys = null }) {
   const seq = order && order.length === options.length ? order : options.map((_, i) => i);
   const choicesKey = prefix ? `${prefix}_choices` : '';
   const containerCls = choicesKey ? revealCls(choicesKey, 'exercise-choices', revealedKeys) : 'exercise-choices';
-  const containerAttr = choicesKey ? ` data-reveal-key="${choicesKey}"` : '';
-
   return `
-  <div class="${containerCls}"${containerAttr}>
+  <div class="${containerCls}">
     ${seq.map((orig) => {
       let cls = 'exercise-choice';
-      let feedback = 'n';
       if (selected === orig) cls += ' selected';
       if (submitted) {
         if (orig === correct) {
           cls += ' correct';
-          feedback = 'c';
         } else if (orig === selected) {
           cls += ' incorrect';
-          feedback = 'x';
         }
       }
-      return `<button class="${cls}" data-anim-key="${escAttr(animScope)}o${orig}${feedback}" data-action="${actionName}" data-option="${orig}" ${extraData} ${submitted ? 'disabled' : ''}><span>${escBidi(options[orig])}</span></button>`;
+      return `<button class="${cls}" data-action="${actionName}" data-option="${orig}" ${extraData} ${submitted ? 'disabled' : ''}><span>${escBidi(options[orig])}</span></button>`;
     }).join('')}
   </div>`;
 }
@@ -1192,7 +1169,7 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
         openList = false;
       }
       const cls = itemKey ? revealCls(itemKey, 'concept-table-wrap', revealedKeys, forceReveal) : 'concept-table-wrap';
-      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      const attr = '';
       html += conceptTableHtml(line.table, cls, attr);
       return;
     }
@@ -1207,7 +1184,7 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
       const boxTypeSlug = boxTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
       const baseCls = boxTypeSlug ? `concept-source-box concept-source-box--${boxTypeSlug}` : 'concept-source-box';
       const cls = itemKey ? revealCls(itemKey, baseCls, revealedKeys, forceReveal) : baseCls;
-      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      const attr = '';
       const boxLabel = boxTitle && boxTitle.toLowerCase() !== 'box'
         ? `<div class="concept-source-box-label">${escBidi(boxTitle)}</div>`
         : '';
@@ -1228,14 +1205,14 @@ function conceptProseHtml(pseudoConcept, prefix = '', revealedKeys = null, force
         openList = false;
       }
       const cls = itemKey ? revealCls(itemKey, 'tarkeeb-diagram-wrap', revealedKeys, forceReveal) : 'tarkeeb-diagram-wrap';
-      const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+      const attr = '';
       html += `<div class="${cls}"${attr}>${tarkeebDiagramReadOnlyHtml(line.tarkeebDiagram, colorOn)}</div>`;
       return;
     }
 
     const lineHtml = isolateArabicHtml(line.html);
     const cls = itemKey ? revealCls(itemKey, 'concept-line', revealedKeys, forceReveal) : 'concept-line';
-    const attr = itemKey ? ` data-reveal-key="${itemKey}"` : '';
+    const attr = '';
 
     if (line.list) {
       if (!openList) {
@@ -1278,9 +1255,13 @@ function conceptTableHtml(table, wrapCls, wrapAttr) {
 // A supplementary note for the handful of concepts whose prose alone left a
 // gap -- added context under the concept, not a rewrite of the body above
 // it.
-function revealCls(key, baseCls, revealedKeys, forceReveal = false) {
-  const isRev = forceReveal || (revealedKeys && revealedKeys.has(key));
-  return `${baseCls} reveal-on-scroll${isRev ? ' is-revealed' : ''}`;
+// Historical shim: this used to emit the scroll-reveal classes
+// (reveal-on-scroll/is-revealed). Elements now render visible immediately
+// (entrance motion is applied post-render by js/motion.js instead), so it
+// passes the base class through untouched. Kept so its many call sites
+// didn't all need rewriting.
+function revealCls(key, baseCls) {
+  return baseCls;
 }
 
 // Sidebar "Lesson Summary" card -- only present for lessons that carry a
@@ -1323,7 +1304,7 @@ function lessonSummaryCardHtml(lesson, state, mod, sbSumKey) {
     </div>`).join('')}</div>`
     : `<p class="lesson-summary-empty">Clear the lesson's exercises to build this up.</p>`;
   return `
-    <div class="${revealCls(sbSumKey, 'card lesson-sidebar-card lesson-summary-card', null, true)}" data-reveal-key="${sbSumKey}">
+    <div class="${revealCls(sbSumKey, 'card lesson-sidebar-card lesson-summary-card', null, true)}">
       <div class="card-kicker">${esc(summary.title || 'Lesson Summary')}</div>
       ${body}
     </div>`;
@@ -1341,9 +1322,8 @@ function lessonSummaryCardHtml(lesson, state, mod, sbSumKey) {
 // after a brief pause regardless of whether the answer was right. Only ever
 // renders once concepts have nothing left to gate (content-fstu lessons
 // keep concepts exercise-free -- see the schema note in
-// content-fstu/module-01.js), so unlike conceptBlockHtml's per-concept
-// exercise this has no reveal-on-scroll treatment: it's always fully
-// visible and interactive as soon as the reading content above it is.
+// content-fstu/module-01.js). Always fully visible and interactive as soon
+// as the reading content above it is.
 function lessonExerciseCardHtml(state, mod, lesson) {
   const ex = lesson.exercise;
   if (!ex || !ex.items || !ex.items.length) return '';
@@ -1352,7 +1332,7 @@ function lessonExerciseCardHtml(state, mod, lesson) {
 
   if (idx >= items.length) {
     return `
-      <div class="card exercise-card lesson-exercise-card" data-anim-key="lessonex_done">
+      <div class="card exercise-card lesson-exercise-card">
         <div class="card-kicker">EXERCISE</div>
         <div class="exercise-feedback correct">${icon('check', 13, 2.4)} All ${items.length} question${items.length === 1 ? '' : 's'} cleared.</div>
         ${cornerBracketsHtml()}
@@ -1369,7 +1349,7 @@ function lessonExerciseCardHtml(state, mod, lesson) {
     : '';
 
   return `
-    <div class="card exercise-card lesson-exercise-card" data-anim-key="lessonex${idx}">
+    <div class="card exercise-card lesson-exercise-card">
       <div class="card-kicker">EXERCISE · ${idx + 1} OF ${items.length}</div>
       ${ex.instructions ? `<p class="lesson-exercise-instructions">${isolateArabicHtml(ex.instructions)}</p>` : ''}
       <p class="exercise-prompt">${escBidi(item.prompt)}</p>
@@ -1379,7 +1359,6 @@ function lessonExerciseCardHtml(state, mod, lesson) {
         selected: exState.selected,
         submitted,
         actionName: 'selectLessonExerciseOption',
-        animScope: `lessonex${idx}`,
         order: state.optionOrder[key],
       })}
       ${feedback}
@@ -1390,7 +1369,7 @@ function lessonExerciseCardHtml(state, mod, lesson) {
 function conceptClarificationHtml(text, key, revealedKeys, forceReveal = false) {
   if (!text) return '';
   return `
-    <div class="${revealCls(key, 'concept-clarification', revealedKeys, forceReveal)}" data-reveal-key="${key}">
+    <div class="${revealCls(key, 'concept-clarification', revealedKeys, forceReveal)}">
       <div class="concept-clarification-label">Clarification</div>
       ${conceptProseHtml({ body: text })}
     </div>`;
@@ -1413,7 +1392,7 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
   let tail = '';
   if (concept.exercise && stage < 1) {
     const btnKey = `ex_btn_${mod.id}_${lesson.id}_${i}`;
-    tail = `<button class="${revealCls(btnKey, 'btn btn-outline', revealedKeys)}" data-reveal-key="${btnKey}" data-action="revealExercise" data-index="${i}">Show exercise</button>`;
+    tail = `<button class="${revealCls(btnKey, 'btn btn-outline', revealedKeys)}" data-action="revealExercise" data-index="${i}">Show exercise</button>`;
   } else if (concept.exercise) {
     const ex = concept.exercise;
     const submitted = !!exState.submitted;
@@ -1423,16 +1402,16 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
       ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
       : '';
     tail = `
-    <div class="${revealCls(exCardKey, 'card exercise-card', revealedKeys)}" data-reveal-key="${exCardKey}">
+    <div class="${revealCls(exCardKey, 'card exercise-card', revealedKeys)}">
       <div class="card-kicker">EXERCISE</div>
       <div class="exercise-content">
         <div class="exercise-left">
-          <p class="${revealCls(`${exCardKey}_prompt`, 'exercise-prompt', revealedKeys)}" data-reveal-key="${exCardKey}_prompt">${escBidi(ex.prompt)}</p>
+          <p class="${revealCls(`${exCardKey}_prompt`, 'exercise-prompt', revealedKeys)}">${escBidi(ex.prompt)}</p>
           ${feedback}
           <div class="action-row">
             ${!submitted ? checkButton('checkConceptExercise', exState.selected !== undefined && exState.selected !== null, `data-index="${i}"`) : ''}
             ${passed
-              ? `<span class="tag tag-accent" data-anim-key="ex${i}ok">${icon('check', 11, 2.6)} Correct</span>`
+              ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Correct</span>`
               : submitted ? `<button class="btn btn-ghost" data-action="retryConceptExercise" data-index="${i}">Try again</button>` : ''}
           </div>
         </div>
@@ -1444,7 +1423,6 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
             submitted,
             actionName: 'selectConceptOption',
             extraData: `data-index="${i}"`,
-            animScope: `ex${i}`,
             order: state.optionOrder[key],
             prefix: exCardKey,
             revealedKeys,
@@ -1456,9 +1434,9 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
   }
 
   return `
-    <div class="concept-block" data-anim-key="c${i}" data-concept-index="${i}">
+    <div class="concept-block" data-concept-index="${i}">
       <div class="card-kicker">// CONCEPT ${i + 1}</div>
-      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}" data-reveal-key="${cbKey}_h3">${esc(concept.heading)}</h3>
+      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}">${esc(concept.heading)}</h3>
       <div class="concept-body">${lines}</div>
       ${conceptClarificationHtml(concept.clarification, clKey, revealedKeys, isFirstConcept)}
       ${tail}
@@ -1470,96 +1448,65 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
+  const total = lesson.concepts.length;
+  // How far the lesson has been unlocked: a concept's own exercise gates the
+  // one after it (see conceptsToRender). Paging never runs past that.
   const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
   const readyForQuiz = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
   const quizUnlocked = readyForQuiz || state.forceUnlockAll;
 
-  const dots = lesson.concepts
-    .map((_, i) => `<div class="concept-dot ${i < shown ? 'filled' : ''}"></div>`)
-    .join('');
+  // A null index means "wherever the reader had got to" -- the furthest
+  // concept unlocked. Once they page by hand, the actions set a real number.
+  const index = state.conceptIndex == null
+    ? shown - 1
+    : Math.max(0, Math.min(state.conceptIndex, shown - 1));
+  const isLast = index === total - 1;
 
-  const blocks = lesson.concepts
-    .slice(0, shown)
-    .map((_, i) => conceptBlockHtml(state, mod, lesson, i, revealedKeys))
-    .join('');
-
-  const exerciseCardHtml = lessonExerciseCardHtml(state, mod, lesson);
-
-  const qpKey = `qp_${mod.id}_${lesson.id}`;
-  const quizPromptBody = readyForQuiz
-    ? `You've finished every concept and exercise in ${esc(lesson.title)}. Answer the quiz to complete this lesson.`
-    : 'Course locks are off, so you can take the quiz now. Passing it will still complete this lesson normally.';
-  const quizPrompt = quizUnlocked ? `
-    <div class="${revealCls(qpKey, 'quiz-prompt', revealedKeys)}" data-reveal-key="${qpKey}">
-      <div class="kicker">${readyForQuiz ? 'LESSON COMPLETE' : 'QUIZ UNLOCKED'}</div>
-      <h3>Move onto the quiz?</h3>
-      <p>${quizPromptBody}</p>
-      <button class="ds-btn ds-btn-primary" data-action="gotoQuiz">Continue to quiz →</button>
-    </div>` : '';
-
-  const objectives = lesson.concepts.map((c, i) => {
-    const reached = i < shown;
-    const done = reached && isConceptExercisePassed(lesson, i, state.exStates, mod.id, lesson.id);
-    const objKey = `sb_obj_item_${mod.id}_${lesson.id}_${i}`;
-    const cls = revealCls(objKey, 'lesson-objective' + (done ? ' done' : '') + (reached ? ' clickable' : ''), revealedKeys);
-    // Only concepts already reached actually exist in the page below to
-    // scroll to -- anything further along in the lesson than the reader
-    // has gotten isn't rendered yet, so it stays a plain (unclickable)
-    // label of what's coming.
-    const action = reached ? ` data-action="scrollToConcept" data-index="${i}"` : '';
-    return `
-      <div class="${cls}" data-reveal-key="${objKey}"${action}>
-        <div class="lesson-objective-dot"></div>
-        ${esc(c.heading)}
-      </div>`;
+  // Reachable concepts are clickable; the rest are dim markers of what is
+  // still ahead.
+  const dots = lesson.concepts.map((_, i) => {
+    const cls = ['concept-dot', i < shown ? 'reached' : '', i === index ? 'current' : ''].filter(Boolean).join(' ');
+    return i < shown
+      ? `<button class="${cls}" data-action="goToConcept" data-index="${i}" aria-label="Concept ${i + 1}"></button>`
+      : `<span class="${cls}" aria-hidden="true"></span>`;
   }).join('');
 
-  const sbObjKey = `sb_obj_${mod.id}_${lesson.id}`;
-  const sbSumKey = `sb_sum_${mod.id}_${lesson.id}`;
-  const sbProgKey = `sb_prog_${mod.id}_${lesson.id}`;
-  const summaryCardHtml = lessonSummaryCardHtml(lesson, state, mod, sbSumKey);
+  const block = conceptBlockHtml(state, mod, lesson, index, revealedKeys);
 
-  const prog = lessonProgress(lesson, state.exStates, mod.id, lesson.id);
+  // The lesson's own trailing exercise and its summary table belong to the
+  // end of the lesson, so they ride along on the last concept's page.
+  const tail = isLast
+    ? `${lessonExerciseCardHtml(state, mod, lesson)}${lessonSummaryCardHtml(lesson, state, mod, `sb_sum_${mod.id}_${lesson.id}`)}`
+    : '';
+
   const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
+  const moduleIdx = MODULES.indexOf(mod) + 1;
 
-  const hero = heroPanelHtml({
-    watermark: lesson.title,
-    badge: mod.heading || mod.title,
-    title: `<bdi lang="ar">${esc(lesson.title)}</bdi>`,
-    sourceRef: lesson.sourceRef,
-    body: escBidi(lesson.subtitle || ''),
-    ledger: heroLedgerHtml([
-      ['Lesson', `${lessonIdx + 1} / ${mod.lessons.length}`],
-      ['Concepts cleared', `${prog.done} / ${prog.total}`],
-    ]),
-  });
+  // Next only opens once this concept's exercise has been cleared -- that is
+  // the same gate conceptsToRender applies, read back as "is there a further
+  // concept unlocked than the one on screen".
+  const canAdvance = index < shown - 1;
+  const forward = isLast
+    ? `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
+    : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next</button>`;
 
   return `
-    <div class="hero-page">
-      ${hero}
-      ${separatorHtml()}
-      <div class="col col-wide">
-        <div class="concept-dots" style="justify-content:center;">${dots}</div>
-
-        <div class="lesson-layout" style="margin-top:28px;">
-          <div class="lesson-main">
-            ${blocks}
-            ${exerciseCardHtml}
-            ${quizPrompt}
-          </div>
-          <div class="lesson-sidebar">
-            <div class="${revealCls(sbObjKey, 'card lesson-sidebar-card', revealedKeys, true)}" data-reveal-key="${sbObjKey}">
-              <div class="card-kicker">In This Lesson</div>
-              <div class="lesson-objectives">${objectives}</div>
-            </div>
-            ${summaryCardHtml}
-            <div class="${revealCls(sbProgKey, 'card lesson-sidebar-card lesson-progress-card', revealedKeys)}" data-reveal-key="${sbProgKey}">
-              <div class="card-kicker" style="text-align:center;">Your Progress</div>
-              <div class="lesson-progress-value">${prog.done}/${prog.total}</div>
-              <div class="lesson-progress-label">concepts cleared</div>
-            </div>
-          </div>
+    <div class="lesson-page">
+      <div class="lesson-head">
+        <button class="back-chevron" data-action="${state.pathActive ? 'backToPath' : 'openModule'}" ${state.pathActive ? '' : `data-module-id="${escAttr(mod.id)}"`} aria-label="Back">${icon('arrowLeft', 20, 2)}</button>
+        <div class="lesson-head-body">
+          <div class="lesson-head-crumb">Module ${moduleIdx} · <bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} of ${mod.lessons.length}</div>
+          <h1 class="lesson-head-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
         </div>
+        <div class="concept-dots">${dots}</div>
+      </div>
+      <div class="lesson-body">
+        ${block}
+        ${tail}
+      </div>
+      <div class="lesson-foot">
+        <button class="btn btn-secondary" data-action="prevConcept" ${index === 0 ? 'disabled' : ''}>Back</button>
+        ${forward}
       </div>
     </div>`;
 }
@@ -1589,57 +1536,56 @@ function quizResultHtml(state, mod, lesson) {
       ? 'A solid grasp — review what you missed.'
       : `Revisit the lesson before moving on — you need ${passPct}% to complete it.`;
 
-  const confetti = frac === 1
-    ? Array.from({ length: 10 }, (_, i) => `<span class="confetti-piece" style="left:${i * 9 + 5}%;animation-delay:${(i * 0.08).toFixed(2)}s;"></span>`).join('')
-    : '';
-
-  // Missed-question review -- without this, "review what you missed" was a
-  // dead end: nothing on this screen said which questions were wrong, and
-  // Practice Mode's own practiceReviewHtml already solves the same problem
-  // for itself a few hundred lines down. Reuses that screen's .review-row
-  // shape, stacked instead of single-line since a quiz question also needs
-  // its correct answer + explanation shown, not just a pass/fail tag.
-  const missedHtml = frac < 1 ? `
-    <div class="review-list quiz-missed-list">
-      ${lesson.quiz.map((q, qi) => {
-        if (state.quizAnswers[qi] === q.correct) return '';
-        return `
-          <div class="review-row quiz-missed-row incorrect">
-            <div class="quiz-missed-row-head">
-              <span class="review-row-num">${qi + 1}</span>
-              <span class="review-row-title">${escBidi(q.q)}</span>
-              <span class="tag tag-outline">✗</span>
-            </div>
-            <div class="quiz-missed-answer">Correct answer: ${escBidi(q.options[q.correct])}</div>
-            ${q.explanation ? `<div class="quiz-feedback-explanation" style="margin:2px 0 0;">${escBidi(q.explanation)}</div>` : ''}
-          </div>`;
-      }).join('')}
-    </div>` : '';
-
-  const footer = passed ? `
-      <div class="action-row" style="justify-content:center;">
-        <button class="btn btn-secondary" data-action="retakeQuiz">Retake Quiz</button>
-        <button class="btn btn-primary" data-action="finishLesson">Finish Lesson →</button>
-      </div>` : `
-      <div class="action-row" style="justify-content:center;">
-        <button class="btn btn-secondary" data-action="backToLesson">Back to Lesson</button>
-        <button class="btn btn-primary" data-action="retakeQuiz">Retake Quiz</button>
+  // Corrections first: "review what you missed" is a dead end unless the
+  // screen actually says which questions were wrong and why.
+  const missed = lesson.quiz.map((q, qi) => {
+    if (state.quizAnswers[qi] === q.correct) return '';
+    return `
+      <div class="review-row review-row-stacked incorrect">
+        <div class="review-row-head">
+          <span class="review-row-num">${qi + 1}</span>
+          <span class="review-row-title">${escBidi(q.q)}</span>
+          <span class="review-row-mark">✗</span>
+        </div>
+        <div class="review-answer">Correct answer: ${escBidi(q.options[q.correct])}</div>
+        ${q.explanation ? `<p class="quiz-feedback-explanation">${escBidi(q.explanation)}</p>` : ''}
       </div>`;
+  }).join('');
+
+  const actions = passed
+    ? `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
+       <button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>`
+    : `<button class="btn btn-secondary" data-action="backToLesson">Back to lesson</button>
+       <button class="btn btn-primary" data-action="retakeQuiz">Retake quiz</button>`;
 
   return `
-    <div class="quiz-result" data-anim-key="quizresult${state.quizAttempt || 0}">
-      ${confetti}
-      <div class="card-kicker" style="text-align:center;">Quiz Complete</div>
-      <div class="quiz-result-score">${correct} / ${total}</div>
-      <div class="page-header-hr"></div>
-      <p class="quiz-result-message">${esc(message)}</p>
-      <div class="quiz-result-tags">
-        ${tier ? `<span class="tag tag-outline">${icon('award', 13, 2)} ${tier}</span>` : ''}
-        ${best > 1 ? `<span class="tag tag-neutral">Best streak ${best}</span>` : ''}
+    <div class="complete-page">
+      <div class="complete-plate">
+        <span class="complete-plate-ghost" aria-hidden="true">${passed ? 'أحسنت' : 'أعد'}</span>
+        <div class="complete-plate-inner">
+          <span class="complete-tag">${icon('check', 11, 2.6)} Quiz complete</span>
+          <div class="complete-score">${correct} / ${total}</div>
+          <p class="complete-message">${esc(message)}</p>
+          <div class="complete-ledger">
+            <div>
+              <div class="complete-ledger-value">${Math.round(frac * 100)}%</div>
+              <div class="complete-ledger-label">Accuracy</div>
+            </div>
+            ${tier ? `<div>
+              <div class="complete-ledger-value complete-ledger-value-accent">${esc(tier)}</div>
+              <div class="complete-ledger-label">Tier</div>
+            </div>` : ''}
+            <div>
+              <div class="complete-ledger-value">${best}</div>
+              <div class="complete-ledger-label">Best streak</div>
+            </div>
+          </div>
+        </div>
       </div>
-      ${missedHtml}
-      ${footer}
-      ${cornerBracketsHtml()}
+      <div class="complete-body">
+        ${missed ? `<div class="kicker">Worth another look</div><div class="review-list">${missed}</div>` : ''}
+        <div class="complete-actions">${actions}</div>
+      </div>
     </div>`;
 }
 
@@ -1648,17 +1594,17 @@ function quizHtml(state, MODULES) {
   const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
-  if (state.quizShowResult) {
-    return `<div class="col">${quizResultHtml(state, mod, lesson)}</div>`;
-  }
+  if (state.quizShowResult) return quizResultHtml(state, mod, lesson);
 
   const qi = state.quizIndex;
   const q = lesson.quiz[qi];
   const revealed = state.quizRevealed;
   const wasCorrect = state.quizSelected === q.correct;
+  const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
 
   // Live, session-only streak/XP -- every already-committed answer plus the
-  // current one once revealed.
+  // current one once revealed. Cosmetic: the XP actually credited still
+  // comes from xpForQuiz through the existing finishLesson flow.
   const settled = state.quizAnswers.map((a, i) => a === lesson.quiz[i].correct);
   if (revealed) settled.push(wasCorrect);
   const liveStreak = (() => {
@@ -1668,25 +1614,34 @@ function quizHtml(state, MODULES) {
   })();
   const liveXp = settled.reduce((sum, ok) => sum + quizCosmeticXp(ok), 0);
 
-  const scope = `q${state.quizAttempt || 0}i${qi}`;
-  const feedback = revealed
-    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])} — +${quizCosmeticXp(false)} XP`}</div>
-       ${q.explanation ? `<div class="quiz-feedback-explanation">${escBidi(q.explanation)}</div>` : ''}`
-    : '';
+  const ticks = lesson.quiz.map((_, i) => {
+    const cls = i < qi ? 'quiz-tick quiz-tick-done' : i === qi ? 'quiz-tick quiz-tick-current' : 'quiz-tick';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+  const feedback = revealed ? `
+    <div class="quiz-feedback${wasCorrect ? '' : ' quiz-feedback-incorrect'}">
+      <div class="quiz-feedback-line">${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])}`}</div>
+      ${q.explanation ? `<p class="quiz-feedback-explanation">${escBidi(q.explanation)}</p>` : ''}
+    </div>` : '';
 
   return `
-    <div class="col question-col quiz-question-col">
-      <div class="quiz-question-single" data-anim-key="${scope}">
-        <div class="quiz-gamify-strip">
-          <span class="quiz-gamify-stat">${icon('flame', 15, 1.7)} ${liveStreak} streak</span>
-          <span class="quiz-gamify-stat">${icon('star', 14, 1.8)} ${liveXp} XP</span>
+    <div class="quiz-page">
+      <div class="quiz-head">
+        <button class="back-chevron" data-action="backToLesson" aria-label="Back to the lesson" title="Back to the lesson">${icon('cross', 18, 2)}</button>
+        <div class="quiz-crumb"><bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} · Question ${qi + 1} of ${lesson.quiz.length}</div>
+        <div class="quiz-combo">
+          <span title="Answer streak">${icon('flame', 13, 2)}${liveStreak}</span>
+          <span title="Session XP">${icon('star', 13, 2)}${liveXp}</span>
         </div>
-        <div class="card-kicker" style="text-align:center;">Question ${qi + 1} of ${lesson.quiz.length}</div>
-        <h2>${escBidi(q.q)}</h2>
-        ${renderMcqOptions({ options: q.options, correct: q.correct, selected: state.quizSelected, submitted: revealed, actionName: 'selectQuizOption', animScope: scope, order: state.quizOptionOrder[qi] })}
+      </div>
+      <div class="quiz-ticks">${ticks}</div>
+      <div class="quiz-body">
+        <h2 class="quiz-question">${escBidi(q.q)}</h2>
+        ${renderMcqOptions({ options: q.options, correct: q.correct, selected: state.quizSelected, submitted: revealed, actionName: 'selectQuizOption', order: state.quizOptionOrder[qi] })}
         ${feedback}
-        <button class="btn btn-primary btn-block" data-action="nextQuizQuestion" style="margin-top:16px;" ${revealed ? '' : 'disabled'}>${qi + 1 < lesson.quiz.length ? 'Next Question' : 'See Results'}</button>
-        ${cornerBracketsHtml()}
+      </div>
+      <div class="quiz-foot">
+        <button class="btn btn-primary btn-block" data-action="nextQuizQuestion" ${revealed ? '' : 'disabled'}>${qi + 1 < lesson.quiz.length ? 'Next question' : 'See results'}</button>
       </div>
     </div>`;
 }
@@ -1699,40 +1654,74 @@ function lessonCompleteHtml(state, MODULES) {
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
   const score = (state.quizScores[mod.id] || {})[lesson.id];
-  const xpTag = score
-    ? `<div class="tag tag-accent" style="margin:12px auto 0;font-size:13px;">+${xpForQuiz(score.correct, score.total)} XP</div>`
-    : '';
+  const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
+  const moduleIdx = MODULES.indexOf(mod) + 1;
+  const done = completedCount(mod.id, state.completed);
+  const total = mod.lessons.length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const streak = state.streak || 1;
+  const nextLesson = mod.lessons[lessonIdx + 1];
 
-  // A lesson reached via My Path (see enterPathLesson in js/main.js) routes
-  // back to the path map instead of the module page it technically belongs
-  // to -- the whole point of the path is not needing to think in terms of
-  // "which module am I in".
-  // Off My Path, working through a course top-to-bottom is the whole point
-  // of a sequential grammar course -- so when there's a next lesson in this
-  // module, it's the primary CTA (startLesson already knows how to jump
-  // straight into a lesson given its id, no preview modal needed since the
-  // intent here is as explicit as My Path's own "Continue" button). Only
-  // the module's last lesson keeps the old "Practice this chapter" primary,
-  // since there's no cross-module "next" to route into automatically.
-  const nextLesson = mod.lessons[mod.lessons.findIndex((l) => l.id === lesson.id) + 1];
-  const buttons = state.pathActive
-    ? `<button class="btn btn-primary" data-action="backToPath">Continue on My Path →</button>`
-    : nextLesson ? `
-      <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
-      <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(nextLesson.id)}">Next lesson →</button>`
+  // A lesson reached via My Path routes back to the path map rather than to
+  // the module page it technically belongs to -- not having to think in
+  // terms of "which module am I in" is the whole point of the path.
+  const follow = state.pathActive
+    ? `<button class="btn btn-primary btn-block" data-action="backToPath">Continue on My Path</button>`
+    : nextLesson
+      ? `
+        <div class="up-next">
+          <div class="kicker">Up next</div>
+          <span class="up-next-title" lang="ar" dir="rtl">${esc(nextLesson.title)}</span>
+          ${nextLesson.subtitle ? `<p class="up-next-body">${escBidi(nextLesson.subtitle)}</p>` : ''}
+          <button class="btn btn-primary btn-block" data-action="startLesson" data-lesson-id="${escAttr(nextLesson.id)}">Start next lesson</button>
+        </div>`
       : `
-      <button class="btn btn-ghost" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to chapters</button>
-      <button class="btn btn-primary" data-action="openPractice">Practice this chapter →</button>`;
+        <div class="up-next">
+          <div class="kicker">Module finished</div>
+          <span class="up-next-title" lang="ar" dir="rtl">${esc(mod.title)}</span>
+          <p class="up-next-body">Every lesson in this module is done — drill it to keep it sharp.</p>
+          <button class="btn btn-primary btn-block" data-action="openPractice">Practice this module</button>
+        </div>`;
 
   return `
-    <div class="col complete-col">
-      <div class="lesson-complete-card">
-        <div class="kicker" style="justify-content:center;display:flex;">LESSON CLEARED</div>
-        <h1 style="text-align:center;">أحسنت! — Well done</h1>
-        <p class="lede" style="text-align:center;margin:0 auto;">You've completed <strong>${esc(lesson.title)}</strong>. Progress saved to disk.</p>
-        <div style="text-align:center;">${xpTag}</div>
-        <div class="complete-buttons">${buttons}</div>
-        ${cornerBracketsHtml()}
+    <div class="complete-page">
+      <div class="complete-plate">
+        <span class="complete-plate-ghost" aria-hidden="true">أحسنت</span>
+        <div class="complete-plate-inner">
+          <span class="complete-tag">${icon('check', 11, 2.6)} Lesson cleared</span>
+          <h1 class="complete-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
+          <div class="complete-meta">Module ${moduleIdx} · <bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} of ${total}</div>
+          <div class="complete-ledger">
+            ${score ? `<div>
+              <div class="complete-ledger-value">${score.correct} / ${score.total}</div>
+              <div class="complete-ledger-label">Quiz</div>
+            </div>` : ''}
+            ${score ? `<div>
+              <div class="complete-ledger-value complete-ledger-value-accent">+${xpForQuiz(score.correct, score.total)}</div>
+              <div class="complete-ledger-label">XP earned</div>
+            </div>` : ''}
+            <div>
+              <div class="complete-ledger-value">${streak} d</div>
+              <div class="complete-ledger-label">Streak</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="complete-body">
+        <div class="complete-progress">
+          <span class="complete-progress-track" aria-hidden="true"><span class="complete-progress-fill" style="width:${pct}%"></span></span>
+          <span class="complete-progress-label">${done} / ${total} in this module</span>
+        </div>
+        ${follow}
+        <button class="entry-row" data-action="openPractice">
+          ${icon('pencil', 17, 1.8)}
+          <span class="entry-row-body">
+            <span class="entry-row-title">Practice what you just learned</span>
+            <span class="entry-row-meta">This lesson's cards are now in the pool</span>
+          </span>
+          <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+        </button>
+        <button class="btn btn-ghost btn-block" style="margin-top:14px;" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to lessons</button>
       </div>
     </div>`;
 }
@@ -1900,7 +1889,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     const rowLabel = rowLabels.find((rl) => rl.gridRow === slot.gridRow);
     const ariaLabel = `Slot for ${cellText}${rowLabel ? `, ${rowLabel.label}` : ''} — ${stateText}`;
     const interactive = !submitted;
-    return `<div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${content}</div>`;
+    return `<div class="${slotCls}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${content}</div>`;
   }, { fillBlanks });
 
   const tray = tarkeebTrayHtml(ts, key, { colorOn });
@@ -1920,7 +1909,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
     <div class="action-row">
       ${!submitted ? checkButton('checkTarkeeb', allPlaced, `data-key="${escAttr(key)}"`) : ''}
       ${!submitted ? `<button class="btn btn-ghost" data-action="resetTarkeeb" data-key="${escAttr(key)}">Reset</button>` : ''}
-      ${submitted ? `<span class="tag ${passed ? 'tag-accent' : 'tag-outline'}" data-anim-key="tk:${escAttr(key)}:${passed ? 'ok' : 'no'}">${passed ? '✓ Correct' : '✗ Not quite'}</span>` : ''}
+      ${submitted ? `<span class="tag ${passed ? 'tag-accent' : 'tag-outline'}">${passed ? '✓ Correct' : '✗ Not quite'}</span>` : ''}
     </div>
   </div>`;
 }
@@ -1954,9 +1943,9 @@ function renderTarkeeb(state, item, key, moduleId) {
     const ariaLabel = `Label slot for ${word} — ${stateText}`;
     const interactive = !submitted;
     return `
-    <div class="tarkeeb-col" data-anim-key="tc:${escAttr(key)}:${i}">
+    <div class="tarkeeb-col">
       <div class="tarkeeb-word">${esc(word)}</div>
-      <div class="${slotCls}" data-anim-key="ts:${escAttr(key)}:${i}:${slotState}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : ''}</div>
+      <div class="${slotCls}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : ''}</div>
     </div>`;
   }).join('');
 
@@ -1975,7 +1964,7 @@ function renderTarkeeb(state, item, key, moduleId) {
     <div class="action-row">
       ${!submitted ? checkButton('checkTarkeeb', allPlaced, `data-key="${escAttr(key)}"`) : ''}
       ${!submitted ? `<button class="btn btn-ghost" data-action="resetTarkeeb" data-key="${escAttr(key)}">Reset</button>` : ''}
-      ${submitted ? `<span class="tag ${passed ? 'tag-accent' : 'tag-outline'}" data-anim-key="tk:${escAttr(key)}:${passed ? 'ok' : 'no'}">${passed ? '✓ Correct' : '✗ Not quite'}</span>` : ''}
+      ${submitted ? `<span class="tag ${passed ? 'tag-accent' : 'tag-outline'}">${passed ? '✓ Correct' : '✗ Not quite'}</span>` : ''}
     </div>
   </div>`;
 }
@@ -2022,43 +2011,75 @@ function practiceSetupPanelHtml(state, mod) {
   const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed, state.forceUnlockAll) : [];
   const vocabPool = getVocabPool(mod.id, state.completed, vocabType, state.forceUnlockAll);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
+
+  // One card per kind of drill this module can offer: the radio carries the
+  // choice, the count says how much there is to draw on, and the line under
+  // it says what that kind actually asks you to do.
+  const kinds = [
+    { id: 'mcq', name: 'MCQ', count: mcqPool.length, desc: 'Multiple choice, drawn from the lesson quizzes and book exercises you have cleared.' },
+    ...(hasTarkeeb ? [{ id: 'tarkeeb', name: 'تركيب', ar: true, count: tarkeebPool.length, desc: 'Label each word in a sentence with its grammatical role.' }] : []),
+    { id: 'vocab', name: 'Vocab', count: vocabPool.length, desc: 'Word meanings in both directions, plus plural and مصدر forms.' },
+  ];
+
+  const kindCards = kinds.map((k) => `
+    <button class="kind-card${kind === k.id ? ' is-selected' : ''}" data-action="setPracticeTab" data-kind="${k.id}">
+      <span class="kind-radio" aria-hidden="true"><span class="kind-radio-dot"></span></span>
+      <span class="kind-card-body">
+        <span class="kind-card-head">
+          <span class="kind-card-name"${k.ar ? ' lang="ar" dir="rtl"' : ''}>${esc(k.name)}</span>
+          <span class="kind-card-count">${k.count} card${k.count === 1 ? '' : 's'}</span>
+        </span>
+        <span class="kind-card-desc">${escBidi(k.desc)}</span>
+      </span>
+    </button>`).join('');
+
   const tarkeebTranslationsOn = state.practiceTarkeebTranslations == null
     ? state.tarkeebTranslations !== false
     : state.practiceTarkeebTranslations !== false;
-  const tarkeebTranslationControl = kind === 'tarkeeb' ? `
-    <div class="practice-translation-setting">
-      <span>Translation</span>
+
+  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
+  const emptyText = state.forceUnlockAll
+    ? `No ${kindLabel} practice questions exist in this module.`
+    : `Complete a lesson to unlock ${kindLabel} practice questions.`;
+
+  // Session length is the last choice and the one that starts the session --
+  // picking a count IS the start, so there is no separate confirm step.
+  const lengthControl = pool.length === 0
+    ? emptyStateHtml({ icon: 'target', title: `No ${kindLabel} cards yet`, note: escBidi(emptyText) })
+    : `
+      <div class="setup-group">
+        <div class="kicker">Session length</div>
+        <div class="practice-tabs practice-tabs-sub">
+          ${practiceCountOptions(pool.length).map((o) => `<button class="practice-tab" data-action="startPractice" data-kind="${kind}" data-count="${o.count}">${o.label}</button>`).join('')}
+        </div>
+      </div>`;
+
+  const vocabControl = kind === 'vocab' && pool.length ? `
+    <div class="setup-group">
+      <div class="kicker">Question direction</div>
+      ${vocabTypeTabsHtml(vocabType, 'setPracticeVocabType')}
+    </div>` : '';
+
+  const tarkeebControl = kind === 'tarkeeb' && pool.length ? `
+    <div class="setup-group">
+      <div class="kicker">Translation</div>
       <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Tarkeeb translation visibility">
         <button class="practice-tab ${tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="1">Show</button>
         <button class="practice-tab ${!tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="0">Hide</button>
       </div>
     </div>` : '';
-  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
-
-  const emptyText = state.forceUnlockAll
-    ? `No ${kindLabel} practice questions exist in this module.`
-    : `Complete a lesson to unlock ${kindLabel} practice questions.`;
-  const body = pool.length === 0
-    ? `<p class="empty-state">${esc(emptyText)}</p>`
-    : `
-      <p class="lede">Choose how many to practice.</p>
-      ${tarkeebTranslationControl}
-      <div class="practice-count-grid">
-        ${practiceCountOptions(pool.length).map((o) => `<button class="btn btn-outline practice-count-btn" data-action="startPractice" data-kind="${kind}" data-count="${o.count}">${o.label}</button>`).join('')}
-      </div>`;
 
   return `
-    <div class="card practice-popout" data-anim-key="practicepopout">
+    <div class="practice-popout">
       <div class="practice-popout-head">
-        <div class="practice-tabs">
-          <button class="practice-tab ${kind === 'mcq' ? 'active' : ''}" data-action="setPracticeTab" data-kind="mcq">MCQ</button>
-          ${hasTarkeeb ? `<button class="practice-tab ${kind === 'tarkeeb' ? 'active' : ''}" data-action="setPracticeTab" data-kind="tarkeeb">تركيب</button>` : ''}
-          <button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setPracticeTab" data-kind="vocab">Vocab</button>
-        </div>
+        <span class="practice-popout-title">Practice Mode</span>
         <button class="practice-popout-close" data-action="closePracticeSetup" aria-label="Close">✕</button>
       </div>
-      ${kind === 'vocab' ? vocabTypeTabsHtml(vocabType, 'setPracticeVocabType') : ''}
-      ${body}
+      <p class="lede practice-popout-lede">Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.</p>
+      <div class="kind-cards">${kindCards}</div>
+      ${vocabControl}
+      ${tarkeebControl}
+      ${lengthControl}
     </div>`;
 }
 
@@ -2072,7 +2093,7 @@ function nextPracticeButton(isLast) {
 // always bails to the path map; 'masteryV2' bails to wherever it was
 // launched from (the path map if pathActive, else the module page);
 // 'unlockTest' bails to the dashboard (a course/track test's own exit view
-// is the launch screen instead, but that's not a `body` this dispatcher
+// is Home instead, but that's not a `body` this dispatcher
 // renders -- see exitPracticeSession in js/main.js).
 function sessionFallback(state, MODULES) {
   const src = state.practice && state.practice.source;
@@ -2171,6 +2192,18 @@ function practiceHtml(state, MODULES) {
   const isLast = p.index + 1 >= p.queue.length || doomed;
   const progressPct = Math.round((p.index / p.queue.length) * 100);
 
+  // One tick per queued question -- the same progress idiom the quiz uses,
+  // so a drill and a quiz question read as the same kind of screen.
+  const ticks = p.queue.map((_, i) => {
+    const cls = i < p.index ? 'quiz-tick quiz-tick-done' : i === p.index ? 'quiz-tick quiz-tick-current' : 'quiz-tick';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+  const comboHtml = `
+        <div class="quiz-combo">
+          <span title="Combo">${icon('flame', 13, 2)}${p.combo || 0}</span>
+          <span title="Session XP">${icon('star', 13, 2)}${p.xpGained || 0}</span>
+        </div>`;
+
   // Which widget to render is decided per-QUESTION (entry.item.kind), not
   // per-session (p.kind) -- a My Path revision node mixes mcq/vocab items
   // with تركيب ones in the same queue, so p.kind (e.g. 'revision') doesn't
@@ -2184,14 +2217,17 @@ function practiceHtml(state, MODULES) {
       body += `<div class="action-row">${nextPracticeButton(isLast)}</div>`;
     }
     return `
-      <div class="col question-col practice-question-col tarkeeb-question-col">
-        ${backLink('End session', 'endPracticeSession')}
-        <div class="kicker">${sessionKicker(p, mod)}</div>
-        <p class="lede">Question ${p.index + 1} of ${p.queue.length} ${p.combo > 1 ? `<span class="tag tag-accent">Combo ×${p.combo}</span>` : ''}</p>
-        ${progressBar(progressPct)}
-        <div class="card exercise-card" data-anim-key="practice:${p.startedAt}:${p.index}">
+      <div class="quiz-page practice-page">
+        <div class="quiz-head">
+          <div class="quiz-crumb">${sessionKicker(p, mod)} · Question ${p.index + 1} of ${p.queue.length}</div>
+          ${comboHtml}
+        </div>
+        <div class="quiz-ticks">${ticks}</div>
+        <div class="quiz-body practice-body">
           ${body}
-          ${cornerBracketsHtml()}
+        </div>
+        <div class="quiz-foot">
+          <button class="btn btn-ghost btn-block" data-action="endPracticeSession">End session</button>
         </div>
       </div>`;
   }
@@ -2204,27 +2240,27 @@ function practiceHtml(state, MODULES) {
   // place of the quiz's own live streak/XP. Reveal-on-click, same as the
   // quiz: picking an option grades and shows it immediately (see
   // selectPracticeOption in main.js).
-  const scope = `prac${p.startedAt}i${p.index}`;
-  const feedback = p.submitted
-    ? `<div class="quiz-feedback-line ${p.correct ? 'correct' : 'incorrect'}">${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</div>
-       ${entry.item.explanation ? `<div class="quiz-feedback-explanation">${escBidi(entry.item.explanation)}</div>` : ''}`
-    : '';
+  const feedback = p.submitted ? `
+    <div class="quiz-feedback${p.correct ? '' : ' quiz-feedback-incorrect'}">
+      <div class="quiz-feedback-line">${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</div>
+      ${entry.item.explanation ? `<p class="quiz-feedback-explanation">${escBidi(entry.item.explanation)}</p>` : ''}
+    </div>` : '';
 
   return `
-    <div class="col question-col practice-question-col ${entry.item.kind === 'vocab' ? 'vocab-question-col' : 'mcq-question-col'}">
-      ${backLink('End session', 'endPracticeSession')}
-      <div class="kicker" style="justify-content:center;display:flex;">${sessionKicker(p, mod)}</div>
-      <div class="quiz-question-single" data-anim-key="${scope}">
-        <div class="quiz-gamify-strip">
-          <span class="quiz-gamify-stat">${icon('flame', 15, 1.7)} ${p.combo || 0} streak</span>
-          <span class="quiz-gamify-stat">${icon('star', 14, 1.8)} ${p.xpGained || 0} XP</span>
-        </div>
-        <div class="card-kicker" style="text-align:center;">Question ${p.index + 1} of ${p.queue.length}</div>
-        <h2>${escBidi(entry.item.prompt)}</h2>
-        ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', animScope: scope, order: state.optionOrder[key] })}
+    <div class="quiz-page practice-page">
+      <div class="quiz-head">
+        <div class="quiz-crumb">${sessionKicker(p, mod)} · Question ${p.index + 1} of ${p.queue.length}</div>
+        ${comboHtml}
+      </div>
+      <div class="quiz-ticks">${ticks}</div>
+      <div class="quiz-body practice-body">
+        <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
+        ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', order: state.optionOrder[key] })}
         ${feedback}
-        <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" style="margin-top:16px;" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See Results' : 'Next Question'}</button>
-        ${cornerBracketsHtml()}
+      </div>
+      <div class="quiz-foot">
+        <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See results' : 'Next question'}</button>
+        <button class="btn btn-ghost btn-block" style="margin-top:8px;" data-action="endPracticeSession">End session</button>
       </div>
     </div>`;
 }
@@ -2232,91 +2268,117 @@ function practiceHtml(state, MODULES) {
 function practiceReviewHtml(state, MODULES) {
   const p = state.practice;
   if (!p) return modulePageHtml(state, MODULES);
+  const mod = MODULES.find((m) => m.id === p.moduleId);
   const total = p.log.length;
   const correctCount = p.log.filter((l) => l.correct).length;
   const pct = total ? Math.round((correctCount / total) * 100) : 0;
   const missedCount = total - correctCount;
 
-  const rows = p.log.map((l, i) => `
-    <div class="review-row ${l.correct ? 'correct' : 'incorrect'}">
-      <span class="review-row-num">${i + 1}</span>
-      <span class="review-row-title">${escBidi(l.title)}</span>
-      <span class="tag ${l.correct ? 'tag-accent' : 'tag-outline'}">${l.correct ? '✓' : '✗'}</span>
-    </div>`).join('');
-
   // The real total, not recomputed -- xpForPracticeCorrect scales with the
   // combo at the moment each answer landed, so a flat correctCount*rate
   // formula would only be right if the combo never varied.
   const xpGained = p.xpGained || 0;
+  const bestCombo = p.bestCombo || p.combo || 0;
 
-  // EVERY My Path checkpoint (not just the section test) is now a real
-  // pass/fail gate -- 70% for a normal attempt, 80% for the section test,
-  // 100% for any node's own Mastery attempt (see pathCheckpointPassRatio in
-  // js/state.js). Below that threshold nothing was marked done (and, for a
-  // Mastery attempt, nothing was marked mastered either -- see
-  // finalizePathSession in js/main.js), so the only sensible next step is
-  // trying again, not "continue" (there's nothing new to continue to). A
-  // session can also have ended EARLY, the instant passing became
-  // mathematically impossible (see maybeEndSessionEarly) -- this screen
-  // doesn't need to know which case it is; the log is just shorter.
+  // Corrections first, then the full log: what went wrong is the reason to
+  // be on this screen at all.
+  const missedRows = p.log.map((l) => {
+    if (l.correct) return '';
+    return `
+      <div class="review-card">
+        <div class="review-card-head">
+          <span class="review-card-title" lang="ar" dir="rtl">${escBidi(l.title)}</span>
+          ${l.kind ? `<span class="tag">${esc(l.kind)}</span>` : ''}
+        </div>
+        ${l.answer ? `<div class="review-answer">Correct answer: ${escBidi(l.answer)}</div>` : ''}
+      </div>`;
+  }).join('');
+
+  const rows = p.log.map((l, i) => `
+    <div class="review-log-row">
+      <span class="review-row-num">${i + 1}</span>
+      <span class="review-row-title" lang="ar" dir="rtl">${escBidi(l.title)}</span>
+      <span class="review-dot${l.correct ? ' review-dot-ok' : ''}">${l.correct ? '✓' : '✗'}</span>
+    </div>`).join('');
+
+  // EVERY My Path checkpoint is a real pass/fail gate -- 70% normally, 80%
+  // for the section test, 100% for a Mastery attempt (pathCheckpointPassRatio
+  // in js/state.js). Below that nothing was marked done, so the only sensible
+  // next step is another attempt, not "continue".
   const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
   const pathPassRatio = pathNode ? pathCheckpointPassRatio(pathNode, p.mastery) : null;
   const pathPassed = pathNode && total > 0 && correctCount / total >= pathPassRatio;
   const isUnlockTest = p.source === 'unlockTest';
   const unlockPassed = isUnlockTest && total > 0 && correctCount / total >= UNLOCK_TEST_PASS_RATIO;
 
-  // 'module' Practice Mode offers "Practice again" (reopens the per-module
-  // popout) and returns to that module's page. 'revision' has no popout or
-  // module page to go back to -- it offers to re-run a fresh quiz (the
-  // module one or the vocab one, matching whichever this session was --
-  // see p.kind) and otherwise returns to the Schedule tab. 'path' always
-  // returns straight to the path map (its own next node picks up the
-  // "what's next" job the other two sources need a button for) -- except a
-  // FAILED checkpoint, which offers a retry instead since nothing new
-  // unlocked to continue to. 'unlockTest' offers a retry on a fail, same as
-  // a failed path checkpoint; on a pass it just closes (closePracticeReview/
-  // exitPracticeSession in js/main.js already knows to land back on the
-  // launch screen or dashboard, wherever the target's own card lives).
-  // 'masteryV2' never reaches this screen -- it routes straight to
-  // masteryV2Complete instead (see nextPracticeQuestion in js/main.js).
+  // Each source has its own "what now": 'module' reopens the popout and
+  // returns to the module page; 'revision' re-runs a fresh quiz of the same
+  // kind and otherwise returns to Schedule; 'path' returns to the map,
+  // except on a failed checkpoint, which offers the retry instead;
+  // 'unlockTest' mirrors that. 'masteryV2' never reaches this screen.
+  // Corrections are the point of this screen, so drilling just the misses is
+  // the primary move where the source allows it (see drillMissed).
+  const canDrillMissed = missedCount > 0 && (p.source === 'module' || p.source === 'revision');
+  const drillMissedBtn = canDrillMissed
+    ? `<button class="btn btn-primary btn-block" data-action="drillMissed">Drill the ${missedCount} you missed</button>`
+    : '';
+
   const footer = p.source === 'revision' ? `
-      <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="${p.kind === 'revisionVocab' ? 'startRevisionVocab' : 'startRevision'}">Revise again</button>
-        <button class="btn btn-ghost" data-action="closePracticeReview">Back to Schedule</button>
-      </div>` : pathNode && !pathPassed ? `
-      <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
-        <button class="btn btn-ghost" data-action="closePracticeReview">Back to Path</button>
-      </div>` : p.source === 'path' ? `
-      <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="closePracticeReview">${p.mastery ? 'Back to Path' : 'Continue on My Path →'}</button>
-      </div>` : isUnlockTest ? `
-      <div class="complete-buttons">
-        ${unlockPassed ? '' : `<button class="btn btn-primary" data-action="retryUnlockTest">Retry Test</button>`}
-        <button class="btn btn-ghost" data-action="closePracticeReview">${unlockPassed ? 'Continue' : 'Back'}</button>
-      </div>` : `
-      <div class="complete-buttons">
-        <button class="btn btn-primary" data-action="openPractice">Practice again</button>
-        <button class="btn btn-ghost" data-action="closePracticeReview">Back to chapters</button>
-      </div>`;
+      <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="${p.kind === 'revisionVocab' ? 'startRevisionVocab' : 'startRevision'}">Revise again</button>
+      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Schedule</button>`
+    : pathNode && !pathPassed ? `
+      <button class="btn btn-primary btn-block" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
+      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Path</button>`
+    : p.source === 'path' ? `
+      <button class="btn btn-primary btn-block" data-action="closePracticeReview">${p.mastery ? 'Back to Path' : 'Continue on My Path'}</button>`
+    : isUnlockTest ? `
+      ${unlockPassed ? '' : '<button class="btn btn-primary btn-block" data-action="retryUnlockTest">Retry test</button>'}
+      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">${unlockPassed ? 'Continue' : 'Back'}</button>`
+    : `
+      <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="openPractice">Practice again</button>
+      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to lessons</button>`;
 
   const kicker = pathNode
-    ? `${p.mastery ? 'MASTERY · ' : ''}${pathPassed ? 'PASSED' : `NEED ${Math.round(pathPassRatio * 100)}%`}`
+    ? `${p.mastery ? 'Mastery · ' : ''}${pathPassed ? 'Passed' : `Need ${Math.round(pathPassRatio * 100)}%`}`
     : isUnlockTest
-      ? (unlockPassed ? 'UNLOCKED' : `NEED ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
-      : 'SESSION COMPLETE';
+      ? (unlockPassed ? 'Unlocked' : `Need ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
+      : `Session complete${p.kind ? ` · ${esc(String(p.kind).toUpperCase())}` : ''}`;
 
   return `
-    <div class="col">
-      <div class="kicker" style="justify-content:center;display:flex;">${kicker}</div>
-      <h1 style="text-align:center;">${correctCount} / ${total} correct</h1>
-      <div style="text-align:center;"><div class="tag tag-accent" style="font-size:13px;">+${xpGained} XP</div></div>
-      <div class="stat-row">
-        <div class="card stat-card"><div class="stat-kicker">Score</div><div class="stat-value">${pct}%</div></div>
-        <div class="card stat-card"><div class="stat-kicker">Missed</div><div class="stat-value">${missedCount}</div></div>
+    <div class="complete-page">
+      <div class="complete-plate">
+        <span class="complete-plate-ghost complete-plate-ghost-num" aria-hidden="true">${pct}</span>
+        <div class="complete-plate-inner">
+          <div class="complete-tag">${kicker}</div>
+          <div class="complete-score">${correctCount} / ${total}</div>
+          ${mod ? `<div class="complete-meta"><bdi lang="ar">${esc(mod.title)}</bdi></div>` : ''}
+          <div class="complete-ledger">
+            <div>
+              <div class="complete-ledger-value">${pct}%</div>
+              <div class="complete-ledger-label">Accuracy</div>
+            </div>
+            <div>
+              <div class="complete-ledger-value complete-ledger-value-accent">+${xpGained}</div>
+              <div class="complete-ledger-label">XP earned</div>
+            </div>
+            <div>
+              <div class="complete-ledger-value">×${bestCombo}</div>
+              <div class="complete-ledger-label">Best combo</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="review-list">${rows}</div>
-      ${footer}
+      <div class="complete-body">
+        ${missedCount ? `
+          <div class="kicker">Worth another look</div>
+          <div class="review-list">${missedRows}</div>` : ''}
+        <div class="section-head" style="margin-top:22px;">
+          <span class="section-head-title" style="font-size:16px;">All ${total} card${total === 1 ? '' : 's'}</span>
+          <span class="section-head-meta">In the order you answered</span>
+        </div>
+        <div class="review-log">${rows}</div>
+      </div>
+      <div class="complete-foot">${drillMissedBtn}${footer}</div>
     </div>`;
 }
 
@@ -2331,55 +2393,129 @@ function practiceReviewHtml(state, MODULES) {
 // Mastery no longer lives here -- see lessonPreviewHtml for the app-wide
 // per-lesson replacement.
 
-// Every element below that wants a staggered slide-in carries a
-// data-anim-key scoped by the current scheduleTabAttempt (see state.js),
-// so switching tabs -- which doesn't change state.view, and so wouldn't
-// otherwise retrigger the usual "only animate a key once" entrance system
-// (markEntrances in main.js) -- replays the whole cascade every single
-// time, not just the first visit to each tab. The inline animation-delay
-// is used instead of the nth-child stagger this app uses elsewhere (see
-// .lesson-list .lesson-row:nth-child(N) in styles.css) because these
-// panels' structure genuinely varies by state (an overdue warning, the
-// lesson <select>, the mastery summary etc. each only sometimes render),
-// so a fixed sibling-position map isn't reliable here the way it is for a
-// lesson list of fixed shape.
-function animAttr(key, order = 0) {
-  const delay = (order * 0.07).toFixed(2);
-  return `data-anim-key="${escAttr(key)}"${order ? ` style="animation-delay:${delay}s"` : ''}`;
-}
-
 function scheduleHtml(state, MODULES, revealedKeys) {
-  const tab = state.scheduleTab || 'deadline';
   const attempt = state.scheduleTabAttempt || 0;
-  const tabs = [
-    { id: 'deadline', label: 'Deadline' },
-    { id: 'revision', label: 'Revision' },
-  ];
-  const tabsHtml = tabs.map((t) => `<button class="practice-tab ${tab === t.id ? 'active' : ''}" data-action="setScheduleTab" data-tab="${t.id}">${t.label}</button>`).join('');
+  const resetHour = state.dailyResetHour || 0;
+  const today = todayISO(resetHour);
+  const total = totalLessons();
+  const cleared = totalLessonsCleared(state.completed);
+  const remaining = Math.max(0, total - cleared);
+  const deadline = state.scheduleDeadline[state.courseId];
+  const summary = deadlineSummary(state, MODULES);
+  const upcoming = upcomingLessons(state, MODULES);
+  const nextUp = upcoming.find((u) => u.unlocked);
 
-  const panel = tab === 'revision'
-    ? scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)
-    : scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt);
+  const todayLabel = new Date(`${today}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
-  const hero = heroPanelHtml({
-    watermark: 'الجدول',
-    badge: 'الجدول الزمني',
-    title: 'Study Planner',
-    body: 'Plan a deadline, or quiz yourself on a completed module or your vocab to keep it fresh.',
-    ledger: heroLedgerHtml([
-      ['Lessons cleared', `${totalLessonsCleared(state.completed)} / ${totalLessons()}`],
-      ['Streak', `${state.streak || 1}d`],
-      ['Deadline', esc(state.scheduleDeadline[state.courseId] || 'Not set')],
-    ]),
-  });
+  let lede;
+  if (remaining === 0) lede = 'Every lesson in this course is done — nothing left to schedule.';
+  else if (!summary) lede = 'Pick a target date and this works out how many lessons a day it takes.';
+  else if (summary.overdue) lede = `Your target date has passed with ${remaining} lesson${remaining === 1 ? '' : 's'} still to go.`;
+  else lede = `${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} a day keeps you on course for ${esc(formatDeadlineDate(summary.deadline))}. Today's target adjusts itself whenever you fall behind or get ahead.`;
+
+  // Today: the day's own target, one tick per lesson in it, and the single
+  // next lesson to start if the target isn't met yet.
+  const todayCard = summary ? `
+    <div class="today-card">
+      <div class="today-card-head">
+        <span class="kicker">Today</span>
+        <span class="today-date">${esc(todayLabel)}</span>
+      </div>
+      <div class="today-figure"><strong>${summary.done}</strong> of ${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} done</div>
+      <div class="today-ticks" aria-hidden="true">
+        ${Array.from({ length: summary.dailyTarget }, (_, i) => `<span class="today-tick${i < summary.done ? ' today-tick-done' : ''}"></span>`).join('')}
+      </div>
+      ${summary.done < summary.dailyTarget && nextUp ? `
+        <div class="today-next">
+          <div class="today-next-body">
+            <div class="kicker">${summary.dailyTarget - summary.done === 1 ? "One more to hit today's target" : `${summary.dailyTarget - summary.done} more to hit today's target`}</div>
+            <div class="today-next-title" lang="ar" dir="rtl">${esc(nextUp.lesson.title)}</div>
+          </div>
+          <button class="btn btn-primary" data-action="openModule" data-module-id="${escAttr(nextUp.mod.id)}">Start</button>
+        </div>` : ''}
+    </div>` : '';
+
+  const ledger = summary ? `
+    <div class="ledger-inline">
+      <div><span class="ledger-inline-value">${summary.remaining}</span><span class="ledger-inline-label">Lessons left</span></div>
+      <div><span class="ledger-inline-value">${Math.abs(summary.diffDays)}</span><span class="ledger-inline-label">${summary.overdue ? 'Days overdue' : 'Days left'}</span></div>
+      <div><span class="ledger-inline-value">${cleared} / ${total}</span><span class="ledger-inline-label">Cleared</span></div>
+    </div>` : '';
+
+  const upNext = upcoming.length ? `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Up next</span>
+      <span class="lesson-section-note">In course order</span>
+    </div>
+    <div class="up-next-list">
+      ${upcoming.map(({ mod, lesson, unlocked }, i) => {
+        const rowKey = `sched${attempt}_up_${mod.id}_${lesson.id}`;
+        // Exactly one row ever reads as "the" next lesson -- the first
+        // incomplete one in course order, which is always reachable
+        // regardless of locks (nothing before it is left to finish). Every
+        // OTHER row that's merely reachable (state.forceUnlockAll -- "Course
+        // locks" off, the app's own default for a fresh install) still gets
+        // a real, clickable button, just without the accent highlight that
+        // singling one out as "next" is supposed to mean -- with locks off,
+        // isLessonUnlocked is true for the whole list, and giving every row
+        // that same gold treatment made all five look equally "the" next
+        // one instead of naming just one.
+        const isNext = i === 0 && unlocked;
+        const cls = `up-next-row${isNext ? ' is-next' : ''}${unlocked ? '' : ' is-locked'}`;
+        return `
+          <button class="${revealCls(rowKey, cls, revealedKeys)}"
+            ${unlocked ? `data-action="openModule" data-module-id="${escAttr(mod.id)}"` : 'disabled'}>
+            <span class="up-next-ring">${unlocked ? icon('chevronRight', 11, 2.4) : icon('lock', 10, 2)}</span>
+            <span class="up-next-body">
+              <span class="up-next-row-title" lang="ar" dir="rtl">${esc(lesson.title)}</span>
+              <span class="up-next-meta"><bdi lang="ar">${esc(mod.title)}</bdi>${isNext ? ' · next' : ''}</span>
+            </span>
+          </button>`;
+      }).join('')}
+    </div>` : '';
 
   return `
-    <div class="hero-page">
-      ${hero}
-      ${separatorHtml()}
-      <div class="col schedule-page">
-        <div class="practice-tabs">${tabsHtml}</div>
-        ${panel}
+    <div class="schedule-page">
+      <div class="page-title-row">
+        <h1 class="page-title">Schedule</h1>
+        <span class="page-title-ar" lang="ar" dir="rtl">الجدول الزمني</span>
+      </div>
+      <p class="lede schedule-lede">${lede}</p>
+      <div class="two-col">
+      <div class="two-col-main">
+      ${todayCard}
+      ${ledger}
+      ${upNext}
+      </div>
+      <div class="two-col-side">
+      ${scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)}
+      <div class="section-head schedule-section">
+        <span class="section-head-title">Plan</span>
+      </div>
+      <div class="plan-row">
+        <label id="schedule-deadline-label">Target completion date</label>
+        <div class="deadline-picker-wrap">
+          <button type="button" class="plan-input reset-hour-trigger${deadline ? '' : ' is-empty'}" data-action="toggleDeadlinePicker"
+            aria-haspopup="dialog" aria-expanded="${state.deadlinePickerOpen ? 'true' : 'false'}" aria-labelledby="schedule-deadline-label">
+            <span>${deadline ? esc(formatDeadlineDate(deadline)) : 'Not set'}</span>
+            <span aria-hidden="true">▾</span>
+          </button>
+          ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
+        </div>
+      </div>
+      <div class="plan-row">
+        <label id="schedule-reset-hour-label">Daily reset time</label>
+        <div class="reset-hour-picker">
+          <button type="button" class="plan-input reset-hour-trigger" data-action="toggleResetHourMenu"
+            aria-haspopup="listbox" aria-expanded="${state.resetHourMenuOpen ? 'true' : 'false'}" aria-labelledby="schedule-reset-hour-label">
+            <span>${formatResetHour(resetHour)}</span>
+            <span aria-hidden="true">▾</span>
+          </button>
+          ${state.resetHourMenuOpen ? resetHourMenuHtml(resetHour) : ''}
+        </div>
+      </div>
+      <p class="plan-note">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</p>
+      </div>
       </div>
     </div>`;
 }
@@ -2404,123 +2540,108 @@ function upcomingLessons(state, MODULES, limit = 5) {
   return out;
 }
 
-// The one deliberately-different reveal on this page: rather than the
-// app's usual halfway-down-the-container trigger (see handleScrollReveal
-// in main.js), this box waits until it's ~75% of the way down the visible
-// container before sliding in -- reached via data-reveal-line, which
-// handleScrollReveal reads per-element instead of assuming 0.5. The card
-// itself is the one reveal-on-scroll target; its rows aren't independently
-// scroll-gated at all -- they cascade in together via a plain CSS
-// transition-delay keyed off the card's own .is-revealed (see
-// .schedule-upcoming-rows in styles.css, the same technique
-// .exercise-choices already uses), so "the box, and each of its
-// sub-components" reads as one continuous reveal rather than several
-// separate scroll-triggered pops.
-function scheduleUpcomingHtml(state, MODULES, revealedKeys, attempt) {
-  const upcoming = upcomingLessons(state, MODULES);
-  if (!upcoming.length) return '';
-  const rows = upcoming.map(({ mod, lesson, unlocked }) => {
-    const cls = `schedule-upcoming-row ${unlocked ? 'unlocked' : 'locked'}`;
-    const clickAttr = unlocked ? ` data-action="openModule" data-module-id="${escAttr(mod.id)}"` : '';
-    return `
-      <div class="${cls}"${clickAttr}>
-        <span class="schedule-upcoming-icon">${unlocked ? icon('book', 15, 1.6) : icon('lock', 13, 2)}</span>
-        <div class="schedule-upcoming-body">
-          <div class="schedule-upcoming-title">${esc(lesson.title)}</div>
-          <div class="schedule-upcoming-module">${esc(mod.title)}</div>
-        </div>
-        <span class="tag ${unlocked ? 'tag-accent' : 'tag-neutral'}">${unlocked ? 'Next' : 'Locked'}</span>
-      </div>`;
-  }).join('');
-  const revealKey = `sched${attempt}_upnext`;
-  return `
-    <div class="${revealCls(revealKey, 'card schedule-upcoming-card', revealedKeys)}" data-reveal-key="${revealKey}" data-reveal-line="0.75" style="margin-top:16px;">
-      <div class="card-kicker">UP NEXT</div>
-      <div class="schedule-upcoming-rows">${rows}</div>
-    </div>`;
-}
 
 // 12-hour labels for the reset-hour <select> below -- e.g. 4 -> "4:00 AM",
 // 16 -> "4:00 PM". state.dailyResetHour itself stays a plain 0-23 int
 // (that's what todayISO/main.js/persistence.js all consume); this is
 // display-only.
+// The reset-hour picker's popover, in place of a native <select> -- this is
+// the app's own themed listbox (same idea as courseMenuHtml above), a
+// scrollable single column of the 24 hours with the current one marked.
+// The target-completion-date picker's popover, in place of a native
+// <input type="date"> -- Chromium's own calendar popup is OS/UA chrome
+// CSS cannot reach (verified: accent-color reaches the closed field, not
+// the popup's day highlight), so this is a real calendar, built the same
+// way the reset-hour listbox above replaces a <select>.
+//
+// state.deadlinePickerMonth is the panel's own browsing cursor ("YYYY-MM"),
+// independent of the SELECTED deadline -- so paging to a future month to
+// pick a date doesn't require committing anything first. It's cleared
+// (see toggleDeadlinePicker in js/main.js) each time the panel opens, so a
+// fresh open always starts back at the selected deadline's month, or
+// today's if none is set yet, rather than wherever a previous browse left
+// off.
+function deadlinePickerHtml(state, deadline, today) {
+  const cursor = state.deadlinePickerMonth || deadline || today;
+  const [cy, cm] = cursor.slice(0, 7).split('-').map(Number);
+  const monthLabel = new Date(cy, cm - 1, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+  // Monday-first, matching both the en-GB dd/mm/yyyy format this field
+  // reads back into and the native picker it replaces.
+  const firstWeekday = (new Date(cy, cm - 1, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(cy, cm, 0).getDate();
+  const daysInPrevMonth = new Date(cy, cm - 1, 0).getDate();
+
+  const cells = [];
+  for (let i = firstWeekday - 1; i >= 0; i -= 1) {
+    cells.push({ date: new Date(cy, cm - 2, daysInPrevMonth - i), inMonth: false });
+  }
+  for (let d = 1; d <= daysInMonth; d += 1) {
+    cells.push({ date: new Date(cy, cm - 1, d), inMonth: true });
+  }
+  // Six full rows every month, so paging doesn't reflow the panel's height.
+  let trailDay = 1;
+  while (cells.length < 42) {
+    cells.push({ date: new Date(cy, cm, trailDay), inMonth: false });
+    trailDay += 1;
+  }
+
+  const dayCells = cells.map(({ date, inMonth }) => {
+    const iso = isoDateAt(date.getTime());
+    const disabled = iso < today;
+    const selected = iso === deadline;
+    const isToday = iso === today;
+    const cls = [
+      'deadline-day',
+      inMonth ? '' : 'is-outside',
+      selected ? 'is-selected' : '',
+      isToday && !selected ? 'is-today' : '',
+    ].filter(Boolean).join(' ');
+    return disabled
+      ? `<span class="${cls}" aria-hidden="true">${date.getDate()}</span>`
+      : `<button class="${cls}" data-action="pickScheduleDeadline" data-date="${iso}" aria-pressed="${selected}">${date.getDate()}</button>`;
+  }).join('');
+
+  return `
+    <div class="deadline-picker">
+      <div class="deadline-picker-head">
+        <span class="deadline-picker-month">${esc(monthLabel)}</span>
+        <span class="deadline-picker-nav">
+          <button type="button" data-action="deadlinePickerPrevMonth" aria-label="Previous month">${icon('arrowLeft', 14, 2)}</button>
+          <button type="button" data-action="deadlinePickerNextMonth" aria-label="Next month">${icon('chevronRight', 14, 2)}</button>
+        </span>
+      </div>
+      <div class="deadline-picker-weekdays">
+        ${['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((w) => `<span>${w}</span>`).join('')}
+      </div>
+      <div class="deadline-picker-grid">${dayCells}</div>
+      <div class="deadline-picker-foot">
+        <button type="button" class="text-link-btn" data-action="clearScheduleDeadline" ${deadline ? '' : 'disabled'}>Clear</button>
+        <button type="button" class="text-link-btn" data-action="pickScheduleDeadline" data-date="${today}">Today</button>
+      </div>
+    </div>`;
+}
+
+function resetHourMenuHtml(resetHour) {
+  return `
+    <div class="reset-hour-menu" role="listbox" aria-label="Daily reset time">
+      ${Array.from({ length: 24 }, (_, h) => {
+        const selected = h === resetHour;
+        return `
+          <button class="reset-hour-menu-item${selected ? ' is-selected' : ''}" role="option" aria-selected="${selected}" data-action="setDailyResetHour" data-hour="${h}">
+            <span>${formatResetHour(h)}</span>
+            ${selected ? icon('check', 13, 2.6) : ''}
+          </button>`;
+      }).join('')}
+    </div>`;
+}
+
 function formatResetHour(h) {
   const period = h < 12 ? 'AM' : 'PM';
   const hour12 = h % 12 === 0 ? 12 : h % 12;
   return `${hour12}:00 ${period}`;
 }
 
-function scheduleDeadlineHtml(state, MODULES, revealedKeys, attempt) {
-  const total = totalLessons();
-  const cleared = totalLessonsCleared(state.completed);
-  const remaining = Math.max(0, total - cleared);
-  const resetHour = state.dailyResetHour || 0;
-
-  // How many lessons were finished today specifically -- state.completed's
-  // per-lesson value is already the ISO completion date (see main.js's
-  // markLessonComplete). Scoped to this course's own modules only (state.
-  // completed is a flat dict shared by every course, keyed by moduleId --
-  // see COURSES' comment in content/index.js), so a lesson finished today in
-  // a different course doesn't count toward this course's target.
-  const deadline = state.scheduleDeadline[state.courseId];
-  let completedToday = 0;
-  MODULES.forEach((m) => {
-    Object.values(state.completed[m.id] || {}).forEach((v) => { if (v === todayISO(resetHour)) completedToday += 1; });
-  });
-
-  // App-wide (not per-course, unlike the deadline below) -- it's also what
-  // the streak's day boundary uses (see bootProgress in js/persistence.js),
-  // so it lives at the top of the panel rather than folded into the
-  // per-course deadline fields further down.
-  const resetHourOptions = Array.from({ length: 24 }, (_, h) => `<option value="${h}" ${h === resetHour ? 'selected' : ''}>${formatResetHour(h)}</option>`).join('');
-  const resetHourInput = `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_reset`, 0)}>
-      <label for="schedule-reset-hour-input">Daily reset time</label>
-      <select id="schedule-reset-hour-input" class="schedule-input" data-action="setDailyResetHour">${resetHourOptions}</select>
-      <p class="lede" style="font-size:12.5px;margin-top:6px;">When a new day starts, for your streak and today's target below — study past midnight without it counting as tomorrow.</p>
-    </div>`;
-
-  const dateInput = `
-    <div class="schedule-field" ${animAttr(`sched${attempt}_date`, 1)}>
-      <label for="schedule-deadline-input">Target completion date</label>
-      <input id="schedule-deadline-input" type="date" class="schedule-input" value="${escAttr(deadline || '')}" min="${todayISO(resetHour)}" data-action="setScheduleDeadline" />
-    </div>`;
-  const upcoming = scheduleUpcomingHtml(state, MODULES, revealedKeys, attempt);
-
-  if (remaining === 0) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${resetHourInput}${dateInput}<p class="lede" style="margin-top:16px;">You've completed every lesson in the course — nothing left to schedule.</p></div>`;
-  }
-  if (!deadline) {
-    return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${resetHourInput}${dateInput}${upcoming}<p class="empty-state">Pick a date to see how many lessons a day that works out to.</p></div>`;
-  }
-
-  const today = new Date(`${todayISO(resetHour)}T00:00:00`);
-  const deadlineDate = new Date(`${deadline}T00:00:00`);
-  const diffDays = Math.round((deadlineDate - today) / 86400000);
-  const overdue = diffDays < 0;
-  const dailyTarget = Math.ceil(remaining / Math.max(1, diffDays));
-  const todayDone = Math.min(completedToday, dailyTarget);
-  const todayPct = dailyTarget ? Math.round((todayDone / dailyTarget) * 100) : 100;
-
-  return `
-    <div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>
-      ${resetHourInput}
-      ${dateInput}
-      ${overdue ? `<p class="lede" style="margin-top:14px;color:var(--brick);" ${animAttr(`sched${attempt}_overdue`, 2)}>Your deadline was ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? '' : 's'} ago, with ${remaining} lesson${remaining === 1 ? '' : 's'} still left — catch up as soon as you can.</p>` : ''}
-      <div class="stat-row" style="margin-top:20px;" ${animAttr(`sched${attempt}_stats`, 2)}>
-        <div class="card stat-card"><div class="stat-kicker">Lessons left</div><div class="stat-value">${remaining}</div></div>
-        <div class="card stat-card"><div class="stat-kicker">${overdue ? 'Days overdue' : 'Days left'}</div><div class="stat-value">${Math.abs(diffDays)}</div></div>
-        <div class="card stat-card"><div class="stat-kicker">Today's target</div><div class="stat-value">${dailyTarget}</div></div>
-      </div>
-      <div class="card" style="margin-top:16px;" ${animAttr(`sched${attempt}_checklist`, 3)}>
-        <div class="card-kicker">TODAY'S CHECKLIST</div>
-        <p class="lede">${todayDone} / ${dailyTarget} lesson${dailyTarget === 1 ? '' : 's'} completed today</p>
-        ${progressBar(todayPct)}
-        <p class="lede" style="font-size:12.5px;margin-top:10px;">Recalculated every time you check — fall behind or get ahead and tomorrow's target just adjusts, no fixed plan to fall out of sync with.</p>
-      </div>
-      ${upcoming}
-    </div>`;
-}
 
 // Redesigned: no longer a spaced-repetition due-today deck spanning the
 // whole course -- instead a single fixed 30-question quiz (20 mcq + 10
@@ -2534,38 +2655,49 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
   const hasVocab = courseHasVocab();
   const kind = state.scheduleRevisionKind === 'vocab' && hasVocab ? 'vocab' : 'module';
 
-  // Omitted entirely for a vocab-less course (annahw, sarf-advanced --
-  // see courseHasVocab's own comment) rather than ever showing a
-  // permanently-empty Vocab tab, same idea as the removed تركيب kind-tab's
-  // old hasTarkeeb conditional.
+  // The vocab kind is omitted entirely for a vocab-less course (annahw,
+  // sarf-advanced -- see courseHasVocab) rather than showing a permanently
+  // empty toggle. The design only draws the module quiz, which is what every
+  // course has.
   const kindTabs = hasVocab ? `
-    <div class="practice-tabs" ${animAttr(`sched${attempt}_revkind`, 0)}>
-      <button class="practice-tab ${kind === 'module' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="module">Module Quiz</button>
+    <div class="practice-tabs">
+      <button class="practice-tab ${kind === 'module' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="module">Module quiz</button>
       <button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="vocab">Vocab</button>
     </div>` : '';
-  const baseOrder = hasVocab ? 1 : 0;
 
   const body = kind === 'vocab'
-    ? scheduleRevisionVocabHtml(state, attempt, baseOrder)
-    : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder);
+    ? scheduleRevisionVocabHtml(state, attempt, hasVocab ? 1 : 0)
+    : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, hasVocab ? 1 : 0);
 
-  return `<div class="schedule-panel" ${animAttr(`sched${attempt}_panel`)}>${kindTabs}${body}</div>`;
+  return `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Revision quiz</span>
+      <span class="lesson-section-note">30 questions</span>
+    </div>
+    <div class="schedule-panel">
+      ${kindTabs}
+      ${body}
+    </div>`;
 }
 
 // The per-module mcq+تركيب quiz -- unchanged from its original standalone
-// version, just re-homed as one of Revision's two kinds and taking
-// `baseOrder` so its own entrance stagger picks up wherever the kind
-// toggle above it (if any) left off. Each row is its own reveal-on-scroll
-// target (see revealCls) rather than riding the panel's one-shot entrance
-// stagger like the tabs around it -- js/main.js's cascadeGrid gives
-// .revision-module-list the exact same "row 1 reveals on arrival, the rest
-// as they're scrolled to" treatment as the dashboard's chapter cards and My
-// Path's group cards.
+// version, just re-homed as one of Revision's two kinds.
 function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder) {
-  const eligible = state.forceUnlockAll ? MODULES : MODULES.filter((m) => isModuleComplete(m.id, state.completed));
+  // Always completed-only, regardless of state.forceUnlockAll ("Course
+  // locks" off, which is every fresh install's own default -- see
+  // defaultForceUnlockAll in js/persistence.js, not a niche dev toggle).
+  // That flag governs whether content can be BROWSED ahead of normal
+  // progress; revision is reviewing what's already been learned, a
+  // different axis entirely -- a module merely reachable because locks are
+  // off has nothing in it yet worth revising.
+  const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
 
   if (!eligible.length) {
-    return `<p class="empty-state">${state.forceUnlockAll ? 'No Revision quizzes exist for this course yet.' : 'Complete every lesson in a module to unlock a Revision quiz for it.'}</p>`;
+    return emptyStateHtml({
+      icon: 'award',
+      title: 'No modules to revise yet',
+      note: 'Finish every lesson in a module and its Revision quiz unlocks here.',
+    });
   }
 
   const mode = state.scheduleRevisionMode === 'random' ? 'random' : 'pick';
@@ -2573,34 +2705,37 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
     ? state.scheduleRevisionModuleId : null;
 
   const modeTabs = `
-    <div class="practice-tabs" ${animAttr(`sched${attempt}_mode`, baseOrder)}>
+    <div class="practice-tabs">
       <button class="practice-tab ${mode === 'pick' ? 'active' : ''}" data-action="setScheduleRevisionMode" data-mode="pick">Pick a module</button>
       <button class="practice-tab ${mode === 'random' ? 'active' : ''}" data-action="setScheduleRevisionMode" data-mode="random">Random</button>
     </div>`;
 
+  // A radio row per eligible module: the dot carries the selection, the mix
+  // on the right says what that module's 30 questions would be drawn from.
   const moduleRowHtml = (m) => {
     const counts = moduleRevisionCounts(m.id, state.completed, state.forceUnlockAll);
     const compo = counts.tarkeeb ? `${counts.mcq} MCQ + ${counts.tarkeeb} تركيب` : `${counts.mcq} MCQ`;
     const rowKey = `sched${attempt}_revrow_${m.id}`;
-    const rowCls = `revision-module-row${pickedId === m.id ? ' selected' : ''}`;
+    const rowCls = `revision-module-row${pickedId === m.id ? ' is-selected' : ''}`;
     return `
-      <button class="${revealCls(rowKey, rowCls, revealedKeys)}" data-reveal-key="${rowKey}" data-action="setScheduleRevisionModule" data-module-id="${escAttr(m.id)}">
-        <span class="revision-module-title">${esc(m.title)}</span>
-        <span class="revision-module-meta">${compo}</span>
+      <button class="${revealCls(rowKey, rowCls, revealedKeys)}" data-action="setScheduleRevisionModule" data-module-id="${escAttr(m.id)}" role="radio" aria-checked="${pickedId === m.id}">
+        <span class="revision-radio" aria-hidden="true"><span class="revision-radio-dot"></span></span>
+        <span class="revision-module-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+        <span class="revision-module-meta">${escBidi(compo)}</span>
       </button>`;
   };
 
   const body = mode === 'pick'
-    ? `<div class="revision-module-list" ${animAttr(`sched${attempt}_modulelist`, baseOrder + 1)}>${eligible.map(moduleRowHtml).join('')}</div>`
-    : `<p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_random`, baseOrder + 1)}>One of your ${eligible.length} ${state.forceUnlockAll ? 'available' : 'completed'} module${eligible.length === 1 ? '' : 's'} will be picked at random when you start.</p>`;
+    ? `<div class="revision-module-list" role="radiogroup" aria-label="Module to revise">${eligible.map(moduleRowHtml).join('')}</div>`
+    : `<p class="lede revision-random-note">One of your ${eligible.length} completed module${eligible.length === 1 ? '' : 's'} will be picked when you start.</p>`;
 
   const canStart = mode === 'random' || !!pickedId;
 
   return `
+    <p class="lede revision-lede">One completed module, 20 MCQ and 10 تركيب in random order — for keeping a chapter you've finished sharp.</p>
     ${modeTabs}
     ${body}
-    <p class="lede" style="margin-top:16px;" ${animAttr(`sched${attempt}_desc`, baseOrder + 2)}>30 questions in random order — 20 MCQ (split between the lesson quiz and book exercises) and 10 تركيب, each capped by what that module actually has.</p>
-    <button class="btn btn-primary btn-block" style="margin-top:8px;" data-action="startRevision" ${canStart ? '' : 'disabled'}>Start Revision Quiz</button>`;
+    <button class="btn btn-primary btn-block revision-start" data-action="startRevision" ${canStart ? '' : 'disabled'}>Start revision quiz</button>`;
 }
 
 // Course-wide vocab quiz -- reuses the path's own vocab-checkpoint idea
@@ -2614,7 +2749,11 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
 function scheduleRevisionVocabHtml(state, attempt, baseOrder) {
   const pool = getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll);
   if (!pool.length) {
-    return `<p class="empty-state">${state.forceUnlockAll ? 'No Vocab revision questions exist in this course yet.' : 'Complete a lesson to unlock Vocab revision questions.'}</p>`;
+    return emptyStateHtml({
+      icon: 'star',
+      title: 'No vocab to revise yet',
+      note: state.forceUnlockAll ? 'No Vocab revision questions exist in this course yet.' : 'Complete a lesson and its words start appearing here.',
+    });
   }
   const eligibleCount = pool.filter((e) => {
     const v = state.vocabExposure[e.key];
@@ -2623,18 +2762,22 @@ function scheduleRevisionVocabHtml(state, attempt, baseOrder) {
 
   const direction = state.scheduleRevisionVocabDirection === 'ar-en' ? 'ar-en' : 'en-ar';
   const directionPicker = `
-    <p class="lede" style="margin-top:14px;" ${animAttr(`sched${attempt}_vocabnote`, baseOrder)}>A few plural/مصدر questions are mixed in either way.</p>
-    <div class="practice-tabs" ${animAttr(`sched${attempt}_vocabdir`, baseOrder)}>
+    <p class="lede" style="margin-top:14px;">A few plural/مصدر questions are mixed in either way.</p>
+    <div class="practice-tabs">
       <button class="practice-tab ${direction === 'en-ar' ? 'active' : ''}" data-action="setScheduleRevisionVocabDirection" data-vocab-type="en-ar">EN → AR</button>
       <button class="practice-tab ${direction === 'ar-en' ? 'active' : ''}" data-action="setScheduleRevisionVocabDirection" data-vocab-type="ar-en">AR → EN</button>
     </div>`;
 
   return `
     ${directionPicker}
-    <p class="lede" style="margin-top:16px;" ${animAttr(`sched${attempt}_vocabdesc`, baseOrder + 1)}>20 questions — mostly words you've already seen (the closer to learned, the more likely to come up), a few brand-new ones, and a handful of plural/مصدر questions. Answer a word correctly 10 times total (path sessions count too) and it stops appearing here.</p>
+    <p class="lede" style="margin-top:16px;">20 questions — mostly words you've already seen (the closer to learned, the more likely to come up), a few brand-new ones, and a handful of plural/مصدر questions. Answer a word correctly 10 times total (path sessions count too) and it stops appearing here.</p>
     ${eligibleCount
       ? `<button class="btn btn-primary btn-block" style="margin-top:8px;" data-action="startRevisionVocab">Start Vocab Revision</button>`
-      : `<p class="empty-state">You've learned every unlocked vocab word — nothing left to revise.</p>`}`;
+      : emptyStateHtml({
+        icon: 'check',
+        title: 'All caught up',
+        note: "You've learned every unlocked vocab word — nothing left to revise.",
+      })}`;
 }
 
 // --- Mastery result (app-wide replacement for the old Mastery Mode) -------
@@ -2679,15 +2822,6 @@ function masteryV2CompleteHtml(state, MODULES) {
 // state.pathNodeStatus (isPathNodeUnlocked/firstUnfinishedPathNodeIndex),
 // never stored separately -- same idiom as isLessonUnlocked elsewhere.
 
-// Path-node reveal-on-scroll trigger: this list is a long single-column
-// scroll (unlike the dashboard/My Path card grids, which use the default
-// half-way line), so each node gets its own PATH_NODE_REVEAL_LINE override
-// via data-reveal-line -- an item slides in once it's 65% of the way down
-// the container instead of the usual 50%, so nodes reveal later/closer to
-// where you're actually reading rather than jumping in a beat before you
-// reach them.
-const PATH_NODE_REVEAL_LINE = 0.65;
-
 function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
   const course = COURSES.find((c) => c.id === node.courseId);
   const mod = course && course.modules.find((m) => m.id === node.moduleId);
@@ -2710,7 +2844,7 @@ function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
     ? `data-action="enterPathLesson" data-course-id="${escAttr(node.courseId)}" data-module-id="${escAttr(node.moduleId)}" data-lesson-id="${escAttr(node.lessonId)}"`
     : 'disabled';
   return `
-    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+    <button class="${rowCls}" ${dataAttrs}>
       <div class="path-node-indicator">${indicator}</div>
       <div class="path-node-body">
         <span class="path-node-course-badge" lang="ar" dir="rtl">${esc(courseLabel)}</span>
@@ -2751,7 +2885,7 @@ function pathCheckpointRowHtml(node, index, unlocked, done, mastered, revealedKe
   const dataAttrs = unlocked ? `data-action="openPathCheckpointSetup" data-node-id="${escAttr(node.id)}"` : 'disabled';
   const subtitle = node.type === 'tarkeebCheckpoint' ? '5-10 questions' : `${node.length} question${node.length === 1 ? '' : 's'}`;
   return `
-    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+    <button class="${rowCls}" ${dataAttrs}>
       <div class="path-node-indicator">${indicator}</div>
       <div class="path-node-body">
         <h3 lang="ar" dir="rtl">${esc(meta.label)}</h3>
@@ -2796,8 +2930,8 @@ function pathCheckpointSetupHtml(state) {
       <button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}">Redo</button>`;
 
   return `
-    <div class="modal-backdrop" data-anim-key="pathcheckpointmodalbd" data-action="closePathCheckpointSetup">
-      <div class="modal" data-anim-key="pathcheckpointmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(label)}">
+    <div class="modal-backdrop" data-action="closePathCheckpointSetup">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(label)}">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(label)}</div>
         <h3>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h3>
         ${directionPicker}
@@ -2830,8 +2964,8 @@ function pathSkipAheadPromptHtml(state) {
   ].filter(Boolean).join(' · ');
   const scopeWord = node.type === 'groupTest' ? 'group' : 'section';
   return `
-    <div class="modal-backdrop" data-anim-key="pathskipaheadmodalbd" data-action="closePathSkipAheadPrompt">
-      <div class="modal" data-anim-key="pathskipaheadmodal:${escAttr(node.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="Jump ahead">
+    <div class="modal-backdrop" data-action="closePathSkipAheadPrompt">
+      <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="Jump ahead">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(node.label)}</div>
         <h3>Jump ahead to this ${scopeWord}?</h3>
         <p class="modal-sub">A placement test covering everything up through this ${scopeWord}. Pass it at ${Math.round(node.passRatio * 100)}% and every lesson and checkpoint before it &mdash; ${lessonCount} lesson${lessonCount === 1 ? '' : 's'} in all, across both courses &mdash; gets marked complete, same as if you'd walked the path there normally.</p>
@@ -2854,7 +2988,7 @@ function pathMilestoneRowHtml(node, index, unlocked, done, revealedKeys) {
   const nodeKey = `path_node_${node.id}`;
   const rowCls = revealCls(nodeKey, `path-node path-node-milestone${done ? ' done' : ''}`, revealedKeys);
   return `
-    <div class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}">
+    <div class="${rowCls}">
       <div class="path-node-indicator">${icon('award', 19, 2)}</div>
       <div class="path-node-body">
         <h3>${esc(node.label)}</h3>
@@ -2898,7 +3032,7 @@ function pathSectionTestRowHtml(node, index, unlocked, done, mastered, revealedK
     counts.vocab ? `${counts.vocab} Vocab` : null,
   ].filter(Boolean).join(' · ');
   return `
-    <button class="${rowCls}" data-reveal-key="${nodeKey}" data-reveal-line="${PATH_NODE_REVEAL_LINE}" ${dataAttrs}>
+    <button class="${rowCls}" ${dataAttrs}>
       <div class="path-node-indicator">${indicator}</div>
       <div class="path-node-body">
         <h3 lang="ar" dir="rtl">${esc(node.label)}</h3>
@@ -2938,7 +3072,7 @@ function pathMapHtml(state, revealedKeys = new Set()) {
       // 2+ are numbered only (see buildSectionNodes in content/path.js) --
       // the second line only renders when one actually exists.
       return `
-        <div class="path-section-heading" data-anim-key="pn${i}">
+        <div class="path-section-heading">
           <span>${esc(node.title)}</span>
           ${node.arabicTitle ? `<bdi lang="ar" dir="rtl">${esc(node.arabicTitle)}</bdi>` : ''}
         </div>`;
@@ -2969,7 +3103,7 @@ function pathMapHtml(state, revealedKeys = new Set()) {
 }
 
 // The group-selection hub (req: "group each section into its own groups so
-// the path isn't one long line") -- reached via the launch screen's My Path
+// the path isn't one long line") -- reached via the My Path
 // banner, and via pathMapHtml's own "All groups" back link. Only each
 // track's Group 1 is populated so far; the rest render as locked "Coming
 // soon" cards so the whole 5-group shape of each track is visible even
@@ -2981,7 +3115,7 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
   const comingSoon = !group.sections.length;
   if (comingSoon) {
     return `
-      <div class="${revealCls(cardKey, 'path-group-card locked', revealedKeys)}" data-reveal-key="${cardKey}">
+      <div class="${revealCls(cardKey, 'path-group-card locked', revealedKeys)}">
         <div class="path-group-card-top">
           <span class="path-node-indicator">${icon('lock', 17, 2)}</span>
           <span class="tag tag-neutral">Coming soon</span>
@@ -2993,12 +3127,12 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
   // Whole track still locked (see isTrackUnlocked in content/paths.js) --
   // every group card in it stays locked regardless of its own groupTest
   // progress, and opens the unlock-test prompt rather than the map, same as
-  // a locked course card on the launch screen.
+  // a locked course row in Home's course menu.
   if (trackLocked) {
     const sectionCount = group.sections.length;
     const trackId = trackForGroup(group).id;
     return `
-      <button class="${revealCls(cardKey, 'path-group-card locked unlockable', revealedKeys)}" data-reveal-key="${cardKey}" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(trackId)}">
+      <button class="${revealCls(cardKey, 'path-group-card locked unlockable', revealedKeys)}" data-action="openUnlockPrompt" data-target-type="track" data-target-id="${escAttr(trackId)}">
         <div class="path-group-card-top">
           <span class="path-node-indicator">${icon('lock', 17, 2)}</span>
           <span class="tag tag-neutral">Locked</span>
@@ -3044,15 +3178,15 @@ function pathGroupCardHtml(state, groups, group, index, revealedKeys, trackLocke
   const rowCls = ['path-group-card', unlocked ? '' : 'locked unlockable', complete ? 'mastered' : ''].join(' ').trim();
 
   return `
-    <button class="${revealCls(cardKey, rowCls, revealedKeys)}" data-reveal-key="${cardKey}" ${dataAttrs}>
+    <button class="${revealCls(cardKey, rowCls, revealedKeys)}" ${dataAttrs}>
       <div class="path-group-card-top">
         <span class="path-node-indicator">${!unlocked ? icon('lock', 17, 2) : complete ? icon('check', 19, 2.4) : icon('award', 18, 2)}</span>
         ${tag}
       </div>
       <h3 lang="ar" dir="rtl">${esc(group.title)}</h3>
       <p class="path-group-card-body">${sectionCount} section${sectionCount === 1 ? '' : 's'}</p>
-      <span class="launch-card-track"><span class="launch-card-fill" style="width:${pct}%"></span></span>
-      <span class="launch-card-meta">${doneCount} / ${total}</span>
+      <span class="path-group-card-track"><span class="path-group-card-fill" style="width:${pct}%"></span></span>
+      <span class="path-group-card-meta">${doneCount} / ${total}</span>
     </button>`;
 }
 
@@ -3088,10 +3222,6 @@ function pathGroupsHtml(state, revealedKeys = new Set()) {
     title: 'My Path',
     body: 'Guided routes through the courses, paired together and broken into groups so it never feels like one long line. Pick a group to continue.',
   });
-  // path-groups-page: js/main.js's setupScrollObserver keys off this (like
-  // .dashboard-page/.chapter-grid) to find each track's own .path-group-grid
-  // and run the same scroll-reveal + left-to-right cascade the dashboard's
-  // chapter cards use -- see setupCascadeReveal there.
   return `
     <div class="hero-page path-groups-page">
       ${hero}
@@ -3452,100 +3582,258 @@ function describeSyncGap(local, cloud) {
   return `Right now: ${parts.join(', and ')}. Merging combines both, so nothing is lost either way.`;
 }
 
+// Modules finished in a course, computed from that course's own shell rather
+// than via completedCount/isModuleComplete -- those resolve against the one
+// active MODULES binding, so they cannot answer "how far along is course X"
+// for a course that is not the active one.
+function courseModuleStats(course, completed) {
+  let done = 0;
+  course.modules.forEach((m) => {
+    const lessons = m.lessons || [];
+    if (lessons.length && lessons.every((l) => (completed[m.id] || {})[l.id])) done += 1;
+  });
+  return { done, total: course.modules.length };
+}
+
+// Every day that had at least one lesson finished on it. state.completed
+// stores the completion date per lesson (see markLessonComplete), so the
+// dates are already there -- this just collects them.
+function activeDaySet(completed) {
+  const days = new Set();
+  Object.values(completed || {}).forEach((lessons) => {
+    Object.values(lessons || {}).forEach((v) => { if (typeof v === 'string') days.add(v.slice(0, 10)); });
+  });
+  return days;
+}
+
 function accountHtml(state) {
   const account = state.account || {};
   const working = account.status === 'working';
   const signedIn = !!account.user;
   const pendingSync = account.pendingSyncAction;
+  const cloud = account.cloudStatus;
+  const local = account.localStatus;
+  const li = levelInfo(state.xp);
+  const pct = li.xpNeeded ? Math.round((li.xpIntoLevel / li.xpNeeded) * 100) : 0;
+  const cleared = totalLessonsCleared(state.completed);
+  const resetHour = state.dailyResetHour || 0;
+  const today = todayISO(resetHour);
+
+  // The monogram is the signed-in email's initial (the mockup's ح is the
+  // account holder's); with no account it falls back to the app's own ع --
+  // an alif from a course name reads as a bare line, not a monogram.
+  const monogram = signedIn ? (account.user.email || '').trim().charAt(0).toUpperCase() : 'ع';
+  const monogramArabic = !signedIn;
+
+  const levelCard = `
+    <div class="account-card">
+      <div class="account-signed-in">
+        <span class="account-monogram"${monogramArabic ? ' lang="ar" dir="rtl"' : ''} aria-hidden="true">${esc(monogram)}</span>
+        <div class="account-identity">
+          <div class="account-level">Level ${li.level}${(() => {
+            const tier = [...LEVEL_TIERS].reverse().find((t) => li.level >= t.level);
+            return tier ? ` · ${tier.name}` : '';
+          })()}</div>
+          <div class="account-email">${signedIn ? esc(account.user.email) : 'Not signed in — progress is saved on this device'}</div>
+        </div>
+      </div>
+      <div class="account-xp-track" aria-hidden="true"><span class="account-xp-fill" style="width:${pct}%"></span></div>
+      <div class="account-xp-row">
+        <span>${li.xpIntoLevel} / ${li.xpNeeded} XP this level</span>
+        <span>${li.xpToNext} to level ${li.level + 1}</span>
+      </div>
+    </div>`;
+
+  const ledger = `
+    <div class="ledger-inline">
+      <div><span class="ledger-inline-value">${state.xp.toLocaleString('en-GB')}</span><span class="ledger-inline-label">Total XP</span></div>
+      <div><span class="ledger-inline-value">${cleared}</span><span class="ledger-inline-label">Lessons cleared</span></div>
+      <div><span class="ledger-inline-value">${state.badges.length}</span><span class="ledger-inline-label">Badges</span></div>
+    </div>`;
+
+  // Four weeks back from today, as a 7-wide grid so the columns line up under
+  // their weekday. Filled = a lesson was finished that day; today is outlined
+  // whether or not anything has been done yet.
+  const days = activeDaySet(state.completed);
+  const weekdayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const todayDate = new Date(`${today}T00:00:00`);
+  // Sunday-first, matching the mockup's calendar.
+  const offsetToSunday = todayDate.getDay();
+  const cells = [];
+  for (let back = 27 - (6 - offsetToSunday); back >= -(6 - offsetToSunday); back -= 1) {
+    const d = new Date(todayDate);
+    d.setDate(d.getDate() - back);
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const cls = ['streak-cell', days.has(iso) ? 'is-filled' : '', iso === today ? 'is-today' : '', d > todayDate ? 'is-future' : ''].filter(Boolean).join(' ');
+    cells.push(`<span class="${cls}" title="${iso}"></span>`);
+  }
+  const streakSection = `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Streak</span>
+      <span class="account-streak-meta">${icon('flame', 12, 2)}${state.streak || 1} day${(state.streak || 1) === 1 ? '' : 's'}</span>
+    </div>
+    <div class="streak-labels">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
+    <div class="streak-grid">${cells.join('')}</div>
+    <p class="streak-note">Last four weeks · a day starts at ${esc(formatResetHour(resetHour))}.</p>`;
+
+  const courseRows = COURSES.map((course) => {
+    const stats = courseModuleStats(course, state.completed);
+    const coursePct = stats.total ? Math.round((stats.done / stats.total) * 100) : 0;
+    const isActive = course.id === state.courseId;
+    return `
+      <div class="course-row">
+        <div class="course-row-head">
+          <span class="course-row-names">
+            <span class="course-row-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
+            <span class="course-row-en">${esc(course.name)}</span>
+          </span>
+          <span class="course-row-label${isActive ? ' is-active' : ''}">${stats.done} / ${stats.total}</span>
+        </div>
+        <div class="course-row-track" aria-hidden="true"><span class="course-row-fill" style="width:${coursePct}%"></span></div>
+      </div>`;
+  }).join('');
+
+  // Stored as PERCENT (85-130 / 80-160), same as the Settings sliders --
+  // multiplying by 100 again once showed a 10000% label and a 1500px preview.
+  const rawLessonScale = Number(state.lessonTextScale);
+  const lessonScale = Number.isFinite(rawLessonScale)
+    ? Math.min(130, Math.max(85, Math.round(rawLessonScale)))
+    : 100;
+  const litScale = normalizeLitTextScale(state.litTextScale);
+  const textSection = `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Reading &amp; text</span>
+    </div>
+    <p class="lede account-text-lede">These change only how the text is set. Nothing changes what is taught.</p>
+    <div class="lesson-size-control">
+      <div class="lesson-size-head">
+        <span class="lesson-size-label">Lesson text size</span>
+        <span class="lesson-size-value">${lessonScale}%</span>
+      </div>
+      <input class="lesson-size-slider" type="range" min="85" max="130" step="5" value="${lessonScale}" data-action="setLessonTextScale" aria-label="Lesson text size">
+      <div class="lesson-size-preview" style="font-size:${(lessonScale / 100 * 15).toFixed(1)}px;">A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</div>
+    </div>
+    <div class="lesson-size-control">
+      <div class="lesson-size-head">
+        <span class="lesson-size-label">Reading text size</span>
+        <span class="lesson-size-value">${litScale}%</span>
+      </div>
+      <input class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litScale}" data-action="setLitTextScale" aria-label="Reading text size">
+      <div class="lesson-size-preview lit-size-preview-line" lang="ar" dir="rtl" style="font-size:${(litScale / 100 * 19).toFixed(1)}px;">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</div>
+    </div>`;
+
   const message = account.message
     ? `<div class="account-message" role="status">${esc(account.message)}</div>`
     : '';
-  const cloud = account.cloudStatus;
-  const local = account.localStatus;
-  const autoUploadStatus = account.autoUploadStatus || 'idle';
-  const autoUploadLabels = {
-    idle: account.syncBaseMeta || cloud?.exists === false ? 'Ready' : 'Waiting',
-    queued: 'Queued',
-    uploading: 'Syncing',
-    synced: 'On',
-    paused: 'Paused',
-    error: 'Needs attention',
-  };
-  const autoUploadMessage = account.autoUploadMessage
-    || (account.syncBaseMeta || cloud?.exists === false
-      ? 'Automatic sync will run after lesson, quiz, and practice progress.'
-      : 'Use Upload or Download once to merge saves and enable automatic sync on this device.');
-  const autoUploadHtml = signedIn ? `
-    <div class="account-auto-sync account-auto-sync-${escAttr(autoUploadStatus)}">
-      <span>Automatic sync</span>
-      <strong>${esc(autoUploadLabels[autoUploadStatus] || autoUploadLabels.idle)}</strong>
-      <p>${esc(autoUploadMessage)}</p>
-    </div>` : '';
-  const statusBlock = (title, status, refreshAction, emptyText) => `
-    <div class="account-cloud-status">
-      <h2 class="settings-group-title">${title}</h2>
-      ${status?.error ? `<p class="settings-group-sub">${esc(status.error)}</p>`
-        : status?.exists ? `
-          <div class="account-status-grid">
-            <span>XP</span><strong>${status.xp}</strong>
-            <span>Badges</span><strong>${status.badges}</strong>
-            <span>Completed lessons</span><strong>${status.completedLessons}</strong>
-            <span>Exercise states</span><strong>${status.exerciseStates}</strong>
-            <span>Practice history</span><strong>${status.practiceHistory}</strong>
-            <span>Saved at</span><strong>${esc(formatDateTime(status.updatedAt))}</strong>
-          </div>`
-        : `<p class="settings-group-sub">${emptyText}</p>`}
-      <button class="ds-btn ds-btn-ghost" data-action="${refreshAction}" ${working ? 'disabled' : ''}>Refresh status</button>
-    </div>`;
-  const saveStatusHtml = signedIn ? `
-    ${statusBlock('Cloud save status', cloud, 'refreshCloudSaveStatus', 'No cloud save data found yet.')}
-    ${statusBlock('This device save status', local, 'refreshLocalSaveStatus', 'No local save data found yet.')}` : '';
   const syncGapSummary = describeSyncGap(local, cloud);
   const confirmPanel = pendingSync ? `
     <div class="account-confirm">
-      <h2 class="settings-group-title">${pendingSync === 'download' ? 'Merge cloud save data?' : 'Merge this device save data?'}</h2>
-      <p class="settings-group-sub">${pendingSync === 'download'
+      <strong>${pendingSync === 'download' ? 'Merge cloud save data?' : 'Merge this device save data?'}</strong>
+      <p>${pendingSync === 'download'
         ? 'This combines the cloud save with this device. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'
         : 'This combines this device with the cloud save. Completed lessons, unlocked content, quiz results, practice progress, XP, and streaks are kept from whichever side is ahead.'}</p>
-      ${syncGapSummary ? `<p class="settings-group-sub">${esc(syncGapSummary)}</p>` : ''}
+      ${syncGapSummary ? `<p>${esc(syncGapSummary)}</p>` : ''}
       <div class="account-actions">
-        <button class="ds-btn ds-btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>Confirm merge</button>
-        <button class="ds-btn ds-btn-ghost" data-action="cancelAccountSync" ${working ? 'disabled' : ''}>Cancel</button>
+        <button class="btn btn-primary" data-action="confirmAccountSync" ${working ? 'disabled' : ''}>Confirm merge</button>
+        <button class="btn btn-ghost" data-action="cancelAccountSync" ${working ? 'disabled' : ''}>Cancel</button>
       </div>
     </div>` : '';
 
+  // The auto-upload lifecycle, made visible: a dot that pulses while a sync
+  // is queued/running, settles solid once the cloud is up to date, and goes
+  // hollow on an error -- with the status message itself surfaced on the
+  // sync row while anything other than plain success is going on.
+  const syncFlagStates = {
+    queued: { label: 'Sync queued', mod: ' is-working' },
+    uploading: { label: 'Syncing…', mod: ' is-working' },
+    synced: { label: 'Sync on', mod: ' is-on' },
+    error: { label: 'Sync issue', mod: ' is-error' },
+  };
+  const syncFlag = syncFlagStates[account.autoUploadStatus] || { label: 'Sync ready', mod: '' };
+  const syncBusy = account.autoUploadStatus === 'queued' || account.autoUploadStatus === 'uploading';
+  const syncRowMeta = (syncBusy || account.autoUploadStatus === 'error') && account.autoUploadMessage
+    ? esc(account.autoUploadMessage)
+    : (cloud?.updatedAt ? `Last saved ${esc(formatDateTime(cloud.updatedAt))}` : 'Upload once to start syncing this device.');
+
+  const cloudSection = signedIn ? `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Cloud save</span>
+      <span class="account-sync-flag${syncFlag.mod}" role="status"><span class="sync-dot" aria-hidden="true"></span>${syncFlag.label}</span>
+    </div>
+    <div class="entry-row account-sync-row">
+      ${icon('archive', 17, 1.8)}
+      <span class="entry-row-body">
+        <span class="entry-row-title">${cloud?.exists ? 'Cloud save found' : 'No cloud save yet'}</span>
+        <span class="entry-row-meta">${syncRowMeta}</span>
+      </span>
+    </div>
+    ${confirmPanel}
+    <div class="account-actions">
+      <button class="btn btn-secondary" data-action="requestUploadAccountProgress" ${working ? 'disabled' : ''}>Upload save</button>
+      <button class="btn btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save</button>
+    </div>
+    ${message}
+    <button class="btn btn-ghost btn-block account-signout" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>`
+    : `
+    <div class="section-head schedule-section">
+      <span class="section-head-title">Cloud save</span>
+    </div>
+    <p class="lede account-text-lede">Sign in to keep this device's progress backed up and in step with your other devices.</p>
+    <div class="account-fields">
+      <label class="account-label" for="account-email">Email</label>
+      <input class="account-input schedule-input" id="account-email" type="email" autocomplete="email">
+      <label class="account-label" for="account-password">Password</label>
+      <div class="password-field">
+        <input class="account-input schedule-input" id="account-password" type="password" autocomplete="current-password">
+        <button class="password-reveal" type="button" data-action="togglePasswordVisibility" aria-label="Show password" aria-pressed="false">
+          <span class="icon-eye">${icon('eye', 15, 1.7)}</span>
+          <span class="icon-eye-off">${icon('eye-off', 15, 1.7)}</span>
+        </button>
+      </div>
+    </div>
+    <div class="account-actions">
+      <button class="btn btn-primary" data-action="loginAccount" ${working ? 'disabled' : ''}>Sign in</button>
+      <button class="btn btn-secondary" data-action="registerAccount" ${working ? 'disabled' : ''}>Create account</button>
+    </div>
+    ${message}`;
+
   return `
     <div class="account-page">
-      <div class="account-card">
-        <span class="settings-kicker">Account</span>
-        <h1 class="settings-title">${signedIn ? 'Your account' : 'Sign in'}</h1>
-        <p class="settings-lede">${signedIn ? 'Your progress is connected to your account.' : 'Sign in or create an account to sync your progress across devices.'}</p>
-
-        <hr class="settings-hr">
-
-        ${signedIn ? `
-          <div class="account-signed-in">
-            <span class="settings-group-sub">Current account</span>
-            <strong>${esc(account.user.email)}</strong>
-          </div>
-          <div class="account-actions">
-            <button class="ds-btn ds-btn-primary" data-action="requestUploadAccountProgress" ${working ? 'disabled' : ''}>Upload save data</button>
-            <button class="ds-btn ds-btn-secondary" data-action="requestDownloadAccountProgress" ${working ? 'disabled' : ''}>Download save data</button>
-            <button class="ds-btn ds-btn-ghost" data-action="logoutAccount" ${working ? 'disabled' : ''}>Sign out</button>
-          </div>
-          ${autoUploadHtml}
-          ${saveStatusHtml}
-          ${confirmPanel}`
-        : `
-          <label class="account-label" for="account-email">Email</label>
-          <input id="account-email" class="schedule-input account-input" type="email" autocomplete="email">
-          <label class="account-label" for="account-password">Password</label>
-          <input id="account-password" class="schedule-input account-input" type="password" autocomplete="current-password">
-          <div class="account-actions">
-            <button class="ds-btn ds-btn-primary" data-action="loginAccount" ${working ? 'disabled' : ''}>Sign in</button>
-            <button class="ds-btn ds-btn-secondary" data-action="registerAccount" ${working ? 'disabled' : ''}>Create account</button>
-          </div>`}
-        ${message}
+      <div class="page-title-row">
+        <h1 class="page-title">Account</h1>
+        <span class="page-title-ar" lang="ar" dir="rtl">الحساب</span>
+      </div>
+      <div class="two-col">
+      <div class="two-col-main">
+      ${levelCard}
+      ${ledger}
+      ${streakSection}
+      <div class="section-head schedule-section">
+        <span class="section-head-title">Courses</span>
+        <span class="lesson-section-note">Modules complete</span>
+      </div>
+      <div class="course-rows">${courseRows}</div>
+      </div>
+      <div class="two-col-side">
+      <button class="entry-row" data-action="openAchievements">
+        ${icon('award', 18, 1.8)}
+        <span class="entry-row-body">
+          <span class="entry-row-title">Achievements</span>
+          <span class="entry-row-meta">${state.badges.length} earned</span>
+        </span>
+        <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+      </button>
+      <button class="entry-row" data-action="openSettings">
+        ${icon('book', 18, 1.8)}
+        <span class="entry-row-body">
+          <span class="entry-row-title">Appearance</span>
+          <span class="entry-row-meta">Paper, accent, and Arabic typeface</span>
+        </span>
+        <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+      </button>
+      ${textSection}
+      ${cloudSection}
+      </div>
       </div>
     </div>`;
 }
@@ -3571,18 +3859,17 @@ const LIT_STAGES = [
 function litBookCardHtml(state, book, index) {
   const { done, total } = bookProgress(book, state.litProgress);
   const pct = total ? Math.round((done / total) * 100) : 0;
+  const started = done > 0;
   return `
-    <button class="lit-book" data-anim-key="litbook${index}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
+    <button class="lit-book${started && done < total ? ' is-current' : ''}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
       <span class="lit-book-spine" aria-hidden="true"></span>
       <span class="lit-book-face">
         <span class="lit-book-kicker">${esc(book.volumeLabel || '')}</span>
         <span class="lit-book-title" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
-        <span class="lit-book-rule" aria-hidden="true"></span>
-        <span class="lit-book-author" lang="ar" dir="rtl">${esc(book.author.ar)}</span>
-      </span>
-      <span class="lit-book-foot">
-        <span class="lit-book-meta">${done} / ${total} chapter${total === 1 ? '' : 's'}</span>
-        <span class="lit-book-track"><span class="lit-book-fill" style="width:${pct}%"></span></span>
+        <span class="lit-book-foot">
+          <span class="lit-book-track" aria-hidden="true"><span class="lit-book-fill" style="width:${pct}%"></span></span>
+          <span class="lit-book-meta">${done} / ${total}</span>
+        </span>
       </span>
     </button>`;
 }
@@ -3599,65 +3886,111 @@ function litShelfHeadingHtml(series) {
 }
 
 function libraryHtml(state) {
-  const hero = heroPanelHtml({
-    watermark: 'الأدب',
-    badge: 'المكتبة',
-    title: 'The Library',
-    body: 'Graded readers, read the way a book is read: a paragraph at a time, with the translation a hover away and every word one click from its form. Each chapter ends with the patterns it just used and a set of sentences to build.',
+  // Where the reader had got to: the first book with chapters behind it but
+  // not yet finished. Falls back to nothing rather than inventing a
+  // "continue" for someone who has not started.
+  let resume = null;
+  for (const book of LIT_BOOKS) {
+    const { done, total } = bookProgress(book, state.litProgress);
+    if (done > 0 && done < total) {
+      const chapterIndex = book.chapters.findIndex((c) => !isChapterDone(state.litProgress, book.id, c.id));
+      if (chapterIndex >= 0) {
+        resume = { book, chapter: book.chapters[chapterIndex], index: chapterIndex };
+        break;
+      }
+    }
+  }
+
+  const resumeCard = resume ? `
+    <button class="lit-continue" data-action="openLitBook" data-book-id="${escAttr(resume.book.id)}">
+      <span class="lit-continue-spine" aria-hidden="true"><span lang="ar" dir="rtl">${esc(arabicNumeral(resume.index + 1))}</span></span>
+      <span class="lit-continue-body">
+        <span class="kicker">Continue reading</span>
+        <span class="lit-continue-title" lang="ar" dir="rtl">${esc(resume.book.title.ar)}</span>
+        <span class="lit-continue-meta">Chapter ${resume.index + 1} · <bdi lang="ar">${esc(resume.chapter.title.ar)}</bdi></span>
+      </span>
+      <span class="lit-continue-chevron">${icon('chevronRight', 16, 2)}</span>
+    </button>` : '';
+
+  // One shelf per series: its Arabic heading, a hairline out to the count,
+  // then that series' books as their own grid.
+  const shelves = [];
+  let current = null;
+  LIT_BOOKS.forEach((book, i) => {
+    const series = bookSeries(book);
+    const key = series ? series.ar : '';
+    if (!current || current.key !== key) {
+      current = { key, series, books: [] };
+      shelves.push(current);
+    }
+    current.books.push({ book, i });
   });
-  let lastSeries = null;
-  const cards = LIT_BOOKS.map((b, i) => {
-    const series = bookSeries(b);
-    const seriesKey = series ? series.ar : '';
-    const seriesChanged = seriesKey !== lastSeries;
-    lastSeries = seriesKey;
-    const headingHtml = seriesChanged && series ? litShelfHeadingHtml(series) : '';
-    return `${headingHtml}${litBookCardHtml(state, b, i)}`;
-  }).join('');
+
+  const shelvesHtml = shelves.map((shelf) => `
+    ${shelf.series ? `
+      <div class="lit-shelf-heading">
+        <span class="lit-shelf-heading-ar" lang="ar" dir="rtl">${esc(shelf.series.ar)}</span>
+        <span class="lit-shelf-heading-en">${shelf.books.length} volume${shelf.books.length === 1 ? '' : 's'}</span>
+      </div>` : ''}
+    <div class="lit-shelf">${shelf.books.map(({ book, i }) => litBookCardHtml(state, book, i)).join('')}</div>`).join('');
+
   return `
-    <div class="hero-page lit-library-page">
-      ${hero}
-      ${separatorHtml()}
-      <div class="col-wide">
-        <div class="lit-shelf">${cards}</div>
+    <div class="lit-library-page">
+      <div class="page-title-row">
+        <h1 class="page-title">Library</h1>
+        <span class="page-title-ar" lang="ar" dir="rtl">المكتبة</span>
       </div>
+      <p class="lede library-lede">Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.</p>
+      ${resumeCard}
+      <div class="lit-shelves">${shelvesHtml}</div>
     </div>`;
 }
 
-function litChapterRowHtml(state, book, chapter, index) {
+function litChapterRowHtml(state, book, chapter, index, isCurrent = false) {
   const unlocked = isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll);
   const done = isChapterDone(state.litProgress, book.id, chapter.id);
   const rec = chapterRecord(state.litProgress, book.id, chapter.id);
-  // rec.freePara alone (no Practice progress) still counts as "started" here
-  // -- this is a general "you've touched this chapter" row tag, not a
-  // specific promise about which mode resumes where (see the Practice-only
-  // `started` a few lines down in litChapterPreviewHtml, and litChapterRecord's
-  // freePara comment in js/main.js for why the two stay separate).
+  // rec.freePara alone (no Practice progress) still counts as "touched" here
+  // -- this is a general "you have been in this chapter" state, not a promise
+  // about which mode resumes where (see litChapterPreviewHtml's Practice-only
+  // `started`).
   const started = !done && rec && (rec.para > 0 || rec.freePara > 0);
-  // A chapter that sits on one printed page is "p. 9", not "pp. 9" -- Qaṣaṣ
-  // runs a chapter per page, so the single-page case is the common one there.
+
+  // A chapter on one printed page is "p. 9", not "pp. 9" -- Qaṣaṣ runs a
+  // chapter per page, so the single-page case is the common one.
   const pageList = chapter.pages || [];
   const pages = pageList.length > 1
     ? `pp. ${pageList[0]}–${pageList[pageList.length - 1]}`
     : pageList.length === 1 ? `p. ${pageList[0]}` : '';
-  const tag = !unlocked
-    ? '<span class="tag tag-neutral">Locked</span>'
-    : done
-      ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Read</span>`
-      : `<span class="tag tag-accent">${started ? 'Resume' : 'Read'}</span>`;
+
+  const cls = [
+    'lit-chapter',
+    !unlocked ? 'is-locked' : '',
+    done ? 'is-done' : '',
+    isCurrent ? 'is-current' : '',
+  ].filter(Boolean).join(' ');
+
+  const ring = done
+    ? `<span class="lit-chapter-num is-done">${icon('check', 12, 2.6)}</span>`
+    : unlocked
+      ? `<span class="lit-chapter-num${isCurrent ? ' is-current' : ''}">${chapter.number}</span>`
+      : `<span class="lit-chapter-num">${icon('lock', 11, 2)}</span>`;
+
+  // The chapter in hand says what continuing actually means; the rest stay
+  // quiet with just their blurb.
+  const cta = isCurrent ? `
+    <span class="lit-chapter-cta">${started ? 'Continue' : 'Start'}${pages ? ` · ${esc(pages)}` : ''}, then the drills${icon('chevronRight', 13, 2)}</span>` : '';
+
   return `
-    <button class="lit-chapter${unlocked ? '' : ' locked'}${done ? ' is-done' : ''}" data-anim-key="litch${index}"
+    <button class="${cls}"
       ${unlocked ? `data-action="openLitChapterPreview" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}"` : 'disabled'}>
-      <span class="lit-chapter-num">${unlocked ? String(chapter.number).padStart(2, '0') : icon('lock', 15, 2)}</span>
+      ${ring}
       <span class="lit-chapter-body">
         <span class="lit-chapter-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</span>
-        <span class="lit-chapter-en">${escBidi(chapter.title.en)}</span>
-        <span class="lit-chapter-blurb">${escBidi(chapter.blurb || '')}</span>
+        <span class="lit-chapter-blurb">${escBidi(chapter.blurb || chapter.title.en || '')}</span>
+        ${cta}
       </span>
-      <span class="lit-chapter-side">
-        ${pages ? `<span class="lit-chapter-pages">${esc(pages)}</span>` : ''}
-        ${tag}
-      </span>
+      ${!isCurrent && pages ? `<span class="lit-chapter-pages">${esc(pages)}</span>` : ''}
     </button>`;
 }
 
@@ -3684,8 +4017,8 @@ function litChapterPreviewHtml(state) {
   const practiceLabel = done ? 'Practice (drills)' : started ? 'Resume' : 'Practice';
 
   return `
-    <div class="modal-backdrop" data-anim-key="modalbd" data-action="closeLitChapterPreview">
-      <div class="modal lit-chapter-modal" data-anim-key="modal:${escAttr(chapter.id)}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(chapter.title.en)}">
+    <div class="modal-backdrop" data-action="closeLitChapterPreview">
+      <div class="modal lit-chapter-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(chapter.title.en)}">
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
@@ -3702,31 +4035,64 @@ function litBookHtml(state) {
   const book = getLitBook(state.litBookId);
   if (!book) return libraryHtml(state);
   const { done, total } = bookProgress(book, state.litProgress);
+  const pct = total ? Math.round((done / total) * 100) : 0;
   const weakCount = unknownLemmas(state.litUnknown, book.id).length;
+  const series = bookSeries(book);
+
+  // The ghost numeral is this book's place in its own series, which is what
+  // the volume label names.
+  const seriesBooks = LIT_BOOKS.filter((b) => {
+    const s = bookSeries(b);
+    return (s ? s.ar : '') === (series ? series.ar : '');
+  });
+  const volumeNumber = seriesBooks.indexOf(book) + 1;
+
+  // The book's page range, taken from its chapters rather than stored twice.
+  const allPages = book.chapters.flatMap((c) => c.pages || []);
+  const pageRange = allPages.length
+    ? (allPages.length > 1 ? `pp. ${Math.min(...allPages)}–${Math.max(...allPages)}` : `p. ${allPages[0]}`)
+    : '';
+
+  const current = book.chapters.findIndex((c, i) => isChapterUnlocked(book, i, state.litProgress, state.forceUnlockAll)
+    && !isChapterDone(state.litProgress, book.id, c.id));
+
   return `
-    <div class="hero-page lit-book-page">
-      <section class="lit-cover">
-        <span aria-hidden="true" class="lit-cover-watermark" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
+    <div class="lit-book-page">
+      <div class="module-backrow">
+        <button class="back-chevron" data-action="openLibrary" aria-label="Back to the Library">${icon('arrowLeft', 20, 2)}</button>
+        <span class="app-crumb">Library${series ? ` · <bdi lang="ar">${esc(series.ar)}</bdi>` : ''}</span>
+      </div>
+      <div class="plate lit-cover">
+        <span aria-hidden="true" class="plate-ghost" lang="ar" dir="rtl">${esc(arabicNumeral(volumeNumber))}</span>
         <div class="lit-cover-inner">
-          ${heroBadgeHtml(book.volumeLabel || 'كتاب')}
+          <div class="kicker lit-cover-kicker">${esc(book.volumeLabel || 'Volume')} · ${total} chapter${total === 1 ? '' : 's'}</div>
           <h1 class="lit-cover-title" lang="ar" dir="rtl">${esc(book.title.ar)}</h1>
+          <div class="module-cover-rule" aria-hidden="true"></div>
           <p class="lit-cover-author" lang="ar" dir="rtl">${esc(book.author.ar)}</p>
           <p class="lit-cover-body">${escBidi(book.blurb)}</p>
-          ${heroLedgerHtml([
-            ['Chapters read', `${done} / ${total}`],
-            ['Words to practice', String(weakCount)],
-            ['Book', book.title.en],
-          ])}
-          <div class="action-row">
-            <button class="btn btn-secondary" ${weakCount ? `data-action="openLitWordPractice" data-book-id="${escAttr(book.id)}"` : 'disabled'}>${icon('archive', 15, 1.7)} Practice weak words (${weakCount})</button>
+          <div class="module-cover-progress">
+            <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
+            <span class="module-cover-count">${done} / ${total} read</span>
           </div>
         </div>
-        ${cornerBracketsHtml()}
-      </section>
-      ${separatorHtml()}
-      <div class="col-wide">
-        <h2 class="lit-contents-head">Contents</h2>
-        <div class="lit-contents">${book.chapters.map((c, i) => litChapterRowHtml(state, book, c, i)).join('')}</div>
+      </div>
+
+      <button class="entry-row" ${weakCount ? `data-action="openLitWordPractice" data-book-id="${escAttr(book.id)}"` : 'disabled'}>
+        ${icon('archive', 17, 1.8)}
+        <span class="entry-row-body">
+          <span class="entry-row-title">Practice weak words</span>
+          <span class="entry-row-meta">${weakCount ? `${weakCount} marked across this book` : 'Nothing marked yet — tap a word twice while reading'}</span>
+        </span>
+        <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+      </button>
+
+      <div class="lit-contents">
+        <div class="lesson-section-head">
+          <span class="lesson-section-title">Contents</span>
+          ${pageRange ? `<span class="lesson-section-note">${esc(pageRange)}</span>` : ''}
+        </div>
+        <div class="lit-chapter-list">${book.chapters.map((c, i) => litChapterRowHtml(state, book, c, i, i === current)).join('')}</div>
+        <p class="lit-contents-note">Chapters unlock in order — finish one to open the next.</p>
       </div>
     </div>`;
 }
@@ -3781,7 +4147,7 @@ function litParagraphHtml(state, para, pi, active) {
     ? `<div class="lit-para-text is-lines" lang="ar" dir="rtl">${para.sentences.map((s) => `<p class="lit-line">${litSentenceHtml(state, s)}</p>`).join('')}</div>`
     : `<p class="lit-para-text" lang="ar" dir="rtl">${para.sentences.map((s) => litSentenceHtml(state, s)).join(' ')}</p>`;
   return `
-    <article class="lit-para${active ? ' is-active' : ''}" data-anim-key="litpara${pi}">
+    <article class="lit-para${active ? ' is-active' : ''}">
       <div class="lit-para-gutter">
         <span class="lit-para-mark" aria-hidden="true">${pi + 1}</span>
         <button class="lit-para-en${fullOpen ? ' is-active' : ''}" data-action="litToggleFullPara" data-para="${pi}"
@@ -3823,13 +4189,13 @@ function litChecksHtml(state, para, pi) {
   // needs its way onward, just without an empty question card above it.
   if (!para.checks.length) {
     return `
-      <section class="lit-checks lit-checks-bare" data-anim-key="litchecks${pi}">
+      <section class="lit-checks lit-checks-bare">
         <button class="btn btn-primary btn-block" data-action="litNextParagraph">${advanceLabel}</button>
       </section>`;
   }
 
   return `
-    <section class="lit-checks" data-anim-key="litchecks${pi}">
+    <section class="lit-checks">
       <div class="lit-checks-head">
         <span class="card-kicker">On this paragraph</span>
         <div class="lit-checks-head-right">
@@ -3849,7 +4215,6 @@ function litChecksHtml(state, para, pi) {
             submitted: !!rec,
             actionName: 'litCheckOption',
             extraData: `data-check="${ci}"`,
-            animScope: `litc${pi}_${ci}${inEnglish ? 'e' : ''}`,
             order: state.lit.checkOrder[`${pi}:${ci}`],
           })}
         </div>`;
@@ -3983,15 +4348,22 @@ function litWorkshopHtml(state, chapter) {
       ? `Say the same thing about <bdi lang="ar">${esc(item.targetPerson)}</bdi>${item.targetEn ? ` (${escBidi(item.targetEn)})` : ''}.`
       : escBidi(item.en);
   return `
-    <section class="lit-drill" data-anim-key="litw${lit.wIndex}">
+    <section class="lit-drill">
       <div class="lit-drill-head">
         <span class="card-kicker">${esc(kicker)}</span>
         <span class="lit-drill-count">${lit.wIndex + 1} / ${lit.workshop.length}</span>
       </div>
       <p class="lit-drill-lede">${task}</p>
-      ${item.base ? `<p class="lit-drill-base" lang="ar" dir="rtl">${esc(item.base)}</p>` : ''}
+      ${item.base ? `
+        <div class="lit-from-text">
+          <span class="lit-from-text-label">From the text</span>
+          <span class="lit-from-text-line" lang="ar" dir="rtl">${esc(item.base)}</span>
+        </div>` : ''}
       ${item.type !== 'cloze' && item.en ? `<p class="lit-drill-sub">${escBidi(item.en)}</p>` : ''}
-      <p class="lit-frame" lang="ar" dir="rtl">${item.pre ? `${esc(item.pre)} ` : ''}${slot}${item.post ? ` ${esc(item.post)}` : ''}</p>
+      <div class="lit-cloze-card">
+        <p class="lit-cloze" lang="ar" dir="rtl">${item.pre ? `${esc(item.pre)} ` : ''}${slot}${item.post ? ` ${esc(item.post)}` : ''}</p>
+      </div>
+      <div class="lit-chip-label">Choose a word</div>
       ${litChipsHtml((item.order || item.options.map((_, i) => i)).map((orig) => ({ surface: item.options[orig], value: orig })), {
         // The word currently in the blank is shown as spent, not as another
         // choice -- offering it twice made the tray read as untouched after
@@ -4001,13 +4373,15 @@ function litWorkshopHtml(state, chapter) {
         disabled: submitted,
       })}
       ${submitted ? `
-        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : `Not quite — it is ${escBidi(item.options[item.answer])}.`}</div>
-        ${rationale ? `<div class="quiz-feedback-explanation">${escBidi(rationale)}</div>` : ''}
-        ${!correct && (item.rationales || [])[item.answer] ? `<div class="quiz-feedback-explanation">${escBidi(item.rationales[item.answer])}</div>` : ''}` : ''}
-      <div class="action-row">
+        <div class="quiz-feedback${correct ? '' : ' quiz-feedback-incorrect'}">
+          <div class="quiz-feedback-line">${correct ? 'Correct.' : `Not quite — it is ${escBidi(item.options[item.answer])}.`}</div>
+          ${rationale ? `<p class="quiz-feedback-explanation">${escBidi(rationale)}</p>` : ''}
+          ${!correct && (item.rationales || [])[item.answer] ? `<p class="quiz-feedback-explanation">${escBidi(item.rationales[item.answer])}</p>` : ''}
+        </div>` : ''}
+      <div class="lit-drill-foot">
         ${submitted
-          ? `<button class="btn btn-primary" data-action="litWorkshopNext">${isLast ? 'On to building sentences' : 'Next'}</button>`
-          : `<button class="btn btn-primary" data-action="litWorkshopCheck" ${placed === null ? 'disabled' : ''}>Check</button>`}
+          ? `<button class="btn btn-primary btn-block" data-action="litWorkshopNext">${isLast ? 'On to building sentences' : 'Next'}</button>`
+          : `<button class="btn btn-primary lit-drill-check" data-action="litWorkshopCheck" ${placed === null ? 'disabled' : ''}>Check</button>`}
       </div>
     </section>`;
 }
@@ -4025,12 +4399,13 @@ function litBuildHtml(state, chapter) {
     ? (lit.bSlots.map((ci) => (ci === null ? null : item.chips[ci])).find((chip) => chip && !chip.correct) || {}).note
     : '';
   return `
-    <section class="lit-drill lit-build" data-anim-key="litb${lit.bIndex}">
+    <section class="lit-drill lit-build">
       <div class="lit-drill-head">
         <span class="card-kicker">Build the sentence</span>
         <span class="lit-drill-count">${lit.bIndex + 1} / ${lit.build.length}</span>
       </div>
       <p class="lit-drill-lede">${escBidi(item.en)}</p>
+      <div class="lit-slot-card">
       <div class="lit-slots" lang="ar" dir="rtl">
         ${lit.bSlots.map((ci, i) => {
           const chip = ci === null ? null : item.chips[ci];
@@ -4041,6 +4416,9 @@ function litBuildHtml(state, chapter) {
             aria-label="Word ${i + 1} of ${lit.bSlots.length}${chip ? `: ${esc(chip.surface)}. Activate to take it back.` : ', empty'}">${chip ? esc(chip.surface) : ''}</span>`;
         }).join('')}
       </div>
+        <div class="lit-slot-hint">Tap a word below, then a slot — or tap a filled slot to take it back.</div>
+      </div>
+      <div class="lit-chip-label">Words</div>
       ${litChipsHtml(item.chips, {
         used: new Set(lit.bSlots.filter((s) => s !== null)),
         selected: lit.bSelected,
@@ -4048,14 +4426,17 @@ function litBuildHtml(state, chapter) {
         disabled: submitted,
       })}
       ${submitted ? `
-        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : 'Not quite.'}</div>
-        ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
-        ${wrongNote ? `<div class="quiz-feedback-explanation">${escBidi(wrongNote)}</div>` : ''}` : ''}
-      <div class="action-row">
+        <div class="quiz-feedback${correct ? '' : ' quiz-feedback-incorrect'}">
+          <div class="quiz-feedback-line">${correct ? 'Correct.' : 'Not quite.'}</div>
+          ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
+          ${wrongNote ? `<p class="quiz-feedback-explanation">${escBidi(wrongNote)}</p>` : ''}
+        </div>` : ''}
+      <div class="lit-drill-foot">
         ${submitted
-          ? `<button class="btn btn-primary" data-action="litBuildNext">${isLast ? 'Finish the chapter' : 'Next sentence'}</button>`
-          : `<button class="btn btn-primary" data-action="litBuildCheck" ${filled ? '' : 'disabled'}>Check</button>`}
-        ${submitted ? '' : `<button class="btn btn-secondary" data-action="litBuildClear" ${lit.bSlots.some((s) => s !== null) ? '' : 'disabled'}>Clear</button>`}
+          ? `<button class="btn btn-primary btn-block" data-action="litBuildNext">${isLast ? 'Finish the chapter' : 'Next sentence'}</button>`
+          : `
+            <button class="btn btn-secondary" data-action="litBuildClear" ${lit.bSlots.some((s) => s !== null) ? '' : 'disabled'}>Clear</button>
+            <button class="btn btn-primary lit-drill-check" data-action="litBuildCheck" ${filled ? '' : 'disabled'}>Check</button>`}
       </div>
     </section>`;
 }
@@ -4065,7 +4446,7 @@ function litCompleteHtml(state, chapter) {
   const words = unknownWordsInChapter(chapter, state.litUnknown, lit.bookId);
   const pct = lit.total ? Math.round((lit.correct / lit.total) * 100) : 0;
   return `
-    <section class="lit-complete" data-anim-key="litdone${lit.chapterId}">
+    <section class="lit-complete plate">
       ${heroBadgeHtml('تمّت القراءة')}
       <h2 class="lit-complete-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h2>
       <p class="lit-complete-sub">${escBidi(chapter.title.en)} — read, drilled and built.</p>
@@ -4147,10 +4528,11 @@ function litReadHtml(state) {
       </div>
       <div class="lit-reader-body">
         <div class="lit-page">${stageBody}</div>
+        ${lit.stage === 'read' ? `
         <aside class="lit-aside" aria-label="Word notes">
           ${litWordCardHtml(state, chapter)}
           ${litUnknownListHtml(state, chapter)}
-        </aside>
+        </aside>` : ''}
       </div>
     </div>`;
 }
@@ -4170,7 +4552,7 @@ function litWordPracticeDrillHtml(p, item) {
     ? (p.slots.map((ci) => (ci === null ? null : item.chips[ci])).find((chip) => chip && !chip.correct) || {}).note
     : '';
   return `
-    <section class="lit-drill lit-build" data-anim-key="litwp${p.index}">
+    <section class="lit-drill lit-build">
       <div class="lit-drill-head">
         <span class="card-kicker">Build the sentence</span>
         <span class="lit-drill-count">${p.index + 1} / ${p.queue.length}</span>
@@ -4207,7 +4589,7 @@ function litWordPracticeDrillHtml(p, item) {
 function litWordPracticeCompleteHtml(p, book) {
   const pct = p.total ? Math.round((p.correct / p.total) * 100) : 0;
   return `
-    <section class="lit-complete" data-anim-key="litwpdone${p.bookId}">
+    <section class="lit-complete">
       ${heroBadgeHtml('تمّت المراجعة')}
       <h2 class="lit-complete-title" lang="ar" dir="rtl">${book ? esc(book.title.ar) : ''}</h2>
       <p class="lit-complete-sub">Weak-words practice — reviewed and scored.</p>
@@ -4249,9 +4631,6 @@ function litWordPracticeHtml(state) {
 // --- top-level dispatch ---------------------------------------------------
 
 export function render(state, MODULES, revealedKeys = new Set()) {
-  // Cover screen, ahead of the normal header/main/footer chrome entirely --
-  // see launchHtml's own comment for why.
-  if (state.launchScreen) return launchHtml(state);
   let body;
   switch (state.view) {
     case 'module':
@@ -4311,5 +4690,5 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');
   const contentClasses = ['main-content', isLiveQuestion ? 'question-content' : ''].filter(Boolean).join(' ');
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${footerHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
+  return `${headerHtml(state, MODULES)}<main class="${mainClasses}"><div class="${contentClasses}">${body}</div></main>${tabBarHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
 }

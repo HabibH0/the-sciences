@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="_ds/classical-26001dcf-1117-41df-b3e0-87e93c0c7507/styles.css">
+  <script src="_ds/classical-26001dcf-1117-41df-b3e0-87e93c0c7507/_ds_bundle.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;background:var(--color-neutral-200);}
+    .ar{font-family:'Scheherazade New', serif;text-align:left;}
+    a{color:var(--color-accent-700);}
+    a:hover{color:var(--color-accent-900);}
+    *{scrollbar-width:none;-ms-overflow-style:none;}
+    *::-webkit-scrollbar{display:none;width:0;height:0;}
+  </style>
+</helmet>
+<div style="width:390px;height:844px;margin:24px auto;background:var(--color-bg);box-shadow:var(--shadow-lg);font-family:var(--font-body);display:flex;flex-direction:column;overflow:hidden;position:relative;border-radius:18px;">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="background:color-mix(in srgb, var(--color-neutral-900) 92%, black);padding:22px 22px 20px;">
+      <div style="position:relative;display:flex;align-items:baseline;justify-content:space-between;">
+        <div class="ar" style="font-size:16px;color:color-mix(in srgb, var(--color-bg) 75%, transparent);">السلام عليكم</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-accent);font-variant-numeric:tabular-nums;border:1px solid var(--color-accent);border-radius:var(--radius-md);background:color-mix(in srgb, var(--color-accent) 12%, transparent);padding:3px 9px;">
+          <span style="display:flex;align-items:center;gap:4px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            6
+          </span>
+          <span style="width:1px;height:11px;background:var(--color-accent);opacity:0.5;"></span>
+          <span style="display:flex;align-items:center;gap:4px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>
+            4
+          </span>
+        </div>
+      </div>
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:25px;color:var(--color-bg);margin-top:8px;line-height:1.15;">Keep going, you're close.</div>
+      <div style="height:1px;background:var(--color-accent);width:36px;margin-top:10px;"></div>
+
+      <sc-if value="{{ isAnnahw }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:14px;margin-top:14px;border:1px solid color-mix(in srgb, var(--color-bg) 25%, transparent);border-radius:var(--radius-md);padding:12px 14px;">
+        <svg width="42" height="42" viewBox="0 0 52 52" style="flex:none;">
+          <circle cx="26" cy="26" r="22" fill="none" stroke="color-mix(in srgb, var(--color-bg) 20%, transparent)" stroke-width="3"/>
+          <circle cx="26" cy="26" r="22" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-dasharray="138.2" stroke-dashoffset="86" transform="rotate(-90 26 26)"/>
+          <text x="26" y="30" text-anchor="middle" font-size="11" fill="var(--color-bg)" font-variant-numeric="tabular-nums">38%</text>
+        </svg>
+        <div style="flex:1;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent);">Continue</div>
+          <div class="ar" style="font-size:19px;color:var(--color-bg);margin-top:1px;">أفعال القلوب</div>
+          <div style="font-size:11px;color:color-mix(in srgb, var(--color-bg) 65%, transparent);margin-top:1px;">Lesson 2 · عَلِمَ وعَرَفَ</div>
+        </div>
+      </div>
+      <button class="btn btn-block" style="margin-top:12px;border-color:var(--color-accent);color:var(--color-accent);" onclick="{{ goLesson }}">Resume lesson</button>
+      </sc-if>
+      <sc-if value="{{ isOtherCourse }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:14px;border:1px solid color-mix(in srgb, var(--color-bg) 25%, transparent);border-radius:var(--radius-md);padding:16px 14px;text-align:center;">
+        <div style="font-size:13px;color:color-mix(in srgb, var(--color-bg) 80%, transparent);">No lesson in progress in {{ courseEn }} yet.</div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="padding:16px 22px 8px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+      <div style="display:flex;align-items:baseline;gap:8px;flex:1;min-width:0;">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);white-space:nowrap;flex-shrink:0;">Your modules</span>
+        <span class="ar" style="font-size:13px;color:var(--color-accent-700);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" onclick="{{ toggleCourseMenu }}">· {{ courseAr }} ▾</span>
+      </div>
+      <span style="font-size:12px;flex-shrink:0;color:var(--color-accent-700);cursor:pointer;" onclick="{{ goModules }}">See all</span>
+    </div>
+
+    <sc-if value="{{ courseMenuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:0 22px 10px;border:1px solid var(--color-divider);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--color-divider);cursor:pointer;background:color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));" onclick="{{ pickAnnahw }}">
+        <div class="ar" style="font-size:14px;color:var(--color-text);font-weight:600;">النَّحْوُ الْمُتَقَدِّمُ</div>
+        <div style="font-size:11px;color:var(--color-accent-700);margin-top:1px;">Advanced Nahw · 30 modules</div>
+      </div>
+      <div style="padding:10px 14px;border-bottom:1px solid var(--color-divider);cursor:pointer;" onclick="{{ pickFstu }}">
+        <div class="ar" style="font-size:14px;color:var(--color-text);">النَّحْوُ التَّمْهِيْدِّيُ</div>
+        <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">Introductory Nahw</div>
+      </div>
+      <div style="padding:10px 14px;border-bottom:1px solid var(--color-divider);cursor:pointer;" onclick="{{ pickSarf }}">
+        <div class="ar" style="font-size:14px;color:var(--color-text);">الصَّرْفُ التَّمْهِيْدِّيُ</div>
+        <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">Introductory Sarf</div>
+      </div>
+      <div style="padding:10px 14px;cursor:pointer;" onclick="{{ pickSarfAdv }}">
+        <div class="ar" style="font-size:14px;color:var(--color-text);">الصَّرْفُ الْمُتَقَدِّمُ</div>
+        <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">Advanced Sarf</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isAnnahw }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:8px;margin:0 22px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--color-divider);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);">
+        <div style="font-size:12px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;">4</div>
+        <div style="flex:1;">
+          <div class="ar" style="font-size:16px;color:var(--color-text);font-weight:600;">اللزوم والتعدي</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);">Complete</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--color-accent);border-radius:var(--radius-md);border-left:3px solid var(--color-accent);background:color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));box-shadow:var(--shadow-md);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <div style="font-size:13px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;">5</div>
+        <div style="flex:1;">
+          <div class="ar" style="font-size:16px;color:var(--color-text);font-weight:700;">أفعال القلوب</div>
+          <div style="font-size:11px;color:var(--color-accent-700);font-weight:600;">In progress</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--color-divider);border-radius:var(--radius-md);opacity:0.5;">
+        <div style="font-size:12px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;">6</div>
+        <div style="flex:1;">
+          <div class="ar" style="font-size:16px;color:var(--color-neutral-700);">التحويل والتعليق</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);">Locked</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isOtherCourse }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:0 22px;border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:20px;text-align:center;">
+      <div style="font-size:13px;color:var(--color-neutral-700);">No lessons started yet in {{ courseEn }}.</div>
+      <div style="font-size:12px;color:var(--color-neutral-600);margin-top:4px;">Pick a module to begin once you switch in.</div>
+    </div>
+    </sc-if>
+
+    <div style="padding:16px 22px 4px;">
+      <div style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);margin-bottom:8px;">Explore</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;box-shadow:var(--shadow-sm);cursor:pointer;" onclick="{{ goLibrary }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:6px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <div style="font-size:12px;font-weight:600;color:var(--color-text);">Library</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);margin-top:2px;">Qaṣaṣ an-Nabiyyīn</div>
+        </div>
+        <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;box-shadow:var(--shadow-sm);cursor:pointer;" onclick="{{ goSchedule }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:6px;"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <div style="font-size:12px;font-weight:600;color:var(--color-text);">Schedule</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);margin-top:2px;">3 due today</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;"></div>
+
+    <div style="display:flex;justify-content:space-around;align-items:center;padding:10px 8px 16px;border-top:1px solid var(--color-divider);">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
+        <div style="font-size:10px;font-weight:600;">Home</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goLibrary }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div style="font-size:10px;">Library</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goSchedule }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div style="font-size:10px;">Schedule</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goAccount }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+        <div style="font-size:10px;">Account</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isModuleShell }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 16px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--color-neutral-600);">Advanced Nahw · Module 5</div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 0 22px;">
+      <div style="margin:14px 22px 0;background:color-mix(in srgb, var(--color-neutral-900) 92%, black);border-radius:var(--radius-lg);padding:20px 20px 18px;position:relative;overflow:hidden;">
+        <span class="ar" aria-hidden="true" style="position:absolute;right:-8px;bottom:-26px;font-family:'Scheherazade New', serif;font-size:96px;line-height:1;color:color-mix(in srgb, var(--color-bg) 7%, transparent);pointer-events:none;">٥</span>
+        <div style="position:relative;">
+          <div class="ar" style="font-size:11.5px;color:var(--color-accent);">العامل وغير العامل · الفعل</div>
+          <div class="ar" style="font-family:'Scheherazade New', serif;font-size:29px;color:var(--color-bg);margin-top:7px;line-height:1.3;">أفعال القلوب</div>
+          <div style="height:1px;background:var(--color-accent);width:34px;margin-top:9px;"></div>
+          <p style="font-size:12px;line-height:1.65;color:color-mix(in srgb, var(--color-bg) 78%, transparent);margin:10px 0 0;text-align:justify;">The two-object verbs of certainty (وجد، رأى، علم، درى) and assumption (ظن، حسب، زعم، جعل), the أنّ/أنْ/plain-object scale of تأكيد, and the rules governing when their objects may or may not be dropped.</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;">
+            <span style="flex:1;height:3px;background:color-mix(in srgb, var(--color-bg) 20%, transparent);">
+              <span style="display:block;height:3px;width:20%;background:var(--color-accent);"></span>
+            </span>
+            <span style="font-size:11px;color:var(--color-accent);font-variant-numeric:tabular-nums;flex:none;">1 / 5 lessons</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin:12px 22px 0;padding:12px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);cursor:pointer;" onclick="{{ goPracticeSetup }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+        <div style="flex:1;">
+          <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Practice Mode</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">46 cards from lessons you've finished</div>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin:22px 22px 0;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Lessons</span>
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">In order</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin:12px 22px 0;">
+        <div style="display:flex;gap:12px;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+          <div style="flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:17px;color:var(--color-text);line-height:1.35;">وَجَدَ ورَأَى</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px;line-height:1.5;">Verbs of certainty — وجد's shift to sure knowledge, رأى's three readings</div>
+            <div style="font-size:10px;color:var(--color-accent-700);margin-top:6px;font-variant-numeric:tabular-nums;">Quiz 6 / 6 · +60 XP</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;padding:13px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));box-shadow:var(--shadow-md);cursor:pointer;" onclick="{{ goLesson }}">
+          <div style="flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--color-accent);background:color-mix(in srgb, var(--color-accent) 10%, var(--color-bg));display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--color-accent-700);font-weight:700;">2</div>
+          <div style="flex:1;min-width:0;">
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;color:var(--color-text);line-height:1.35;">عَلِمَ وعَرَفَ</div>
+            <div style="font-size:11px;color:var(--color-neutral-700);margin-top:2px;line-height:1.5;">Knowing a صفة, recognising a ذات, learning after ignorance</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px;">
+              <span style="font-size:11px;color:var(--color-accent-700);font-weight:600;">Continue · 4 concepts, then a quiz</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <sc-for list="{{ lockedLessons }}" as="l" hint-placeholder-count="3">
+        <div style="display:flex;gap:12px;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+          <div style="flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:17px;color:var(--color-neutral-600);line-height:1.35;">{{ l.ar }}</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px;line-height:1.5;">{{ l.en }}</div>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="margin:18px 22px 0;font-size:11px;color:var(--color-neutral-600);cursor:pointer;text-decoration:underline;text-decoration-color:var(--color-divider);text-underline-offset:3px;">Reset this module's progress</div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPracticeSetup }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 16px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">Practice Mode</div>
+        <div class="ar" style="font-size:12px;color:var(--color-accent-700);margin-top:1px;">أفعال القلوب</div>
+      </div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:16px 22px 22px;">
+      <p style="font-size:12.5px;line-height:1.6;color:var(--color-neutral-700);margin:0;">Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.</p>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+        <sc-for list="{{ kindCards }}" as="k" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid {{ k.border }};border-radius:var(--radius-lg);background:{{ k.bg }};box-shadow:{{ k.shadow }};cursor:pointer;" onclick="{{ k.pick }}">
+          <span style="flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid {{ k.dotBorder }};display:flex;align-items:center;justify-content:center;">
+            <span style="width:8px;height:8px;border-radius:50%;background:{{ k.dotFill }};"></span>
+          </span>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:baseline;gap:8px;">
+              <span class="{{ k.cls }}" style="font-size:14px;color:var(--color-text);font-weight:600;">{{ k.name }}</span>
+              <span style="font-size:11px;color:{{ k.countColor }};font-variant-numeric:tabular-nums;">{{ k.count }} cards</span>
+            </div>
+            <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:2px;line-height:1.5;">{{ k.desc }}</div>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:22px;padding-top:14px;border-top:1px solid var(--color-divider);">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Session length</div>
+        <div style="display:flex;gap:8px;margin-top:9px;">
+          <sc-for list="{{ lenOptions }}" as="o" hint-placeholder-count="3">
+          <button style="flex:1;font-family:var(--font-body);font-size:12px;padding:8px 0;cursor:pointer;border:1px solid {{ o.border }};border-radius:999px;background:{{ o.bg }};color:{{ o.color }};font-variant-numeric:tabular-nums;" onclick="{{ o.pick }}">{{ o.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ cfgIsMcq }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:18px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Where questions come from</div>
+        <div style="display:flex;gap:8px;margin-top:9px;">
+          <sc-for list="{{ sourceOptions }}" as="o" hint-placeholder-count="3">
+          <button style="flex:1;font-family:var(--font-body);font-size:11.5px;padding:8px 0;cursor:pointer;border:1px solid {{ o.border }};border-radius:999px;background:{{ o.bg }};color:{{ o.color }};" onclick="{{ o.pick }}">{{ o.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ cfgIsTarkeeb }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);cursor:pointer;" onclick="{{ toggleTarkeebEn }}">
+          <div style="flex:1;">
+            <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Show the sentence in English</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">A small English line under each diagram.</div>
+          </div>
+          <span style="font-size:10.5px;color:{{ tarkeebEnColor }};border:1px solid {{ tarkeebEnBorder }};border-radius:999px;padding:2px 9px;flex:none;">{{ tarkeebEnLabel }}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);cursor:pointer;" onclick="{{ toggleTarkeebColor }}">
+          <div style="flex:1;">
+            <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Colour the role labels</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">Primary roles (فعل، فاعل، مبتدأ، خبر) apart from secondary ones.</div>
+          </div>
+          <span style="font-size:10.5px;color:{{ tarkeebColorColor }};border:1px solid {{ tarkeebColorBorder }};border-radius:999px;padding:2px 9px;flex:none;">{{ tarkeebColorLabel }}</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ cfgIsVocab }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:18px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Direction</div>
+        <div style="display:flex;gap:8px;margin-top:9px;">
+          <sc-for list="{{ dirOptions }}" as="o" hint-placeholder-count="2">
+          <button style="flex:1;font-family:var(--font-body);font-size:12px;padding:8px 0;cursor:pointer;border:1px solid {{ o.border }};border-radius:999px;background:{{ o.bg }};color:{{ o.color }};" onclick="{{ o.pick }}">{{ o.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:8px;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);cursor:pointer;" onclick="{{ toggleVocabForms }}">
+          <div style="flex:1;">
+            <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Mix in plural / مصدر questions</div>
+            <div style="font-size:11px;color:var(--color-neutral-600);margin-top:1px;">Asks for a word's form, not just its meaning.</div>
+          </div>
+          <span style="font-size:10.5px;color:{{ vocabFormsColor }};border:1px solid {{ vocabFormsBorder }};border-radius:999px;padding:2px 9px;flex:none;">{{ vocabFormsLabel }}</span>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="padding:13px 22px 20px;border-top:1px solid var(--color-divider);">
+      <div style="font-size:11px;color:var(--color-neutral-600);margin-bottom:9px;">{{ practiceSummary }}</div>
+      <button class="btn btn-primary btn-block" onclick="{{ goPractice }}">Start practice</button>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPracticeMcq }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Practice · MCQ · Card 3 of {{ practiceLen }}</div>
+    </div>
+    <div style="height:3px;background:var(--color-neutral-200);">
+      <div style="height:3px;width:{{ sessProgress }};background:var(--color-accent);"></div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:20px 22px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+        <span class="ar" style="font-size:11px;color:var(--color-accent-700);flex:1;min-width:0;">وجدنا أكثرهم لفاسقين: مفعول أول</span>
+        <span style="font-size:10px;color:var(--color-neutral-600);flex:none;font-variant-numeric:tabular-nums;">{{ comboLabel }}</span>
+      </div>
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:19px;color:var(--color-text);line-height:1.4;margin-top:10px;">In ﴿وَإِنْ وَجَدْنَا أَكْثَرَهُمْ لَفَاسِقِينَ﴾, what role does أَكْثَرَهُمْ play؟</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px;">
+        <sc-for list="{{ mcqOptions }}" as="o" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 13px;border:{{ o.border }};border-radius:var(--radius-lg);background:{{ o.bg }};box-shadow:{{ o.shadow }};cursor:{{ o.cursor }};" onclick="{{ o.pick }}">
+          <span class="ar" style="flex:none;width:22px;height:22px;border-radius:50%;border:1px solid {{ o.markBorder }};background:{{ o.markBg }};display:flex;align-items:center;justify-content:center;font-size:12px;color:{{ o.markColor }};">{{ o.letter }}</span>
+          <span class="ar" style="flex:1;font-size:15px;color:var(--color-text);">{{ o.label }}</span>
+          <sc-if value="{{ o.showMark }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:13px;color:{{ o.resultColor }};flex:none;">{{ o.mark }}</span>
+          </sc-if>
+        </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:16px;padding:12px 13px;border-left:2px solid {{ qFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ qFbColor }};">{{ mcqFeedback }}</div>
+        <p style="font-size:12px;line-height:1.6;color:var(--color-neutral-700);margin:5px 0 0;">وجد among أفعال القلوب governs two objects: أَكْثَرَهُمْ is the first, and لَفَاسِقِينَ — with its لام of emphasis — is the second.</p>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <sc-if value="{{ qNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-ghost" style="flex:none;color:var(--color-neutral-600);" onclick="{{ goPracticeReview }}">End</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ qCheck }}" disabled="{{ qCheckDisabled }}">Check answer</button>
+      </sc-if>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-ghost" style="flex:none;color:var(--color-neutral-600);" onclick="{{ goPracticeReview }}">End</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ qNext }}">Next card</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPracticeTarkeeb }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+      <div class="ar" style="flex:1;font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Practice · تركيب · Card 2 of {{ practiceLen }}</div>
+    </div>
+    <div style="height:3px;background:var(--color-neutral-200);">
+      <div style="height:3px;width:{{ sessProgress }};background:var(--color-accent);"></div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:20px 22px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Place a role on each part</span>
+        <span style="font-size:10px;color:var(--color-neutral-600);flex:none;font-variant-numeric:tabular-nums;">{{ comboLabel }}</span>
+      </div>
+      <div style="margin-top:14px;padding:16px 14px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+        <div class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:24px;color:var(--color-text);text-align:center;line-height:1.5;">وَنَرَاهُ قَرِيبًا</div>
+        <sc-if value="{{ tarkeebEnOn }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:5px;text-align:center;">"And we see it as near"</div>
+        </sc-if>
+        <div style="display:flex;gap:8px;direction:rtl;margin-top:16px;">
+          <sc-for list="{{ tkCells }}" as="c" hint-placeholder-count="2">
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+            <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:9px 6px;text-align:center;background:var(--color-neutral-100);">
+              <span class="ar" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);">{{ c.word }}</span>
+            </div>
+            <div style="min-height:44px;display:flex;align-items:center;justify-content:center;padding:7px 6px;border:{{ c.border }};border-radius:var(--radius-md);background:{{ c.bg }};cursor:pointer;" onclick="{{ c.onClick }}">
+              <span class="ar" style="font-size:11px;line-height:1.45;color:{{ c.labelColor }};text-align:center;">{{ c.label }}</span>
+            </div>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-neutral-600);margin-top:18px;">Labels</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:9px;">
+        <sc-for list="{{ tkChips }}" as="c" hint-placeholder-count="4">
+        <button class="ar" style="font-family:var(--font-body);font-size:11.5px;padding:7px 12px;cursor:pointer;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);color:var(--color-text);opacity:{{ c.opacity }};" onclick="{{ c.onClick }}" disabled="{{ c.disabled }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:16px;padding:12px 13px;border-left:2px solid {{ tkFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ tkFbColor }};">{{ tkFeedback }}</div>
+        <p style="font-size:12px;line-height:1.6;color:var(--color-neutral-700);margin:5px 0 0;">نَرَاهُ carries the verb, its فاعل, and its first object in the attached الهاء; قَرِيبًا is the second object.</p>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <button class="btn btn-ghost" style="flex:none;color:var(--color-neutral-600);" onclick="{{ goPracticeReview }}">End</button>
+      <sc-if value="{{ qNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ tkCheck }}" disabled="{{ tkCheckDisabled }}">Check answer</button>
+      </sc-if>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ qNext }}">Next card</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPracticeVocab }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Practice vocab" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Practice · Vocab · {{ vocabDirLabel }} · Card 2 of {{ practiceLen }}</div>
+    </div>
+    <div style="height:3px;background:var(--color-neutral-200);">
+      <div style="height:3px;width:{{ sessProgress }};background:var(--color-accent);"></div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:20px 22px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">{{ vocabPromptKicker }}</span>
+        <span style="font-size:10px;color:var(--color-neutral-600);flex:none;font-variant-numeric:tabular-nums;">{{ comboLabel }}</span>
+      </div>
+      <div style="margin-top:14px;padding:24px 18px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);text-align:center;">
+        <div class="{{ vocabPromptCls }}" style="font-family:{{ vocabPromptFont }};font-size:{{ vocabPromptSize }};color:var(--color-text);line-height:1.4;">{{ vocabPrompt }}</div>
+        <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:8px;">Root ز ع م · فعل · seen 4 times</div>
+        </sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px;">
+        <sc-for list="{{ vocabOptions }}" as="o" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:11px;padding:12px 13px;border:{{ o.border }};border-radius:var(--radius-lg);background:{{ o.bg }};box-shadow:{{ o.shadow }};cursor:{{ o.cursor }};" onclick="{{ o.pick }}">
+          <span class="ar" style="flex:none;width:22px;height:22px;border-radius:50%;border:1px solid {{ o.markBorder }};background:{{ o.markBg }};display:flex;align-items:center;justify-content:center;font-size:12px;color:{{ o.markColor }};">{{ o.letter }}</span>
+          <span class="{{ o.cls }}" style="flex:1;font-family:{{ o.font }};font-size:{{ o.size }};color:var(--color-text);">{{ o.label }}</span>
+          <sc-if value="{{ o.showMark }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:13px;color:{{ o.resultColor }};flex:none;">{{ o.mark }}</span>
+          </sc-if>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <button class="btn btn-ghost" style="flex:none;color:var(--color-neutral-600);" onclick="{{ goPracticeReview }}">End</button>
+      <sc-if value="{{ qNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ qCheck }}" disabled="{{ qCheckDisabled }}">Check answer</button>
+      </sc-if>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ qNext }}">Next card</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isModules }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">Your modules</div>
+        <div class="ar" style="font-size:12px;color:var(--color-accent-700);margin-top:1px;">{{ courseAr }}</div>
+      </div>
+      <div style="flex:none;text-align:right;">
+        <div style="font-size:14px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">4 / 30</div>
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">Complete</div>
+      </div>
+    </div>
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 22px 22px;">
+      <sc-for list="{{ modules }}" as="m" hint-placeholder-count="6">
+      <sc-if value="{{ m.headingChanged }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:baseline;gap:10px;margin:{{ m.headingMargin }};">
+        <span class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;color:var(--color-text);flex:none;">{{ m.heading }}</span>
+        <span style="flex:1;height:1px;background:var(--color-divider);"></span>
+      </div>
+      </sc-if>
+      <sc-if value="{{ m.subheadingChanged }}" hint-placeholder-val="{{ false }}">
+      <div class="ar" style="font-size:12px;color:var(--color-accent-700);margin:12px 0 0;">{{ m.subheading }}</div>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:12px;padding:{{ m.pad }};margin-top:8px;border:1px solid {{ m.borderColor }};border-radius:var(--radius-lg);background:{{ m.bg }};box-shadow:{{ m.shadow }};cursor:{{ m.cursor }};" onclick="{{ m.onClick }}">
+        <div style="flex:none;width:28px;height:28px;border-radius:50%;border:1px solid {{ m.ringColor }};background:{{ m.ringBg }};display:flex;align-items:center;justify-content:center;">
+          <sc-if value="{{ m.isDone }}" hint-placeholder-val="{{ false }}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </sc-if>
+          <sc-if value="{{ m.isLocked }}" hint-placeholder-val="{{ true }}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          </sc-if>
+          <sc-if value="{{ m.isCurrent }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:11.5px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;font-weight:700;">{{ m.n }}</span>
+          </sc-if>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div class="ar" style="font-family:'Scheherazade New', serif;font-size:17px;color:{{ m.titleColor }};line-height:1.35;">{{ m.title }}</div>
+          <sc-if value="{{ m.isCurrent }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:9px;margin-top:7px;">
+            <span style="flex:1;height:2px;background:var(--color-neutral-200);">
+              <span style="display:block;height:2px;width:20%;background:var(--color-accent);"></span>
+            </span>
+            <span style="font-size:10px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;flex:none;">1 / 5 lessons</span>
+          </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ m.isCurrent }}" hint-placeholder-val="{{ false }}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="m9 18 6-6-6-6"/></svg>
+        </sc-if>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isLesson }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goModuleShell }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:11px;color:var(--color-neutral-600);">Module 5 · أفعال القلوب · Lesson 2 of 5</div>
+        <div class="ar" style="font-size:17px;color:var(--color-text);">عَلِمَ وعَرَفَ</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:6px;padding:14px 0 0;">
+      <sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
+      <div style="width:{{ c.dotSize }};height:{{ c.dotSize }};border-radius:50%;background:{{ c.dotColor }};cursor:pointer;" onclick="{{ c.goTo }}"></div>
+      </sc-for>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:14px 22px 20px;display:flex;flex-direction:column;gap:14px;">
+
+      <sc-if value="{{ concept0 }}" hint-placeholder-val="{{ true }}">
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:20px;color:var(--color-text);line-height:1.2;">عَلِمَ: اليقين بصفة أو حكم</div>
+      <p style="font-size:14px;line-height:1.7;color:var(--color-text);margin:0;text-align:justify;">
+        علم as a فعل قلب means to know a quality, judgement, or fact about something. It connects the مبتدأ to its خبر with certainty.
+      </p>
+      <div style="border:1px solid var(--color-accent);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:14px;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Example</div>
+        <div class="ar" style="font-size:19px;color:var(--color-text);">عَلِمْتُ زَيدًا كَرِيمًا</div>
+        <div style="font-size:13px;color:var(--color-neutral-700);">"I knew Zayd to be noble" — زيدًا is مفعول به أول, كريمًا is مفعول به ثان.</div>
+      </div>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--color-text);line-height:1.5;">عَلِمْتُ زَيدًا كَرِيمًا asserts a certain fact about زيد. What does علم do here, grammatically?</div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 9px;background:color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));border:1px solid var(--color-accent);border-radius:var(--radius-md);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><path d="M20 6 9 17l-5-5"/></svg>
+          <span style="font-size:12px;color:var(--color-text);">It connects زيدًا (مفعول به أول) to كريمًا (مفعول به ثان), the way مبتدأ connects to خبر</span>
+        </div>
+        <div style="font-size:11px;color:var(--color-neutral-600);opacity:0.6;">It takes زيدًا as its only object, with كريمًا as حال</div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ concept1 }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:20px;color:var(--color-text);line-height:1.2;">عَرَفَ: معرفة الذات لا وصفها</div>
+      <p style="font-size:14px;line-height:1.7;color:var(--color-text);margin:0;text-align:justify;">
+        عرف, by contrast, is normally used for recognising the ذات of something — identifying a person or thing distinctly, not predicating a quality about them.
+      </p>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);overflow:hidden;">
+        <div style="display:flex;font-size:11px;color:var(--color-neutral-600);background:var(--color-neutral-100);padding:7px 12px;">
+          <div style="flex:1;">Verb</div><div style="flex:2;">Typical use</div><div style="flex:1;text-align:right;">Two objects?</div>
+        </div>
+        <div style="display:flex;align-items:center;font-size:13px;padding:8px 12px;border-top:1px solid var(--color-divider);">
+          <div class="ar" style="flex:1;color:var(--color-text);">عَلِمَ</div><div style="flex:2;color:var(--color-neutral-700);">knowing a صفة about something</div><div style="flex:1;text-align:right;color:var(--color-accent-700);">Yes</div>
+        </div>
+        <div style="display:flex;align-items:center;font-size:13px;padding:8px 12px;border-top:1px solid var(--color-divider);">
+          <div class="ar" style="flex:1;color:var(--color-text);">عَرَفَ</div><div style="flex:2;color:var(--color-neutral-700);">recognising the ذات</div><div style="flex:1;text-align:right;color:var(--color-neutral-600);">Typically one</div>
+        </div>
+      </div>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--color-text);line-height:1.5;">عَرَفْتُ زيدًا takes only one object, unlike عَلِمْتُ زيدًا كريمًا. Why does عرف typically stay single-object؟</div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 9px;background:color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));border:1px solid var(--color-accent);border-radius:var(--radius-md);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><path d="M20 6 9 17l-5-5"/></svg>
+          <span style="font-size:12px;color:var(--color-text);">عرف is normally about recognising a ذات, not predicating a صفة, so it doesn't need a second object</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ concept2 }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:20px;color:var(--color-text);line-height:1.2;">دَرَى: العلم بعد جهل</div>
+      <p style="font-size:14px;line-height:1.7;color:var(--color-text);margin:0;text-align:justify;">
+        درى means to know, with the added sense of coming to know after not knowing — knowledge acquired through being informed, discovering, or figuring something out.
+      </p>
+      <div style="border-left:2px solid var(--color-accent);padding:8px 0 8px 12px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-accent-700);">Careful</div>
+        <p style="font-size:13px;color:var(--color-neutral-700);margin:4px 0 0;line-height:1.6;">درى is never used of Allah's knowledge — درى implies a prior cause or state of not-knowing, and Allah's knowledge has neither.</p>
+      </div>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--color-text);line-height:1.5;">درى is never used to describe Allah's knowledge, while علم is. What distinction explains that؟</div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 9px;background:color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));border:1px solid var(--color-accent);border-radius:var(--radius-md);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><path d="M20 6 9 17l-5-5"/></svg>
+          <span style="font-size:12px;color:var(--color-text);">درى implies knowledge acquired after a prior state of not knowing, through some cause; Allah's knowledge has no such prior ignorance</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ concept3 }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:20px;color:var(--color-text);line-height:1.2;">تَعَلَّمْ: بمعنى اعْلَمْ</div>
+      <p style="font-size:14px;line-height:1.7;color:var(--color-text);margin:0 0 4px;text-align:justify;">
+        تعلَّم in certain usages carries the meaning of knowing with certainty, and may take two objects — rare in Quranic Arabic, but found in classical literature.
+      </p>
+      <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--color-text);line-height:1.5;">In تَعَلَّمْ شِفَاءَ النَّفْسِ قَهْرَ عَدُوِّهَا, تعلَّم carries the meaning of اعلم. What are the two objects, respectively؟</div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 9px;background:color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));border:1px solid var(--color-accent);border-radius:var(--radius-md);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><path d="M20 6 9 17l-5-5"/></svg>
+          <span style="font-size:12px;color:var(--color-text);">مفعول به أول, then مفعول به ثان</span>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <button class="btn btn-secondary" style="flex:1;" onclick="{{ prevConcept }}" disabled="{{ isFirstConcept }}">Back</button>
+      <sc-if value="{{ isLastConcept }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ goQuiz }}">Continue to quiz</button>
+      </sc-if>
+      <sc-if value="{{ isNotLastConcept }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ nextConcept }}">Next</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goLesson }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">أفعال القلوب · Lesson 2 · Question 6 of 6</div>
+    </div>
+    <div style="display:flex;gap:4px;padding:12px 22px 0;">
+      <sc-for list="{{ quizTicks }}" as="t" hint-placeholder-count="6">
+      <div style="height:3px;flex:1;border-radius:2px;background:{{ t.bg }};"></div>
+      </sc-for>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:20px 22px;">
+      <div class="ar" style="font-size:11px;color:var(--color-accent-700);">علم وعرف: الفرق في التعدي</div>
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:19px;color:var(--color-text);line-height:1.4;margin-top:10px;">What is the main grammatical difference between علم and عرف؟</div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px;">
+        <sc-for list="{{ quizOptions }}" as="o" hint-placeholder-count="4">
+        <div style="display:flex;align-items:flex-start;gap:11px;padding:12px 13px;border:{{ o.border }};border-radius:var(--radius-lg);background:{{ o.bg }};box-shadow:{{ o.shadow }};cursor:{{ o.cursor }};" onclick="{{ o.pick }}">
+          <span style="flex:none;width:22px;height:22px;border-radius:50%;border:1px solid {{ o.markBorder }};background:{{ o.markBg }};display:flex;align-items:center;justify-content:center;font-size:11px;color:{{ o.markColor }};">{{ o.letter }}</span>
+          <span style="flex:1;font-size:13px;line-height:1.55;color:var(--color-text);">{{ o.label }}</span>
+          <sc-if value="{{ o.showMark }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:13px;color:{{ o.resultColor }};flex:none;">{{ o.mark }}</span>
+          </sc-if>
+        </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:16px;padding:12px 13px;border-left:2px solid {{ qFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ qFbColor }};">{{ quizFeedback }}</div>
+        <p style="font-size:12px;line-height:1.6;color:var(--color-neutral-700);margin:5px 0 0;">علم predicates a صفة or judgement of something, so it governs two objects; عرف identifies a ذات and normally stops at one.</p>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <sc-if value="{{ qNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-primary btn-block" onclick="{{ qCheck }}" disabled="{{ qCheckDisabled }}">Check answer</button>
+      </sc-if>
+      <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary btn-block" onclick="{{ goLessonComplete }}">Finish lesson</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Schedule" style="display:flex;flex-direction:column;height:100%;">
+    <div style="padding:24px 22px 14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+        <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:26px;color:var(--color-text);">Schedule</div>
+        <div class="ar" style="font-size:15px;color:var(--color-accent-700);">الجدول الزمني</div>
+      </div>
+      <p style="font-size:12.5px;color:var(--color-neutral-700);margin:5px 0 0;line-height:1.6;">Two lessons a day keeps you on course for 31 October. Today's target adjusts itself whenever you fall behind or get ahead.</p>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 22px 20px;">
+      <div style="padding:15px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));box-shadow:var(--shadow-md);">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <span style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-700);">Today</span>
+          <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Fri 21 Aug</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:7px;margin-top:7px;">
+          <span style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:27px;color:var(--color-text);font-variant-numeric:tabular-nums;">1</span>
+          <span style="font-size:13px;color:var(--color-neutral-700);font-variant-numeric:tabular-nums;">of 2 lessons done</span>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:11px;">
+          <span style="flex:1;height:4px;border-radius:2px;background:var(--color-accent);"></span>
+          <span style="flex:1;height:4px;border-radius:2px;background:var(--color-neutral-200);"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;margin-top:14px;padding-top:12px;border-top:1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">One more to hit today's target</div>
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;color:var(--color-text);margin-top:2px;">عَلِمَ وعَرَفَ</div>
+          </div>
+          <button class="btn btn-primary" style="flex:none;" onclick="{{ goLesson }}">Start</button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;margin-top:18px;padding:13px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);">
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">129</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Lessons left</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">71</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Days left</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">21 / 150</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Cleared</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Up next</span>
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">In course order</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+        <sc-for list="{{ upNext }}" as="u" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid {{ u.border }};border-radius:var(--radius-lg);background:{{ u.bg }};box-shadow:{{ u.shadow }};cursor:{{ u.cursor }};" onclick="{{ u.onClick }}">
+          <span style="flex:none;width:24px;height:24px;border-radius:50%;border:1px solid {{ u.ringColor }};display:flex;align-items:center;justify-content:center;">
+            <sc-if value="{{ u.unlocked }}" hint-placeholder-val="{{ false }}">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </sc-if>
+            <sc-if value="{{ u.locked }}" hint-placeholder-val="{{ true }}">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </sc-if>
+          </span>
+          <div style="flex:1;min-width:0;">
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:17px;color:{{ u.titleColor }};line-height:1.35;">{{ u.title }}</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-600);margin-top:1px;">{{ u.meta }}</div>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Revision quiz</span>
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">30 questions</span>
+      </div>
+      <p style="font-size:12px;line-height:1.6;color:var(--color-neutral-700);margin:10px 0 0;">One completed module, 20 MCQ and 10 تركيب in random order — for keeping a chapter you've finished sharp.</p>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button style="flex:1;font-family:var(--font-body);font-size:12px;padding:8px 0;cursor:pointer;border:1px solid {{ revPickBorder }};border-radius:999px;background:{{ revPickBg }};color:{{ revPickColor }};" onclick="{{ revPick }}">Pick a module</button>
+        <button style="flex:1;font-family:var(--font-body);font-size:12px;padding:8px 0;cursor:pointer;border:1px solid {{ revRandomBorder }};border-radius:999px;background:{{ revRandomBg }};color:{{ revRandomColor }};" onclick="{{ revRandom }}">Random</button>
+      </div>
+      <sc-if value="{{ revIsPick }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+        <sc-for list="{{ revModules }}" as="rm" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid {{ rm.border }};border-radius:var(--radius-lg);background:{{ rm.bg }};cursor:pointer;" onclick="{{ rm.pick }}">
+          <span style="flex:none;width:17px;height:17px;border-radius:50%;border:1.5px solid {{ rm.dotBorder }};display:flex;align-items:center;justify-content:center;">
+            <span style="width:7px;height:7px;border-radius:50%;background:{{ rm.dotFill }};"></span>
+          </span>
+          <div class="ar" style="flex:1;font-family:'Scheherazade New', serif;font-size:16px;color:var(--color-text);">{{ rm.title }}</div>
+          <div style="font-size:10.5px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;flex:none;">{{ rm.mix }}</div>
+        </div>
+        </sc-for>
+      </div>
+      </sc-if>
+      <sc-if value="{{ revIsRandom }}" hint-placeholder-val="{{ false }}">
+      <p style="font-size:12px;color:var(--color-neutral-600);margin:12px 0 0;line-height:1.6;">One of your 4 completed modules will be picked when you start.</p>
+      </sc-if>
+      <button class="btn btn-primary btn-block" style="margin-top:12px;" onclick="{{ startRevision }}" disabled="{{ revStartDisabled }}">Start revision quiz</button>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Plan</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--color-divider);cursor:pointer;">
+        <span style="font-size:12.5px;color:var(--color-neutral-700);">Target completion date</span>
+        <span style="font-size:12.5px;color:var(--color-text);font-variant-numeric:tabular-nums;">31 Oct 2026</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--color-divider);cursor:pointer;">
+        <span style="font-size:12.5px;color:var(--color-neutral-700);">Daily reset time</span>
+        <span style="font-size:12.5px;color:var(--color-text);font-variant-numeric:tabular-nums;">4:00 AM</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-neutral-600);margin-top:10px;line-height:1.55;">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</div>
+    </div>
+
+    <div style="display:flex;justify-content:space-around;align-items:center;padding:10px 8px 16px;border-top:1px solid var(--color-divider);">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
+        <div style="font-size:10px;">Home</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goLibrary }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div style="font-size:10px;">Library</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);cursor:pointer;" onclick="{{ goSchedule }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div style="font-size:10px;font-weight:600;">Schedule</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goAccount }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+        <div style="font-size:10px;">Account</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Account" style="display:flex;flex-direction:column;height:100%;">
+    <div style="padding:24px 22px 14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+        <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:26px;color:var(--color-text);">Account</div>
+        <div class="ar" style="font-size:15px;color:var(--color-accent-700);">الحساب</div>
+      </div>
+    </div>
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 22px 20px;">
+      <div style="padding:15px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));box-shadow:var(--shadow-md);">
+        <div style="display:flex;align-items:center;gap:13px;">
+          <div class="ar" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:center;font-family:'Scheherazade New', serif;font-size:22px;color:var(--color-accent-700);">ح</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:18px;color:var(--color-text);">Level 6 · Grammarian</div>
+            <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">habib@gmail.com</div>
+          </div>
+        </div>
+        <div style="height:4px;background:var(--color-neutral-200);border-radius:2px;margin-top:14px;">
+          <div style="height:4px;width:45%;background:var(--color-accent);border-radius:2px;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-600);margin-top:6px;font-variant-numeric:tabular-nums;">
+          <span>180 / 400 XP this level</span>
+          <span>220 to level 7</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;margin-top:18px;padding:13px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);">
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">2,340</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Total XP</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">31</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Lessons cleared</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:17px;color:var(--color-text);font-variant-numeric:tabular-nums;">7 / 34</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);margin-top:2px;">Badges</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Streak</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          6 days · best 12
+        </span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7, 1fr);gap:4px;margin-top:12px;">
+        <sc-for list="{{ weekdayLabels }}" as="w" hint-placeholder-count="7">
+        <div style="font-size:9px;color:var(--color-neutral-600);text-align:center;">{{ w.l }}</div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7, 1fr);gap:4px;margin-top:4px;">
+        <sc-for list="{{ streakCells }}" as="d" hint-placeholder-count="28">
+        <div style="aspect-ratio:1;background:{{ d.bg }};border:1px solid {{ d.border }};border-radius:var(--radius-md);"></div>
+        </sc-for>
+      </div>
+      <div style="font-size:10.5px;color:var(--color-neutral-600);margin-top:8px;">Last four weeks · a day counts from 4:00 AM.</div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Courses</span>
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">Modules complete</span>
+      </div>
+      <sc-for list="{{ courseRows }}" as="cr" hint-placeholder-count="4">
+      <div style="padding:11px 0;border-bottom:1px solid var(--color-divider);">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div style="display:flex;align-items:baseline;gap:8px;min-width:0;">
+            <span class="ar" style="font-family:'Scheherazade New', serif;font-size:16px;color:var(--color-text);white-space:nowrap;">{{ cr.ar }}</span>
+            <span style="font-size:10.5px;color:var(--color-neutral-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cr.en }}</span>
+          </div>
+          <span style="font-size:11px;color:{{ cr.labelColor }};font-variant-numeric:tabular-nums;flex:none;">{{ cr.label }}</span>
+        </div>
+        <div style="height:2px;background:var(--color-neutral-200);margin-top:8px;">
+          <div style="height:2px;width:{{ cr.pct }};background:var(--color-accent);"></div>
+        </div>
+      </div>
+      </sc-for>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);cursor:pointer;" onclick="{{ goAchievements }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>
+        <div style="flex:1;">
+          <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Achievements</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">7 earned · next at a seven-day streak</div>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Reading &amp; text</span>
+      </div>
+      <p style="font-size:11.5px;color:var(--color-neutral-600);margin:9px 0 0;line-height:1.55;">These change only how the text is set. Nothing changes what is taught.</p>
+      <div style="margin-top:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:12.5px;color:var(--color-text);font-weight:600;">Lesson text size</span>
+            <span style="font-size:12px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ lessonScaleLabel }}</span>
+          </div>
+          <input type="range" min="85" max="130" step="5" value="{{ lessonScale }}" onChange="{{ setLessonScale }}" style="width:100%;margin-top:8px;accent-color:var(--color-accent);">
+          <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:10px 12px;margin-top:8px;">
+            <p style="font-size:{{ lessonPreviewSize }};line-height:1.7;color:var(--color-text);margin:0;text-align:justify;">A governing word changes the end of the word after it. Notice the ending, then read the sentence again.</p>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:12.5px;color:var(--color-text);font-weight:600;">Reading text size</span>
+            <span style="font-size:12px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ litScaleLabel }}</span>
+          </div>
+          <input type="range" min="85" max="140" step="5" value="{{ litScale }}" onChange="{{ setLitScale }}" style="width:100%;margin-top:8px;accent-color:var(--color-accent);">
+          <div style="border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:10px 12px;margin-top:8px;">
+            <p class="ar" dir="rtl" style="font-size:{{ litPreviewSize }};line-height:2;color:var(--color-text);margin:0;">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</p>
+          </div>
+        </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Cloud save</span>
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-accent-700);">Sync on</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;margin-top:12px;padding:12px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.2 9.5 4.5 4.5 0 0 0 6.5 19z"/><path d="M12 12v5"/><path d="m9.5 14.5 2.5-2.5 2.5 2.5"/></svg>
+        <div style="flex:1;">
+          <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Up to date</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);">Last synced today, 06:12 · runs after each lesson</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="btn btn-secondary" style="flex:1;">Upload save</button>
+        <button class="btn btn-secondary" style="flex:1;">Download save</button>
+      </div>
+      <button class="btn btn-ghost btn-block" style="margin-top:16px;color:var(--color-neutral-600);">Sign out</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-around;align-items:center;padding:10px 8px 16px;border-top:1px solid var(--color-divider);">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
+        <div style="font-size:10px;">Home</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goLibrary }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div style="font-size:10px;">Library</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goSchedule }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div style="font-size:10px;">Schedule</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);cursor:pointer;" onclick="{{ goAccount }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+        <div style="font-size:10px;font-weight:600;">Account</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isAchievements }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Achievements" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goAccount }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">Achievements</div>
+        <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px;font-variant-numeric:tabular-nums;">7 of 34 earned · level 6</div>
+      </div>
+      <div style="flex:none;display:flex;align-items:center;gap:4px;">
+        <sc-for list="{{ badgePips }}" as="p" hint-placeholder-count="8">
+        <span style="width:5px;height:5px;border-radius:50%;background:{{ p.bg }};"></span>
+        </sc-for>
+      </div>
+    </div>
+    <div class="noscroll" style="flex:1;overflow:auto;padding:16px 22px 20px;">
+      <div style="padding:14px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));box-shadow:var(--shadow-md);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-700);">Closest badge</div>
+            <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:18px;color:var(--color-text);margin-top:2px;">On Fire</div>
+          </div>
+          <span style="font-size:12px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;flex:none;">6 / 7</span>
+        </div>
+        <div style="height:3px;background:var(--color-neutral-200);border-radius:2px;margin-top:12px;">
+          <div style="height:3px;width:86%;background:var(--color-accent);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:8px;">One more day's study and a seven-day streak is yours.</div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:11px;margin-top:18px;padding:13px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);">
+        <div style="flex:1;">
+          <div style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Level 6 · 180 / 400 XP</div>
+          <div style="height:3px;background:var(--color-neutral-200);border-radius:2px;margin-top:7px;">
+            <div style="height:3px;width:45%;background:var(--color-accent);border-radius:2px;"></div>
+          </div>
+        </div>
+        <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;flex:none;">220 to L7</span>
+      </div>
+
+      <sc-for list="{{ badges }}" as="a" hint-placeholder-count="8">
+      <sc-if value="{{ a.sectionChanged }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:baseline;gap:10px;margin:{{ a.sectionMargin }};">
+        <span style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);flex:none;">{{ a.section }}</span>
+        <span style="flex:1;height:1px;background:var(--color-divider);"></span>
+        <span style="font-size:10px;color:{{ a.sectionColor }};font-variant-numeric:tabular-nums;flex:none;">{{ a.sectionCount }}</span>
+      </div>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;margin-top:8px;border:1px solid {{ a.border }};border-radius:var(--radius-lg);background:{{ a.bg }};box-shadow:{{ a.shadow }};">
+        <span style="flex:none;width:28px;height:28px;border-radius:50%;border:1px solid {{ a.ringColor }};background:{{ a.ringBg }};display:flex;align-items:center;justify-content:center;">
+          <sc-if value="{{ a.earned }}" hint-placeholder-val="{{ false }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>
+          </sc-if>
+          <sc-if value="{{ a.locked }}" hint-placeholder-val="{{ true }}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          </sc-if>
+        </span>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
+            <span style="font-size:13px;color:{{ a.nameColor }};font-weight:600;">{{ a.name }}</span>
+            <sc-if value="{{ a.hasProgress }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:10.5px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;flex:none;">{{ a.progress }}</span>
+            </sc-if>
+            <sc-if value="{{ a.earned }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-accent-700);flex:none;">Earned</span>
+            </sc-if>
+          </div>
+          <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px;line-height:1.45;">{{ a.desc }}</div>
+          <sc-if value="{{ a.hasProgress }}" hint-placeholder-val="{{ false }}">
+          <div style="height:2px;background:var(--color-neutral-200);margin-top:7px;">
+            <div style="height:2px;width:{{ a.pct }};background:var(--color-accent);"></div>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Book" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 0;">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ goLibrary }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--color-neutral-600);">Library · قَصَصُ النَّبِيِّينَ</div>
+    </div>
+    <div class="noscroll" style="flex:1;overflow:auto;">
+      <div style="margin:14px 22px 0;background:color-mix(in srgb, var(--color-neutral-900) 92%, black);border-radius:var(--radius-lg);padding:20px 20px 18px;position:relative;overflow:hidden;">
+        <span class="ar" aria-hidden="true" style="position:absolute;right:-8px;bottom:-26px;font-family:'Scheherazade New', serif;font-size:96px;line-height:1;color:color-mix(in srgb, var(--color-bg) 7%, transparent);pointer-events:none;">١</span>
+        <div style="position:relative;">
+          <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent);">Volume One · 16 chapters</div>
+          <div class="ar" style="font-family:'Scheherazade New', serif;font-size:29px;color:var(--color-bg);margin-top:7px;line-height:1.3;">مَنْ كَسَرَ الأَصْنَامَ؟</div>
+          <div style="height:1px;background:var(--color-accent);width:34px;margin-top:9px;"></div>
+          <div class="ar" style="font-size:12.5px;color:color-mix(in srgb, var(--color-bg) 62%, transparent);margin-top:9px;">أَبُو الْحَسَنِ عَلِيٌّ الْحَسَنِيُّ النَّدْوِيُّ</div>
+          <p style="font-size:12px;line-height:1.65;color:color-mix(in srgb, var(--color-bg) 78%, transparent);margin:10px 0 0;text-align:justify;">The story of Ibrāhīm ﷺ in sixteen short vowelled chapters of a page each — the idols of Āzar, the axe and the fire, the search for a Lord, Zamzam, and the raising of the Kaʿbah.</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;">
+            <span style="flex:1;height:3px;background:color-mix(in srgb, var(--color-bg) 20%, transparent);">
+              <span style="display:block;height:3px;width:6%;background:var(--color-accent);"></span>
+            </span>
+            <span style="font-size:11px;color:var(--color-accent);font-variant-numeric:tabular-nums;flex:none;">0 / 16 read</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin:12px 22px 0;padding:11px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-md);cursor:pointer;" onclick="{{ goWordPractice }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M18 7h2v13H7"/></svg>
+        <div style="flex:1;">
+          <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Practice weak words</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);">{{ weakCount }} marked across this book</div>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+
+      <div style="padding:20px 22px 20px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+          <span style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Contents</span>
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);">pp. 9–26</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+        <sc-for list="{{ bookChapters }}" as="c" hint-placeholder-count="6">
+        <div style="display:flex;gap:12px;padding:{{ c.pad }};border:1px solid {{ c.border }};border-radius:var(--radius-lg);box-shadow:{{ c.shadow }};background:{{ c.bg }};cursor:{{ c.cursor }};" onclick="{{ c.open }}">
+          <div style="flex:none;width:26px;height:26px;border-radius:50%;border:1px solid {{ c.ringColor }};background:{{ c.ringBg }};display:flex;align-items:center;justify-content:center;">
+            <sc-if value="{{ c.unlocked }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:11.5px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;font-weight:700;">{{ c.n }}</span>
+            </sc-if>
+            <sc-if value="{{ c.locked }}" hint-placeholder-val="{{ true }}">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </sc-if>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="ar" style="font-family:'Scheherazade New', serif;font-size:{{ c.titleSize }};color:{{ c.titleColor }};line-height:1.35;">{{ c.ar }}</div>
+            <div style="font-size:11px;color:{{ c.metaColor }};margin-top:2px;line-height:1.5;">{{ c.blurb }}</div>
+            <sc-if value="{{ c.showBlurb }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px;">
+              <span style="font-size:11px;color:var(--color-accent-700);font-weight:600;">Continue · {{ c.pages }}, then the drills</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+        </sc-for>
+        </div>
+        <div style="font-size:11px;color:var(--color-neutral-600);margin-top:14px;line-height:1.55;">Chapters unlock in order — finish one to open the next.</div>
+      </div>
+    </div>
+
+    <sc-if value="{{ chapterModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:color-mix(in srgb, var(--color-neutral-900) 45%, transparent);display:flex;align-items:center;justify-content:center;padding:28px;z-index:5;" onclick="{{ closeChapterModal }}">
+      <div style="background:var(--color-bg);border:1px solid var(--color-divider);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:20px;width:100%;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Chapter 1 · Who Broke the Idols?</div>
+        <div class="ar" style="font-family:'Scheherazade New', serif;font-size:24px;color:var(--color-text);margin-top:6px;">بَائِعُ الأَصْنَامِ</div>
+        <div style="font-size:12px;color:var(--color-neutral-700);margin-top:2px;">The Idol Seller · p. 9</div>
+        <p style="font-size:12px;color:var(--color-neutral-700);margin:10px 0 0;line-height:1.6;">Āzar and his idols, and the boy born into his house.</p>
+        <div style="height:1px;background:var(--color-divider);margin:12px 0;"></div>
+        <p style="font-size:11.5px;color:var(--color-neutral-600);margin:0;line-height:1.55;">Practice reads a paragraph at a time with comprehension checks, then the pattern and sentence-building drills. Free read is just the text — nothing is marked done.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+          <button class="btn btn-primary btn-block" onclick="{{ startReadPractice }}">Resume practice</button>
+          <button class="btn btn-secondary btn-block" onclick="{{ startFreeRead }}">Free read</button>
+          <button class="btn btn-ghost btn-block" onclick="{{ closeChapterModal }}">Cancel</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isReader }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Reader" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 12px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ exitReader }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:10.5px;color:var(--color-neutral-600);">Who Broke the Idols? · Chapter 1</div>
+        <div class="ar" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);">بَائِعُ الأَصْنَامِ</div>
+      </div>
+      <sc-if value="{{ rIsPractice }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:10px;flex:none;">
+        <sc-for list="{{ railSteps }}" as="st" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <span style="width:17px;height:17px;border-radius:50%;border:1px solid {{ st.border }};background:{{ st.bg }};color:{{ st.color }};font-size:9px;display:flex;align-items:center;justify-content:center;">{{ st.mark }}</span>
+          <span style="font-size:8.5px;color:{{ st.labelColor }};">{{ st.label }}</span>
+        </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ rIsPractice }}" hint-placeholder-val="{{ true }}">
+    <div style="height:3px;background:var(--color-neutral-200);">
+      <div style="height:3px;width:{{ rProgress }};background:var(--color-accent);"></div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ rStageRead }}" hint-placeholder-val="{{ true }}">
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 0 {{ rBodyPad }};">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 22px 9px;border-bottom:1px solid var(--color-divider);background:var(--color-neutral-100);">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">Page 9 · Paragraph 1 of 1{{ rFreeLabel }}</span>
+        <button style="font-family:var(--font-body);font-size:10px;letter-spacing:0.06em;padding:3px 10px;cursor:pointer;border:1px solid {{ rEnBorder }};border-radius:999px;background:{{ rEnBg }};color:{{ rEnColor }};" onclick="{{ rToggleParaEn }}">EN</button>
+      </div>
+
+      <div style="display:flex;gap:10px;padding:18px 22px 0;">
+        <div style="flex:none;width:16px;display:flex;flex-direction:column;align-items:center;padding-top:6px;">
+          <span style="font-size:10px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;">1</span>
+          <span style="width:1px;flex:1;background:var(--color-divider);margin-top:6px;"></span>
+        </div>
+        <p class="ar" dir="rtl" style="flex:1;min-width:0;font-family:'Scheherazade New', serif;font-size:{{ rTextSize }};line-height:2.15;color:var(--color-text);margin:0;text-align:justify;">
+          <sc-for list="{{ rSentences }}" as="sn" hint-placeholder-count="6"><span style="background:{{ sn.bg }};"><sc-for list="{{ sn.words }}" as="w" hint-placeholder-count="4"><span style="cursor:pointer;padding:0 1px;border-radius:3px;background:{{ w.bg }};border-bottom:{{ w.bb }};" onclick="{{ w.tap }}">{{ w.surface }}</span> </sc-for><span style="cursor:pointer;font-size:9px;color:{{ sn.dotColor }};vertical-align:0.5em;padding:0 3px;" onclick="{{ sn.toggle }}">◦</span> </span></sc-for>
+        </p>
+      </div>
+
+      <sc-if value="{{ rGlossOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:12px 22px 0;padding:9px 12px;border-left:2px solid var(--color-accent);background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">This phrase</div>
+        <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-700);margin-top:2px;">{{ rGlossText }}</div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ rParaEnOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:14px 22px 0;padding:12px 14px;border:1px solid var(--color-divider);border-radius:var(--radius-md);">
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">The paragraph in English</div>
+        <p style="font-size:12.5px;line-height:1.7;color:var(--color-neutral-700);margin:5px 0 0;text-align:justify;">Many days ago — very many — there was, in a village, a very famous man. The name of this man was Āzar, and Āzar used to sell idols. In this village there was a very big house, and in this house there were idols, very many idols. The people used to prostrate to these idols; Āzar used to prostrate to these idols; Āzar used to worship these idols.</p>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ rIsPractice }}" hint-placeholder-val="{{ true }}">
+      <div style="margin:22px 22px 0;padding-top:16px;border-top:1px solid var(--color-divider);">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">On this paragraph</span>
+          <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ rChecksCount }}</span>
+        </div>
+        <sc-for list="{{ rChecks }}" as="ch" hint-placeholder-count="3">
+        <div style="margin-top:16px;">
+          <div class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:17px;color:var(--color-text);text-align:right;line-height:1.7;">{{ ch.q }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+            <sc-for list="{{ ch.options }}" as="o" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:{{ o.border }};border-radius:var(--radius-md);background:{{ o.bg }};padding:9px 12px;cursor:{{ o.cursor }};" onclick="{{ o.pick }}">
+              <span class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:15px;color:var(--color-text);">{{ o.label }}</span>
+              <span style="font-size:12px;color:{{ o.markColor }};flex:none;">{{ o.mark }}</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-for>
+        <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="{{ rToWorkshop }}" disabled="{{ rAdvanceDisabled }}">Finish the passage → Pattern workshop</button>
+      </div>
+      </sc-if>
+      <sc-if value="{{ rIsFree }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:22px 22px 0;padding-top:16px;border-top:1px solid var(--color-divider);">
+        <button class="btn btn-secondary btn-block" onclick="{{ exitReader }}">Finish reading</button>
+      </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ rHasWord }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;background:var(--color-bg);border-top:1px solid var(--color-accent);box-shadow:var(--shadow-lg);border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:13px 20px 18px;z-index:4;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="ar" style="font-family:'Scheherazade New', serif;font-size:24px;color:var(--color-text);flex:1;">{{ rWordSurface }}</span>
+        <button style="font-family:var(--font-body);font-size:10.5px;padding:5px 11px;cursor:pointer;border:1px solid var(--color-accent);border-radius:999px;background:{{ rMarkBg }};color:var(--color-accent-700);flex:none;" onclick="{{ rToggleUnknown }}">{{ rMarkLabel }}</button>
+        <span style="cursor:pointer;color:var(--color-neutral-600);display:flex;flex:none;" onclick="{{ rClearWord }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </span>
+      </div>
+      <div style="font-size:13px;color:var(--color-text);margin-top:3px;">{{ rWordGloss }}</div>
+      <div style="display:flex;gap:16px;margin-top:10px;padding-top:9px;border-top:1px solid var(--color-divider);">
+        <div>
+          <div class="ar" style="font-size:14px;color:var(--color-text);">{{ rWordLemma }}</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-neutral-600);margin-top:1px;">Dictionary form</div>
+        </div>
+        <div>
+          <div class="ar" style="font-size:14px;color:var(--color-text);">{{ rWordRoot }}</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-neutral-600);margin-top:1px;">Root</div>
+        </div>
+        <div>
+          <div class="ar" style="font-size:14px;color:var(--color-text);">{{ rWordPos }}</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-neutral-600);margin-top:1px;">Word class</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ rShowHint }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:9px 22px 12px;border-top:1px solid var(--color-divider);background:var(--color-neutral-100);">
+      <div style="font-size:11px;color:var(--color-neutral-600);line-height:1.5;">Tap a word for its meaning and form · tap <span style="color:var(--color-accent-700);">◦</span> for the phrase in English</div>
+    </div>
+    </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ rStageWork }}" hint-placeholder-val="{{ false }}">
+    <div class="noscroll" style="flex:1;overflow:auto;padding:18px 22px 20px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">{{ wKicker }}</span>
+        <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ wCount }}</span>
+      </div>
+      <p style="font-size:12.5px;color:var(--color-neutral-700);margin:9px 0 0;line-height:1.6;">{{ wTask }}</p>
+      <sc-if value="{{ wHasBase }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:9px;margin-top:12px;padding:9px 12px;border-left:2px solid var(--color-divider);background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <span style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-neutral-600);flex:none;">From the text</span>
+        <span class="ar" dir="rtl" style="flex:1;font-family:'Scheherazade New', serif;font-size:16px;color:var(--color-neutral-700);text-align:right;">{{ wBase }}</span>
+      </div>
+      </sc-if>
+      <div style="margin-top:14px;padding:20px 16px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+        <p class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:22px;line-height:2.2;color:var(--color-text);margin:0;text-align:center;">{{ wPre }} <span style="display:inline-flex;align-items:center;justify-content:center;min-width:72px;padding:0 10px;border-bottom:2px solid {{ wSlotEdge }};background:{{ wSlotBg }};border-radius:var(--radius-sm);color:var(--color-text);">{{ wSlot }}</span> {{ wPost }}</p>
+      </div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-neutral-600);margin-top:18px;">Choose a word</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:9px;">
+        <sc-for list="{{ wChips }}" as="c" hint-placeholder-count="4">
+        <button class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;padding:7px 15px;cursor:pointer;border:1px solid {{ c.border }};border-radius:999px;background:{{ c.bg }};color:var(--color-text);opacity:{{ c.opacity }};" onclick="{{ c.onClick }}" disabled="{{ c.disabled }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ wSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:18px;padding:12px 13px;border-left:2px solid {{ wFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ wFbColor }};">{{ wFeedback }}</div>
+        <div style="font-size:12px;color:var(--color-neutral-700);line-height:1.6;margin-top:4px;">{{ wRationale }}</div>
+      </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <sc-if value="{{ wNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-secondary" style="flex:none;" onclick="{{ wClear }}" disabled="{{ wCheckDisabled }}">Clear</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ wCheck }}" disabled="{{ wCheckDisabled }}">Check</button>
+      </sc-if>
+      <sc-if value="{{ wSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary btn-block" onclick="{{ wNext }}">{{ wNextLabel }}</button>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ rStageBuild }}" hint-placeholder-val="{{ false }}">
+    <div class="noscroll" style="flex:1;overflow:auto;padding:18px 22px 20px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Build the sentence</span>
+        <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ dCount }}</span>
+      </div>
+      <p style="font-size:13px;color:var(--color-neutral-700);margin:9px 0 0;line-height:1.6;">{{ dEn }}</p>
+      <div style="margin-top:14px;padding:18px 14px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;justify-content:center;">
+          <sc-for list="{{ dSlots }}" as="sl" hint-placeholder-count="4">
+          <span class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;min-width:58px;height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border:{{ sl.border }};border-radius:var(--radius-md);background:{{ sl.bg }};color:var(--color-text);cursor:pointer;" onclick="{{ sl.onClick }}">{{ sl.label }}</span>
+          </sc-for>
+        </div>
+        <div style="font-size:10.5px;color:var(--color-neutral-600);text-align:center;margin-top:12px;">{{ dSlotHint }}</div>
+      </div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-neutral-600);margin-top:18px;">Words</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:9px;">
+        <sc-for list="{{ dChips }}" as="c" hint-placeholder-count="5">
+        <button class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;padding:7px 15px;cursor:pointer;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);color:var(--color-text);opacity:{{ c.opacity }};" onclick="{{ c.onClick }}" disabled="{{ c.disabled }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ dSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:18px;padding:12px 13px;border-left:2px solid {{ dFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ dFbColor }};">{{ dFeedback }}</div>
+        <sc-if value="{{ dShowAnswer }}" hint-placeholder-val="{{ false }}">
+        <p class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);margin:6px 0 0;text-align:right;">{{ dAnswerAr }}</p>
+        </sc-if>
+        <sc-if value="{{ dHasNote }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;color:var(--color-neutral-700);line-height:1.6;margin-top:5px;">{{ dNote }}</div>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <sc-if value="{{ dNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-secondary" style="flex:none;" onclick="{{ dClear }}" disabled="{{ dClearDisabled }}">Clear</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ dCheck }}" disabled="{{ dCheckDisabled }}">Check</button>
+      </sc-if>
+      <sc-if value="{{ dSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary btn-block" onclick="{{ dNext }}">{{ dNextLabel }}</button>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ rStageDone }}" hint-placeholder-val="{{ false }}">
+    <div class="noscroll" style="flex:1;overflow:auto;padding:32px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <span class="ar" style="font-size:13px;color:var(--color-accent-700);border:1px solid var(--color-accent);border-radius:var(--radius-md);padding:3px 12px;">تمّت القراءة</span>
+      <div class="ar" style="font-family:'Scheherazade New', serif;font-size:27px;color:var(--color-text);margin-top:14px;">بَائِعُ الأَصْنَامِ</div>
+      <p style="font-size:12.5px;color:var(--color-neutral-700);margin:6px 0 0;">The Idol Seller — read, drilled and built.</p>
+      <div style="display:flex;gap:22px;margin-top:18px;padding:12px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);align-self:stretch;justify-content:center;">
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">{{ rDoneAnswered }}</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Answered</div>
+        </div>
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">{{ rDoneAcc }}</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Accuracy</div>
+        </div>
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">{{ rDoneMarked }}</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Words marked</div>
+        </div>
+      </div>
+      <sc-if value="{{ rHasMarked }}" hint-placeholder-val="{{ true }}">
+      <p style="font-size:11.5px;color:var(--color-neutral-600);margin:14px 0 0;line-height:1.5;">Still marked as unknown — they will keep coming back in this book's later chapters:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px;">
+        <sc-for list="{{ rMarkedChips }}" as="mw" hint-placeholder-count="3">
+        <span style="display:inline-flex;align-items:baseline;gap:6px;border:1px solid var(--color-divider);border-radius:var(--radius-md);padding:3px 9px;">
+          <span class="ar" style="font-family:'Scheherazade New', serif;font-size:15px;color:var(--color-text);">{{ mw.surface }}</span>
+          <span style="font-size:10.5px;color:var(--color-neutral-600);">{{ mw.gloss }}</span>
+        </span>
+        </sc-for>
+      </div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:22px;align-self:stretch;">
+        <button class="btn btn-primary btn-block" onclick="{{ exitReader }}">Back to the book</button>
+        <button class="btn btn-secondary btn-block" onclick="{{ rAgain }}">Read it again</button>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isWordPractice }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Weak words practice" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 12px;border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex;color:var(--color-text);cursor:pointer;" onclick="{{ exitWordPractice }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;color:var(--color-neutral-600);">Who Broke the Idols?</div>
+        <div style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">Practice weak words</div>
+      </div>
+      <span style="font-size:10px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;flex:none;">{{ weakCount }} marked</span>
+    </div>
+    <div style="height:3px;background:var(--color-neutral-200);">
+      <div style="height:3px;width:{{ wpProgress }};background:var(--color-accent);"></div>
+    </div>
+    <sc-if value="{{ wpActive }}" hint-placeholder-val="{{ true }}">
+    <div class="noscroll" style="flex:1;overflow:auto;padding:18px 22px 20px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Build the sentence</span>
+        <span style="font-size:11px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ dCount }}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <span style="font-size:10.5px;color:var(--color-neutral-600);">Practising</span>
+        <sc-for list="{{ wpWords }}" as="ww" hint-placeholder-count="3">
+        <span style="display:inline-flex;align-items:baseline;gap:5px;border:1px solid {{ ww.border }};border-radius:999px;padding:2px 9px;background:{{ ww.bg }};">
+          <span class="ar" style="font-family:'Scheherazade New', serif;font-size:14px;color:var(--color-text);">{{ ww.surface }}</span>
+          <span style="font-size:9.5px;color:var(--color-neutral-600);">{{ ww.gloss }}</span>
+        </span>
+        </sc-for>
+      </div>
+      <p style="font-size:13px;color:var(--color-neutral-700);margin:9px 0 0;line-height:1.6;">{{ dEn }}</p>
+      <div style="margin-top:14px;padding:18px 14px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;justify-content:center;">
+          <sc-for list="{{ dSlots }}" as="sl" hint-placeholder-count="4">
+          <span class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;min-width:58px;height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border:{{ sl.border }};border-radius:var(--radius-md);background:{{ sl.bg }};color:var(--color-text);cursor:pointer;" onclick="{{ sl.onClick }}">{{ sl.label }}</span>
+          </sc-for>
+        </div>
+        <div style="font-size:10.5px;color:var(--color-neutral-600);text-align:center;margin-top:12px;">{{ dSlotHint }}</div>
+      </div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-neutral-600);margin-top:18px;">Words</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:9px;">
+        <sc-for list="{{ dChips }}" as="c" hint-placeholder-count="5">
+        <button class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;padding:7px 15px;cursor:pointer;border:1px solid var(--color-divider);border-radius:999px;background:var(--color-bg);color:var(--color-text);opacity:{{ c.opacity }};" onclick="{{ c.onClick }}" disabled="{{ c.disabled }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ dSubmitted }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:18px;padding:12px 13px;border-left:2px solid {{ dFbColor }};background:var(--color-neutral-100);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+        <div style="font-size:12.5px;font-weight:600;color:{{ dFbColor }};">{{ dFeedback }}</div>
+        <sc-if value="{{ dShowAnswer }}" hint-placeholder-val="{{ false }}">
+        <p class="ar" dir="rtl" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);margin:6px 0 0;text-align:right;">{{ dAnswerAr }}</p>
+        </sc-if>
+        <sc-if value="{{ dHasNote }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;color:var(--color-neutral-700);line-height:1.6;margin-top:5px;">{{ dNote }}</div>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--color-divider);">
+      <sc-if value="{{ dNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-secondary" style="flex:none;" onclick="{{ dClear }}" disabled="{{ dClearDisabled }}">Clear</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="{{ dCheck }}" disabled="{{ dCheckDisabled }}">Check</button>
+      </sc-if>
+      <sc-if value="{{ dSubmitted }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-primary btn-block" onclick="{{ dNext }}">{{ dNextLabel }}</button>
+      </sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ wpDone }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;padding:40px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <span class="ar" style="font-size:13px;color:var(--color-accent-700);border:1px solid var(--color-accent);border-radius:var(--radius-md);padding:3px 12px;">تمّت المراجعة</span>
+      <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:23px;color:var(--color-text);margin-top:14px;">Weak words — reviewed</div>
+      <div style="display:flex;gap:22px;margin-top:18px;padding:12px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);align-self:stretch;justify-content:center;">
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">{{ wpAnswered }}</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Answered</div>
+        </div>
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">{{ wpAcc }}</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Accuracy</div>
+        </div>
+        <div>
+          <div style="font-size:16px;color:var(--color-text);font-variant-numeric:tabular-nums;font-weight:600;">1</div>
+          <div style="font-size:10px;color:var(--color-neutral-600);text-transform:uppercase;letter-spacing:0.04em;">Words retired</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:22px;align-self:stretch;" onclick="{{ exitWordPractice }}">Back to the book</button>
+    </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isLessonComplete }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Lesson complete" style="display:flex;flex-direction:column;height:100%;">
+    <div style="background:color-mix(in srgb, var(--color-neutral-900) 92%, black);padding:44px 26px 30px;position:relative;overflow:hidden;">
+      <span class="ar" aria-hidden="true" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-45%);font-family:'Scheherazade New', serif;font-size:120px;line-height:1;color:color-mix(in srgb, var(--color-bg) 6%, transparent);white-space:nowrap;pointer-events:none;">أحسنت</span>
+      <div style="position:relative;text-align:center;">
+        <div style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--color-accent);border-radius:999px;padding:3px 12px;font-size:9.5px;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-accent);">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Lesson cleared
+        </div>
+        <div class="ar" style="font-family:'Scheherazade New', serif;font-size:32px;color:var(--color-bg);margin-top:16px;line-height:1.3;">عَلِمَ وعَرَفَ</div>
+        <div style="font-size:12px;color:color-mix(in srgb, var(--color-bg) 60%, transparent);margin-top:3px;">Module 5 · أفعال القلوب · Lesson 2 of 5</div>
+        <div style="display:flex;justify-content:center;gap:26px;margin-top:24px;padding-top:16px;border-top:1px solid color-mix(in srgb, var(--color-bg) 18%, transparent);">
+          <div>
+            <div style="font-size:18px;color:var(--color-bg);font-variant-numeric:tabular-nums;">6 / 6</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">Quiz</div>
+          </div>
+          <div>
+            <div style="font-size:18px;color:var(--color-accent);font-variant-numeric:tabular-nums;">+55</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">XP earned</div>
+          </div>
+          <div>
+            <div style="font-size:18px;color:var(--color-bg);font-variant-numeric:tabular-nums;">6 d</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">Streak</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:20px 22px;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <span style="flex:1;height:3px;background:var(--color-neutral-200);border-radius:2px;">
+          <span style="display:block;height:3px;width:40%;background:var(--color-accent);border-radius:2px;"></span>
+        </span>
+        <span style="font-size:11px;color:var(--color-accent-700);font-variant-numeric:tabular-nums;flex:none;">2 / 5 in this module</span>
+      </div>
+
+      <div style="margin-top:18px;padding:14px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));box-shadow:var(--shadow-md);">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-700);">Up next</div>
+        <div class="ar" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);margin-top:4px;line-height:1.35;">ظَنَّ وحَسِبَ</div>
+        <p style="font-size:11.5px;color:var(--color-neutral-700);margin:4px 0 0;line-height:1.55;">أفعال الرجحان — ظن used for certainty, and the difference between حسب and زعم</p>
+        <button class="btn btn-primary btn-block" style="margin-top:13px;" onclick="{{ lcNextLesson }}">Start next lesson</button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;padding:12px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);cursor:pointer;" onclick="{{ goPracticeSetup }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+        <div style="flex:1;">
+          <div style="font-size:12.5px;color:var(--color-text);font-weight:600;">Practice what you just learned</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);">This lesson's cards are now in the pool</div>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+
+      <button class="btn btn-ghost btn-block" style="margin-top:14px;color:var(--color-neutral-600);" onclick="{{ goModuleShell }}">Back to lessons</button>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPracticeReview }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Practice review" style="display:flex;flex-direction:column;height:100%;">
+    <div style="background:color-mix(in srgb, var(--color-neutral-900) 92%, black);padding:34px 26px 26px;position:relative;overflow:hidden;">
+      <span aria-hidden="true" style="position:absolute;right:-4px;bottom:-30px;font-family:var(--font-heading);font-size:110px;line-height:1;color:color-mix(in srgb, var(--color-bg) 6%, transparent);font-variant-numeric:tabular-nums;pointer-events:none;">83</span>
+      <div style="position:relative;text-align:center;">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-accent);">Session complete · MCQ</div>
+        <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:34px;color:var(--color-bg);margin-top:10px;font-variant-numeric:tabular-nums;">10 / 12</div>
+        <div style="font-size:12px;color:color-mix(in srgb, var(--color-bg) 60%, transparent);margin-top:2px;">أفعال القلوب · 4 minutes</div>
+        <div style="display:flex;justify-content:center;gap:26px;margin-top:22px;padding-top:15px;border-top:1px solid color-mix(in srgb, var(--color-bg) 18%, transparent);">
+          <div>
+            <div style="font-size:18px;color:var(--color-bg);font-variant-numeric:tabular-nums;">83%</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">Accuracy</div>
+          </div>
+          <div>
+            <div style="font-size:18px;color:var(--color-accent);font-variant-numeric:tabular-nums;">+96</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">XP earned</div>
+          </div>
+          <div>
+            <div style="font-size:18px;color:var(--color-bg);font-variant-numeric:tabular-nums;">×4</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:color-mix(in srgb, var(--color-bg) 55%, transparent);margin-top:2px;">Best combo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:18px 22px 20px;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent-700);">Worth another look</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:9px;">
+        <sc-for list="{{ missedRows }}" as="mr" hint-placeholder-count="2">
+        <div style="padding:12px 13px;border:1px solid var(--color-divider);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+            <span class="ar" style="font-size:14px;color:var(--color-text);flex:1;min-width:0;">{{ mr.title }}</span>
+            <span style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-neutral-600);border:1px solid var(--color-divider);border-radius:999px;padding:2px 8px;flex:none;">{{ mr.kind }}</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:5px;line-height:1.55;">{{ mr.note }}</div>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;padding-bottom:8px;border-bottom:1px solid var(--color-divider);">
+        <span style="font-family:var(--font-heading);font-size:16px;color:var(--color-text);">All 12 cards</span>
+        <span style="font-size:10px;color:var(--color-neutral-600);">In the order you answered</span>
+      </div>
+      <div style="display:flex;flex-direction:column;">
+        <sc-for list="{{ reviewRows }}" as="rr" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--color-divider);">
+          <span style="width:16px;flex:none;font-size:10.5px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;">{{ rr.n }}</span>
+          <span class="ar" style="flex:1;min-width:0;font-size:13px;color:{{ rr.titleColor }};">{{ rr.title }}</span>
+          <span style="flex:none;width:18px;height:18px;border-radius:50%;border:1px solid {{ rr.border }};background:{{ rr.dotBg }};display:flex;align-items:center;justify-content:center;font-size:10px;color:{{ rr.color }};">{{ rr.mark }}</span>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;padding:13px 22px 20px;border-top:1px solid var(--color-divider);">
+      <button class="btn btn-primary btn-block" onclick="{{ goPractice }}">Drill the 2 you missed</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" style="flex:1;" onclick="{{ goPracticeSetup }}">Practice again</button>
+        <button class="btn btn-ghost" style="flex:1;color:var(--color-neutral-600);" onclick="{{ goModuleShell }}">Lessons</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="padding:24px 22px 14px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+        <div style="font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:26px;color:var(--color-text);">Library</div>
+        <div class="ar" style="font-size:15px;color:var(--color-accent-700);">المكتبة</div>
+      </div>
+      <p style="font-size:12.5px;line-height:1.6;color:var(--color-neutral-700);margin:5px 0 0;">Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.</p>
+    </div>
+
+    <div class="noscroll" style="flex:1;overflow:auto;padding:0 22px 20px;">
+      <div style="display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--color-accent);border-radius:var(--radius-lg);background:color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));box-shadow:var(--shadow-md);cursor:pointer;" onclick="{{ goBook }}">
+        <div style="flex:none;width:38px;height:52px;border-radius:3px 5px 5px 3px;background:color-mix(in srgb, var(--color-neutral-900) 92%, black);border-left:3px solid var(--color-accent);display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;">
+          <span class="ar" style="font-family:'Scheherazade New', serif;font-size:15px;color:var(--color-accent);">١</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-700);">Continue reading</div>
+          <div class="ar" style="font-family:'Scheherazade New', serif;font-size:19px;color:var(--color-text);margin-top:3px;line-height:1.35;">مَنْ كَسَرَ الأَصْنَامَ؟</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px;">Chapter 1 · بَائِعُ الأَصْنَامِ</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+
+      <sc-for list="{{ books }}" as="b" hint-placeholder-count="6">
+      <sc-if value="{{ b.seriesChanged }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:baseline;gap:10px;margin:{{ b.seriesMargin }};">
+        <span class="ar" style="font-family:'Scheherazade New', serif;font-size:17px;color:var(--color-text);flex:none;">{{ b.series }}</span>
+        <span style="flex:1;height:1px;background:var(--color-divider);"></span>
+        <span style="font-size:10px;color:var(--color-neutral-600);font-variant-numeric:tabular-nums;flex:none;">{{ b.seriesCount }}</span>
+      </div>
+      </sc-if>
+      <div style="display:flex;gap:13px;padding:12px;margin-top:8px;border:1px solid {{ b.borderColor }};border-radius:var(--radius-lg);background:{{ b.bg }};box-shadow:{{ b.shadow }};cursor:{{ b.cursor }};" onclick="{{ b.onClick }}">
+        <div style="flex:none;width:26px;height:38px;border-radius:2px 4px 4px 2px;background:{{ b.spineBg }};border-left:2px solid {{ b.spineEdge }};"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:{{ b.volColor }};">{{ b.vol }}</div>
+          <div class="ar" style="font-family:'Scheherazade New', serif;font-size:18px;color:{{ b.titleColor }};margin-top:2px;line-height:1.35;">{{ b.title }}</div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:8px;">
+            <span style="flex:1;height:2px;background:var(--color-neutral-200);">
+              <span style="display:block;height:2px;width:{{ b.pct }};background:var(--color-accent);"></span>
+            </span>
+            <span style="font-size:10px;color:{{ b.metaColor }};font-variant-numeric:tabular-nums;flex:none;">{{ b.meta }}</span>
+          </div>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;justify-content:space-around;align-items:center;padding:10px 8px 16px;border-top:1px solid var(--color-divider);">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goHome }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
+        <div style="font-size:10px;">Home</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-accent-700);cursor:pointer;" onclick="{{ goLibrary }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div style="font-size:10px;font-weight:600;">Library</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goSchedule }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <div style="font-size:10px;">Schedule</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--color-neutral-600);cursor:pointer;" onclick="{{ goAccount }}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+        <div style="font-size:10px;">Account</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COURSES = {
+  annahw: { ar: 'النَّحْوُ المُتَقَدِّمُ', en: 'Advanced Nahw' },
+  fstu: { ar: 'النَّحْوُ التَّمْهِيْدِيُّ', en: 'Introductory Nahw' },
+  sarf: { ar: 'الصَّرْفُ التَّمْهِيْدِيُّ', en: 'Introductory Sarf' },
+  'sarf-advanced': { ar: 'الصَّرْفُ المُتَقَدِّمُ', en: 'Advanced Sarf' },
+};
+
+const ANNAHW_MODULES = [
+  { title: 'الكلمة', heading: 'المقدمة', subheading: '' },
+  { title: 'الجملة والكلام', heading: 'المقدمة', subheading: '' },
+  { title: 'العامل والإعراب', heading: 'العامل وغير العامل', subheading: 'تمهيد' },
+  { title: 'اللزوم والتعدي', heading: 'العامل وغير العامل', subheading: 'الفعل' },
+  { title: 'أفعال القلوب', heading: 'العامل وغير العامل', subheading: 'الفعل' },
+  { title: 'التحويل والتعليق', heading: 'العامل وغير العامل', subheading: 'الفعل' },
+  { title: 'كان وأخواتها', heading: 'العامل وغير العامل', subheading: 'الفعل' },
+  { title: 'المقاربة والرجاء', heading: 'العامل وغير العامل', subheading: 'الفعل' },
+  { title: 'حروف الجر', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'بقية الجر', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'الزوائد والحذف', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'إنّ وأخواتها', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'الحروف المشبهة', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'النواصب والجوازم', heading: 'العامل وغير العامل', subheading: 'الحرف العامل' },
+  { title: 'أحرف العطف', heading: 'العامل وغير العامل', subheading: 'الحرف غير العامل' },
+  { title: 'الجواب والتأكيد', heading: 'العامل وغير العامل', subheading: 'الحرف غير العامل' },
+  { title: 'أحرف الشرط', heading: 'العامل وغير العامل', subheading: 'الحرف غير العامل' },
+  { title: 'التوبيخ والتنبيه', heading: 'العامل وغير العامل', subheading: 'الحرف غير العامل' },
+  { title: 'الاستفهام والتفسير', heading: 'العامل وغير العامل', subheading: 'الحرف غير العامل' },
+  { title: 'الأسماء المشتقة', heading: 'العامل وغير العامل', subheading: 'الاسم' },
+  { title: 'الأسماء العاملة', heading: 'العامل وغير العامل', subheading: 'الاسم' },
+  { title: 'حذف العامل', heading: 'العامل وغير العامل', subheading: 'خاتم' },
+  { title: 'النداء وملحقاته', heading: 'العامل وغير العامل', subheading: 'خاتم' },
+  { title: 'الفاعل والمبتدأ', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'الخبر والمطلق', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'بقية المفعولات', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'الحال', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'التمييز', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'المستثنى', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+  { title: 'خبر النواسخ', heading: 'المعمول وغير المعمول', subheading: 'الاسم والفعل' },
+];
+
+const CONCEPT_COUNT = 4;
+
+const LIT_BOOKS = [
+  { title: 'الْقِرَاءَةُ الرَّاشِدَةُ', series: 'الْقِرَاءَةُ الرَّاشِدَةُ', vol: 'Volume One', chapters: 31 },
+  { title: 'الْقِرَاءَةُ الرَّاشِدَةُ', series: 'الْقِرَاءَةُ الرَّاشِدَةُ', vol: 'Volume Two', chapters: 42 },
+  { title: 'مَنْ كَسَرَ الأَصْنَامَ؟', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume One', chapters: 16, progress: { done: 1 } },
+  { title: 'أَحْسَنُ الْقَصَصِ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Two', chapters: 25 },
+  { title: 'سَفِينَةُ نُوحٍ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Three', chapters: 22 },
+  { title: 'الْعَاصِفَةُ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Four', chapters: 11 },
+  { title: 'نَاقَةُ ثَمُودَ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Five', chapters: 13 },
+  { title: 'مِنَ الْمَهْدِ إِلَى الْمُوَاجَهَةِ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Six', chapters: 26 },
+  { title: 'صِرَاعُ مُوسَى وَفِرْعَوْنَ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Seven', chapters: 20 },
+  { title: 'قِصَّةُ سَيِّدِنَا شُعَيْبٍ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Eight', chapters: 14 },
+  { title: 'قِصَّةُ سَيِّدِنَا دَاوُدَ وَسَيِّدِنَا سُلَيْمَانَ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Nine', chapters: 15 },
+  { title: 'قِصَّةُ سَيِّدِنَا أَيُّوبَ وَسَيِّدِنَا يُونُسَ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Ten', chapters: 7 },
+  { title: 'قِصَّةُ سَيِّدِنَا زَكَرِيَّا', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Eleven', chapters: 8 },
+  { title: 'قِصَّةُ سَيِّدِنَا عِيسَى ابْنِ مَرْيَمَ', series: 'قَصَصُ النَّبِيِّينَ', vol: 'Volume Twelve', chapters: 42 },
+];
+
+class Component extends DCLogic {
+  state = { screen: 'home', courseId: 'annahw', courseMenuOpen: false, conceptIdx: 0, practiceMode: 'mcq', practiceLen: 20, practiceSource: 'both', vocabDir: 'en-ar', vocabForms: true, tarkeebEn: true, tarkeebColor: false, revMode: 'pick', revModule: null, lessonScale: 100, litScale: 100, chapterModalOpen: false, litUnknown: ['صَنَم', 'سَجَدَ', 'عَبَدَ'], reader: null, wp: null };
+  startReader(free) {
+    this.setState({ screen: 'reader', chapterModalOpen: false, reader: { free, stage: 'read', selWord: null, gloss: null, paraEn: false, checks: {}, correct: 0, total: 0, wIdx: 0, wPicked: null, wSub: false, b: { idx: 0, slots: CH1_BUILD[0].solution.map(() => null), sub: false } } });
+  }
+  updR(p) { this.setState((st) => ({ reader: { ...st.reader, ...p } })); }
+  renderVals() {
+    const s = this.state.screen;
+    const ci = this.state.conceptIdx;
+    const concepts = Array.from({ length: CONCEPT_COUNT }, (_, i) => ({
+      dotSize: i === ci ? '8px' : '6px',
+      dotColor: i === ci ? 'var(--color-accent)' : (i < ci ? 'var(--color-accent-700)' : 'var(--color-divider)'),
+      goTo: () => this.setState({ conceptIdx: i }),
+    }));
+    const course = COURSES[this.state.courseId];
+    const pick = (id) => () => this.setState({ courseId: id, courseMenuOpen: false });
+    const goLesson = () => this.setState({ screen: 'lesson', conceptIdx: 0 });
+    const goModuleShell = () => this.setState({ screen: 'module' });
+    let prevHeading = null;
+    let prevSubheading = null;
+    const modules = ANNAHW_MODULES.map((mod, i) => {
+      const n = i + 1;
+      const done = n < 5;
+      const current = n === 5;
+      const locked = n > 5;
+      const headingChanged = mod.heading !== prevHeading;
+      const subheadingChanged = headingChanged || mod.subheading !== prevSubheading;
+      prevHeading = mod.heading;
+      prevSubheading = mod.subheading;
+      return {
+        n, title: mod.title,
+        heading: mod.heading, headingChanged,
+        subheading: mod.subheading, subheadingChanged: subheadingChanged && !!mod.subheading,
+        headingMargin: i === 0 ? '14px 0 0' : '26px 0 0',
+        isDone: done, isCurrent: current, isLocked: locked,
+        pad: current ? '12px 13px' : '10px 13px',
+        borderColor: current ? 'var(--color-accent)' : 'var(--color-divider)',
+        bg: current ? 'color-mix(in srgb, var(--color-accent) 5%, var(--color-bg))' : 'var(--color-bg)',
+        shadow: current ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+        ringColor: done || current ? 'var(--color-accent)' : 'var(--color-divider)',
+        ringBg: current ? 'color-mix(in srgb, var(--color-accent) 10%, var(--color-bg))' : 'transparent',
+        cursor: current ? 'pointer' : 'default',
+        onClick: current ? goModuleShell : undefined,
+        titleColor: locked ? 'var(--color-neutral-600)' : 'var(--color-text)',
+      };
+    });
+    const r = this.state.reader || { free: false, stage: 'read', selWord: null, gloss: null, paraEn: false, checks: {}, correct: 0, total: 0, wIdx: 0, wPicked: null, wSub: false, b: { idx: 0, slots: [], sub: false } };
+    const selW = r.selWord != null ? CH1_WORDS[r.selWord] : null;
+    const selUnk = selW ? this.state.litUnknown.includes(selW[2]) : false;
+    const wi = CH1_WORKSHOP[Math.min(r.wIdx, CH1_WORKSHOP.length - 1)];
+    const wCorrect = r.wPicked === wi.a;
+    const inWp = s === 'wordPractice';
+    const wp = this.state.wp || { idx: 0, slots: [], sub: false, correct: 0, total: 0 };
+    const dSess = inWp ? wp : r.b;
+    const di = CH1_BUILD[Math.min(dSess.idx || 0, CH1_BUILD.length - 1)];
+    const dSlots = dSess.slots && dSess.slots.length ? dSess.slots : di.solution.map(() => null);
+    const setDrill = (p) => inWp ? this.setState((st) => ({ wp: { ...st.wp, ...p } })) : this.setState((st) => ({ reader: { ...st.reader, b: { ...st.reader.b, ...p } } }));
+    const dAnswerOk = dSlots.every((ci2, i) => ci2 != null && di.chips[ci2].s === di.solution[i]);
+    const dWrongChip = dSess.sub && !dAnswerOk ? dSlots.map((ci2) => (ci2 == null ? null : di.chips[ci2])).find((c) => c && c.note) : null;
+    const stageAt = { read: 0, work: 1, build: 2, done: 3 }[r.stage] || 0;
+    const checksDone = Object.keys(r.checks).length;
+    const tint = 'color-mix(in srgb, var(--color-accent) 8%, var(--color-bg))';
+    const revMode = this.state.revMode;
+    const mode = this.state.practiceMode;
+    const len = this.state.practiceLen || 20;
+    const src = this.state.practiceSource || 'both';
+    const dir = this.state.vocabDir || 'en-ar';
+    const qSel = this.state.qSel === undefined ? null : this.state.qSel;
+    const qSub = !!this.state.qSub;
+    const tkP = this.state.tkPlaced || [null, null];
+    // One answer-state shape for every multiple-choice surface: practice MCQ,
+    // the lesson quiz, and vocab. Correct answer is always index 0 here.
+    const opt = (labels, letters, extra) => labels.map((label, i) => {
+      const picked = qSel === i;
+      const right = i === 0;
+      return {
+        label, letter: letters[i], ...(extra || {}),
+        cursor: qSub ? 'default' : 'pointer',
+        pick: qSub ? undefined : () => this.setState({ qSel: i }),
+        border: qSub && right ? '2px solid var(--color-accent)' : qSub && picked ? '1px solid var(--color-neutral-700)' : picked ? '2px solid var(--color-accent)' : '1px solid var(--color-divider)',
+        bg: (qSub && right) || picked ? tint : 'var(--color-bg)',
+        shadow: picked || (qSub && right) ? 'var(--shadow-sm)' : 'none',
+        markBorder: picked || (qSub && right) ? 'var(--color-accent)' : 'var(--color-neutral-400)',
+        markBg: picked || (qSub && right) ? 'color-mix(in srgb, var(--color-accent) 12%, var(--color-bg))' : 'transparent',
+        markColor: picked || (qSub && right) ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+        showMark: qSub && (right || picked),
+        mark: right ? '✓' : '✗',
+        resultColor: right ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      };
+    });
+    return {
+      isHome: s === 'home',
+      isLesson: s === 'lesson',
+      isQuiz: s === 'quiz',
+      isLibrary: s === 'library',
+      isModules: s === 'modules',
+      isModuleShell: s === 'module',
+      lockedLessons: MODULE_LESSONS.slice(2).map((l) => ({ ar: l.ar, en: l.b })),
+      modules,
+      concepts,
+      concept0: ci === 0,
+      concept1: ci === 1,
+      concept2: ci === 2,
+      concept3: ci === 3,
+      isFirstConcept: ci === 0,
+      isLastConcept: ci === CONCEPT_COUNT - 1,
+      isNotLastConcept: ci !== CONCEPT_COUNT - 1,
+      prevConcept: () => this.setState((st) => ({ conceptIdx: Math.max(0, st.conceptIdx - 1) })),
+      nextConcept: () => this.setState((st) => ({ conceptIdx: Math.min(CONCEPT_COUNT - 1, st.conceptIdx + 1) })),
+      isPracticeSetup: s === 'practiceSetup',
+      isPracticeMcq: s === 'practice' && this.state.practiceMode === 'mcq',
+      isPracticeTarkeeb: s === 'practice' && this.state.practiceMode === 'tarkeeb',
+      isPracticeVocab: s === 'practice' && this.state.practiceMode === 'vocab',
+      goPracticeSetup: () => this.setState({ screen: 'practiceSetup' }),
+      goPractice: () => this.setState({ screen: 'practice', qSel: null, qSub: false, tkPlaced: [null, null] }),
+      kindCards: PRACTICE_KINDS.map((k) => { const on = mode === k.id; return { name: k.name, cls: k.ar ? 'ar' : '', desc: k.desc, count: k.count, countColor: on ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', border: on ? 'var(--color-accent)' : 'var(--color-divider)', bg: on ? tint : 'var(--color-bg)', shadow: on ? 'var(--shadow-md)' : 'var(--shadow-sm)', dotBorder: on ? 'var(--color-accent)' : 'var(--color-neutral-400)', dotFill: on ? 'var(--color-accent)' : 'transparent', pick: () => this.setState({ practiceMode: k.id }) }; }),
+      tarkeebEnOn: this.state.tarkeebEn !== false,
+      sessProgress: mode === 'mcq' ? '15%' : mode === 'tarkeeb' ? '14%' : '10%',
+      comboLabel: qSub ? ((mode === 'tarkeeb' && s === 'practice' ? tkP.every((v, i) => v === i) : qSel === 0) ? '×3 combo' : 'combo reset') : '×2 combo',
+      qSubmitted: qSub,
+      qNotSubmitted: !qSub,
+      qCheckDisabled: qSel === null,
+      qCheck: () => this.setState({ qSub: true }),
+      qNext: () => this.setState({ qSel: null, qSub: false, tkPlaced: [null, null] }),
+      qFbColor: qSel === 0 ? 'var(--color-accent-700)' : 'var(--color-neutral-700)',
+      mcqFeedback: qSel === 0 ? 'Correct.' : 'Not quite — it is مفعول به أول.',
+      quizFeedback: qSel === 0 ? 'Correct.' : 'Not quite — see the first option.',
+      mcqOptions: opt(['مفعول به أول', 'مفعول به ثان', 'فاعل', 'مضاف إليه'], AR_LETTERS),
+      quizTicks: Array.from({ length: 6 }, (_, i) => ({ bg: i < 5 ? 'var(--color-accent)' : (qSub ? 'var(--color-accent)' : 'var(--color-neutral-200)') })),
+      quizOptions: opt([
+        'علم typically takes two objects (a صفة/judgement predicated of something); عرف typically takes one (recognising a ذات)',
+        'علم is always intransitive; عرف always takes three objects',
+        'علم is used only in poetry; عرف only in prose',
+        'There is no difference; they are fully interchangeable',
+      ], EN_LETTERS),
+      tkCells: TARKEEB_CELLS.map((c, i) => { const placed = tkP[i]; const right = placed === i; return { word: c.word, label: placed == null ? 'Tap a label' : TARKEEB_LABELS[placed], labelColor: placed == null ? 'var(--color-neutral-500)' : 'var(--color-accent-700)', border: qSub ? (right ? '1px solid var(--color-accent)' : '1px solid var(--color-neutral-700)') : placed == null ? '1px dashed var(--color-neutral-400)' : '1px solid var(--color-accent)', bg: placed == null ? 'var(--color-bg)' : tint, onClick: qSub || placed == null ? undefined : () => this.setState((st) => { const p = [...st.tkPlaced]; p[i] = null; return { tkPlaced: p }; }) }; }),
+      tkChips: TARKEEB_LABELS.map((label, li) => { const used = tkP.includes(li); return { label, opacity: used ? '0.35' : qSub ? '0.6' : '1', disabled: used || qSub, onClick: () => this.setState((st) => { const p = [...st.tkPlaced]; const e = p.indexOf(null); if (e > -1) p[e] = li; return { tkPlaced: p }; }) }; }),
+      tkCheckDisabled: tkP.includes(null),
+      tkCheck: () => this.setState({ qSub: true }),
+      tkFbColor: tkP.every((v, i) => v === i) ? 'var(--color-accent-700)' : 'var(--color-neutral-700)',
+      tkFeedback: tkP.every((v, i) => v === i) ? 'Correct.' : 'Not quite — swap the two labels.',
+      cfgIsMcq: mode === 'mcq',
+      cfgIsTarkeeb: mode === 'tarkeeb',
+      cfgIsVocab: mode === 'vocab',
+      practiceLen: len,
+      lenOptions: [10, 20, 30].map((n) => ({ label: `${n} cards`, border: len === n ? 'var(--color-accent)' : 'var(--color-divider)', bg: len === n ? tint : 'var(--color-bg)', color: len === n ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', pick: () => this.setState({ practiceLen: n }) })),
+      sourceOptions: [['both', 'Both'], ['quiz', 'Lesson quizzes'], ['book', 'Book exercises']].map(([id, label]) => ({ label, border: src === id ? 'var(--color-accent)' : 'var(--color-divider)', bg: src === id ? tint : 'var(--color-bg)', color: src === id ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', pick: () => this.setState({ practiceSource: id }) })),
+      dirOptions: [['en-ar', 'EN → AR'], ['ar-en', 'AR → EN']].map(([id, label]) => ({ label, border: dir === id ? 'var(--color-accent)' : 'var(--color-divider)', bg: dir === id ? tint : 'var(--color-bg)', color: dir === id ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', pick: () => this.setState({ vocabDir: id }) })),
+      toggleTarkeebEn: () => this.setState((st) => ({ tarkeebEn: !st.tarkeebEn })),
+      tarkeebEnLabel: this.state.tarkeebEn ? 'Shown' : 'Hidden',
+      tarkeebEnColor: this.state.tarkeebEn ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      tarkeebEnBorder: this.state.tarkeebEn ? 'var(--color-accent)' : 'var(--color-divider)',
+      toggleTarkeebColor: () => this.setState((st) => ({ tarkeebColor: !st.tarkeebColor })),
+      tarkeebColorLabel: this.state.tarkeebColor ? 'Coloured' : 'Default',
+      tarkeebColorColor: this.state.tarkeebColor ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      tarkeebColorBorder: this.state.tarkeebColor ? 'var(--color-accent)' : 'var(--color-divider)',
+      toggleVocabForms: () => this.setState((st) => ({ vocabForms: !st.vocabForms })),
+      vocabFormsLabel: this.state.vocabForms ? 'Mixed in' : 'Off',
+      vocabFormsColor: this.state.vocabForms ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      vocabFormsBorder: this.state.vocabForms ? 'var(--color-accent)' : 'var(--color-divider)',
+      practiceSummary: mode === 'vocab'
+        ? `${len} vocab cards, ${dir === 'en-ar' ? 'English to Arabic' : 'Arabic to English'}${this.state.vocabForms ? ', with form questions mixed in' : ''}.`
+        : mode === 'tarkeeb'
+          ? `${len} تركيب diagrams from your completed lessons.`
+          : `${len} MCQ cards from ${src === 'both' ? 'lesson quizzes and book exercises' : src === 'quiz' ? 'lesson quizzes only' : 'book exercises only'}.`,
+      vocabDirLabel: dir === 'en-ar' ? 'EN → AR' : 'AR → EN',
+      vocabPromptKicker: dir === 'en-ar' ? 'Which Arabic word means this?' : 'What does this word mean?',
+      vocabPrompt: dir === 'en-ar' ? 'to assume, to think likely' : 'زَعَمَ',
+      vocabPromptCls: dir === 'en-ar' ? '' : 'ar',
+      vocabPromptFont: dir === 'en-ar' ? 'var(--font-heading)' : "'Scheherazade New', serif",
+      vocabPromptSize: dir === 'en-ar' ? '22px' : '34px',
+      vocabOptions: opt(dir === 'en-ar'
+        ? ['ظَنَّ', 'عَلِمَ', 'دَرَى', 'زَعَمَ']
+        : ['to claim, to allege (with doubt)', 'to know with certainty', 'to find, to come upon', 'to reckon, to count'],
+        dir === 'en-ar' ? AR_LETTERS : EN_LETTERS,
+        { cls: dir === 'en-ar' ? 'ar' : '', font: dir === 'en-ar' ? "'Scheherazade New', serif" : 'var(--font-body)', size: dir === 'en-ar' ? '19px' : '13px' }),
+      goBook: () => this.setState({ screen: 'book' }),
+      books: (() => {
+        let prevSeries = null;
+        const counts = LIT_BOOKS.reduce((a, b) => { a[b.series] = (a[b.series] || 0) + 1; return a; }, {});
+        return LIT_BOOKS.map((b, i) => {
+          const inProgress = !!b.progress;
+          const seriesChanged = b.series !== prevSeries;
+          const isFirst = i === 0;
+          prevSeries = b.series;
+          const done = inProgress ? b.progress.done - 1 : 0;
+          return {
+            title: b.title, vol: b.vol, series: b.series, seriesChanged,
+            seriesCount: `${counts[b.series]} ${counts[b.series] === 1 ? 'book' : 'books'}`,
+            seriesMargin: isFirst ? '20px 0 0' : '26px 0 0',
+            borderColor: inProgress ? 'var(--color-accent)' : 'var(--color-divider)',
+            bg: 'var(--color-bg)',
+            shadow: 'var(--shadow-sm)',
+            cursor: inProgress ? 'pointer' : 'default',
+            onClick: inProgress ? () => this.setState({ screen: 'book' }) : undefined,
+            spineBg: inProgress ? 'color-mix(in srgb, var(--color-accent) 18%, var(--color-bg))' : 'var(--color-neutral-100)',
+            spineEdge: inProgress ? 'var(--color-accent)' : 'var(--color-neutral-300)',
+            volColor: inProgress ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+            titleColor: 'var(--color-text)',
+            pct: `${Math.round((done / b.chapters) * 100)}%`,
+            metaColor: inProgress ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+            meta: `${done} / ${b.chapters}`,
+          };
+        });
+      })(),
+      goModules: () => this.setState({ screen: 'modules' }),
+      goModuleShell: () => this.setState({ screen: 'module' }),
+      isAnnahw: this.state.courseId === 'annahw',
+      isOtherCourse: this.state.courseId !== 'annahw',
+      courseAr: course.ar,
+      courseEn: course.en,
+      courseMenuOpen: this.state.courseMenuOpen,
+      toggleCourseMenu: () => this.setState((st) => ({ courseMenuOpen: !st.courseMenuOpen })),
+      isSchedule: s === 'schedule',
+      goSchedule: () => this.setState({ screen: 'schedule' }),
+      upNext: UP_NEXT.slice(1).map((u) => ({ title: u.t, meta: u.m, unlocked: u.u, locked: !u.u, border: u.u ? 'var(--color-accent)' : 'var(--color-divider)', bg: u.u ? tint : 'var(--color-bg)', shadow: u.u ? 'var(--shadow-md)' : 'var(--shadow-sm)', ringColor: u.u ? 'var(--color-accent)' : 'var(--color-divider)', titleColor: u.u ? 'var(--color-text)' : 'var(--color-neutral-600)', cursor: u.u ? 'pointer' : 'default', onClick: u.u ? () => this.setState({ screen: 'module' }) : undefined })),
+      revIsPick: revMode === 'pick',
+      revIsRandom: revMode === 'random',
+      revPick: () => this.setState({ revMode: 'pick' }),
+      revRandom: () => this.setState({ revMode: 'random' }),
+      revPickBorder: revMode === 'pick' ? 'var(--color-accent)' : 'var(--color-divider)',
+      revPickBg: revMode === 'pick' ? tint : 'var(--color-bg)',
+      revPickColor: revMode === 'pick' ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      revRandomBorder: revMode === 'random' ? 'var(--color-accent)' : 'var(--color-divider)',
+      revRandomBg: revMode === 'random' ? tint : 'var(--color-bg)',
+      revRandomColor: revMode === 'random' ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      revModules: REVISION_MODULES.map((t, i) => { const on = this.state.revModule === i; return { title: t, mix: '20 + 10', border: on ? 'var(--color-accent)' : 'var(--color-divider)', bg: on ? tint : 'var(--color-bg)', dotBorder: on ? 'var(--color-accent)' : 'var(--color-neutral-400)', dotFill: on ? 'var(--color-accent)' : 'transparent', pick: () => this.setState({ revModule: i }) }; }),
+      revStartDisabled: revMode === 'pick' && this.state.revModule === null,
+      startRevision: () => this.setState({ screen: 'practice', practiceMode: 'mcq', qSel: null, qSub: false }),
+      isAccount: s === 'account',
+      goAccount: () => this.setState({ screen: 'account' }),
+      streakCells: STREAK_DAYS.map((d, i) => ({ bg: d ? 'var(--color-accent)' : 'var(--color-neutral-100)', border: i === STREAK_DAYS.length - 1 ? 'var(--color-accent-700)' : 'var(--color-divider)' })),
+      weekdayLabels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((l) => ({ l })),
+      courseRows: COURSE_PROGRESS.map((c) => ({ ar: c.ar, en: c.en, label: `${c.done} / ${c.total}`, labelColor: c.done ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', pct: `${Math.round((c.done / c.total) * 100)}%` })),
+      lessonScale: this.state.lessonScale,
+      litScale: this.state.litScale,
+      lessonScaleLabel: `${this.state.lessonScale}%`,
+      litScaleLabel: `${this.state.litScale}%`,
+      lessonPreviewSize: `${(13 * this.state.lessonScale / 100).toFixed(1)}px`,
+      litPreviewSize: `${(19 * this.state.litScale / 100).toFixed(1)}px`,
+      setLessonScale: (e) => this.setState({ lessonScale: Number(e.target.value) }),
+      setLitScale: (e) => this.setState({ litScale: Number(e.target.value) }),
+      isAchievements: s === 'achievements',
+      goAchievements: () => this.setState({ screen: 'achievements' }),
+      badgePips: BADGES.slice(0, 10).map((b) => ({ bg: b.e ? 'var(--color-accent)' : 'var(--color-neutral-300)' })),
+      badges: (() => {
+        const totals = BADGES.reduce((a, b) => { a[b.s] = a[b.s] || { n: 0, e: 0 }; a[b.s].n += 1; if (b.e) a[b.s].e += 1; return a; }, {});
+        let prev = null;
+        return BADGES.map((b, i) => {
+          const sectionChanged = b.s !== prev;
+          prev = b.s;
+          const t = totals[b.s];
+          const parts = b.p ? b.p.split('/').map((x) => parseFloat(x.replace(/[^0-9.]/g, ''))) : null;
+          return {
+            section: b.s, sectionChanged,
+            sectionMargin: i === 0 ? '22px 0 0' : '26px 0 0',
+            sectionCount: `${t.e} / ${t.n}`,
+            sectionColor: t.e ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+            name: b.n, desc: b.d,
+            earned: !!b.e, locked: !b.e,
+            progress: b.p || '', hasProgress: !!b.p,
+            pct: parts && parts[1] ? `${Math.min(100, Math.round((parts[0] / parts[1]) * 100))}%` : '0%',
+            nameColor: b.e ? 'var(--color-text)' : 'var(--color-neutral-700)',
+            border: b.e ? 'var(--color-accent)' : 'var(--color-divider)',
+            bg: b.e ? 'color-mix(in srgb, var(--color-accent) 4%, var(--color-bg))' : 'var(--color-bg)',
+            shadow: b.e ? 'var(--shadow-sm)' : 'none',
+            ringColor: b.e ? 'var(--color-accent)' : 'var(--color-divider)',
+            ringBg: b.e ? 'color-mix(in srgb, var(--color-accent) 10%, var(--color-bg))' : 'transparent',
+          };
+        });
+      })(),
+      isBook: s === 'book',
+      weakCount: String(this.state.litUnknown.length),
+      weakDisabled: this.state.litUnknown.length === 0,
+      bookChapters: QASAS_CHAPTERS.map((c, i) => { const on = i === 0; return { n: i + 1, ar: c.ar, en: c.en, pages: c.p, blurb: c.b, unlocked: on, locked: !on, showBlurb: on, pad: on ? '13px' : '11px 13px', border: on ? 'var(--color-accent)' : 'var(--color-divider)', shadow: on ? 'var(--shadow-md)' : 'var(--shadow-sm)', bg: on ? 'color-mix(in srgb, var(--color-accent) 5%, var(--color-bg))' : 'var(--color-bg)', ringColor: on ? 'var(--color-accent)' : 'var(--color-divider)', ringBg: on ? 'color-mix(in srgb, var(--color-accent) 10%, var(--color-bg))' : 'transparent', titleSize: on ? '18px' : '17px', titleColor: on ? 'var(--color-text)' : 'var(--color-neutral-600)', metaColor: on ? 'var(--color-neutral-700)' : 'var(--color-neutral-600)', cursor: on ? 'pointer' : 'default', open: on ? () => this.setState({ chapterModalOpen: true }) : undefined }; }),
+      chapterModalOpen: this.state.chapterModalOpen,
+      closeChapterModal: () => this.setState({ chapterModalOpen: false }),
+      startReadPractice: () => this.startReader(false),
+      startFreeRead: () => this.startReader(true),
+      isReader: s === 'reader',
+      exitReader: () => this.setState({ screen: 'book', chapterModalOpen: false }),
+      rAgain: () => this.startReader(false),
+      rIsPractice: !r.free,
+      rIsFree: !!r.free,
+      rFreeLabel: r.free ? ' · free read' : '',
+      rStageRead: r.stage === 'read',
+      rStageWork: r.stage === 'work',
+      rStageBuild: r.stage === 'build',
+      rStageDone: r.stage === 'done',
+      railSteps: ['Read', 'Patterns', 'Build'].map((label, i) => ({ label, mark: i < stageAt ? '✓' : String(i + 1), border: i <= stageAt ? 'var(--color-accent)' : 'var(--color-divider)', bg: i === stageAt ? tint : 'var(--color-bg)', color: i <= stageAt ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', labelColor: i === stageAt ? 'var(--color-accent-700)' : 'var(--color-neutral-600)' })),
+      rProgress: r.stage === 'read' ? `${Math.round((checksDone / 3) * 33)}%` : r.stage === 'work' ? `${33 + Math.round((r.wIdx / 4) * 33)}%` : r.stage === 'build' ? `${66 + Math.round(((r.b.idx || 0) / 2) * 34)}%` : '100%',
+      rTextSize: `${(21 * this.state.litScale / 100).toFixed(1)}px`,
+      rSentences: (() => { let at = 0; return CH1_SENTENCES.map(([n, en], si) => { const from = at; at += n; const open = r.gloss === si; return { en, bg: open ? 'color-mix(in srgb, var(--color-accent) 9%, transparent)' : 'transparent', dotColor: open ? 'var(--color-accent)' : 'var(--color-neutral-500)', toggle: () => this.updR({ gloss: open ? null : si }), words: CH1_WORDS.slice(from, from + n).map((w, k) => { const i = from + k; return { surface: w[0], bg: r.selWord === i ? 'color-mix(in srgb, var(--color-accent) 22%, var(--color-bg))' : 'transparent', bb: this.state.litUnknown.includes(w[2]) ? '1px dashed var(--color-accent-700)' : '1px solid transparent', tap: () => this.updR({ selWord: r.selWord === i ? null : i }) }; }) }; }); })(),
+      rGlossOpen: r.gloss != null,
+      rGlossText: r.gloss != null ? CH1_SENTENCES[r.gloss][1] : '',
+      rClearWord: () => this.updR({ selWord: null }),
+      rShowHint: r.selWord == null,
+      rBodyPad: r.selWord == null ? '20px' : '150px',
+      rNoWord: !selW,
+      rHasWord: !!selW,
+      rWordSurface: selW ? selW[0].replace(/[،.]/g, '') : '',
+      rWordGloss: selW ? selW[1] : '',
+      rWordLemma: selW ? selW[2] : '',
+      rWordRoot: selW ? (selW[3] || '—') : '',
+      rWordPos: selW ? selW[4] : '',
+      rMarkLabel: selUnk ? 'Marked — undo' : 'Mark as unknown',
+      rMarkBg: selUnk ? tint : 'var(--color-bg)',
+      rToggleUnknown: () => { if (!selW) return; this.setState((st) => ({ litUnknown: st.litUnknown.includes(selW[2]) ? st.litUnknown.filter((l) => l !== selW[2]) : [...st.litUnknown, selW[2]] })); },
+      rEnBorder: r.paraEn ? 'var(--color-accent)' : 'var(--color-divider)',
+      rEnBg: r.paraEn ? tint : 'var(--color-bg)',
+      rEnColor: r.paraEn ? 'var(--color-accent-700)' : 'var(--color-neutral-600)',
+      rToggleParaEn: () => this.updR({ paraEn: !r.paraEn }),
+      rParaEnOpen: !!r.paraEn,
+      rChecks: CH1_CHECKS.map((c, ci) => { const sel = r.checks[ci]; const sub = sel !== undefined; return { q: c.q, options: c.o.map((o, oi) => ({ label: o, cursor: sub ? 'default' : 'pointer', markColor: sub && oi === c.a ? 'var(--color-accent-700)' : 'var(--color-neutral-600)', border: sub && oi === c.a ? '2px solid var(--color-accent)' : sub && oi === sel ? '1px solid var(--color-neutral-700)' : '1px solid var(--color-divider)', bg: sub && oi === c.a ? tint : 'var(--color-bg)', mark: sub && oi === c.a ? '✓' : sub && oi === sel ? '✗' : '', pick: sub ? undefined : () => this.setState((st) => { const rd = st.reader; return { reader: { ...rd, checks: { ...rd.checks, [ci]: oi }, correct: rd.correct + (oi === c.a ? 1 : 0), total: rd.total + 1 } }; }) })) }; }),
+      rChecksCount: `${checksDone} / 3`,
+      rAdvanceDisabled: checksDone < 3,
+      rToWorkshop: () => this.updR({ stage: 'work' }),
+      wKicker: wi.k,
+      wTask: wi.t,
+      wCount: `${r.wIdx + 1} / ${CH1_WORKSHOP.length}`,
+      wPre: wi.pre,
+      wPost: wi.post,
+      wSlot: r.wPicked == null ? '· · ·' : wi.o[r.wPicked],
+      wSlotBg: r.wPicked == null ? 'transparent' : tint,
+      wSlotEdge: r.wPicked == null ? 'var(--color-neutral-400)' : 'var(--color-accent)',
+      wHasBase: !!wi.base,
+      wBase: wi.base || '',
+      wClear: () => this.updR({ wPicked: null }),
+      wChips: wi.order.map((oi) => ({ label: wi.o[oi], disabled: r.wSub || r.wPicked === oi, opacity: r.wPicked === oi ? '0.4' : r.wSub ? '0.6' : '1', border: r.wPicked === oi ? 'var(--color-accent)' : 'var(--color-divider)', bg: 'var(--color-bg)', onClick: () => this.updR({ wPicked: oi }) })),
+      wSubmitted: !!r.wSub,
+      wNotSubmitted: !r.wSub,
+      wCheckDisabled: r.wPicked == null,
+      wCheck: () => this.setState((st) => { const rd = st.reader; const ok = rd.wPicked === wi.a; return { reader: { ...rd, wSub: true, correct: rd.correct + (ok ? 1 : 0), total: rd.total + 1 } }; }),
+      wFeedback: wCorrect ? 'Correct.' : `Not quite — it is ${wi.o[wi.a]}.`,
+      wFbColor: wCorrect ? 'var(--color-accent-700)' : 'var(--color-neutral-700)',
+      wRationale: r.wSub && r.wPicked != null ? (wCorrect ? wi.r[wi.a] : `${wi.r[r.wPicked]} ${wi.r[wi.a]}`) : '',
+      wNextLabel: r.wIdx >= CH1_WORKSHOP.length - 1 ? 'On to building sentences' : 'Next',
+      wNext: () => { if (r.wIdx >= CH1_WORKSHOP.length - 1) this.updR({ stage: 'build', b: { idx: 0, slots: CH1_BUILD[0].solution.map(() => null), sub: false } }); else this.updR({ wIdx: r.wIdx + 1, wPicked: null, wSub: false }); },
+      dEn: di.en,
+      dCount: `${(dSess.idx || 0) + 1} / ${CH1_BUILD.length}`,
+      dSlots: dSlots.map((ci2, i) => { const chip = ci2 == null ? null : di.chips[ci2]; const ok = dSess.sub && chip && chip.s === di.solution[i]; return { label: chip ? chip.s : '', border: dSess.sub ? (ok ? '2px solid var(--color-accent)' : '1px solid var(--color-neutral-700)') : chip ? '1px solid var(--color-accent)' : '1px dashed var(--color-neutral-400)', bg: chip ? tint : 'var(--color-bg)', onClick: !dSess.sub && chip ? () => { const slots = [...dSlots]; slots[i] = null; setDrill({ slots }); } : undefined }; }),
+      dChips: di.chips.map((c, ci2) => { const used = dSlots.includes(ci2); return { label: c.s, disabled: used || !!dSess.sub, opacity: used ? '0.35' : dSess.sub ? '0.6' : '1', onClick: () => { const slots = [...dSlots]; const e = slots.indexOf(null); if (e > -1) { slots[e] = ci2; setDrill({ slots }); } } }; }),
+      dSlotHint: dSess.sub ? 'Tap Next when you have read the note' : dSlots.includes(null) ? `${dSlots.filter((v) => v === null).length} of ${dSlots.length} words still to place` : 'Tap a word to take it back',
+      dClear: () => setDrill({ slots: di.solution.map(() => null) }),
+      dClearDisabled: dSlots.every((v) => v === null),
+      dSubmitted: !!dSess.sub,
+      dNotSubmitted: !dSess.sub,
+      dCheckDisabled: dSlots.includes(null),
+      dCheck: () => { const ok = dSlots.every((ci2, i) => ci2 != null && di.chips[ci2].s === di.solution[i]); if (inWp) this.setState((st) => ({ wp: { ...st.wp, sub: true, correct: st.wp.correct + (ok ? 1 : 0), total: st.wp.total + 1 } })); else this.setState((st) => ({ reader: { ...st.reader, correct: st.reader.correct + (ok ? 1 : 0), total: st.reader.total + 1, b: { ...st.reader.b, sub: true } } })); },
+      dFeedback: dAnswerOk ? 'Correct.' : 'Not quite.',
+      dFbColor: dAnswerOk ? 'var(--color-accent-700)' : 'var(--color-neutral-700)',
+      dShowAnswer: !!dSess.sub && !dAnswerOk,
+      dAnswerAr: di.solution.join(' '),
+      dHasNote: !!dWrongChip,
+      dNote: dWrongChip ? dWrongChip.note : '',
+      dNextLabel: (dSess.idx || 0) >= CH1_BUILD.length - 1 ? (inWp ? 'Finish' : 'Finish the chapter') : 'Next sentence',
+      dNext: () => { const last = (dSess.idx || 0) >= CH1_BUILD.length - 1; if (inWp) { if (last) this.setState((st) => ({ wp: { ...st.wp, idx: 2 } })); else this.setState((st) => ({ wp: { ...st.wp, idx: 1, slots: CH1_BUILD[1].solution.map(() => null), sub: false } })); } else if (last) { this.updR({ stage: 'done' }); } else { this.updR({ b: { idx: 1, slots: CH1_BUILD[1].solution.map(() => null), sub: false } }); } },
+      rDoneAnswered: `${r.correct} / ${r.total}`,
+      rDoneAcc: r.total ? `${Math.round((r.correct / r.total) * 100)}%` : '—',
+      rDoneMarked: String(this.state.litUnknown.length),
+      rHasMarked: this.state.litUnknown.length > 0,
+      rMarkedChips: this.state.litUnknown.map((lem) => { const w = CH1_WORDS.find((x) => x[2] === lem); return { surface: lem, gloss: w ? w[1] : '' }; }),
+      isWordPractice: inWp,
+      goWordPractice: () => this.setState({ screen: 'wordPractice', wp: { idx: 0, slots: CH1_BUILD[0].solution.map(() => null), sub: false, correct: 0, total: 0 } }),
+      exitWordPractice: () => this.setState({ screen: 'book' }),
+      wpWords: this.state.litUnknown.slice(0, 3).map((lem, i) => { const w = CH1_WORDS.find((x) => x[2] === lem); return { surface: lem, gloss: w ? w[1] : '', border: i === 0 ? 'var(--color-accent)' : 'var(--color-divider)', bg: i === 0 ? tint : 'var(--color-bg)' }; }),
+      wpActive: inWp && wp.idx < 2,
+      wpDone: inWp && wp.idx >= 2,
+      wpProgress: `${Math.round((Math.min(wp.idx, 2) / 2) * 100)}%`,
+      wpAnswered: `${wp.correct} / ${wp.total}`,
+      wpAcc: wp.total ? `${Math.round((wp.correct / wp.total) * 100)}%` : '—',
+      isLessonComplete: s === 'lessonComplete',
+      goLessonComplete: () => this.setState({ screen: 'lessonComplete' }),
+      lcNextLesson: () => this.setState({ screen: 'lesson', conceptIdx: 0 }),
+      isPracticeReview: s === 'practiceReview',
+      goPracticeReview: () => this.setState({ screen: 'practiceReview' }),
+      reviewRows: REVIEW_LOG.map((rw, i) => ({ n: i + 1, title: rw.t, mark: rw.c ? '✓' : '✗', color: rw.c ? 'var(--color-accent-700)' : 'var(--color-neutral-700)', titleColor: rw.c ? 'var(--color-text)' : 'var(--color-neutral-700)', dotBg: rw.c ? tint : 'var(--color-neutral-100)', border: rw.c ? 'var(--color-accent)' : 'var(--color-neutral-400)' })),
+      missedRows: [
+        { title: 'تركيب: وَنَرَاهُ قَرِيبًا', kind: 'تركيب', note: 'The attached الهاء is the first object, so قَرِيبًا takes the second — not حال.' },
+        { title: 'اختصار المفعولين', kind: 'MCQ', note: 'اختصار drops an object whose meaning is still intended; اقتصار drops it with the meaning too.' },
+      ],
+      goHome: () => this.setState({ screen: 'home' }),
+      goLesson: goLesson,
+      goQuiz: () => this.setState({ screen: 'quiz', qSel: null, qSub: false }),
+      goLibrary: () => this.setState({ screen: 'library' }),
+      pickAnnahw: pick('annahw'),
+      pickFstu: pick('fstu'),
+      pickSarf: pick('sarf'),
+      pickSarfAdv: pick('sarf-advanced'),
+    };
+  }
+}
+
+
+const UP_NEXT = [
+  { t: 'عَلِمَ وعَرَفَ', m: 'أفعال القلوب · Lesson 2 of 5', u: true },
+  { t: 'ظَنَّ وحَسِبَ', m: 'أفعال القلوب · Lesson 3 of 5', u: false },
+  { t: 'بقية أفعال الظن', m: 'أفعال القلوب · Lesson 4 of 5', u: false },
+  { t: 'أَلَمْ تَرَ وأَرَأَيْتَ', m: 'أفعال القلوب · Lesson 5 of 5', u: false },
+];
+const AR_LETTERS = ['أ', 'ب', 'ج', 'د'];
+const EN_LETTERS = ['A', 'B', 'C', 'D'];
+const TARKEEB_CELLS = [{ word: 'نَرَاهُ' }, { word: 'قَرِيبًا' }];
+const TARKEEB_LABELS = ['فعل قلب وفاعله ومفعوله الأول (الهاء)', 'مفعول به ثان', 'مضاف إليه', 'حال'];
+const MODULE_LESSONS = [
+  { ar: 'وَجَدَ ورَأَى', en: 'Verbs of certainty', b: "وجد's shift to sure knowledge, and رأى's three readings." },
+  { ar: 'عَلِمَ وعَرَفَ', en: 'Knowing and recognising', b: 'Knowing a صفة, recognising a ذات, and learning after ignorance — علم، عرف، درى، تعلَّم.' },
+  { ar: 'ظَنَّ وحَسِبَ', en: 'أفعال الرجحان', b: 'ظن used for certainty, and the difference between حسب and زعم.' },
+  { ar: 'بقية أفعال الظن', en: 'The remaining verbs of assumption', b: 'أنّ vs أنْ, and حَجَا، عَدَّ، هَبْ، خَالَ.' },
+  { ar: 'أَلَمْ تَرَ وأَرَأَيْتَ', en: 'Omission of the objects', b: "Omission rules for أفعال القلوب's objects — اختصار and اقتصار." },
+];
+const PRACTICE_KINDS = [
+  { id: 'mcq', name: 'MCQ', count: 32, desc: "Multiple-choice questions from every finished lesson's quiz and book exercises" },
+  { id: 'tarkeeb', name: 'تركيب', ar: true, count: 14, desc: "Label each word's grammatical role in a parsed sentence" },
+  { id: 'vocab', name: 'Vocab', count: 58, desc: 'Words met in this module, either direction, with plural and مصدر forms' },
+];
+const REVISION_MODULES = ['الكلمة', 'الجملة والكلام', 'العامل والإعراب', 'اللزوم والتعدي'];
+const STREAK_DAYS = [1,0,1,1,0,1,1, 0,1,1,1,0,0,1, 1,1,0,1,0,1,1, 0,1,1,1,1,1,1];
+const COURSE_PROGRESS = [
+  { ar: 'النَّحْوُ المُتَقَدِّمُ', en: 'Advanced Nahw', done: 4, total: 30 },
+  { ar: 'النَّحْوُ التَّمْهِيْدِيُّ', en: 'Introductory Nahw', done: 2, total: 21 },
+  { ar: 'الصَّرْفُ التَّمْهِيْدِيُّ', en: 'Introductory Sarf', done: 0, total: 15 },
+  { ar: 'الصَّرْفُ المُتَقَدِّمُ', en: 'Advanced Sarf', done: 0, total: 13 },
+];
+const BADGES = [
+  { s: 'Getting Started', n: 'First Steps', d: 'Clear your first lesson.', e: 1 },
+  { s: 'Level', n: 'Grammarian', d: 'Reach level 5.', e: 1 },
+  { s: 'Level', n: 'Adept', d: 'Reach level 10.', p: '6 / 10' },
+  { s: 'Level', n: 'Erudite', d: 'Reach level 25.', p: '6 / 25' },
+  { s: 'Level', n: 'Master Grammarian', d: 'Reach level 50.', p: '6 / 50' },
+  { s: 'Level', n: 'Sage', d: 'Reach level 75.', p: '6 / 75' },
+  { s: 'Level', n: 'Paragon', d: 'Reach level 90.', p: '6 / 90' },
+  { s: 'Level', n: 'Grand Grammarian', d: 'Reach level 100.', p: '6 / 100' },
+  { s: 'Streak', n: 'Warming Up', d: 'Reach a three-day streak.', e: 1 },
+  { s: 'Streak', n: 'On Fire', d: 'Reach a seven-day streak.', p: '6 / 7' },
+  { s: 'Streak', n: 'Unwavering', d: 'Reach a thirty-day streak.', p: '6 / 30' },
+  { s: 'Streak', n: 'Century', d: 'Reach a hundred-day streak.', p: '6 / 100' },
+  { s: 'Perfect Quizzes', n: 'Sharp Tongue', d: 'Score perfectly on a quiz.', e: 1 },
+  { s: 'Perfect Quizzes', n: 'Precise', d: 'Score perfectly on ten quizzes.', p: '4 / 10' },
+  { s: 'Perfect Quizzes', n: 'Flawless', d: 'Score perfectly on fifty quizzes.', p: '4 / 50' },
+  { s: 'Perfect Quizzes', n: 'Impeccable', d: 'Score perfectly on a hundred and fifty quizzes.', p: '4 / 150' },
+  { s: 'Practice Volume', n: 'Devoted', d: 'Answer ten practice drills correctly.', e: 1 },
+  { s: 'Practice Volume', n: 'Diligent', d: 'Answer a hundred practice drills correctly.', p: '62 / 100' },
+  { s: 'Practice Volume', n: 'Relentless', d: 'Answer five hundred practice drills correctly.', p: '62 / 500' },
+  { s: 'Practice Volume', n: 'Tireless', d: 'Answer two thousand practice drills correctly.', p: '62 / 2000' },
+  { s: 'Modules Completed', n: 'Scholar', d: 'Complete every lesson in a module.', e: 1 },
+  { s: 'Modules Completed', n: 'Well-Read', d: 'Complete five modules.', e: 1 },
+  { s: 'Modules Completed', n: 'Bookish', d: 'Complete fifteen modules.', p: '6 / 15' },
+  { s: 'Modules Completed', n: 'Half the Shelf', d: 'Complete thirty modules.', p: '6 / 30' },
+  { s: 'Modules Completed', n: 'Every Chapter', d: 'Complete every module across every course.', p: '6 / 79' },
+  { s: 'Lessons Cleared', n: 'Fifty Lessons', d: 'Clear fifty lessons.', p: '31 / 50' },
+  { s: 'Lessons Cleared', n: 'A Hundred and Fifty', d: 'Clear a hundred and fifty lessons.', p: '31 / 150' },
+  { s: 'Lessons Cleared', n: 'Three Hundred', d: 'Clear three hundred lessons.', p: '31 / 300' },
+  { s: 'Lessons Cleared', n: 'The Whole Course', d: 'Clear every lesson across every course.' },
+  { s: 'Courses', n: 'Advanced Nahw, Complete', d: 'Finish every module in Advanced Nahw.' },
+  { s: 'Courses', n: 'Introductory Nahw, Complete', d: 'Finish every module in Introductory Nahw.' },
+  { s: 'Courses', n: 'Introductory Sarf, Complete', d: 'Finish every module in Introductory Sarf.' },
+  { s: 'Courses', n: 'Advanced Sarf, Complete', d: 'Finish every module in Advanced Sarf.' },
+  { s: 'Courses', n: 'The Full Curriculum', d: 'Finish every course The Sciences offers.' },
+];
+const REVIEW_LOG = [
+  { t: 'وجدنا أكثرهم لفاسقين: مفعول أول', c: 1 },
+  { t: 'علم vs عرف: the key contrast', c: 1 },
+  { t: 'تركيب: وَنَرَاهُ قَرِيبًا', c: 0 },
+  { t: 'درى: العلم بعد جهل', c: 1 },
+  { t: 'ظنّ المستعمل لليقين', c: 1 },
+  { t: 'رأى الحلمية والبصرية', c: 1 },
+  { t: 'زعم وسوء الظن', c: 1 },
+  { t: 'تركيب: عَلِمْتُهُ صَادِقًا', c: 1 },
+  { t: 'اختصار المفعولين', c: 0 },
+  { t: 'أرأيت بمعنى أخبرني', c: 1 },
+  { t: 'تركيب: حَسِبْتُ الأَمْرَ سَهْلًا', c: 1 },
+  { t: 'التعليق بالاستفهام', c: 1 },
+];
+const ARABIC_NUMERALS = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢','١٣','١٤','١٥','١٦'];
+const QASAS_CHAPTERS = [
+  { ar: 'بَائِعُ الأَصْنَامِ', en: 'The Idol Seller', p: 'p. 9', b: 'Āzar and his idols, and the boy born into his house.' },
+  { ar: 'وَلَدُ آزَرَ', en: 'Āzar’s Son', p: 'p. 10', b: 'Ibrāhīm watches the people bow to stones that cannot speak, and begins to ask why.' },
+  { ar: 'نَصِيحَةُ إِبْرَاهِيمَ', en: 'Ibrāhīm’s Advice', p: 'p. 11', b: 'He puts the question to his own father: why worship what cannot hear, help or harm?' },
+  { ar: 'إِبْرَاهِيمُ يَكْسِرُ الأَصْنَامَ', en: 'Ibrāhīm Breaks the Idols', p: 'p. 12', b: 'The town empties for the feast, leaving Ibrāhīm alone with the idols and an axe.' },
+  { ar: 'مَنْ فَعَلَ هَذَا؟', en: 'Who Did This?', p: 'pp. 13–14', b: 'The people come back to a wrecked idol-house and put Ibrāhīm on the spot — ask the big one, he says.' },
+  { ar: 'نَارٌ بَارِدَةٌ', en: 'A Cool Fire', p: 'pp. 14–15', b: 'They light a fire for him, and Allah tells the fire to be cool and safe.' },
+  { ar: 'مَنْ رَبِّي؟', en: 'Who Is My Lord?', p: 'pp. 15–16', b: 'Star, moon and sun each rise and set, and Ibrāhīm refuses every one of them.' },
+  { ar: 'رَبِّيَ اللَّهُ', en: 'My Lord Is Allah', p: 'pp. 16–17', b: 'Living and not dying, lasting and not vanishing, strong and not overcome — Ibrāhīm names his Lord.' },
+  { ar: 'دَعْوَةُ إِبْرَاهِيمَ', en: 'Ibrāhīm’s Call', p: 'pp. 17–18', b: 'He calls his people away from the idols: what is it, exactly, that you worship?' },
+  { ar: 'أَمَامَ الْمَلِكِ', en: 'Before the King', p: 'pp. 18–19', b: 'Hauled before a king who is worshipped himself, Ibrāhīm answers him with the sun.' },
+  { ar: 'دَعْوَةُ الْوَالِدِ', en: 'The Call to His Father', p: 'p. 20', b: 'The hardest call of all — Ibrāhīm asks his father to leave what cannot see or hear.' },
+  { ar: 'إِلَى مَكَّةَ', en: 'To Makkah', p: 'pp. 20–21', b: 'Angry town, angry king, angry father: Ibrāhīm leaves for a land where he can worship freely.' },
+  { ar: 'بِئْرُ زَمْزَمَ', en: 'The Well of Zamzam', p: 'p. 22', b: 'Ismāʿīl is thirsty and Makkah has neither well nor river — until Hājar runs.' },
+  { ar: 'رُؤْيَا إِبْرَاهِيمَ', en: 'Ibrāhīm’s Vision', p: 'pp. 22–24', b: 'A dream of sacrifice, a son who says do as you are commanded, and a ransom from heaven.' },
+  { ar: 'الْكَعْبَةُ', en: 'The Kaʿbah', p: 'pp. 24–25', b: 'Father and son raise the House, and pray that it be a place people return to.' },
+  { ar: 'بَيْتُ الْمَقْدِسِ', en: 'Bayt al-Maqdis', p: 'p. 26', b: 'Isḥāq builds a house for Allah in Shām — and Yaʿqūb’s twelve sons hand the story on to Yūsuf.' },
+];
+// Chapter 1, transcribed in the repo from the printed page (content-lit/qasas-v1/chapter-01.js).
+// [surface, gloss, lemma, root, word class]
+const CH1_WORDS = [
+  ['قَبْلَ', 'before', 'قَبْلَ', '', 'ظرف'],
+  ['أَيَّامٍ', 'days', 'يَوْم', 'ي و م', 'اسم'],
+  ['كَثِيرَةٍ،', 'many', 'كَثِير', 'ك ث ر', 'صفة'],
+  ['كَثِيرَةٍ', 'many', 'كَثِير', 'ك ث ر', 'صفة'],
+  ['جِدًّا.', 'very, greatly', 'جِدّ', 'ج د د', 'ظرف'],
+  ['كَانَ', 'to be; there was', 'كَانَ', 'ك و ن', 'فعل'],
+  ['فِي', 'in', 'فِي', '', 'حرف جر'],
+  ['قَرْيَةٍ', 'village', 'قَرْيَة', 'ق ر ي', 'اسم'],
+  ['رَجُلٌ', 'man', 'رَجُل', 'ر ج ل', 'اسم'],
+  ['مَشْهُورٌ', 'famous', 'مَشْهُور', 'ش ه ر', 'صفة'],
+  ['جِدًّا.', 'very, greatly', 'جِدّ', 'ج د د', 'ظرف'],
+  ['وَكَانَ', 'to be; and…was', 'كَانَ', 'ك و ن', 'فعل'],
+  ['اسْمُ', 'name', 'اِسْم', 'س م و', 'اسم'],
+  ['هَذَا', 'this', 'هَذَا', '', 'اسم إشارة'],
+  ['الرَّجُلِ', 'man', 'رَجُل', 'ر ج ل', 'اسم'],
+  ['آزَرَ.', 'Āzar', 'آزَر', '', 'علم'],
+  ['وَكَانَ', 'to be; and…used to', 'كَانَ', 'ك و ن', 'فعل'],
+  ['آزَرُ', 'Āzar', 'آزَر', '', 'علم'],
+  ['يَبِيعُ', 'to sell', 'بَاعَ', 'ب ي ع', 'فعل'],
+  ['الْأَصْنَامَ.', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+  ['وَكَانَ', 'to be; and there was', 'كَانَ', 'ك و ن', 'فعل'],
+  ['فِي', 'in', 'فِي', '', 'حرف جر'],
+  ['هَذِهِ', 'this', 'هَذِهِ', '', 'اسم إشارة'],
+  ['الْقَرْيَةِ', 'village', 'قَرْيَة', 'ق ر ي', 'اسم'],
+  ['بَيْتٌ', 'house', 'بَيْت', 'ب ي ت', 'اسم'],
+  ['كَبِيرٌ', 'big, large', 'كَبِير', 'ك ب ر', 'صفة'],
+  ['جِدًّا.', 'very, greatly', 'جِدّ', 'ج د د', 'ظرف'],
+  ['وَكَانَ', 'to be; and there were', 'كَانَ', 'ك و ن', 'فعل'],
+  ['فِي', 'in', 'فِي', '', 'حرف جر'],
+  ['هَذَا', 'this', 'هَذَا', '', 'اسم إشارة'],
+  ['الْبَيْتِ', 'house', 'بَيْت', 'ب ي ت', 'اسم'],
+  ['أَصْنَامٌ،', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+  ['أَصْنَامٌ', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+  ['كَثِيرَةٌ', 'many', 'كَثِير', 'ك ث ر', 'صفة'],
+  ['جِدًّا.', 'very, greatly', 'جِدّ', 'ج د د', 'ظرف'],
+  ['وَكَانَ', 'to be; and…used to', 'كَانَ', 'ك و ن', 'فعل'],
+  ['النَّاسُ', 'people', 'نَاس', 'ن و س', 'اسم'],
+  ['يَسْجُدُونَ', 'to prostrate', 'سَجَدَ', 'س ج د', 'فعل'],
+  ['لِهَذِهِ', 'to these', 'هَذِهِ', '', 'اسم إشارة'],
+  ['الْأَصْنَامِ.', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+  ['وَكَانَ', 'to be; and…used to', 'كَانَ', 'ك و ن', 'فعل'],
+  ['آزَرُ', 'Āzar', 'آزَر', '', 'علم'],
+  ['يَسْجُدُ', 'to prostrate', 'سَجَدَ', 'س ج د', 'فعل'],
+  ['لِهَذِهِ', 'to these', 'هَذِهِ', '', 'اسم إشارة'],
+  ['الْأَصْنَامِ.', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+  ['وَكَانَ', 'to be; and…used to', 'كَانَ', 'ك و ن', 'فعل'],
+  ['آزَرُ', 'Āzar', 'آزَر', '', 'علم'],
+  ['يَعْبُدُ', 'to worship', 'عَبَدَ', 'ع ب د', 'فعل'],
+  ['هَذِهِ', 'this, these', 'هَذِهِ', '', 'اسم إشارة'],
+  ['الْأَصْنَامَ.', 'idols', 'صَنَم', 'ص ن م', 'اسم'],
+];
+// Sentence boundaries and per-sentence English, as authored in the chapter file.
+const CH1_SENTENCES = [
+  [3, 'Many days ago,'],
+  [2, 'very many.'],
+  [6, 'There was, in a village, a very famous man.'],
+  [5, 'And the name of this man was Āzar.'],
+  [4, 'And Āzar used to sell idols.'],
+  [7, 'And in this village there was a very big house.'],
+  [5, 'And in this house there were idols,'],
+  [3, 'very many idols.'],
+  [5, 'And the people used to prostrate to these idols.'],
+  [5, 'And Āzar used to prostrate to these idols.'],
+  [5, 'And Āzar used to worship these idols.'],
+];
+const CH1_CHECKS = [
+  { q: 'مَنْ كَانَ يَبِيعُ الْأَصْنَامَ؟', o: ['آزَرُ', 'إِبْرَاهِيمُ', 'الْمَلِكُ'], a: 0 },
+  { q: 'أَيْنَ كَانَتِ الْأَصْنَامُ الْكَثِيرَةُ؟', o: ['فِي الْبَيْتِ الْكَبِيرِ', 'فِي السُّوقِ', 'فِي الْمَسْجِدِ'], a: 0 },
+  { q: 'مَاذَا كَانَ النَّاسُ يَفْعَلُونَ لِلْأَصْنَامِ؟', o: ['يَسْجُدُونَ لَهَا', 'يَكْسِرُونَهَا', 'يَبِيعُونَهَا'], a: 0 },
+];
+const CH1_WORKSHOP = [
+  { k: 'The chapter’s own pattern', t: 'And Āzar used to sell idols.', pre: 'وَكَانَ آزَرُ', post: 'الْأَصْنَامَ.', o: ['يَبِيعُ', 'بَاعَ', 'تَبِيعُ', 'يَبِيعُونَ'], a: 0, order: [2, 0, 3, 1],
+    r: ['3rd person masculine singular, present — matches آزَرُ.', 'That’s the perfect — he sold once, not used to sell.', '2nd masculine or 3rd feminine singular — you or she sell.', '3rd person masculine plural — they sell.'] },
+  { k: 'The chapter’s own pattern', t: 'And Āzar used to prostrate to these idols.', pre: 'وَكَانَ آزَرُ', post: 'لِهَذِهِ الْأَصْنَامِ.', o: ['يَسْجُدُ', 'سَجَدَ', 'يَسْجُدُونَ', 'نَسْجُدُ'], a: 0, order: [1, 3, 0, 2],
+    r: ['3rd masculine singular, present — matches آزَرُ.', 'Perfect — he prostrated once, not used to.', '3rd masculine plural — they prostrate.', '1st person plural — we prostrate.'] },
+  { k: 'The chapter’s own pattern', t: 'And the people used to prostrate to these idols.', pre: 'وَكَانَ', post: 'يَسْجُدُونَ لِهَذِهِ الْأَصْنَامِ.', o: ['النَّاسُ', 'آزَرُ', 'الرَّجُلُ', 'الْأَصْنَامُ'], a: 0, order: [3, 0, 2, 1],
+    r: ['The subject must agree with the plural verb يَسْجُدُونَ.', 'آزَرُ is one person — it takes the singular يَسْجُدُ.', 'الرَّجُلُ is also singular.', 'الْأَصْنَامُ is what they prostrate to, not who prostrates.'] },
+  { k: 'Change the sentence', t: 'يَعْبُدُ هَذِهِ الْأَصْنَامَ — “he worships these idols.” Say the same thing about أَنَا (I).', pre: '', post: 'هَذِهِ الْأَصْنَامَ', o: ['أَعْبُدُ', 'يَعْبُدُ', 'تَعْبُدُ', 'نَعْبُدُ'], a: 0, order: [1, 0, 2, 3],
+    r: ['1st person singular — matches أَنَا.', '3rd masculine singular — he.', '2nd masculine or 3rd feminine singular.', '1st person plural — we.'] },
+];
+const CH1_BUILD = [
+  { en: 'And Āzar used to sell idols.', solution: ['وَكَانَ', 'آزَرُ', 'يَبِيعُ', 'الْأَصْنَامَ'],
+    chips: [{ s: 'يَبِيعُ' }, { s: 'الْأَصْنَامَ' }, { s: 'وَكَانَ' }, { s: 'يَبِيعُونَ', note: 'يَبِيعُونَ is third-person plural — the subject آزَرُ is singular, so it takes يَبِيعُ.' }, { s: 'آزَرُ' }] },
+  { en: 'And the people used to prostrate to these idols.', solution: ['وَكَانَ', 'النَّاسُ', 'يَسْجُدُونَ', 'لِهَذِهِ', 'الْأَصْنَامِ'],
+    chips: [{ s: 'لِهَذِهِ' }, { s: 'يَسْجُدُ', note: 'يَسْجُدُ is singular — النَّاسُ takes the plural يَسْجُدُونَ.' }, { s: 'وَكَانَ' }, { s: 'الْأَصْنَامِ' }, { s: 'النَّاسُ' }, { s: 'يَسْجُدُونَ' }] },
+];</script>
+</body>
+</html>

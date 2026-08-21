@@ -8,6 +8,7 @@ import {
   isLessonComplete,
   isModuleComplete,
   areAllConceptsPassed,
+  conceptsToRender,
   isLessonExercisePassed,
   isLessonReadyForQuiz,
   lessonExerciseItemKey,
@@ -62,8 +63,11 @@ import {
   checkPerfectQuizBadges, checkPracticeVolumeBadges, checkModuleCompletionBadges,
   checkLessonsClearedBadges, checkCourseCompletionBadges,
 } from './gamification.js';
+import {
+  prefersReducedMotion, snapshotMotion, applyRenderMotion, applyActionMotion,
+  dismissDelay, dismissOpenModal, markBusy, unmarkBusy,
+} from './motion.js';
 
-const electronWindow = window.electronAPI?.window;
 const THEME_CHROME = {
   manuscript: { bg: '#f3f2f2', scheme: 'light' },
   mushaf: { bg: '#f7f1e1', scheme: 'light' },
@@ -95,14 +99,17 @@ if (state.account.backendUrl) {
       } else {
         refreshLocalSaveStatus();
       }
-      rerender();
+      // Scoped: this settles seconds after boot, whenever the network does
+      // -- a full rerender here would yank the DOM out from under whatever
+      // the user is doing on a completely different screen.
+      rerenderAccountIfOpen();
     }
   }).catch(() => {});
 }
 // Must run before sanitizeBootNav below -- that IIFE calls getModule/
 // isModuleUnlocked/etc., which resolve against whichever course is active.
 setActiveCourseShell(state.courseId);
-if (!state.launchScreen) await setActiveCourse(state.courseId);
+await setActiveCourse(state.courseId);
 state.tarkeebState = {}; // key -> { chipPool, chipOrder, placements, selectedChip, submitted, feedback, passed }
 // A returning learner who already has a 7-day streak sees the "On Fire"
 // badge unlock immediately on launch, rather than waiting for their next
@@ -279,53 +286,19 @@ function applyMergedProgressToState(envelope) {
       state.pathGroupId = null;
     }
   }
-  if (!state.launchScreen && state.view === 'quiz' && state.moduleId && state.lessonId) {
+  if (state.view === 'quiz' && state.moduleId && state.lessonId) {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (lesson) state.quizOptionOrder = shuffleQuizOrder(lesson);
   }
-  if (!state.launchScreen && state.view === 'lesson' && state.moduleId && state.lessonId) {
+  if (state.view === 'lesson' && state.moduleId && state.lessonId) {
     shuffleLessonOptions(state.moduleId, state.lessonId);
   }
 })();
 
-// Entrance animations are keyed, not blanket: an element animates only on
-// the render where its data-anim-key first appears. Re-rendering an
-// unchanged exercise card therefore doesn't replay its reveal.
-let seenAnimKeys = new Set();
 let suppressPersist = false;
 
-// `duringViewTransition`: a view transition freezes a screenshot of the new
-// page for its whole crossfade and only reveals the live, animating DOM
-// once that finishes -- so a CSS entrance animation that starts the instant
-// its class is added (the normal path here) ticks entirely out of sight
-// during the crossfade, and is partway through -- or already done -- by
-// the time it's actually visible. Unnoticeable for a single quick fade, but
-// for the module page's multi-row staggered slide-in it read as "rows just
-// there, some still mid-animation" instead of a clean cascade. So while a
-// view transition is in flight, lesson rows are held back from `next` and
-// returned instead, for the caller to set `.anim-in` on once the
-// transition's `.finished` promise resolves -- everything else still
-// enters immediately, since a lone fade being a few frames late is fine.
-function markEntrances(duringViewTransition) {
-  const next = new Set();
-  const deferred = [];
-  root.querySelectorAll('[data-anim-key]').forEach((el) => {
-    const key = el.dataset.animKey;
-    next.add(key);
-    if (seenAnimKeys.has(key)) return;
-    if (duringViewTransition && el.classList.contains('lesson-row')) {
-      el.classList.add('entrance-pending');
-      deferred.push(el);
-      return;
-    }
-    el.classList.add('anim-in');
-  });
-  seenAnimKeys = next;
-  return deferred;
-}
-
-// The page-turn crossfade is for moving between screens. Answering a
-// question in place shouldn't fade the whole page out and back.
+// Which screen the app is on, for scroll-position bookkeeping: leaving a
+// screen remembers its scrollTop, returning restores it.
 function navSignature() {
   const practiceKey = state.practice
     ? [
@@ -343,7 +316,6 @@ function navSignature() {
   // rather than page-turn back to the top.
   const litKey = state.lit ? `${state.lit.bookId}:${state.lit.chapterId}:${state.lit.stage}` : '';
   return [
-    state.launchScreen ? 'launch' : 'app',
     state.courseId || '',
     state.view || '',
     state.moduleId || '',
@@ -355,7 +327,37 @@ function navSignature() {
 }
 let lastNav = null;
 const scrollPositions = new Map();
-let activeViewTransition = null;
+
+
+// The same idea, one level down: these four lists each carry their own
+// internal scroll (see .module-list/.lit-shelves/.lit-chapter-list/
+// .revision-module-list in styles.css) independent of the page-level
+// scrollPositions above, which no longer moves at all on the screens that
+// contain one -- .main-content is sized to never need to scroll there (the
+// list itself absorbs the remaining height instead), so restoring only the
+// PAGE's scrollTop would have nothing left to restore. Each entry's key is
+// scoped to whatever actually identifies "the same list" across a visit --
+// not the whole-app nav signature, which is far coarser (e.g. Home's module
+// list only cares which COURSE it's showing, not which lesson/module a
+// visit to it happens to be surrounding).
+const CONTAINER_SCROLL_TARGETS = [
+  { selector: '.module-list', key: (s) => `home-modules:${s.courseId}` },
+  { selector: '.lit-shelves', key: () => 'library-shelves' },
+  { selector: '.lit-chapter-list', key: (s) => `book-chapters:${s.litBookId}` },
+  { selector: '.revision-module-list', key: (s) => `revision-modules:${s.courseId}` },
+];
+const containerScrollPositions = new Map();
+
+// What key each currently-live container actually belongs to, as of the
+// last swap() -- NOT recomputed from live state at remember-time. An async
+// action (chooseCourse awaiting activateCourse, say) can mutate state.courseId
+// before rerender() ever runs, so by the time rememberContainerScrollPositions()
+// fires, state already names the NEW course while root still holds the OLD
+// course's DOM. Keying off live state there would file the old list's
+// scrollTop under the new course's key, handing it a stranger's position
+// instead of starting fresh. This snapshot is what the page-level
+// lastNav/previousNav pair does for the whole screen, one level down.
+const lastContainerKeys = new Map();
 
 // --- browser back/forward -------------------------------------------------
 // The app never changes the URL and previously never touched
@@ -377,7 +379,6 @@ const HISTORY_TRACKED_VIEWS = new Set([
 
 function historySignature() {
   return [
-    state.launchScreen ? 'launch' : 'app',
     state.courseId || '',
     state.view || '',
     state.moduleId || '',
@@ -389,7 +390,6 @@ function historySignature() {
 
 function navSnapshot() {
   return {
-    launchScreen: state.launchScreen,
     courseId: state.courseId,
     view: state.view,
     moduleId: state.moduleId,
@@ -442,7 +442,6 @@ async function applyNavSnapshot(snap, token) {
     if (token !== historyRestoreToken) return false;
   }
   state.courseId = snap.courseId || state.courseId;
-  state.launchScreen = !!snap.launchScreen;
   state.view = snap.view || 'dashboard';
   state.moduleId = snap.moduleId || null;
   state.lessonId = snap.lessonId || null;
@@ -486,283 +485,59 @@ function rememberScrollPosition(navKey, container = mainScrollContainer()) {
   scrollPositions.set(navKey, container.scrollTop || 0);
 }
 
-// Resolves when the scroll finishes (immediately if there was nothing to
-// scroll), so a caller can sequence something after it -- see
-// litNextParagraph, which travels back to the top of the page BEFORE
-// swapping the paragraph under it.
-function smoothScrollTo(container, targetY, duration = 850) {
-  const startY = container.scrollTop;
-  const distance = targetY - startY;
-  if (Math.abs(distance) < 2) return Promise.resolve();
-  let startTime = null;
-
-  function easeInOutCubic(t) {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+// Called just before the old DOM is replaced (so root still reflects
+// whatever screen is being left) and just after the new one lands (so a
+// freshly-rendered container can be scrolled into place before the learner
+// sees it snap). Unconditional on both ends, same as the page-level
+// remember/restore pair above -- root.innerHTML replaces every element
+// wholesale on every rerender, changed screen or not, so a same-screen
+// update (the course menu opening, say) needs this exactly as much as a
+// cross-screen one does. restoreContainerScrollPositions() is also where
+// lastContainerKeys gets updated, since that's the one place guaranteed to
+// run against the freshly-rendered DOM with state already matching it.
+function rememberContainerScrollPositions() {
+  for (const { selector } of CONTAINER_SCROLL_TARGETS) {
+    const el = root.querySelector(selector);
+    const prevKey = lastContainerKeys.get(selector);
+    if (el && prevKey) containerScrollPositions.set(prevKey, el.scrollTop || 0);
   }
+}
+function restoreContainerScrollPositions() {
+  for (const { selector, key } of CONTAINER_SCROLL_TARGETS) {
+    const el = root.querySelector(selector);
+    if (!el) continue;
+    const nextKey = key(state);
+    lastContainerKeys.set(selector, nextKey);
+    const saved = containerScrollPositions.get(nextKey);
+    if (saved) el.scrollTop = saved;
+  }
+}
 
+// Eased scroll, resolving once the travel is done so callers that sequence
+// work after it (see litNextParagraph) can await the landing. Hand-rolled
+// rather than scrollTo({behavior:'smooth'}) because that API neither reports
+// completion nor takes a duration. Instant under prefers-reduced-motion, for
+// trivial distances, and if the container disappears mid-flight (a rerender
+// replacing the DOM cancels the loop safely).
+function smoothScrollTo(container, targetY, duration = 420) {
+  const from = container.scrollTop;
+  const delta = targetY - from;
+  if (prefersReducedMotion() || Math.abs(delta) < 4 || duration <= 0) {
+    container.scrollTop = targetY;
+    return Promise.resolve();
+  }
   return new Promise((resolve) => {
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeInOutCubic(progress);
-
-      container.scrollTop = startY + distance * easedProgress;
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-        return;
-      }
-      resolve();
-    }
-
+    const start = performance.now();
+    const easeOutCubic = (t) => 1 - (1 - t) ** 3;
+    const step = (now) => {
+      if (!container.isConnected) return resolve();
+      const t = Math.min(1, (now - start) / duration);
+      container.scrollTop = from + delta * easeOutCubic(t);
+      if (t < 1) requestAnimationFrame(step);
+      else resolve();
+    };
     requestAnimationFrame(step);
   });
-}
-
-let titleObserver = null;
-const revealedKeys = new Set();
-
-// Left-to-right cascade within a row of cards (dashboard chapter cards, My
-// Path's group cards): grouped by offsetTop (everything at the same top is
-// the same visual row, however many columns the grid's auto-fit actually
-// laid out at the current window width -- CSS alone can't know that), then
-// given an increasing transition-delay by offsetLeft within that row, so
-// the row's cards ease in one after another instead of all at once. Read by
-// .chapter-card/.path-group-card's own transition-delay: var(--reveal-delay,
-// 0s) in styles.css. Returns the row groups (offsetTop -> elements, already
-// sorted left to right) so a caller can also find "row 1" for the
-// never-needs-scrolling reveal below.
-const CASCADE_STEP_MS = 70;
-function assignCascadeDelays(cards) {
-  const rows = new Map();
-  cards.forEach((el) => {
-    const top = Math.round(el.offsetTop);
-    if (!rows.has(top)) rows.set(top, []);
-    rows.get(top).push(el);
-  });
-  rows.forEach((rowEls) => {
-    rowEls.sort((a, b) => a.offsetLeft - b.offsetLeft);
-    rowEls.forEach((el, colIndex) => {
-      el.style.setProperty('--reveal-delay', `${colIndex * CASCADE_STEP_MS}ms`);
-    });
-  });
-  return rows;
-}
-
-// Reveals elements a beat after mount rather than in the same tick as the
-// innerHTML swap -- committing straight to the end state in that same tick
-// would mean nothing ever painted in between, so no transition (and no
-// cascade) would be visible. A couple of rAFs pushes it to a frame *after*
-// the hidden state has actually been painted.
-function revealSoon(elements) {
-  const pending = elements.filter((el) => !el.classList.contains('is-revealed'));
-  if (!pending.length) return;
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      pending.forEach((el) => {
-        const key = el.dataset.revealKey;
-        el.classList.add('is-revealed');
-        if (key) revealedKeys.add(key);
-      });
-    });
-  });
-}
-
-function firstRowOf(rows) {
-  let firstTop = null;
-  rows.forEach((_, top) => {
-    if (firstTop === null || top < firstTop) firstTop = top;
-  });
-  return firstTop === null ? [] : rows.get(firstTop);
-}
-
-function setupScrollObserver(changedScreen) {
-  if (changedScreen) {
-    revealedKeys.clear();
-  }
-
-  if (titleObserver) {
-    titleObserver.disconnect();
-    titleObserver = null;
-  }
-
-  const topbar = root.querySelector('.app-header');
-  const scrollContainer = root.querySelector('.main-content') || root.querySelector('.main');
-  const headerTitle = root.querySelector('.home-hero-title');
-
-  // Lives on document.body, not inside #root, so a plain root.innerHTML
-  // swap on the next render doesn't clean it up -- do that ourselves,
-  // unconditionally, before possibly creating a fresh one.
-  document.querySelectorAll('.title-dock-clone').forEach((el) => el.remove());
-
-  if (!scrollContainer) return;
-
-  // Header title reveal: a plain fade, not a tracked slide/morph. A clone
-  // of the lesson's <h1> sits fixed at the header's own center and fades
-  // in once the real title (still in normal flow, still what actually
-  // scrolls) has scrolled up to roughly the header's bottom edge; fades
-  // back out if you scroll back down past that point. No position/size
-  // tracking, no concept-dots clone -- both of those existed in an earlier
-  // version and made this fragile against layout changes elsewhere in the
-  // header for very little payoff over a simple crossfade.
-  if (state.view === 'lesson' && topbar && headerTitle) {
-    const titleClone = document.createElement('div');
-    titleClone.className = 'title-dock-clone';
-    titleClone.setAttribute('aria-hidden', 'true');
-    titleClone.innerHTML = headerTitle.innerHTML;
-    document.body.appendChild(titleClone);
-
-    const FADE_RANGE = 56;
-
-    const updateHeaderState = () => {
-      const topbarRect = topbar.getBoundingClientRect();
-      const titleRect = headerTitle.getBoundingClientRect();
-      // How far the title's top has pushed past the topbar's bottom edge
-      // -- 0 or negative while it's still visibly below the topbar
-      // (normal flow, no hand-off yet), growing positive the further past
-      // it scrolls.
-      const d = topbarRect.bottom - titleRect.top;
-
-      titleClone.style.left = `${topbarRect.left + topbarRect.width / 2}px`;
-      titleClone.style.top = `${topbarRect.top + topbarRect.height / 2}px`;
-      titleClone.style.opacity = d <= 0 ? '0' : String(Math.min(1, d / FADE_RANGE));
-    };
-
-    updateHeaderState();
-    scrollContainer.addEventListener('scroll', updateHeaderState, { passive: true });
-    window.addEventListener('resize', updateHeaderState, { passive: true });
-
-    titleObserver = new IntersectionObserver(() => {
-      updateHeaderState();
-    }, {
-      root: scrollContainer,
-      threshold: [0, 0.5, 1.0],
-    });
-    titleObserver.observe(headerTitle);
-  }
-
-  // 2. Scroll-triggered item reveal.
-  //
-  // Main column (.lesson-main -- concept text, headings, exercises): a
-  // fixed line at the container's vertical center, i.e. an item slides in
-  // once it's scrolled up past the middle of the page. Reaching that line
-  // needs some room below the item to keep scrolling -- .lesson-main
-  // itself only carries a little (see styles.css; it used to carry 50vh
-  // for exactly this, at the cost of leaving that much blank scroll space
-  // past the real end of the lesson). The `atBottom` check below is the
-  // actual guarantee now: once you've scrolled as far as the container
-  // will physically go, everything still unrevealed force-reveals
-  // regardless of the line check, so a short last item can never get
-  // stuck permanently invisible just because there wasn't quite enough
-  // padding to carry its top up to the trigger line.
-  //
-  // Sidebar (.lesson-sidebar -- objectives/examples/progress cards): short
-  // and sticky, so it gets its own item's-own-midpoint-vs-container-bottom
-  // check instead of the fixed line -- always satisfiable regardless of how
-  // little the page scrolls.
-  //
-  // The module page's lesson list is NOT part of this -- its rows just
-  // play a plain staggered slide-in once on arrival (see .lesson-row in
-  // styles.css and markEntrances() above), not a scroll-gated reveal.
-  //
-  // The dashboard's chapter grid (.chapter-grid -- chapter headers and
-  // chapter cards) reuses the exact same "main column" fixed-line check as
-  // .lesson-main, for the same reason: it's the top-level scrolling content
-  // on its screen, not a short sticky column. .dashboard-page carries the
-  // same 50vh trailing padding as .lesson-main so the last row of cards can
-  // always reach the line too. .schedule-page (Schedule tab's "Up Next"
-  // list) joins the same group and carries the same trailing padding, but
-  // an individual item can override the line itself via data-reveal-line
-  // (e.g. "0.75" instead of the 0.5 default) -- read per-element rather
-  // than once for the whole container, since a single screen may want most
-  // items revealing at the usual halfway point but one particular box
-  // revealing later, deeper into the scroll. My Path's group-selection
-  // screen (.path-groups-page) joins the same group too, one track section
-  // at a time (see below) since it can hold two separate grids stacked on
-  // one page rather than the dashboard's single one. The Schedule tab's own
-  // Revision panel (.revision-module-list, "Pick a module") gets the same
-  // per-row cascade below, even though it's a single-column list rather
-  // than a grid -- cascadeGrid still applies cleanly (every "row" just
-  // happens to hold one card, so the left-to-right stagger collapses to a
-  // plain top-to-bottom reveal). My Path's own node list (.path-node-list --
-  // lessons, checkpoints, milestones, section tests inside a group) joins
-  // the same group too, but overrides the trigger line per-node via
-  // data-reveal-line (see PATH_NODE_REVEAL_LINE in js/render.js) rather than
-  // the usual 0.5 -- a node reveals at 65% down the container instead of
-  // the halfway point.
-  if (state.view === 'lesson' || state.view === 'dashboard' || state.view === 'schedule' || state.view === 'pathGroups' || state.view === 'path') {
-    const lessonMain = root.querySelector('.lesson-main') || root.querySelector('.chapter-grid') || root.querySelector('.schedule-page') || root.querySelector('.path-groups-page') || root.querySelector('.path-node-list');
-    const lessonSidebar = root.querySelector('.lesson-sidebar');
-
-    // Row 1 of a grid like this is always on-screen without scrolling (the
-    // grid can fit on-screen on a tall enough window), so gating it behind
-    // the scroll trigger below would mean a learner who never scrolls never
-    // sees it at all -- it has to reveal itself, cascade and all, right on
-    // arrival instead. Which cards land in "row 1" depends on how many
-    // columns the grid's auto-fit actually laid out at the current window
-    // width, so it's measured here off the real DOM rather than guessed
-    // from content structure (module/group counts per heading vary a lot
-    // across courses and tracks).
-    function cascadeGrid(grid, cardSelector) {
-      if (!grid) return;
-      const rows = assignCascadeDelays(Array.from(grid.querySelectorAll(cardSelector)));
-      revealSoon(firstRowOf(rows));
-    }
-    if (state.view === 'dashboard') {
-      cascadeGrid(lessonMain, '.chapter-card');
-    } else if (state.view === 'pathGroups') {
-      // Only the very first track's grid sits at the literal top of the
-      // page -- it gets the same "row 1 reveals on arrival" treatment as
-      // the dashboard. Every track after it (Advanced Path, stacked below
-      // via separatorHtml) is genuinely off-screen on load, so forcing its
-      // row too would skip the scroll gate entirely and defeat the point --
-      // it only gets its cascade delays assigned, and reveals for real once
-      // scrolled to the container's middle, same as the generic
-      // handleScrollReveal check below.
-      Array.from(root.querySelectorAll('.path-group-grid')).forEach((grid, i) => {
-        if (i === 0) cascadeGrid(grid, '.path-group-card');
-        else assignCascadeDelays(Array.from(grid.querySelectorAll('.path-group-card')));
-      });
-    } else if (state.view === 'schedule') {
-      cascadeGrid(root.querySelector('.revision-module-list'), '.revision-module-row');
-    }
-
-    const handleScrollReveal = () => {
-      const containerRect = scrollContainer.getBoundingClientRect();
-      if (!containerRect.height) return;
-
-      if (lessonMain) {
-        // -1px slack for sub-pixel scroll positions that never quite hit
-        // the exact integer max (fractional zoom/DPI scaling).
-        const atBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 1;
-        lessonMain.querySelectorAll('.reveal-on-scroll:not(.is-revealed)').forEach((el) => {
-          const frac = el.dataset.revealLine ? parseFloat(el.dataset.revealLine) : 0.5;
-          const triggerLine = containerRect.top + containerRect.height * frac;
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= triggerLine || atBottom) {
-            const key = el.dataset.revealKey;
-            el.classList.add('is-revealed');
-            if (key) revealedKeys.add(key);
-          }
-        });
-      }
-
-      if (lessonSidebar) {
-        lessonSidebar.querySelectorAll('.reveal-on-scroll:not(.is-revealed)').forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top + rect.height / 2 <= containerRect.bottom) {
-            const key = el.dataset.revealKey;
-            el.classList.add('is-revealed');
-            if (key) revealedKeys.add(key);
-          }
-        });
-      }
-    };
-
-    handleScrollReveal();
-    scrollContainer.addEventListener('scroll', handleScrollReveal, { passive: true });
-  }
 }
 
 // Applies the active theme + accent + Arabic typeface to the document root:
@@ -804,58 +579,39 @@ function rerender(focusSelector) {
   const nav = navSignature();
   const changedScreen = nav !== previousNav;
   rememberScrollPosition(previousNav, scrollContainer);
+  rememberContainerScrollPositions();
   lastNav = nav;
 
-  if (changedScreen) {
-    revealedKeys.clear();
-  }
-
-  const html = render(state, MODULES, revealedKeys);
+  const html = render(state, MODULES);
   const nextScrollTop = changedScreen
     ? (scrollPositions.get(nav) || 0)
     : (scrollContainer?.scrollTop || 0);
 
-  const usingViewTransition = changedScreen && !!document.startViewTransition;
-  let deferredEntrances = [];
-  const swap = () => {
-    root.innerHTML = html;
-    deferredEntrances = markEntrances(usingViewTransition);
-    const newContainer = mainScrollContainer();
-    if (newContainer && nextScrollTop) newContainer.scrollTop = nextScrollTop;
-    setupScrollObserver(changedScreen);
-    if (focusSelector) {
-      const toFocus = root.querySelector(focusSelector);
-      if (toFocus) toFocus.focus();
-    }
-  };
-  const settleEntrances = () => {
-    deferredEntrances.forEach((el) => {
-      el.classList.remove('entrance-pending');
-      el.classList.add('anim-in');
-    });
-  };
-  if (usingViewTransition) {
-    // Two navigating actions fired close together (an impatient click, or
-    // popstate during an in-flight transition) make startViewTransition()
-    // throw a synchronous InvalidStateError once a transition is already
-    // active. Skip the in-flight one first so the browser never sees two at
-    // once, and still fall back to a plain swap() -- settling any deferred
-    // entrances immediately, since there is no transition left to flip them
-    // later -- if it throws anyway.
-    if (activeViewTransition) activeViewTransition.skipTransition?.();
-    try {
-      const transition = document.startViewTransition(swap);
-      activeViewTransition = transition;
-      transition.finished.catch(() => {}).finally(() => {
-        if (activeViewTransition === transition) activeViewTransition = null;
-        settleEntrances();
-      });
-    } catch (err) {
-      swap();
-      settleEntrances();
-    }
-  } else {
-    swap();
+  // What the OUTGOING DOM shows that motion cares about: which overlays
+  // (modals, menus, the toast...) are up -- so an overlay animates in only
+  // the first time it appears, never on the same-screen rerenders that
+  // merely recreate it -- and where the active-tab underline sits, so the
+  // fresh one can slide from there (see js/motion.js).
+  const motionSnap = snapshotMotion(root);
+
+  // The swap itself is instant -- entrance motion is applied to the fresh
+  // DOM immediately after (and after scroll restoration, so nothing animates
+  // while a scrollTop is being reapplied).
+  root.innerHTML = html;
+  const newContainer = mainScrollContainer();
+  if (newContainer && nextScrollTop) newContainer.scrollTop = nextScrollTop;
+  // Unconditional, same as the page-level restore just above -- root.innerHTML
+  // just replaced every element wholesale, so a SAME-screen rerender (the
+  // course menu opening, say) needs this exactly as much as a cross-screen
+  // one does: either way the fresh .module-list starts at scrollTop 0, and
+  // whatever rememberContainerScrollPositions() captured an instant ago
+  // (the live value on a same-screen update, the last-known one from a
+  // previous visit otherwise) is already the right thing to reapply.
+  restoreContainerScrollPositions();
+  applyRenderMotion(root, motionSnap, changedScreen);
+  if (focusSelector) {
+    const toFocus = root.querySelector(focusSelector);
+    if (toFocus) toFocus.focus();
   }
   trackHistory();
   if (!suppressPersist) persistSoon(state);
@@ -898,8 +654,7 @@ function shuffleLessonOptions(moduleId, lessonId) {
 
 // Resets the lesson quiz to a fresh, from-question-1 attempt -- shared by
 // "Start lesson" (landing straight on the quiz), "Continue to quiz", and
-// "Retake quiz". Bumping quizAttempt keys the entrance animations so a
-// retake's reshuffled options cascade in again instead of looking static.
+// "Retake quiz".
 function startQuizAttempt(lesson) {
   state.quizOptionOrder = shuffleQuizOrder(lesson);
   state.quizIndex = 0;
@@ -923,6 +678,10 @@ function enterLesson(moduleId, lessonId) {
   // rather than navigating to a view that no longer exists.
   const pos = state.lessonPos[`${moduleId}_${lessonId}`];
   state.view = pos && pos.view === 'quiz' ? 'quiz' : 'lesson';
+  // null, not 0: lessonHtml reads that as "the furthest concept unlocked",
+  // so reopening a part-finished lesson resumes where it was left rather
+  // than paging back to the beginning.
+  state.conceptIndex = null;
   shuffleLessonOptions(moduleId, lessonId);
   if (state.view === 'quiz') startQuizAttempt(getLesson(moduleId, lessonId));
 }
@@ -1219,7 +978,21 @@ function scheduleToastClear() {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     state.toast = null;
-    rerender();
+    // Surgical removal, not a rerender: a full #root swap at an arbitrary
+    // moment silently swallows any tap that is mid-press when it lands
+    // (the pressed node detaches between mousedown and mouseup, so the
+    // click retargets to <html> and no data-action ever sees it).
+    const toast = document.querySelector('.xp-toast');
+    if (!toast) return;
+    if (prefersReducedMotion()) {
+      toast.remove();
+      return;
+    }
+    // Slide out, then remove; the guard covers a rerender having already
+    // replaced this node before the exit finishes.
+    toast.classList.remove('anim-toast-in');
+    toast.classList.add('anim-toast-out');
+    setTimeout(() => document.querySelector('.xp-toast.anim-toast-out')?.remove(), 260);
   }, 1800);
 }
 
@@ -1244,6 +1017,9 @@ function scheduleLessonExerciseAdvance() {
     if (state.view !== 'lesson' || state.moduleId !== moduleId || state.lessonId !== lessonId) return;
     state.lessonExIndex += 1;
     rerender();
+    // Timer-driven advance never passes through the action dispatcher, so
+    // the next question's step-in is applied here instead.
+    root.querySelector('.lesson-exercise-card')?.classList.add('anim-step-in');
   }, 1100);
 }
 
@@ -1468,10 +1244,9 @@ function findBankItem(key) {
 // closePracticeReview. `p` is the full session (not just its source) because
 // an 'unlockTest' session carries its own exitView, set when it was started
 // (see startUnlockTest): 'dashboard' for a module-skip test (opened from a
-// course's chapter grid), or null for a course/track test (opened from the
-// launch screen / My Path group list) -- a null exitView flips
-// state.launchScreen back on instead of naming a view, since that's what
-// actually shows those cards again.
+// course's chapter grid), or null for a course/track test -- a null exitView
+// falls back to Home, since the course-picker screen it used to reopen no
+// longer exists.
 // True while leaving the current screen right now would silently discard a
 // real attempt in progress -- the header's brand logo, course-switch
 // button, and achievements pill stay clickable even mid-session (unlike
@@ -1495,7 +1270,7 @@ function exitPracticeSession(p) {
   const src = p && p.source;
   if (src === 'unlockTest') {
     if (p.exitView) state.view = p.exitView;
-    else state.launchScreen = true;
+    else state.view = 'dashboard';
     return;
   }
   if (src === 'path') { state.view = 'path'; return; }
@@ -1507,9 +1282,9 @@ function exitPracticeSession(p) {
 // --- action handlers ------------------------------------------------------
 // A handler returning `false` means "nothing changed, skip the re-render".
 
-// Used by the launch screen's chooseCourse: always resets to that course's
-// dashboard/module list. Course cards are navigation choices, not resume
-// shortcuts into the learner's last lesson/module/practice position.
+// Used by chooseCourse: always resets to that course's dashboard/module
+// list. Picking a course is a navigation choice, not a resume shortcut into
+// the learner's last lesson/module/practice position.
 async function activateCourse(id) {
   await setActiveCourse(id);
   state.courseId = id;
@@ -1541,7 +1316,6 @@ const LIT_CHAPTER_XP = 20;
 const LIT_ANSWER_XP = 2;
 
 function enterLitContext() {
-  state.launchScreen = false;
   state.litHome = true;
   state.pathHome = false;
   state.pathActive = false;
@@ -1748,7 +1522,17 @@ function returnToValidLockedView() {
 
   const activeCourse = COURSES.find((c) => c.id === state.courseId);
   if (activeCourse && !isCourseUnlocked(activeCourse, state.completed, state.unlockedCourses)) {
-    state.launchScreen = true;
+    // There is no picker screen to send the learner out to any more -- drop
+    // them into the first course they can actually open, and leave switching
+    // to Home's own course menu.
+    const fallback = COURSES.find((c) => isCourseUnlocked(c, state.completed, state.unlockedCourses));
+    if (fallback) {
+      state.courseId = fallback.id;
+      // The shell swap is synchronous, so the module list this lands on
+      // renders correctly straight away; the full course body follows.
+      setActiveCourseShell(fallback.id);
+      setActiveCourse(fallback.id).catch(() => {});
+    }
     state.view = 'dashboard';
     state.moduleId = null;
     state.lessonId = null;
@@ -1780,6 +1564,7 @@ const actions = {
       return;
     }
     state.view = 'dashboard';
+    state.courseMenuOpen = false;
     state.moduleId = null;
     state.lessonId = null;
     state.practice = null;
@@ -1788,33 +1573,27 @@ const actions = {
     state.litHome = false;
     state.lessonSearchQuery = '';
   },
-  // Header's course button (see courseSwitchHtml in js/render.js) -- sends
-  // the learner back to the launch screen's course picker rather than
-  // switching in place. The next course-card tap resets to that course's
-  // module list via chooseCourse.
-  openLaunch() {
-    if (hasUnsavedSessionProgress()) {
-      state.leaveSessionPromptTarget = 'openLaunch';
-      return;
-    }
-    state.launchScreen = true;
-    state.practice = null;
+  // Home's course switcher (see dashboardHtml in js/render.js). The design
+  // has no separate picker screen -- switching happens in place, from a menu
+  // that drops out of the "Your modules" heading.
+  toggleCourseMenu() {
+    state.courseMenuOpen = !state.courseMenuOpen;
   },
-  // Launch screen's course cards (see js/render.js launchHtml), shown ahead
-  // of Home on every boot. A card tap always enters that course's own
-  // dashboard/module list, even when the picked course was already active.
-  // That keeps the course picker predictable and avoids resuming into a
-  // previous lesson, module, practice session, or My Path detour.
+  // Home's course menu (see courseMenuHtml in js/render.js). Picking a
+  // course always enters its own dashboard/module list, even when that
+  // course was already active -- switching is a navigation choice, not a
+  // resume, so it never drops the learner back into a previous lesson,
+  // module, practice session, or My Path detour.
   async chooseCourse(el) {
     const id = el.dataset.courseId;
     const course = COURSES.find((c) => c.id === id);
-    // Defense in depth -- a locked course's own launch card already
-    // dispatches openUnlockPrompt instead of this action (see
-    // launchCourseCardHtml in js/render.js), but guard here too in case
+    // Defense in depth -- a locked course's own menu row already dispatches
+    // openUnlockPrompt instead of this action (see dashboardHtml in
+    // js/render.js), but guard here too in case
     // state.completed/unlockedCourses changes out from under a stale render.
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
     await activateCourse(id);
-    state.launchScreen = false;
+    state.courseMenuOpen = false;
   },
   openModule(el) {
     const moduleId = el.dataset.moduleId;
@@ -1831,12 +1610,11 @@ const actions = {
     state.litHome = false;
   },
   // --- My Path ---
-  // The launch screen's "My Path" banner always lands on the group list
+  // Always lands on the group list
   // (req: a separate "choose a group" screen) -- never straight into a
   // specific group's map, even a resumed one, so the group list stays a
   // real hub you can always get back to from the very top.
   openMyPath() {
-    state.launchScreen = false;
     state.view = 'pathGroups';
     state.pathGroupId = null;
     state.pathActive = false;
@@ -1866,7 +1644,6 @@ const actions = {
   // one, otherwise the group list), unlike openMyPath which always resets
   // to the group list.
   returnToPath() {
-    state.launchScreen = false;
     state.view = state.pathGroupId ? 'path' : 'pathGroups';
   },
   // --- Advanced-course/path/module unlock (see content/index.js's
@@ -1906,7 +1683,6 @@ const actions = {
     const queue = buildUnlockTestQueue(subPools, length);
     if (!queue.length) return false;
     state.unlockPrompt = null;
-    state.launchScreen = false;
     state.practice = {
       source: 'unlockTest', unlockKind: p.type, targetId: p.id, kind: 'unlockTest',
       moduleId: null, lessonId: null, exitView: 'dashboard',
@@ -1916,6 +1692,25 @@ const actions = {
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
   },
+  // The review screen's "Drill the N you missed" (see practiceReviewHtml).
+  // Restricted to the two ungated sources: a checkpoint or an unlock test is
+  // a pass/fail gate, and re-answering only the missed subset there would let
+  // a failed attempt be topped up instead of retaken -- the same reasoning
+  // retryUnlockTest gives just below for always reshuffling the whole pool.
+  drillMissed() {
+    const p = state.practice;
+    if (!p || (p.source !== 'module' && p.source !== 'revision')) return false;
+    const queue = p.log.filter((l) => !l.correct).map((l) => l.key);
+    if (!queue.length) return false;
+    state.practice = {
+      source: p.source, kind: p.kind, moduleId: p.moduleId, lessonId: p.lessonId,
+      queue, index: 0, log: [], startedAt: Date.now(),
+      selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
+    };
+    state.view = 'practice';
+    prepPracticeQuestion(queue[0]);
+  },
+
   // A failed module unlock test offers a fresh, freshly-shuffled attempt
   // over the same pool -- never a "redo what you missed" subset, same
   // reasoning as retryMasteryV2.
@@ -2053,21 +1848,7 @@ const actions = {
     if (!state.practiceSetupKind) state.practiceSetupKind = 'mcq';
     if (state.practiceSetupOpen) state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
   },
-  // Plays the popout's entrance animation in reverse before actually
-  // closing it -- an immediate state flip would just yank it out of the
-  // DOM on the next render, with no exit motion at all. Returns false to
-  // skip that immediate rerender; the real state change (and the rerender
-  // that removes the popout for good) happens once the animation finishes.
   closePracticeSetup() {
-    const popout = root.querySelector('.practice-popout');
-    if (popout && !popout.classList.contains('closing')) {
-      popout.classList.add('closing');
-      setTimeout(() => {
-        state.practiceSetupOpen = false;
-        rerender();
-      }, 260);
-      return false;
-    }
     state.practiceSetupOpen = false;
   },
   setPracticeTab(el) {
@@ -2329,6 +2110,11 @@ const actions = {
     state.lessonId = null;
     state.view = 'module';
     state.practice = null;
+    // A destructive action whose only other trace is progress quietly
+    // disappearing -- confirm it happened, in the same toast the XP awards
+    // use.
+    state.toast = 'Module progress reset';
+    scheduleToastClear();
     // Force-push the reset state to the cloud without merging. The normal
     // queueAutoUpload path calls mergeAccountSaveWithRetry, which unions
     // local and remote -- restoring the just-deleted keys from the cloud
@@ -2428,6 +2214,18 @@ const actions = {
     } finally {
       state.account.status = 'idle';
     }
+  },
+  // DOM-only, no rerender (`return false`): a rerender would rebuild the
+  // uncontrolled password <input> and silently discard whatever's typed.
+  togglePasswordVisibility(el) {
+    const input = document.getElementById('account-password');
+    if (!input) return false;
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    el.classList.toggle('is-on', show);
+    el.setAttribute('aria-pressed', String(show));
+    el.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    return false;
   },
   async loginAccount() {
     const email = document.getElementById('account-email')?.value || '';
@@ -2674,20 +2472,54 @@ const actions = {
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
   },
-  // The date input below reaches its handler through the same data-action
-  // dispatch as clicks (see the 'change' listener further down) -- `el` is
-  // the <input> itself, so this reads el.value rather than a dataset
-  // attribute.
-  setScheduleDeadline(el) {
-    state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: el.value || null };
+  // The target-date picker (see deadlinePickerHtml in js/render.js): the
+  // app's own calendar in place of a native <input type="date">, whose
+  // popup is unstyleable OS/UA chrome on this platform, same reasoning as
+  // the reset-hour listbox below. Reached through the click dispatcher, so
+  // this reads the picked day from the clicked cell's own dataset, not an
+  // <input>'s .value.
+  pickScheduleDeadline(el) {
+    state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: el.dataset.date || null };
+    state.deadlinePickerOpen = false;
   },
-  // Same data-action-on-'change' dispatch as setScheduleDeadline above. The
-  // <select>'s values are already the ints 0-23 (see scheduleDeadlineHtml),
-  // so this only needs to guard against a tampered/missing value, not parse
-  // a free-form one.
+  clearScheduleDeadline() {
+    state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: null };
+    state.deadlinePickerOpen = false;
+  },
+  // Clears the panel's own browsing cursor on the way in, not the way out --
+  // so a fresh open always starts back at the selected deadline's month (or
+  // today's, if none is set) rather than wherever a previous browse left
+  // off, but paging away and reopening later during the SAME open state
+  // isn't disturbed.
+  toggleDeadlinePicker() {
+    state.deadlinePickerOpen = !state.deadlinePickerOpen;
+    if (state.deadlinePickerOpen) state.deadlinePickerMonth = null;
+  },
+  deadlinePickerPrevMonth() {
+    const cursor = state.deadlinePickerMonth || state.scheduleDeadline[state.courseId] || todayISO(state.dailyResetHour || 0);
+    const [y, m] = cursor.slice(0, 7).split('-').map(Number);
+    const py = m === 1 ? y - 1 : y;
+    const pm = m === 1 ? 12 : m - 1;
+    state.deadlinePickerMonth = `${py}-${String(pm).padStart(2, '0')}`;
+  },
+  deadlinePickerNextMonth() {
+    const cursor = state.deadlinePickerMonth || state.scheduleDeadline[state.courseId] || todayISO(state.dailyResetHour || 0);
+    const [y, m] = cursor.slice(0, 7).split('-').map(Number);
+    const ny = m === 12 ? y + 1 : y;
+    const nm = m === 12 ? 1 : m + 1;
+    state.deadlinePickerMonth = `${ny}-${String(nm).padStart(2, '0')}`;
+  },
+  // The reset-hour picker (see resetHourMenuHtml in js/render.js): the app's
+  // own themed popover in place of a native <select>, whose open list is
+  // unstyleable OS chrome CSS cannot reach on this platform. Reads the hour
+  // from the clicked row's own dataset, not an element's .value.
   setDailyResetHour(el) {
-    const n = Number(el.value);
+    const n = Number(el.dataset.hour);
     state.dailyResetHour = Number.isInteger(n) && n >= 0 && n <= 23 ? n : 0;
+    state.resetHourMenuOpen = false;
+  },
+  toggleResetHourMenu() {
+    state.resetHourMenuOpen = !state.resetHourMenuOpen;
   },
   backToSchedule() {
     state.view = 'schedule';
@@ -2750,6 +2582,35 @@ const actions = {
     enterLesson(state.moduleId, el.dataset.lessonId);
   },
 
+  // --- Concept paging (see lessonHtml) ---
+  // The lesson shows one concept at a time; how far paging can reach is
+  // decided by conceptsToRender, not by these, so they only ever move within
+  // what is already unlocked.
+  prevConcept() {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (!lesson) return false;
+    const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+    const current = state.conceptIndex == null ? shown - 1 : state.conceptIndex;
+    if (current <= 0) return false;
+    state.conceptIndex = current - 1;
+  },
+  nextConcept() {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (!lesson) return false;
+    const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+    const current = state.conceptIndex == null ? shown - 1 : state.conceptIndex;
+    if (current >= shown - 1) return false;
+    state.conceptIndex = current + 1;
+  },
+  goToConcept(el) {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (!lesson) return false;
+    const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+    const target = Number(el.dataset.index);
+    if (!Number.isFinite(target) || target < 0 || target >= shown) return false;
+    state.conceptIndex = target;
+  },
+
   backToLesson() {
     state.view = 'lesson';
     shuffleLessonOptions(state.moduleId, state.lessonId);
@@ -2770,17 +2631,15 @@ const actions = {
     const key = conceptKey(state.moduleId, state.lessonId, idx);
     state.revealState[key] = 1;
 
-    const exCardKey = `ex_${state.moduleId}_${state.lessonId}_${idx}`;
-
     setTimeout(() => {
       const scrollContainer = root.querySelector('.main-content') || root.querySelector('.main');
-      const exCard = root.querySelector(`[data-reveal-key="${exCardKey}"]`) || root.querySelector(`[data-anim-key="ex${idx}"]`);
+      const exCard = root.querySelector(`[data-concept-index="${idx}"] .exercise-card`);
       if (exCard && scrollContainer) {
         const cardRect = exCard.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
         const targetY = scrollContainer.scrollTop + (cardRect.top - containerRect.top) - (containerRect.height / 2) + (cardRect.height / 2);
 
-        smoothScrollTo(scrollContainer, Math.max(0, targetY), 850);
+        smoothScrollTo(scrollContainer, Math.max(0, targetY));
       }
     }, 40);
   },
@@ -3375,20 +3234,6 @@ const actions = {
     state.badgeModal = state.badgeQueue.length ? state.badgeQueue.shift() : null;
   },
 
-  // --- Window controls (#window-controls) -- pure IPC side effects, no
-  // app state changes, so each returns false to skip the usual rerender. ---
-  minimizeWindow() {
-    electronWindow?.minimize();
-    return false;
-  },
-  toggleMaximizeWindow() {
-    electronWindow?.toggleMaximize();
-    return false;
-  },
-  closeWindow() {
-    electronWindow?.close();
-    return false;
-  },
 };
 
 // --- event delegation -------------------------------------------------
@@ -3474,27 +3319,51 @@ function refocusSelector(el) {
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-action]');
   if (!el || el.disabled) return;
-  // Native form controls (the Schedule tab's date/number inputs and
-  // module/lesson <select>s) carry data-action too, but only so the
-  // 'change' listener below can find them the same way -- their action
-  // must fire once a value is actually committed, not on the click that
-  // merely focuses the field or opens the picker/dropdown. Without this
-  // guard, that opening click fires the action immediately (with the
-  // stale value) and the resulting rerender replaces the input out from
-  // under the still-open native picker/dropdown, closing it before a
-  // date/option can ever be chosen.
+  // Native form controls (the lesson/reading text-size range sliders) carry
+  // data-action too, but only so the 'change' listener below can find them
+  // the same way -- their action must fire once a value is actually
+  // committed, not on the click that merely focuses/starts dragging the
+  // control. Without this guard, that opening click would fire the action
+  // immediately with the stale pre-drag value.
   if (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') return;
   const handler = actions[el.dataset.action];
   if (!handler) return;
   const result = handler(el, e);
   if (result && typeof result.then === 'function') {
+    // Acknowledge the click right away -- the busy spinner CSS holds itself
+    // invisible for the first beat, so a promise that resolves instantly
+    // (an already-imported course, say) never flashes it.
+    markBusy(el);
     result.then((value) => {
-      if (value !== false) rerender(refocusSelector(el));
+      if (value !== false) {
+        rerender(refocusSelector(el));
+        applyActionMotion(root, el);
+      } else {
+        unmarkBusy(el);
+      }
     });
     return;
   }
   if (result === false) return;
-  rerender(refocusSelector(el));
+  // A pure-dismiss action (Cancel, backdrop click, a toggle closing its own
+  // menu) lets the overlay play a short exit on the OLD DOM before the swap
+  // lands. State is already updated above, so the deferred rerender is
+  // consistent no matter what happens in between. Closing one badge modal
+  // while more are queued skips the exit -- the next modal replaces this one
+  // in the same swap, and fading out first would just blink.
+  const exitMs = el.dataset.action === 'closeBadgeModal' && state.badgeQueue.length
+    ? 0
+    : dismissDelay(root, el.dataset.action);
+  const focusSel = refocusSelector(el);
+  if (exitMs) {
+    setTimeout(() => {
+      rerender(focusSel);
+      applyActionMotion(root, el);
+    }, exitMs);
+    return;
+  }
+  rerender(focusSel);
+  applyActionMotion(root, el);
 });
 
 // The mobile header's "..." menu is a native <details> -- opening/closing
@@ -3502,22 +3371,7 @@ document.addEventListener('click', (e) => {
 // has no built-in "tap outside to dismiss", unlike every state-tracked
 // modal (which all get one via their backdrop's data-action). Runs on
 // every click, not just [data-action] ones, since the whole point is
-// catching clicks that land on inert page content. A click on a menu item
-// closes it too, but as a side effect of that action's own rerender
-// (which rebuilds the header with a fresh, closed <details>) -- this only
-// has to handle the outside-tap case that leaves everything else alone.
-document.addEventListener('click', (e) => {
-  const openMenu = document.querySelector('.app-header-mobile-menu[open]');
-  if (openMenu && !openMenu.contains(e.target)) openMenu.open = false;
-});
-
 document.addEventListener('keydown', (e) => {
-  // Same gap as the modals above, for the one overlay that isn't
-  // state-tracked -- native <details> doesn't close on Escape by itself.
-  if (e.key === 'Escape') {
-    const openMenu = document.querySelector('.app-header-mobile-menu[open]');
-    if (openMenu) openMenu.open = false;
-  }
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
   // a real <button>/<a> gets that key handling from the browser for free;
@@ -3528,38 +3382,53 @@ document.addEventListener('keydown', (e) => {
     if (el && el.getAttribute('aria-disabled') !== 'true') {
       e.preventDefault();
       const handler = actions[el.dataset.action];
-      if (handler && handler(el, e) !== false) rerender(refocusSelector(el));
+      if (handler && handler(el, e) !== false) {
+        rerender(refocusSelector(el));
+        applyActionMotion(root, el);
+      }
       return;
     }
   }
   if (e.key !== 'Escape') return;
+  // Escape-close plays the same overlay exit the Cancel buttons do: the
+  // modal (still in the old DOM) fades for a beat, then the swap lands.
+  // State is already updated by the time this runs, so the deferred
+  // rerender is consistent whatever else happens in between.
+  const rerenderAfterModalExit = (focusSel, skipExit = false) => {
+    const exitMs = skipExit ? 0 : dismissOpenModal(root);
+    if (exitMs) setTimeout(() => rerender(focusSel), exitMs);
+    else rerender(focusSel);
+  };
   if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.litChapterPreviewId) {
     state.litChapterPreviewId = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.pathSkipAheadPromptNodeId) {
     state.pathSkipAheadPromptNodeId = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.forceUnlockPrompt) {
     state.forceUnlockPrompt = false;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.resetModulePromptId) {
     state.resetModulePromptId = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.unlockPrompt) {
     state.unlockPrompt = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.leaveSessionPromptTarget) {
     state.leaveSessionPromptTarget = null;
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.badgeModal) {
+    // With more badges queued, the next modal replaces this one in the same
+    // swap -- fading out first would just blink.
+    const hasMore = state.badgeQueue.length > 0;
     actions.closeBadgeModal();
-    rerender(consumeModalTriggerSelector());
+    rerenderAfterModalExit(consumeModalTriggerSelector(), hasMore);
   }
 });
 
@@ -3591,9 +3460,13 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('change', (e) => {
-  // The Schedule tab's Deadline date input reaches its handler through this
-  // exact same data-action dispatch as clicks -- see setScheduleDeadline,
-  // which reads el.value.
+  // The lesson/reading text-size range sliders reach their handlers through
+  // this exact same data-action dispatch as clicks -- see setLessonTextScale/
+  // setLitTextScale, which read el.value. A native range still IS a native
+  // range here (unlike the date/select fields elsewhere on the Schedule tab,
+  // now themed popovers of the app's own -- see deadlinePickerHtml/
+  // resetHourMenuHtml in js/render.js): dragging it is exactly the built-in
+  // interaction this screen wants, so there was no reason to replace it.
   const el = e.target.closest('[data-action]');
   if (el && !el.disabled && actions[el.dataset.action]) {
     const result = actions[el.dataset.action](el, e);
@@ -3759,44 +3632,12 @@ document.addEventListener('dragend', (e) => {
   litDragAction = null;
 });
 
-// --- window controls (#window-drag-region/#window-controls) ------------
-// Static markup outside #root (see index.html's comment), so its listeners
-// are wired up once here rather than through the data-action delegation's
-// rerender-driven re-binding -- the element is never destroyed/recreated.
-
-if (electronWindow) {
-  // The window could already be maximized on this very first paint (e.g.
-  // the OS remembered the last window state) -- sync once up front, then
-  // keep listening for every later change, including an OS-level one
-  // (edge-drag snap, Win+Up) that never goes through this window's own
-  // maximize button at all.
-  electronWindow.isMaximized().then((isMaximized) => {
-    document.body.classList.toggle('is-maximized', isMaximized);
-  });
-  electronWindow.onMaximizedChanged((isMaximized) => {
-    document.body.classList.toggle('is-maximized', isMaximized);
-  });
-}
-
-// Double-click the drag strip to maximize/restore -- standard OS title-bar
-// behaviour that frame:false drops entirely along with the rest of the
-// native chrome, so it has to be wired up by hand. Guarded against the
-// button group so a double-click landing on, say, minimize doesn't ALSO
-// toggle maximize underneath it.
-document.getElementById('window-drag-region')?.addEventListener('dblclick', (e) => {
-  if (e.target.closest('#window-controls')) return;
-  electronWindow?.toggleMaximize();
-});
 
 // --- lifecycle ----------------------------------------------------------
 
 window.addEventListener('beforeunload', flushPersist);
 
-// Boot renders straight into whatever screen the learner left off on -- there
-// is no real "previous screen" to crossfade from, so pre-seeding lastNav to
-// the initial signature skips rerender()'s page-turn view transition for
-// this first paint. Without this, the first paint fades in from a blank
-// root over the transition's own duration on top of the page's normal load
-// time, reading as a stuck/blank window before the app "pops in" late.
+// Pre-seed lastNav so the first paint's scroll bookkeeping starts from the
+// screen the learner actually lands on.
 lastNav = navSignature();
 rerender();

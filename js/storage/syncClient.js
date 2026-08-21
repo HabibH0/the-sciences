@@ -32,22 +32,6 @@ async function request(path, options = {}) {
   const token = getSessionToken();
   if (token && !headers.Authorization) headers.Authorization = `Bearer ${token}`;
 
-  if (window.electronAPI?.sync?.request) {
-    const result = await window.electronAPI.sync.request({
-      path,
-      method: options.method || 'GET',
-      headers,
-      body: options.body,
-    });
-    if (!result.ok) {
-      if (result.status === 401) clearSessionToken();
-      const error = new Error(result.body?.error || `Sync request failed: ${result.status}`);
-      error.status = result.status;
-      error.body = result.body;
-      throw error;
-    }
-    return result.body;
-  }
   const base = getBackendUrl();
   if (!base) return { disabled: true };
   const response = await fetch(`${base}${path}`, {

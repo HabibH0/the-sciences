@@ -1,0 +1,180 @@
+1:1:1	س م و	P|prefixed preposition bi ;; N|genitive masculine noun	جار ومجرور
+1:1:2	أ ل ه	PN|genitive proper noun → Allah	لفظ الجلالة مجرور
+1:1:3	ر ح م	ADJ|genitive masculine singular adjective	صفة مجرورة
+1:1:4	ر ح م	ADJ|genitive masculine singular adjective	صفة مجرورة
+1:2:1	ح م د	N|nominative masculine noun	اسم مرفوع
+1:2:2	أ ل ه	P|prefixed preposition lām ;; PN|genitive proper noun → Allah	جار ومجرور
+1:2:3	ر ب ب	N|genitive masculine noun	اسم مجرور
+1:2:4	ع ل م	N|genitive masculine plural noun	اسم مجرور
+1:3:1	ر ح م	ADJ|genitive masculine singular adjective	صفة مجرورة
+1:3:2	ر ح م	ADJ|genitive masculine singular adjective	صفة مجرورة
+1:4:1	م ل ك	N|genitive masculine active participle	اسم مجرور
+1:4:2	ي و م	N|genitive masculine noun → Day of Resurrection	اسم مجرور
+1:4:3	د ي ن	N|genitive masculine noun	اسم مجرور
+1:5:1		PRON|2nd person masculine singular personal pronoun → Allah	ضمير منفصل
+1:5:2	ع ب د	V|1st person plural imperfect verb	فعل مضارع
+1:5:3		CONJ|prefixed conjunction wa (and) ;; PRON|2nd person masculine singular personal pronoun → Allah	الواو عاطفة / ضمير منفصل
+1:5:4	ع و ن	V|1st person plural (form X) imperfect verb	فعل مضارع
+1:6:1	ه د ي	V|2nd person masculine singular imperative verb ;; PRON|1st person plural object pronoun ;; PRON|implicit subject pronoun → Allah	فعل أمر و«نا» ضمير متصل في محل نصب مفعول به
+1:6:2	ص ر ط	N|accusative masculine noun	اسم منصوب
+1:6:3	ق و م	ADJ|accusative masculine (form X) active participle	صفة منصوبة
+1:7:1	ص ر ط	N|accusative masculine noun	اسم منصوب
+1:7:2		REL|masculine plural relative pronoun	اسم موصول
+1:7:3	ن ع م	V|2nd person masculine singular (form IV) perfect verb ;; PRON|subject pronoun → Allah	فعل ماض والتاء ضمير متصل في محل رفع فاعل
+1:7:4		P|preposition ;; PRON|3rd person masculine plural object pronoun	جار ومجرور
+1:7:5	غ ي ر	N|genitive masculine noun	اسم مجرور
+1:7:6	غ ض ب	N|genitive masculine passive participle	اسم مجرور
+1:7:7		P|preposition ;; PRON|3rd person masculine plural object pronoun	جار ومجرور
+1:7:8		CONJ|prefixed conjunction wa (and) ;; NEG|negative particle	الواو عاطفة / حرف نفي
+1:7:9	ض ل ل	N|genitive masculine plural active participle	اسم مجرور
+3:1:1		INL|Quranic initials	حروف مقطعة
+3:2:1	أ ل ه	PN|nominative proper noun → Allah	لفظ الجلالة مرفوع
+3:2:2		NEG|negative particle	نافية تعمل عمل «أن»
+3:2:3	أ ل ه	N|accusative masculine singular noun	اسم منصوب
+3:2:4		EXP|exceptive particle	أداة استثناء
+3:2:5		PRON|3rd person masculine singular personal pronoun	ضمير منفصل
+3:2:6	ح ي ي	N|nominative masculine singular noun	اسم مرفوع
+3:2:7	ق و م	ADJ|nominative masculine singular adjective	صفة مرفوعة
+3:3:1	ن ز ل	V|3rd person masculine singular (form II) perfect verb	فعل ماض
+3:3:2		P|preposition ;; PRON|2nd person masculine singular object pronoun	جار ومجرور
+3:3:3	ك ت ب	N|accusative masculine noun	اسم منصوب
+3:3:4	ح ق ق	P|prefixed preposition bi ;; N|genitive masculine noun	جار ومجرور
+3:3:5	ص د ق	N|accusative masculine indefinite (form II) active participle	اسم منصوب
+3:3:6		P|prefixed preposition lām ;; REL|relative pronoun	جار ومجرور
+3:3:7	ب ي ن	LOC|accusative location adverb	ظرف مكان منصوب
+3:3:8	ي د ي	N|genitive feminine dual noun ;; PRON|3rd person masculine singular possessive pronoun	اسم مجرور والهاء ضمير متصل في محل جر بالاضافة
+3:3:9	ن ز ل	CONJ|prefixed conjunction wa (and) ;; V|3rd person masculine singular (form IV) perfect verb	الواو عاطفة / فعل ماض
+3:3:10		PN|accusative proper noun → Torah	اسم علم منصوب
+3:3:11		CONJ|prefixed conjunction wa (and) ;; PN|accusative proper noun → Injeel	الواو عاطفة / اسم علم منصوب
+3:4:1		P|preposition	حرف جر
+3:4:2	ق ب ل	N|genitive noun	اسم مجرور
+3:4:3	ه د ي	N|accusative masculine indefinite noun	اسم منصوب
+3:4:4	ن و س	P|prefixed preposition lām ;; N|genitive masculine plural noun	جار ومجرور
+3:4:5	ن ز ل	CONJ|prefixed conjunction wa (and) ;; V|3rd person masculine singular (form IV) perfect verb	الواو عاطفة / فعل ماض
+3:4:6	ف ر ق	N|accusative masculine noun	اسم منصوب
+3:4:7		ACC|accusative particle	حرف نصب
+3:4:8		REL|masculine plural relative pronoun	اسم موصول
+3:4:9	ك ف ر	V|3rd person masculine plural perfect verb ;; PRON|subject pronoun	فعل ماض والواو ضمير متصل في محل رفع فاعل
+3:4:10	أ ي ي	P|prefixed preposition bi ;; N|genitive feminine plural noun	جار ومجرور
+3:4:11	أ ل ه	PN|genitive proper noun → Allah	لفظ الجلالة مجرور
+3:4:12		P|prefixed preposition lām ;; PRON|3rd person masculine plural personal pronoun	جار ومجرور
+3:4:13	ع ذ ب	N|nominative masculine indefinite noun	اسم مرفوع
+3:4:14	ش د د	ADJ|nominative masculine singular indefinite adjective	صفة مرفوعة
+3:4:15	أ ل ه	REM|prefixed resumption particle ;; PN|nominative proper noun → Allah	الواو استئنافية / لفظ الجلالة مرفوع
+3:4:16	ع ز ز	N|nominative masculine singular indefinite noun	اسم مرفوع
+3:4:17		N|nominative masculine singular noun	اسم مرفوع
+3:4:18	ن ق م	N|genitive masculine indefinite (form VIII) verbal noun	اسم مجرور
+3:5:1		ACC|accusative particle	حرف نصب
+3:5:2	أ ل ه	PN|accusative proper noun → Allah	لفظ الجلالة منصوب
+3:5:3		NEG|negative particle	حرف نفي
+3:5:4	خ ف ي	V|3rd person masculine singular imperfect verb, subjunctive mood	فعل مضارع منصوب
+3:5:5		P|preposition ;; PRON|3rd person masculine singular object pronoun	جار ومجرور
+3:5:6	ش ي أ	N|nominative masculine indefinite noun	اسم مرفوع
+3:5:7		P|preposition	حرف جر
+3:5:8	أ ر ض	N|genitive feminine noun → Earth	اسم مجرور
+3:5:9		CONJ|prefixed conjunction wa (and) ;; NEG|negative particle	الواو عاطفة / حرف نفي
+3:5:10		P|preposition	حرف جر
+3:5:11	س م و	N|genitive feminine noun	اسم مجرور
+3:6:1		PRON|3rd person masculine singular personal pronoun	ضمير منفصل
+3:6:2		REL|masculine singular relative pronoun	اسم موصول
+3:6:3	ص و ر	V|3rd person masculine singular (form II) imperfect verb ;; PRON|2nd person masculine plural object pronoun	فعل مضارع والكاف ضمير متصل في محل نصب مفعول به
+3:6:4		P|preposition	حرف جر
+3:6:5	ر ح م	N|genitive masculine plural noun	اسم مجرور
+3:6:6	ك ي ف	INTG|interrogative noun	اسم استفهام
+3:6:7	ش ي أ	V|3rd person masculine singular imperfect verb	فعل مضارع
+3:6:8		NEG|negative particle	نافية تعمل عمل «أن»
+3:6:9	أ ل ه	N|accusative masculine singular noun	اسم منصوب
+3:6:10		EXP|exceptive particle	أداة استثناء
+3:6:11		PRON|3rd person masculine singular personal pronoun	ضمير منفصل
+3:6:12	ع ز ز	N|nominative masculine singular noun	اسم مرفوع
+3:6:13	ح ك م	ADJ|nominative masculine singular adjective	صفة مرفوعة
+3:7:1		PRON|3rd person masculine singular personal pronoun	ضمير منفصل
+3:7:2		REL|masculine singular relative pronoun	اسم موصول
+3:7:3	ن ز ل	V|3rd person masculine singular (form IV) perfect verb	فعل ماض
+3:7:4		P|preposition ;; PRON|2nd person masculine singular object pronoun	جار ومجرور
+3:7:5	ك ت ب	N|accusative masculine noun	اسم منصوب
+3:7:6		P|preposition ;; PRON|3rd person masculine singular object pronoun	جار ومجرور
+3:7:7	أ ي ي	N|nominative feminine plural indefinite noun	اسم مرفوع
+3:7:8	ح ك م	ADJ|nominative feminine plural indefinite (form IV) passive participle	صفة مرفوعة
+3:7:9		PRON|3rd person feminine plural personal pronoun	ضمير منفصل
+3:7:10	أ م م	N|nominative feminine singular noun	اسم مرفوع
+3:7:11	ك ت ب	N|genitive masculine noun	اسم مجرور
+3:7:12	أ خ ر	CONJ|prefixed conjunction wa (and) ;; N|nominative feminine plural noun	الواو عاطفة / اسم مرفوع
+3:7:13	ش ب ه	ADJ|nominative masculine plural indefinite (form VI) active participle	صفة مرفوعة
+3:7:14		REM|prefixed resumption particle ;; EXL|explanation particle	الفاء استئنافية / حرف تفصيل
+3:7:15		COND|masculine plural conditional noun	اسم شرط
+3:7:16		P|preposition	حرف جر
+3:7:17	ق ل ب	N|genitive feminine plural noun → Heart ;; PRON|3rd person masculine plural possessive pronoun	اسم مجرور و«هم» ضمير متصل في محل جر بالاضافة
+3:7:18	ز ي غ	N|nominative masculine indefinite noun	اسم مرفوع
+3:7:19	ت ب ع	RSLT|prefixed result particle ;; V|3rd person masculine plural (form VIII) imperfect verb ;; PRON|subject pronoun	الفاء واقعة في جواب الشرط / فعل مضارع والواو ضمير متصل في محل رفع فاعل
+3:7:20		REL|relative pronoun	اسم موصول
+3:7:21	ش ب ه	V|3rd person masculine singular (form VI) perfect verb	فعل ماض
+3:7:22		P|preposition ;; PRON|3rd person masculine singular object pronoun	جار ومجرور
+3:7:23	ب غ ي	N|accusative masculine (form VIII) verbal noun	اسم منصوب
+3:7:24	ف ت ن	N|genitive feminine noun	اسم مجرور
+3:7:25	ب غ ي	CONJ|prefixed conjunction wa (and) ;; N|accusative masculine (form VIII) verbal noun	الواو عاطفة / اسم منصوب
+3:7:26	أ و ل	N|genitive masculine (form II) verbal noun ;; PRON|3rd person masculine singular possessive pronoun	اسم مجرور والهاء ضمير متصل في محل جر بالاضافة
+3:7:27		REM|prefixed resumption particle ;; NEG|negative particle	الواو استئنافية / حرف نفي
+3:7:28	ع ل م	V|3rd person masculine singular imperfect verb	فعل مضارع
+3:7:29	أ و ل	N|accusative masculine (form II) verbal noun ;; PRON|3rd person masculine singular possessive pronoun	اسم منصوب والهاء ضمير متصل في محل جر بالاضافة
+3:7:30		RES|restriction particle	أداة حصر
+3:7:31	أ ل ه	PN|nominative proper noun → Allah	لفظ الجلالة مرفوع
+3:7:32	ر س خ	REM|prefixed resumption particle ;; N|nominative masculine plural active participle	الواو استئنافية / اسم مرفوع
+3:7:33		P|preposition	حرف جر
+3:7:34	ع ل م	N|genitive masculine noun	اسم مجرور
+3:7:35	ق و ل	V|3rd person masculine plural imperfect verb ;; PRON|subject pronoun	فعل مضارع والواو ضمير متصل في محل رفع فاعل
+3:7:36	أ م ن	V|1st person plural (form IV) perfect verb ;; PRON|subject pronoun	فعل ماض و«نا» ضمير متصل في محل رفع فاعل
+3:7:37		P|prefixed preposition bi ;; PRON|3rd person masculine singular personal pronoun	جار ومجرور
+3:7:38	ك ل ل	N|nominative masculine indefinite noun	اسم مرفوع
+3:7:39		P|preposition	حرف جر
+3:7:40	ع ن د	N|genitive noun	اسم مجرور
+3:7:41	ر ب ب	N|genitive masculine noun ;; PRON|1st person plural possessive pronoun	اسم مجرور و«نا» ضمير متصل في محل جر بالاضافة
+3:7:42		REM|prefixed resumption particle ;; NEG|negative particle	الواو استئنافية / حرف نفي
+3:7:43	ذ ك ر	V|3rd person masculine singular (form V) imperfect verb	فعل مضارع
+3:7:44		RES|restriction particle	أداة حصر
+3:7:45	أ و ل	N|nominative masculine plural noun	اسم مرفوع
+3:7:46	ل ب ب	N|genitive masculine plural noun	اسم مجرور
+3:8:1	ر ب ب	N|accusative masculine noun ;; PRON|1st person plural possessive pronoun	اسم منصوب و«نا» ضمير متصل في محل جر بالاضافة
+3:8:2		PRO|prohibition particle	حرف نهي
+3:8:3	ز ي غ	V|2nd person masculine singular (form IV) imperfect verb, jussive mood	فعل مضارع مجزوم
+3:8:4	ق ل ب	N|accusative feminine plural noun → Heart ;; PRON|1st person plural possessive pronoun	اسم منصوب و«نا» ضمير متصل في محل جر بالاضافة
+3:8:5	ب ع د	T|accusative time adverb	ظرف زمان منصوب
+3:8:6		T|time adverb	ظرف زمان
+3:8:7	ه د ي	V|2nd person masculine singular perfect verb ;; PRON|subject pronoun ;; PRON|1st person plural object pronoun	فعل ماض والتاء ضمير متصل في محل رفع فاعل و«نا» ضمير متصل في محل نصب مفعول به
+3:8:8	و ه ب	CONJ|prefixed conjunction wa (and) ;; V|2nd person masculine singular imperative verb	الواو عاطفة / فعل أمر
+3:8:9		P|prefixed preposition lām ;; PRON|1st person plural personal pronoun	جار ومجرور
+3:8:10		P|preposition	حرف جر
+3:8:11	ل د ن	N|genitive noun ;; PRON|2nd person masculine singular possessive pronoun	اسم مجرور والكاف ضمير متصل في محل جر بالاضافة
+3:8:12	ر ح م	N|accusative feminine indefinite noun	اسم منصوب
+3:8:13		ACC|accusative particle ;; PRON|2nd person masculine singular object pronoun	حرف نصب والكاف ضمير متصل في محل نصب اسم «ان»
+3:8:14		PRON|2nd person masculine singular personal pronoun	ضمير منفصل
+3:8:15	و ه ب	N|nominative masculine singular noun	اسم مرفوع
+3:9:1	ر ب ب	N|accusative masculine noun ;; PRON|1st person plural possessive pronoun	اسم منصوب و«نا» ضمير متصل في محل جر بالاضافة
+3:9:2		ACC|accusative particle ;; PRON|2nd person masculine singular object pronoun	حرف نصب والكاف ضمير متصل في محل نصب اسم «ان»
+3:9:3	ج م ع	N|nominative masculine active participle	اسم مرفوع
+3:9:4	ن و س	N|genitive masculine plural noun	اسم مجرور
+3:9:5	ي و م	P|prefixed preposition lām ;; N|genitive masculine indefinite noun	جار ومجرور
+3:9:6		NEG|negative particle	نافية تعمل عمل «أن»
+3:9:7	ر ي ب	N|accusative masculine noun	اسم منصوب
+3:9:8		P|preposition ;; PRON|3rd person masculine singular object pronoun	جار ومجرور
+3:9:9		ACC|accusative particle	حرف نصب
+3:9:10	أ ل ه	PN|accusative proper noun → Allah	لفظ الجلالة منصوب
+3:9:11		NEG|negative particle	حرف نفي
+3:9:12	خ ل ف	V|3rd person masculine singular (form IV) imperfect verb	فعل مضارع
+3:9:13	و ع د	N|accusative masculine noun	اسم منصوب
+3:10:1		ACC|accusative particle	حرف نصب
+3:10:2		REL|masculine plural relative pronoun	اسم موصول
+3:10:3	ك ف ر	V|3rd person masculine plural perfect verb ;; PRON|subject pronoun	فعل ماض والواو ضمير متصل في محل رفع فاعل
+3:10:4		NEG|negative particle	حرف نفي
+3:10:5	غ ن ي	V|3rd person feminine singular (form IV) imperfect verb, subjunctive mood	فعل مضارع منصوب
+3:10:6		P|preposition ;; PRON|3rd person masculine plural object pronoun	جار ومجرور
+3:10:7	م و ل	N|nominative masculine plural noun ;; PRON|3rd person masculine plural possessive pronoun	اسم مرفوع و«هم» ضمير متصل في محل جر بالاضافة
+3:10:8		CONJ|prefixed conjunction wa (and) ;; NEG|negative particle	الواو عاطفة / حرف نفي
+3:10:9	و ل د	N|nominative masculine plural noun ;; PRON|3rd person masculine plural possessive pronoun	اسم مرفوع و«هم» ضمير متصل في محل جر بالاضافة
+3:10:10		P|preposition	حرف جر
+3:10:11	أ ل ه	PN|genitive proper noun → Allah	لفظ الجلالة مجرور
+3:10:12	ش ي أ	N|accusative masculine indefinite noun	اسم منصوب
+3:10:13		REM|prefixed resumption particle ;; DEM|plural demonstrative pronoun	الواو استئنافية / اسم اشارة
+3:10:14		PRON|3rd person masculine plural personal pronoun	ضمير منفصل
+3:10:15	و ق د	N|nominative masculine noun	اسم مرفوع
+3:10:16	ن و ر	N|genitive feminine noun	اسم مجرور

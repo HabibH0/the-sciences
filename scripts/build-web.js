@@ -34,46 +34,6 @@ fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 entries.forEach(copyEntry);
 
-function replaceRequired(filePath, pattern, replacement, label) {
-  const source = fs.readFileSync(filePath, 'utf8');
-  if (!pattern.test(source)) {
-    throw new Error(`Could not strip Electron window chrome from ${label}`);
-  }
-  fs.writeFileSync(filePath, source.replace(pattern, replacement));
-}
-
-function stripElectronWindowChrome() {
-  replaceRequired(
-    path.join(outDir, 'index.html'),
-    /  <!-- Replaces the OS title bar[\s\S]*?  <div id="root"><\/div>/,
-    '  <div id="root"></div>',
-    'web/index.html',
-  );
-
-  replaceRequired(
-    path.join(outDir, 'styles.css'),
-    /\/\* The OS title bar's replacement[\s\S]*?body\.is-maximized #window-maximize \.restore-icon \{\s*display: block;\s*\}\s*/,
-    '',
-    'web/styles.css',
-  );
-
-  replaceRequired(
-    path.join(outDir, 'js', 'main.js'),
-    /\n  \/\/ --- Window controls \(#window-controls\)[\s\S]*?  closeWindow\(\) \{\s*electronWindow\?\.close\(\);\s*return false;\s*  \},/,
-    '',
-    'web/js/main.js actions',
-  );
-
-  replaceRequired(
-    path.join(outDir, 'js', 'main.js'),
-    /\n\/\/ --- window controls \(#window-drag-region\/#window-controls\)[\s\S]*?(?=\n\/\/ --- lifecycle)/,
-    '\n',
-    'web/js/main.js listeners',
-  );
-}
-
-stripElectronWindowChrome();
-
 const assetsDir = path.join(outDir, 'assets');
 fs.mkdirSync(assetsDir, { recursive: true });
 fs.copyFileSync(path.join(root, 'assets', 'icon.png'), path.join(assetsDir, 'icon.png'));

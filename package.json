@@ -3,83 +3,14 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "main": "main.cjs",
   "description": "Classical Arabic grammar (نحو) trainer — lessons, quizzes, and drills generated from an Anki deck.",
   "scripts": {
-    "start": "electron .",
+    "dev:web": "node scripts/dev-server.mjs",
     "validate": "node scripts/validate-content.mjs",
     "lit:convert": "node scripts/convert-literature.mjs",
-    "build:web": "node scripts/build-web.js",
-    "prepackage": "npm run validate",
-    "package": "electron-builder --win nsis:x64 && electron-builder --win nsis:arm64",
-    "prepackage:mac": "npm run validate",
-    "package:mac": "electron-builder --mac",
-    "prepackage:linux": "npm run validate",
-    "package:linux": "electron-builder --linux",
-    "prepackage:all": "npm run validate",
-    "package:all": "electron-builder --win nsis:x64 && electron-builder --win nsis:arm64 && electron-builder --mac && electron-builder --linux"
+    "build:web": "node scripts/build-web.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^43.2.0",
-    "electron-builder": "^26.15.3"
-  },
-  "build": {
-    "appId": "com.habibh0.thesciences",
-    "productName": "The Sciences",
-    "publish": null,
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "**/*",
-      "!dist/**",
-      "!.claude/**",
-      "!save-data.json",
-      "!scripts/generate-icon.cjs",
-      "!assets/icon-source.html"
-    ],
-    "win": {
-      "target": [
-        {
-          "target": "nsis"
-        }
-      ],
-      "icon": "assets/icon.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "artifactName": "${productName} Setup ${version}-${arch}.${ext}"
-    },
-    "mac": {
-      "target": [
-        {
-          "target": "zip",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "icon": "assets/icon.icns"
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "icon": "assets/icon.png",
-      "category": "Education"
-    }
-  }
+  "license": "ISC"
 }

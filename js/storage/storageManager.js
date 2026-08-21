@@ -2,10 +2,6 @@ const STORAGE_KEY = 'the-sciences-progress';
 const DEVICE_ID_KEY = 'the-sciences-device-id';
 const SAVE_VERSION = 1;
 
-function hasElectronStorage() {
-  return !!window.electronAPI?.storage;
-}
-
 function uuid() {
   if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
   return `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -21,9 +17,6 @@ function browserDeviceId() {
 }
 
 async function deviceId() {
-  if (hasElectronStorage() && window.electronAPI.storage.getDeviceId) {
-    return window.electronAPI.storage.getDeviceId();
-  }
   return browserDeviceId();
 }
 
@@ -60,12 +53,10 @@ async function wrap(progress, previous = null) {
 }
 
 export async function readStoredEnvelope() {
-  if (hasElectronStorage()) return window.electronAPI.storage.loadProgress();
   return parseStored(localStorage.getItem(STORAGE_KEY));
 }
 
 async function writeStoredEnvelope(envelope) {
-  if (hasElectronStorage()) return window.electronAPI.storage.saveProgress(envelope);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(envelope));
   return envelope;
 }
@@ -82,7 +73,6 @@ export async function saveProgress(data) {
 }
 
 export async function clearProgress() {
-  if (hasElectronStorage()) return window.electronAPI.storage.clearProgress();
   localStorage.removeItem(STORAGE_KEY);
 }
 

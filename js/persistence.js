@@ -1,6 +1,6 @@
 import { loadProgress, saveProgress } from './storage/storageManager.js';
 
-function isoDateAt(ts) {
+export function isoDateAt(ts) {
   const d = new Date(ts);
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
