@@ -191,6 +191,66 @@
   --font-ar-heading: var(--font-ar);
   --lesson-text-scale: 1;
 
+  /* ---------- Spacing scale ----------
+     A 4px-based ramp, loosening at the top where the steps are doing
+     page-level rather than component-level work. Before this, the file
+     reached for every integer between 2 and 56 -- four different paddings
+     (10/13, 11/13, 12/13, 14/16) all doing the same "row inside a card"
+     job, so nothing lined up between two components that should have
+     matched. New and rewritten rules use these; the literals that remain
+     are the ones already correct to the pixel against the design handoff. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---------- Type scale ----------
+     Six steps for UI text plus three display steps, replacing the 47
+     distinct font sizes this file used to carry (twelve of them below
+     14px, several separated by half a pixel -- differences no reader can
+     see but which stop two components from ever matching).
+
+     `-meta` is the smallest step that stays comfortably readable as running
+     text; `-micro` is reserved for uppercase letterspaced kickers and tags,
+     where the caps height buys back the size. */
+  --text-micro: 10px;   /* kickers, tags -- uppercase only */
+  --text-meta: 11px;    /* metadata, ledger labels, helper lines */
+  --text-sm: 12px;      /* secondary body, notes, row subtitles */
+  --text-base: 13px;    /* UI default: buttons, inputs, row titles */
+  --text-md: 15px;      /* lesson and reader prose */
+  --text-lg: 17px;      /* Arabic row titles, callouts */
+  --text-title: 20px;   /* section headings */
+  --text-page: 26px;    /* page titles */
+  --text-display: 33px; /* hero titles */
+
+  --leading-tight: 1.15; /* display */
+  --leading-snug: 1.4;   /* UI text, row titles */
+  --leading-body: 1.6;   /* running UI copy */
+  --leading-prose: 1.75; /* lesson and reader prose */
+
+  --tracking-caps: 0.09em; /* the only letter-spacing this design uses */
+
+  /* The comfortable measure for running English prose at --text-md. Lesson
+     and reader columns cap to this so a wide window lengthens the margins
+     rather than the line. */
+  --measure-prose: 68ch;
+
+  /* ---------- Control sizing ----------
+     One height for every control that sits on a line with another control,
+     so a button, an input and a select never disagree by two pixels.
+     --tap-min is the phone floor (WCAG 2.5.8 asks 24px, platform guidance
+     asks 44px; the larger is the one that actually feels right under a
+     thumb) and is applied in the phone media queries, not here, so desktop
+     keeps its tighter rhythm. */
+  --control-h: 34px;
+  --control-h-sm: 28px;
+  --tap-min: 44px;
+
   --radius-sm: 3px;
   --radius-md: 4px;   /* tags, chips, inputs */
   --radius-lg: 7px;   /* cards, plates */
@@ -318,6 +378,53 @@
   --accent-tint-weak: color-mix(in srgb, var(--color-accent) 5%, var(--color-bg));
   --accent-tint: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
   --accent-tint-strong: color-mix(in srgb, var(--color-accent) 18%, var(--color-bg));
+
+  /* ---------- Semantic roles ----------
+     This design deliberately has no signal red: a wrong answer is the
+     normal case in a grammar drill, and lighting the screen up every time
+     would make the app feel like it were failing rather than teaching. So
+     danger and warning are ink-derived earths -- a deep oxide and a burnt
+     ochre -- mixed the same way the neutral ramp is, which keeps them
+     inside the palette on all five grounds while still reading as
+     unmistakably *not* the accent. They are reserved for the three places
+     the brief actually needs them: a destructive confirm, a field that
+     failed validation, and a deadline already missed.
+
+     Mixed toward the ink rather than stated as literals so `lamp`, the one
+     dark ground, gets versions that separate from ITS paper -- see the
+     [data-theme='lamp'] override below. --*-line/-tint are the stroke and
+     wash; --*-text is the step that stays legible as small text on paper. */
+  --color-danger: #8c3a2b;
+  --color-danger-text: color-mix(in srgb, var(--color-danger) 84%, var(--color-text));
+  --color-danger-line: color-mix(in srgb, var(--color-danger) 55%, var(--color-bg));
+  --color-danger-tint: color-mix(in srgb, var(--color-danger) 7%, var(--color-bg));
+
+  --color-warning: #9a6b1f;
+  --color-warning-text: color-mix(in srgb, var(--color-warning) 84%, var(--color-text));
+  --color-warning-line: color-mix(in srgb, var(--color-warning) 55%, var(--color-bg));
+
+  /* Success is not a green badge system -- correctness in this app is
+     already carried by the accent (a cleared lesson, a mastered module),
+     and adding a second "good" colour would put two accents on one screen.
+     This exists so the few genuine confirmations (a save landed, a sync
+     succeeded) can say so without borrowing the accent's meaning. */
+  --color-success: #3f6b4a;
+  --color-success-text: color-mix(in srgb, var(--color-success) 84%, var(--color-text));
+  --color-success-line: color-mix(in srgb, var(--color-success) 55%, var(--color-bg));
+
+  /* Information carries no colour of its own: a neutral hairline is the
+     whole treatment, which is what keeps the page from accumulating
+     competing accents. Named so components stop hard-coding the ramp step. */
+  --color-info-line: var(--color-divider);
+  --color-info-text: var(--color-neutral-700);
+}
+
+/* The dark ground needs its semantics lifted off the paper rather than
+   sunk into it, exactly as the accent steps are lifted below. */
+[data-theme='lamp'] {
+  --color-danger: #d08a72;
+  --color-warning: #d3a75a;
+  --color-success: #86b491;
 }
 
 /* Text-weight accent steps. The gold pairing gets the handoff's exact
@@ -6529,7 +6636,7 @@ span.deadline-day {
 /* ==========================================================================
    Motion
    The app's whole motion vocabulary, in one layer. Everything here follows
-   four rules:
+   five rules:
 
    1. Entrance-driven. The app re-creates the entire DOM on every action
       (root.innerHTML in js/main.js), so a CSS transition can never carry a
@@ -6537,25 +6644,48 @@ span.deadline-day {
       would replay every time its node is recreated. Every one-shot below is
       therefore gated behind a class that js/motion.js adds only at the
       moment the thing it marks first appears (screen-enter, anim-*).
-   2. Composite-only where it counts. One-shots animate transform/opacity
-      (plus two deliberate exceptions: the brief background flash and the
-      progress ring's dashoffset draw). Hover/press feedback transitions
-      paint-only properties.
-   3. One small vocabulary. Three durations, three easings, a dozen
-      keyframes; screens differ in what animates, never in how.
-   4. Reduced motion wins. The final media block zeroes every animation and
-      transition; since every keyframe starts from an offset and ends at the
-      element's natural resting style, zeroing them lands on exactly the
-      static design.
+   2. One vocabulary, no loose numbers. Six durations, four easings, three
+      travel distances -- all declared in :root below. Nothing in this layer
+      (or in js/motion.js, which mirrors the same table) may invent a value
+      outside it; screens differ in WHAT animates, never in HOW.
+   3. Entrances decelerate, exits accelerate, and an exit is always shorter
+      than the entrance it reverses. Dismissing something must never make the
+      interface feel like it is waiting on itself.
+   4. Composite-only. Every one-shot animates transform and/or opacity. The
+      one property that genuinely cannot (the progress ring's dashoffset) is
+      isolated to a draw that runs once per screen per session.
+   5. Reduced motion wins, coherently. The final media block collapses every
+      entrance, exit and transition to nothing -- every keyframe rests at the
+      element's natural style, so that lands on exactly the static design --
+      and then re-declares the three "still working" indicators as opacity
+      pulses, because a frozen spinner tells the reader nothing.
    ========================================================================== */
 
 :root {
-  --t-fast: 120ms;  /* micro feedback: press, select, hover           */
-  --t-base: 200ms;  /* normal entrances: menus, feedback blocks       */
-  --t-slow: 300ms;  /* larger entrances: screens, modals, draw-ins    */
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);        /* in-place state shifts  */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);  /* things entering        */
-  --ease-pop: cubic-bezier(0.34, 1.4, 0.64, 1); /* the verdict mark only */
+  /* Duration. Each step has one job. Micro feedback at the bottom, the one
+     deliberately-slow thing (a meter drawing to its value) at the top, and
+     everything ordinary between --t-quick and --t-enter. */
+  --t-tap: 90ms;      /* press engage -- has to read as instant           */
+  --t-quick: 140ms;   /* hover tint, selection settle, popovers, release  */
+  --t-ui: 200ms;      /* ordinary UI: indicators, feedback blocks, steps  */
+  --t-enter: 240ms;   /* the largest entrances: a screen, a dialog        */
+  --t-exit: 120ms;    /* every dismissal, always shorter than its entry   */
+  --t-meter: 460ms;   /* progress bars and rings drawing to their value   */
+
+  /* Easing. Entering things decelerate into place; leaving things
+     accelerate away; a property changing in place (a tint, an indicator
+     sliding between two known points) uses the symmetric curve. Exactly one
+     curve overshoots, and exactly one thing is allowed to use it. */
+  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 0.9, 0.6);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-pop: cubic-bezier(0.3, 1.12, 0.6, 1);
+
+  /* Travel. Motion here is meant to be felt rather than watched: nothing
+     moves further than --travel-lg, and most things move --travel-sm. */
+  --travel-sm: 3px;   /* rows, in-place swaps, popovers, press feedback   */
+  --travel-md: 6px;   /* screens, feedback blocks, dialogs                */
+  --travel-lg: 10px;  /* the toast, the only thing that enters off-edge   */
 }
 
 /* ---------- Keyframes ----------
@@ -6565,66 +6695,84 @@ span.deadline-day {
   from { opacity: 0; }
 }
 @keyframes m-rise-in {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(var(--travel-md)); }
 }
-@keyframes m-drop-in {
-  from { opacity: 0; transform: translateY(-5px); }
-}
+/* In-place swaps (next question, next concept, a list row arriving): the
+   shortest travel in the system, because nothing about them is a new page. */
 @keyframes m-step-in {
-  from { opacity: 0; transform: translateY(6px); }
-}
-@keyframes m-scale-in {
-  from { opacity: 0; transform: translateY(6px) scale(0.975); }
+  from { opacity: 0; transform: translateY(var(--travel-sm)); }
 }
 @keyframes m-screen-in {
-  from { opacity: 0; transform: translateY(7px); }
+  from { opacity: 0; transform: translateY(var(--travel-md)); }
+}
+/* Popovers hang off their trigger, so they arrive from its edge and scale
+   from the corner nearest it (transform-origin is set per family below). */
+@keyframes m-pop-in {
+  from { opacity: 0; transform: translateY(calc(var(--travel-sm) * -1)) scale(0.985); }
+}
+/* A dialog is grounded, not flown in: it settles the last few pixels and the
+   last 2% of its size, and nothing else. */
+@keyframes m-dialog-in {
+  from { opacity: 0; transform: translateY(var(--travel-md)) scale(0.98); }
 }
 @keyframes m-toast-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(var(--travel-lg)); }
 }
-@keyframes m-toast-out {
-  to { opacity: 0; transform: translateY(10px); }
-}
-/* Exits (`to`-only, forwards fill): the old overlay fades while the swap
-   waits -- see dismissDelay in js/motion.js. */
+/* Exits (`to`-only, forwards fill): the old overlay plays one of these while
+   the state swap waits -- see dismissDelay in js/motion.js. They drop the
+   travel and keep only what reads at 120ms: opacity, and for a dialog a hint
+   of scale so it recedes rather than blinks. */
 @keyframes m-fade-out {
   to { opacity: 0; }
 }
-@keyframes m-scale-out {
-  to { opacity: 0; transform: translateY(4px) scale(0.98); }
+@keyframes m-dialog-out {
+  to { opacity: 0; transform: scale(0.985); }
 }
-@keyframes m-drop-out {
-  to { opacity: 0; transform: translateY(-4px); }
+@keyframes m-pop-out {
+  to { opacity: 0; transform: translateY(calc(var(--travel-sm) * -1)); }
 }
-/* One celebratory bump for the combo counter on a correct answer. */
+@keyframes m-toast-out {
+  to { opacity: 0; transform: translateY(var(--travel-md)); }
+}
+/* One acknowledgement bump for the combo counter on a correct answer. Small
+   enough to register as emphasis rather than as a jump -- this is a number
+   ticking over, not a trophy. */
 @keyframes m-bump {
-  35% { transform: scale(1.22); }
+  40% { transform: scale(1.08); }
 }
-/* The active-tab underline slides home from where the previous tab's
-   underline sat -- both offsets are measured by js/motion.js and passed in
-   as custom properties (a FLIP across two unrelated DOM nodes). */
+/* Selection indicators slide between two tabs: the freshly-rendered active
+   one starts transformed to where the old one sat (--m-dx/--m-sx, measured
+   by js/motion.js) and eases home. A FLIP across two unrelated DOM nodes. */
 @keyframes m-indicator-slide {
   from { transform: translateX(var(--m-dx, 0px)) scaleX(var(--m-sx, 1)); }
 }
+/* The verdict tick/cross landing on an answered option -- the one place in
+   the app allowed to overshoot, because a mark being stamped is the one
+   moment where physical arrival is the message. */
 @keyframes m-mark-in {
-  from { opacity: 0; transform: scale(0.4); }
+  from { opacity: 0; transform: scale(0.72); }
 }
 @keyframes m-settle {
-  from { transform: scale(0.97); }
+  from { transform: scale(0.975); }
 }
 @keyframes m-fill-pop {
-  from { transform: scale(0.92); }
+  from { transform: scale(0.94); }
 }
-/* A wrong answer's small sideways shake -- 3px at most, one round trip. */
+/* A wrong answer's knock: out, back past centre, and done. Four stops
+   instead of three so it lands rather than wobbles. */
 @keyframes m-nudge {
   0%, 100% { transform: translateX(0); }
-  30% { transform: translateX(-3px); }
+  25% { transform: translateX(-3px); }
   60% { transform: translateX(2px); }
+  85% { transform: translateX(-1px); }
 }
-/* Acknowledge a rewritten figure: a breath of accent tint that fades. */
-@keyframes m-flash {
-  0% { background-color: color-mix(in srgb, var(--color-accent) 10%, transparent); }
-  100% { background-color: transparent; }
+/* Acknowledge a rewritten figure. The tint rides a pseudo-element's opacity
+   rather than the card's own background-color, which the previous version
+   animated to `transparent` -- that briefly erased the real background of
+   every card it touched, then snapped it back when the animation ended. */
+@keyframes m-flash-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 @keyframes m-grow-x {
   from { transform: scaleX(0); }
@@ -6647,10 +6795,14 @@ span.deadline-day {
 }
 
 /* ---------- Micro-interactions ----------
-   Every interactive element resolves hover/press/state through the same two
-   beats: paint properties at --t-fast, elevation at --t-base. The hover
-   styles themselves are the ones each component already declares above --
-   this only makes them arrive smoothly instead of snapping. */
+   Three tiers, deliberately not one blanket. Tier 1 is every interactive
+   element in the app and transitions only what actually changes on
+   hover/press/busy -- colour and opacity. Tiers 2 and 3 add movement and
+   depth to the two families that earn them. The hover styles themselves are
+   the ones each component already declares further up this file; this only
+   makes them arrive smoothly instead of snapping. */
+
+/* Tier 1 -- paint. Colour is the signal every control shares. */
 a,
 .btn,
 .ds-btn,
@@ -6707,16 +6859,113 @@ button.deadline-day,
 .status-ring,
 .tag {
   transition:
-    background-color var(--t-fast) var(--ease),
-    border-color var(--t-fast) var(--ease),
-    color var(--t-fast) var(--ease),
-    opacity var(--t-base) var(--ease),
-    box-shadow var(--t-base) var(--ease),
-    transform var(--t-fast) var(--ease);
+    background-color var(--t-quick) var(--ease),
+    border-color var(--t-quick) var(--ease),
+    color var(--t-quick) var(--ease),
+    opacity var(--t-quick) var(--ease);
 }
 
-/* Press feedback: buttons dip a pixel, chip-like things compress slightly.
-   Works for touch too, where hover never fires. */
+/* Tier 2 -- press. Only the things a finger lands on, and each family gets
+   the feedback that suits its size (see the :active rules further down). */
+.btn,
+.ds-btn,
+.app-tab,
+.app-tabbar-item,
+.app-stats,
+.home-hero-pill,
+.home-course-switch,
+.home-explore-card,
+.module-row,
+.lesson-row,
+.lesson-search-row,
+.entry-row,
+.up-next-row,
+.revision-module-row,
+.settings-toggle-row,
+.course-menu-item,
+.path-group-card,
+.kind-card,
+.theme-card,
+.accent-chip,
+.face-row,
+.practice-tab,
+.mcq-option,
+.exercise-choice,
+.tarkeeb-chip,
+.tarkeeb-slot,
+.lit-chip,
+.lit-slot,
+.lit-book,
+.lit-chapter,
+.lit-continue,
+.lit-pager-btn,
+.plan-input,
+.reset-hour-trigger,
+.reset-hour-menu-item,
+button.deadline-day,
+.password-reveal {
+  transition-property: background-color, border-color, color, opacity, transform;
+  transition-duration: var(--t-quick);
+}
+
+/* Tier 3 -- depth. The card-like surfaces that lift, plus the two drop
+   targets whose drag-over state changes their shadow. Shadow is the slowest
+   of the three, because depth reads as a slower thing than colour. */
+.home-explore-card,
+.kind-card,
+.theme-card,
+.path-group-card,
+.lit-book,
+.lit-continue,
+.tarkeeb-slot,
+.lit-slot {
+  transition-property: background-color, border-color, color, opacity, transform, box-shadow;
+  transition-duration: var(--t-quick), var(--t-quick), var(--t-quick), var(--t-quick), var(--t-quick), var(--t-ui);
+}
+
+/* Press engages faster than it releases. Holding one duration in both
+   directions is what makes a control feel mushy: the dip has to land with
+   the finger, while the return can afford to be smooth.
+
+   Scoped to things that are actually controls, because :active matches the
+   whole ancestor chain of whatever is being pressed -- a bare `:active` rule
+   would hand every wrapper between <html> and the button a 90ms transition
+   on `all`, which is a pile of accidental animation waiting for the first
+   ancestor style that happens to change mid-press. */
+:where(a, button, [role='button'], [data-action]):active {
+  transition-duration: var(--t-tap);
+}
+
+/* ---------- Hover ----------
+   Guarded, because on a touch screen :hover latches on after a tap and stays
+   there until something else is tapped -- a card left hovering (lifted, with
+   a shadow) is the most common way a desktop hover style leaks onto a phone.
+   Everything that MOVES on hover lives in here; the per-component tint and
+   border hovers declared earlier in this file are harmless either way and
+   stay where they are.
+
+   :not(:active) rather than source order, so the press state below always
+   wins however the two blocks end up ordered. Before this, the lift was
+   declared after the press rule at equal specificity and silently ate it:
+   every card in the app had no press feedback at all on desktop. */
+@media (hover: hover) and (pointer: fine) {
+  .home-explore-card:hover:not(:active),
+  .kind-card:hover:not(:active),
+  .theme-card:hover:not(:active),
+  .path-group-card:hover:not(:active),
+  .lit-book:hover:not(:active),
+  .lit-continue:hover:not(:active) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ---------- Press ----------
+   Four families, four different acknowledgements, because a pill button and
+   a full-width row do not read the same way under the same 2px of movement.
+   All of them work on touch, where hover never fires at all. */
+
+/* Buttons and pills dip, the way a physical key does. */
 .btn:active:not(:disabled),
 .ds-btn:active:not(:disabled),
 .app-tab:active,
@@ -6731,21 +6980,37 @@ button.deadline-day,
 .password-reveal:active {
   transform: translateY(1px);
 }
+
+/* Chips and options compress -- small enough that the movement is felt at
+   the fingertip rather than watched. */
 .mcq-option:active:not(:disabled),
 .exercise-choice:active:not(:disabled),
 .tarkeeb-chip:active,
 .lit-chip:active:not(:disabled),
 .accent-chip:active,
 .reset-hour-menu-item:active,
-button.deadline-day:active,
-.course-menu-item:active,
+button.deadline-day:active {
+  transform: scale(0.97);
+}
+
+/* Cards give up their hover lift as they compress, so pressing one reads as
+   pushing it back down into the page rather than as a second, separate
+   animation layered on the lift. */
 .home-explore-card:active,
 .kind-card:active,
 .theme-card:active,
 .lit-book:active,
-.path-group-card:active {
+.path-group-card:active,
+.lit-continue:active {
   transform: scale(0.985);
+  box-shadow: var(--shadow-sm);
 }
+
+/* Full-width rows deepen instead of scaling. A row is wide enough that a
+   scale small enough to be tasteful is invisible, and one large enough to
+   see looks like the layout slipped -- so the row presses in by tint, which
+   is the property that actually changed, and lands on --accent-tint whether
+   its own hover was neutral or already tinted. */
 .module-row:active,
 .lesson-row:active:not(:disabled),
 .entry-row:active:not(:disabled),
@@ -6753,112 +7018,121 @@ button.deadline-day:active,
 .revision-module-row:active,
 .lesson-search-row:active,
 .lit-chapter:active,
-.lit-continue:active,
+.course-menu-item:active,
 .settings-toggle-row:active,
 .face-row:active {
-  transform: scale(0.995);
+  background-color: var(--accent-tint);
 }
 
-/* Card-like surfaces lift a hair on hover; rows keep their tint-only hover
-   (a full-width row that lifts reads as wobble, not depth). */
-.home-explore-card:hover,
-.kind-card:hover,
-.theme-card:hover,
-.path-group-card:hover,
-.lit-book:hover,
-.lit-continue:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+/* Drag source: the chip being dragged dims and shrinks a hair, so the tray
+   shows where it came from while the cursor carries its ghost. js/main.js
+   has always added this class on dragstart -- it just had no style to apply,
+   so leaving a chip gave no feedback from the tray at all. */
+.tarkeeb-chip.dragging,
+.lit-chip.dragging {
+  opacity: 0.4;
+  transform: scale(0.97);
 }
 
 /* The paper and ink grounds crossfade when the theme changes -- the one
    state change that survives a rerender, since <body> itself persists. */
 html,
 body {
-  transition: background-color var(--t-slow) var(--ease);
+  transition: background-color var(--t-enter) var(--ease);
 }
 
 /* ---------- Screen entrance ----------
    Added by js/motion.js only when the nav signature actually changed (plus
-   the very first paint), so same-screen rerenders never replay it. */
+   the very first paint), so same-screen rerenders never replay it.
+
+   One movement per navigation. The page carries the travel; its lists add a
+   short opacity-led settle on top and nothing more. The previous version ran
+   a full 300ms rise on the page AND a second full 300ms rise on every list
+   row behind delays reaching 190ms -- two compounding fades over half a
+   second, which is what made navigating feel like the app was catching up
+   with the click rather than answering it. */
 .screen-enter .main-content {
-  animation: m-screen-in var(--t-slow) var(--ease-out) backwards;
+  animation: m-screen-in var(--t-enter) var(--ease-out) backwards;
 }
-/* The primary lists cascade in gently behind the screen itself. Delays are
-   per-position with a cap, so a long list settles as one body rather than
-   rippling forever. */
 .screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > * {
-  animation: m-rise-in var(--t-slow) var(--ease-out) backwards;
-  animation-delay: 190ms;
+  animation: m-step-in var(--t-ui) var(--ease-out) backwards;
+  animation-delay: 88ms;
 }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(1) { animation-delay: 40ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(2) { animation-delay: 65ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(3) { animation-delay: 90ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(4) { animation-delay: 115ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(5) { animation-delay: 140ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(6) { animation-delay: 165ms; }
+.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(1) { animation-delay: 0ms; }
+.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(2) { animation-delay: 22ms; }
+.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(3) { animation-delay: 44ms; }
+.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(4) { animation-delay: 66ms; }
 
-/* Progress figures draw to their value once per screen visit. */
-.screen-enter :is(.progress-bar-fill, .home-rail-fill, .account-xp-fill, .today-tick-done, .complete-progress-fill) {
+/* Progress figures draw to their value -- gated on their own class, not on
+   screen-enter, because js/motion.js hands it out once per screen per
+   session. A ring that redraws itself every single time you glance at Home
+   stops meaning "this moved" and starts meaning "this is a decoration". */
+.screen-enter-meters :is(.progress-bar-fill, .home-rail-fill, .account-xp-fill, .today-tick-done, .complete-progress-fill) {
   transform-origin: 0 50%;
-  animation: m-grow-x 480ms var(--ease-out) 140ms backwards;
+  animation: m-grow-x var(--t-meter) var(--ease-out) 80ms backwards;
 }
-.screen-enter .ring-fill {
-  animation: m-ring-draw 640ms var(--ease-out) 160ms backwards;
-}
-
-/* Side rails arrive a beat behind the main column, so two-column screens
-   read as layered rather than stamped. */
-.screen-enter :is(.two-col-side, .module-rail, .home-rail) {
-  animation: m-rise-in var(--t-slow) var(--ease-out) 90ms backwards;
+.screen-enter-meters .ring-fill {
+  animation: m-ring-draw calc(var(--t-meter) + 100ms) var(--ease-out) 100ms backwards;
 }
 
-/* ---------- Overlay entrances (classes added by js/motion.js) ---------- */
+/* ---------- Overlay entrances (classes added by js/motion.js) ----------
+   Backdrop and dialog are deliberately not the same beat: the ground dims
+   fast, so the page is visibly behind something almost immediately, and the
+   dialog takes the extra 100ms to settle onto it. */
 .anim-overlay-in {
-  animation: m-fade-in var(--t-base) var(--ease) backwards;
+  animation: m-fade-in var(--t-quick) var(--ease-out) backwards;
 }
 .anim-overlay-in :is(.modal, .unlock-modal, .force-unlock-modal) {
-  animation: m-scale-in var(--t-slow) var(--ease-out) backwards;
+  animation: m-dialog-in var(--t-enter) var(--ease-out) backwards;
 }
+/* Popovers open from the edge they hang off, and quickly -- a menu that
+   takes as long as a dialog reads as a dialog. */
 .anim-drop-in {
-  animation: m-drop-in var(--t-base) var(--ease-out) backwards;
+  transform-origin: top center;
+  animation: m-pop-in var(--t-quick) var(--ease-out) backwards;
 }
 .anim-rise-in {
-  animation: m-rise-in var(--t-base) var(--ease-out) backwards;
+  animation: m-rise-in var(--t-ui) var(--ease-out) backwards;
 }
 .anim-step-in {
-  animation: m-step-in var(--t-base) var(--ease-out) backwards;
+  animation: m-step-in var(--t-ui) var(--ease-out) backwards;
 }
 .xp-toast.anim-toast-in {
-  animation: m-toast-in var(--t-slow) var(--ease-out) backwards;
+  animation: m-toast-in var(--t-ui) var(--ease-out) backwards;
 }
 .xp-toast.anim-toast-out {
-  animation: m-toast-out var(--t-base) var(--ease) forwards;
+  animation: m-toast-out var(--t-exit) var(--ease-in) forwards;
   pointer-events: none;
 }
 
 /* ---------- Overlay exits (classes added by js/motion.js) ----------
-   Pure-dismiss actions defer their rerender ~120ms while the old overlay --
-   still on screen -- plays one of these out. pointer-events dies with it so
-   nothing can be clicked mid-exit. */
+   Pure-dismiss actions defer their rerender while the old overlay -- still
+   on screen -- plays one of these out. Both are shorter than their entrance
+   and accelerate away, so dismissing never costs the user a wait; the JS
+   side keeps the matching numbers in one table (EXIT_MS in js/motion.js). */
 .anim-overlay-out {
-  animation: m-fade-out 130ms var(--ease) forwards;
+  animation: m-fade-out var(--t-exit) var(--ease-in) forwards;
   pointer-events: none;
 }
 .anim-overlay-out :is(.modal, .unlock-modal, .force-unlock-modal) {
-  animation: m-scale-out 130ms var(--ease) forwards;
+  animation: m-dialog-out var(--t-exit) var(--ease-in) forwards;
 }
 .anim-drop-out {
-  animation: m-drop-out 110ms var(--ease) forwards;
+  transform-origin: top center;
+  animation: m-pop-out 100ms var(--ease-in) forwards;
   pointer-events: none;
 }
 
-/* ---------- Active-tab underline slide ----------
-   The underline the active tab used to paint as its border moves onto a
-   ::after, so the indicator FLIP (js/motion.js) can transform it: on a tab
-   change the fresh underline starts translated/scaled to the old tab's
-   position (--m-dx/--m-sx) and eases home. Layout is unchanged -- the tab
-   keeps its transparent 2px border for spacing. */
+/* ---------- Selection indicators ----------
+   Every "which one is selected" control in the app moves its indicator from
+   the old choice to the new one instead of extinguishing one and lighting
+   another. js/motion.js measures the outgoing indicator before the swap and
+   hands the incoming one --m-dx/--m-sx to ease home from (INDICATORS there);
+   the three families below are the three it knows about. */
+
+/* Desktop top tabs: the underline the active tab used to paint as its border
+   moves onto a ::after so it can be transformed. Layout is unchanged -- the
+   tab keeps its transparent 2px border for spacing. */
 .app-tab {
   position: relative;
 }
@@ -6875,66 +7149,128 @@ body {
   background: var(--color-accent);
   transform-origin: 0 50%;
 }
-.app-tab-active.anim-indicator-slide::after {
-  animation: m-indicator-slide var(--t-base) var(--ease-out);
+
+/* Segmented pills (Practice, Schedule, the path's direction picker). The
+   active fill and ring move onto a ::before sized to the button's border box,
+   so the pill itself can stay put while the selection slides between them.
+   At rest this paints exactly where the border and background it replaces
+   did; the pills are flex: 1 siblings, so the slide is a pure translate. */
+.practice-tab {
+  position: relative;
+}
+.practice-tab.active {
+  border-color: transparent;
+  background: transparent;
+}
+.practice-tab.active::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent-tint);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+  transform-origin: 0 50%;
+}
+
+/* The shared slide. One keyframe, one duration, three families. */
+.app-tab-active.anim-indicator-slide::after,
+.practice-tab.active.anim-indicator-slide::before,
+.app-tabbar-item-active.anim-indicator-slide::after {
+  animation: m-indicator-slide var(--t-ui) var(--ease-out);
+}
+
+/* Phone tab bar. The desktop tabs carry an underline; the phone's primary
+   navigation carried nothing but a colour change -- the weakest signal in
+   the app, on the control used most. Same 2px accent mark, sat on the bar's
+   top rule, sliding between destinations exactly as the desktop one does. */
+@media (max-width: 900px) {
+  .app-tabbar-item {
+    position: relative;
+  }
+  .app-tabbar-item-active::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    margin-left: -8px;
+    background: var(--color-accent);
+    transform-origin: 50% 50%;
+  }
 }
 
 /* ---------- Action feedback (classes added by js/motion.js) ---------- */
 
-/* The just-graded question only: the verdict mark pops, a wrong pick gives
-   one small sideways shake, تركيب slots settle into their verdict. Scoped to
-   .anim-verdict so the many ALREADY-answered exercises further up a lesson
-   page hold perfectly still. */
+/* The just-graded question only: the verdict mark lands, a wrong pick takes
+   one knock, تركيب slots settle into their verdict. Scoped to .anim-verdict
+   so the many ALREADY-answered exercises further up a lesson page hold
+   perfectly still. */
 .anim-verdict :is(.mcq-option, .exercise-choice).correct::before,
 .anim-verdict :is(.mcq-option, .exercise-choice).incorrect::before {
-  animation: m-mark-in var(--t-base) var(--ease-pop) backwards;
+  animation: m-mark-in var(--t-ui) var(--ease-pop) backwards;
 }
 .anim-verdict :is(.mcq-option, .exercise-choice, .tarkeeb-slot, .lit-slot, .lit-chip).incorrect {
-  animation: m-nudge var(--t-slow) var(--ease);
+  animation: m-nudge var(--t-ui) var(--ease);
 }
 .anim-verdict :is(.tarkeeb-slot, .lit-slot).correct {
-  animation: m-fill-pop var(--t-base) var(--ease-out);
+  animation: m-fill-pop var(--t-ui) var(--ease-out);
 }
+/* The verdict tag is a few words on one line: it appears, and it does not
+   need to travel to say so. */
 .anim-verdict .action-row .tag {
-  animation: m-rise-in var(--t-base) var(--ease-out) backwards;
+  animation: m-fade-in var(--t-ui) var(--ease-out) backwards;
 }
 
-/* The thing just picked (a theme card, a segmented tab, an armed chip)
-   settles under the pointer; a slot that just took a chip pops very
-   slightly fuller. */
+/* The thing just picked (a theme card, an armed chip) settles under the
+   pointer; a slot that just took a chip pops very slightly fuller. */
 .anim-select {
-  animation: m-settle var(--t-fast) var(--ease-out);
+  animation: m-settle var(--t-quick) var(--ease-out);
 }
 .anim-fill {
-  animation: m-fill-pop var(--t-base) var(--ease-out);
+  animation: m-fill-pop var(--t-ui) var(--ease-out);
 }
 
-/* The desktop tab row's feedback is the underline slide alone -- the settle
-   the phone tab bar and wordmark get would read as text wobble here. */
-.app-tab.anim-select {
+/* Controls whose selection already moves an indicator take the slide as
+   their whole feedback -- settling the tab as well would be two answers to
+   one click, and on a text label it reads as wobble. */
+.app-tab.anim-select,
+.practice-tab.anim-select,
+.app-tabbar-item.anim-select {
   animation: none;
 }
 
-/* Session rewards: the combo counter bumps once on a correct answer, and
+/* Session rewards: the combo counter acknowledges a correct answer once, and
    the progress tick just banked grows into the strip. */
 .anim-bump {
-  animation: m-bump 320ms var(--ease);
+  animation: m-bump var(--t-ui) var(--ease-out);
 }
 .anim-tick-in {
   transform-origin: 0 50%;
-  animation: m-grow-x 260ms var(--ease-out);
+  animation: m-grow-x var(--t-ui) var(--ease-out);
 }
 
-/* A rewritten schedule: the figures the new deadline changed breathe accent
-   for a beat. */
+/* A rewritten schedule: the figures the new deadline changed take one breath
+   of accent. The tint is an overlay fading out, so the card keeps its own
+   background throughout and the whole thing stays on the compositor. */
 .anim-flash :is(.today-card, .ledger-inline) {
-  animation: m-flash 700ms var(--ease);
+  position: relative;
+}
+.anim-flash :is(.today-card, .ledger-inline)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--accent-tint-strong);
+  animation: m-flash-out 420ms var(--ease-out) forwards;
 }
 
 /* ---------- Busy state ----------
    Added by the dispatcher the moment an async action starts (course switch,
-   chapter load, sync). The spinner holds invisible for its first ~180ms so
-   an instant resolution never flashes it. */
+   chapter load, sync). The spinner holds invisible for its first beat, so an
+   instant resolution never flashes it. */
 [data-action].is-busy {
   position: relative;
   opacity: 0.7;
@@ -6953,7 +7289,7 @@ body {
   border-top-color: transparent;
   animation:
     m-spin 650ms linear infinite,
-    m-fade-in 150ms var(--ease) 180ms backwards;
+    m-fade-in var(--t-quick) var(--ease) 180ms backwards;
 }
 
 /* ---------- Cloud-sync status dot (accountHtml) ---------- */
@@ -6968,6 +7304,7 @@ body {
   height: 7px;
   border-radius: 50%;
   background: var(--color-neutral-400);
+  transition: background-color var(--t-quick) var(--ease);
 }
 .account-sync-flag.is-on .sync-dot {
   background: var(--color-accent);
@@ -7000,7 +7337,7 @@ body {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  animation: m-rise-in 480ms var(--ease-out) backwards;
+  animation: m-rise-in 400ms var(--ease-out) backwards;
 }
 .boot-name {
   font-family: var(--font-heading);
@@ -7030,9 +7367,21 @@ body {
 }
 
 /* ---------- Reduced motion ----------
+   Two halves, and the second half is the point.
+
    Every keyframe above rests at the element's natural style and every
    transition merely smooths a state the component already declares, so
-   zeroing them all reproduces the static design exactly. */
+   zeroing them reproduces the static design exactly. That is the first half,
+   and on its own it is where most codebases stop.
+
+   It is also not enough: the three animations that are not decoration but
+   the only evidence that something is happening -- the busy spinner, the
+   sync dot, the boot bar -- would be zeroed along with everything else,
+   leaving a frozen ring, a dead dot and an empty rule. They are re-declared
+   here as opacity pulses: no rotation, no travel, nothing that tracks across
+   the visual field, which is what prefers-reduced-motion actually asks for.
+   (Each needs its duration and iteration count restated, because the
+   !important declarations above win over the shorthand otherwise.) */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -7042,5 +7391,26 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
+  }
+
+  [data-action].is-busy::after {
+    border-top-color: currentColor;
+    animation-name: m-pulse !important;
+    animation-duration: 1.2s !important;
+    animation-timing-function: var(--ease) !important;
+    animation-iteration-count: infinite !important;
+  }
+  .account-sync-flag.is-working .sync-dot {
+    animation-name: m-pulse !important;
+    animation-duration: 1.6s !important;
+    animation-timing-function: var(--ease) !important;
+    animation-iteration-count: infinite !important;
+  }
+  .boot-rule-sweep {
+    width: 100%;
+    animation-name: m-pulse !important;
+    animation-duration: 1.4s !important;
+    animation-timing-function: var(--ease) !important;
+    animation-iteration-count: infinite !important;
   }
 }
