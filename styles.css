@@ -903,6 +903,13 @@ bdi,
 .main:focus {
   outline: none;
 }
+/* Same reasoning for the concept heading: focus lands on it programmatically
+   when the lesson pages to another concept (see rerender in js/main.js), so
+   the change is announced -- it is never a target the learner tabs to, and a
+   ring around a heading reads as a rendering fault. */
+.concept-block h3:focus {
+  outline: none;
+}
 .main-content {
   flex: 1;
   overflow-y: auto;

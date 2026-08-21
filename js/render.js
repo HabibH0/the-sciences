@@ -1573,7 +1573,7 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
   return `
     <div class="concept-block" data-concept-index="${i}">
       <div class="card-kicker">Concept ${i + 1} of ${lesson.concepts.length}</div>
-      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}"${headingRtl ? ' lang="ar" dir="rtl"' : ''}>${esc(concept.heading)}</h3>
+      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}"${headingRtl ? ' lang="ar" dir="rtl"' : ''} tabindex="-1">${esc(concept.heading)}</h3>
       <div class="concept-body">${lines}</div>
       ${conceptClarificationHtml(concept.clarification, clKey, revealedKeys, isFirstConcept)}
       ${tail}

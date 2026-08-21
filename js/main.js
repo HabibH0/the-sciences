@@ -329,6 +329,38 @@ function navSignature() {
 let lastNav = null;
 const scrollPositions = new Map();
 
+// --- Scroll intent (audit NAV-001) ----------------------------------------
+// scrollPositions above exists for LISTS: leave the Library, come back, and
+// the shelf is where you left it. Fresh instructional content is the
+// opposite case -- a lesson, a quiz, or the completion screen should open at
+// its heading no matter what position an earlier visit left behind, because
+// "midway through concept 2" is never where new reading starts. These views
+// therefore never restore a remembered position; entering one always lands
+// at the top. (Resuming a part-done lesson still resumes the right CONCEPT
+// -- that's conceptsToRender's job -- it just shows that concept from its
+// heading rather than from a stale offset.)
+const FRESH_SCROLL_VIEWS = new Set(['lesson', 'quiz', 'lessonComplete']);
+
+// The lesson page shows one concept at a time, but paging between concepts
+// does not change navSignature() -- same view, same lesson -- so without
+// this the same-screen rerender path preserved the previous concept's
+// scroll offset and the next concept opened midway through its content
+// (the exact NAV-001 repro: Concept 2 arriving at ~209px). This derives
+// "which concept is actually on screen" the same way lessonHtml does, so a
+// change in it can be treated as new content: scroll to the top, and move
+// focus to the incoming concept's heading so the change is announced.
+function displayedConceptSignature() {
+  if (state.view !== 'lesson' || !state.moduleId || !state.lessonId) return null;
+  const lesson = getLesson(state.moduleId, state.lessonId);
+  if (!lesson) return null;
+  const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+  const index = state.conceptIndex == null
+    ? shown - 1
+    : Math.max(0, Math.min(state.conceptIndex, shown - 1));
+  return `${state.moduleId}|${state.lessonId}|${index}`;
+}
+let lastConceptSig = null;
+
 
 // The same idea, one level down: these four lists each carry their own
 // internal scroll (see .module-list/.lit-shelves/.lit-chapter-list/
@@ -695,10 +727,22 @@ function rerender(focusSelector) {
   rememberContainerScrollPositions();
   lastNav = nav;
 
+  // Concept paging is a content change the nav signature can't see -- see
+  // displayedConceptSignature. Only meaningful on a SAME-screen rerender:
+  // a cross-screen entry into a lesson is already handled by
+  // FRESH_SCROLL_VIEWS below.
+  const conceptSig = displayedConceptSignature();
+  const conceptChanged = !changedScreen && conceptSig !== null
+    && lastConceptSig !== null && conceptSig !== lastConceptSig;
+  lastConceptSig = conceptSig;
+
   const html = render(state, MODULES);
+  // Scroll by navigation intent (audit NAV-001): fresh content starts at
+  // its top, a revisited list restores its position, and an ordinary
+  // same-screen update keeps the live offset.
   const nextScrollTop = changedScreen
-    ? (scrollPositions.get(nav) || 0)
-    : (scrollContainer?.scrollTop || 0);
+    ? (FRESH_SCROLL_VIEWS.has(state.view) ? 0 : (scrollPositions.get(nav) || 0))
+    : (conceptChanged ? 0 : (scrollContainer?.scrollTop || 0));
 
   // What the OUTGOING DOM shows that motion cares about: which overlays
   // (modals, menus, the toast...) are up -- so an overlay animates in only
@@ -722,7 +766,22 @@ function rerender(focusSelector) {
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
-  if (focusSelector) {
+  if (conceptChanged) {
+    // The concept the learner is now reading changed under a same-screen
+    // rerender (Next/Back paging, or a passed exercise unlocking the next
+    // concept). The scroller was just reset to the concept's top, so focus
+    // its heading with preventScroll -- the new concept is announced without
+    // a second scroll jump (audit NAV-001), and it wins over refocusing
+    // whatever control was pressed, which no longer names where the learner
+    // is.
+    const heading = root.querySelector('.concept-block h3');
+    if (heading) {
+      heading.focus({ preventScroll: true });
+    } else {
+      const main = root.querySelector('.main');
+      if (main) main.focus({ preventScroll: true });
+    }
+  } else if (focusSelector) {
     const toFocus = root.querySelector(focusSelector);
     if (toFocus) toFocus.focus();
   } else if (changedScreen) {
