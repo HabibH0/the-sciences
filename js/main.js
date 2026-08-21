@@ -3120,6 +3120,22 @@ const actions = {
     state.lit = null;
     state.view = state.litBookId ? 'litBook' : 'library';
   },
+  // The chapter-complete screen's "Next chapter" (see litCompleteHtml in
+  // js/render.js). Leaves the finished chapter first, so the preview modal
+  // that follows sits over the book's contents list exactly as it does when
+  // a chapter is opened from a row there -- same modal, same two choices,
+  // just without the trip back and the hunt for the right row.
+  nextLitChapter(el) {
+    const book = getLitBook(state.litBookId);
+    const chapterId = el.dataset.chapterId;
+    const index = book ? book.chapters.findIndex((c) => c.id === chapterId) : -1;
+    if (index === -1) return false;
+    // Defense in depth, same reasoning as openLitChapterPreview above.
+    if (!isChapterUnlocked(book, index, state.litProgress, state.forceUnlockAll)) return false;
+    state.lit = null;
+    state.view = 'litBook';
+    state.litChapterPreviewId = chapterId;
+  },
   // Loads every chapter of the book (memoized by loadChapter, so this only
   // ever pays the cost once per book per session -- see content-lit/
   // index.js) to scan for eligible sentences carrying an unknown word.

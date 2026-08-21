@@ -707,6 +707,15 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
       </button>`;
   }).join('');
 
+  // "Which module was that lesson in again?" -- a course runs to 138 lessons
+  // across 30 modules, so finding one already seen otherwise means scrolling
+  // the whole list and opening modules to check. The search itself
+  // (searchLessons/searchOpenLesson in js/main.js, lessonSearchResultsHtml
+  // below, .home-search in styles.css, and the .lesson-search-results
+  // entrance in js/motion.js) already existed on every side but this one --
+  // the input was lost in the redesign, which left the feature reachable by
+  // nothing at all.
+  const query = (state.lessonSearchQuery || '').trim();
   return `
     <div class="home-page">
       ${homeHeroHtml(state, MODULES)}
@@ -722,7 +731,12 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
             <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
           </div>
           ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
-          <div class="module-list noscroll">${rows}</div>
+          <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
+            placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
+            autocomplete="off" aria-label="Search lessons in this course">
+          ${query
+            ? lessonSearchResultsHtml(MODULES, state, query)
+            : `<div class="module-list noscroll">${rows}</div>`}
         </section>
         <aside class="home-rail">
           ${summary ? `
@@ -906,7 +920,41 @@ function modulePageHtml(state, MODULES) {
         </div>
       </aside>
     </div>
+    ${modulePagerHtml(state, MODULES, mod)}
     </div>`;
+}
+
+// Sideways movement between modules, so finishing one does not mean a trip
+// back to Home to find the one after it. A locked neighbour is shown but
+// inert rather than hidden -- "there is a next module and it is not open
+// yet" is more use than an empty space, and it reuses the same lock
+// affordance the module list itself already carries.
+function modulePagerHtml(state, MODULES, mod) {
+  const i = MODULES.indexOf(mod);
+  const prev = i > 0 ? MODULES[i - 1] : null;
+  const next = i >= 0 && i + 1 < MODULES.length ? MODULES[i + 1] : null;
+  if (!prev && !next) return '';
+  const side = (m, dir) => {
+    if (!m) return '<span class="module-pager-slot"></span>';
+    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
+    const arrow = dir === 'prev' ? icon('arrowLeft', 14, 2) : icon('arrowRight', 14, 2);
+    const body = `
+      <span class="module-pager-body">
+        <span class="module-pager-label">${dir === 'prev' ? 'Previous module' : 'Next module'}</span>
+        <span class="module-pager-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+      </span>`;
+    const mark = unlocked ? arrow : icon('lock', 13, 2);
+    const inner = dir === 'prev' ? `${mark}${body}` : `${body}${mark}`;
+    const cls = `module-pager-slot module-pager-btn module-pager-${dir}${unlocked ? '' : ' is-locked'}`;
+    return unlocked
+      ? `<button class="${cls}" data-action="openModule" data-module-id="${escAttr(m.id)}">${inner}</button>`
+      : `<span class="${cls}">${inner}</span>`;
+  };
+  return `
+    <nav class="module-pager" aria-label="Nearby modules">
+      ${side(prev, 'prev')}
+      ${side(next, 'next')}
+    </nav>`;
 }
 
 // --- "Start lesson" modal ------------------------------------------------
@@ -1788,13 +1836,28 @@ function lessonCompleteHtml(state, MODULES) {
           ${nextLesson.subtitle ? `<p class="up-next-body">${escBidi(nextLesson.subtitle)}</p>` : ''}
           <button class="btn btn-primary btn-block" data-action="startLesson" data-lesson-id="${escAttr(nextLesson.id)}">Start next lesson</button>
         </div>`
-      : `
+      : (() => {
+        // Finishing a module used to end here, with Practice as the only
+        // offer and the module after it reachable solely by going back to
+        // Home and finding it in the list. Name it instead -- it is the one
+        // thing a learner who has just cleared a module is most likely to
+        // want next.
+        const nextMod = MODULES[MODULES.indexOf(mod) + 1];
+        const nextOpen = nextMod
+          && isModuleUnlocked(nextMod.id, state.completed, state.unlockedModules, state.forceUnlockAll);
+        return `
         <div class="up-next">
-          <div class="kicker">Module finished</div>
-          <span class="up-next-title" lang="ar" dir="rtl">${esc(mod.title)}</span>
-          <p class="up-next-body">Every lesson in this module is done — drill it to keep it sharp.</p>
-          <button class="btn btn-primary btn-block" data-action="openPractice">Practice this module</button>
+          <div class="kicker">${nextOpen ? 'Next module' : 'Module finished'}</div>
+          <span class="up-next-title" lang="ar" dir="rtl">${esc(nextOpen ? nextMod.title : mod.title)}</span>
+          <p class="up-next-body">${nextOpen
+            ? `Every lesson in <bdi lang="ar" dir="rtl">${esc(mod.title)}</bdi> is done.`
+            : 'Every lesson in this module is done — drill it to keep it sharp.'}</p>
+          ${nextOpen
+            ? `<button class="btn btn-primary btn-block" data-action="openModule" data-module-id="${escAttr(nextMod.id)}">Open the next module</button>
+               <button class="btn btn-secondary btn-block" style="margin-top:10px;" data-action="openPractice">Practice this module</button>`
+            : '<button class="btn btn-primary btn-block" data-action="openPractice">Practice this module</button>'}
         </div>`;
+      })();
 
   return `
     <div class="complete-page">
@@ -4569,6 +4632,20 @@ function litCompleteHtml(state, chapter) {
   const lit = state.lit;
   const words = unknownWordsInChapter(chapter, state.litUnknown, lit.bookId);
   const pct = lit.total ? Math.round((lit.correct / lit.total) * 100) : 0;
+  // Finishing a chapter unlocks the next one, but said so nowhere: the only
+  // way on was back to the book and down the contents list to the row under
+  // the one just cleared. Offered here instead, and it opens the same
+  // Free-read/Practice modal a contents row does, so the choice of how to
+  // read it is not taken away by the shortcut.
+  const book = getLitBook(lit.bookId);
+  const chIndex = book ? book.chapters.findIndex((c) => c.id === chapter.id) : -1;
+  const nextCh = book && chIndex >= 0 ? book.chapters[chIndex + 1] : null;
+  const nextOpen = nextCh && isChapterUnlocked(book, chIndex + 1, state.litProgress, state.forceUnlockAll);
+  const nextChapterHtml = nextOpen
+    ? `<button class="btn btn-primary btn-block lit-complete-next" data-action="nextLitChapter" data-chapter-id="${escAttr(nextCh.id)}">
+         Next chapter · <bdi lang="ar" dir="rtl">${esc(nextCh.title.ar)}</bdi>
+       </button>`
+    : '';
   return `
     <section class="lit-complete plate">
       ${heroBadgeHtml('تمّت القراءة')}
@@ -4582,8 +4659,9 @@ function litCompleteHtml(state, chapter) {
       ${words.length ? `
         <p class="lit-complete-note">Still marked as unknown — they will keep coming back in this book’s later chapters:</p>
         <div class="lit-unknown-list">${words.map((w) => `<span class="lit-unknown-chip is-static"><bdi lang="ar">${esc(w.surface)}</bdi><span class="lit-unknown-gloss">${escBidi(w.gloss || '')}</span></span>`).join('')}</div>` : ''}
+      ${nextChapterHtml}
       <div class="action-row">
-        <button class="btn btn-primary" data-action="exitLitChapter">Back to the book</button>
+        <button class="btn ${nextChapterHtml ? 'btn-secondary' : 'btn-primary'}" data-action="exitLitChapter">Back to the book</button>
         <button class="btn btn-secondary" data-action="rereadLitChapter">Read it again</button>
       </div>
     </section>`;
