@@ -7448,8 +7448,10 @@ span.deadline-day {
 @keyframes m-step-in {
   from { opacity: 0; transform: translateY(var(--travel-sm)); }
 }
+/* A page arriving moves; it does not fade. See the Screen entrance section
+   below for why an opacity ramp at this scale reads as a flash. */
 @keyframes m-screen-in {
-  from { opacity: 0; transform: translateY(var(--travel-md)); }
+  from { transform: translateY(var(--travel-sm)); }
 }
 /* Popovers hang off their trigger, so they arrive from its edge and scale
    from the corner nearest it (transform-origin is set per family below). */
@@ -7796,23 +7798,28 @@ body {
    Added by js/motion.js only when the nav signature actually changed (plus
    the very first paint), so same-screen rerenders never replay it.
 
-   One movement per navigation. The page carries the travel; its lists add a
-   short opacity-led settle on top and nothing more. The previous version ran
-   a full 300ms rise on the page AND a second full 300ms rise on every list
-   row behind delays reaching 190ms -- two compounding fades over half a
-   second, which is what made navigating feel like the app was catching up
-   with the click rather than answering it. */
+   Exactly one movement per navigation: the page settles the last few pixels
+   into place, and nothing on it changes opacity. Two earlier versions of
+   this got both halves wrong, and both were visible on screen:
+
+   - Fading .main-content ramps every pixel in the content area up from the
+     page ground at once. A quarter of the way through it is a washed-out
+     sheet, and because the ground is light, the eye reads that as a white
+     flash on every single navigation rather than as a fade. Travel alone
+     says "this is new" without ever making the page translucent.
+   - Staggering the list children on top of it fades each card in behind a
+     delay. That reads fine as a demo on a short vertical list and badly on
+     what this app actually renders: the Library's shelves are a three-column
+     grid, so a delay past the fourth child leaves eight visible holes in a
+     laid-out page for the length of the stagger. The screen arrives looking
+     half-loaded, which is a worse lie than the flash was.
+
+   So the lists are no longer animated at all, and the page moves --travel-sm
+   and no further. The indicator sliding to the new tab is what carries the
+   continuity; this just keeps the content from arriving on a hard cut. */
 .screen-enter .main-content {
-  animation: m-screen-in var(--t-enter) var(--ease-out) backwards;
+  animation: m-screen-in var(--t-ui) var(--ease-out) backwards;
 }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > * {
-  animation: m-step-in var(--t-ui) var(--ease-out) backwards;
-  animation-delay: 88ms;
-}
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(1) { animation-delay: 0ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(2) { animation-delay: 22ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(3) { animation-delay: 44ms; }
-.screen-enter :is(.module-list, .lesson-list, .up-next-list, .revision-module-list, .lit-chapter-list, .lit-shelf-grid) > :nth-child(4) { animation-delay: 66ms; }
 
 /* Progress figures draw to their value -- gated on their own class, not on
    screen-enter, because js/motion.js hands it out once per screen per
