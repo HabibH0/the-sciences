@@ -2463,10 +2463,20 @@ bdi,
   background: var(--color-accent-700);
 }
 
+/* One question per screen, with the action pinned to the foot so it is
+   always in the same place. That left the question itself stranded at the
+   top of the space: four short options on a 900px window put roughly 600px
+   of nothing between the last option and the button. The block now centres
+   in whatever room it has -- `safe` so a long question with its verdict
+   still starts at the top and scrolls, rather than having its opening lines
+   pushed out of the scroll container. */
 .quiz-body {
   flex: 1;
   overflow: auto;
-  padding: 20px 22px;
+  padding: var(--space-5) var(--space-5);
+  display: grid;
+  align-content: safe center;
+  gap: 0;
 }
 .quiz-kicker {
   font-family: var(--font-ar);
@@ -2553,8 +2563,23 @@ bdi,
 }
 
 .quiz-foot {
-  padding: 14px 22px 20px;
+  padding: var(--space-4) var(--space-5) var(--space-5);
   border-top: 1px solid var(--color-divider);
+  /* Reserves the button's height, so the foot does not grow the moment an
+     answer is picked and shunt the options down mid-read. */
+  min-height: calc(var(--control-h) + var(--space-4) + var(--space-5));
+  display: flex;
+  align-items: center;
+}
+.quiz-foot > .btn {
+  flex: 1;
+}
+.quiz-foot-hint {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
 }
 
 
@@ -5547,6 +5572,49 @@ button.concept-dot {
   min-width: 22ch;
 }
 
+/* ---------- Phone: the lesson's two action bars ----------
+   Both put a control and its explanation on one line, which is right at
+   desktop widths and wrong at 390px, where the two share about 170px each
+   and the sentence breaks into four ragged lines beside a squeezed button.
+   On a phone the explanation goes above and the action spans the column --
+   the finger wants the whole width anyway.
+
+   Controls also take --tap-min here. 34px is a comfortable pointer target
+   and a poor thumb one, and these are the two buttons the reader presses
+   most often in the app. */
+@media (max-width: 640px) {
+  .concept-gate {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .concept-gate-btn {
+    width: 100%;
+    min-height: var(--tap-min);
+  }
+  .concept-gate-note {
+    min-width: 0;
+  }
+  .lesson-foot {
+    gap: var(--space-2);
+  }
+  .lesson-foot-hint {
+    /* Above both buttons rather than wedged between them. */
+    order: -1;
+    flex-basis: 100%;
+    text-align: left;
+  }
+  .lesson-foot-end {
+    flex: 1;
+  }
+  .lesson-foot .btn {
+    min-height: var(--tap-min);
+  }
+  .lesson-foot-end .btn {
+    flex: 1;
+  }
+}
+
 
 /* ---------- Schedule: today, up next, revision, plan ----------
    One page, not a tab switcher: the day's target first, then what the target
@@ -7203,6 +7271,34 @@ span.deadline-day {
 .lit-shelves::-webkit-scrollbar-track,
 .lit-chapter-list::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* ---------- Phone: touch targets ----------
+   --control-h is 34px, which is a comfortable pointer target and a poor
+   thumb one. Below 640px the standing controls take the platform floor
+   instead. Scoped to controls that are genuinely tapped on their own: rows
+   and cards are already far taller than this, and raising every button
+   everywhere would inflate dense strips (the pager, the practice tabs)
+   rather than help them. */
+@media (max-width: 640px) {
+  .btn,
+  .ds-btn,
+  .plan-input,
+  .reset-hour-trigger,
+  input:not([type='range']),
+  select,
+  .password-reveal {
+    min-height: var(--tap-min);
+  }
+  .btn-sm {
+    min-height: var(--control-h);
+  }
+  /* Small icon-only controls need width as well as height to be findable. */
+  .password-reveal,
+  .back-chevron,
+  .app-back {
+    min-width: var(--tap-min);
+  }
 }
 
 /* ---------- Phone: lists flow with the page ----------

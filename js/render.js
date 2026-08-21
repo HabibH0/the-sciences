@@ -1754,8 +1754,8 @@ function quizHtml(state, MODULES) {
         <button class="back-chevron" data-action="backToLesson" aria-label="Back to the lesson" title="Back to the lesson">${icon('cross', 18, 2)}</button>
         <div class="quiz-crumb"><bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} · Question ${qi + 1} of ${lesson.quiz.length}</div>
         <div class="quiz-combo">
-          <span title="Answer streak">${icon('flame', 13, 2)}${liveStreak}</span>
-          <span title="Session XP">${icon('star', 13, 2)}${liveXp}</span>
+          <span aria-label="Answer streak: ${liveStreak}">${icon('flame', 13, 2)}<span aria-hidden="true">${liveStreak}</span></span>
+          <span aria-label="Session XP: ${liveXp}">${icon('star', 13, 2)}<span aria-hidden="true">${liveXp}</span></span>
         </div>
       </div>
       <div class="quiz-ticks">${ticks}</div>
@@ -1765,7 +1765,13 @@ function quizHtml(state, MODULES) {
         ${feedback}
       </div>
       <div class="quiz-foot">
-        <button class="btn btn-primary btn-block" data-action="nextQuizQuestion" ${revealed ? '' : 'disabled'}>${qi + 1 < lesson.quiz.length ? 'Next question' : 'See results'}</button>
+        ${revealed
+          ? `<button class="btn btn-primary btn-block" data-action="nextQuizQuestion">${qi + 1 < lesson.quiz.length ? 'Next question' : 'See results'}</button>`
+          // Before an answer is picked, the button is dead and says nothing
+          // about why. The instruction goes in its place rather than beneath
+          // a disabled control -- there is only one thing to do on this
+          // screen, so the foot should be saying it.
+          : '<p class="quiz-foot-hint">Pick an answer to see whether it is right.</p>'}
       </div>
     </div>`;
 }
