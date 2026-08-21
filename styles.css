@@ -235,10 +235,19 @@
 
   --tracking-caps: 0.09em; /* the only letter-spacing this design uses */
 
-  /* The comfortable measure for running English prose at --text-md. Lesson
-     and reader columns cap to this so a wide window lengthens the margins
-     rather than the line. */
-  --measure-prose: 68ch;
+  /* The comfortable measure for running English prose. Stated in `ch` so it
+     tracks the text size, but note the number looks smaller than the line it
+     produces: `ch` is the width of "0", and Lora's zero (9.33px at 15px) is
+     half again as wide as its average lowercase character (6.79px). 58ch
+     therefore sets about 80 real characters -- and the ratio holds at every
+     size in this face, so the same token gives the same measure to a 15px
+     lesson paragraph and a 12px page description.
+
+     Worth stating why it is needed: the lesson column ran 756px of justified
+     15px Lora, which is 111 characters a line. Past roughly 90 the eye
+     starts losing its place on the return sweep, and justification with no
+     hyphenation opens rivers to get there. */
+  --measure-prose: 58ch;
 
   /* ---------- Control sizing ----------
      One height for every control that sits on a line with another control,
@@ -1893,6 +1902,11 @@ bdi,
   font-weight: var(--font-heading-weight);
   font-size: 23px;
   color: var(--color-text);
+  /* An Arabic heading carries dir="rtl" so its own text orders correctly,
+     but it is titling an English column and belongs on that column's edge
+     -- without this, `start` resolves to the right and the heading strands
+     itself 700px from the paragraph it introduces. */
+  text-align: left;
   line-height: 1.25;
   margin: 0;
 }
@@ -1900,19 +1914,43 @@ bdi,
 .concept-block h3[lang='ar'] {
   font-family: var(--font-ar-heading);
 }
+/* The concept column is a two-track grid: running prose sits in the first
+   track, capped at the reading measure, and anything that is structured
+   rather than read -- a table, a تركيب diagram -- spans both and keeps the
+   full 820px column the handoff specifies. Prose and boxes therefore share
+   one left edge and one right edge, while a wide table is still free to be
+   wide, with no negative margins holding it together.
+
+   The cap exists because this column ran 111 characters a line. Hyphenation
+   goes with it: the text is justified, and justifying a narrower measure
+   without hyphens is what turns word gaps into rivers. */
+.concept-body {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure-prose)) minmax(0, 1fr);
+}
+.concept-body > * {
+  grid-column: 1;
+  min-width: 0;
+}
+.concept-body > .concept-table-wrap,
+.concept-body > .tarkeeb-diagram,
+.concept-body > .tarkeeb-wrap {
+  grid-column: 1 / -1;
+}
 .concept-body,
 .concept-line {
   font-size: calc(15px * var(--lesson-text-scale));
-  line-height: 1.75;
+  line-height: var(--leading-prose);
   color: var(--color-text);
   margin: 0;
   text-align: justify;
+  hyphens: auto;
 }
 .concept-list {
   margin: 0;
-  padding-left: 20px;
+  padding-left: var(--space-5);
   font-size: calc(15px * var(--lesson-text-scale));
-  line-height: 1.75;
+  line-height: var(--leading-prose);
 }
 .concept-list li {
   margin-bottom: 6px;
@@ -2038,17 +2076,25 @@ bdi,
 .exercise-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-3);
 }
+/* .exercise-left/.exercise-right are gone from the concept exercise card --
+   they were a two-column split that never had two columns (the container
+   has always been flex-column), and all they did was guarantee the Check
+   button painted above the options it checks. Kept as no-ops in case
+   another screen still emits them. */
 .exercise-left,
 .exercise-right {
   min-width: 0;
 }
 .action-row {
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
   align-items: center;
   flex-wrap: wrap;
+}
+.action-row:empty {
+  display: none;
 }
 
 /* End-of-lesson summary table. */
@@ -5089,15 +5135,56 @@ button.concept-dot {
   height: 9px;
   background: var(--color-accent-700);
 }
+/* The lesson's paging bar. It used to be two buttons at flex:1 each -- a
+   half-width "Back" and a half-width "Next" of equal visual weight, with a
+   third full-width button ("Show exercise") stacked above them. Three
+   full-width controls, none of them marked as the one to press, on the
+   screen the whole app is built around.
+
+   Now: Back is a quiet ghost at its own width on the left, forward is the
+   one primary on the right, and when forward is gated the reason sits
+   beside it rather than leaving a disabled button to explain itself. */
 .lesson-foot {
   display: flex;
-  gap: 10px;
-  padding: 14px 0 20px;
-  margin-top: 22px;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-4) 0 var(--space-5);
+  margin-top: var(--space-6);
   border-top: 1px solid var(--color-divider);
 }
-.lesson-foot .btn {
+.lesson-foot-back {
+  padding-left: var(--space-3);
+}
+.lesson-foot-end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.lesson-foot-hint {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
+  text-align: right;
+}
+
+/* The gate between one concept and the next -- the action that actually
+   moves the lesson on, so it takes the primary and says where it leads. */
+.concept-gate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-1);
+}
+.concept-gate-btn {
+  flex: none;
+}
+.concept-gate-note {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
   flex: 1;
+  min-width: 22ch;
 }
 
 
@@ -6829,6 +6916,11 @@ span.deadline-day {
 @keyframes m-ring-draw {
   from { stroke-dashoffset: 138.2; }
 }
+/* The three looping indicators below are the only animations in this file
+   whose numbers are NOT drawn from the duration scale, and deliberately so:
+   a loop's period is a frequency, not a transition -- it describes how often
+   something repeats rather than how long a state change takes, and pinning
+   it to --t-ui would say nothing true about either. */
 @keyframes m-spin {
   to { transform: rotate(1turn); }
 }
@@ -7317,7 +7409,7 @@ body {
   pointer-events: none;
   border-radius: inherit;
   background: var(--accent-tint-strong);
-  animation: m-flash-out 420ms var(--ease-out) forwards;
+  animation: m-flash-out var(--t-meter) var(--ease-out) forwards;
 }
 
 /* ---------- Busy state ----------
@@ -7390,7 +7482,7 @@ body {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  animation: m-rise-in 400ms var(--ease-out) backwards;
+  animation: m-rise-in var(--t-enter) var(--ease-out) backwards;
 }
 .boot-name {
   font-family: var(--font-heading);

@@ -1411,8 +1411,18 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
 
   let tail = '';
   if (concept.exercise && stage < 1) {
+    // This is the lesson's real primary action -- until it is cleared, the
+    // concept after this one stays shut (conceptsToRender) and the footer's
+    // Next is disabled. It used to be a .btn-outline sitting between two
+    // equally weighted footer buttons, so the screen offered three
+    // full-width buttons and marked none of them as the one to press. It is
+    // now the primary, and says what pressing it leads to.
     const btnKey = `ex_btn_${mod.id}_${lesson.id}_${i}`;
-    tail = `<button class="${revealCls(btnKey, 'btn btn-outline', revealedKeys)}" data-action="revealExercise" data-index="${i}">Show exercise</button>`;
+    tail = `
+      <div class="${revealCls(btnKey, 'concept-gate', revealedKeys)}">
+        <button class="btn btn-primary concept-gate-btn" data-action="revealExercise" data-index="${i}">Show the exercise</button>
+        <span class="concept-gate-note">One question on what you have just read — clearing it opens the next concept.</span>
+      </div>`;
   } else if (concept.exercise) {
     const ex = concept.exercise;
     const submitted = !!exState.submitted;
@@ -1421,42 +1431,52 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
     const feedback = submitted
       ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
       : '';
+    // Order matters here and used to be wrong: .exercise-content is a
+    // flex column, so .exercise-left (prompt + Check) always painted above
+    // .exercise-right (the options). The reader met a disabled "Check"
+    // before being shown anything to check -- and the end-of-lesson
+    // exercise card, which is the same control, already read
+    // prompt -> options -> verdict. The two now agree.
     tail = `
     <div class="${revealCls(exCardKey, 'card exercise-card', revealedKeys)}">
-      <div class="card-kicker">EXERCISE</div>
+      <div class="card-kicker">Exercise</div>
       <div class="exercise-content">
-        <div class="exercise-left">
-          <p class="${revealCls(`${exCardKey}_prompt`, 'exercise-prompt', revealedKeys)}">${escBidi(ex.prompt)}</p>
-          ${feedback}
-          <div class="action-row">
-            ${!submitted ? checkButton('checkConceptExercise', exState.selected !== undefined && exState.selected !== null, `data-index="${i}"`) : ''}
-            ${passed
-              ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Correct</span>`
-              : submitted ? `<button class="btn btn-ghost" data-action="retryConceptExercise" data-index="${i}">Try again</button>` : ''}
-          </div>
-        </div>
-        <div class="exercise-right">
-          ${renderExerciseChoices({
-            options: ex.options,
-            correct: ex.correct,
-            selected: exState.selected,
-            submitted,
-            actionName: 'selectConceptOption',
-            extraData: `data-index="${i}"`,
-            order: state.optionOrder[key],
-            prefix: exCardKey,
-            revealedKeys,
-          })}
+        <p class="${revealCls(`${exCardKey}_prompt`, 'exercise-prompt', revealedKeys)}">${escBidi(ex.prompt)}</p>
+        ${renderExerciseChoices({
+          options: ex.options,
+          correct: ex.correct,
+          selected: exState.selected,
+          submitted,
+          actionName: 'selectConceptOption',
+          extraData: `data-index="${i}"`,
+          order: state.optionOrder[key],
+          prefix: exCardKey,
+          revealedKeys,
+        })}
+        ${feedback}
+        <div class="action-row">
+          ${!submitted ? checkButton('checkConceptExercise', exState.selected !== undefined && exState.selected !== null, `data-index="${i}"`) : ''}
+          ${passed
+            ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Correct</span>`
+            : submitted ? `<button class="btn btn-secondary" data-action="retryConceptExercise" data-index="${i}">Try again</button>` : ''}
         </div>
       </div>
       ${cornerBracketsHtml()}
     </div>`;
   }
 
+  // Concept headings are Arabic grammar terms, but the <h3> carried no lang,
+  // so the h*[lang='ar'] rule that hands headings the Arabic face never
+  // matched and every one of them fell through Cormorant (which has no
+  // Arabic glyphs at all) to whatever system font the browser had -- the
+  // exact failure the base stylesheet warns about, on the app's most-read
+  // screen. boxLineDir already resolves this from the text's own first
+  // strong character, so an English heading still sets LTR in the body face.
+  const headingRtl = boxLineDir(concept.heading) === 'rtl';
   return `
     <div class="concept-block" data-concept-index="${i}">
-      <div class="card-kicker">// CONCEPT ${i + 1}</div>
-      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}">${esc(concept.heading)}</h3>
+      <div class="card-kicker">Concept ${i + 1} of ${lesson.concepts.length}</div>
+      <h3 class="${revealCls(`${cbKey}_h3`, '', revealedKeys, isFirstConcept)}"${headingRtl ? ' lang="ar" dir="rtl"' : ''}>${esc(concept.heading)}</h3>
       <div class="concept-body">${lines}</div>
       ${conceptClarificationHtml(concept.clarification, clKey, revealedKeys, isFirstConcept)}
       ${tail}
@@ -1508,7 +1528,23 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const canAdvance = index < shown - 1;
   const forward = isLast
     ? `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
-    : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next</button>`;
+    : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next concept</button>`;
+
+  // A disabled forward button on its own is a dead end: the reader can see
+  // they cannot go on but not why, and the exercise that is holding them is
+  // above the fold by the time the footer is in view. So whenever forward is
+  // gated, the footer says what would open it -- and the gate is always one
+  // of exactly two things, since a concept with no exercise passes
+  // automatically (see isConceptExercisePassed) and the quiz additionally
+  // waits on the lesson's own trailing exercise (isLessonReadyForQuiz).
+  const forwardBlocked = isLast ? !quizUnlocked : !canAdvance;
+  let footHint = '';
+  if (forwardBlocked) {
+    const thisConceptPending = !isConceptExercisePassed(lesson, index, state.exStates, mod.id, lesson.id);
+    footHint = isLast && !thisConceptPending
+      ? 'Answer the practice below to open the quiz.'
+      : 'Answer the exercise above to carry on.';
+  }
 
   return `
     <div class="lesson-page">
@@ -1525,8 +1561,11 @@ function lessonHtml(state, MODULES, revealedKeys) {
         ${tail}
       </div>
       <div class="lesson-foot">
-        <button class="btn btn-secondary" data-action="prevConcept" ${index === 0 ? 'disabled' : ''}>Back</button>
-        ${forward}
+        <button class="btn btn-ghost lesson-foot-back" data-action="prevConcept" ${index === 0 ? 'disabled' : ''}>${icon('arrowLeft', 14, 2)} Back</button>
+        <div class="lesson-foot-end">
+          ${footHint ? `<span class="lesson-foot-hint">${esc(footHint)}</span>` : ''}
+          ${forward}
+        </div>
       </div>
     </div>`;
 }
