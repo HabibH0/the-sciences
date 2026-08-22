@@ -6951,6 +6951,72 @@ span.deadline-day {
   margin-bottom: 14px;
 }
 
+/* ---------- Deep-screen "Go to" sections menu (audit NAV-002) ----------
+   Phone-only escape hatch on the screens whose immersive layout drops the
+   tab bar (module, lesson, quiz, volume, reader): a compact trigger at the
+   end of the screen's own header row, opening a small anchored panel of
+   the four primary destinations. Desktop never shows it -- these screens
+   keep the full tab row in the top bar there. */
+.sections-menu-anchor {
+  position: relative;
+  display: inline-flex;
+  margin-left: auto;
+  flex: none;
+}
+.sections-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-neutral-600);
+  cursor: pointer;
+}
+.sections-menu-trigger:hover,
+.sections-menu-trigger[aria-expanded='true'] {
+  color: var(--color-text);
+  background: var(--color-neutral-100);
+}
+.sections-menu-trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+.sections-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 168px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.sections-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--text-base);
+  border-bottom: 1px solid var(--color-divider);
+}
+.sections-menu-item:last-child {
+  border-bottom: 0;
+}
+.sections-menu-item:hover {
+  background: var(--color-neutral-100);
+}
+.sections-menu-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
 /* Previous/next module, at the foot of a module page. Same hairline-rule
    idiom as the reader's paragraph pager: a rule above, the two neighbours
    pushed to opposite edges, the locked one present but inert. */
@@ -7619,8 +7685,21 @@ span.deadline-day {
   /* Small icon-only controls need width as well as height to be findable. */
   .password-reveal,
   .back-chevron,
-  .app-back {
+  .app-back,
+  .sections-menu-trigger,
+  .lit-search-clear {
     min-width: var(--tap-min);
+  }
+  .sections-menu-trigger,
+  .lit-search-clear {
+    min-height: var(--tap-min);
+  }
+  /* The grown clear target needs the field to reserve its full width. */
+  .lit-search-clear {
+    right: 0;
+  }
+  .lit-search-wrap .home-search {
+    padding-right: 48px;
   }
 }
 

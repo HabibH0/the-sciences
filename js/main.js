@@ -725,6 +725,10 @@ function rerender(focusSelector) {
   const scrollContainer = mainScrollContainer();
   const nav = navSignature();
   const changedScreen = nav !== previousNav;
+  // A screen change closes the deep-screen sections menu (audit NAV-002):
+  // it belongs to the screen that opened it, and the actions its items
+  // dispatch don't know it exists.
+  if (changedScreen) state.sectionsMenuOpen = false;
   rememberScrollPosition(previousNav, scrollContainer);
   rememberContainerScrollPositions();
   lastNav = nav;
@@ -1787,6 +1791,14 @@ const actions = {
   // that drops out of the "Your modules" heading.
   toggleCourseMenu() {
     state.courseMenuOpen = !state.courseMenuOpen;
+  },
+  // The deep-screen "Go to" sections menu (audit NAV-002; see
+  // sectionsMenuHtml in js/render.js). Closed by the same outside-click and
+  // Escape wiring the course menu has, and cleared on every screen change
+  // by rerender itself, so it can never arrive already-open on a screen
+  // revisited later.
+  toggleSectionsMenu() {
+    state.sectionsMenuOpen = !state.sectionsMenuOpen;
   },
   // Home's course menu (see courseMenuHtml in js/render.js). Picking a
   // course always enters its own dashboard/module list, even when that
@@ -3735,6 +3747,15 @@ document.addEventListener('click', (e) => {
   rerender();
 });
 
+// Same dismissal for the deep-screen sections menu (audit NAV-002) -- a
+// popout without a backdrop needs the page around it to close it.
+document.addEventListener('click', (e) => {
+  if (!state.sectionsMenuOpen) return;
+  if (e.target.closest('.sections-menu, [data-action="toggleSectionsMenu"]')) return;
+  state.sectionsMenuOpen = false;
+  rerender();
+});
+
 document.addEventListener('keydown', (e) => {
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
@@ -3772,7 +3793,11 @@ document.addEventListener('keydown', (e) => {
     if (exitMs) setTimeout(() => rerender(focusSel), exitMs);
     else rerender(focusSel);
   };
-  if (state.courseMenuOpen) {
+  if (state.sectionsMenuOpen) {
+    // Same depth and reasoning as the course menu just below.
+    state.sectionsMenuOpen = false;
+    rerender('[data-action="toggleSectionsMenu"]');
+  } else if (state.courseMenuOpen) {
     // Shallower than any modal, and never open at the same time as one --
     // a course menu click either closes it or leaves Home entirely.
     state.courseMenuOpen = false;

@@ -37,6 +37,10 @@ export async function createInitialState() {
     lessonPos: boot.lessonPos || {},
     // Transient: the lesson whose "Start lesson" modal is open. Not persisted.
     lessonPreviewId: null,
+    // Transient: whether the deep-screen "Go to" sections menu is open (see
+    // sectionsMenuHtml in js/render.js, audit NAV-002). Not persisted;
+    // cleared on every screen change (see rerender in js/main.js).
+    sectionsMenuOpen: false,
     // Transient: the dashboard's lesson-title/subtitle search box (see
     // searchLessons in js/main.js). Not persisted -- always reopens empty,
     // same treatment as scheduleTab/practiceSetupOpen. Cleared whenever the

@@ -60,6 +60,7 @@ import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
 const ICON_PATHS = {
   book: '<path d="M2 5c2.2-1.3 5-2 8-2s5.8.7 8 2v14c-2.2-1.3-5-2-8-2s-5.8.7-8 2z"/><path d="M12 3v16"/>',
+  grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
   flame: '<path d="M12 2c1 3-2 4-2 7a4 4 0 1 0 8 0c0-1-.5-2-1-2 .3 2-1 3-2 2 1-2-1-3-1-5 0-1 .3-2-2-2z"/>',
   lock: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   archive: '<path d="M4 4h5a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-5a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h5z"/>',
@@ -243,7 +244,35 @@ function navBackRowHtml(state, extraCls = '') {
     <div class="module-backrow${extraCls ? ` ${extraCls}` : ''}">
       ${backLink(`Back to ${back.label}`, back.action, dataAttrs(back.extra))}
       <span class="app-crumb">${esc(back.crumb)}</span>
+      ${sectionsMenuHtml(state)}
     </div>`;
+}
+
+// A compact "Go to" menu for the deep screens whose immersive layout drops
+// the tab bar on phones (audit NAV-002): module, lesson, quiz, volume and
+// reader pages otherwise cost several Back steps just to check Schedule or
+// a setting. Two actions reach any primary section from any depth: open
+// this, pick a destination. Every item dispatches the same guarded section
+// action the tabs use, so a live attempt still gets its leave-session
+// prompt rather than being discarded by an accidental tap -- and each item
+// is a real link, exactly as the tabs are. Phone-only: desktop keeps the
+// full tab row in the top bar on these screens already.
+function sectionsMenuHtml(state) {
+  if (SHELL_TAB_VIEWS.has(state.view)) return '';
+  const open = !!state.sectionsMenuOpen;
+  return `
+    <span class="sections-menu-anchor only-phone">
+      <button class="sections-menu-trigger" data-action="toggleSectionsMenu"
+        aria-haspopup="true" aria-expanded="${open ? 'true' : 'false'}"
+        aria-label="Go to another section" title="Go to another section">${icon('grid', 18, 1.8)}</button>
+      ${open ? `
+        <nav class="sections-menu" aria-label="Sections">
+          ${shellTabs(state).map((t) => `
+            <a class="sections-menu-item" href="${escAttr(t.href)}" data-action="${t.action}">
+              ${icon(t.icon, 16, 2)}<span>${esc(t.label)}</span>
+            </a>`).join('')}
+        </nav>` : ''}
+    </span>`;
 }
 
 // The primary destinations, shared by the desktop tab row and the phone tab
@@ -1662,6 +1691,7 @@ function lessonHtml(state, MODULES, revealedKeys) {
           <h1 class="lesson-head-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
         </div>
         <div class="concept-dots">${dots}</div>
+        ${sectionsMenuHtml(state)}
       </div>
       <div class="lesson-body">
         ${block}
@@ -1799,6 +1829,7 @@ function quizHtml(state, MODULES) {
           <span aria-label="Answer streak: ${liveStreak}">${icon('flame', 13, 2)}<span aria-hidden="true">${liveStreak}</span></span>
           <span aria-label="Session XP: ${liveXp}">${icon('star', 13, 2)}<span aria-hidden="true">${liveXp}</span></span>
         </div>
+        ${sectionsMenuHtml(state)}
       </div>
       <div class="quiz-ticks">${ticks}</div>
       <div class="quiz-body">
@@ -4954,6 +4985,7 @@ function litReadHtml(state) {
           <h1 class="lit-reader-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h1>
           <span class="lit-reader-en">${escBidi(chapter.title.en)}</span>
         </div>
+        ${sectionsMenuHtml(state)}
         ${lit.freeRead ? '' : `${litRailHtml(state)}${progressBar(pct)}`}
       </div>
       <div class="lit-reader-body">
@@ -5050,6 +5082,7 @@ function litWordPracticeHtml(state) {
           <h1 class="lit-reader-title" lang="ar" dir="rtl">${book ? esc(book.title.ar) : ''}</h1>
           <span class="lit-reader-en">Practice weak words</span>
         </div>
+        ${sectionsMenuHtml(state)}
         ${progressBar(pct)}
       </div>
       <div class="lit-reader-body" style="grid-template-columns:minmax(0,1fr);">
