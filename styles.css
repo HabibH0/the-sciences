@@ -4872,15 +4872,29 @@ bdi,
   color: var(--color-neutral-500);
 }
 
+/* The per-sentence English gloss reveals directly beneath its own clause,
+   in normal flow -- never detached at a shared lane elsewhere on the page,
+   which put a translation many lines away from the clause it belonged to
+   and read as mismatched, especially on a long paragraph. `display:block`
+   on this otherwise-inline span forces the browser to split `.lit-sentence`
+   around it (the standard "block in inline" case), landing it on its own
+   line right after the clause's words; the paragraph reflows to make room
+   -- later sentences shift down while it's open. See the reveal states
+   (is-open/focus-within/hover) in the Reader repairs section below. */
 .lit-gloss {
-  margin: 12px 22px 0;
-  padding: 9px 12px;
-  border-left: 2px solid var(--color-accent);
-  background: var(--color-neutral-100);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 0 solid var(--color-divider);
   font-size: var(--text-sm);
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--color-neutral-700);
+  text-align: left;
+  transition: max-height var(--t-ui) var(--ease), opacity var(--t-quick) var(--ease),
+    margin var(--t-ui) var(--ease), border-width var(--t-ui) var(--ease);
 }
 /* The whole-paragraph translation (the gutter's EN toggle). It renders as a
    flex child of .lit-para, and without a forced wrap it sat BESIDE the
@@ -8050,68 +8064,31 @@ span.deadline-day {
   border-bottom: 1px dashed var(--color-accent);
 }
 
-/* The per-sentence English gloss lives in a reserved lane at the paragraph's
-   foot — absolutely positioned so revealing it can never reflow the Arabic.
-   Shown while its sentence is hovered or focused, or pinned via its ◦
-   button; invisible otherwise. Without these rules every sentence's English
-   rendered inline and shredded the paragraph into word-soup. */
 .lit-para {
   position: relative;
-  padding-bottom: 40px;
   /* Lets .lit-para-full take its own row below the Arabic -- see its rule. */
   flex-wrap: wrap;
 }
-/* The 40px lane fits a one-line gloss; a pinned sentence's translation can
-   run three or four lines on a phone and, being absolutely positioned, it
-   grew UPWARD over the paragraph's last Arabic line. While a gloss is
-   pinned open, the paragraph reserves a real multi-line lane instead. */
-.lit-para:has(.lit-sentence.is-open) {
-  padding-bottom: 100px;
-}
-@media (min-width: 641px) {
-  .lit-para:has(.lit-sentence.is-open) {
-    padding-bottom: 64px;
-  }
-}
-.lit-gloss {
-  position: absolute;
-  left: 48px;
-  right: 22px;
-  bottom: 8px;
-  margin: 0;
-  padding: 4px 0 0;
-  border: 0;
-  border-top: 1px solid var(--color-divider);
-  background: transparent;
-  border-radius: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--color-neutral-700);
-  opacity: 0;
-  pointer-events: none;
-}
+/* Reveal states for the in-flow gloss declared with .lit-para-text above:
+   pinned via the ⌗ button, a keyboard user tabbed onto the clause, or (on
+   a pointer) simply hovering it. A generous max-height cap (well past any
+   real translation's height) is what lets the collapse/expand transition
+   read as smooth growth rather than a snap -- transitioning to `auto`
+   directly is not animatable. Independent per sentence: nothing suppresses
+   a second one, since each now reflows its own local space and there is no
+   shared lane left to collide over. */
 .lit-sentence.is-open .lit-gloss,
-.lit-sentence:focus-within .lit-gloss {
-  opacity: 1;
-}
+.lit-sentence:focus-within .lit-gloss,
 .lit-reader:not(.no-hover-translate) .lit-sentence:hover .lit-gloss {
+  max-height: 200px;
   opacity: 1;
+  margin: 6px 0 10px;
+  padding-top: 4px;
+  border-top-width: 1px;
 }
 .lit-gloss-btn.is-on,
 .lit-sentence.is-open .lit-gloss-btn {
   color: var(--color-accent);
-}
-/* The gloss lane is shared by every sentence in the paragraph, so exactly
-   one gloss may claim it at a time: a pinned sentence silences the others,
-   and a keyboard-focused sentence silences a merely hovered one. Without
-   this, pinning one phrase and hovering another painted both translations
-   on top of each other. */
-.lit-para:has(.lit-sentence.is-open) .lit-sentence:not(.is-open) .lit-gloss {
-  opacity: 0;
-}
-.lit-para:has(.lit-sentence:focus-within) .lit-sentence:not(:focus-within):not(.is-open) .lit-gloss {
-  opacity: 0;
 }
 
 /* Desktop streak calendar: the mockup's cells are compact — cap the grid so
