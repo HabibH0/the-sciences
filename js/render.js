@@ -4250,10 +4250,15 @@ function litShelfHeadingHtml(series) {
 // Diacritic-insensitive matching for the Library search (audit NAV-004):
 // every title on the shelf is fully vocalised, but nobody types harakat
 // into a search box -- so both sides are stripped of harakat/tatweel and
-// have their alif/yaa/taa-marbuta variants folded before comparing.
+// have their alif/yaa/taa-marbuta variants folded before comparing. The
+// English titles carry transliteration marks for the same reason ("Qaṣaṣ",
+// "ar-Rāshidah"), so Latin combining marks and the ʾ/ʿ hamza letters are
+// folded too -- "qasas" and "rashidah" must match what nobody can type.
 function normalizeLitSearchText(s) {
   return String(s || '')
     .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯʰ-˿]/g, '')
     .replace(/[ً-ْٰـ]/g, '')
     .replace(/[أإآٱ]/g, 'ا')
     .replace(/ى/g, 'ي')
