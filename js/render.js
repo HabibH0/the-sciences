@@ -361,7 +361,16 @@ function progressBar(pct) {
 // different products. `lede` and `actions` are inserted raw so callers can
 // pass escBidi'd copy and real buttons; `title`/`ar` are escaped here.
 function pageHeaderHtml({ title, ar = '', lede = '', actions = '', tools = '' }) {
+  // The .context-bar is the phone's condensing sticky bar (audit UI-006):
+  // zero-height until the full header scrolls out of the viewport, then its
+  // inner strip fades in at the top of the scroller carrying the page's
+  // name -- so a long page never loses its identity. Shown/hidden by the
+  // scroll listener in js/main.js; aria-hidden because it only restates the
+  // <h1> below it.
   return `
+    <div class="context-bar" aria-hidden="true">
+      <div class="context-bar-inner"><span class="context-bar-title">${esc(title)}</span></div>
+    </div>
     <header class="page-header">
       <div class="page-title-row">
         <h1 class="page-title">${esc(title)}</h1>
@@ -880,6 +889,7 @@ function lessonSearchResultsHtml(MODULES, state, query) {
           <span class="lesson-search-row-body">
             <span class="lesson-search-row-title" lang="ar" dir="rtl">${esc(l.title)}</span>
             <span class="lesson-search-row-sub">${escBidi(l.subtitle || '')}</span>
+            ${m.blurb ? `<span class="lesson-search-row-outcome only-desktop">${escBidi(firstSentence(m.blurb))}</span>` : ''}
           </span>
           <span class="lesson-search-row-module" lang="ar" dir="rtl">${esc(m.title)}</span>
         </button>`).join('')}
@@ -987,6 +997,7 @@ function modulePageHtml(state, MODULES) {
         <div class="lesson-list">${rows}</div>
 
         ${done > 0 ? `<button class="module-reset" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">Reset this module's progress</button>` : ''}
+        ${modulePagerHtml(state, MODULES, mod)}
       </section>
 
       <aside class="module-rail">
@@ -999,7 +1010,6 @@ function modulePageHtml(state, MODULES) {
         </div>
       </aside>
     </div>
-    ${modulePagerHtml(state, MODULES, mod)}
     </div>`;
 }
 

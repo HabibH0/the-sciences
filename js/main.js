@@ -680,6 +680,26 @@ function updateCoverBlurbToggle() {
 // animation's transform) so it always keeps a small gutter inside the
 // viewport. Serves both the Home and Schedule instances, which share the
 // .course-menu panel.
+// The phone's condensing context bar (audit UI-006): pageHeaderHtml renders
+// a zero-height sticky bar whose inner strip appears once the real page
+// header has scrolled out of the viewport, so long pages keep their name.
+// Driven from scroll (capture: true, since scroll doesn't bubble and the
+// container is rebuilt every render) and re-checked after each rerender so
+// a restored scroll position starts in the right state.
+function updateContextBar() {
+  const bar = root.querySelector('.context-bar');
+  if (!bar) return;
+  const container = mainScrollContainer();
+  const header = root.querySelector('.page-header');
+  if (!container || !header) return;
+  const containerTop = container.getBoundingClientRect().top;
+  bar.classList.toggle('is-shown', header.getBoundingClientRect().bottom < containerTop + 6);
+}
+
+document.addEventListener('scroll', (e) => {
+  if (e.target && e.target.classList && e.target.classList.contains('main-content')) updateContextBar();
+}, true);
+
 function positionCourseMenu() {
   if (!state.courseMenuOpen) return;
   const panel = root.querySelector('.course-menu');
@@ -867,6 +887,7 @@ function rerender(focusSelector) {
   positionSchedulePopovers();
   positionCourseMenu();
   updateCoverBlurbToggle();
+  updateContextBar();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (conceptChanged) {
     // The concept the learner is now reading changed under a same-screen
@@ -4104,6 +4125,16 @@ document.addEventListener('keydown', (e) => {
     const menuExitMs = dismissOpenPopover(root, '.course-menu');
     if (menuExitMs) setTimeout(() => rerender('[data-action="toggleCourseMenu"]'), menuExitMs);
     else rerender('[data-action="toggleCourseMenu"]');
+  } else if (state.practiceSetupOpen) {
+    // The Practice Mode setup panel closes on Escape like every other
+    // transient surface (the audit's one leftover keyboard path, MOT-003):
+    // same measured-height collapse its own close control plays, focus
+    // handed back to the Practice Mode row that opened it.
+    state.practiceSetupOpen = false;
+    const setupExitMs = dismissDelay(root, 'closePracticeSetup');
+    const setupFocus = '.entry-row[data-action="openPractice"]';
+    if (setupExitMs) setTimeout(() => rerender(setupFocus), setupExitMs);
+    else rerender(setupFocus);
   } else if (state.deadlinePickerOpen) {
     // The Schedule popovers close like any other transient surface (audit
     // UI-002): the same matched drop-out the course menu plays, with focus

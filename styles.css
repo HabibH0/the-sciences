@@ -5392,6 +5392,17 @@ bdi,
   color: var(--color-accent-700);
   flex: none;
 }
+/* The owning module's learning-outcome line, same language the dashboard
+   rows carry (UI-005) -- so a search hit says what its module teaches. */
+.lesson-search-row-outcome {
+  display: block;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* ---------- Literature: names the CSS above did not cover ---------- */
 
@@ -8207,7 +8218,8 @@ span.deadline-day {
    without one, which is the look the design asked for. */
 .module-list,
 .lit-shelves,
-.lit-chapter-list {
+.lit-chapter-list,
+.module-page .lesson-list {
   scrollbar-width: thin;
   scrollbar-color: var(--color-neutral-300) transparent;
 
@@ -8231,14 +8243,16 @@ span.deadline-day {
 }
 .module-list::-webkit-scrollbar,
 .lit-shelves::-webkit-scrollbar,
-.lit-chapter-list::-webkit-scrollbar {
+.lit-chapter-list::-webkit-scrollbar,
+.module-page .lesson-list::-webkit-scrollbar {
   display: block;
   width: 8px;
   height: 8px;
 }
 .module-list::-webkit-scrollbar-thumb,
 .lit-shelves::-webkit-scrollbar-thumb,
-.lit-chapter-list::-webkit-scrollbar-thumb {
+.lit-chapter-list::-webkit-scrollbar-thumb,
+.module-page .lesson-list::-webkit-scrollbar-thumb {
   background: var(--color-neutral-300);
   border-radius: var(--radius-pill);
   /* Inset from the track so the thumb reads as a hairline rule rather than
@@ -8248,13 +8262,15 @@ span.deadline-day {
 }
 .module-list:hover::-webkit-scrollbar-thumb,
 .lit-shelves:hover::-webkit-scrollbar-thumb,
-.lit-chapter-list:hover::-webkit-scrollbar-thumb {
+.lit-chapter-list:hover::-webkit-scrollbar-thumb,
+.module-page .lesson-list:hover::-webkit-scrollbar-thumb {
   background: var(--color-neutral-400);
   background-clip: content-box;
 }
 .module-list::-webkit-scrollbar-track,
 .lit-shelves::-webkit-scrollbar-track,
-.lit-chapter-list::-webkit-scrollbar-track {
+.lit-chapter-list::-webkit-scrollbar-track,
+.module-page .lesson-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -8336,6 +8352,149 @@ span.deadline-day {
     min-height: auto;
     max-height: none;
     overflow: visible;
+  }
+}
+
+/* ==========================================================================
+   Stable shell & scroll boundaries (audit UI-006 / UI-003)
+   Desktop: every major screen keeps its identity (hero/cover or page
+   header) in view while its primary collection scrolls below a clear
+   boundary. Phone: the one-page scroll stays (the internal-scroller idiom
+   collapses on iOS Safari -- see the phone list reset above), and context
+   instead comes from a condensing sticky bar / sticky back row.
+   ========================================================================== */
+
+/* --- Phone: condensing context bar (rendered by pageHeaderHtml) --------- */
+/* Zero height, so it never shifts layout; the inner strip overlays the top
+   of the scroller only once the real header has scrolled away (toggled by
+   updateContextBar in js/main.js). */
+.context-bar {
+  display: none;
+}
+@media (max-width: 900px) {
+  .context-bar {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    height: 0;
+    margin: 0 -22px;
+  }
+  .context-bar-inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 22px;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider);
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity var(--t-quick) var(--ease), transform var(--t-quick) var(--ease);
+  }
+  .context-bar.is-shown .context-bar-inner {
+    opacity: 1;
+    transform: none;
+  }
+  .context-bar-title {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: var(--text-lg);
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* --- Phone: the back row is the deep screens' compact context ----------- */
+/* Module, book, achievements and settings pages all lead with the back
+   chevron + where-you-are crumb; pinning it keeps orientation and the way
+   out in reach on their long bodies. */
+@media (max-width: 900px) {
+  .module-backrow {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    margin-left: -22px;
+    margin-right: -22px;
+    padding: 8px 22px;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider);
+  }
+}
+
+/* --- Desktop: the module page joins the Home/Library scroll model ------- */
+/* The cover, Practice row and section head stay put; the lesson list is
+   the one scrolling collection, filling the leftover viewport height with
+   the same bounded-pane affordances the other lists carry. The pager and
+   reset link sit statically beneath it. */
+@media (min-width: 901px) {
+  .module-page-wrap {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .module-page-wrap > .module-backrow {
+    flex: none;
+  }
+  .module-page-wrap .module-page {
+    flex: 1;
+    min-height: 0;
+    /* The base grid start-aligns its items, which lets the column shrink to
+       its content and defeats the bounded height the scroller needs. */
+    align-items: stretch;
+  }
+  .module-page > section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .module-page > section > * {
+    flex: none;
+  }
+  .module-page .lesson-list {
+    flex: 1 1 auto;
+    min-height: 120px;
+    overflow-y: auto;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 12px;
+  }
+  /* Rows inside the new bounded pane take the one-frame-per-level
+     treatment the other panes already use (UI-007). */
+  .module-page .lesson-list .lesson-row:not(.lesson-row-current) {
+    border-color: transparent;
+    border-bottom-color: var(--color-divider);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .module-page .lesson-list .lesson-row:not(.lesson-row-current):last-child {
+    border-bottom-color: transparent;
+  }
+}
+
+/* --- Desktop: whole-page scrollers keep their masthead ------------------ */
+/* Schedule and Account scroll as one page; their header pins so the title,
+   lede and header actions (Schedule's course switcher) never disappear --
+   full-bleed over the container's 32px side padding, with the hairline as
+   the shell/content boundary. */
+@media (min-width: 901px) {
+  .schedule-page > .page-header,
+  .account-page > .page-header {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    background: var(--color-bg);
+    margin: -26px -32px var(--space-6);
+    padding: 26px 32px 14px;
+    border-bottom: 1px solid var(--color-divider);
   }
 }
 
