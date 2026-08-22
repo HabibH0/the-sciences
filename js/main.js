@@ -817,6 +817,11 @@ function applyAppearance(state) {
   const plateOnTop = state.view === 'dashboard'
     && window.matchMedia('(max-width: 900px)').matches;
   setMetaContent('theme-color', plateOnTop ? chrome.plate : chrome.bg);
+  // iOS Safari actually paints the status-bar strip (and top overscroll)
+  // from the <html> element's own background, not from theme-color -- so
+  // the root background has to follow the same plate-on-top rule, or the
+  // clock keeps sitting on a paper strip above the ink hero.
+  document.documentElement.style.backgroundColor = plateOnTop ? chrome.plate : chrome.bg;
   const face = FACES[state.arabicFace] || FACES.naskh;
   const headingFaceKey = state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
   const headingFace = HEADING_FACES[headingFaceKey] || HEADING_FACES.body;

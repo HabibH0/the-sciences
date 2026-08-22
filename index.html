@@ -6,11 +6,21 @@
   <script>
     (() => {
       const themes = {
-        manuscript: { bg: '#f3f2f2', scheme: 'light' },
-        mushaf: { bg: '#f7f1e1', scheme: 'light' },
-        lamp: { bg: '#16130f', scheme: 'dark' },
-        ink: { bg: '#eceef1', scheme: 'light' },
-        sepia: { bg: '#ece0ca', scheme: 'light' },
+        manuscript: { bg: '#f3f2f2', scheme: 'light', plate: '#1d1c1b' },
+        mushaf: { bg: '#f7f1e1', scheme: 'light', plate: '#1f241c' },
+        lamp: { bg: '#16130f', scheme: 'dark', plate: '#13110d' },
+        ink: { bg: '#eceef1', scheme: 'light', plate: '#191d25' },
+        sepia: { bg: '#ece0ca', scheme: 'light', plate: '#291e13' },
+      };
+      // Mirrors applyAppearance's plate-on-top rule (js/main.js) for the very
+      // first paint: the phone dashboard opens on the full-bleed ink hero, and
+      // iOS Safari colours the status-bar strip from the root background --
+      // booting it paper-coloured leaves a light strip over the plate until
+      // the first render corrects it.
+      const bootsOnPlate = () => {
+        const h = location.hash;
+        const dashboard = !h || h === '#/' || h.indexOf('#/course/') === 0;
+        return dashboard && window.matchMedia('(max-width: 900px)').matches;
       };
       try {
         const raw = localStorage.getItem('the-sciences-progress');
@@ -24,14 +34,15 @@
         document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.accent = accent;
         document.documentElement.style.colorScheme = chrome.scheme;
-        document.documentElement.style.backgroundColor = chrome.bg;
+        const surface = bootsOnPlate() ? chrome.plate : chrome.bg;
+        document.documentElement.style.backgroundColor = surface;
         let meta = document.querySelector('meta[name="theme-color"]');
         if (!meta) {
           meta = document.createElement('meta');
           meta.setAttribute('name', 'theme-color');
           document.head.appendChild(meta);
         }
-        meta.setAttribute('content', chrome.bg);
+        meta.setAttribute('content', surface);
       } catch (e) {
         document.documentElement.dataset.theme = 'manuscript';
         document.documentElement.dataset.accent = 'gold';
