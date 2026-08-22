@@ -2364,6 +2364,16 @@ bdi,
   font-size: calc(22px * var(--lesson-text-scale));
   color: var(--color-text);
 }
+/* A box's English lines (dir=ltr -- e.g. an example's translation, marked
+   per line by boxLineDir in js/render.js) read as prose, not at the Arabic
+   display size: an English sentence set 22px in the Arabic font stack
+   towered over the paragraphs around it (user report). */
+.concept-source-box-line[dir='ltr'] {
+  font-family: var(--font-body);
+  font-size: calc(15px * var(--lesson-text-scale));
+  color: var(--color-neutral-700);
+  line-height: var(--leading-prose);
+}
 /* Example boxes centre their quoted text (user request) -- the label keeps
    its corner, only the lines centre. */
 .concept-source-box--example .concept-source-box-line {
@@ -2632,6 +2642,9 @@ bdi,
   }
   .concept-source-box-line {
     font-size: calc(19px * var(--lesson-text-scale));
+  }
+  .concept-source-box-line[dir='ltr'] {
+    font-size: calc(14px * var(--lesson-text-scale));
   }
 }
 
