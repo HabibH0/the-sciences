@@ -2319,12 +2319,22 @@ function practiceSetupPanelHtml(state, mod) {
       ${vocabTypeTabsHtml(vocabType, 'setPracticeVocabType')}
     </div>` : '';
 
+  // The colour toggle is the same global setting Settings > Learning aids
+  // holds (toggleTarkeebLabelsBlue) -- surfaced here too so Tarkeeb's own
+  // scaffolding is adjustable from the exercise it scaffolds, not only from
+  // a settings page two screens away.
+  const tarkeebColorOn = state.tarkeebLabelsBlue === true;
   const tarkeebControl = kind === 'tarkeeb' && pool.length ? `
     <div class="setup-group">
       <div class="kicker">Translation</div>
       <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Tarkeeb translation visibility">
         <button class="practice-tab ${tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="1">Show</button>
         <button class="practice-tab ${!tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="0">Hide</button>
+      </div>
+      <div class="kicker" style="margin-top:12px;">Label colour</div>
+      <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Tarkeeb label colour (applies everywhere)">
+        <button class="practice-tab ${tarkeebColorOn ? 'active' : ''}" data-action="toggleTarkeebLabelsBlue" ${tarkeebColorOn ? 'disabled' : ''}>Coloured</button>
+        <button class="practice-tab ${!tarkeebColorOn ? 'active' : ''}" data-action="toggleTarkeebLabelsBlue" ${!tarkeebColorOn ? 'disabled' : ''}>Default</button>
       </div>
     </div>` : '';
 
@@ -3861,22 +3871,18 @@ function settingsHtml(state) {
     <div class="settings-page">
       <div class="settings-col">
         ${navBackRowHtml(state)}
-        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand. Everything here is a preference — how the text is set, and how much of the course is open at once. None of it changes what is taught.' })}
+        ${pageHeaderHtml({ title: 'Settings', ar: 'الإعدادات', lede: 'Three kinds of preference, kept apart: how the page looks, what help the exercises show, and how the courses unlock. Everything here applies across all four courses.' })}
 
-        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
-        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
-        <div class="settings-toggle-stack">
-          ${tarkeebTranslationToggle}
-          ${tarkeebLabelColorToggle}
+        <div class="settings-area-head">
+          <h2 class="settings-area-title">Appearance</h2>
+          <p class="settings-group-sub">How the page is set. Nothing here changes what is taught.</p>
         </div>
 
-        <hr class="settings-hr">
-
-        <h2 class="settings-group-title">Paper</h2>
+        <h3 class="settings-group-title">Paper</h3>
         <p class="settings-group-sub">Five grounds. The structure of the page does not change with them.</p>
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
 
-        <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
+        <h3 class="settings-group-title" style="margin-top:26px">Accent</h3>
         <p class="settings-group-sub">Independent of the paper — any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
 
@@ -3913,21 +3919,32 @@ function settingsHtml(state) {
             <p class="lit-size-preview-line" lang="ar" dir="rtl">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</p>
           </div>
         </div>
-        <hr class="settings-hr">
-
-        <h2 class="settings-group-title">Course progress</h2>
-        <p class="settings-group-sub">The only setting here that is not about how the page looks.</p>
-        <div class="settings-toggle-stack">${forceUnlockToggle}</div>
-
-        <hr class="settings-hr">
-
-        <h2 class="settings-group-title">Arabic typeface</h2>
+        <h3 class="settings-group-title" style="margin-top:26px">Arabic typeface</h3>
         <p class="settings-group-sub">Each specimen is set in the face it names.</p>
         <div class="face-list">
           <div class="face-group" role="radiogroup" aria-label="Arabic body face">${faceRows}</div>
-          <h3 class="settings-subgroup-title">Arabic headings</h3>
+          <h4 class="settings-subgroup-title">Arabic headings</h4>
           <div class="face-group" role="radiogroup" aria-label="Arabic heading face">${headingRows}</div>
         </div>
+
+        <hr class="settings-hr">
+
+        <div class="settings-area-head">
+          <h2 class="settings-area-title">Learning aids</h2>
+          <p class="settings-group-sub">Optional scaffolding inside exercises — what help is shown, never what is graded. The Tarkeeb ones are also reachable from Practice Mode's own تركيب setup.</p>
+        </div>
+        <div class="settings-toggle-stack">
+          ${tarkeebTranslationToggle}
+          ${tarkeebLabelColorToggle}
+        </div>
+
+        <hr class="settings-hr">
+
+        <div class="settings-area-head">
+          <h2 class="settings-area-title">Course progression</h2>
+          <p class="settings-group-sub">How the courses unlock. Changing this never marks anything complete or removes progress.</p>
+        </div>
+        <div class="settings-toggle-stack">${forceUnlockToggle}</div>
       </div>
 
       <aside class="settings-col specimen-rail">
@@ -4242,8 +4259,8 @@ function accountHtml(state) {
       <button class="entry-row" data-action="openSettings">
         ${icon('book', 18, 1.8)}
         <span class="entry-row-body">
-          <span class="entry-row-title">Appearance</span>
-          <span class="entry-row-meta">Paper, accent, and Arabic typeface</span>
+          <span class="entry-row-title">Settings</span>
+          <span class="entry-row-meta">Appearance, learning aids, and course progression</span>
         </span>
         <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
       </button>

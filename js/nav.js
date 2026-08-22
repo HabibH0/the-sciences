@@ -169,7 +169,7 @@ export function crumbTrail(state) {
     case 'achievements':
       return [account, { label: 'Achievements', current: true }];
     case 'settings':
-      return [account, { label: 'Appearance', current: true }];
+      return [account, { label: 'Settings', current: true }];
     case 'path': {
       const group = findPathGroup(state.pathGroupId);
       return [
@@ -254,7 +254,7 @@ export function hashForState(state) {
     case 'achievements':
       return '#/account/achievements';
     case 'settings':
-      return '#/account/appearance';
+      return '#/account/settings';
     case 'pathGroups':
       return '#/path';
     case 'path':
@@ -297,7 +297,8 @@ export function navFromHash(hash) {
       return { view: 'schedule' };
     case 'account':
       if (parts[1] === 'achievements') return { view: 'achievements' };
-      if (parts[1] === 'appearance') return { view: 'settings' };
+      // 'appearance' is the route's old name -- bookmarks keep working.
+      if (parts[1] === 'settings' || parts[1] === 'appearance') return { view: 'settings' };
       return { view: 'account' };
     case 'path': {
       if (!parts[1]) return { view: 'pathGroups', pathHome: true };
