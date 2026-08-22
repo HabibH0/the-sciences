@@ -6012,6 +6012,42 @@ button.concept-dot {
   line-height: var(--leading-body);
   max-width: var(--measure-prose);
 }
+/* Workload reality check under the target date -- informative, never
+   blocking, in the warning earth rather than an alarm colour. */
+.plan-pace-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--color-warning-line);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--text-sm);
+  color: var(--color-warning-text);
+  line-height: var(--leading-body);
+}
+.plan-pace-note .icon {
+  flex: none;
+  margin-top: 3px;
+}
+.plan-pace-note span {
+  flex: 1;
+  min-width: 0;
+}
+.plan-pace-note .btn {
+  flex: none;
+  align-self: center;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .plan-pace-note {
+    flex-wrap: wrap;
+  }
+  .plan-pace-note .btn {
+    margin-left: 22px;
+  }
+}
 
 /* Daily-reset-time picker: the app's own popover in place of a native
    <select>, whose open option list is OS chrome that CSS cannot restyle on
@@ -6233,6 +6269,48 @@ span.deadline-day {
   padding-top: 10px;
   border-top: 1px solid var(--color-divider);
   font-size: var(--text-sm);
+}
+
+/* Placement (see positionSchedulePopovers in js/main.js): when the room
+   under the trigger is too short for the whole panel, it opens upward
+   instead -- header, selected date and the Today/Clear foot all visible
+   without scrolling the page underneath. */
+.deadline-picker.opens-up,
+.reset-hour-menu.opens-up {
+  top: auto;
+  bottom: calc(100% + 6px);
+}
+/* On a phone the popover-hanging-off-a-trigger model has nowhere to go --
+   the trigger sits near the fold and the tab bar eats the rest -- so both
+   panels become a centred sheet with their own bounded scroll. Outside
+   clicks and Escape dismiss them exactly as on desktop. */
+@media (max-width: 640px) {
+  .deadline-picker,
+  .reset-hour-menu {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    width: auto;
+    max-width: 340px;
+    margin: 0 auto;
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
+    z-index: 45;
+    box-shadow: var(--shadow-lg);
+  }
+  /* The drop-in/out keyframes animate `transform`, which would stomp the
+     sheet's own centering translate mid-animation -- fade only here. */
+  .deadline-picker.anim-drop-in,
+  .reset-hour-menu.anim-drop-in {
+    animation-name: m-fade-in;
+  }
+  .deadline-picker.anim-drop-out,
+  .reset-hour-menu.anim-drop-out {
+    animation-name: m-fade-out;
+  }
 }
 
 /* ---------- Practice setup: kind cards ----------

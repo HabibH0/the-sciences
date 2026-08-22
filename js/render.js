@@ -2711,6 +2711,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
           ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
         </div>
       </div>
+      ${paceWarningHtml(summary, remaining, today)}
       <div class="plan-row">
         <label id="schedule-reset-hour-label">Daily reset time</label>
         <div class="reset-hour-picker">
@@ -2725,6 +2726,28 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       <p class="plan-note">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</p>
       </div>
       </div>
+    </div>`;
+}
+
+// A mathematically valid plan is not automatically a usable one: picking
+// tomorrow with 111 lessons left computes "56 a day" and, without this,
+// presented it deadpan. Above this daily load the plan gets a concise,
+// non-blocking reality check with one more realistic alternative the learner
+// can take in a single click -- or ignore. Recomputed every render, so it
+// updates (and disappears) the moment the date changes.
+const INTENSIVE_DAILY_TARGET = 8;
+const EASED_DAILY_TARGET = 2;
+function paceWarningHtml(summary, remaining, today) {
+  if (!summary || summary.overdue || summary.dailyTarget < INTENSIVE_DAILY_TARGET) return '';
+  const easedDays = Math.ceil(remaining / EASED_DAILY_TARGET);
+  const eased = new Date(`${today}T00:00:00`);
+  eased.setDate(eased.getDate() + easedDays);
+  const easedIso = isoDateAt(eased.getTime());
+  return `
+    <div class="plan-pace-note" role="note">
+      ${icon('info', 14, 2)}
+      <span>${summary.dailyTarget} lessons a day is an intensive pace. Finishing by ${esc(formatDeadlineDate(easedIso))} would be about ${EASED_DAILY_TARGET} a day — or keep your date if you're sure.</span>
+      <button class="btn btn-secondary btn-sm" data-action="pickScheduleDeadline" data-date="${escAttr(easedIso)}">Use ${esc(formatDeadlineDate(easedIso))}</button>
     </div>`;
 }
 
@@ -2906,10 +2929,29 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
   const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
 
   if (!eligible.length) {
+    // The prerequisite is known, so the empty state bridges into it: name
+    // the module closest to unlocking the first quiz (started modules win
+    // by having fewer lessons left) and offer the next lesson directly,
+    // rather than describing the rule and stopping.
+    let nearest = null;
+    MODULES.forEach((m) => {
+      const total = m.lessons.length;
+      if (!total) return;
+      const done = completedCount(m.id, state.completed);
+      if (done >= total) return;
+      const left = total - done;
+      if (!nearest || left < nearest.left) nearest = { mod: m, done, total, left };
+    });
+    const cont = findContinueLesson(state, MODULES);
     return emptyStateHtml({
       icon: 'award',
       title: 'No modules to revise yet',
-      note: 'Finish every lesson in a module and its Revision quiz unlocks here.',
+      note: nearest && nearest.done > 0
+        ? `Finish every lesson in a module and its quiz unlocks here. Closest right now: <bdi lang="ar">${esc(nearest.mod.title)}</bdi> — ${nearest.done} of ${nearest.total} lessons done, ${nearest.left} to go.`
+        : 'Finish every lesson in a module and its quiz unlocks here — your first module is the nearest one.',
+      action: cont
+        ? `<button class="btn btn-primary" data-action="continueLesson" data-module-id="${escAttr(cont.mod.id)}" data-lesson-id="${escAttr(cont.lesson.id)}">Continue · <bdi lang="ar">${esc(cont.lesson.title)}</bdi></button>`
+        : '',
     });
   }
 

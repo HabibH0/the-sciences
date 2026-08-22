@@ -600,6 +600,28 @@ function mainScrollContainer() {
   return root.querySelector('.main-content') || root.querySelector('.main');
 }
 
+// The Schedule popovers (target-date calendar, reset-hour list) anchor below
+// their trigger, which sits low on the page -- opened there, the panel's own
+// foot ran past the viewport and the learner had to scroll the page just to
+// reach Today/Clear. Desktop flips the panel above the trigger when the room
+// below is short; on phones the same panels render as a centred fixed sheet
+// (see styles.css), which needs no measuring. Runs on every rerender --
+// cheap: it exits immediately unless one of the two is actually open.
+function positionSchedulePopovers() {
+  if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
+  const panel = root.querySelector('.deadline-picker, .reset-hour-menu');
+  if (!panel) return;
+  if (window.matchMedia('(max-width: 640px)').matches) return;
+  const trigger = panel.parentElement;
+  if (!trigger) return;
+  const rect = trigger.getBoundingClientRect();
+  const panelHeight = panel.offsetHeight;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  if (spaceBelow < panelHeight + 12 && rect.top > panelHeight + 12) {
+    panel.classList.add('opens-up');
+  }
+}
+
 function rememberScrollPosition(navKey, container = mainScrollContainer()) {
   if (!navKey || !container) return;
   scrollPositions.set(navKey, container.scrollTop || 0);
@@ -731,6 +753,7 @@ function rerender(focusSelector) {
   // (the live value on a same-screen update, the last-known one from a
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
+  positionSchedulePopovers();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (focusSelector) {
     const toFocus = root.querySelector(focusSelector);
@@ -2763,6 +2786,7 @@ const actions = {
   // isn't disturbed.
   toggleDeadlinePicker() {
     state.deadlinePickerOpen = !state.deadlinePickerOpen;
+    state.resetHourMenuOpen = false;
     if (state.deadlinePickerOpen) state.deadlinePickerMonth = null;
   },
   deadlinePickerPrevMonth() {
@@ -2790,6 +2814,7 @@ const actions = {
   },
   toggleResetHourMenu() {
     state.resetHourMenuOpen = !state.resetHourMenuOpen;
+    state.deadlinePickerOpen = false;
   },
   backToSchedule() {
     state.view = 'schedule';
@@ -3692,6 +3717,16 @@ document.addEventListener('click', (e) => {
   rerender();
 });
 
+// Same job for the Schedule popovers -- backdrop-less like the course menu,
+// so a click anywhere else must put them away.
+document.addEventListener('click', (e) => {
+  if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
+  if (e.target.closest('.deadline-picker-wrap, .reset-hour-picker')) return;
+  state.deadlinePickerOpen = false;
+  state.resetHourMenuOpen = false;
+  rerender();
+});
+
 document.addEventListener('keydown', (e) => {
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
@@ -3732,6 +3767,14 @@ document.addEventListener('keydown', (e) => {
     // a course menu click either closes it or leaves Home entirely.
     state.courseMenuOpen = false;
     rerender('[data-action="toggleCourseMenu"]');
+  } else if (state.deadlinePickerOpen) {
+    // The Schedule popovers close like any other transient surface, with
+    // focus handed back to the trigger that opened them.
+    state.deadlinePickerOpen = false;
+    rerender('[data-action="toggleDeadlinePicker"]');
+  } else if (state.resetHourMenuOpen) {
+    state.resetHourMenuOpen = false;
+    rerender('[data-action="toggleResetHourMenu"]');
   } else if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());
