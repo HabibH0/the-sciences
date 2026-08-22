@@ -7776,13 +7776,46 @@ span.deadline-day {
   }
   .lit-word-table {
     grid-template-columns: max-content minmax(0, 1fr);
+    padding: 6px 10px;
+    gap: 2px 12px;
   }
-  /* Wedged beside the titles it crushed them into one-word lines; on a
-     phone the pager takes its own full row at the head's end instead. */
+  /* The phone head reflows into two compact rows instead of one crowded
+     line that crushed the titles into one-word columns:
+       row 1 -- back chevron, titles (each line clipped to one line), menu
+       row 2 -- paragraph pager on the left, the stage rail on the right
+     with the thin progress bar keeping the full-width bottom edge. */
+  .lit-reader-head {
+    gap: var(--space-2) var(--space-3);
+    padding-top: 12px;
+  }
+  .lit-reader-titles {
+    /* auto basis: the titles claim their natural width on row 1, which is
+       what pushes the pager + rail onto their own line. */
+    flex: 1 1 auto;
+  }
+  .lit-reader-book,
+  .lit-reader-en {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lit-reader-title {
+    font-size: 19px;
+    line-height: 1.45;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .lit-reader-head .lit-pager {
-    order: 5;
-    flex-basis: 100%;
-    justify-content: center;
+    order: 2;
+    margin-right: auto;
+  }
+  .lit-reader-head .lit-rail {
+    order: 3;
+    align-self: center;
+  }
+  .lit-reader-head .progress-bar {
+    order: 4;
   }
 }
 

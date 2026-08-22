@@ -5072,7 +5072,7 @@ function litWordDockHtml(state, chapter) {
   if (!w) {
     return `
       <div class="lit-word-dock is-empty">
-        <span class="lit-word-dock-hint">Select a word to see its meaning and form here — select it twice to mark it as one to work on.</span>
+        <span class="lit-word-dock-hint">Tap a word for its meaning and form — twice to mark it as one to work on. The small ${icon('book', 10, 2)} at a phrase's end shows its English.</span>
       </div>`;
   }
   const sentence = chapterSentences(chapter).find((s) => s.id === w.s);
@@ -5349,13 +5349,10 @@ function litPagerHtml(state, chapter) {
 
 function litReadStageHtml(state, chapter) {
   const lit = state.lit;
-  // The reading interactions introduced up front, beside the first
-  // paragraph -- on a phone the word-notes card that used to explain them
-  // sits below the whole passage, after every marker has already been met.
-  const intro = lit.para === 0 ? `
-    <p class="lit-intro only-phone">Tap a word for its meaning and form — tap the small ${icon('book', 10, 2)} at a phrase's end for its English.</p>` : '';
+  // The reading interactions are introduced by the dock's own empty state
+  // (always in view in the sticky strip) -- the separate phone intro
+  // paragraph doubled that guidance and cost a full band of space.
   return `<div class="lit-topbar">${litWordDockHtml(state, chapter)}</div>
-    ${intro}
     ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
     ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
 }
