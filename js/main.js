@@ -67,7 +67,7 @@ import {
 } from './gamification.js';
 import {
   prefersReducedMotion, snapshotMotion, applyRenderMotion, applyActionMotion,
-  dismissDelay, dismissOpenModal, markBusy, unmarkBusy, DUR,
+  dismissDelay, dismissOpenModal, dismissOpenCourseMenu, markBusy, unmarkBusy, DUR,
 } from './motion.js';
 
 const THEME_CHROME = {
@@ -1805,6 +1805,16 @@ const actions = {
   // course was already active -- switching is a navigation choice, not a
   // resume, so it never drops the learner back into a previous lesson,
   // module, practice session, or My Path detour.
+  //
+  // Staged in two paints (audit MOT-002). The old shape held the chooser
+  // open over the old course for the entire load (~1.5s on a first import)
+  // with only a row-level spinner, so the outgoing course kept looking
+  // authoritative and the choice looked un-taken. Now the pick is committed
+  // in the same frame it is made: the chooser closes, the switch trigger
+  // names the INCOMING course with the busy treatment, and the old course's
+  // regions stand down under .is-switching (styles.css) until the rerender
+  // in the dispatcher lands the new one with a content crossfade (the
+  // chooseCourse entry in js/motion.js's ACTION_FX).
   async chooseCourse(el) {
     const id = el.dataset.courseId;
     const course = COURSES.find((c) => c.id === id);
@@ -1813,8 +1823,19 @@ const actions = {
     // js/render.js), but guard here too in case
     // state.completed/unlockedCourses changes out from under a stale render.
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
-    await activateCourse(id);
     state.courseMenuOpen = false;
+    state.courseSwitchingTo = id;
+    rerender();
+    try {
+      await activateCourse(id);
+    } catch {
+      // The import failed: the course already loaded stays active. Clearing
+      // the switching flag below lets the dispatcher's rerender un-dim the
+      // dashboard, which still shows that course -- swallowing here (rather
+      // than rejecting) is what makes that rerender run at all.
+    } finally {
+      state.courseSwitchingTo = null;
+    }
   },
   // Schedule's course switcher and all-course rows (audit NAV-003). Unlike
   // chooseCourse above, this changes only which course the plan is scoped
@@ -2967,6 +2988,14 @@ const actions = {
     if (pass) {
       ex.passed = true;
       state.revealState[key] = 1;
+      // Pin the view to the concept just answered. A null conceptIndex means
+      // "the furthest concept unlocked" (see lessonHtml), and the pass above
+      // just unlocked the NEXT one -- left null, the page would swap to it
+      // in this same render, replacing the solved exercise before the
+      // learner has seen their own verdict (audit UX-004/MOT-006).
+      // Confirmation stays on screen; advancing is the now-enabled Next
+      // concept button's job, and nothing else's.
+      state.conceptIndex = idx;
     }
     queueAutoUpload('concept-exercise');
   },
@@ -3645,6 +3674,19 @@ function refocusSelector(el) {
   // focus to whatever opened it rather than falling through to <body>.
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
+  // The Check button un-renders once the answer is graded, so its own
+  // counterpart never exists. Focus moves to the verdict itself (the
+  // exercise-feedback line carries tabindex="-1" for exactly this): a
+  // screen reader announces the result, and the next Tab reaches Try
+  // again / Next concept in order (audit MOT-006/UX-004).
+  if (action === 'checkConceptExercise') return `[data-concept-index="${el.dataset.index}"] .exercise-feedback`;
+  // The chooser is long gone by the time the switched course's dashboard
+  // renders (chooseCourse closes it in its first paint), so the menu item
+  // pressed has no counterpart. The switch trigger is the control narrating
+  // the change -- focusing it announces the freshly rendered "currently
+  // <new course>" label, which is what tells a keyboard or screen-reader
+  // user the switch actually landed (audit MOT-002).
+  if (action === 'chooseCourse') return '[data-action="toggleCourseMenu"]';
   // The literature drills' chips and slots have the same problem and the
   // same fix. A placed chip becomes disabled, so focus goes to whichever
   // chip is still available rather than to the one just used.
@@ -3744,7 +3786,12 @@ document.addEventListener('click', (e) => {
   if (!state.courseMenuOpen) return;
   if (e.target.closest('.course-menu, [data-action="toggleCourseMenu"]')) return;
   state.courseMenuOpen = false;
-  rerender();
+  // Same exit its own toggle plays (audit MOT-003: every animated entry
+  // gets a matched exit, however the dismissal arrives) -- the old menu,
+  // still on screen, drops out while the swap waits.
+  const exitMs = dismissOpenCourseMenu(root);
+  if (exitMs) setTimeout(() => rerender(), exitMs);
+  else rerender();
 });
 
 // Same dismissal for the deep-screen sections menu (audit NAV-002) -- a
@@ -3799,9 +3846,13 @@ document.addEventListener('keydown', (e) => {
     rerender('[data-action="toggleSectionsMenu"]');
   } else if (state.courseMenuOpen) {
     // Shallower than any modal, and never open at the same time as one --
-    // a course menu click either closes it or leaves Home entirely.
+    // a course menu click either closes it or leaves Home entirely. Plays
+    // the same drop-out exit its toggle does before the swap (MOT-003),
+    // then focus returns to the trigger only after the exit has landed.
     state.courseMenuOpen = false;
-    rerender('[data-action="toggleCourseMenu"]');
+    const menuExitMs = dismissOpenCourseMenu(root);
+    if (menuExitMs) setTimeout(() => rerender('[data-action="toggleCourseMenu"]'), menuExitMs);
+    else rerender('[data-action="toggleCourseMenu"]');
   } else if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());

@@ -61,12 +61,65 @@ export function prefersReducedMotion() {
 export const DUR = {
   exit: 120,    // --t-exit: modal/backdrop dismissal
   pop: 100,     // .anim-drop-out: popovers close faster still
+  expand: 200,  // --t-ui: an inline disclosure growing to its measured height
   meter: 520,   // --t-meter + its delay: the count-up runs with the bars
   toastOut: 160, // --t-exit plus a frame, before the node is removed
 };
 
+// The JS half of the easing table, for the two Web-Animations effects below
+// (expand/collapse -- see animateHeight). Same twins rule as DUR: these are
+// --ease-out and --ease-in in styles.css, restated because WAAPI cannot read
+// custom properties out of the cascade.
+const EASE_OUT = 'cubic-bezier(0.2, 0.9, 0.3, 1)';
+const EASE_IN = 'cubic-bezier(0.4, 0, 0.9, 0.6)';
+
 function cssEsc(value) {
   return String(value ?? '').replace(/["\\]/g, '\\$&');
+}
+
+// --- inline disclosures ----------------------------------------------------
+// The one deliberate exception to the Motion layer's composite-only rule
+// (rule 4 in styles.css). A disclosure that opens IN document flow -- the
+// practice setup panel, a concept's revealed exercise -- physically changes
+// the page's geometry, and animating only the new card while everything
+// below it teleports is exactly the two-unrelated-events effect audit
+// MOT-004 describes. So the surface's own height is driven from 0 to its
+// measured value (and back on dismissal), which moves the surrounding layout
+// continuously as part of the same gesture. Kept short (--t-ui / --t-exit)
+// and used only for disclosures, never for screens or overlays, which stay
+// on the compositor. Margins ride along -- .practice-popout carries its own
+// margin-top, and a collapse that left the margin standing would end on a
+// 12px hole that then snaps shut.
+function animateHeight(el, { collapse = false } = {}) {
+  if (!el || prefersReducedMotion() || typeof el.animate !== 'function') return 0;
+  const height = el.offsetHeight;
+  if (!height) return 0; // hidden at this breakpoint (e.g. the inline copy on desktop)
+  const style = getComputedStyle(el);
+  const grown = {
+    height: `${height}px`,
+    marginTop: style.marginTop,
+    marginBottom: style.marginBottom,
+    opacity: 1,
+  };
+  const flat = { height: '0px', marginTop: '0px', marginBottom: '0px', opacity: 0 };
+  const duration = collapse ? DUR.exit : DUR.expand;
+  const prevOverflow = el.style.overflow;
+  el.style.overflow = 'hidden';
+  const anim = el.animate(collapse ? [grown, flat] : [flat, grown], {
+    duration,
+    easing: collapse ? EASE_IN : EASE_OUT,
+    fill: collapse ? 'forwards' : 'none',
+  });
+  if (collapse) {
+    el.style.pointerEvents = 'none';
+  } else {
+    anim.onfinish = () => { el.style.overflow = prevOverflow; };
+  }
+  return duration;
+}
+
+export function expandIn(el) {
+  animateHeight(el);
 }
 
 // --- overlay presence diff -------------------------------------------------
@@ -79,7 +132,10 @@ const OVERLAYS = [
   { sel: '.unlock-modal-backdrop', cls: 'anim-overlay-in' },
   { sel: '.course-menu', cls: 'anim-drop-in' },
   { sel: '.lesson-search-results', cls: 'anim-drop-in' },
-  { sel: '.practice-popout', cls: 'anim-rise-in' },
+  // The practice setup panel opens IN document flow (it pushes the lesson
+  // list down on phones), so it expands to its measured height rather than
+  // rising over a layout that already jumped -- see animateHeight.
+  { sel: '.practice-popout', expand: true },
   { sel: '.deadline-picker', cls: 'anim-drop-in' },
   { sel: '.reset-hour-menu', cls: 'anim-drop-in' },
   { sel: '.xp-toast', cls: 'anim-toast-in' },
@@ -210,16 +266,22 @@ export function applyRenderMotion(root, snap, changedScreen, nav) {
       if (root.querySelector('.complete-page')) runCountUps(root);
     }
   }
-  for (const { sel, cls } of OVERLAYS) {
+  for (const { sel, cls, expand } of OVERLAYS) {
     if (snap.overlays.has(sel)) continue;
-    const el = root.querySelector(sel);
-    if (!el) continue;
-    // A screen entrance already animates everything inside the screen once;
-    // layering the overlay entrance on top would double-animate content
-    // that is simply part of the arriving page (e.g. a practice question's
-    // feedback block right after a page turn). Screen entrance wins.
-    if (enterScreen && el.closest('.main')) continue;
-    el.classList.add(cls);
+    // Every match, not just the first: the practice setup panel is rendered
+    // twice (inline for phones, in the rail for desktop -- CSS shows one per
+    // breakpoint), and animating only the first match meant the desktop copy
+    // arrived with no entrance at all while a hidden element animated
+    // (audit MOT-003).
+    for (const el of root.querySelectorAll(sel)) {
+      // A screen entrance already animates everything inside the screen once;
+      // layering the overlay entrance on top would double-animate content
+      // that is simply part of the arriving page (e.g. a practice question's
+      // feedback block right after a page turn). Screen entrance wins.
+      if (enterScreen && el.closest('.main')) continue;
+      if (expand) expandIn(el); // measures 0 on the breakpoint-hidden copy and skips itself
+      else el.classList.add(cls);
+    }
   }
   applyIndicatorMotion(root, snap.indicators);
 }
@@ -242,15 +304,29 @@ const MODAL_DISMISS = new Set([
 ]);
 // Toggles close their popover only when it is currently on screen -- the
 // presence check below is what tells "opening" and "closing" apart.
+// `collapse` marks the in-flow disclosures, whose exit is the height
+// animation played backwards (so the layout they pushed down rides back up
+// with them) rather than the popover fade. openPractice is here for its
+// toggle-closed half only: pressing the Practice Mode row while its panel
+// is open closes that panel, and the presence check already tells the two
+// halves apart exactly as it does for the toggle* actions.
 const POP_DISMISS = {
-  toggleCourseMenu: '.course-menu',
-  toggleDeadlinePicker: '.deadline-picker',
-  toggleResetHourMenu: '.reset-hour-menu',
-  closePracticeSetup: '.practice-popout',
+  toggleCourseMenu: { sel: '.course-menu' },
+  toggleDeadlinePicker: { sel: '.deadline-picker' },
+  toggleResetHourMenu: { sel: '.reset-hour-menu' },
+  closePracticeSetup: { sel: '.practice-popout', collapse: true },
+  openPractice: { sel: '.practice-popout', collapse: true },
 };
 
 const MODAL_EXIT_MS = DUR.exit;
 const POP_EXIT_MS = DUR.pop;
+
+// The copy of a twice-rendered element (see the practice panel note above)
+// that the current breakpoint actually shows.
+function visibleMatch(root, sel) {
+  const matches = [...root.querySelectorAll(sel)];
+  return matches.find((m) => m.offsetParent) || matches[0] || null;
+}
 
 export function dismissDelay(root, actionName) {
   if (prefersReducedMotion()) return 0;
@@ -260,14 +336,26 @@ export function dismissDelay(root, actionName) {
     backdrop.classList.add('anim-overlay-out');
     return MODAL_EXIT_MS;
   }
-  const popSel = POP_DISMISS[actionName];
-  if (popSel) {
-    const pop = root.querySelector(popSel);
+  const entry = POP_DISMISS[actionName];
+  if (entry) {
+    const pop = visibleMatch(root, entry.sel);
     if (!pop) return 0;
+    if (entry.collapse) return animateHeight(pop, { collapse: true });
     pop.classList.add('anim-drop-out');
     return POP_EXIT_MS;
   }
   return 0;
+}
+
+// The course menu can also be dismissed without any [data-action] firing --
+// Escape, or a click on the page around it (both wired in js/main.js). Same
+// exit as its toggle, addressed by what's on screen rather than by action.
+export function dismissOpenCourseMenu(root) {
+  if (prefersReducedMotion()) return 0;
+  const menu = root.querySelector('.course-menu');
+  if (!menu) return 0;
+  menu.classList.add('anim-drop-out');
+  return POP_EXIT_MS;
 }
 
 // Escape closes whichever modal is open without going through an action --
@@ -360,6 +448,17 @@ function fillSelf(root, el) {
   mark(counterpart(root, el), 'anim-fill');
 }
 
+// One concept page-turn's worth of motion: reset the content scroller so
+// the new concept opens at its heading, then step the concept region in
+// with the direction the learner actually moved.
+function stepConceptTo(cls) {
+  return (root) => {
+    const scroller = root.querySelector('.main-content');
+    if (scroller) scroller.scrollTop = 0;
+    mark(root.querySelector('.concept-block'), cls);
+  };
+}
+
 // A question advanced in place (the nav signature doesn't see quiz-internal
 // position): the new question steps in and the tick just banked grows in.
 // On the LAST advance the result plate arrives instead -- rise it and run
@@ -392,9 +491,18 @@ const ACTION_FX = {
   litCheckOption: gradedAnswer,
   // The Check button un-renders once the answer is graded, so its own
   // counterpart never exists -- the concept block's index finds the card.
+  // On a pass, the just-unlocked concept dot in the lesson head pops in
+  // (audit MOT-006: progress feedback tied spatially to the completed
+  // exercise, on the indicator the learner will use to advance) -- the
+  // freshly-rendered DOM is what says whether the answer was right, exactly
+  // as bumpComboIfWon reads it.
   checkConceptExercise(root, el) {
     const card = root.querySelector(`[data-concept-index="${cssEsc(el.dataset.index)}"] .exercise-card`);
     mark(card, 'anim-verdict');
+    if (card && card.querySelector('.tag-accent')) {
+      const reached = root.querySelectorAll('.concept-dots .concept-dot.reached');
+      if (reached.length) mark(reached[reached.length - 1], 'anim-dot-in');
+    }
   },
   // تركيب grading: same story -- the diagram wrapper carries the key.
   checkTarkeeb(root, el) {
@@ -418,18 +526,34 @@ const ACTION_FX = {
     if (done.length) mark(done[done.length - 1], 'anim-tick-in');
   },
   retakeQuiz: (root) => mark(root.querySelector('.quiz-body'), 'anim-step-in'),
-  nextConcept: (root) => mark(root.querySelector('.concept-block'), 'anim-step-in'),
-  prevConcept: (root) => mark(root.querySelector('.concept-block'), 'anim-step-in'),
-  goToConcept: (root) => mark(root.querySelector('.concept-block'), 'anim-step-in'),
+  // Concept paging (audit MOT-006/NAV-001): a fresh concept must begin at
+  // its heading, not wherever the previous concept's exercise left the
+  // scroller -- so the reset rides in the same frame as the step transition,
+  // before anything paints. Forward steps in from below and Back reverses
+  // the travel, so the two directions read as a reciprocal pair rather than
+  // one generic entrance. (The reset itself also runs under reduced motion:
+  // it is state correctness, not decoration -- only the step classes go
+  // inert there.)
+  nextConcept: stepConceptTo('anim-step-in'),
+  prevConcept: stepConceptTo('anim-step-back'),
+  goToConcept: stepConceptTo('anim-step-in'),
   litWorkshopNext: (root) => mark(root.querySelector('.lit-slot-card'), 'anim-step-in'),
   litBuildNext: (root) => mark(root.querySelector('.lit-slot-card'), 'anim-step-in'),
   litWordPracticeNext: (root) => mark(root.querySelector('.lit-slot-card'), 'anim-step-in'),
   litNextParagraph: (root) => mark(root.querySelector('.lit-para:last-of-type'), 'anim-rise-in'),
 
-  // A newly revealed section.
+  // A newly revealed section: an in-flow disclosure, so it expands to its
+  // measured height (moving the footer with it) rather than popping into
+  // space the layout already allocated (audit MOT-004).
   revealExercise(root, el) {
-    mark(root.querySelector(`[data-concept-index="${cssEsc(el.dataset.index)}"] .exercise-card`), 'anim-rise-in');
+    expandIn(root.querySelector(`[data-concept-index="${cssEsc(el.dataset.index)}"] .exercise-card`));
   },
+
+  // The course just switched (audit MOT-002): the chooser closed the moment
+  // the course was picked and the dashboard sat dimmed under the loading
+  // treatment -- this is the arrival half, a restrained crossfade of only
+  // the course-scoped regions. The shell (header, tabs) holds still.
+  chooseCourse: (root) => mark(root.querySelector('.home-page'), 'anim-content-in'),
 
   // Selection acknowledgement: a quick settle on what was just picked.
   pickTheme: settleSelf,
@@ -470,8 +594,23 @@ const ACTION_FX = {
 
 // Called by the event dispatchers right after rerender(). `el` is the
 // (now-detached) element the user actually hit.
+//
+// Direction (audit MOT-005): when the click that changed the screen was one
+// of the app's back affordances, the entrance plays reversed -- the page
+// settles downward instead of up, so going back reads as the reciprocal of
+// going deeper. Read off the control's own class rather than a route map:
+// the same action (openModule, say) is forward from the dashboard and back
+// from a lesson, and the affordance the user pressed is the one thing that
+// always knows which it was. Runs in the same frame as applyRenderMotion's
+// screen-enter, before anything paints.
+const BACK_AFFORDANCE = '.back-link, .back-chevron, .app-back, .module-crumb-link';
+
 export function applyActionMotion(root, el) {
   if (!el || !el.dataset) return;
+  if (typeof el.closest === 'function' && el.closest(BACK_AFFORDANCE)) {
+    const main = root.querySelector('.main.screen-enter');
+    if (main) main.classList.add('screen-enter-back');
+  }
   const fx = ACTION_FX[el.dataset.action];
   if (fx) fx(root, el);
 }
@@ -488,10 +627,19 @@ export function markBusy(el) {
   if (!el || !el.classList) return;
   el.classList.add('is-busy');
   el.setAttribute('aria-busy', 'true');
+  // A busy action launched FROM a dialog (Free read / Practice loading a
+  // chapter, say) freezes the whole surface, not just its trigger: the
+  // sibling buttons could still fire and start a second, competing launch,
+  // and audit MOT-001 requires an outgoing dialog to stop being interactive
+  // the moment its navigation is under way.
+  const surface = el.closest && el.closest('.modal, .unlock-modal, .force-unlock-modal');
+  if (surface) surface.classList.add('is-busy-surface');
 }
 
 export function unmarkBusy(el) {
   if (!el || !el.classList || !el.isConnected) return;
   el.classList.remove('is-busy');
   el.removeAttribute('aria-busy');
+  const surface = el.closest && el.closest('.is-busy-surface');
+  if (surface) surface.classList.remove('is-busy-surface');
 }
