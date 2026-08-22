@@ -636,6 +636,33 @@ function mainScrollContainer() {
 // below is short; on phones the same panels render as a centred fixed sheet
 // (see styles.css), which needs no measuring. Runs on every rerender --
 // cheap: it exits immediately unless one of the two is actually open.
+// The module/book cover's "Read the full description" expander only earns
+// its place when the clamp is actually hiding something -- a two-line blurb
+// fits inside the two-line clamp, and offering an expander that expands
+// nothing reads as a broken control. Rendered markup can't know whether the
+// text overflows, so it's measured here after every swap. The open state
+// keeps its "Less" control regardless (it can only be reached when the
+// blurb genuinely overflowed).
+function updateCoverBlurbToggle() {
+  const toggle = root.querySelector('.cover-blurb-toggle');
+  if (!toggle) return;
+  const blurb = root.querySelector('.cover-blurb');
+  if (!blurb || blurb.classList.contains('is-open')) return;
+  // Chromium's line-clamp collapses the clipped lines out of the box
+  // entirely -- scrollHeight equals clientHeight even when text was cut --
+  // so overflow is measured against a hidden, unclamped clone at the same
+  // width instead.
+  const clone = blurb.cloneNode(true);
+  clone.classList.add('is-open');
+  clone.style.position = 'absolute';
+  clone.style.visibility = 'hidden';
+  clone.style.width = `${blurb.clientWidth}px`;
+  blurb.parentNode.appendChild(clone);
+  const fits = clone.clientHeight <= blurb.clientHeight + 1;
+  clone.remove();
+  toggle.classList.toggle('is-hidden', fits);
+}
+
 function positionSchedulePopovers() {
   if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
   const panel = root.querySelector('.deadline-picker, .reset-hour-menu');
@@ -796,6 +823,7 @@ function rerender(focusSelector) {
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
   positionSchedulePopovers();
+  updateCoverBlurbToggle();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (conceptChanged) {
     // The concept the learner is now reading changed under a same-screen

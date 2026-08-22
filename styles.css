@@ -7769,6 +7769,10 @@ span.deadline-day {
     padding: 16px 18px 14px;
   }
   .cover-blurb:not(.is-open) {
+    /* Note for the measuring side: Chromium's line-clamp collapses the
+       clipped lines out of the box entirely (scrollHeight == clientHeight),
+       so "does this actually overflow" is measured on an unclamped clone --
+       see updateCoverBlurbToggle in js/main.js. */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -7792,6 +7796,12 @@ span.deadline-day {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
+  }
+  /* Added post-render when the clamped blurb doesn't actually overflow --
+     an expander that expands nothing should not be offered (see
+     updateCoverBlurbToggle in js/main.js). */
+  .cover-blurb-toggle.is-hidden {
+    display: none;
   }
   /* The Achievements plate: keep the identity row tight so the "Closest
      next" shelf below it makes the first viewport. */

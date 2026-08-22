@@ -2223,18 +2223,26 @@ function renderTarkeeb(state, item, key, moduleId) {
     // item.labels[i] -- that's the graded answer; see the diagram variant's
     // matching comment above.
     let stateText = chipText ? `filled with ${chipText}` : 'empty';
+    let content = chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : '';
     if (submitted && feedback) {
       const pass = feedback[i].pass;
       slotCls += pass ? ' correct' : ' incorrect';
       slotState += pass ? '-ok' : '-no';
       stateText += pass ? ', correct' : `, incorrect, correct answer: ${item.labels[i]}`;
+      if (!pass) {
+        // Reveal the correct label in place of the wrong one, exactly as
+        // the diagram variant already does -- marking a slot wrong while
+        // withholding the right answer left the learner (aria text aside)
+        // with nothing to learn from.
+        content = `<span class="tarkeeb-slot-answer"><span class="tarkeeb-label-text">${esc(item.labels[i])}</span></span>`;
+      }
     }
     const ariaLabel = `Label slot for ${word} — ${stateText}`;
     const interactive = !submitted;
     return `
     <div class="tarkeeb-col">
       <div class="tarkeeb-word">${esc(word)}</div>
-      <div class="${slotCls}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${chipText ? `<span class="tarkeeb-label-text">${esc(chipText)}</span>` : ''}</div>
+      <div class="${slotCls}" role="button" ${interactive ? 'tabindex="0"' : 'tabindex="-1" aria-disabled="true"'} aria-label="${escAttr(ariaLabel)}" data-action="tarkeebSlotClick" data-slot="${i}" data-key="${escAttr(key)}">${content}</div>
     </div>`;
   }).join('');
 
