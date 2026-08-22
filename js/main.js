@@ -39,6 +39,7 @@ import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAhead
 import {
   getLitBook, isChapterUnlocked, isChapterDone, loadChapter, getLoadedChapter,
   litChapterKey, resumeParagraph, chapterSentences, isBuildEligible, unknownLemmas,
+  chapterRecord,
 } from '../content-lit/index.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
@@ -3155,6 +3156,46 @@ const actions = {
     state.view = 'litBook';
     state.lit = null;
   },
+  // The Library's "Continue reading" card (audit NAV-004): one action back
+  // into the book. A chapter with a graded pass mid-way resumes Practice at
+  // its saved paragraph directly; anything else -- a fresh chapter, or one
+  // only browsed in Free read (whose own rule is "always opens at the top",
+  // so there is a real mode choice to make) -- lands on the book page with
+  // that chapter's Free read / Practice dialog already open, the same
+  // dialog its contents row would have opened, minus the hunt for the row.
+  async continueReading(el) {
+    const bookId = el.dataset.bookId;
+    const chapterId = el.dataset.chapterId;
+    const book = getLitBook(bookId);
+    if (!book || !book.chapters.some((c) => c.id === chapterId)) return false;
+    const rec = chapterRecord(state.litProgress, bookId, chapterId);
+    const done = isChapterDone(state.litProgress, bookId, chapterId);
+    if (!done && rec && rec.para > 0) {
+      const chapter = await loadChapter(bookId, chapterId);
+      if (!chapter) return false;
+      enterLitContext();
+      state.litBookId = bookId;
+      state.litChapterId = chapterId;
+      state.view = 'litRead';
+      startLitSession(chapter, resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length), false);
+      return;
+    }
+    enterLitContext();
+    state.litBookId = bookId;
+    state.view = 'litBook';
+    state.lit = null;
+    state.litChapterPreviewId = chapterId;
+  },
+  // Library search (audit NAV-004) -- see the dedicated 'input' listener
+  // near the dashboard search's, and the Escape branch in the keydown
+  // handler. The clear control is a real button with an accessible name,
+  // and clearing keeps focus in the field.
+  searchLibrary(el) {
+    state.litSearchQuery = el.value;
+  },
+  clearLibrarySearch() {
+    state.litSearchQuery = '';
+  },
   // "Free read / Practice" mode-picker modal, mirroring openLessonPreview's
   // job for grammar lessons.
   openLitChapterPreview(el) {
@@ -3601,6 +3642,10 @@ function refocusSelector(el) {
   // rendered label ("Planning <new course> — switch course"), which is what
   // tells a screen-reader user the scope actually changed (audit NAV-003).
   if (action === 'chooseScheduleCourse') return '[data-action="toggleCourseMenu"]';
+  // Clearing the Library search removes the clear button itself from the
+  // DOM -- focus continues in the field it just emptied, so a keyboard user
+  // can type a fresh query straight away (audit NAV-004).
+  if (action === 'clearLibrarySearch') return '#lit-search-input';
   // Reading is a long tab-through -- losing focus back to <body> on every
   // word or gloss would send a keyboard user to the top of the page.
   if (action === 'litWord') return `[data-action="litWord"][data-s="${el.dataset.s}"][data-t="${el.dataset.t}"]`;
@@ -3709,6 +3754,15 @@ document.addEventListener('keydown', (e) => {
     }
   }
   if (e.key !== 'Escape') return;
+  // Escape in the Library search clears the query while keeping focus in
+  // the field (audit NAV-004; the same contract UX-007 asks of the lesson
+  // search) -- checked before the overlay branches below so a stray open
+  // popover elsewhere can't swallow the keypress meant for the field.
+  if (e.target.closest && e.target.closest('#lit-search-input') && state.litSearchQuery) {
+    state.litSearchQuery = '';
+    rerender('#lit-search-input');
+    return;
+  }
   // Escape-close plays the same overlay exit the Cancel buttons do: the
   // modal (still in the old DOM) fades for a beat, then the swap lands.
   // State is already updated by the time this runs, so the deferred
@@ -3842,6 +3896,15 @@ document.addEventListener('input', (e) => {
   if (!el) return;
   actions.searchLessons(el);
   rerender('#lesson-search-input');
+});
+
+// The Library's search box (audit NAV-004): same live-as-you-type treatment,
+// same refocus reasoning, as the dashboard search just above.
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('#lit-search-input');
+  if (!el) return;
+  actions.searchLibrary(el);
+  rerender('#lit-search-input');
 });
 
 // --- drag-and-drop for tarkeeb (native events bubble, so this is delegated

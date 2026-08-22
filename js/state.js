@@ -44,6 +44,12 @@ export async function createInitialState() {
     // result is picked, so returning to the dashboard never shows a stale
     // filtered view.
     lessonSearchQuery: '',
+    // Transient: the Library's title/chapter search box (see searchLibrary
+    // in js/main.js). Not persisted. Unlike lessonSearchQuery it is NOT
+    // cleared when a book is opened -- coming back from a volume must show
+    // the same filtered shelf that was left (audit NAV-004), so it lives
+    // until the learner clears it or the session ends.
+    litSearchQuery: '',
     // Transient: true while the lesson/mastery flow currently open was
     // entered from the My Path map (see enterPathLesson in js/main.js),
     // rather than from a course's own module page -- so finishLesson and

@@ -4216,6 +4216,22 @@ function litShelfHeadingHtml(series) {
   </div>`;
 }
 
+// Diacritic-insensitive matching for the Library search (audit NAV-004):
+// every title on the shelf is fully vocalised, but nobody types harakat
+// into a search box -- so both sides are stripped of harakat/tatweel and
+// have their alif/yaa/taa-marbuta variants folded before comparing.
+function normalizeLitSearchText(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[ً-ْٰـ]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه');
+}
+function litSearchMatches(query, ...fields) {
+  return fields.some((f) => f && normalizeLitSearchText(f).includes(query));
+}
+
 function libraryHtml(state) {
   // Where the reader had got to: the first book with chapters behind it but
   // not yet finished. Falls back to nothing rather than inventing a
@@ -4232,22 +4248,54 @@ function libraryHtml(state) {
     }
   }
 
+  // One action back into the reading (audit NAV-004): the card names what
+  // pressing it does -- resume the graded pass mid-paragraph when one is
+  // underway, otherwise open this chapter's Free read / Practice choice --
+  // and continueReading in js/main.js does exactly that, instead of landing
+  // on the book page and leaving the reader to find the chapter row again.
+  const resumeRec = resume ? chapterRecord(state.litProgress, resume.book.id, resume.chapter.id) : null;
+  const resumeMidPractice = !!(resumeRec && resumeRec.para > 0);
   const resumeCard = resume ? `
-    <button class="lit-continue" data-action="openLitBook" data-book-id="${escAttr(resume.book.id)}">
+    <button class="lit-continue" data-action="continueReading"
+      data-book-id="${escAttr(resume.book.id)}" data-chapter-id="${escAttr(resume.chapter.id)}">
       <span class="lit-continue-spine" aria-hidden="true"><span lang="ar" dir="rtl">${esc(arabicNumeral(resume.index + 1))}</span></span>
       <span class="lit-continue-body">
-        <span class="kicker">Continue reading</span>
+        <span class="kicker">${resumeMidPractice ? 'Resume reading' : 'Continue reading'}</span>
         <span class="lit-continue-title" lang="ar" dir="rtl">${esc(resume.book.title.ar)}</span>
-        <span class="lit-continue-meta">Chapter ${resume.index + 1} · <bdi lang="ar">${esc(resume.chapter.title.ar)}</bdi></span>
+        <span class="lit-continue-meta">Chapter ${resume.index + 1} · <bdi lang="ar">${esc(resume.chapter.title.ar)}</bdi>${resumeMidPractice ? ` · paragraph ${resumeRec.para + 1}` : ''}</span>
       </span>
       <span class="lit-continue-chevron">${icon('chevronRight', 16, 2)}</span>
     </button>` : '';
 
+  // Search across Arabic and English titles, authors, series names and
+  // chapter titles/blurbs (audit NAV-004). The query survives a trip into a
+  // book and back -- see litSearchQuery in js/state.js -- so filters
+  // preserve the shelf the reader left.
+  const rawQuery = (state.litSearchQuery || '').trim();
+  const query = normalizeLitSearchText(rawQuery);
+  const searchTools = `
+    <div class="lit-search-wrap">
+      <input id="lit-search-input" class="home-search lit-search" type="search" data-action="searchLibrary"
+        placeholder="Search books and chapters…" value="${escAttr(state.litSearchQuery || '')}"
+        autocomplete="off" aria-label="Search the Library's books and chapters">
+      ${rawQuery ? `
+        <button class="lit-search-clear" type="button" data-action="clearLibrarySearch"
+          aria-label="Clear library search" title="Clear library search">${icon('cross', 14, 2)}</button>` : ''}
+    </div>`;
+
   // One shelf per series: its Arabic heading, a hairline out to the count,
-  // then that series' books as their own grid.
+  // then that series' books as their own grid. Under a query, only matching
+  // books stay on the shelf.
   const shelves = [];
   let current = null;
   LIT_BOOKS.forEach((book, i) => {
+    if (query) {
+      const series = bookSeries(book);
+      const bookMatch = litSearchMatches(query,
+        book.title.ar, book.title.en, book.author && book.author.ar, book.author && book.author.en,
+        book.volumeLabel, series && series.ar, series && series.en);
+      if (!bookMatch) return;
+    }
     const series = bookSeries(book);
     const key = series ? series.ar : '';
     if (!current || current.key !== key) {
@@ -4265,11 +4313,54 @@ function libraryHtml(state) {
       </div>` : ''}
     <div class="lit-shelf">${shelf.books.map(({ book, i }) => litBookCardHtml(state, book, i)).join('')}</div>`).join('');
 
+  // Chapter-level hits, capped so a broad query cannot bury the shelf. Each
+  // opens the same Free read / Practice dialog its contents row would.
+  let chapterHitsHtml = '';
+  if (query) {
+    const hits = [];
+    outer: for (const book of LIT_BOOKS) {
+      for (let ci = 0; ci < book.chapters.length; ci += 1) {
+        const c = book.chapters[ci];
+        if (litSearchMatches(query, c.title.ar, c.title.en, c.blurb)) {
+          hits.push({ book, chapter: c, index: ci });
+          if (hits.length >= 12) break outer;
+        }
+      }
+    }
+    if (hits.length) {
+      chapterHitsHtml = `
+        <div class="lit-shelf-heading">
+          <span class="lit-shelf-heading-ar" lang="ar" dir="rtl">فصول</span>
+          <span class="lit-shelf-heading-en">${hits.length}${hits.length >= 12 ? '+' : ''} chapter${hits.length === 1 ? '' : 's'}</span>
+        </div>
+        <div class="lit-search-chapters">
+          ${hits.map(({ book, chapter, index }) => `
+            <button class="entry-row" data-action="openLitChapterPreview"
+              data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}">
+              <span class="entry-row-body">
+                <span class="entry-row-title"><bdi lang="ar">${esc(chapter.title.ar)}</bdi></span>
+                <span class="entry-row-meta">${escBidi(book.title.en)} · Chapter ${index + 1}${chapter.blurb ? ` · ${escBidi(chapter.blurb)}` : ''}</span>
+              </span>
+              <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+            </button>`).join('')}
+        </div>`;
+    }
+  }
+
+  const emptyResult = query && !shelves.length && !chapterHitsHtml
+    ? emptyStateHtml({
+      icon: 'search',
+      title: 'Nothing on the shelf matches',
+      note: `No book or chapter matches “${esc(rawQuery)}” — Arabic and English titles both count.`,
+      action: '<button class="btn btn-secondary" data-action="clearLibrarySearch">Clear the search</button>',
+    })
+    : '';
+
   return `
     <div class="lit-library-page">
-      ${pageHeaderHtml({ title: 'Library', ar: 'المكتبة', lede: 'Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.' })}
-      ${resumeCard}
-      <div class="lit-shelves">${shelvesHtml}</div>
+      ${pageHeaderHtml({ title: 'Library', ar: 'المكتبة', lede: 'Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.', tools: searchTools })}
+      ${query ? '' : resumeCard}
+      <div class="lit-shelves">${chapterHitsHtml}${shelvesHtml}${emptyResult}</div>
     </div>`;
 }
 
