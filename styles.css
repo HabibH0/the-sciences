@@ -7659,21 +7659,16 @@ span.deadline-day {
   min-width: 0;
 }
 /* ---------- Reader top strip ----------
-   Sticky at the top of the reader's scroller: a deliberately quiet
-   paragraph pager on the left (icon steps + a small count) and the
-   selected word's compact dock filling the rest, so a tapped word's
-   meaning and form are always in view without travelling to a margin
-   card. Wraps on narrow screens: pager first, dock beneath. */
+   Sticky at the top of the reader's scroller: the selected word's dock --
+   the word itself, its mark button, and a small table of its facts -- so a
+   tapped word's meaning and form are always in view without travelling to
+   a margin card. The paragraph pager lives up in the reader's fixed head. */
 .lit-topbar {
   position: sticky;
   top: 0;
   z-index: 6;
-  display: flex;
-  align-items: center;
-  gap: var(--space-2) var(--space-4);
-  flex-wrap: wrap;
   min-height: 44px;
-  padding: var(--space-2) 22px;
+  padding: var(--space-2) 22px var(--space-3);
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-divider);
 }
@@ -7713,45 +7708,65 @@ span.deadline-day {
   cursor: default;
 }
 
-/* The word dock itself: one wrapping row of facts. */
+/* The word dock: the word + its mark button on one line, the facts in a
+   small bordered table beneath -- two label/value pairs per row on
+   desktop, one per row on a phone. */
 .lit-word-dock {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-4);
-  flex-wrap: wrap;
-  flex: 1;
   min-width: 0;
 }
 .lit-word-dock-hint {
   font-size: var(--text-meta);
   color: var(--color-neutral-500);
 }
+.lit-word-dock.is-empty {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+}
+.lit-word-dock-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
 .lit-word-dock-surface {
   font-family: var(--font-ar);
-  font-size: 20px;
+  font-size: 21px;
   color: var(--color-text);
   line-height: 1.4;
 }
-.lit-word-dock-item {
-  display: inline-flex;
+.lit-word-dock-mark {
+  margin-left: auto;
+  flex: none;
+}
+.lit-word-table {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr);
+  gap: 4px 14px;
   align-items: baseline;
-  gap: 6px;
+  margin: 6px 0 0;
+  padding: 8px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
   font-size: var(--text-sm);
   color: var(--color-neutral-700);
-  min-width: 0;
 }
-.lit-word-dock-label {
+.lit-word-table dt {
   font-size: var(--text-micro);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-neutral-500);
   white-space: nowrap;
 }
-.lit-word-dock-value bdi {
+.lit-word-table dd {
+  margin: 0;
+  min-width: 0;
+}
+.lit-word-table dd bdi {
   font-size: var(--text-ar-sm);
 }
-.lit-word-dock-mark {
-  margin-left: auto;
+/* In the reader head, the pager sits as its own quiet cluster between the
+   titles and the stage rail. */
+.lit-reader-head .lit-pager {
   flex: none;
 }
 @media (max-width: 640px) {
@@ -7759,13 +7774,15 @@ span.deadline-day {
     width: var(--tap-min);
     height: 38px;
   }
-  /* The dock takes its own full row under the pager -- squeezed beside it,
-     the facts wrapped into a cramped right-leaning column. */
-  .lit-word-dock {
-    flex-basis: 100%;
+  .lit-word-table {
+    grid-template-columns: max-content minmax(0, 1fr);
   }
-  .lit-word-dock-mark {
-    margin-left: 0;
+  /* Wedged beside the titles it crushed them into one-word lines; on a
+     phone the pager takes its own full row at the head's end instead. */
+  .lit-reader-head .lit-pager {
+    order: 5;
+    flex-basis: 100%;
+    justify-content: center;
   }
 }
 

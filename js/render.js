@@ -5096,11 +5096,15 @@ function litWordDockHtml(state, chapter) {
   ].filter(Boolean);
   return `
     <div class="lit-word-dock"${entry.book_note ? ` title="${escAttr(entry.book_note)}"` : ''}>
-      <bdi class="lit-word-dock-surface" lang="ar">${esc(token.surface)}</bdi>
-      ${items.map(([k, v]) => `<span class="lit-word-dock-item"><span class="lit-word-dock-label">${esc(k)}</span><span class="lit-word-dock-value">${v}</span></span>`).join('')}
-      <button class="btn btn-sm ${unknown ? 'btn-primary' : 'btn-secondary'} lit-word-dock-mark" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
-        ${unknown ? 'Marked — undo' : "I don't know this"}
-      </button>
+      <div class="lit-word-dock-head">
+        <bdi class="lit-word-dock-surface" lang="ar">${esc(token.surface)}</bdi>
+        <button class="btn btn-sm ${unknown ? 'btn-primary' : 'btn-secondary'} lit-word-dock-mark" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
+          ${unknown ? 'Marked — undo' : "I don't know this"}
+        </button>
+      </div>
+      <dl class="lit-word-table">
+        ${items.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}
+      </dl>
     </div>`;
 }
 
@@ -5320,24 +5324,26 @@ function litCompleteHtml(state, chapter) {
 // (lit.freeRead, chosen from the chapter's preview modal) drop the questions
 // entirely, so the pager grows its own "Next" button instead of relying on
 // the checks' advance button.
-// The reader's sticky top strip: a deliberately quiet paragraph pager on
-// the left (icon steps and a small count -- it used to be a full-width
-// banded bar) and the selected word's dock filling the rest, so a tapped
-// word's facts are always in view without scrolling to a margin card.
+// The paragraph pager, living in the reader's fixed head: quiet icon steps
+// in BOTH directions with the count between them. Forward is gated exactly
+// as the litNextParagraph action is -- free read stops at the last
+// paragraph, practice advances only once this paragraph's checks are
+// answered (and from the last paragraph it advances into the patterns
+// stage, same as the checks' own button).
 function litPagerHtml(state, chapter) {
   const lit = state.lit;
   const lastPara = lit.para + 1 >= chapter.paragraphs.length;
+  const para = chapter.paragraphs[lit.para];
+  const canAdvance = lit.freeRead
+    ? !lastPara
+    : para.checks.every((_, ci) => lit.checks[`${lit.para}:${ci}`]);
   return `
-    <div class="lit-topbar">
-      <div class="lit-pager" role="group" aria-label="Paragraphs">
-        <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}
-          aria-label="Previous paragraph" title="Previous paragraph">${icon('arrowLeft', 15, 2)}</button>
-        <span class="lit-pager-count">${lit.para + 1} / ${chapter.paragraphs.length}${lit.freeRead ? ' · free read' : ''}</span>
-        ${lit.freeRead ? `
-        <button class="lit-pager-btn" data-action="litNextParagraph" ${lastPara ? 'disabled' : ''}
-          aria-label="Next paragraph" title="Next paragraph">${icon('arrowRight', 15, 2)}</button>` : ''}
-      </div>
-      ${litWordDockHtml(state, chapter)}
+    <div class="lit-pager" role="group" aria-label="Paragraphs">
+      <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}
+        aria-label="Previous paragraph" title="Previous paragraph">${icon('arrowLeft', 15, 2)}</button>
+      <span class="lit-pager-count">${lit.para + 1} / ${chapter.paragraphs.length}${lit.freeRead ? ' · free read' : ''}</span>
+      <button class="lit-pager-btn" data-action="litNextParagraph" ${canAdvance ? '' : 'disabled'}
+        aria-label="Next paragraph" title="Next paragraph">${icon('arrowRight', 15, 2)}</button>
     </div>`;
 }
 
@@ -5348,7 +5354,7 @@ function litReadStageHtml(state, chapter) {
   // sits below the whole passage, after every marker has already been met.
   const intro = lit.para === 0 ? `
     <p class="lit-intro only-phone">Tap a word for its meaning and form — tap the small ${icon('book', 10, 2)} at a phrase's end for its English.</p>` : '';
-  return `${litPagerHtml(state, chapter)}
+  return `<div class="lit-topbar">${litWordDockHtml(state, chapter)}</div>
     ${intro}
     ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
     ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
@@ -5383,6 +5389,7 @@ function litReadHtml(state) {
           <h1 class="lit-reader-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</h1>
           <span class="lit-reader-en">${escBidi(chapter.title.en)}</span>
         </div>
+        ${lit.stage === 'read' ? litPagerHtml(state, chapter) : ''}
         ${sectionsMenuHtml(state)}
         ${lit.freeRead ? '' : `${litRailHtml(state)}${progressBar(pct)}`}
       </div>
