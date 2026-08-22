@@ -4726,8 +4726,18 @@ bdi,
   line-height: 1.55;
   color: var(--color-neutral-700);
 }
+/* The whole-paragraph translation (the gutter's EN toggle). It renders as a
+   flex child of .lit-para, and without a forced wrap it sat BESIDE the
+   Arabic as a third column -- squeezing the passage into a one-word-wide
+   vertical strip at every width, worst at 390px where the English then
+   owned the whole screen (the audit's UI-001). flex-basis:100% (with wrap
+   on .lit-para below) drops it onto its own full-width row underneath: the
+   Arabic keeps its full measure, and the English reads as a stacked panel
+   aligned under the text it translates. */
 .lit-para-full {
-  margin: 14px 22px 0;
+  flex-basis: 100%;
+  min-width: 0;
+  margin: 14px 0 0 26px;
   padding: 12px 14px;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
@@ -7633,6 +7643,8 @@ span.deadline-day {
 .lit-para {
   position: relative;
   padding-bottom: 40px;
+  /* Lets .lit-para-full take its own row below the Arabic -- see its rule. */
+  flex-wrap: wrap;
 }
 .lit-gloss {
   position: absolute;
