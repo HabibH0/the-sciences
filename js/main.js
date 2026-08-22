@@ -71,12 +71,15 @@ import {
   dismissDelay, dismissOpenModal, dismissOpenPopover, markBusy, unmarkBusy, DUR,
 } from './motion.js';
 
+// `plate` is each theme's ink-plate colour (the pre-resolved value of the
+// CSS --color-plate mix), for tinting the browser chrome when a dark plate
+// is the screen's top surface -- see applyAppearance.
 const THEME_CHROME = {
-  manuscript: { bg: '#f3f2f2', scheme: 'light' },
-  mushaf: { bg: '#f7f1e1', scheme: 'light' },
-  lamp: { bg: '#16130f', scheme: 'dark' },
-  ink: { bg: '#eceef1', scheme: 'light' },
-  sepia: { bg: '#ece0ca', scheme: 'light' },
+  manuscript: { bg: '#f3f2f2', scheme: 'light', plate: '#1d1c1b' },
+  mushaf: { bg: '#f7f1e1', scheme: 'light', plate: '#1f241c' },
+  lamp: { bg: '#16130f', scheme: 'dark', plate: '#13110d' },
+  ink: { bg: '#eceef1', scheme: 'light', plate: '#191d25' },
+  sepia: { bg: '#ece0ca', scheme: 'light', plate: '#291e13' },
 };
 
 const state = await createInitialState();
@@ -786,7 +789,14 @@ function applyAppearance(state) {
   const chrome = THEME_CHROME[state.theme] || THEME_CHROME.manuscript;
   document.documentElement.style.colorScheme = chrome.scheme;
   document.body.style.backgroundColor = chrome.bg;
-  setMetaContent('theme-color', chrome.bg);
+  // iOS Safari paints its status-bar region from theme-color. The phone
+  // dashboard opens on the full-bleed ink hero, so a paper-coloured
+  // theme-color left a light strip over the dark plate, right where the
+  // clock sits. When the phone layout's top surface is the plate, the
+  // chrome tint follows it; every other screen keeps the paper.
+  const plateOnTop = state.view === 'dashboard'
+    && window.matchMedia('(max-width: 900px)').matches;
+  setMetaContent('theme-color', plateOnTop ? chrome.plate : chrome.bg);
   const face = FACES[state.arabicFace] || FACES.naskh;
   const headingFaceKey = state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
   const headingFace = HEADING_FACES[headingFaceKey] || HEADING_FACES.body;

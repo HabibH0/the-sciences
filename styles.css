@@ -2055,7 +2055,7 @@ bdi,
   .home-hero-inner {
     grid-template-columns: 1fr;
     gap: 14px;
-    padding: 16px 22px 16px;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 22px 16px;
   }
   .home-hero-title {
     font-size: 21px;
@@ -2191,6 +2191,11 @@ bdi,
   /* No bottom padding: .lesson-foot is sticky and carries its own end
      padding, so it should rest flush at the page's end. */
   padding: 20px 32px 0;
+  /* Flex column + the footer's margin-top:auto pin the footer to the
+     page's end even when the concept is short; sticky takes over once the
+     content is long enough to scroll. */
+  display: flex;
+  flex-direction: column;
 }
 .lesson-head {
   display: flex;
@@ -2234,7 +2239,7 @@ bdi,
 }
 
 .lesson-body {
-  padding: 22px 0 0;
+  padding: 22px 0 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -5993,7 +5998,7 @@ button.concept-dot {
   gap: var(--space-3);
   flex-wrap: wrap;
   padding: var(--space-3) 0 calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
-  margin-top: var(--space-6);
+  margin-top: auto;
   border-top: 1px solid var(--color-divider);
   /* Pinned to the scroll viewport's bottom edge: paging between concepts
      shouldn't require travelling to the end of a long concept first. The
