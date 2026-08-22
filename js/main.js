@@ -1189,6 +1189,18 @@ function accountFieldError(email, password, { minPasswordLength = 1 } = {}) {
   return null;
 }
 
+// The account form's inputs are uncontrolled, so every rerender() rebuilds
+// them empty -- any flow that re-renders mid-form (a validation failure, the
+// "Signing in..." progress state, a failed sign-in) was silently discarding
+// whatever the learner had typed. Callers capture the values first and put
+// them back after the swap.
+function restoreAccountInputs(email, password) {
+  const emailEl = document.getElementById('account-email');
+  if (emailEl && email !== undefined) emailEl.value = email;
+  const passwordEl = document.getElementById('account-password');
+  if (passwordEl && password !== undefined) passwordEl.value = password;
+}
+
 async function refreshCloudSaveStatus() {
   try {
     state.account.cloudStatus = await getCloudSaveStatus();
@@ -2413,13 +2425,16 @@ const actions = {
     state.account.fieldError = fieldError;
     if (fieldError) {
       state.account.message = '';
-      rerender();
-      return;
+      // Focus lands on the failing field, with what was typed still in it.
+      rerender(`#account-${fieldError.field}`);
+      restoreAccountInputs(email, password);
+      return false;
     }
     state.account.status = 'working';
     state.account.message = 'Creating account...';
     state.account.messageTone = 'info';
     rerender();
+    restoreAccountInputs(email, password);
     try {
       const result = await register(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
@@ -2438,7 +2453,13 @@ const actions = {
       state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
+      // Self-rendered (return false skips the dispatcher's own rerender) so
+      // a failed attempt can put the typed values back afterwards -- on
+      // success the signed-in panel has no inputs and the restore no-ops.
+      rerender();
+      restoreAccountInputs(email, password);
     }
+    return false;
   },
   // DOM-only, no rerender (`return false`): a rerender would rebuild the
   // uncontrolled password <input> and silently discard whatever's typed.
@@ -2459,13 +2480,15 @@ const actions = {
     state.account.fieldError = fieldError;
     if (fieldError) {
       state.account.message = '';
-      rerender();
-      return;
+      rerender(`#account-${fieldError.field}`);
+      restoreAccountInputs(email, password);
+      return false;
     }
     state.account.status = 'working';
     state.account.message = 'Signing in...';
     state.account.messageTone = 'info';
     rerender();
+    restoreAccountInputs(email, password);
     try {
       const result = await login(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
@@ -2484,7 +2507,11 @@ const actions = {
       state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
+      // See registerAccount's matching comment.
+      rerender();
+      restoreAccountInputs(email, password);
     }
+    return false;
   },
   async logoutAccount() {
     state.account.status = 'working';
@@ -2622,6 +2649,16 @@ const actions = {
   // refocus) rather than through the generic click/change dispatch alone.
   searchLessons(el) {
     state.lessonSearchQuery = el.value;
+  },
+  // The visible × beside the search field, as a real focusable button --
+  // clearing restores the module list and puts focus back in the field so a
+  // fresh search can start immediately. Escape does the same while the
+  // field is focused (see the keydown handler below).
+  clearLessonSearch() {
+    if (!state.lessonSearchQuery) return false;
+    state.lessonSearchQuery = '';
+    rerender('#lesson-search-input');
+    return false;
   },
   // A search result row -- spans every unlocked module of the course, so
   // (unlike openLessonPreview, reached only from inside a module page
@@ -3674,6 +3711,13 @@ document.addEventListener('keydown', (e) => {
     }
   }
   if (e.key !== 'Escape') return;
+  // Escape in the lesson search clears the query and keeps focus in the
+  // field -- the keyboard equivalent of the visible × beside it.
+  if (e.target && e.target.id === 'lesson-search-input' && state.lessonSearchQuery) {
+    state.lessonSearchQuery = '';
+    rerender('#lesson-search-input');
+    return;
+  }
   // Escape-close plays the same overlay exit the Cancel buttons do: the
   // modal (still in the old DOM) fades for a beat, then the swap lands.
   // State is already updated by the time this runs, so the deferred
@@ -3783,6 +3827,11 @@ document.addEventListener('input', (e) => {
   applyAppearance(state);
   const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
   if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  // The Account page's copies of these sliders have no data-*-value outputs
+  // of their own -- patch the readout sitting in this slider's own control
+  // block, so the visible percentage tracks arrow keys and drags there too.
+  const localValue = el.closest('.lesson-size-control')?.querySelector('.lesson-size-value');
+  if (localValue) localValue.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
   // The track's travelled portion is painted from --range-pct (see the range
   // rules in styles.css -- WebKit has no ::-moz-range-progress, and the
   // native track it would otherwise use is a solid dark bar). Patched by
@@ -3795,6 +3844,33 @@ document.addEventListener('input', (e) => {
     el.style.setProperty('--range-pct', `${pct}%`);
   }
   persistSoon(state);
+});
+
+// Once a submission has failed validation, the error tracks the input
+// instead of describing a value that is no longer there: fixing the field
+// clears its message without another submit, and emptying it swaps the
+// format error for the required-field one. Only the field the standing
+// error names is ever re-judged here -- the OTHER field's problems still
+// wait for a real submit, so nobody is scolded about a password they have
+// not typed yet. The rerender rebuilds the uncontrolled inputs, so both
+// values (and the caret) are put back by hand.
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('#account-email, #account-password');
+  if (!el || !state.account.fieldError) return;
+  const email = document.getElementById('account-email')?.value || '';
+  const password = document.getElementById('account-password')?.value || '';
+  const prev = state.account.fieldError;
+  const recomputed = accountFieldError(email, password);
+  const next = recomputed && recomputed.field === prev.field ? recomputed : null;
+  if (next && next.message === prev.message) return;
+  state.account.fieldError = next;
+  const caret = el.selectionStart;
+  rerender(`#${el.id}`);
+  restoreAccountInputs(email, password);
+  const fresh = document.getElementById(el.id);
+  if (fresh && caret !== null && caret !== undefined) {
+    try { fresh.setSelectionRange(caret, caret); } catch (err) { /* email inputs disallow selection APIs in some engines */ }
+  }
 });
 
 // The dashboard's lesson search box also wants a live-as-you-type result

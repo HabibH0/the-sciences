@@ -255,11 +255,16 @@ function shellTabs(state) {
 
 function shellStatsHtml(state) {
   const li = levelInfo(state.xp);
+  const streak = state.streak || 1;
+  // The aria-label names both the status and the destination -- from its
+  // visible content alone this control announced as little more than two
+  // bare numbers.
   return `
-    <a class="app-stats" href="#/account/achievements" data-action="openAchievements" title="Streak and level">
-      <span class="app-stat" title="Current streak">${icon('flame', 13, 2)}${state.streak || 1}</span>
+    <a class="app-stats" href="#/account/achievements" data-action="openAchievements" title="Streak and level"
+      aria-label="Achievements — ${streak}-day streak, level ${li.level}">
+      <span class="app-stat" title="Current streak" aria-hidden="true">${icon('flame', 13, 2)}${streak}</span>
       <span class="app-stats-sep" aria-hidden="true"></span>
-      <span class="app-stat" title="Level ${li.level}">Level ${li.level}</span>
+      <span class="app-stat" title="Level ${li.level}" aria-hidden="true">Level ${li.level}</span>
     </a>`;
 }
 
@@ -595,10 +600,11 @@ function homeHeroHtml(state, MODULES) {
         <div>
           <div class="home-hero-top">
             <div class="home-hero-greeting" lang="ar" dir="rtl">السلام عليكم</div>
-            <button class="home-hero-pill only-phone" data-action="openAchievements" title="Streak and level">
-              <span>${icon('flame', 13, 2)}${streak}</span>
+            <button class="home-hero-pill only-phone" data-action="openAchievements" title="Streak and level"
+              aria-label="Achievements — ${streak}-day streak, level ${li.level}">
+              <span aria-hidden="true">${icon('flame', 13, 2)}${streak}</span>
               <span class="home-hero-pill-sep" aria-hidden="true"></span>
-              <span>${icon('shield', 13, 2)}${li.level}</span>
+              <span aria-hidden="true">${icon('shield', 13, 2)}${li.level}</span>
             </button>
           </div>
           <h1 class="home-hero-title">${title}</h1>
@@ -732,9 +738,14 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
             <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
           </div>
           ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
-          <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
-            placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
-            autocomplete="off" aria-label="Search lessons in this course">
+          <div class="home-search-wrap">
+            <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
+              placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
+              autocomplete="off" aria-label="Search lessons in this course">
+            ${state.lessonSearchQuery ? `
+            <button class="home-search-clear" type="button" data-action="clearLessonSearch"
+              aria-label="Clear lesson search" title="Clear lesson search">${icon('cross', 14, 2)}</button>` : ''}
+          </div>
           ${query
             ? lessonSearchResultsHtml(MODULES, state, query)
             : `<div class="module-list noscroll">${rows}</div>`}
