@@ -5845,6 +5845,19 @@ mark.search-hit {
   align-items: center;
   justify-items: center;
 }
+/* A slot (or read-only label) box spans the WHOLE length of the word(s) it
+   sits under: its anonymous wrapper div carries the grid-column span inline,
+   so the wrapper stretches across it and the box fills the wrapper. The
+   sentence cells and row labels keep the grid's centred shrink-wrap. */
+.tarkeeb-diagram-grid > div:not(.tarkeeb-diagram-cell):not(.tarkeeb-diagram-row-label) {
+  justify-self: stretch;
+  min-width: 0;
+}
+.tarkeeb-diagram-slot,
+.tarkeeb-diagram-label {
+  width: 100%;
+  text-align: center;
+}
 .tarkeeb-diagram-cell {
   font-family: var(--font-ar);
   font-size: calc(19px * var(--lesson-text-scale));
