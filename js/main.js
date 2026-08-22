@@ -682,7 +682,9 @@ function updateContextBar() {
   const bar = root.querySelector('.context-bar');
   if (!bar) return;
   const container = mainScrollContainer();
-  const header = root.querySelector('.page-header');
+  // Whichever identity block the screen leads with: Home has the ink hero
+  // instead of a page header, and its phone context bar keys off that.
+  const header = root.querySelector('.page-header, .home-hero');
   if (!container || !header) return;
   const containerTop = container.getBoundingClientRect().top;
   bar.classList.toggle('is-shown', header.getBoundingClientRect().bottom < containerTop + 6);

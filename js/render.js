@@ -785,6 +785,9 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
   const query = (state.lessonSearchQuery || '').trim();
   return `
     <div class="home-page${switchingCourse ? ' is-switching' : ''}">
+      <div class="context-bar" aria-hidden="true">
+        <div class="context-bar-inner"><span class="context-bar-title">${esc(activeCourse ? activeCourse.name : 'Home')}</span></div>
+      </div>
       ${homeHeroHtml(state, MODULES)}
       <div class="home-body">
         <section class="home-modules-col">

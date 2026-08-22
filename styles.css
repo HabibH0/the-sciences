@@ -1394,7 +1394,9 @@ bdi,
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 0;
+  /* No min-height:0 -- the page must grow to its content's full height, or
+     it becomes the pinned hero's containing block at viewport height and
+     the hero unsticks after a few pixels of scroll. */
 }
 
 /* Full-bleed ink band, its contents held to the same measure as the body. */
@@ -8428,6 +8430,67 @@ span.deadline-day {
   }
 }
 
+/* --- Every hero/header panel pins: the shell never scrolls out of view ---
+   All of these stay position:sticky INSIDE the one page scroll (no internal
+   scrollers come back): the shell holds at the top, the break is its bottom
+   edge, and the content slides beneath it. */
+
+/* The screen's own identity row: crumb, title and the concept dots (which
+   are navigation) hold the top on every form factor, pairing with the
+   already-pinned .lesson-foot below. */
+.lesson-head {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  background: var(--color-bg);
+}
+
+@media (min-width: 901px) {
+  /* Home: the full-bleed ink hero is the fixed identity; modules and the
+     rail scroll under its bottom edge. Phone leaves the hero in flow (it
+     would claim half the viewport) and gets the condensing context bar. */
+  .home-hero {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+  }
+  /* Library: the masthead -- title, lede and the search box -- pins, same
+     treatment as Schedule/Account at the library's 20px top padding. */
+  .lit-library-page > .page-header {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--color-bg);
+    margin: -20px -32px var(--space-6);
+    padding: 20px 32px 14px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  /* Settings sub-pages: the masthead pins within its column. */
+  .settings-col > .page-header {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--color-bg);
+    padding-top: 12px;
+    margin-top: -12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  /* The ink covers pin: module page, book page, and the hero-plate pages
+     (Achievements, My Path). The paper collar (a spread-only box-shadow in
+     the page colour) fills the notches the plates' rounded corners leave
+     against the viewport edge, so scrolling content never peeks through
+     them while it passes underneath. */
+  .module-page .module-cover,
+  .lit-book-page > .plate,
+  .hero-page > .plate {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    box-shadow: 0 0 0 12px var(--color-bg);
+  }
+}
+
 /* ==========================================================================
    Motion
    The app's whole motion vocabulary, in one layer. Everything here follows
@@ -8885,10 +8948,47 @@ body {
    So the lists are no longer animated at all, and the page moves --travel-sm
    and no further. The indicator sliding to the new tab is what carries the
    continuity; this just keeps the content from arriving on a hard cut. */
-.screen-enter .main-content {
+/* Screens that lead with a pinned shell (hero, masthead, cover, lesson
+   head, reader head) keep that shell perfectly still on arrival: the slide
+   applies only to the content region below the break. Animating
+   .main-content there would not only move the shell -- a transformed
+   ancestor becomes the containing block for position:sticky, so every
+   pinned shell would also visibly unstick for the duration of the
+   entrance. Screens without a shell keep the whole-screen slide. */
+.screen-enter .main-content:not(:has(.home-hero, .page-header, .module-cover, .hero-plate, .lit-book-page > .plate, .lesson-head, .lit-reader-head)) {
   animation: m-screen-in var(--t-ui) var(--ease-out) backwards;
 }
-.screen-enter.screen-enter-back .main-content {
+.screen-enter.screen-enter-back .main-content:not(:has(.home-hero, .page-header, .module-cover, .hero-plate, .lit-book-page > .plate, .lesson-head, .lit-reader-head)) {
+  animation-name: m-screen-back;
+}
+.screen-enter :is(
+  .home-body,
+  .lit-library-page > :not(.page-header, .context-bar),
+  .schedule-page > :not(.page-header, .context-bar),
+  .account-page > :not(.page-header, .context-bar),
+  .settings-col > :not(.page-header, .module-backrow, .context-bar),
+  .module-page > section > :not(.module-cover),
+  .module-page > .module-rail,
+  .hero-page > :not(.plate, .module-backrow),
+  .lit-book-page > :not(.plate, .module-backrow),
+  .lesson-body,
+  .lit-reader-body
+) {
+  animation: m-screen-in var(--t-ui) var(--ease-out) backwards;
+}
+.screen-enter.screen-enter-back :is(
+  .home-body,
+  .lit-library-page > :not(.page-header, .context-bar),
+  .schedule-page > :not(.page-header, .context-bar),
+  .account-page > :not(.page-header, .context-bar),
+  .settings-col > :not(.page-header, .module-backrow, .context-bar),
+  .module-page > section > :not(.module-cover),
+  .module-page > .module-rail,
+  .hero-page > :not(.plate, .module-backrow),
+  .lit-book-page > :not(.plate, .module-backrow),
+  .lesson-body,
+  .lit-reader-body
+) {
   animation-name: m-screen-back;
 }
 
@@ -9139,13 +9239,14 @@ body {
   pointer-events: none;
 }
 /* Home while a course switch is loading (audit MOT-002): the old course's
-   hero and lists visibly stand down -- they must not look authoritative
-   while the switch trigger already names the incoming course -- and nothing
-   under them is clickable until the new course lands. The section head is
+   lists visibly stand down -- they must not look authoritative while the
+   switch trigger already names the incoming course -- and nothing under
+   them is clickable until the new course lands. The section head is
    deliberately NOT in this list: it holds the trigger, which is the one
    element narrating the switch (target course name + busy spinner) and must
-   stay fully legible. */
-.home-page.is-switching :is(.home-hero, .home-search, .module-list, .lesson-search-results, .home-rail) {
+   stay fully legible. The hero is not in it either: it is the page's pinned
+   shell, and the shell sits outside motion and state dimming alike. */
+.home-page.is-switching :is(.home-search, .module-list, .lesson-search-results, .home-rail) {
   opacity: 0.45;
   transition: opacity var(--t-quick) var(--ease);
 }
