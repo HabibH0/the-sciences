@@ -220,9 +220,13 @@
      uppercase and letterspaced, where the caps height buys back the size.
      It is also where the old 8.5px and 9px labels landed, which were below
      what this face stays legible at. */
-  --text-micro: 10px;   /* kickers, tags, axis labels */
-  --text-meta: 11px;    /* metadata, ledger labels, helper lines */
-  --text-sm: 12px;      /* secondary body, notes, row subtitles */
+  /* Raised one step in the audit's typography pass (UI-009): supporting
+     text at 10-11px made the restrained palette read faint, especially on
+     desktop. Micro stays the caps-and-letterspacing floor; running
+     metadata should sit on -meta or above. */
+  --text-micro: 11px;   /* kickers, tags, axis labels */
+  --text-meta: 12px;    /* metadata, ledger labels, helper lines */
+  --text-sm: 12.5px;    /* secondary body, notes, row subtitles */
   --text-base: 13px;    /* UI default: buttons, inputs, row titles */
   --text-md: 15px;      /* lesson and reader prose */
   --text-lg: 17px;      /* callouts, group headings */
@@ -1022,12 +1026,16 @@ bdi,
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
 }
+/* Primary carries a resting accent wash as well as the stroke (UI-007): a
+   1px colour change alone left the one action to press indistinguishable
+   from every passive hairline box around it. Still a wash, never a slab --
+   the accent stays a stroke colour in this system. */
 .btn-primary,
 .ds-btn-primary,
 .btn-outline {
   border-color: var(--color-accent);
   color: var(--color-accent-700);
-  background: transparent;
+  background: var(--accent-tint-weak);
 }
 .btn-primary:hover:not(:disabled),
 .ds-btn-primary:hover:not(:disabled),
@@ -1110,6 +1118,9 @@ bdi,
 .plate .ds-btn-primary {
   border-color: var(--color-accent);
   color: var(--color-accent);
+  /* The paper-mixed wash above would read as a light smudge on ink -- the
+     plate's primary takes its wash from the accent alone. */
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 .plate .btn:hover:not(:disabled),
 .plate .ds-btn:hover:not(:disabled) {
@@ -1531,6 +1542,18 @@ bdi,
   margin-top: 1px;
   display: block;
 }
+/* What the module teaches, in one clamped line -- browsing 30 titles no
+   longer means opening each one to find out (UI-005). Desktop only: the
+   phone rows stay compact. */
+.module-row-outcome {
+  display: block;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .module-row-current .module-row-status {
   color: var(--color-accent-700);
 }
@@ -1739,7 +1762,7 @@ bdi,
   color: var(--color-text);
 }
 .home-explore-meta {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 
@@ -1890,9 +1913,7 @@ bdi,
   color: var(--color-text);
 }
 .lesson-section-note {
-  font-size: var(--text-micro);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 
@@ -1961,7 +1982,7 @@ bdi,
 }
 .lesson-row-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   margin-top: 6px;
   font-variant-numeric: tabular-nums;
@@ -2020,22 +2041,34 @@ bdi,
   }
 }
 
-/* ---------- Home: phone ---------- */
+/* ---------- Home: phone ----------
+   Content-prioritised (UI-008): the hero establishes context and offers one
+   action, then hands the viewport to the module list -- it does not restate
+   the desktop band at full height. */
 @media (max-width: 900px) {
   .home-hero-inner {
     grid-template-columns: 1fr;
-    gap: 22px;
-    padding: 22px 22px 20px;
+    gap: 14px;
+    padding: 16px 22px 16px;
   }
   .home-hero-title {
-    font-size: 25px;
+    font-size: 21px;
+    margin-top: 3px;
+  }
+  .home-hero .rule-accent {
+    display: none;
   }
   .home-resume {
     max-width: none;
     flex-wrap: wrap;
+    margin-top: 12px;
+    padding: 11px 13px;
   }
   .home-resume .btn {
     width: 100%;
+  }
+  .home-resume-cta {
+    margin-top: 8px;
   }
   .home-body {
     display: flex;
@@ -3920,7 +3953,7 @@ bdi,
   display: block;
 }
 .theme-card-note {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   display: block;
 }
@@ -4072,7 +4105,7 @@ bdi,
   display: block;
 }
 .specimen-word-label {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   display: block;
 }
@@ -4243,6 +4276,15 @@ bdi,
   border-radius: 2px 4px 4px 2px;
   background: var(--color-plate);
   border-left: 2px solid var(--color-accent);
+  /* The volume's numeral within its series (UI-010) -- the one glanceable
+     landmark on an otherwise uniform shelf, matching .lit-continue-spine. */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-family: var(--font-ar-heading);
+  font-size: var(--text-base);
+  color: var(--color-accent);
 }
 .lit-book-face {
   flex: 1;
@@ -4285,7 +4327,7 @@ bdi,
   background: var(--color-accent);
 }
 .lit-book-meta {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
   flex: none;
@@ -4447,7 +4489,7 @@ bdi,
   display: block;
 }
 .lit-chapter-pages {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   margin-top: 6px;
   font-variant-numeric: tabular-nums;
@@ -4916,7 +4958,7 @@ bdi,
 }
 .lit-unknown-gloss {
   font-family: var(--font-body);
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 .lit-unknown-empty {
@@ -5247,7 +5289,7 @@ bdi,
   display: block;
 }
 .lesson-search-row-module {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   flex: none;
 }
@@ -5779,7 +5821,7 @@ bdi,
 }
 .path-group-card-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
   margin-top: 6px;
@@ -6051,7 +6093,7 @@ button.concept-dot {
 }
 .up-next-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   margin-top: 1px;
 }
@@ -6719,7 +6761,7 @@ span.deadline-day {
   white-space: nowrap;
 }
 .course-row-en {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   white-space: nowrap;
   overflow: hidden;
@@ -7189,7 +7231,7 @@ span.deadline-day {
   min-width: 0;
 }
 .module-pager-label {
-  font-size: 10px;
+  font-size: var(--text-micro);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-accent-700);
@@ -7432,6 +7474,55 @@ span.deadline-day {
   }
   .module-page-wrap .module-page {
     margin-top: 0;
+  }
+}
+
+/* ---------- Phone covers: task-first heroes (UI-008) ----------
+   The module and book covers keep their identity but stop spending the
+   first viewport on it: the description clamps to two lines behind its own
+   expander, so the lesson/chapter list is on screen from the start. */
+.cover-blurb-toggle {
+  display: none;
+}
+@media (max-width: 900px) {
+  .module-cover,
+  .lit-cover {
+    padding: 16px 18px 14px;
+  }
+  .cover-blurb:not(.is-open) {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .cover-blurb-toggle {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-meta);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cover-blurb-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  /* The Achievements plate: keep the identity row tight so the "Closest
+     next" shelf below it makes the first viewport. */
+  .hero-plate .ach-ledger-block {
+    margin: 10px 0 0;
+    padding: 10px 0 0;
+    border-bottom: 0;
+  }
+  .hero-plate .ach-level-progress {
+    margin-bottom: 0;
   }
 }
 @media (min-width: 901px) {
@@ -7739,6 +7830,33 @@ span.deadline-day {
 .lit-chapter-list .lit-chapter.is-current,
 .lesson-list .lesson-row-current {
   box-shadow: var(--shadow-sm);
+}
+
+/* One frame per level (UI-007): a repeated row inside an already-bordered
+   pane drops its own full outline and separates by hairline divider
+   instead -- containers, rows and actions stop competing at the same
+   visual weight, and a thirty-row list stops reading as thirty cards
+   inside a card. The one CURRENT (or selected) row keeps the full accent
+   frame: coming forward is its job. Book cards in the Library shelves are
+   deliberately exempt -- a cover is a genuinely self-contained object. */
+.module-list .module-row:not(.module-row-current),
+.lit-chapter-list .lit-chapter:not(.is-current),
+.revision-module-list .revision-module-row:not(.is-selected) {
+  border-color: transparent;
+  border-bottom-color: var(--color-divider);
+  border-radius: 0;
+}
+.module-list .module-row:not(.module-row-current):last-child,
+.lit-chapter-list .lit-chapter:not(.is-current):last-child,
+.revision-module-list .revision-module-row:not(.is-selected):last-child {
+  border-bottom-color: transparent;
+}
+/* Hover keeps a visible boundary while the frame is gone. */
+.module-list .module-row:not(.module-row-current):hover,
+.lit-chapter-list .lit-chapter:not(.is-current):hover,
+.revision-module-list .revision-module-row:not(.is-selected):hover {
+  background: var(--color-neutral-100);
+  border-bottom-color: var(--color-divider);
 }
 
 /* ---------- Bounded scroll panes ----------

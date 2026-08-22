@@ -1853,6 +1853,12 @@ const actions = {
     state.pathActive = false;
     state.pathHome = false;
     state.litHome = false;
+    state.coverBlurbOpen = false;
+  },
+  // Phone-only: the module/book cover clamps its description to a couple of
+  // lines (see .cover-blurb in styles.css); this opens and closes the rest.
+  toggleCoverBlurb() {
+    state.coverBlurbOpen = !state.coverBlurbOpen;
   },
   // --- My Path ---
   // Always lands on the group list
@@ -3229,6 +3235,7 @@ const actions = {
     state.litBookId = bookId;
     state.view = 'litBook';
     state.lit = null;
+    state.coverBlurbOpen = false;
   },
   // "Free read / Practice" mode-picker modal, mirroring openLessonPreview's
   // job for grammar lessons.

@@ -217,6 +217,9 @@ export async function createInitialState() {
     // Transient: Achievements' catalogue filter -- 'all' | 'progress' |
     // 'earned'. Not persisted; always reopens on 'all'.
     achievementsFilter: 'all',
+    // Transient: whether a cover blurb (module page / book page) is expanded
+    // past its phone clamp. Reset on entering a module or book.
+    coverBlurbOpen: false,
     // Transient: Revision's "Pick a module" vs "Random" toggle. Not
     // persisted -- always reopens on "pick".
     scheduleRevisionMode: 'pick',

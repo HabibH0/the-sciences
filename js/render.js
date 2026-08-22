@@ -397,6 +397,16 @@ function emptyStateHtml({ icon: iconName, title, note, action = '' }) {
     </div>`;
 }
 
+// The first sentence of a module blurb, for the dashboard rows' outcome
+// line -- enough to say what the module teaches while browsing, without
+// growing every row by a paragraph.
+function firstSentence(text) {
+  const t = String(text || '').trim();
+  const m = t.match(/^.*?[.!؟?](\s|$)/);
+  const s = (m ? m[0] : t).trim();
+  return s.length > 110 ? `${s.slice(0, 107).trimEnd()}…` : s;
+}
+
 // The next thing to do: the first incomplete lesson in course order. Since
 // isLessonUnlocked already gates lessons sequentially within an unlocked
 // module, and isModuleUnlocked gates modules sequentially too, the first
@@ -707,6 +717,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
         <span class="module-row-num only-phone">${i + 1}</span>
         <span class="module-row-body">
           <span class="module-row-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+          ${m.blurb ? `<span class="module-row-outcome only-desktop">${escBidi(firstSentence(m.blurb))}</span>` : ''}
           <span class="module-row-status">${esc(status)}</span>
         </span>
         ${stateIcon ? `<span class="module-row-state only-phone">${stateIcon}</span>` : ''}
@@ -900,7 +911,8 @@ function modulePageHtml(state, MODULES) {
             ${chapterPath ? `<div class="module-cover-path" lang="ar" dir="rtl">${esc(chapterPath)}</div>` : ''}
             <h1 class="module-cover-title" lang="ar" dir="rtl">${esc(mod.title)}</h1>
             <div class="module-cover-rule" aria-hidden="true"></div>
-            <p class="module-cover-blurb">${escBidi(mod.blurb)}</p>
+            <p class="module-cover-blurb cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(mod.blurb)}</p>
+            <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'}</button>
             <div class="module-cover-progress">
               <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
               <span class="module-cover-count">${done} / ${total} lesson${total === 1 ? '' : 's'}</span>
@@ -4293,9 +4305,16 @@ function litBookCardHtml(state, book, index) {
   const { done, total } = bookProgress(book, state.litProgress);
   const pct = total ? Math.round((done / total) * 100) : 0;
   const started = done > 0;
+  // The spine carries the volume's own numeral within its series (same
+  // treatment the Continue-reading card already uses) -- fourteen
+  // otherwise-identical black spines gave the shelf no landmarks at all.
+  const series = bookSeries(book);
+  const seriesKey = series ? series.ar : '';
+  const seriesBooks = LIT_BOOKS.filter((b) => ((bookSeries(b) || {}).ar || '') === seriesKey);
+  const volumeNumber = seriesBooks.indexOf(book) + 1;
   return `
     <button class="lit-book${started && done < total ? ' is-current' : ''}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
-      <span class="lit-book-spine" aria-hidden="true"></span>
+      <span class="lit-book-spine" aria-hidden="true"><bdi lang="ar">${esc(arabicNumeral(volumeNumber))}</bdi></span>
       <span class="lit-book-face">
         <span class="lit-book-kicker">${esc(book.volumeLabel || '')}</span>
         <span class="lit-book-title" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
@@ -4513,7 +4532,8 @@ function litBookHtml(state) {
           <h1 class="lit-cover-title" lang="ar" dir="rtl">${esc(book.title.ar)}</h1>
           <div class="module-cover-rule" aria-hidden="true"></div>
           <p class="lit-cover-author" lang="ar" dir="rtl">${esc(book.author.ar)}</p>
-          <p class="lit-cover-body">${escBidi(book.blurb)}</p>
+          <p class="lit-cover-body cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(book.blurb)}</p>
+          <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'}</button>
           <div class="module-cover-progress">
             <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
             <span class="module-cover-count">${done} / ${total} read</span>
