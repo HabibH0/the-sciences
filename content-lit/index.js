@@ -83,7 +83,21 @@ export async function loadChapter(bookId, chapterId) {
   if (loadedChapters.has(key)) return loadedChapters.get(key);
   const shell = getChapterShell(bookId, chapterId);
   if (!shell) return null;
-  const mod = await shell.load();
+  let mod;
+  try {
+    mod = await shell.load();
+  } catch (e) {
+    // A dynamic import that failed once (a transient network drop, say) can
+    // be cached as failed in the module map, which would make the chapter
+    // dialog's Retry (see launchLitChapter in js/main.js) fail forever no
+    // matter how healthy the network is by then. Chapter modules all follow
+    // one naming convention (<bookId>/chapter-NN.js), so the retry goes out
+    // through a fresh, query-busted URL the module map has never seen. If
+    // this one fails too, the rejection reaches the caller's error state.
+    const padded = String(shell.number).padStart(2, '0');
+    const url = new URL(`./${bookId}/chapter-${padded}.js?retry=${Date.now()}`, import.meta.url);
+    mod = await import(url.href);
+  }
   loadedChapters.set(key, mod.CHAPTER);
   return mod.CHAPTER;
 }

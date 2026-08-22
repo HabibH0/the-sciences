@@ -3881,7 +3881,14 @@ document.addEventListener('change', (e) => {
   // now themed popovers of the app's own -- see deadlinePickerHtml/
   // resetHourMenuHtml in js/render.js): dragging it is exactly the built-in
   // interaction this screen wants, so there was no reason to replace it.
+  //
+  // Ranges skip the rerender below: the 'input' listener already applied the
+  // value, repainted the preview and readout live, and queued the persist --
+  // and Chromium fires 'change' after every discrete KEYBOARD step, so the
+  // rerender was rebuilding the focused slider out from under the keyboard.
+  // The first ArrowRight worked; every arrow after it went to <body>.
   const el = e.target.closest('[data-action]');
+  if (el && el.type === 'range') return;
   if (el && !el.disabled && actions[el.dataset.action]) {
     const result = actions[el.dataset.action](el, e);
     if (result && typeof result.then === 'function') {
@@ -3910,8 +3917,18 @@ document.addEventListener('input', (e) => {
   // The Account page's copies of these sliders have no data-*-value outputs
   // of their own -- patch the readout sitting in this slider's own control
   // block, so the visible percentage tracks arrow keys and drags there too.
-  const localValue = el.closest('.lesson-size-control')?.querySelector('.lesson-size-value');
+  const control = el.closest('.lesson-size-control');
+  const localValue = control?.querySelector('.lesson-size-value');
   if (localValue) localValue.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  // Account's previews size themselves through an inline font-size rather
+  // than the CSS custom property -- keep that live here too, since range
+  // events deliberately never rerender (see the 'change' listener above).
+  const preview = control?.querySelector('.lesson-size-preview');
+  if (preview && (preview.getAttribute('style') || '').includes('font-size')) {
+    const base = isLit ? 19 : 15;
+    const scale = isLit ? state.litTextScale : state.lessonTextScale;
+    preview.style.fontSize = `${((scale / 100) * base).toFixed(1)}px`;
+  }
   // The track's travelled portion is painted from --range-pct (see the range
   // rules in styles.css -- WebKit has no ::-moz-range-progress, and the
   // native track it would otherwise use is a solid dark bar). Patched by
