@@ -368,22 +368,14 @@ function displayedConceptSignature() {
 let lastConceptSig = null;
 
 
-// The same idea, one level down: these four lists each carry their own
-// internal scroll (see .module-list/.lit-shelves/.lit-chapter-list/
-// .revision-module-list in styles.css) independent of the page-level
-// scrollPositions above, which no longer moves at all on the screens that
-// contain one -- .main-content is sized to never need to scroll there (the
-// list itself absorbs the remaining height instead), so restoring only the
-// PAGE's scrollTop would have nothing left to restore. Each entry's key is
-// scoped to whatever actually identifies "the same list" across a visit --
-// not the whole-app nav signature, which is far coarser (e.g. Home's module
-// list only cares which COURSE it's showing, not which lesson/module a
-// visit to it happens to be surrounding).
+// The same idea, one level down, for the one region that still scrolls
+// inside itself. The lists (Home's modules, the Library shelves, a book's
+// chapters, the revision picker) used to be bounded panes with their own
+// scroll and lived in this table; they now flow in the page, so the
+// page-level scrollPositions above covers them and only the reader remains.
+// Each entry's key is scoped to whatever identifies "the same container"
+// across a visit -- not the whole-app nav signature, which is far coarser.
 const CONTAINER_SCROLL_TARGETS = [
-  { selector: '.module-list', key: (s) => `home-modules:${s.courseId}` },
-  { selector: '.lit-shelves', key: () => 'library-shelves' },
-  { selector: '.lit-chapter-list', key: (s) => `book-chapters:${s.litBookId}` },
-  { selector: '.revision-module-list', key: (s) => `revision-modules:${s.courseId}` },
   // The reader's own scroller: .lit-reader-body (flex: 1 / overflow: auto)
   // scrolls INSTEAD of .main-content on the reading screen, so without this
   // entry every same-screen rerender -- answering a comprehension check,
@@ -882,9 +874,9 @@ function rerender(focusSelector) {
   const newContainer = mainScrollContainer();
   if (newContainer && nextScrollTop) newContainer.scrollTop = nextScrollTop;
   // Unconditional, same as the page-level restore just above -- root.innerHTML
-  // just replaced every element wholesale, so a SAME-screen rerender (the
-  // course menu opening, say) needs this exactly as much as a cross-screen
-  // one does: either way the fresh .module-list starts at scrollTop 0, and
+  // just replaced every element wholesale, so a SAME-screen rerender (a
+  // comprehension check being answered, say) needs this exactly as much as a
+  // cross-screen one does: either way the fresh .lit-reader-body starts at 0, and
   // whatever rememberContainerScrollPositions() captured an instant ago
   // (the live value on a same-screen update, the last-known one from a
   // previous visit otherwise) is already the right thing to reapply.
