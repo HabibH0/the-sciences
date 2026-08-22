@@ -10,6 +10,7 @@ import {
   conceptsToRender,
   areAllConceptsPassed,
   isLessonReadyForQuiz,
+  isQuizPassed,
   isLessonExerciseItemPassed,
   lessonExerciseItemKey,
   isConceptExercisePassed,
@@ -1761,27 +1762,34 @@ function lessonHtml(state, MODULES, revealedKeys) {
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
 
   const total = lesson.concepts.length;
-  // How far the lesson has been unlocked: a concept's own exercise gates the
-  // one after it (see conceptsToRender). Paging never runs past that.
+  // How far the exercises have actually been cleared: a concept's own
+  // exercise gates the one after it (see conceptsToRender). With course
+  // locks ON, paging never runs past that. With course locks OFF every
+  // concept is freely navigable (user request) -- `shown` still drives the
+  // dots' gold fill and complete/unlocked labels, and completing the LESSON
+  // still requires clearing the exercises and the quiz (see finishLesson in
+  // js/main.js).
   const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
+  const navigable = state.forceUnlockAll ? total : shown;
   const readyForQuiz = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
   const quizUnlocked = readyForQuiz || state.forceUnlockAll;
 
   // A null index means "wherever the reader had got to" -- the furthest
-  // concept unlocked. Once they page by hand, the actions set a real number.
+  // concept whose exercise chain has been cleared. Once they page by hand,
+  // the actions set a real number.
   const index = state.conceptIndex == null
     ? shown - 1
-    : Math.max(0, Math.min(state.conceptIndex, shown - 1));
+    : Math.max(0, Math.min(state.conceptIndex, navigable - 1));
   const isLast = index === total - 1;
 
-  // Reachable concepts are clickable; the rest are dim markers of what is
+  // Navigable concepts are clickable; the rest are dim markers of what is
   // still ahead. Each dot names its state (POLISH-018) -- the same string
   // serves as the desktop tooltip and the accessible label.
   const dots = lesson.concepts.map((_, i) => {
     const cls = ['concept-dot', i < shown ? 'reached' : '', i === index ? 'current' : ''].filter(Boolean).join(' ');
-    const status = i === index ? 'current' : i < shown - 1 ? 'complete' : i < shown ? 'unlocked' : 'locked';
+    const status = i === index ? 'current' : i < shown - 1 ? 'complete' : i < navigable ? 'unlocked' : 'locked';
     const label = `Concept ${i + 1}, ${status}`;
-    return i < shown
+    return i < navigable
       ? `<button class="${cls}" data-action="goToConcept" data-index="${i}" aria-label="${label}" title="${label}"${i === index ? ' aria-current="true"' : ''}></button>`
       : `<span class="${cls}" role="img" aria-label="${label}" title="${label}"></span>`;
   }).join('');
@@ -1797,12 +1805,19 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
   const moduleIdx = MODULES.indexOf(mod) + 1;
 
-  // Next only opens once this concept's exercise has been cleared -- that is
-  // the same gate conceptsToRender applies, read back as "is there a further
-  // concept unlocked than the one on screen".
-  const canAdvance = index < shown - 1;
+  // Next opens once this concept's exercise has been cleared (course locks
+  // on), or always while another concept exists (course locks off).
+  const canAdvance = index < navigable - 1;
+  // Quiz already passed (taken ahead of the exercises, which course locks
+  // off allows) and the exercises now cleared too: the lesson is finishable
+  // right here, no quiz retake owed.
+  const finishableNow = readyForQuiz
+    && isQuizPassed(mod.id, lesson.id, state.quizScores)
+    && !isLessonComplete(mod.id, lesson.id, state.completed);
   const forward = isLast
-    ? `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
+    ? finishableNow
+      ? '<button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>'
+      : `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
     : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next concept</button>`;
 
   // A disabled forward button on its own is a dead end: the reader can see
@@ -1870,11 +1885,18 @@ function quizResultHtml(state, mod, lesson) {
   const passPct = Math.round(QUIZ_PASS_RATIO * 100);
   const passed = frac >= QUIZ_PASS_RATIO;
 
-  const message = frac === 1
-    ? 'A flawless recitation.'
-    : passed
-      ? 'A solid grasp — review what you missed.'
-      : `Revisit the lesson before moving on — you need ${passPct}% to complete it.`;
+  // A passed quiz alone is not a completed lesson: the concept exercises
+  // (and the trailing lesson exercise) must be cleared too -- reachable in
+  // any order with course locks off, so this screen has to say which half
+  // is still owed rather than offering a Finish that silently refuses.
+  const exercisesDone = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
+  const message = passed && !exercisesDone
+    ? "Quiz passed — clear the lesson's exercises to complete it."
+    : frac === 1
+      ? 'A flawless recitation.'
+      : passed
+        ? 'A solid grasp — review what you missed.'
+        : `Revisit the lesson before moving on — you need ${passPct}% to complete it.`;
 
   // Corrections first: "review what you missed" is a dead end unless the
   // screen actually says which questions were wrong and why.
@@ -1893,8 +1915,11 @@ function quizResultHtml(state, mod, lesson) {
   }).join('');
 
   const actions = passed
-    ? `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
-       <button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>`
+    ? exercisesDone
+      ? `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
+         <button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>`
+      : `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
+         <button class="btn btn-primary" data-action="backToLesson">Finish the exercises</button>`
     : `<button class="btn btn-secondary" data-action="backToLesson">Back to lesson</button>
        <button class="btn btn-primary" data-action="retakeQuiz">Retake quiz</button>`;
 

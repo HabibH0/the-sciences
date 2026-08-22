@@ -3240,6 +3240,11 @@ const actions = {
   // its heading -- rerender()'s displayedConceptSignature detector (audit
   // NAV-001) resets the scroller and focuses the incoming heading, so these
   // only move the index.
+  // With course locks off every concept is freely navigable (user request)
+  // -- the paging bound widens to the whole lesson while `shown` (the
+  // exercise-cleared frontier) keeps deciding where a null index lands.
+  // Lesson COMPLETION still requires the exercises and the quiz either way
+  // (see finishLesson below).
   prevConcept() {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
@@ -3252,16 +3257,18 @@ const actions = {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
     const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+    const limit = state.forceUnlockAll ? lesson.concepts.length : shown;
     const current = state.conceptIndex == null ? shown - 1 : state.conceptIndex;
-    if (current >= shown - 1) return false;
+    if (current >= limit - 1) return false;
     state.conceptIndex = current + 1;
   },
   goToConcept(el) {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
     const shown = conceptsToRender(lesson, state.exStates, state.moduleId, state.lessonId);
+    const limit = state.forceUnlockAll ? lesson.concepts.length : shown;
     const target = Number(el.dataset.index);
-    if (!Number.isFinite(target) || target < 0 || target >= shown) return false;
+    if (!Number.isFinite(target) || target < 0 || target >= limit) return false;
     state.conceptIndex = target;
   },
 
@@ -3416,6 +3423,14 @@ const actions = {
   // Passing the quiz is the end of the lesson -- there is no drill step.
   finishLesson() {
     if (!isQuizPassed(state.moduleId, state.lessonId, state.quizScores)) return false;
+    // Completion requires the lesson's own work, not just its quiz: with
+    // course locks off the quiz is freely reachable, but the lesson only
+    // completes once every concept exercise (and the trailing lesson
+    // exercise) is cleared too (user request). quizResultHtml swaps the
+    // Finish button for a "Finish the exercises" path in that state.
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (!lesson) return false;
+    if (!isLessonReadyForQuiz(lesson, state.exStates, state.moduleId, state.lessonId)) return false;
     // Computed before markLessonComplete mutates state.completed: XP and
     // badges only fire on a lesson's first-ever completion, so retaking an
     // already-passed quiz can't be used to farm XP.
