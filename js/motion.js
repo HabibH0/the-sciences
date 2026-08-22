@@ -61,65 +61,12 @@ export function prefersReducedMotion() {
 export const DUR = {
   exit: 120,    // --t-exit: modal/backdrop dismissal
   pop: 100,     // .anim-drop-out: popovers close faster still
-  expand: 200,  // --t-ui: an inline disclosure growing to its measured height
   meter: 520,   // --t-meter + its delay: the count-up runs with the bars
   toastOut: 160, // --t-exit plus a frame, before the node is removed
 };
 
-// The JS half of the easing table, for the two Web-Animations effects below
-// (expand/collapse -- see animateHeight). Same twins rule as DUR: these are
-// --ease-out and --ease-in in styles.css, restated because WAAPI cannot read
-// custom properties out of the cascade.
-const EASE_OUT = 'cubic-bezier(0.2, 0.9, 0.3, 1)';
-const EASE_IN = 'cubic-bezier(0.4, 0, 0.9, 0.6)';
-
 function cssEsc(value) {
   return String(value ?? '').replace(/["\\]/g, '\\$&');
-}
-
-// --- inline disclosures ----------------------------------------------------
-// The one deliberate exception to the Motion layer's composite-only rule
-// (rule 4 in styles.css). A disclosure that opens IN document flow -- the
-// practice setup panel, a concept's revealed exercise -- physically changes
-// the page's geometry, and animating only the new card while everything
-// below it teleports is exactly the two-unrelated-events effect audit
-// MOT-004 describes. So the surface's own height is driven from 0 to its
-// measured value (and back on dismissal), which moves the surrounding layout
-// continuously as part of the same gesture. Kept short (--t-ui / --t-exit)
-// and used only for disclosures, never for screens or overlays, which stay
-// on the compositor. Margins ride along -- .practice-popout carries its own
-// margin-top, and a collapse that left the margin standing would end on a
-// 12px hole that then snaps shut.
-function animateHeight(el, { collapse = false } = {}) {
-  if (!el || prefersReducedMotion() || typeof el.animate !== 'function') return 0;
-  const height = el.offsetHeight;
-  if (!height) return 0; // hidden at this breakpoint (e.g. the inline copy on desktop)
-  const style = getComputedStyle(el);
-  const grown = {
-    height: `${height}px`,
-    marginTop: style.marginTop,
-    marginBottom: style.marginBottom,
-    opacity: 1,
-  };
-  const flat = { height: '0px', marginTop: '0px', marginBottom: '0px', opacity: 0 };
-  const duration = collapse ? DUR.exit : DUR.expand;
-  const prevOverflow = el.style.overflow;
-  el.style.overflow = 'hidden';
-  const anim = el.animate(collapse ? [grown, flat] : [flat, grown], {
-    duration,
-    easing: collapse ? EASE_IN : EASE_OUT,
-    fill: collapse ? 'forwards' : 'none',
-  });
-  if (collapse) {
-    el.style.pointerEvents = 'none';
-  } else {
-    anim.onfinish = () => { el.style.overflow = prevOverflow; };
-  }
-  return duration;
-}
-
-export function expandIn(el) {
-  animateHeight(el);
 }
 
 // --- overlay presence diff -------------------------------------------------
@@ -132,10 +79,7 @@ const OVERLAYS = [
   { sel: '.unlock-modal-backdrop', cls: 'anim-overlay-in' },
   { sel: '.course-menu', cls: 'anim-drop-in' },
   { sel: '.lesson-search-results', cls: 'anim-drop-in' },
-  // The practice setup panel opens IN document flow (it pushes the lesson
-  // list down on phones), so it expands to its measured height rather than
-  // rising over a layout that already jumped -- see animateHeight.
-  { sel: '.practice-popout', expand: true },
+  { sel: '.practice-popout', cls: 'anim-rise-in' },
   { sel: '.deadline-picker', cls: 'anim-drop-in' },
   { sel: '.reset-hour-menu', cls: 'anim-drop-in' },
   { sel: '.xp-toast', cls: 'anim-toast-in' },
@@ -266,22 +210,16 @@ export function applyRenderMotion(root, snap, changedScreen, nav) {
       if (root.querySelector('.complete-page')) runCountUps(root);
     }
   }
-  for (const { sel, cls, expand } of OVERLAYS) {
+  for (const { sel, cls } of OVERLAYS) {
     if (snap.overlays.has(sel)) continue;
-    // Every match, not just the first: the practice setup panel is rendered
-    // twice (inline for phones, in the rail for desktop -- CSS shows one per
-    // breakpoint), and animating only the first match meant the desktop copy
-    // arrived with no entrance at all while a hidden element animated
-    // (audit MOT-003).
-    for (const el of root.querySelectorAll(sel)) {
-      // A screen entrance already animates everything inside the screen once;
-      // layering the overlay entrance on top would double-animate content
-      // that is simply part of the arriving page (e.g. a practice question's
-      // feedback block right after a page turn). Screen entrance wins.
-      if (enterScreen && el.closest('.main')) continue;
-      if (expand) expandIn(el); // measures 0 on the breakpoint-hidden copy and skips itself
-      else el.classList.add(cls);
-    }
+    const el = root.querySelector(sel);
+    if (!el) continue;
+    // A screen entrance already animates everything inside the screen once;
+    // layering the overlay entrance on top would double-animate content
+    // that is simply part of the arriving page (e.g. a practice question's
+    // feedback block right after a page turn). Screen entrance wins.
+    if (enterScreen && el.closest('.main')) continue;
+    el.classList.add(cls);
   }
   applyIndicatorMotion(root, snap.indicators);
 }

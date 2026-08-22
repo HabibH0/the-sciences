@@ -150,14 +150,6 @@ export async function createInitialState() {
     // the module page's "Practice Mode" button. Not persisted -- a reload
     // always lands with it collapsed.
     practiceSetupOpen: false,
-    // Transient: the course id a Home course-switch is currently loading
-    // toward, or null. Set by chooseCourse the moment a course is picked --
-    // the chooser closes and the dashboard renders dimmed with the TARGET
-    // course named on the switch trigger (audit MOT-002: the old course must
-    // not look authoritative while the new one loads) -- and cleared when
-    // activateCourse lands. Not persisted: a reload mid-switch just boots
-    // into whichever course was last active.
-    courseSwitchingTo: null,
     // Transient: the active Practice Mode session, or null between sessions.
     // { kind, moduleId, queue: [key,...], index, log: [{key,title,correct}],
     //   startedAt, selected, submitted, correct }
