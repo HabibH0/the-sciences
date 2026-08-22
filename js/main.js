@@ -206,6 +206,7 @@ function applyMergedProgressToState(envelope) {
     'litTextScale',
     'streak',
     'lastVisit',
+    'visitDays',
     'xp',
     'badges',
     'practiceCorrectTotal',
@@ -2296,6 +2297,9 @@ const actions = {
     state.view = 'achievements';
     state.practice = null;
     state.pathActive = false;
+  },
+  setAchievementsFilter(el) {
+    state.achievementsFilter = el.dataset.filter || 'all';
   },
   pickTheme(el) {
     state.theme = el.dataset.theme;

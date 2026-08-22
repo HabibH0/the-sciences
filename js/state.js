@@ -214,6 +214,9 @@ export async function createInitialState() {
     // Transient: Revision's top-level toggle -- 'module' (the module quiz)
     // or 'vocab'. Not persisted -- always reopens on "module".
     scheduleRevisionKind: 'module',
+    // Transient: Achievements' catalogue filter -- 'all' | 'progress' |
+    // 'earned'. Not persisted; always reopens on 'all'.
+    achievementsFilter: 'all',
     // Transient: Revision's "Pick a module" vs "Random" toggle. Not
     // persisted -- always reopens on "pick".
     scheduleRevisionMode: 'pick',
@@ -298,6 +301,9 @@ export async function createInitialState() {
     exStates: boot.exStates,
     streak: boot.streak,
     lastVisit: boot.lastVisit,
+    // Days the app was opened (rolling window) -- what the Account streak
+    // calendar fills from, alongside lesson-completion dates. Persisted.
+    visitDays: boot.visitDays || [],
     xp: boot.xp,
     badges: boot.badges,
     // Lifetime correct-practice-drill count, driving the Practice Volume

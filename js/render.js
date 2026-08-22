@@ -3580,21 +3580,73 @@ function levelProgressHtml(li) {
     </div>`;
 }
 
-function achievementCardHtml(state, id, current, threshold, unit) {
+// One badge as plain data: how far along it is, whether it can be reasoned
+// about numerically (courses can't), and the action that moves it forward.
+// The three visual states (earned / in progress / locked) are derived here
+// once and read by both the catalogue card and the "Closest next" shelf.
+function achievementCardData(state, id, current, threshold, unit, hint) {
   const def = BADGE_DEFS[id];
   const earned = state.badges.includes(id);
-  const progress = (!earned && threshold != null)
-    ? `<span class="ach-card-progress">${Math.min(current, threshold)} / ${threshold}${unit ? ` ${unit}` : ''}</span>`
-    : '';
+  const capped = threshold != null ? Math.min(current, threshold) : null;
+  const fraction = earned ? 1 : threshold ? Math.min(1, Math.max(0, current / threshold)) : 0;
+  return {
+    id,
+    name: def.name,
+    desc: def.desc,
+    earned,
+    current: capped,
+    threshold,
+    unit,
+    hint,
+    fraction,
+    inProgress: !earned && threshold != null && current > 0,
+  };
+}
+
+// The badge lifecycle made visible (UI-011): earned carries the award mark
+// and full strength; in-progress carries a target mark, its own progress
+// bar, and the counter; locked stays quiet behind the padlock. The states
+// differ by icon and structure, never by colour alone.
+function achievementCardHtml(c) {
+  const stateCls = c.earned ? 'earned' : c.inProgress ? 'in-progress' : 'locked';
+  const iconName = c.earned ? 'award' : c.inProgress ? 'target' : 'lock';
+  const progress = !c.earned && c.threshold != null
+    ? `
+      <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
+      <span class="ach-card-progress">${c.current} / ${c.threshold}${c.unit ? ` ${c.unit}` : ''}</span>`
+    : c.earned ? '<span class="ach-card-progress">Earned</span>' : '';
   return `
-    <div class="ach-card ${earned ? 'earned' : 'locked'}">
-      <span class="ach-card-icon">${icon(earned ? 'award' : 'lock', 18, 1.7)}</span>
+    <div class="ach-card ${stateCls}">
+      <span class="ach-card-icon">${icon(iconName, 18, 1.7)}</span>
       <span class="ach-card-body">
-        <span class="ach-card-name">${esc(def.name)}</span>
-        <span class="ach-card-desc">${escBidi(def.desc)}</span>
+        <span class="ach-card-name">${esc(c.name)}</span>
+        <span class="ach-card-desc">${escBidi(c.desc)}</span>
         ${progress}
       </span>
     </div>`;
+}
+
+// The two or three nearest attainable badges, surfaced above the catalogue
+// with the action that advances each one -- the catalogue alone documented
+// the system without ever pointing at the next win (UX-012).
+function achievementsNextHtml(cards) {
+  const candidates = cards
+    .filter((c) => !c.earned && c.threshold != null)
+    .sort((a, b) => (b.fraction - a.fraction) || (a.threshold - b.threshold))
+    .slice(0, 3);
+  if (!candidates.length) return '';
+  return `
+    <section class="ach-section ach-next-section">
+      <h2 class="ach-section-title">Closest next</h2>
+      <div class="ach-next-grid">
+        ${candidates.map((c) => `
+          <div class="ach-next-card">
+            <span class="ach-next-name">${esc(c.name)}</span>
+            <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
+            <span class="ach-next-meta">${c.current} / ${c.threshold}${c.unit ? ` ${c.unit}` : ''}${c.hint ? ` · ${esc(c.hint)}` : ''}</span>
+          </div>`).join('')}
+      </div>
+    </section>`;
 }
 
 function achievementsHtml(state) {
@@ -3603,44 +3655,69 @@ function achievementsHtml(state) {
   const lessonsDone = completedLessonsAllCourses(state.completed);
   const perfectCount = perfectQuizCount(state.quizScores);
   const streak = state.streak || 1;
-  const card = (id, current, threshold, unit) => achievementCardHtml(state, id, current, threshold, unit);
+  const card = (id, current, threshold, unit, hint) => achievementCardData(state, id, current, threshold, unit, hint);
 
   const sections = [
-    { title: 'Getting started', cards: [card('first-steps', 0, null, null)] },
-    { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null)) },
-    { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days')) },
-    { title: 'Perfect quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes')) },
-    { title: 'Practice volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills')) },
+    { title: 'Getting started', cards: [card('first-steps', Math.min(lessonsDone, 1), 1, null, 'Complete your first lesson')] },
+    { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null, 'Earn XP from quizzes, drills, and reading')) },
+    { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days', 'Study on consecutive days')) },
+    { title: 'Perfect quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes', 'Score 100% on a lesson quiz')) },
+    { title: 'Practice volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills', 'Answer practice drills correctly')) },
     {
       title: 'Modules completed',
       cards: [
-        ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules')),
-        card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules'),
+        ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules', 'Finish every lesson in a module')),
+        card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules', 'Finish every lesson in a module'),
       ],
     },
     {
       title: 'Lessons cleared',
       cards: [
-        ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons')),
-        card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons'),
+        ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons', 'Clear lessons in any course')),
+        card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons', 'Clear lessons in any course'),
       ],
     },
     {
       title: 'Courses',
-      cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null)],
+      cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null, null)],
     },
   ];
+  const allCards = sections.flatMap((s) => s.cards);
   // My Path itself doesn't award badges (see LEGACY_PATH_BADGE_DEFS in
   // gamification.js) -- totalBadges is the count of cards actually shown
   // above, not Object.keys(BADGE_DEFS).length, so it doesn't silently
   // include the legacy path-* ids nothing can earn any more.
-  const totalBadges = sections.reduce((sum, s) => sum + s.cards.length, 0);
+  const totalBadges = allCards.length;
+  const earnedCount = allCards.filter((c) => c.earned).length;
+  const inProgressCount = allCards.filter((c) => c.inProgress).length;
 
-  const sectionsHtml = sections.map((s) => `
+  // Earned / in-progress / everything, as the same segmented pills every
+  // other filter in the app uses. Transient -- reopens on All.
+  const filter = state.achievementsFilter === 'earned' || state.achievementsFilter === 'progress'
+    ? state.achievementsFilter : 'all';
+  const matches = (c) => filter === 'all' || (filter === 'earned' ? c.earned : c.inProgress);
+  const filterTabs = `
+    <div class="practice-tabs ach-filter" role="group" aria-label="Filter badges">
+      <button class="practice-tab ${filter === 'all' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="all">All ${totalBadges}</button>
+      <button class="practice-tab ${filter === 'progress' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="progress">In progress ${inProgressCount}</button>
+      <button class="practice-tab ${filter === 'earned' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="earned">Earned ${earnedCount}</button>
+    </div>`;
+
+  const sectionsHtml = sections
+    .map((s) => ({ ...s, cards: s.cards.filter(matches) }))
+    .filter((s) => s.cards.length)
+    .map((s) => `
     <section class="ach-section">
       <h2 class="ach-section-title">${esc(s.title)}</h2>
-      <div class="ach-grid">${s.cards.join('')}</div>
-    </section>`).join('');
+      <div class="ach-grid">${s.cards.map(achievementCardHtml).join('')}</div>
+    </section>`).join('')
+    || emptyStateHtml({
+      icon: 'award',
+      title: filter === 'earned' ? 'Nothing earned yet' : 'Nothing in progress',
+      note: filter === 'earned'
+        ? 'Your first lesson earns the first badge.'
+        : 'Start a lesson or a practice session and the nearest badges begin filling in.',
+    });
 
   const hero = heroPanelHtml({
     watermark: 'أوسمة',
@@ -3648,7 +3725,7 @@ function achievementsHtml(state) {
     title: 'Achievements',
     body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
     ledger: `<div class="ach-ledger-block">${heroLedgerHtml([
-      ['Badges earned', `${state.badges.length} / ${totalBadges}`],
+      ['Badges earned', `${earnedCount} / ${totalBadges}`],
       ['Level', li.level],
       ['XP', state.xp],
     ])}${levelProgressHtml(li)}</div>`,
@@ -3659,7 +3736,11 @@ function achievementsHtml(state) {
       ${navBackRowHtml(state)}
       ${hero}
       ${separatorHtml()}
-      <div class="col-wide achievements-page">${sectionsHtml}</div>
+      <div class="col-wide achievements-page">
+        ${achievementsNextHtml(allCards)}
+        ${filterTabs}
+        ${sectionsHtml}
+      </div>
     </div>`;
 }
 
@@ -3962,10 +4043,15 @@ function accountHtml(state) {
       <div><span class="ledger-inline-value">${state.badges.length}</span><span class="ledger-inline-label">Badges</span></div>
     </div>`;
 
-  // Four weeks back from today, as a 7-wide grid so the columns line up under
-  // their weekday. Filled = a lesson was finished that day; today is outlined
-  // whether or not anything has been done yet.
+  // Four weeks back from today, as a 7-wide grid so the columns line up
+  // under their weekday. Filled = the app was studied in that day -- a
+  // union of lesson-completion dates and the visit-day history the streak
+  // itself counts (state.visitDays), so the grid can no longer show four
+  // empty weeks under a "2 days" headline. Every cell carries its date and
+  // status as its accessible name; today keeps a ring distinct from the
+  // filled treatment.
   const days = activeDaySet(state.completed);
+  (state.visitDays || []).forEach((d) => days.add(d));
   const weekdayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const todayDate = new Date(`${today}T00:00:00`);
   // Sunday-first, matching the mockup's calendar.
@@ -3975,17 +4061,23 @@ function accountHtml(state) {
     const d = new Date(todayDate);
     d.setDate(d.getDate() - back);
     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const cls = ['streak-cell', days.has(iso) ? 'is-filled' : '', iso === today ? 'is-today' : '', d > todayDate ? 'is-future' : ''].filter(Boolean).join(' ');
-    cells.push(`<span class="${cls}" title="${iso}"></span>`);
+    const studied = days.has(iso);
+    const isToday = iso === today;
+    const isFuture = d > todayDate;
+    const cls = ['streak-cell', studied ? 'is-filled' : '', isToday ? 'is-today' : '', isFuture ? 'is-future' : ''].filter(Boolean).join(' ');
+    const dayLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const status = isFuture ? 'upcoming' : studied ? 'studied' : 'no study recorded';
+    const label = `${dayLabel}${isToday ? ' (today)' : ''} — ${status}`;
+    cells.push(`<span class="${cls}" role="img" title="${escAttr(label)}" aria-label="${escAttr(label)}"></span>`);
   }
   const streakSection = `
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Streak</h2>
       <span class="account-streak-meta">${icon('flame', 12, 2)}${state.streak || 1} day${(state.streak || 1) === 1 ? '' : 's'}</span>
     </div>
-    <div class="streak-labels">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
+    <div class="streak-labels" aria-hidden="true">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
     <div class="streak-grid">${cells.join('')}</div>
-    <p class="streak-note">Last four weeks · a day starts at ${esc(formatResetHour(resetHour))}.</p>`;
+    <p class="streak-note">Last four weeks — a marked day is one you opened the app or finished a lesson on. A day starts at ${esc(formatResetHour(resetHour))}.</p>`;
 
   const courseRows = COURSES.map((course) => {
     const stats = courseModuleStats(course, state.completed);

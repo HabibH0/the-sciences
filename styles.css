@@ -3622,14 +3622,72 @@ bdi,
   display: block;
 }
 .ach-card-progress {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
-  margin-top: 5px;
+  margin-top: 4px;
   display: block;
 }
 .ach-card.earned .ach-card-progress {
   color: var(--color-accent-700);
+}
+/* In progress is its own visible state, between locked and earned: full
+   strength, an accent-tinted mark, and a real progress bar -- previously it
+   was pixel-identical to a distant locked tier. */
+.ach-card.in-progress {
+  opacity: 1;
+  border-color: var(--color-neutral-300);
+}
+.ach-card.in-progress .ach-card-icon {
+  border-color: var(--color-accent);
+  color: var(--color-accent-700);
+  background: var(--accent-tint-weak);
+}
+.ach-card-track {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-neutral-200);
+  margin-top: 8px;
+  overflow: hidden;
+}
+.ach-card-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+/* "Closest next": the two or three attainable badges, ahead of the
+   catalogue, each naming the action that moves it. */
+.ach-next-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+.ach-next-card {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-tint-weak);
+  box-shadow: var(--shadow-sm);
+}
+.ach-next-name {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.ach-next-meta {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+.ach-filter {
+  margin: var(--space-6) 0 var(--space-2);
+  max-width: 460px;
 }
 
 /* ---------- Settings ---------- */
@@ -6536,20 +6594,39 @@ span.deadline-day {
   margin-top: 4px;
 }
 .streak-cell {
+  position: relative;
   aspect-ratio: 1;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
   background: transparent;
 }
+/* A studied day is a solid ink of accent with a paper dot at its centre --
+   the dot is the non-colour cue that separates "studied" from "empty" for a
+   reader who cannot rely on the fill alone. */
 .streak-cell.is-filled {
   background: var(--color-accent);
   border-color: var(--color-accent);
 }
-.streak-cell.is-today {
-  border-color: var(--color-accent);
-  border-width: 1.5px;
+.streak-cell.is-filled::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-bg);
 }
+/* Today is a ring, whether or not it has been studied yet -- a studied
+   today shows both the fill and the ring. */
+.streak-cell.is-today {
+  box-shadow: 0 0 0 1.5px var(--color-bg), 0 0 0 3px var(--color-accent);
+  border-color: var(--color-accent);
+}
+/* Days that have not happened yet are visibly not part of the record. */
 .streak-cell.is-future {
+  border-style: dashed;
   opacity: 0.35;
 }
 .streak-note {

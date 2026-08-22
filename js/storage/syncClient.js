@@ -403,6 +403,10 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.litWordReps = mergeNestedRecord(local.litWordReps, remote.litWordReps, mergeLitWordRep);
 
   merged.badges = unionArrays(local.badges, remote.badges);
+  // Study-day history for the Account streak calendar -- a day is a day
+  // whichever device it happened on, so plain union (sorted so the capped
+  // window in persistence.js trims the oldest days, not arbitrary ones).
+  merged.visitDays = unionArrays(local.visitDays, remote.visitDays).sort();
   merged.xp = maxNumber(local.xp, remote.xp);
   merged.streak = maxNumber(local.streak, remote.streak);
   merged.practiceCorrectTotal = maxNumber(local.practiceCorrectTotal, remote.practiceCorrectTotal);
