@@ -1802,6 +1802,27 @@ const actions = {
     await activateCourse(id);
     state.courseMenuOpen = false;
   },
+  // Schedule's course switcher and all-course rows (audit NAV-003). Unlike
+  // chooseCourse above, this changes only which course the plan is scoped
+  // to -- the learner asked to plan a different course, not to leave
+  // Schedule -- so the view stays put and each course's own deadline
+  // (state.scheduleDeadline is keyed per course) simply comes into scope.
+  async chooseScheduleCourse(el) {
+    const id = el.dataset.courseId;
+    const course = COURSES.find((c) => c.id === id);
+    // Defense in depth, same reasoning as chooseCourse.
+    if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
+    state.courseMenuOpen = false;
+    if (id === state.courseId) return;
+    await setActiveCourse(id);
+    state.courseId = id;
+    state.view = 'schedule';
+    // These name pieces of the PREVIOUS course's plan: an open picker shows
+    // its deadline, and the revision pick points at one of its modules.
+    state.deadlinePickerOpen = false;
+    state.resetHourMenuOpen = false;
+    state.scheduleRevisionModuleId = null;
+  },
   openModule(el) {
     const moduleId = el.dataset.moduleId;
     // Defense in depth -- a locked module's own dashboard card already
@@ -3557,6 +3578,11 @@ function refocusSelector(el) {
   // same fix. A placed chip becomes disabled, so focus goes to whichever
   // chip is still available rather than to the one just used.
   if (action === 'litBuildChip' || action === 'litWorkshopChip') return '.lit-chips .lit-chip:not([disabled])';
+  // Switching the course Schedule is planning re-renders the whole page
+  // around the switcher; putting focus back on it announces the freshly
+  // rendered label ("Planning <new course> — switch course"), which is what
+  // tells a screen-reader user the scope actually changed (audit NAV-003).
+  if (action === 'chooseScheduleCourse') return '[data-action="toggleCourseMenu"]';
   // Reading is a long tab-through -- losing focus back to <body> on every
   // word or gloss would send a keyboard user to the top of the page.
   if (action === 'litWord') return `[data-action="litWord"][data-s="${el.dataset.s}"][data-t="${el.dataset.t}"]`;

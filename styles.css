@@ -3111,6 +3111,70 @@ bdi,
 /* .schedule-lede's own size/margin now come from the shared page-header
    lede rule further down, with the other two per-screen descriptions. */
 
+/* ---------- Schedule: explicit course scope (audit NAV-003) ----------
+   The switcher chip sits with the page title -- it changes what the whole
+   plan shows, exactly as Home's sits with "Your modules" -- and the
+   all-course rows let a multi-course learner read every target and today's
+   combined load without switching back and forth. */
+.schedule-course-switch {
+  font-size: var(--text-md);
+}
+.sched-course-rows {
+  margin-top: 10px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.sched-course-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.sched-course-row:last-child {
+  border-bottom: 0;
+}
+.sched-course-row:hover {
+  background: var(--color-neutral-100);
+}
+.sched-course-row.is-active {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+}
+.sched-course-names {
+  min-width: 0;
+}
+.sched-course-ar {
+  display: block;
+  font-family: var(--font-ar);
+  font-size: var(--text-md);
+  color: var(--color-text);
+}
+.sched-course-row.is-active .sched-course-ar {
+  font-weight: 600;
+}
+.sched-course-en {
+  display: block;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+}
+.sched-course-meta {
+  flex: none;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+  text-align: right;
+}
+.sched-course-row.is-active .sched-course-meta {
+  color: var(--color-accent-700);
+}
+
 .schedule-panel {
   margin-top: 20px;
 }

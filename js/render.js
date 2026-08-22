@@ -626,7 +626,12 @@ function moduleRingHtml(index, { done, current, unlocked }) {
 // The course switcher, in place of the picker screen the previous design
 // opened for this. A locked course routes to the same unlock prompt its old
 // card did rather than switching to a course that cannot be entered.
-function courseMenuHtml(state) {
+// `action` is what picking an unlocked course dispatches -- Home's menu
+// resets to that course's dashboard (chooseCourse), while Schedule's stays
+// on Schedule and just changes which course is being planned
+// (chooseScheduleCourse, audit NAV-003). Same menu, same model, so the two
+// surfaces can never drift apart.
+function courseMenuHtml(state, action = 'chooseCourse') {
   return `
     <div class="course-menu" role="group" aria-label="Courses">
       ${COURSES.map((course) => {
@@ -634,7 +639,7 @@ function courseMenuHtml(state) {
         const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
         const count = course.modules.length;
         const attrs = unlocked
-          ? `data-action="chooseCourse" data-course-id="${escAttr(course.id)}"`
+          ? `data-action="${escAttr(action)}" data-course-id="${escAttr(course.id)}"`
           : `data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}"`;
         return `
           <button class="course-menu-item${active ? ' is-active' : ''}${unlocked ? '' : ' is-locked'}" ${attrs}${active ? ' aria-current="true"' : ''}>
@@ -2575,6 +2580,84 @@ function practiceReviewHtml(state, MODULES) {
 // Mastery no longer lives here -- see lessonPreviewHtml for the app-wide
 // per-lesson replacement.
 
+// One course's schedule numbers, computed from its SHELL (content/meta.js's
+// COURSE_SHELLS, always present on every COURSES entry) rather than from the
+// active-course helpers -- totalLessons()/deadlineSummary() resolve against
+// the one mutable MODULES binding and cannot answer "how is course X doing"
+// for a course that is not active. This is what lets Schedule show every
+// course's plan at once (audit NAV-003) without loading any of them.
+function courseScheduleOutline(course, state) {
+  const today = todayISO(state.dailyResetHour || 0);
+  let total = 0;
+  let cleared = 0;
+  let doneToday = 0;
+  course.modules.forEach((m) => {
+    const done = state.completed[m.id] || {};
+    total += m.lessons.length;
+    m.lessons.forEach((l) => {
+      const v = done[l.id];
+      if (!v) return;
+      cleared += 1;
+      if (v === today) doneToday += 1;
+    });
+  });
+  const remaining = Math.max(0, total - cleared);
+  const deadline = state.scheduleDeadline?.[course.id] || null;
+  let diffDays = null;
+  let dailyTarget = null;
+  let overdue = false;
+  if (deadline && remaining > 0) {
+    diffDays = Math.round((new Date(`${deadline}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
+    overdue = diffDays < 0;
+    dailyTarget = overdue ? null : Math.ceil(remaining / Math.max(1, diffDays));
+  }
+  return { course, total, cleared, remaining, doneToday, deadline, dailyTarget, overdue };
+}
+
+// The all-course overview on Schedule (audit NAV-003): every unlocked
+// course, its target, and what today asks of it -- so a learner planning
+// more than one course can see the combined load and can never mistake
+// "Schedule silently follows the course last opened on Home" for a target
+// having disappeared. Each row switches the page's scope in place.
+function scheduleCoursesHtml(state) {
+  const rows = COURSES.map((course) => {
+    const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
+    if (!unlocked) return '';
+    const o = courseScheduleOutline(course, state);
+    const isActive = course.id === state.courseId;
+    let meta;
+    if (o.remaining === 0 && o.total > 0) meta = 'Complete';
+    else if (o.overdue) meta = `Target ${formatDeadlineDate(o.deadline)} passed · ${o.remaining} left`;
+    else if (o.dailyTarget) {
+      const left = Math.max(0, o.dailyTarget - o.doneToday);
+      meta = `Target ${formatDeadlineDate(o.deadline)} · ${left === 0 ? 'done for today' : `${left} today`}`;
+    } else meta = `No target · ${o.remaining} lesson${o.remaining === 1 ? '' : 's'} left`;
+    return `
+      <button class="sched-course-row${isActive ? ' is-active' : ''}"
+        data-action="chooseScheduleCourse" data-course-id="${escAttr(course.id)}"
+        ${isActive ? 'aria-current="true"' : ''}
+        aria-label="Plan ${escAttr(course.name)} — ${escAttr(meta)}">
+        <span class="sched-course-names">
+          <span class="sched-course-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
+          <span class="sched-course-en">${esc(course.name)}</span>
+        </span>
+        <span class="sched-course-meta">${esc(meta)}</span>
+      </button>`;
+  }).filter(Boolean);
+  if (rows.length < 2) return '';
+  const todaysLoad = COURSES
+    .filter((c) => isCourseUnlocked(c, state.completed, state.unlockedCourses, state.forceUnlockAll))
+    .map((c) => courseScheduleOutline(c, state))
+    .filter((o) => o.dailyTarget)
+    .reduce((sum, o) => sum + Math.max(0, o.dailyTarget - o.doneToday), 0);
+  return `
+    <div class="section-head schedule-section">
+      <h2 class="section-head-title">All courses</h2>
+      <span class="lesson-section-note">${todaysLoad > 0 ? `${todaysLoad} lesson${todaysLoad === 1 ? '' : 's'} today combined` : 'Pick one to plan it'}</span>
+    </div>
+    <div class="sched-course-rows">${rows.join('')}</div>`;
+}
+
 function scheduleHtml(state, MODULES, revealedKeys) {
   const attempt = state.scheduleTabAttempt || 0;
   const resetHour = state.dailyResetHour || 0;
@@ -2586,6 +2669,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
   const summary = deadlineSummary(state, MODULES);
   const upcoming = upcomingLessons(state, MODULES);
   const nextUp = upcoming.find((u) => u.unlocked);
+  const activeCourse = COURSES.find((c) => c.id === state.courseId);
 
   const todayLabel = new Date(`${today}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
@@ -2656,9 +2740,24 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       }).join('')}
     </div>` : '';
 
+  // The page's scope, made explicit (audit NAV-003): Schedule used to follow
+  // whichever course Home last had open without naming it anywhere, so a
+  // learner planning two courses had to infer the active plan from Arabic
+  // lesson titles -- and could easily read "Not set" as a target having been
+  // lost. The switcher is the same control, menu and model Home uses, so
+  // the two surfaces stay one behaviour.
+  const courseSwitch = `
+    <button class="home-course-switch schedule-course-switch" data-action="toggleCourseMenu" title="Switch course"
+      aria-label="Planning ${escAttr(activeCourse ? activeCourse.name : '')} — switch course"
+      aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
+      <span lang="ar" dir="rtl">${esc(activeCourse ? activeCourse.arabicName || activeCourse.name : '')}</span>
+      <span aria-hidden="true">▾</span>
+    </button>`;
+
   return `
     <div class="schedule-page">
-      ${pageHeaderHtml({ title: 'Schedule', ar: 'الجدول الزمني', lede })}
+      ${pageHeaderHtml({ title: 'Schedule', ar: 'الجدول الزمني', lede, actions: courseSwitch })}
+      ${state.courseMenuOpen ? courseMenuHtml(state, 'chooseScheduleCourse') : ''}
       <div class="two-col">
       <div class="two-col-main">
       ${todayCard}
@@ -2666,6 +2765,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       ${upNext}
       </div>
       <div class="two-col-side">
+      ${scheduleCoursesHtml(state)}
       ${scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)}
       <div class="section-head schedule-section">
         <h2 class="section-head-title">Plan</h2>
