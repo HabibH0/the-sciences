@@ -1617,6 +1617,56 @@ function finishLitChapter() {
   queueAutoUpload('literature-chapter');
 }
 
+// One launcher for both of the chapter preview's modes ('free' | 'practice'),
+// with the load treated as an explicit state instead of a silent await: the
+// dialog shows "loading" while the chapter module is fetched (both launch
+// buttons disabled, so repeated clicks can't start parallel loads), and a
+// failed fetch keeps the dialog open with a visible error and a Retry that
+// re-runs the SAME mode. Before this, a transient load failure looked like
+// two dead buttons -- the promise rejected, the dispatcher's .then never ran,
+// and the clicked button sat in its busy state forever.
+async function launchLitChapter(mode) {
+  const bookId = state.litBookId;
+  const chapterId = state.litChapterPreviewId;
+  if (!bookId || !chapterId) return false;
+  if (state.litChapterLoad && state.litChapterLoad.status === 'loading') return false;
+  state.litChapterLoad = { status: 'loading', mode };
+  rerender();
+  let chapter = null;
+  try {
+    chapter = await loadChapter(bookId, chapterId);
+  } catch (e) {
+    chapter = null;
+  }
+  // The dialog may have been cancelled while the fetch was in flight --
+  // never launch a reader the learner already dismissed.
+  if (state.litChapterPreviewId !== chapterId) {
+    state.litChapterLoad = null;
+    return false;
+  }
+  if (!chapter) {
+    state.litChapterLoad = { status: 'error', mode };
+    // Focus lands on Retry, per the dialog's own error recovery -- not on
+    // the dialog root, which would make the reader re-find the fix.
+    rerender('[data-action="retryLitChapterLoad"]');
+    return false;
+  }
+  state.litChapterLoad = null;
+  state.litChapterPreviewId = null;
+  enterLitContext();
+  state.litBookId = bookId;
+  state.litChapterId = chapterId;
+  state.view = 'litRead';
+  if (mode === 'free') {
+    startLitSession(chapter, 0, true);
+    return;
+  }
+  const done = isChapterDone(state.litProgress, bookId, chapterId);
+  const para = done ? 0 : resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length);
+  startLitSession(chapter, para, false);
+  if (done) startLitWorkshop(chapter);
+}
+
 // --- Literature: "Practice weak words" -------------------------------
 // A book-wide sibling of the chapter build stage above (state.lit), kept as
 // its own session (state.litPractice) rather than folded into state.lit:
@@ -3076,24 +3126,17 @@ const actions = {
   closeLitChapterPreview(el, e) {
     if (e && e.target !== el) return false;
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
   },
   cancelLitChapterPreview() {
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
   },
   // Free reading: no comprehension checks, no drills, and it never marks the
   // chapter done (see startLitSession) -- always opens at the top regardless
   // of how far Practice mode has gotten.
-  async startLitFreeRead() {
-    const bookId = state.litBookId;
-    const chapterId = state.litChapterPreviewId;
-    const chapter = await loadChapter(bookId, chapterId);
-    if (!chapter) return false;
-    state.litChapterPreviewId = null;
-    enterLitContext();
-    state.litBookId = bookId;
-    state.litChapterId = chapterId;
-    state.view = 'litRead';
-    startLitSession(chapter, 0, true);
+  startLitFreeRead() {
+    return launchLitChapter('free');
   },
   // Practice: the graded pass, and the only route to marking a chapter done.
   // A chapter not yet done reads paragraph by paragraph with its
@@ -3101,20 +3144,14 @@ const actions = {
   // straight to the Patterns/Build drills at the end -- coming back to
   // Practice a finished chapter is for the drills, not a reread (that's what
   // Free read is for).
-  async startLitPractice() {
-    const bookId = state.litBookId;
-    const chapterId = state.litChapterPreviewId;
-    const chapter = await loadChapter(bookId, chapterId);
-    if (!chapter) return false;
-    state.litChapterPreviewId = null;
-    enterLitContext();
-    state.litBookId = bookId;
-    state.litChapterId = chapterId;
-    state.view = 'litRead';
-    const done = isChapterDone(state.litProgress, bookId, chapterId);
-    const para = done ? 0 : resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length);
-    startLitSession(chapter, para, false);
-    if (done) startLitWorkshop(chapter);
+  startLitPractice() {
+    return launchLitChapter('practice');
+  },
+  // A failed load's Retry -- re-runs whichever mode the learner had already
+  // chosen, so the failure never costs them the choice they made.
+  retryLitChapterLoad() {
+    const mode = state.litChapterLoad && state.litChapterLoad.mode;
+    return launchLitChapter(mode || 'practice');
   },
   exitLitChapter() {
     state.lit = null;
@@ -3625,6 +3662,7 @@ document.addEventListener('keydown', (e) => {
     rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.litChapterPreviewId) {
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;

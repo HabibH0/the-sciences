@@ -4212,16 +4212,34 @@ function litChapterPreviewHtml(state) {
   const started = !done && rec && rec.para > 0;
   const practiceLabel = done ? 'Practice (drills)' : started ? 'Resume' : 'Practice';
 
+  // The launch is an explicit state (see launchLitChapter in js/main.js):
+  // while the chapter is being fetched both launch buttons are disabled and
+  // a status line says so; a failed fetch keeps this dialog open and offers
+  // a Retry for the mode that was chosen, announced as an alert.
+  const load = state.litChapterLoad;
+  const loading = !!(load && load.status === 'loading');
+  const failed = !!(load && load.status === 'error');
+  const statusHtml = loading
+    ? '<p class="modal-status" role="status">Opening the chapter…</p>'
+    : failed
+      ? `<div class="modal-error" role="alert">
+           ${icon('alert', 14, 2)}
+           <span>The chapter could not be opened. Check your connection and try again.</span>
+           <button class="btn btn-primary btn-sm" data-action="retryLitChapterLoad">Retry</button>
+         </div>`
+      : '';
+
   return `
     <div class="modal-backdrop" data-action="closeLitChapterPreview">
       <div class="modal lit-chapter-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(chapter.title.en)}">
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
+        ${statusHtml}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="cancelLitChapterPreview">Cancel</button>
-          <button class="btn btn-secondary" data-action="startLitFreeRead">Free read</button>
-          <button class="btn btn-primary" data-action="startLitPractice">${practiceLabel}</button>
+          <button class="btn btn-secondary" data-action="startLitFreeRead" ${loading ? 'disabled' : ''}>Free read</button>
+          <button class="btn btn-primary" data-action="startLitPractice" ${loading ? 'disabled' : ''}>${practiceLabel}</button>
         </div>
       </div>
     </div>`;

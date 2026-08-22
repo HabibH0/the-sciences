@@ -242,6 +242,13 @@ export async function createInitialState() {
     // modal is open, mirroring lessonPreviewId's job for grammar lessons.
     // Not persisted.
     litChapterPreviewId: null,
+    // Transient: the chapter-preview modal's launch state -- null (idle),
+    // { status: 'loading', mode } while the chapter module is fetched, or
+    // { status: 'error', mode } after a failed fetch, where mode is
+    // 'free' | 'practice' so Retry can re-run the same choice. Without this
+    // the dialog gave no feedback at all on a slow or failed load: both
+    // buttons just appeared dead (see launchLitChapter in js/main.js).
+    litChapterLoad: null,
     // `${bookId}/${chapterId}` -> { para, done, at, score } -- `para` is the
     // furthest paragraph reached, so a long chapter resumes where it was left
     // rather than restarting (unlike a practice session, a chapter is a long

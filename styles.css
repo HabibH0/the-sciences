@@ -4881,6 +4881,38 @@ bdi,
 .lit-chapter-modal {
   max-width: 380px;
 }
+/* Launch feedback inside a dialog (the chapter preview's load states). The
+   error carries an icon and its own Retry, so colour is never the only
+   signal and the fix sits beside the failure it fixes. */
+.modal-status {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
+  margin-top: var(--space-3);
+}
+.modal-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-danger-line);
+  border-radius: var(--radius-md);
+  background: var(--color-danger-tint);
+  font-size: var(--text-sm);
+  color: var(--color-danger-text);
+  text-align: left;
+}
+.modal-error .icon {
+  flex: none;
+}
+.modal-error span {
+  flex: 1;
+  min-width: 0;
+  line-height: var(--leading-snug);
+}
+.modal-error .btn {
+  flex: none;
+}
 
 @media (max-width: 900px) {
   .lit-library-page,
