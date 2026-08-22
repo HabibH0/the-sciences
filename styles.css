@@ -4637,9 +4637,41 @@ bdi,
   padding: 0 3px;
   border: 0;
   background: transparent;
+  position: relative;
 }
 .lit-gloss-btn.is-on {
   color: var(--color-accent);
+}
+/* Touch: the visible marker stays its quiet size, but the tappable box
+   grows to the platform floor through an invisible overlay. Kept narrower
+   than it is tall (the line-height's own slack absorbs the vertical reach)
+   so it cannot swallow taps meant for the Arabic word beside it. */
+@media (pointer: coarse) {
+  .lit-gloss-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: var(--tap-min);
+    transform: translate(-50%, -50%);
+  }
+}
+/* One quiet line introducing the reading interactions, beside the first
+   paragraph (phone only -- the desktop margin card already sits alongside). */
+.lit-intro {
+  margin: 14px 22px 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--color-divider);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-neutral-700);
+}
+.lit-intro .icon {
+  vertical-align: -2px;
+  color: var(--color-neutral-500);
 }
 
 .lit-gloss {
@@ -7303,6 +7335,33 @@ span.deadline-day {
 }
 .lit-pager-btn-next {
   min-width: 0;
+}
+/* Phone: status and actions become two tiers instead of three competing
+   columns -- the count sits on its own line, and whichever action is
+   available takes a real thumb target, with Next dominant when it exists. */
+@media (max-width: 640px) {
+  .lit-pager {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .lit-pager-count {
+    flex-basis: 100%;
+    order: -1;
+  }
+  .lit-pager-btn {
+    min-height: var(--tap-min);
+    padding: 3px 16px;
+  }
+  .lit-pager-btn-next {
+    flex: 1;
+    border-color: var(--color-accent);
+    color: var(--color-accent-700);
+  }
+  /* A disabled direction should not claim the same width and weight as the
+     live one. */
+  .lit-pager-btn:disabled {
+    flex: none;
+  }
 }
 
 /* Reader head: chevron, titles, the Read→Patterns→Build rail on the right,

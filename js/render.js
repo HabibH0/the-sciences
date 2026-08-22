@@ -4571,7 +4571,7 @@ function litSentenceHtml(state, sentence) {
   const open = state.lit.gloss === sentence.id;
   const words = sentence.tokens.map((t, ti) => litWordHtml(state, sentence, t, ti)).join(' ');
   return `<span class="lit-sentence${open ? ' is-open' : ''}" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}"
-    >${words}<button class="lit-gloss-btn" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}" aria-expanded="${open ? 'true' : 'false'}" aria-label="Show the translation of this phrase">${icon('book', 11, 2)}</button
+    >${words}<button class="lit-gloss-btn${open ? ' is-on' : ''}" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}" aria-expanded="${open ? 'true' : 'false'}" aria-label="${open ? 'Hide the translation of this phrase' : 'Show the translation of this phrase'}">${icon('book', 11, 2)}</button
     ><span class="lit-gloss" dir="ltr" lang="en">${esc(sentence.en)}</span></span>`;
 }
 
@@ -4595,7 +4595,9 @@ function litParagraphHtml(state, para, pi, active) {
       <div class="lit-para-gutter">
         <span class="lit-para-mark" aria-hidden="true">${pi + 1}</span>
         <button class="lit-para-en${fullOpen ? ' is-active' : ''}" data-action="litToggleFullPara" data-para="${pi}"
-          aria-pressed="${fullOpen ? 'true' : 'false'}" title="This paragraph in English">EN</button>
+          aria-pressed="${fullOpen ? 'true' : 'false'}"
+          aria-label="${fullOpen ? 'Hide the English translation of this paragraph' : 'Show the English translation of this paragraph'}"
+          title="${fullOpen ? 'Hide English' : 'Show English'}">EN</button>
         <button class="lit-para-hover-btn${hoverOn ? ' is-active' : ''}" data-action="toggleLitHoverTranslate"
           aria-pressed="${hoverOn ? 'true' : 'false'}" title="${hoverOn ? 'Hover translation: ON (click to turn off)' : 'Hover translation: OFF (click to turn on)'}">${icon('pointer', 11, 2)}</button>
       </div>
@@ -4949,7 +4951,13 @@ function litPagerHtml(state, chapter) {
 
 function litReadStageHtml(state, chapter) {
   const lit = state.lit;
+  // The reading interactions introduced up front, beside the first
+  // paragraph -- on a phone the word-notes card that used to explain them
+  // sits below the whole passage, after every marker has already been met.
+  const intro = lit.para === 0 ? `
+    <p class="lit-intro only-phone">Tap a word for its meaning and form — tap the small ${icon('book', 10, 2)} at a phrase's end for its English.</p>` : '';
   return `${litPagerHtml(state, chapter)}
+    ${intro}
     ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
     ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
 }
