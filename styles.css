@@ -8393,6 +8393,16 @@ span.deadline-day {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* Home's bar carries the course's Arabic name. */
+  .context-bar-title[lang='ar'] {
+    font-family: var(--font-ar-heading);
+  }
+  /* The bar's negative margins undo a 22px page gutter; .home-page is
+     full-bleed (the hero spans edge to edge), so there is nothing to undo
+     and the -22px was pushing the strip off-canvas to the left. */
+  .home-page .context-bar {
+    margin: 0;
+  }
 }
 
 /* --- Phone: the back row is the deep screens' compact context ----------- */
