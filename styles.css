@@ -4609,8 +4609,8 @@ bdi,
 .lit-reader-head {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 18px 22px 12px;
+  gap: var(--space-4);
+  padding: 16px 22px 12px;
   border-bottom: 1px solid var(--color-divider);
 }
 .lit-reader-titles {
@@ -4618,12 +4618,17 @@ bdi,
   min-width: 0;
 }
 .lit-reader-book {
+  display: block;
   font-size: var(--text-micro);
   color: var(--color-neutral-600);
+  margin-bottom: 2px;
 }
 .lit-reader-title {
   font-family: var(--font-ar-heading);
-  font-size: var(--text-ar);
+  font-size: 21px;
+  /* The h1 default (1.15) clipped the Arabic title's ascenders and
+     descenders into the series line above and the English line below. */
+  line-height: 1.5;
   color: var(--color-text);
   margin: 0;
 }
@@ -4921,6 +4926,11 @@ bdi,
 .lit-check {
   margin-top: 12px;
 }
+/* The advance button is a different kind of thing from the options above
+   it -- clear separation instead of sitting flush against option C. */
+.lit-checks > .btn {
+  margin-top: var(--space-5);
+}
 .lit-answer {
   font-size: var(--text-sm);
   color: var(--color-accent-700);
@@ -5070,27 +5080,8 @@ bdi,
   margin-top: 10px;
 }
 
-/* Pager between paragraphs/pages. */
-.lit-pager {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 22px calc(20px + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid var(--color-divider);
-}
-.lit-pager-count {
-  flex: 1;
-  text-align: center;
-  font-size: var(--text-meta);
-  color: var(--color-neutral-600);
-  font-variant-numeric: tabular-nums;
-}
-.lit-pager-btn {
-  flex: none;
-}
-.lit-pager-btn-next {
-  min-width: 120px;
-}
+/* The paragraph pager lives in the reader's sticky top strip now -- see
+   the .lit-topbar block in the Reader repairs section. */
 
 /* Chapter complete. */
 .lit-complete {
@@ -7608,70 +7599,114 @@ span.deadline-day {
   color: inherit;
   min-width: 0;
 }
+/* ---------- Reader top strip ----------
+   Sticky at the top of the reader's scroller: a deliberately quiet
+   paragraph pager on the left (icon steps + a small count) and the
+   selected word's compact dock filling the rest, so a tapped word's
+   meaning and form are always in view without travelling to a margin
+   card. Wraps on narrow screens: pager first, dock beneath. */
+.lit-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  flex-wrap: wrap;
+  min-height: 44px;
+  padding: var(--space-2) 22px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-divider);
+}
 .lit-pager {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 22px 9px;
-  border-top: 0;
-  border-bottom: 1px solid var(--color-divider);
-  background: var(--color-neutral-100);
+  gap: 2px;
+  flex: none;
 }
 .lit-pager-count {
-  flex: 1;
-  text-align: left;
   font-size: var(--text-micro);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-neutral-600);
+  color: var(--color-neutral-500);
   font-variant-numeric: tabular-nums;
+  padding: 0 4px;
+  white-space: nowrap;
 }
 .lit-pager-btn {
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--color-neutral-600);
-  font-family: var(--font-body);
-  font-size: var(--text-meta);
-  padding: 3px 12px;
+  color: var(--color-neutral-500);
   cursor: pointer;
 }
 .lit-pager-btn:hover:not(:disabled) {
-  border-color: var(--color-accent);
   color: var(--color-accent-700);
+  background: var(--color-neutral-100);
 }
 .lit-pager-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: default;
 }
-.lit-pager-btn-next {
+
+/* The word dock itself: one wrapping row of facts. */
+.lit-word-dock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-4);
+  flex-wrap: wrap;
+  flex: 1;
   min-width: 0;
 }
-/* Phone: status and actions become two tiers instead of three competing
-   columns -- the count sits on its own line, and whichever action is
-   available takes a real thumb target, with Next dominant when it exists. */
+.lit-word-dock-hint {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-500);
+}
+.lit-word-dock-surface {
+  font-family: var(--font-ar);
+  font-size: 20px;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+.lit-word-dock-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-700);
+  min-width: 0;
+}
+.lit-word-dock-label {
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+}
+.lit-word-dock-value bdi {
+  font-size: var(--text-ar-sm);
+}
+.lit-word-dock-mark {
+  margin-left: auto;
+  flex: none;
+}
 @media (max-width: 640px) {
-  .lit-pager {
-    flex-wrap: wrap;
-    row-gap: 8px;
-  }
-  .lit-pager-count {
-    flex-basis: 100%;
-    order: -1;
-  }
   .lit-pager-btn {
-    min-height: var(--tap-min);
-    padding: 3px 16px;
+    width: var(--tap-min);
+    height: 38px;
   }
-  .lit-pager-btn-next {
-    flex: 1;
-    border-color: var(--color-accent);
-    color: var(--color-accent-700);
+  /* The dock takes its own full row under the pager -- squeezed beside it,
+     the facts wrapped into a cramped right-leaning column. */
+  .lit-word-dock {
+    flex-basis: 100%;
   }
-  /* A disabled direction should not claim the same width and weight as the
-     live one. */
-  .lit-pager-btn:disabled {
-    flex: none;
+  .lit-word-dock-mark {
+    margin-left: 0;
   }
 }
 
@@ -7695,6 +7730,7 @@ span.deadline-day {
   display: block;
   font-size: var(--text-meta);
   color: var(--color-neutral-600);
+  margin-top: 2px;
 }
 
 /* Desktop reader: the word card and marked-words list sit in the margin
@@ -7943,6 +7979,17 @@ span.deadline-day {
 .lit-gloss-btn.is-on,
 .lit-sentence.is-open .lit-gloss-btn {
   color: var(--color-accent);
+}
+/* The gloss lane is shared by every sentence in the paragraph, so exactly
+   one gloss may claim it at a time: a pinned sentence silences the others,
+   and a keyboard-focused sentence silences a merely hovered one. Without
+   this, pinning one phrase and hovering another painted both translations
+   on top of each other. */
+.lit-para:has(.lit-sentence.is-open) .lit-sentence:not(.is-open) .lit-gloss {
+  opacity: 0;
+}
+.lit-para:has(.lit-sentence:focus-within) .lit-sentence:not(:focus-within):not(.is-open) .lit-gloss {
+  opacity: 0;
 }
 
 /* Desktop streak calendar: the mockup's cells are compact — cap the grid so

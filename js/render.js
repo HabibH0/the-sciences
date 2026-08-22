@@ -4981,50 +4981,44 @@ function litChecksHtml(state, para, pi) {
     </section>`;
 }
 
-// The margin card: whichever word was last clicked, in full. This is where
-// "mark as unknown" also lives as a real button -- double-clicking is the
-// fast path, but it can't be the only one, since it has no keyboard
-// equivalent.
-function litWordCardHtml(state, chapter) {
+// The selected word's compact card, docked in the reader's sticky top strip
+// beside the paragraph pager (it used to be a tall margin card that lived
+// below the fold at most sizes). One wrapping row: the surface form, its
+// facts, and the mark-as-unknown control -- which keeps a real keyboard
+// path to marking, double-click being only the fast path.
+function litWordDockHtml(state, chapter) {
   const w = state.lit.word;
   if (!w) {
     return `
-      <div class="lit-word-card is-empty">
-        <p class="lit-word-hint"><strong>Click a word</strong> to highlight it and see its form here. Click it again to clear the highlight.</p>
-        <p class="lit-word-hint"><strong>Click it twice</strong> to mark it as a word you don't know — those come back at the end of the chapter.</p>
-        <p class="lit-word-hint">Hover a phrase for its translation — on a touchscreen, tap the small round marker at its end.</p>
+      <div class="lit-word-dock is-empty">
+        <span class="lit-word-dock-hint">Select a word to see its meaning and form here — select it twice to mark it as one to work on.</span>
       </div>`;
   }
   const sentence = chapterSentences(chapter).find((s) => s.id === w.s);
   const token = sentence && sentence.tokens[w.t];
-  if (!token) return '<div class="lit-word-card is-empty"><p class="lit-word-hint">That word is no longer on the page.</p></div>';
+  if (!token) return '<div class="lit-word-dock is-empty"><span class="lit-word-dock-hint">That word is no longer on the page.</span></div>';
   const unknown = isUnknownLemma(state.litUnknown, state.lit.bookId, token.lemma);
   const entry = (chapter.lemmas || {})[token.lemma] || {};
   // A particle's `features` is often just its word class again (مع is a
   // حرف جر and nothing else) -- printing that twice says nothing.
   const wordClass = posLabel(token.pos);
   const form = token.features ? describeFeatures(token.features) : '';
-  const rows = [
+  const items = [
     ['Meaning', escBidi(token.gloss || entry.gloss || '—')],
     ['Dictionary form', `<bdi lang="ar">${esc(token.lemma)}</bdi>`],
     token.root ? ['Root', `<bdi lang="ar">${esc(token.root)}</bdi>`] : null,
     // Arabic throughout, so one RTL isolate around the whole value rather
     // than escBidi's per-run isolation -- see the POS_LABELS comment in
     // content-lit/index.js for why that distinction matters here.
-    ['Word class', `<bdi lang="ar" dir="rtl">${esc(wordClass)}</bdi>`],
+    ['Class', `<bdi lang="ar" dir="rtl">${esc(wordClass)}</bdi>`],
     form && form !== wordClass ? ['Form', `<bdi lang="ar" dir="rtl">${esc(form)}</bdi>`] : null,
   ].filter(Boolean);
   return `
-    <div class="lit-word-card">
-      <div class="lit-word-card-head">
-        <span class="lit-word-card-surface" lang="ar" dir="rtl">${esc(token.surface)}</span>
-      </div>
-      <dl class="lit-word-rows">
-        ${rows.map(([k, v]) => `<div class="lit-word-row"><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}
-      </dl>
-      ${entry.book_note ? `<p class="lit-word-note">${escBidi(entry.book_note)}</p>` : ''}
-      <button class="btn ${unknown ? 'btn-primary' : 'btn-secondary'} btn-block" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
-        ${unknown ? 'Marked as unknown — undo' : "Mark as a word I don't know"}
+    <div class="lit-word-dock"${entry.book_note ? ` title="${escAttr(entry.book_note)}"` : ''}>
+      <bdi class="lit-word-dock-surface" lang="ar">${esc(token.surface)}</bdi>
+      ${items.map(([k, v]) => `<span class="lit-word-dock-item"><span class="lit-word-dock-label">${esc(k)}</span><span class="lit-word-dock-value">${v}</span></span>`).join('')}
+      <button class="btn btn-sm ${unknown ? 'btn-primary' : 'btn-secondary'} lit-word-dock-mark" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
+        ${unknown ? 'Marked — undo' : "I don't know this"}
       </button>
     </div>`;
 }
@@ -5245,19 +5239,24 @@ function litCompleteHtml(state, chapter) {
 // (lit.freeRead, chosen from the chapter's preview modal) drop the questions
 // entirely, so the pager grows its own "Next" button instead of relying on
 // the checks' advance button.
+// The reader's sticky top strip: a deliberately quiet paragraph pager on
+// the left (icon steps and a small count -- it used to be a full-width
+// banded bar) and the selected word's dock filling the rest, so a tapped
+// word's facts are always in view without scrolling to a margin card.
 function litPagerHtml(state, chapter) {
   const lit = state.lit;
   const lastPara = lit.para + 1 >= chapter.paragraphs.length;
   return `
-    <div class="lit-pager">
-      <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}>
-        ${icon('arrowLeft', 14, 2)} Previous paragraph
-      </button>
-      <span class="lit-pager-count">Paragraph ${lit.para + 1} of ${chapter.paragraphs.length}${lit.freeRead ? ' · free read' : ''}</span>
-      ${lit.freeRead ? `
-      <button class="lit-pager-btn lit-pager-btn-next" data-action="litNextParagraph" ${lastPara ? 'disabled' : ''}>
-        Next paragraph ${icon('arrowRight', 14, 2)}
-      </button>` : ''}
+    <div class="lit-topbar">
+      <div class="lit-pager" role="group" aria-label="Paragraphs">
+        <button class="lit-pager-btn" data-action="litPrevParagraph" ${lit.para > 0 ? '' : 'disabled'}
+          aria-label="Previous paragraph" title="Previous paragraph">${icon('arrowLeft', 15, 2)}</button>
+        <span class="lit-pager-count">${lit.para + 1} / ${chapter.paragraphs.length}${lit.freeRead ? ' · free read' : ''}</span>
+        ${lit.freeRead ? `
+        <button class="lit-pager-btn" data-action="litNextParagraph" ${lastPara ? 'disabled' : ''}
+          aria-label="Next paragraph" title="Next paragraph">${icon('arrowRight', 15, 2)}</button>` : ''}
+      </div>
+      ${litWordDockHtml(state, chapter)}
     </div>`;
 }
 
@@ -5309,8 +5308,7 @@ function litReadHtml(state) {
       <div class="lit-reader-body">
         <div class="lit-page">${stageBody}</div>
         ${lit.stage === 'read' ? `
-        <aside class="lit-aside" aria-label="Word notes">
-          ${litWordCardHtml(state, chapter)}
+        <aside class="lit-aside" aria-label="Marked words">
           ${litUnknownListHtml(state, chapter)}
         </aside>` : ''}
       </div>

@@ -381,6 +381,14 @@ const CONTAINER_SCROLL_TARGETS = [
   { selector: '.lit-shelves', key: () => 'library-shelves' },
   { selector: '.lit-chapter-list', key: (s) => `book-chapters:${s.litBookId}` },
   { selector: '.revision-module-list', key: (s) => `revision-modules:${s.courseId}` },
+  // The reader's own scroller: .lit-reader-body (flex: 1 / overflow: auto)
+  // scrolls INSTEAD of .main-content on the reading screen, so without this
+  // entry every same-screen rerender -- answering a comprehension check,
+  // selecting a word, toggling EN -- rebuilt it at scrollTop 0 and threw
+  // the reader back to the top of the paragraph. Keyed per chapter and
+  // stage; the deliberate page-turn scroll to the top still wins because
+  // litNext/PrevParagraph scroll before the state change is applied.
+  { selector: '.lit-reader-body', key: (s) => (s.lit ? `reader:${s.lit.bookId}:${s.lit.chapterId}:${s.lit.stage}` : 'reader') },
 ];
 const containerScrollPositions = new Map();
 
@@ -1636,9 +1644,11 @@ function litChapter() {
 }
 
 // Used when turning a page in the reader. Awaited by its callers so the
-// paragraph is only swapped once the page has finished travelling.
+// paragraph is only swapped once the page has finished travelling. Targets
+// the reader's OWN scroller -- .lit-reader-body is what actually scrolls on
+// the reading screen, not .main-content.
 function scrollReaderToTop() {
-  const container = mainScrollContainer();
+  const container = root.querySelector('.lit-reader-body') || mainScrollContainer();
   if (!container || container.scrollTop < 2) return Promise.resolve();
   return smoothScrollTo(container, 0, 520);
 }
@@ -4261,20 +4271,34 @@ document.addEventListener('input', (e) => {
 // yank focus off the input after every keystroke (see rerender's own
 // comment on focus/scroll not surviving a re-render) -- passing this
 // input's own id back as the refocus selector is what keeps typing usable.
+// The caret must be restored by hand as well as the focus: focusing the
+// rebuilt input lands the caret at position 0 in Chromium, so every
+// keystroke after the first inserted at the START -- typing "name" came
+// out "eman".
+function rerenderSearchField(id) {
+  const before = document.getElementById(id);
+  const caret = before && before.selectionStart != null ? before.selectionStart : null;
+  rerender(`#${id}`);
+  const fresh = document.getElementById(id);
+  if (fresh && caret !== null) {
+    try { fresh.setSelectionRange(caret, caret); } catch (err) { /* non-text input types */ }
+  }
+}
+
 document.addEventListener('input', (e) => {
   const el = e.target.closest('#lesson-search-input');
   if (!el) return;
   actions.searchLessons(el);
-  rerender('#lesson-search-input');
+  rerenderSearchField('lesson-search-input');
 });
 
 // The Library's search box (audit NAV-004): same live-as-you-type treatment,
-// same refocus reasoning, as the dashboard search just above.
+// same refocus and caret reasoning, as the dashboard search just above.
 document.addEventListener('input', (e) => {
   const el = e.target.closest('#lit-search-input');
   if (!el) return;
   actions.searchLibrary(el);
-  rerender('#lit-search-input');
+  rerenderSearchField('lit-search-input');
 });
 
 // --- drag-and-drop for tarkeeb (native events bubble, so this is delegated
