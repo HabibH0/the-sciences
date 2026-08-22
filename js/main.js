@@ -3243,8 +3243,7 @@ const actions = {
   // With course locks off every concept is freely navigable (user request)
   // -- the paging bound widens to the whole lesson while `shown` (the
   // exercise-cleared frontier) keeps deciding where a null index lands.
-  // Lesson COMPLETION still requires the exercises and the quiz either way
-  // (see finishLesson below).
+  // Lesson COMPLETION is the quiz's job alone (see finishLesson below).
   prevConcept() {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
@@ -3420,17 +3419,13 @@ const actions = {
   retakeQuiz() {
     startQuizAttempt(getLesson(state.moduleId, state.lessonId));
   },
-  // Passing the quiz is the end of the lesson -- there is no drill step.
+  // Passing the quiz is the end of the lesson -- there is no drill step,
+  // and (user request) no exercise debt either: the quiz alone completes
+  // the lesson. With course locks ON the quiz is still only reachable
+  // through the exercises (gotoQuiz), so this only changes the locks-off
+  // free-navigation flow.
   finishLesson() {
     if (!isQuizPassed(state.moduleId, state.lessonId, state.quizScores)) return false;
-    // Completion requires the lesson's own work, not just its quiz: with
-    // course locks off the quiz is freely reachable, but the lesson only
-    // completes once every concept exercise (and the trailing lesson
-    // exercise) is cleared too (user request). quizResultHtml swaps the
-    // Finish button for a "Finish the exercises" path in that state.
-    const lesson = getLesson(state.moduleId, state.lessonId);
-    if (!lesson) return false;
-    if (!isLessonReadyForQuiz(lesson, state.exStates, state.moduleId, state.lessonId)) return false;
     // Computed before markLessonComplete mutates state.completed: XP and
     // badges only fire on a lesson's first-ever completion, so retaking an
     // already-passed quiz can't be used to farm XP.

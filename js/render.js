@@ -10,7 +10,6 @@ import {
   conceptsToRender,
   areAllConceptsPassed,
   isLessonReadyForQuiz,
-  isQuizPassed,
   isLessonExerciseItemPassed,
   lessonExerciseItemKey,
   isConceptExercisePassed,
@@ -1766,9 +1765,8 @@ function lessonHtml(state, MODULES, revealedKeys) {
   // exercise gates the one after it (see conceptsToRender). With course
   // locks ON, paging never runs past that. With course locks OFF every
   // concept is freely navigable (user request) -- `shown` still drives the
-  // dots' gold fill and complete/unlocked labels, and completing the LESSON
-  // still requires clearing the exercises and the quiz (see finishLesson in
-  // js/main.js).
+  // dots' gold fill and complete/unlocked labels. Completing the LESSON is
+  // the quiz's job alone (see finishLesson in js/main.js).
   const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
   const navigable = state.forceUnlockAll ? total : shown;
   const readyForQuiz = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
@@ -1808,16 +1806,8 @@ function lessonHtml(state, MODULES, revealedKeys) {
   // Next opens once this concept's exercise has been cleared (course locks
   // on), or always while another concept exists (course locks off).
   const canAdvance = index < navigable - 1;
-  // Quiz already passed (taken ahead of the exercises, which course locks
-  // off allows) and the exercises now cleared too: the lesson is finishable
-  // right here, no quiz retake owed.
-  const finishableNow = readyForQuiz
-    && isQuizPassed(mod.id, lesson.id, state.quizScores)
-    && !isLessonComplete(mod.id, lesson.id, state.completed);
   const forward = isLast
-    ? finishableNow
-      ? '<button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>'
-      : `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
+    ? `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
     : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next concept</button>`;
 
   // A disabled forward button on its own is a dead end: the reader can see
@@ -1885,18 +1875,11 @@ function quizResultHtml(state, mod, lesson) {
   const passPct = Math.round(QUIZ_PASS_RATIO * 100);
   const passed = frac >= QUIZ_PASS_RATIO;
 
-  // A passed quiz alone is not a completed lesson: the concept exercises
-  // (and the trailing lesson exercise) must be cleared too -- reachable in
-  // any order with course locks off, so this screen has to say which half
-  // is still owed rather than offering a Finish that silently refuses.
-  const exercisesDone = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
-  const message = passed && !exercisesDone
-    ? "Quiz passed — clear the lesson's exercises to complete it."
-    : frac === 1
-      ? 'A flawless recitation.'
-      : passed
-        ? 'A solid grasp — review what you missed.'
-        : `Revisit the lesson before moving on — you need ${passPct}% to complete it.`;
+  const message = frac === 1
+    ? 'A flawless recitation.'
+    : passed
+      ? 'A solid grasp — review what you missed.'
+      : `Revisit the lesson before moving on — you need ${passPct}% to complete it.`;
 
   // Corrections first: "review what you missed" is a dead end unless the
   // screen actually says which questions were wrong and why.
@@ -1915,11 +1898,8 @@ function quizResultHtml(state, mod, lesson) {
   }).join('');
 
   const actions = passed
-    ? exercisesDone
-      ? `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
-         <button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>`
-      : `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
-         <button class="btn btn-primary" data-action="backToLesson">Finish the exercises</button>`
+    ? `<button class="btn btn-secondary" data-action="retakeQuiz">Retake quiz</button>
+       <button class="btn btn-primary" data-action="finishLesson">Finish lesson</button>`
     : `<button class="btn btn-secondary" data-action="backToLesson">Back to lesson</button>
        <button class="btn btn-primary" data-action="retakeQuiz">Retake quiz</button>`;
 

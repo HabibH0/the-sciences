@@ -2502,45 +2502,66 @@ bdi,
 }
 
 /* End-of-lesson summary table. */
+/* Lesson summary as a real three-column table (user request): label |
+   Arabic term | meaning, with any examples stacking under the meaning.
+   Columns align ACROSS rows via subgrid, and every part scales with the
+   lesson text size together -- before this only the Arabic was tied to
+   --lesson-text-scale, so resizing skewed the table's proportions. */
 .lesson-summary-rows {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
 }
-.lesson-summary-row,
-.lesson-summary-row-head {
-  display: flex;
-  gap: 12px;
+.lesson-summary-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: 18px;
+  align-items: baseline;
   padding: 9px 0;
   border-top: 1px solid var(--color-divider);
-  font-size: var(--text-base);
 }
-.lesson-summary-row-head {
+.lesson-summary-row:first-child {
   border-top: 0;
-  font-size: var(--text-meta);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-neutral-600);
 }
-.lesson-summary-arabic {
-  flex: 1;
-  font-family: var(--font-ar);
-  font-size: calc(17px * var(--lesson-text-scale));
-  color: var(--color-text);
-}
-.lesson-summary-meaning {
-  flex: 2;
-  color: var(--color-neutral-700);
-}
-.lesson-summary-examples {
-  flex: 2;
-  color: var(--color-neutral-600);
-  font-size: var(--text-sm);
+/* The head wrapper dissolves into the row's grid so label and term land in
+   their own columns. */
+.lesson-summary-row-head {
+  display: contents;
 }
 .lesson-summary-label {
-  font-size: var(--text-micro);
+  font-size: calc(11px * var(--lesson-text-scale));
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--color-accent-700);
+}
+.lesson-summary-arabic {
+  font-family: var(--font-ar);
+  font-size: calc(17px * var(--lesson-text-scale));
+  color: var(--color-text);
+  max-width: 340px;
+}
+.lesson-summary-meaning {
+  color: var(--color-neutral-700);
+  font-size: calc(15px * var(--lesson-text-scale));
+  line-height: 1.55;
+}
+.lesson-summary-examples {
+  grid-column: 3;
+  color: var(--color-neutral-600);
+  font-size: calc(13px * var(--lesson-text-scale));
+}
+/* Phone: three max-content columns can't fit 390px -- stack each row as a
+   block, label+term on one line, meaning beneath. */
+@media (max-width: 640px) {
+  .lesson-summary-rows,
+  .lesson-summary-row {
+    display: block;
+  }
+  .lesson-summary-row-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
 }
 .lesson-summary-empty {
   font-size: var(--text-sm);
