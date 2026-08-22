@@ -663,6 +663,30 @@ function updateCoverBlurbToggle() {
   toggle.classList.toggle('is-hidden', fits);
 }
 
+// The course dropdown hangs off its trigger, and on narrow screens the
+// trigger can sit near either edge -- measured after each render, the panel
+// is nudged sideways (via a margin, which cannot fight the drop-in
+// animation's transform) so it always keeps a small gutter inside the
+// viewport. Serves both the Home and Schedule instances, which share the
+// .course-menu panel.
+function positionCourseMenu() {
+  if (!state.courseMenuOpen) return;
+  const panel = root.querySelector('.course-menu');
+  if (!panel) return;
+  const margin = 18;
+  const rect = panel.getBoundingClientRect();
+  let shift = 0;
+  if (rect.left < margin) shift = margin - rect.left;
+  else if (rect.right > window.innerWidth - margin) shift = (window.innerWidth - margin) - rect.right;
+  if (shift) {
+    // Both margins set so the nudge works whichever side the panel is
+    // anchored to: a left-anchored box moves via margin-left, a
+    // right-anchored one via (negative) margin-right.
+    panel.style.marginLeft = `${shift}px`;
+    panel.style.marginRight = `${-shift}px`;
+  }
+}
+
 function positionSchedulePopovers() {
   if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
   const panel = root.querySelector('.deadline-picker, .reset-hour-menu');
@@ -823,6 +847,7 @@ function rerender(focusSelector) {
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
   positionSchedulePopovers();
+  positionCourseMenu();
   updateCoverBlurbToggle();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (conceptChanged) {

@@ -5914,29 +5914,19 @@ bdi,
 .course-menu-item.is-active .course-menu-meta {
   color: var(--color-accent-700);
 }
-/* On phones the anchored panel becomes a bottom sheet (audit MOT-002):
-   the four courses within thumb reach, over the tab bar, without touching
-   the dashboard's layout. Dismissal is the same outside-tap/Escape the
-   popover already has; its sheet-specific entrance/exit keyframes are
-   mapped in the Motion layer. */
+/* On phones the panel stays a dropdown hanging off its trigger (user
+   preference over the earlier bottom-sheet treatment): one column of
+   thumb-height rows, right-aligned to the trigger so it never runs off the
+   screen's right edge, clamped to the viewport's width on the left. Same
+   outside-tap/Escape dismissal and drop-in/out motion as the desktop
+   popover. */
 @media (max-width: 900px) {
   .course-menu {
-    position: fixed;
-    top: auto;
-    left: 0;
+    left: auto;
     right: 0;
-    bottom: 0;
-    z-index: 50;
-    min-width: 0;
-    max-width: none;
+    min-width: 280px;
+    max-width: min(340px, calc(100vw - 36px));
     grid-template-columns: 1fr;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    border-bottom: 0;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  .course-switch-anchor-end .course-menu {
-    left: 0;
-    right: 0;
   }
   .course-menu-item {
     border-right: 0;
@@ -8823,21 +8813,11 @@ body {
   animation: m-pop-out 100ms var(--ease-in) forwards;
   pointer-events: none;
 }
-/* The course chooser is a popover on desktop and a bottom sheet on phones
-   (see the course-menu section); the same JS-applied classes map to sheet
-   travel here so each variant enters from and exits toward its own point of
-   origin (MOT-003) -- the popover from its trigger, the sheet from the
-   bottom edge. */
-@media (max-width: 900px) {
-  .course-menu.anim-drop-in {
-    transform-origin: bottom center;
-    animation: m-sheet-in var(--t-ui) var(--ease-out) backwards;
-  }
-  .course-menu.anim-drop-out {
-    transform-origin: bottom center;
-    animation: m-sheet-out 100ms var(--ease-in) forwards;
-  }
-}
+/* The course chooser is an anchored dropdown at every width now (the phone
+   bottom-sheet variant was retired by user preference), so it takes the
+   standard popover drop-in/out from its trigger on phones too -- no
+   width-specific override needed. m-sheet-in/out above stay defined for any
+   future genuine sheet. */
 
 /* ---------- Selection indicators ----------
    Every "which one is selected" control in the app moves its indicator from
