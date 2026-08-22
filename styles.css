@@ -7790,19 +7790,21 @@ span.deadline-day {
     padding: 10px 22px 8px;
   }
   .lit-reader-titles {
-    flex: 1 1 0;
+    /* auto basis: the title claims its natural width on row 1 (up to the
+       ellipsis clip) instead of shrinking to fit beside the pager -- the
+       pager gets its own row below, now that the rail is gone. */
+    flex: 1 1 auto;
+    min-width: 0;
   }
-  .lit-reader-book {
-    display: none;
-  }
+  .lit-reader-book,
   .lit-reader-en {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: none;
   }
   .lit-reader-title {
     font-size: 19px;
-    line-height: 1.35;
+    /* Roomy: the ellipsis clip (overflow:hidden) cuts on BOTH axes, and a
+       tight line box was shearing the Arabic diacritics top and bottom. */
+    line-height: 1.9;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7810,7 +7812,12 @@ span.deadline-day {
   .lit-reader-head .lit-rail {
     display: none;
   }
+  .lit-reader-head .lit-pager {
+    order: 2;
+    flex-basis: 100%;
+  }
   .lit-reader-head .progress-bar {
+    order: 3;
     margin-top: 4px;
   }
   /* The dock strip gives back a few px too. */
@@ -7834,12 +7841,6 @@ span.deadline-day {
   height: 3px;
   margin: 12px 0 0;
   border-radius: 0;
-}
-.lit-reader-en {
-  display: block;
-  font-size: var(--text-meta);
-  color: var(--color-neutral-600);
-  margin-top: 2px;
 }
 
 /* Desktop reader: the word card and marked-words list sit in the margin
