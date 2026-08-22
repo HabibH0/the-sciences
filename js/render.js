@@ -1461,8 +1461,14 @@ function lessonExerciseCardHtml(state, mod, lesson) {
   const exState = state.exStates[key] || {};
   const submitted = !!exState.submitted;
   const wasCorrect = exState.selected === item.correct;
+  // A wrong answer holds its verdict longer than a right one (see
+  // scheduleLessonExerciseAdvance in js/main.js), so the authored
+  // explanation -- where the item carries one -- actually gets read.
+  const why = submitted && !wasCorrect
+    ? (Array.isArray(item.explanations) && item.explanations[exState.selected]) || item.explanation || ''
+    : '';
   const feedback = submitted
-    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}</div>`
+    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}" role="status">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}${why ? ` ${escBidi(why)}` : ''}</div>`
     : '';
 
   return `
@@ -1525,8 +1531,21 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
     const submitted = !!exState.submitted;
     const passed = !!exState.passed;
     const wasCorrect = exState.selected === ex.correct;
+    // Authored teaching feedback, where the content carries it:
+    // ex.explanations[i] says why option i specifically fails (the
+    // misconception), ex.explanation states the governing rule. A wrong
+    // answer prefers the per-option line; a right answer gets the rule as
+    // confirmation. Content without either keeps the plain verdict.
+    // role="status": the verdict is announced when it lands, since the
+    // whole page is re-rendered and focus stays on the chosen option.
+    const why = !wasCorrect
+      ? (Array.isArray(ex.explanations) && ex.explanations[exState.selected]) || ex.explanation || ''
+      : ex.explanation || '';
     const feedback = submitted
-      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
+      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}" role="status">
+           <span class="exercise-feedback-line">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</span>
+           ${why ? `<span class="exercise-feedback-why">${escBidi(why)}</span>` : ''}
+         </div>`
       : '';
     // Order matters here and used to be wrong: .exercise-content is a
     // flex column, so .exercise-left (prompt + Check) always painted above

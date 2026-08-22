@@ -329,6 +329,13 @@ function navSignature() {
 let lastNav = null;
 const scrollPositions = new Map();
 
+// Set by actions that show NEW content inside the same screen (paging to
+// another concept, most importantly): the nav signature does not change, so
+// the ordinary same-screen rule would carry the previous content's scroll
+// offset over and open the fresh concept midway down its text. One-shot --
+// rerender() consumes and clears it.
+let scrollToTopOnRender = false;
+
 
 // The same idea, one level down: these four lists each carry their own
 // internal scroll (see .module-list/.lit-shelves/.lit-chapter-list/
@@ -696,9 +703,12 @@ function rerender(focusSelector) {
   lastNav = nav;
 
   const html = render(state, MODULES);
-  const nextScrollTop = changedScreen
-    ? (scrollPositions.get(nav) || 0)
-    : (scrollContainer?.scrollTop || 0);
+  const nextScrollTop = scrollToTopOnRender
+    ? 0
+    : changedScreen
+      ? (scrollPositions.get(nav) || 0)
+      : (scrollContainer?.scrollTop || 0);
+  scrollToTopOnRender = false;
 
   // What the OUTGOING DOM shows that motion cares about: which overlays
   // (modals, menus, the toast...) are up -- so an overlay animates in only
@@ -1128,7 +1138,7 @@ function scheduleToastClear() {
 // render.js, which reads state.lessonExIndex rather than re-deriving it, so
 // this delay is the only thing that actually advances it).
 let lessonExAdvanceTimer = null;
-function scheduleLessonExerciseAdvance() {
+function scheduleLessonExerciseAdvance(delay = 1100) {
   clearTimeout(lessonExAdvanceTimer);
   // state.lessonExIndex is a single shared field, not scoped to a lesson --
   // if the learner navigates away before this fires, applying a stale
@@ -1146,7 +1156,7 @@ function scheduleLessonExerciseAdvance() {
     // Timer-driven advance never passes through the action dispatcher, so
     // the next question's step-in is applied here instead.
     root.querySelector('.lesson-exercise-card')?.classList.add('anim-step-in');
-  }, 1100);
+  }, delay);
 }
 
 function rerenderAccountIfOpen() {
@@ -2809,6 +2819,10 @@ const actions = {
   // The lesson shows one concept at a time; how far paging can reach is
   // decided by conceptsToRender, not by these, so they only ever move within
   // what is already unlocked.
+  // Every concept change begins the new concept at its heading rather than
+  // at whatever offset the previous concept was scrolled to -- paging is a
+  // same-screen render, so without the explicit reset the fresh concept
+  // inherited the old scroll position and opened midway through its text.
   prevConcept() {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
@@ -2816,6 +2830,7 @@ const actions = {
     const current = state.conceptIndex == null ? shown - 1 : state.conceptIndex;
     if (current <= 0) return false;
     state.conceptIndex = current - 1;
+    scrollToTopOnRender = true;
   },
   nextConcept() {
     const lesson = getLesson(state.moduleId, state.lessonId);
@@ -2824,6 +2839,7 @@ const actions = {
     const current = state.conceptIndex == null ? shown - 1 : state.conceptIndex;
     if (current >= shown - 1) return false;
     state.conceptIndex = current + 1;
+    scrollToTopOnRender = true;
   },
   goToConcept(el) {
     const lesson = getLesson(state.moduleId, state.lessonId);
@@ -2832,6 +2848,7 @@ const actions = {
     const target = Number(el.dataset.index);
     if (!Number.isFinite(target) || target < 0 || target >= shown) return false;
     state.conceptIndex = target;
+    scrollToTopOnRender = true;
   },
 
   backToLesson() {
@@ -2906,6 +2923,14 @@ const actions = {
     if (pass) {
       ex.passed = true;
       state.revealState[key] = 1;
+      // Pin the view to the concept just answered. Passing grows
+      // conceptsToRender by one, and with conceptIndex still null ("show the
+      // furthest concept unlocked") the very next render replaced the solved
+      // exercise with the NEXT concept -- the learner was advanced the
+      // instant they answered, with no chance to read the success state or
+      // review their answer. The footer's "Next concept" is now the one way
+      // forward, enabled by this same pass.
+      state.conceptIndex = idx;
     }
     queueAutoUpload('concept-exercise');
   },
@@ -2930,7 +2955,13 @@ const actions = {
     ex.selected = +el.dataset.option;
     ex.submitted = true;
     ex.passed = true; // "attempted" -- see isLessonExerciseItemPassed's comment in content/index.js; correctness itself is read back from ex.selected vs item.correct at render time
-    scheduleLessonExerciseAdvance();
+    // A wrong answer holds its verdict (and any authored explanation, see
+    // lessonExerciseCardHtml) on screen noticeably longer than a right one
+    // -- 1.1s is enough to confirm success, not enough to read a correction.
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    const item = lesson && lesson.exercise && lesson.exercise.items[state.lessonExIndex];
+    const wasCorrect = item ? ex.selected === item.correct : true;
+    scheduleLessonExerciseAdvance(wasCorrect ? 1100 : 2800);
     queueAutoUpload('lesson-exercise');
   },
 

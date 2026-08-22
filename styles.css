@@ -2340,6 +2340,19 @@ bdi,
 .exercise-feedback.correct {
   color: var(--color-accent-700);
 }
+.exercise-feedback-line {
+  display: block;
+  font-weight: 600;
+}
+/* The authored "why" under a verdict -- the teaching line, quieter than the
+   verdict itself so the exercise keeps moving. */
+.exercise-feedback-why {
+  display: block;
+  margin-top: 3px;
+  font-weight: 400;
+  color: var(--color-neutral-700);
+  max-width: var(--measure-prose);
+}
 .exercise-content {
   display: flex;
   flex-direction: column;
