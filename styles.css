@@ -5489,10 +5489,7 @@ bdi,
 }
 .tarkeeb-col {
   display: flex;
-  /* Reversed so the label slot renders ABOVE its word -- every teaching
-     diagram in the lessons labels above the sentence, and the practice
-     widget placing labels underneath read as a different convention. */
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   gap: 6px;
   min-width: 78px;
@@ -7565,6 +7562,14 @@ span.deadline-day {
     gap: 9px;
     padding-top: 14px;
     order: 3;
+  }
+  /* Crumb and title centre over the dots row, making the head one centred
+     stack between the back control and the sections menu. */
+  .lesson-head-body {
+    text-align: center;
+  }
+  .lesson-head .lesson-head-title {
+    text-align: center;
   }
 }
 
