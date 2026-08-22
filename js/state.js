@@ -461,6 +461,55 @@ export function buildPracticeQueue(pool, history, count) {
   return weightedSample(pool, count, (e) => practiceWeight(e, history));
 }
 
+// "Review what I need" -- the one-decision session (see practiceSetupPanelHtml
+// / startSmartPractice). Built from the learner's own record over the
+// COMPLETED-lessons pool only, so it never includes material they have not
+// encountered: recent mistakes first (last answer wrong), then items due a
+// look (seen, but not for a few days), topped up to length with the ordinary
+// history-weighted sample over whatever remains. Returns the queue plus the
+// composition counts, so the UI can say why the material was picked -- or
+// null when the pool is empty.
+export const SMART_SESSION_LENGTH = 10;
+export const SMART_MISTAKE_SLOTS = 4;
+export const SMART_DUE_SLOTS = 3;
+const SMART_DUE_AGE_MS = 3 * 86400000;
+
+export function smartPracticeBreakdown(pool, history, now = Date.now()) {
+  const mistakes = [];
+  const due = [];
+  const rest = [];
+  pool.forEach((e) => {
+    const h = history[e.key];
+    if (h && h.lastCorrect === false) mistakes.push(e);
+    else if (h && h.lastSeen && now - h.lastSeen > SMART_DUE_AGE_MS) due.push(e);
+    else rest.push(e);
+  });
+  return { mistakes, due, rest };
+}
+
+export function buildSmartPracticeSession(pool, history, now = Date.now()) {
+  if (!pool.length) return null;
+  const { mistakes, due } = smartPracticeBreakdown(pool, history, now);
+  const queue = [];
+  shuffle(mistakes).slice(0, SMART_MISTAKE_SLOTS).forEach((e) => queue.push(e.key));
+  shuffle(due).slice(0, SMART_DUE_SLOTS).forEach((e) => queue.push(e.key));
+  const used = new Set(queue);
+  const remainder = pool.filter((e) => !used.has(e.key));
+  buildPracticeQueue(remainder, history, SMART_SESSION_LENGTH - queue.length).forEach((k) => queue.push(k));
+  if (!queue.length) return null;
+  const mistakeCount = Math.min(SMART_MISTAKE_SLOTS, mistakes.length);
+  const dueCount = Math.min(SMART_DUE_SLOTS, due.length);
+  return {
+    queue: shuffle(queue),
+    counts: {
+      total: queue.length,
+      mistakes: mistakeCount,
+      due: dueCount,
+      other: queue.length - mistakeCount - dueCount,
+    },
+  };
+}
+
 // Fisher-Yates, used to shuffle a tarkeeb item's drag-tray chips on entry.
 export function shuffle(arr) {
   const out = arr.slice();

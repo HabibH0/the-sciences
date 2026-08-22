@@ -6327,6 +6327,20 @@ span.deadline-day {
   margin-top: 6px;
   font-size: var(--text-sm);
 }
+/* "Review what I need" -- the one-decision session at the top of Practice
+   Mode's setup, with its composition stated under the button so the picked
+   material explains itself. */
+.smart-review {
+  margin-top: 14px;
+}
+.smart-review-meta {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+  font-variant-numeric: tabular-nums;
+}
 .kind-cards {
   display: flex;
   flex-direction: column;

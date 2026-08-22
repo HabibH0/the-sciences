@@ -50,7 +50,7 @@ import {
   MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
   perfectQuizCount,
 } from './gamification.js';
-import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
+import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
 import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
 import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
@@ -840,6 +840,12 @@ function modulePageHtml(state, MODULES) {
   const done = completedCount(mod.id, state.completed);
   const pct = total ? Math.round((done / total) * 100) : 0;
   const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
+  // With course locks off (the default for a fresh install) the pool spans
+  // every lesson, finished or not -- the copy has to say so rather than
+  // claim the cards came "from lessons you've finished" beside a 0-lesson
+  // progress count (the two statements directly contradicted each other).
+  const poolIncludesUnfinished = state.forceUnlockAll
+    && bankPool.length > getBankPool(mod.id, state.completed, false).length;
   const index = MODULES.indexOf(mod) + 1;
   const chapterPath = [mod.heading, mod.subheading].filter(Boolean).join(' · ');
   // The first lesson still to do -- the one the row list points at.
@@ -906,7 +912,11 @@ function modulePageHtml(state, MODULES) {
           ${icon('pencil', 17, 1.8)}
           <span class="entry-row-body">
             <span class="entry-row-title">Practice Mode</span>
-            <span class="entry-row-meta">${bankPool.length ? `${bankPool.length} cards from lessons you've finished` : 'Finish a lesson to unlock'}</span>
+            <span class="entry-row-meta">${bankPool.length
+              ? poolIncludesUnfinished
+                ? `${bankPool.length} cards — every lesson's cards are open while course locks are off`
+                : `${bankPool.length} cards from lessons you've finished`
+              : 'Finish a lesson to unlock'}</span>
           </span>
           <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
         </button>
@@ -2224,6 +2234,43 @@ function practiceSetupPanelHtml(state, mod) {
   const vocabPool = getVocabPool(mod.id, state.completed, vocabType, state.forceUnlockAll);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
 
+  // "Review what I need": one decision instead of a type + a length. Built
+  // strictly from the completed-lessons pool (never material the learner
+  // hasn't studied, even with course locks off), and its meta line says WHY
+  // the material was picked. The manual kind/length controls below remain
+  // as the build-your-own path.
+  const earnedPool = getBankPool(mod.id, state.completed, false);
+  let smartHtml = '';
+  if (earnedPool.length) {
+    const { mistakes, due } = smartPracticeBreakdown(earnedPool, state.practiceHistory);
+    const totalQs = Math.min(SMART_SESSION_LENGTH, earnedPool.length);
+    const mistakeCount = Math.min(SMART_MISTAKE_SLOTS, mistakes.length);
+    const dueCount = Math.min(SMART_DUE_SLOTS, due.length);
+    const otherCount = Math.max(0, totalQs - mistakeCount - dueCount);
+    const parts = [
+      `${totalQs} question${totalQs === 1 ? '' : 's'}`,
+      mistakeCount ? `${mistakeCount} recent mistake${mistakeCount === 1 ? '' : 's'}` : null,
+      dueCount ? `${dueCount} due a review` : null,
+      otherCount ? `${otherCount} to keep sharp` : null,
+    ].filter(Boolean).join(' · ');
+    smartHtml = `
+      <div class="smart-review">
+        <button class="btn btn-primary btn-block" data-action="startSmartPractice">Review what I need</button>
+        <span class="smart-review-meta">${esc(parts)}</span>
+      </div>
+      <div class="setup-group">
+        <div class="kicker">Or build a session</div>
+      </div>`;
+  }
+
+  // With course locks off the pools span unfinished lessons too -- the
+  // panel must not claim otherwise (see modulePageHtml's matching note).
+  const poolIncludesUnfinished = state.forceUnlockAll
+    && getBankPool(mod.id, state.completed, state.forceUnlockAll).length > earnedPool.length;
+  const ledeText = poolIncludesUnfinished
+    ? "Course locks are off, so these pools span every lesson — including ones you haven't studied yet. Pick what to drill and how long a session should run."
+    : "Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.";
+
   // One card per kind of drill this module can offer: the radio carries the
   // choice, the count says how much there is to draw on, and the line under
   // it says what that kind actually asks you to do.
@@ -2287,7 +2334,8 @@ function practiceSetupPanelHtml(state, mod) {
         <span class="practice-popout-title">Practice Mode</span>
         <button class="practice-popout-close" data-action="closePracticeSetup" aria-label="Close">✕</button>
       </div>
-      <p class="lede practice-popout-lede">Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.</p>
+      <p class="lede practice-popout-lede">${esc(ledeText)}</p>
+      ${smartHtml}
       <div class="kind-cards">${kindCards}</div>
       ${vocabControl}
       ${tarkeebControl}
@@ -2337,7 +2385,7 @@ function sessionKicker(p, mod) {
     const label = p.kind === 'revisionVocab' ? 'Vocab' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
   }
-  const label = p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
+  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
   return `PRACTICE · ${label}`;
 }
 
@@ -2377,6 +2425,10 @@ function practiceHtml(state, MODULES) {
     pool = p.unlockKind === 'course' ? courseUnlockTestPool(p.targetId)
       : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
         : moduleSkipTestPool(p.targetId);
+  } else if (p.kind === 'smart') {
+    // A smart session mixes every kind in one queue, so its keys resolve
+    // against the whole bank pool rather than a single kind's slice.
+    pool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
   } else {
     pool = poolForKind(
       getMcqPool(mod.id, state.completed, state.forceUnlockAll),

@@ -42,6 +42,7 @@ import {
 } from '../content-lit/index.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
+  buildSmartPracticeSession,
   buildModuleRevisionQueue, moduleRevisionPool,
   buildRevisionVocabQueue,
   buildPathMcqCheckpointQueue, buildPathVocabCheckpointQueue,
@@ -2115,6 +2116,11 @@ const actions = {
     const queue = buildPracticeQueue(pool, state.practiceHistory, count);
     state.practiceSetupOpen = false;
     state.practice = {
+      // Stated explicitly: practiceReviewHtml/drillMissed test
+      // source === 'module', and an absent source made both treat an
+      // ordinary module session as something it had no follow-ons for --
+      // "Drill the N you missed" never appeared.
+      source: 'module',
       kind,
       moduleId: state.practiceModuleId,
       queue,
@@ -2132,6 +2138,26 @@ const actions = {
     };
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
+  },
+  // "Review what I need" (see practiceSetupPanelHtml): a one-decision mixed
+  // session over the completed-lessons pool -- recent mistakes and overdue
+  // items first, topped up with the ordinary weighted sample. Deliberately
+  // built from the locks-off-independent pool so it can never surface
+  // material the learner has not actually studied.
+  startSmartPractice() {
+    const moduleId = state.practiceModuleId || state.moduleId;
+    const pool = getBankPool(moduleId, state.completed, false);
+    const session = buildSmartPracticeSession(pool, state.practiceHistory);
+    if (!session) return false;
+    state.practiceSetupOpen = false;
+    state.practice = {
+      source: 'module', kind: 'smart', moduleId, lessonId: null,
+      queue: session.queue, index: 0, log: [], startedAt: Date.now(),
+      selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
+      tarkeebTranslations: state.tarkeebTranslations !== false,
+    };
+    state.view = 'practice';
+    prepPracticeQuestion(session.queue[0]);
   },
   // Reveal-on-click, matching the lesson quiz: choosing an option grades
   // and reveals it immediately, no separate Check step. Guards on
