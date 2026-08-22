@@ -38,8 +38,8 @@ function flattenLessons(modules, courseId) {
 // duplicated rather than imported because it hardcodes this pair's own
 // courseIds ('annahw'/'sarf-advanced' instead of 'fstu'/'sarf').
 function buildBackbone(annahwModules, sarfAdvModules) {
-  const aList = flattenLessons(annahwModules, 'annahw');
-  const sList = flattenLessons(sarfAdvModules, 'sarf-advanced');
+  const aList = flattenLessons(annahwModules, 'adv-nahw');
+  const sList = flattenLessons(sarfAdvModules, 'adv-sarf');
   const backbone = [];
   let ai = 0;
   let si = 0;
@@ -87,7 +87,7 @@ export const GROUP_MODULE_RANGES = [
 ];
 
 function buildGroupBackbone(range) {
-  return buildBackbone(courseModules('annahw').slice(range.annahw[0], range.annahw[1]), courseModules('sarf-advanced').slice(range.sarfAdvanced[0], range.sarfAdvanced[1]));
+  return buildBackbone(courseModules('adv-nahw').slice(range.annahw[0], range.annahw[1]), courseModules('adv-sarf').slice(range.sarfAdvanced[0], range.sarfAdvanced[1]));
 }
 
 // Same fixed template as the introductory path's buildSectionNodes, minus

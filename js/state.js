@@ -10,12 +10,13 @@ export async function createInitialState() {
   const boot = await bootProgress();
   const nav = boot.nav || {};
   return {
-    // Which course is active -- 'annahw' | 'fstu' | 'sarf' (see
+    // Which course is active -- 'adv-nahw' | 'intro-nahw' | 'intro-sarf' |
+    // 'adv-sarf' (see
     // content/index.js's COURSES/setActiveCourse). Shared xp/streak/badges/
     // appearance below stay one profile across all three; per-course
     // progress separation instead comes from module ids never colliding
     // across courses (see COURSES' own comment in content/index.js).
-    courseId: boot.courseId || 'annahw',
+    courseId: boot.courseId || 'adv-nahw',
     // Transient, never persisted: the course-picker splash (see launchHtml
     // in js/render.js) shown before every screen this session boots into --
     // the user wants it every launch, not just the machine's first-ever

@@ -2227,7 +2227,7 @@ function renderTarkeebDiagram(state, item, key, moduleId) {
   // Blank slots for every unlabeled cell are an Advanced Nahw (annahw) thing
   // -- fstu's تركيب was designed without them, so filling them in there just
   // clutters a layout that was never meant to show "no match here" boxes.
-  const fillBlanks = courseIdForModule(moduleId) === 'annahw';
+  const fillBlanks = courseIdForModule(moduleId) === 'adv-nahw';
   const { slots, rowLabels } = flattenTarkeebSlots(item, { fillBlanks });
 
   const grid = tarkeebDiagramGridHtml(item, (slot, i) => {
@@ -3478,7 +3478,7 @@ function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
   const mod = course && course.modules.find((m) => m.id === node.moduleId);
   const lesson = mod && mod.lessons.find((l) => l.id === node.lessonId);
   if (!lesson) return '';
-  const courseLabel = (node.courseId === 'sarf' || node.courseId === 'sarf-advanced') ? 'صرف' : 'نحو';
+  const courseLabel = (node.courseId === 'intro-sarf' || node.courseId === 'adv-sarf') ? 'صرف' : 'نحو';
   const masteryEntry = state.masteryV2[`${node.moduleId}_${node.lessonId}`];
   const mastered = done && masteryEntry && masteryEntry.passed;
   const indicator = !unlocked ? icon('lock', 17, 2) : done ? icon('check', 19, 2.4) : icon('book', 16, 1.8);

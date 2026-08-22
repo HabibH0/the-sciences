@@ -33,8 +33,8 @@ function flattenLessons(modules, courseId) {
 // free as the path revisits a course -- every earlier lesson in it is
 // already complete by the time a later one comes up.
 export function buildBackbone(fstuModules, sarfModules) {
-  const fList = flattenLessons(fstuModules, 'fstu');
-  const sList = flattenLessons(sarfModules, 'sarf');
+  const fList = flattenLessons(fstuModules, 'intro-nahw');
+  const sList = flattenLessons(sarfModules, 'intro-sarf');
   const backbone = [];
   let fi = 0;
   let si = 0;
@@ -87,7 +87,7 @@ export const GROUP_MODULE_RANGES = [
 // (whatever's left over after slicing just isn't in this group's pool at
 // all yet).
 function buildGroupBackbone(range) {
-  return buildBackbone(courseModules('fstu').slice(range.fstu[0], range.fstu[1]), courseModules('sarf').slice(range.sarf[0], range.sarf[1]));
+  return buildBackbone(courseModules('intro-nahw').slice(range.fstu[0], range.fstu[1]), courseModules('intro-sarf').slice(range.sarf[0], range.sarf[1]));
 }
 
 // Builds ONE section's node list from a slice of a group's own backbone,

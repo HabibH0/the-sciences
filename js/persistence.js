@@ -37,6 +37,29 @@ function migratePerCourse(saved, courseId) {
   return { [courseId]: saved };
 }
 
+// The course ids were renamed (they show up in URLs and exports):
+// fstu -> intro-nahw, sarf -> intro-sarf, annahw -> adv-nahw,
+// sarf-advanced -> adv-sarf. Saves from before the rename still carry the
+// old ids in courseId, unlockedCourses and scheduleDeadline; module/lesson/
+// node ids never embedded a course id, so everything else is untouched.
+const LEGACY_COURSE_IDS = {
+  fstu: 'intro-nahw',
+  sarf: 'intro-sarf',
+  annahw: 'adv-nahw',
+  'sarf-advanced': 'adv-sarf',
+};
+
+export function migrateCourseId(id) {
+  return LEGACY_COURSE_IDS[id] || id;
+}
+
+function migrateCourseKeys(map) {
+  if (!map || typeof map !== 'object') return {};
+  const out = {};
+  for (const [key, value] of Object.entries(map)) out[migrateCourseId(key)] = value;
+  return out;
+}
+
 function normalizeScale(value, min, max) {
   const n = Number(value);
   if (!Number.isFinite(n)) return 100;
@@ -107,7 +130,7 @@ export async function bootProgress() {
     streak = 1;
   }
 
-  const courseId = saved.courseId || 'annahw';
+  const courseId = migrateCourseId(saved.courseId) || 'adv-nahw';
   const arabicHeadingFace = normalizeArabicHeadingFace(saved);
   const next = {
     courseId,
@@ -119,7 +142,7 @@ export async function bootProgress() {
     lessonPos: saved.lessonPos || {},
     revealState: saved.revealState || {},
     practiceHistory: saved.practiceHistory || {},
-    scheduleDeadline: migratePerCourse(saved.scheduleDeadline, courseId),
+    scheduleDeadline: migrateCourseKeys(migratePerCourse(saved.scheduleDeadline, courseId)),
     dailyResetHour,
     pathNodeStatus: saved.pathNodeStatus || {},
     pathReps: saved.pathReps || {},
@@ -166,7 +189,7 @@ export async function bootProgress() {
     forceUnlockAll: defaultForceUnlockAll(saved),
     forceUnlockAllExplicit: defaultForceUnlockAllExplicit(saved),
     kufiHeadings: arabicHeadingFace === 'kufi',
-    unlockedCourses: saved.unlockedCourses || {},
+    unlockedCourses: migrateCourseKeys(saved.unlockedCourses),
     unlockedTracks: saved.unlockedTracks || {},
     unlockedModules: saved.unlockedModules || {},
     nav: saved.nav || null,

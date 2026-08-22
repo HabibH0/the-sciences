@@ -36,7 +36,7 @@ export const PATH_TRACKS = [
     // are fully complete (it bundles Advanced Nahw + Advanced Sarf, the
     // same pairing COURSES' own requiresCourseId uses per-course), or by a
     // direct confirmed unlock -- see isTrackUnlocked below.
-    requiresCourseIds: ['fstu', 'sarf'],
+    requiresCourseIds: ['intro-nahw', 'intro-sarf'],
     lockedMessage: 'Locked until the Introductory Path (both Nahw and Sarf) is complete.',
   },
 ];
@@ -116,8 +116,8 @@ const EMPTY_SUB_POOLS = { quizPool: [], bookPool: [], tarkeebPool: [] };
 // nothing to test into.
 export function trackUnlockTestSubPools(trackId) {
   if (trackId !== 'advanced') return EMPTY_SUB_POOLS;
-  const a = courseUnlockTestSubPools('annahw');
-  const b = courseUnlockTestSubPools('sarf-advanced');
+  const a = courseUnlockTestSubPools('adv-nahw');
+  const b = courseUnlockTestSubPools('adv-sarf');
   return {
     quizPool: a.quizPool.concat(b.quizPool),
     bookPool: a.bookPool.concat(b.bookPool),

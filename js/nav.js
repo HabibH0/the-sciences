@@ -15,6 +15,7 @@
 import { COURSES, getModule, moduleIndex, courseIdForModule } from '../content/index.js';
 import { getLitBook } from '../content-lit/index.js';
 import { findPathGroup } from '../content/paths.js';
+import { migrateCourseId } from './persistence.js';
 
 // --- Primary sections -----------------------------------------------------
 // The destinations that own a tab, in the order they appear in both bars.
@@ -284,7 +285,9 @@ export function navFromHash(hash) {
 
   switch (parts[0]) {
     case 'course': {
-      const course = COURSES.find((c) => c.id === parts[1]);
+      // Old bookmarks may still carry a pre-rename id (#/course/fstu ...) --
+      // resolve it to the renamed course rather than bouncing to the default.
+      const course = COURSES.find((c) => c.id === migrateCourseId(parts[1]));
       return course ? { view: 'dashboard', courseId: course.id } : { view: 'dashboard' };
     }
     case 'module': {

@@ -1529,7 +1529,7 @@ function initTarkeeb(item, moduleId) {
   if (item.cells) {
     // Blank slots for every unlabeled cell are an annahw-only thing -- see
     // renderTarkeebDiagram's matching comment in js/render.js.
-    const fillBlanks = courseIdForModule(moduleId) === 'annahw';
+    const fillBlanks = courseIdForModule(moduleId) === 'adv-nahw';
     const { slots } = flattenTarkeebSlots(item, { fillBlanks });
     // Blank slots (role: null) have no chip of their own -- correct is
     // leaving them empty, so they contribute nothing to the tray.
@@ -2141,7 +2141,7 @@ const actions = {
     // guard here too, same reasoning as chooseCourse above.
     const track = PATH_TRACKS.find((t) => t.groups.includes(group));
     if (track && !isTrackUnlocked(track, state.completed, state.unlockedTracks, state.forceUnlockAll)) return false;
-    await ensureCoursesLoaded(track && track.id === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
+    await ensureCoursesLoaded(track && track.id === 'advanced' ? ['adv-nahw', 'adv-sarf'] : ['intro-nahw', 'intro-sarf']);
     state.pathGroupId = group.id;
     state.view = 'path';
     state.pathActive = false;
@@ -2278,7 +2278,7 @@ const actions = {
   async startPathCheckpoint(el) {
     const node = findPathNode(el.dataset.nodeId);
     if (!node) return false;
-    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
+    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['adv-nahw', 'adv-sarf'] : ['intro-nahw', 'intro-sarf']);
     const mastery = el.dataset.mastery === '1';
     const ctx = {
       practiceHistory: state.practiceHistory, pathReps: state.pathReps, vocabExposure: state.vocabExposure,
@@ -2311,7 +2311,7 @@ const actions = {
   async startPathSkipAheadTest(el) {
     const node = findPathNode(el.dataset.nodeId);
     if (!node || (node.type !== 'sectionTest' && node.type !== 'groupTest')) return false;
-    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['annahw', 'sarf-advanced'] : ['fstu', 'sarf']);
+    await ensureCoursesLoaded(node.pathId === 'advanced' ? ['adv-nahw', 'adv-sarf'] : ['intro-nahw', 'intro-sarf']);
     const ctx = {
       practiceHistory: state.practiceHistory, pathReps: state.pathReps, vocabExposure: state.vocabExposure,
       vocabDirection: state.pathVocabDirection || 'en-ar', mastery: false, skipAhead: true,
@@ -3502,7 +3502,7 @@ const actions = {
     if (entry.item.cells) {
       // Must match whatever fillBlanks initTarkeeb used to build ts.placements,
       // or the slot count/order here won't line up with it.
-      const fillBlanks = courseIdForModule(entry.moduleId) === 'annahw';
+      const fillBlanks = courseIdForModule(entry.moduleId) === 'adv-nahw';
       const { slots } = flattenTarkeebSlots(entry.item, { fillBlanks });
       const given = slots.map((_, i) => (ts.placements[i] === null ? null : ts.chipPool[ts.placements[i]]));
       ({ feedback, allPass } = checkTarkeebDiagram(slots, given));
