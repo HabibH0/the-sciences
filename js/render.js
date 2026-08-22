@@ -1654,12 +1654,14 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
           revealedKeys,
         })}
         ${feedback}
-        <div class="action-row">
-          ${!submitted ? checkButton('checkConceptExercise', exState.selected !== undefined && exState.selected !== null, `data-index="${i}"`) : ''}
-          ${passed
-            ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Correct</span>`
-            : submitted ? `<button class="btn btn-secondary" data-action="retryConceptExercise" data-index="${i}">Try again</button>` : ''}
-        </div>
+        ${!submitted
+          ? `<div class="action-row">${checkButton('checkConceptExercise', exState.selected !== undefined && exState.selected !== null, `data-index="${i}"`)}</div>`
+          : !passed
+            ? `<div class="action-row"><button class="btn btn-secondary" data-action="retryConceptExercise" data-index="${i}">Try again</button></div>`
+            // The verdict line above already says "Correct." -- a second
+            // Correct tag beneath it said the same thing twice, and an empty
+            // action-row would only leave a stray flex gap.
+            : ''}
       </div>
       ${cornerBracketsHtml()}
     </div>`;
