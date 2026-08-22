@@ -7779,21 +7779,26 @@ span.deadline-day {
     padding: 6px 10px;
     gap: 2px 12px;
   }
-  /* The phone head reflows into two compact rows instead of one crowded
+  /* The phone head reflows into two tight rows instead of one crowded
      line that crushed the titles into one-word columns:
-       row 1 -- back chevron, titles (each line clipped to one line), menu
+       row 1 -- back chevron, titles (one line each), sections menu
        row 2 -- paragraph pager on the left, the stage rail on the right
-     with the thin progress bar keeping the full-width bottom edge. */
+     with the thin progress bar keeping the full-width bottom edge. The
+     series line is dropped here (the book page the reader came from just
+     named it) and the rail collapses to its numbered dots -- together the
+     head takes barely more than two control rows. */
   .lit-reader-head {
-    gap: var(--space-2) var(--space-3);
-    padding-top: 12px;
+    gap: 2px var(--space-3);
+    padding: 10px 22px 8px;
   }
   .lit-reader-titles {
     /* auto basis: the titles claim their natural width on row 1, which is
        what pushes the pager + rail onto their own line. */
     flex: 1 1 auto;
   }
-  .lit-reader-book,
+  .lit-reader-book {
+    display: none;
+  }
   .lit-reader-en {
     white-space: nowrap;
     overflow: hidden;
@@ -7801,7 +7806,7 @@ span.deadline-day {
   }
   .lit-reader-title {
     font-size: 19px;
-    line-height: 1.45;
+    line-height: 1.35;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7813,9 +7818,18 @@ span.deadline-day {
   .lit-reader-head .lit-rail {
     order: 3;
     align-self: center;
+    gap: 7px;
+  }
+  .lit-rail-label {
+    display: none;
+  }
+  .lit-rail-dot {
+    width: 21px;
+    height: 21px;
   }
   .lit-reader-head .progress-bar {
     order: 4;
+    margin-top: 4px;
   }
 }
 
