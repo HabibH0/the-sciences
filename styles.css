@@ -8449,8 +8449,9 @@ body {
   animation: m-mark-in var(--t-ui) var(--ease-pop) backwards;
 }
 /* The refreshed course region arriving after a switch (MOT-002): only the
-   course-scoped regions crossfade; the shell and page frame hold still. */
-.anim-content-in :is(.home-hero, .home-body) {
+   course-scoped regions crossfade — Home's hero and body, or Schedule's
+   plan columns — while the shell and page title hold still. */
+.anim-content-in :is(.home-hero, .home-body, .two-col) {
   animation: m-fade-in var(--t-ui) var(--ease-out) backwards;
 }
 .anim-tick-in {
@@ -8503,6 +8504,15 @@ body {
 }
 .home-page.is-switching .home-body {
   pointer-events: none;
+}
+/* Schedule's scope switch gets the same stand-down (NAV-003 rides on the
+   MOT-002 staging): the outgoing plan dims and locks while the switcher —
+   which stays fully legible in the page header — names the incoming
+   course. */
+.schedule-page.is-switching .two-col {
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity var(--t-quick) var(--ease);
 }
 [data-action].is-busy::after {
   content: '';

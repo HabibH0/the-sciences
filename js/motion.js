@@ -131,6 +131,7 @@ const OVERLAYS = [
   { sel: '.modal-backdrop', cls: 'anim-overlay-in' },
   { sel: '.unlock-modal-backdrop', cls: 'anim-overlay-in' },
   { sel: '.course-menu', cls: 'anim-drop-in' },
+  { sel: '.sections-menu', cls: 'anim-drop-in' },
   { sel: '.lesson-search-results', cls: 'anim-drop-in' },
   // The practice setup panel opens IN document flow (it pushes the lesson
   // list down on phones), so it expands to its measured height rather than
@@ -312,6 +313,7 @@ const MODAL_DISMISS = new Set([
 // halves apart exactly as it does for the toggle* actions.
 const POP_DISMISS = {
   toggleCourseMenu: { sel: '.course-menu' },
+  toggleSectionsMenu: { sel: '.sections-menu' },
   toggleDeadlinePicker: { sel: '.deadline-picker' },
   toggleResetHourMenu: { sel: '.reset-hour-menu' },
   closePracticeSetup: { sel: '.practice-popout', collapse: true },
@@ -347,12 +349,13 @@ export function dismissDelay(root, actionName) {
   return 0;
 }
 
-// The course menu can also be dismissed without any [data-action] firing --
-// Escape, or a click on the page around it (both wired in js/main.js). Same
-// exit as its toggle, addressed by what's on screen rather than by action.
-export function dismissOpenCourseMenu(root) {
+// The course and sections menus can also be dismissed without any
+// [data-action] firing -- Escape, or a click on the page around them (both
+// wired in js/main.js). Same exit their toggles play, addressed by what's
+// on screen rather than by action.
+export function dismissOpenPopover(root, sel = '.course-menu') {
   if (prefersReducedMotion()) return 0;
-  const menu = root.querySelector('.course-menu');
+  const menu = root.querySelector(sel);
   if (!menu) return 0;
   menu.classList.add('anim-drop-out');
   return POP_EXIT_MS;
@@ -550,10 +553,13 @@ const ACTION_FX = {
   },
 
   // The course just switched (audit MOT-002): the chooser closed the moment
-  // the course was picked and the dashboard sat dimmed under the loading
+  // the course was picked and the page sat dimmed under the loading
   // treatment -- this is the arrival half, a restrained crossfade of only
-  // the course-scoped regions. The shell (header, tabs) holds still.
+  // the course-scoped regions. The shell (header, tabs, page title) holds
+  // still. Same pattern on Home and on Schedule's scope switch (NAV-003
+  // deferred its crossfade here).
   chooseCourse: (root) => mark(root.querySelector('.home-page'), 'anim-content-in'),
+  chooseScheduleCourse: (root) => mark(root.querySelector('.schedule-page'), 'anim-content-in'),
 
   // Selection acknowledgement: a quick settle on what was just picked.
   pickTheme: settleSelf,

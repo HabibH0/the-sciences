@@ -67,7 +67,7 @@ import {
 } from './gamification.js';
 import {
   prefersReducedMotion, snapshotMotion, applyRenderMotion, applyActionMotion,
-  dismissDelay, dismissOpenModal, dismissOpenCourseMenu, markBusy, unmarkBusy, DUR,
+  dismissDelay, dismissOpenModal, dismissOpenPopover, markBusy, unmarkBusy, DUR,
 } from './motion.js';
 
 const THEME_CHROME = {
@@ -1849,14 +1849,27 @@ const actions = {
     if (!course || !isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return false;
     state.courseMenuOpen = false;
     if (id === state.courseId) return;
-    await setActiveCourse(id);
-    state.courseId = id;
-    state.view = 'schedule';
-    // These name pieces of the PREVIOUS course's plan: an open picker shows
-    // its deadline, and the revision pick points at one of its modules.
-    state.deadlinePickerOpen = false;
-    state.resetHourMenuOpen = false;
-    state.scheduleRevisionModuleId = null;
+    // Same two-paint staging as chooseCourse (audit MOT-002): the chooser
+    // closes and the switcher names the incoming course immediately, the
+    // outgoing plan stands down under .is-switching, and the new plan
+    // arrives with a content crossfade once the course lands.
+    state.courseSwitchingTo = id;
+    rerender();
+    try {
+      await setActiveCourse(id);
+      state.courseId = id;
+      state.view = 'schedule';
+      // These name pieces of the PREVIOUS course's plan: an open picker shows
+      // its deadline, and the revision pick points at one of its modules.
+      state.deadlinePickerOpen = false;
+      state.resetHourMenuOpen = false;
+      state.scheduleRevisionModuleId = null;
+    } catch {
+      // Import failed: the plan on screen still belongs to the course that
+      // is actually loaded -- clearing the flag below un-dims it.
+    } finally {
+      state.courseSwitchingTo = null;
+    }
   },
   openModule(el) {
     const moduleId = el.dataset.moduleId;
@@ -3789,7 +3802,7 @@ document.addEventListener('click', (e) => {
   // Same exit its own toggle plays (audit MOT-003: every animated entry
   // gets a matched exit, however the dismissal arrives) -- the old menu,
   // still on screen, drops out while the swap waits.
-  const exitMs = dismissOpenCourseMenu(root);
+  const exitMs = dismissOpenPopover(root, '.course-menu');
   if (exitMs) setTimeout(() => rerender(), exitMs);
   else rerender();
 });
@@ -3800,7 +3813,9 @@ document.addEventListener('click', (e) => {
   if (!state.sectionsMenuOpen) return;
   if (e.target.closest('.sections-menu, [data-action="toggleSectionsMenu"]')) return;
   state.sectionsMenuOpen = false;
-  rerender();
+  const exitMs = dismissOpenPopover(root, '.sections-menu');
+  if (exitMs) setTimeout(() => rerender(), exitMs);
+  else rerender();
 });
 
 document.addEventListener('keydown', (e) => {
@@ -3841,16 +3856,18 @@ document.addEventListener('keydown', (e) => {
     else rerender(focusSel);
   };
   if (state.sectionsMenuOpen) {
-    // Same depth and reasoning as the course menu just below.
+    // Same depth, reasoning, and matched exit as the course menu just below.
     state.sectionsMenuOpen = false;
-    rerender('[data-action="toggleSectionsMenu"]');
+    const menuExitMs = dismissOpenPopover(root, '.sections-menu');
+    if (menuExitMs) setTimeout(() => rerender('[data-action="toggleSectionsMenu"]'), menuExitMs);
+    else rerender('[data-action="toggleSectionsMenu"]');
   } else if (state.courseMenuOpen) {
     // Shallower than any modal, and never open at the same time as one --
     // a course menu click either closes it or leaves Home entirely. Plays
     // the same drop-out exit its toggle does before the swap (MOT-003),
     // then focus returns to the trigger only after the exit has landed.
     state.courseMenuOpen = false;
-    const menuExitMs = dismissOpenCourseMenu(root);
+    const menuExitMs = dismissOpenPopover(root, '.course-menu');
     if (menuExitMs) setTimeout(() => rerender('[data-action="toggleCourseMenu"]'), menuExitMs);
     else rerender('[data-action="toggleCourseMenu"]');
   } else if (state.lessonPreviewId) {

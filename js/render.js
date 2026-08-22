@@ -2718,6 +2718,12 @@ function scheduleHtml(state, MODULES, revealedKeys) {
   const upcoming = upcomingLessons(state, MODULES);
   const nextUp = upcoming.find((u) => u.unlocked);
   const activeCourse = COURSES.find((c) => c.id === state.courseId);
+  // Mid switch (audit MOT-002, same staging as Home): the switcher already
+  // names the INCOMING course while the outgoing plan stands down dimmed.
+  const switchingCourse = state.courseSwitchingTo
+    ? COURSES.find((c) => c.id === state.courseSwitchingTo)
+    : null;
+  const shownCourse = switchingCourse || activeCourse;
 
   const todayLabel = new Date(`${today}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
@@ -2794,18 +2800,26 @@ function scheduleHtml(state, MODULES, revealedKeys) {
   // lesson titles -- and could easily read "Not set" as a target having been
   // lost. The switcher is the same control, menu and model Home uses, so
   // the two surfaces stay one behaviour.
+  // The anchor wrapper turns the menu into the same popover/bottom-sheet
+  // Home's switcher uses (audit MOT-002/MOT-004) -- rendered in flow here,
+  // it pushed the whole plan down on open. `-end` right-aligns the panel,
+  // since this trigger sits at the end of the title row.
   const courseSwitch = `
-    <button class="home-course-switch schedule-course-switch" data-action="toggleCourseMenu" title="Switch course"
-      aria-label="Planning ${escAttr(activeCourse ? activeCourse.name : '')} — switch course"
-      aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
-      <span lang="ar" dir="rtl">${esc(activeCourse ? activeCourse.arabicName || activeCourse.name : '')}</span>
-      <span aria-hidden="true">▾</span>
-    </button>`;
+    <span class="course-switch-anchor course-switch-anchor-end">
+      <button class="home-course-switch schedule-course-switch${switchingCourse ? ' is-busy' : ''}" data-action="toggleCourseMenu" title="Switch course"
+        aria-label="${switchingCourse
+          ? `Loading ${escAttr(switchingCourse.name)}`
+          : `Planning ${escAttr(activeCourse ? activeCourse.name : '')} — switch course`}"
+        aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
+        <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      ${state.courseMenuOpen ? courseMenuHtml(state, 'chooseScheduleCourse') : ''}
+    </span>`;
 
   return `
-    <div class="schedule-page">
+    <div class="schedule-page${switchingCourse ? ' is-switching' : ''}">
       ${pageHeaderHtml({ title: 'Schedule', ar: 'الجدول الزمني', lede, actions: courseSwitch })}
-      ${state.courseMenuOpen ? courseMenuHtml(state, 'chooseScheduleCourse') : ''}
       <div class="two-col">
       <div class="two-col-main">
       ${todayCard}
