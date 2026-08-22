@@ -1852,7 +1852,8 @@ bdi,
   background: var(--accent-tint-weak);
 }
 /* A disabled entry row is still saying something -- "Nothing marked yet --
-   tap a word twice while reading", "Finish a lesson to unlock" -- and that
+   while reading, tap a word and choose Mark for practice", "Finish a lesson
+   to unlock" -- and that
    sentence is the whole reason the row is dead. Dimming the row to 0.5
    opacity made the explanation the least legible thing on it. So the title
    mutes, the explanation stays readable, and the chevron goes: a row that
@@ -1892,6 +1893,18 @@ bdi,
 }
 .entry-row-chevron {
   color: var(--color-neutral-600);
+  transition: transform var(--t-quick) var(--ease);
+}
+/* The Practice Mode trigger stays visibly selected while its panel is open
+   (MOTION-001), and its trailing chevron turns to face the disclosure it
+   controls (MOTION-006). */
+.entry-row.is-open {
+  border-color: var(--color-accent);
+  background: var(--accent-tint-weak);
+}
+.entry-row.is-open .entry-row-chevron {
+  transform: rotate(90deg);
+  color: var(--color-accent-700);
 }
 
 .lesson-section-head {
@@ -2257,39 +2270,50 @@ bdi,
 .concept-block h3[lang='ar'] {
   font-family: var(--font-ar-heading);
 }
-/* The concept column is a two-track grid: running prose sits in the first
-   track, capped at the reading measure, and anything that is structured
-   rather than read -- a table, a تركيب diagram -- spans both and keeps the
-   full 820px column the handoff specifies. Prose and boxes therefore share
-   one left edge and one right edge, while a wide table is still free to be
-   wide, with no negative margins holding it together.
-
-   The cap exists because this column ran 111 characters a line. Hyphenation
-   goes with it: the text is justified, and justifying a narrower measure
-   without hyphens is what turns word gaps into rivers. */
+/* The concept column: prose runs the FULL column width, boundary to
+   boundary (user request -- the old 58ch measure cap left the text
+   stopping short of where the boxes and tables end). Kept as a grid so
+   the framed objects can still span/centre via grid-column and
+   justify-self below. */
 .concept-body {
   display: grid;
-  grid-template-columns: minmax(0, var(--measure-prose)) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   /* One breath between every line, box, table and diagram -- each sentence
      renders as its own <p> (see conceptProseHtml), and with no gap at all
      the prose read as a cramped wall of text. */
   row-gap: var(--space-2);
 }
 /* Framed objects sit a step further off the prose than the prose sits off
-   itself. */
+   itself -- and sit CENTRED in the concept's full width (user request):
+   boxes, tables and diagrams read as centred plates between the prose
+   rather than hugging the prose's left column. */
 .concept-body > .concept-source-box,
 .concept-body > .concept-table-wrap,
 .concept-body > .tarkeeb-diagram-wrap {
   margin: var(--space-2) 0;
+  justify-self: center;
+  max-width: 100%;
 }
 .concept-body > * {
   grid-column: 1;
   min-width: 0;
 }
+.concept-body > .concept-source-box,
 .concept-body > .concept-table-wrap,
+.concept-body > .tarkeeb-diagram-wrap,
 .concept-body > .tarkeeb-diagram,
 .concept-body > .tarkeeb-wrap {
   grid-column: 1 / -1;
+}
+/* A source box keeps the prose measure so its body text stays readable; a
+   table or diagram shrinks to its content (wide ones still scroll inside
+   their own wrap) so the centring is visible. */
+.concept-body > .concept-source-box {
+  width: min(100%, var(--measure-prose));
+}
+.concept-body > .concept-table-wrap,
+.concept-body > .tarkeeb-diagram-wrap {
+  width: fit-content;
 }
 .concept-body,
 .concept-line {
@@ -2339,6 +2363,11 @@ bdi,
   font-family: var(--font-ar);
   font-size: calc(22px * var(--lesson-text-scale));
   color: var(--color-text);
+}
+/* Example boxes centre their quoted text (user request) -- the label keeps
+   its corner, only the lines centre. */
+.concept-source-box--example .concept-source-box-line {
+  text-align: center;
 }
 .concept-source-box-body {
   font-size: var(--text-base);
@@ -2676,6 +2705,10 @@ bdi,
   color: var(--color-text);
   line-height: 1.4;
   margin: 10px 0 0;
+  /* Quiz and practice prompts (MCQ and vocab alike) sit centred over their
+     option list (user request) -- the lesson's inline exercises keep their
+     own left-aligned prompt styling. */
+  text-align: center;
 }
 .quiz-body .mcq-options {
   margin-top: 18px;
@@ -2723,10 +2756,13 @@ bdi,
 }
 
 /* Verdict + why, as a margin note against the question. */
+/* Outcome as a status block, not a focus ring (POLISH-003): a 3px leading
+   rule, a quiet tint, and a check/cross carried by the line itself -- so
+   selection, keyboard focus and verdict stay three different signals. */
 .quiz-feedback {
   margin-top: 16px;
   padding: var(--space-3) var(--space-4);
-  border-left: 2px solid var(--color-accent);
+  border-left: 3px solid var(--color-accent);
   background: var(--color-neutral-100);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
@@ -2737,6 +2773,19 @@ bdi,
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-accent-700);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.quiz-feedback-icon {
+  flex: none;
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 2px;
+  color: var(--color-accent-700);
+}
+.quiz-feedback-icon.is-incorrect {
+  color: var(--color-neutral-700);
 }
 .quiz-feedback-incorrect .quiz-feedback-line {
   color: var(--color-neutral-700);
@@ -2756,6 +2805,31 @@ bdi,
   min-height: calc(var(--control-h) + var(--space-4) + var(--space-5));
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* The finish-early confirm (POLISH-007) takes the foot's full width and sits
+   under whatever primary action shares the row. */
+.practice-end-confirm {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-tint-weak);
+}
+.practice-end-confirm-q {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.practice-end-confirm-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
 }
 .quiz-foot > .btn {
   flex: 1;
@@ -4505,6 +4579,33 @@ bdi,
 .lit-book-page > .entry-row {
   flex: none;
 }
+/* Desktop book page: same split as the module page (user request) -- the
+   page stops scrolling; everything above the Contents rule pins, and only
+   the chapter list beneath it scrolls. Phone keeps the single page scroll
+   (nested flex/overflow scrollers collapse on iOS Safari). */
+@media (min-width: 901px) {
+  .main-content:has(.lit-book-page) {
+    overflow: hidden;
+  }
+  .lit-book-page {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .lit-book-page > .lit-contents {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .lit-chapter-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 44px;
+    padding-right: 2px;
+  }
+}
 .lit-cover {
   position: relative;
   overflow: hidden;
@@ -4601,6 +4702,14 @@ bdi,
 .lit-chapter.is-locked .lit-chapter-blurb,
 .lit-chapter.is-locked .lit-chapter-pages {
   color: var(--color-neutral-600);
+}
+/* Which half of a gated chapter is actually locked, said on the row itself
+   (POLISH-009) -- reading stays open, so the row stays live. */
+.lit-chapter-state {
+  display: block;
+  margin-top: 3px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
 }
 .lit-chapter-num {
   flex: none;
@@ -4841,16 +4950,17 @@ bdi,
   color: var(--color-accent);
 }
 /* Touch: the visible marker stays its quiet size, but the tappable box
-   grows to the platform floor through an invisible overlay. Kept narrower
-   than it is tall (the line-height's own slack absorbs the vertical reach)
-   so it cannot swallow taps meant for the Arabic word beside it. */
+   grows to the platform floor through an invisible overlay (POLISH-019:
+   at least 36px in the narrow axis). Kept narrower than it is tall (the
+   line-height's own slack absorbs the vertical reach) so it cannot swallow
+   taps meant for the Arabic word beside it. */
 @media (pointer: coarse) {
   .lit-gloss-btn::after {
     content: '';
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 30px;
+    width: 36px;
     height: var(--tap-min);
     transform: translate(-50%, -50%);
   }
@@ -4893,6 +5003,15 @@ bdi,
   line-height: 1.5;
   color: var(--color-neutral-700);
   text-align: left;
+  /* These are the CLOSING transitions (this is the resting state): quick,
+     so putting a translation away never feels slower than revealing it.
+     The reveal states above carry their own, slightly softer timings. */
+  transition: max-height var(--t-exit) var(--ease-in), opacity var(--t-exit) var(--ease-in),
+    margin var(--t-exit) var(--ease-in), border-width var(--t-exit) var(--ease-in);
+}
+.lit-sentence.is-open .lit-gloss,
+.lit-sentence:focus-within .lit-gloss,
+.lit-sentence:hover .lit-gloss {
   transition: max-height var(--t-ui) var(--ease), opacity var(--t-quick) var(--ease),
     margin var(--t-ui) var(--ease), border-width var(--t-ui) var(--ease);
 }
@@ -4986,8 +5105,12 @@ bdi,
 .lit-checks-head {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: 10px;
+}
+/* The answered count sits right beside the kicker (user request); the
+   language toggle keeps the trailing edge. */
+.lit-checks-head-right {
+  margin-left: auto;
 }
 .lit-checks-head-right,
 .lit-checks-count {
@@ -5152,8 +5275,8 @@ bdi,
   margin-top: 10px;
 }
 
-/* The paragraph pager lives in the reader's sticky top strip now -- see
-   the .lit-topbar block in the Reader repairs section. */
+/* The paragraph pager lives in the reader's fixed head -- see .lit-pager
+   in the Reader repairs section. */
 
 /* Chapter complete. */
 .lit-complete {
@@ -5225,6 +5348,21 @@ bdi,
   color: var(--color-neutral-700);
   margin-top: var(--space-2);
   line-height: var(--leading-body);
+}
+/* A quiet qualifying line in a dialog (e.g. which half of a gated chapter
+   is locked -- POLISH-009), sharing the row/dialog terminology exactly. */
+.modal-note {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  margin-top: var(--space-2);
+  line-height: var(--leading-body);
+}
+.modal-note .icon {
+  flex: none;
+  align-self: center;
 }
 /* The primary sits at the trailing edge and takes its own width; Cancel
    stays beside it, quieter. Both used to be flex:1, which gave a dismissal
@@ -5454,21 +5592,28 @@ bdi,
   color: var(--color-neutral-600);
   display: block;
 }
-.lesson-search-row-module {
-  font-size: var(--text-meta);
-  color: var(--color-accent-700);
-  flex: none;
-}
-/* The owning module's learning-outcome line, same language the dashboard
-   rows carry (UI-005) -- so a search hit says what its module teaches. */
-.lesson-search-row-outcome {
+/* One compact breadcrumb per row saying where the hit lives (POLISH-001),
+   in place of the old repeated module description. */
+.lesson-search-row-crumb {
   display: block;
   font-size: var(--text-meta);
-  color: var(--color-neutral-700);
+  color: var(--color-accent-700);
   margin-top: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* The count sits once at the head of the results, announced politely. */
+.lesson-search-count {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+  padding: 8px 4px 4px;
+  font-variant-numeric: tabular-nums;
+}
+/* The matched term, kept quiet: a tint behind the text, no colour change. */
+mark.search-hit {
+  background: var(--accent-tint);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
 }
 
 /* ---------- Literature: names the CSS above did not cover ---------- */
@@ -5525,6 +5670,38 @@ bdi,
   color: var(--color-neutral-400);
   font-size: var(--text-micro);
   padding: 4px 0 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* POLISH-019: the glyphs stay their quiet size, but on touch the gutter
+   controls grow real boxes -- vertical room comes from min-height (the
+   gutter is a column, so growing down moves nothing beside it), horizontal
+   reach from an invisible overlay, the same idiom .lit-gloss-btn uses. The
+   paragraph-level EN control reaches the full 44px platform floor. */
+@media (pointer: coarse) {
+  .lit-para-en {
+    min-height: var(--tap-min);
+  }
+  .lit-para-hover-btn {
+    min-height: 36px;
+  }
+  .lit-para-en::after,
+  .lit-para-hover-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+  .lit-para-en::after {
+    width: var(--tap-min);
+  }
+  .lit-para-hover-btn::after {
+    width: 36px;
+  }
 }
 .lit-para-en.is-active,
 .lit-para-hover-btn.is-active {
@@ -5967,6 +6144,24 @@ bdi,
 .course-menu-item.is-locked .course-menu-meta {
   color: var(--color-neutral-600);
 }
+/* The active course states itself (POLISH-002): a checkmark and a quiet
+   "Current" label at the row's trailing edge, so recognition never rests on
+   the tinted background alone. */
+.course-menu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.course-menu-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  font-size: var(--text-meta);
+  font-weight: 600;
+  color: var(--color-accent-700);
+}
 .course-menu-ar {
   display: block;
   font-family: var(--font-ar);
@@ -6057,6 +6252,46 @@ button.concept-dot {
   width: 11px;
   height: 11px;
   background: var(--color-accent-700);
+}
+/* POLISH-018: on touch every dot keeps its 8-11px mark but sits centred in
+   a transparent 26×44px box -- boxes tile edge to edge, so the touch
+   regions partition cleanly and a tap can never land on two dots at once.
+   The mark moves to ::before so the box itself stays invisible. */
+@media (pointer: coarse) {
+  .concept-dots {
+    gap: 2px;
+  }
+  .concept-dot {
+    width: 26px;
+    height: var(--tap-min);
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .concept-dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-neutral-300);
+  }
+  .concept-dot.reached {
+    background: transparent;
+  }
+  .concept-dot.reached::before {
+    background: var(--color-accent);
+  }
+  .concept-dot.current {
+    width: 26px;
+    height: var(--tap-min);
+    background: transparent;
+  }
+  .concept-dot.current::before {
+    width: 11px;
+    height: 11px;
+    background: var(--color-accent-700);
+  }
 }
 /* The lesson's paging bar. It used to be two buttons at flex:1 each -- a
    half-width "Back" and a half-width "Next" of equal visual weight, with a
@@ -6659,34 +6894,64 @@ span.deadline-day {
 }
 /* On a phone the popover-hanging-off-a-trigger model has nowhere to go --
    the trigger sits near the fold and the tab bar eats the rest -- so both
-   panels become a centred sheet with their own bounded scroll. Outside
-   clicks and Escape dismiss them exactly as on desktop. */
+   panels become a sheet attached to the bottom edge (MOTION-003): the edge
+   IS its spatial origin, so it slides in from below over a fast-dimming
+   ground instead of fading in mid-air. Outside clicks and Escape dismiss
+   them exactly as on desktop. */
 @media (max-width: 640px) {
   .deadline-picker,
   .reset-hour-menu {
     position: fixed;
-    left: 16px;
-    right: 16px;
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    transform: none;
     width: auto;
-    max-width: 340px;
-    margin: 0 auto;
-    max-height: min(70vh, 480px);
+    max-width: none;
+    margin: 0;
+    max-height: min(72vh, 480px);
     overflow-y: auto;
     z-index: 45;
     box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   }
-  /* The drop-in/out keyframes animate `transform`, which would stomp the
-     sheet's own centering translate mid-animation -- fade only here. */
+  /* The dim ground behind the sheet. A pseudo-element rather than its own
+     node (the markup renders the panel inline in the plan row); fixed, so
+     it escapes the sheet's scroll clip, pointer-events: none so taps on the
+     page still reach the outside-click dismissal exactly as before. */
+  .deadline-picker::before,
+  .reset-hour-menu::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in srgb, var(--color-text) 22%, transparent);
+    pointer-events: none;
+  }
+  /* Entrance: ground dims fast, the surface arrives from 10px below, and
+     the controls fade in a beat after the surface starts moving. Exit runs
+     back toward the bottom edge, quicker. */
   .deadline-picker.anim-drop-in,
   .reset-hour-menu.anim-drop-in {
-    animation-name: m-fade-in;
+    animation: m-sheet-in 190ms var(--ease-out) backwards;
+  }
+  .deadline-picker.anim-drop-in::before,
+  .reset-hour-menu.anim-drop-in::before {
+    animation: m-fade-in 130ms var(--ease-out) backwards;
+  }
+  .deadline-picker.anim-drop-in > *,
+  .reset-hour-menu.anim-drop-in > * {
+    animation: m-fade-in 140ms var(--ease-out) 45ms backwards;
   }
   .deadline-picker.anim-drop-out,
   .reset-hour-menu.anim-drop-out {
-    animation-name: m-fade-out;
+    animation: m-sheet-out 140ms var(--ease-in) forwards;
+  }
+  .deadline-picker.anim-drop-out::before,
+  .reset-hour-menu.anim-drop-out::before {
+    animation: m-fade-out 140ms var(--ease-in) forwards;
   }
 }
 
@@ -6739,6 +7004,23 @@ span.deadline-day {
 }
 .kind-card:hover {
   border-color: var(--color-accent);
+}
+/* A zero-card kind can't be picked (POLISH-006): the tile stays put with its
+   unavailable reason readable where the description would be -- muted, not
+   dimmed into illegibility. */
+.kind-card:disabled {
+  cursor: default;
+  background: var(--color-neutral-100);
+  box-shadow: none;
+}
+.kind-card:disabled:hover {
+  border-color: var(--color-divider);
+}
+.kind-card:disabled .kind-card-name {
+  color: var(--color-neutral-600);
+}
+.kind-card:disabled .kind-radio {
+  border-color: var(--color-neutral-300);
 }
 .kind-card.is-selected {
   border-color: var(--color-accent);
@@ -6804,6 +7086,10 @@ span.deadline-day {
 .setup-group .practice-tabs {
   margin-top: 9px;
 }
+/* The deliberate launch moment under the length pills (POLISH-005). */
+.practice-start-btn {
+  margin-top: 12px;
+}
 
 /* Desktop keeps the config in the module page's right rail; the phone drops
    it inline under the Practice Mode row it was opened from. */
@@ -6857,6 +7143,14 @@ span.deadline-day {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/* The save-safety line must never be truncated (POLISH-020) -- it is the
+   card's most confidence-critical sentence, so it wraps rather than
+   ellipsizing at narrow widths. */
+.account-email-status {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .account-xp-track {
   height: 4px;
@@ -7037,14 +7331,43 @@ span.deadline-day {
    Sits in the page header's tools row. The clear control is a real button
    (keyboard focusable, named), so the native WebKit cancel decoration is
    suppressed to avoid two competing ✕s in the same field. */
+/* Desktop-appropriate presence (POLISH-017): the field claims a real share
+   of the header row instead of sizing to the input's ~196px default, with a
+   leading search icon and the `/` shortcut hinted while it sits empty. */
 .lit-search-wrap {
   position: relative;
+  flex: 1 1 auto;
+  width: min(360px, 100%);
   max-width: 420px;
 }
 .lit-search-wrap .home-search {
   margin-top: 0;
   padding-right: 34px;
+  padding-left: 34px;
   width: 100%;
+}
+.lit-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-neutral-500);
+  pointer-events: none;
+}
+.lit-search-kbd {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 6px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  color: var(--color-neutral-500);
+  pointer-events: none;
 }
 .lit-search::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -7391,6 +7714,49 @@ span.deadline-day {
   padding: 0;
   margin-top: 16px;
 }
+/* Desktop module page: two independent scroll columns (user request). The
+   page itself stops scrolling; the left column pins everything above the
+   Lessons rule -- back row, ink cover, Practice Mode, the section head --
+   and scrolls only .lesson-scroll beneath it, while the rail (the Practice
+   Mode panel and the module card) scrolls entirely on its own. The phone
+   keeps the single page scroll -- iOS Safari collapses nested
+   flex/overflow scrollers, so none of this applies under 901px. */
+@media (min-width: 901px) {
+  .main-content:has(.module-page-wrap) {
+    overflow: hidden;
+  }
+  .module-page-wrap {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+  .module-page-wrap .module-page {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .module-page > section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .lesson-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 44px;
+    /* Breathing room so the first row's focus ring is not clipped by the
+       scroller's top edge. */
+    padding-right: 2px;
+  }
+  .module-page > .module-rail {
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 44px;
+  }
+}
 .module-crumbs {
   display: flex;
   align-items: center;
@@ -7458,6 +7824,35 @@ span.deadline-day {
   background: transparent;
   color: var(--color-neutral-600);
   cursor: pointer;
+}
+/* The grid glyph crossfades/rotates into a close glyph while the menu is
+   open (MOTION-006) -- both icons stacked in one box, so the button's
+   dimensions never move; the swap begins the moment aria-expanded flips,
+   together with the panel's own drop-in. */
+.sections-trigger-icons {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sections-icon-grid,
+.sections-icon-close {
+  display: inline-flex;
+  transition: opacity 160ms var(--ease), transform 160ms var(--ease);
+}
+.sections-icon-close {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+.sections-menu-trigger[aria-expanded='true'] .sections-icon-grid {
+  opacity: 0;
+  transform: rotate(45deg);
+}
+.sections-menu-trigger[aria-expanded='true'] .sections-icon-close {
+  opacity: 1;
+  transform: none;
 }
 .sections-menu-trigger:hover,
 .sections-menu-trigger[aria-expanded='true'] {
@@ -7672,20 +8067,9 @@ span.deadline-day {
   color: inherit;
   min-width: 0;
 }
-/* ---------- Reader top strip ----------
-   Sticky at the top of the reader's scroller: the selected word's dock --
-   the word itself, its mark button, and a small table of its facts -- so a
-   tapped word's meaning and form are always in view without travelling to
-   a margin card. The paragraph pager lives up in the reader's fixed head. */
-.lit-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 6;
-  min-height: 44px;
-  padding: var(--space-2) 22px var(--space-3);
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-divider);
-}
+/* The reader opens straight onto the prose -- the old sticky hint strip is
+   gone (user request); the paragraph pager lives in the reader's fixed
+   head. */
 .lit-pager {
   display: flex;
   align-items: center;
@@ -7728,14 +8112,66 @@ span.deadline-day {
 .lit-word-dock {
   min-width: 0;
 }
-.lit-word-dock-hint {
-  font-size: var(--text-meta);
-  color: var(--color-neutral-500);
+/* POLISH-014: the selected word's card lives OFF the reading surface: in
+   the desktop margin rail beside the text, or dropping down from the top
+   of the viewport on phones (user request), with its own close control.
+   Selecting word after word updates the card in place; the paragraph
+   never moves. */
+.lit-aside .lit-word-dock {
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 10px 12px;
+  margin: 0 22px 12px;
 }
-.lit-word-dock.is-empty {
-  display: flex;
+.lit-word-dock-close {
+  flex: none;
+  display: inline-flex;
   align-items: center;
-  min-height: 30px;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 2px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-neutral-600);
+  cursor: pointer;
+}
+.lit-word-dock-close:hover {
+  color: var(--color-text);
+  background: var(--color-neutral-100);
+}
+.lit-word-dock-close:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+@media (max-width: 900px) {
+  /* Anchored to the boundary where the paragraphs begin (user request) --
+     absolute against the reader body, so it pops down from under the
+     reader head rather than from the top of the screen. */
+  .lit-reader-body {
+    position: relative;
+  }
+  .lit-aside .lit-word-dock {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 6px;
+    bottom: auto;
+    margin: 0;
+    z-index: 40;
+    box-shadow: var(--shadow-lg);
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+}
+/* First appearance drops down from above (presence-diffed in js/motion.js,
+   so switching between words updates the card without replaying it). */
+.lit-aside .lit-word-dock.anim-drop-in {
+  transform-origin: top center;
+  animation: m-pop-in var(--t-quick) var(--ease-out) backwards;
 }
 .lit-word-dock-head {
   display: flex;
@@ -7751,10 +8187,16 @@ span.deadline-day {
 .lit-word-dock-mark {
   margin-left: auto;
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 .lit-word-table {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr);
+  /* One label/value pair per row: the card lives in the ~300px desktop
+     rail or a phone-width bottom card now, and the old two-pairs-per-row
+     grid squeezed values into one-letter-per-line towers there. */
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: 4px 14px;
   align-items: baseline;
   margin: 6px 0 0;
@@ -7789,7 +8231,6 @@ span.deadline-day {
     height: 38px;
   }
   .lit-word-table {
-    grid-template-columns: max-content minmax(0, 1fr);
     padding: 6px 10px;
     gap: 2px 12px;
   }
@@ -7834,10 +8275,6 @@ span.deadline-day {
     order: 3;
     margin-top: 4px;
   }
-  /* The dock strip gives back a few px too. */
-  .lit-topbar {
-    padding: 6px 22px 8px;
-  }
 }
 
 /* Reader head: chevron, titles, the Read→Patterns→Build rail on the right,
@@ -7876,7 +8313,7 @@ span.deadline-day {
     top: 12px;
     margin-top: 14px;
   }
-  .lit-aside .lit-word-card,
+  .lit-aside .lit-word-dock,
   .lit-aside .lit-unknown {
     margin-left: 0;
     margin-right: 0;
@@ -7893,6 +8330,11 @@ span.deadline-day {
   border-style: solid;
   border-color: var(--color-accent);
   background: var(--accent-tint);
+  /* MOTION-013: a valid target under a dragged chip swells ~1% -- a pure
+     transform, ~90ms in, the normal --t-quick back out -- so the drop reads
+     as magnetic without moving any neighbouring slot. */
+  transform: scale(1.012);
+  transition-duration: 90ms;
   box-shadow: var(--shadow-sm);
 }
 
@@ -8070,21 +8512,34 @@ span.deadline-day {
   flex-wrap: wrap;
 }
 /* Reveal states for the in-flow gloss declared with .lit-para-text above:
-   pinned via the ⌗ button, a keyboard user tabbed onto the clause, or (on
-   a pointer) simply hovering it. A generous max-height cap (well past any
-   real translation's height) is what lets the collapse/expand transition
-   read as smooth growth rather than a snap -- transitioning to `auto`
-   directly is not animatable. Independent per sentence: nothing suppresses
-   a second one, since each now reflows its own local space and there is no
-   shared lane left to collide over. */
-.lit-sentence.is-open .lit-gloss,
-.lit-sentence:focus-within .lit-gloss,
-.lit-reader:not(.no-hover-translate) .lit-sentence:hover .lit-gloss {
-  max-height: 200px;
+   pinned via the ⌗ button always; hover and keyboard focus-within reveal it
+   only on hover-capable devices AND only while the hover-translate aid is
+   on. On touch, focus-within must never reveal -- every tap focuses the
+   tapped word, so with the aid off a plain word lookup was popping the
+   whole phrase translation open (and closing the pin re-revealed it the
+   moment focus returned to the button). A modest max-height cap
+   (comfortably past any real translation's height, but not so far past it
+   that the close transition spends most of its run collapsing empty
+   headroom) is what lets the reveal read as smooth growth --
+   transitioning to `auto` directly is not animatable. Independent per
+   sentence: nothing suppresses a second one, since each reflows its own
+   local space and there is no shared lane left to collide over. */
+.lit-sentence.is-open .lit-gloss {
+  max-height: 120px;
   opacity: 1;
   margin: 6px 0 10px;
   padding-top: 4px;
   border-top-width: 1px;
+}
+@media (hover: hover) {
+  .lit-reader:not(.no-hover-translate) .lit-sentence:focus-within .lit-gloss,
+  .lit-reader:not(.no-hover-translate) .lit-sentence:hover .lit-gloss {
+    max-height: 120px;
+    opacity: 1;
+    margin: 6px 0 10px;
+    padding-top: 4px;
+    border-top-width: 1px;
+  }
 }
 .lit-gloss-btn.is-on,
 .lit-sentence.is-open .lit-gloss-btn {
@@ -8229,11 +8684,16 @@ span.deadline-day {
   display: block;
 }
 
-/* Course switcher caret flips while its menu is open -- plain state. */
-.home-course-switch > span[aria-hidden] {
+/* Icons whose meaning reverses rotate WITH their disclosure rather than
+   snapping (MOTION-006): the course switcher and the Schedule pickers all
+   carry the same .caret, and the rotation begins the moment aria-expanded
+   flips -- together with the panel's own entrance. */
+.caret {
   display: inline-block;
+  transition: transform var(--t-quick) var(--ease);
 }
-.home-course-switch[aria-expanded='true'] > span[aria-hidden] {
+[aria-expanded='true'] > .caret,
+[aria-expanded='true'] > span > .caret {
   transform: rotate(-180deg);
 }
 
@@ -8444,6 +8904,13 @@ span.deadline-day {
     margin: 0;
   }
 }
+/* One-frame suppression handed out by updateContextBar (js/main.js) when a
+   rerender rebuilt an already-shown bar: the fresh node snaps straight to
+   its resting state instead of replaying the entrance. */
+.context-instant .context-bar-inner,
+.context-instant .home-resume-strip-inner {
+  transition: none !important;
+}
 
 /* --- Phone: the back row is the deep screens' compact context ----------- */
 /* Module, book, achievements and settings pages all lead with the back
@@ -8496,14 +8963,11 @@ span.deadline-day {
 }
 
 @media (min-width: 901px) {
-  /* Home: the full-bleed ink hero is the fixed identity; modules and the
-     rail scroll under its bottom edge. Phone leaves the hero in flow (it
-     would claim half the viewport) and gets the condensing context bar. */
-  .home-hero {
-    position: sticky;
-    top: 0;
-    z-index: 8;
-  }
+  /* Home: the full-bleed ink hero scrolls away with the page (POLISH-013 --
+     pinned, it charged every deep-module browse ~280px of viewport for
+     information already read); the compact .home-resume-strip below pins in
+     its place once it has gone, carrying the current lesson and the resume
+     action. Phone keeps the condensing context bar. */
   /* Library: the masthead -- title, lede and the search box -- pins, same
      treatment as Schedule/Account at the library's 20px top padding. */
   .lit-library-page > .page-header {
@@ -8538,6 +9002,76 @@ span.deadline-day {
     top: 0;
     z-index: 8;
     box-shadow: 0 0 0 12px var(--color-bg);
+  }
+}
+
+/* Desktop Home's condensing resume strip (POLISH-013/MOTION-014): a
+   zero-height sticky anchor -- so it can never shift the layout or the
+   module under the pointer -- whose inner strip enters from 6px above over
+   ~170ms once the full hero has scrolled away, exactly the phone context
+   bar's pattern. Carries the current lesson and the primary resume action. */
+.home-resume-strip {
+  display: none;
+}
+@media (min-width: 901px) {
+  .home-resume-strip {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    height: 0;
+  }
+  .home-resume-strip-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 58px;
+    padding: 0 32px;
+    background: var(--color-plate);
+    color: var(--color-plate-text);
+    border-bottom: 1px solid var(--color-plate-line);
+    opacity: 0;
+    transform: translateY(-6px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 170ms var(--ease-out), transform 170ms var(--ease-out), visibility 0s 170ms;
+  }
+  .home-resume-strip.is-shown .home-resume-strip-inner {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 170ms var(--ease-out), transform 170ms var(--ease-out);
+  }
+  .home-resume-strip .kicker {
+    color: var(--color-plate-dim);
+    flex: none;
+  }
+  .home-resume-strip-title {
+    font-family: var(--font-ar);
+    font-size: var(--text-ar-sm);
+    color: var(--color-plate-text);
+    flex: none;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .home-resume-strip-meta {
+    font-size: var(--text-sm);
+    color: var(--color-plate-dim);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .home-resume-strip-cta {
+    margin-left: auto;
+    flex: none;
   }
 }
 
@@ -8624,6 +9158,34 @@ span.deadline-day {
 /* m-step-in's reverse, for paging back through concepts (audit MOT-006). */
 @keyframes m-step-back {
   from { opacity: 0; transform: translateY(calc(var(--travel-sm) * -1)); }
+}
+/* Horizontal in-place steps (POLISH-010): the most repeated transitions --
+   next concept, next question -- carry the direction of travel: forward
+   enters from the right, back from the left, 4px and no further. */
+@keyframes m-step-fwd {
+  from { opacity: 0; transform: translateX(4px); }
+}
+@keyframes m-step-bwd {
+  from { opacity: 0; transform: translateX(-4px); }
+}
+/* Concept page-turns take a REAL slide (user request -- the 4px step read
+   as jitter on a full page of prose): 28px of travel over 280ms, still
+   direction-true in both senses. */
+@keyframes m-page-fwd {
+  from { opacity: 0; transform: translateX(28px); }
+}
+@keyframes m-page-bwd {
+  from { opacity: 0; transform: translateX(-28px); }
+}
+/* Mobile hierarchy push/pop (MOTION-004): going deeper enters from the
+   right, returning enters from the left -- a light opacity ramp only, so
+   it reads as travel rather than a fade. Desktop keeps the restrained
+   vertical m-screen-in/back. */
+@keyframes m-push-in {
+  from { opacity: 0.92; transform: translateX(12px); }
+}
+@keyframes m-pop-back {
+  from { opacity: 0.92; transform: translateX(-12px); }
 }
 /* The phone course sheet rises from the screen's bottom edge -- the one
    surface besides the toast allowed to enter from off its own footprint,
@@ -8884,13 +9446,52 @@ button.deadline-day,
    every card in the app had no press feedback at all on desktop. */
 @media (hover: hover) and (pointer: fine) {
   .home-explore-card:hover:not(:active),
-  .kind-card:hover:not(:active),
+  .kind-card:hover:not(:active):not(:disabled),
   .theme-card:hover:not(:active),
   .path-group-card:hover:not(:active),
   .lit-book:hover:not(:active),
   .lit-continue:hover:not(:active) {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
+  }
+
+  /* Interactive rows reveal their direction on hover/focus (POLISH-016): a
+     trailing chevron fades in over ~120ms and leans ~3px toward where the
+     row goes, and the title takes one step of accent. The chevron's box is
+     reserved at all times (opacity alone changes), so row dimensions never
+     move. Locked rows keep their lock affordance and get nothing here.
+     The chevron always points along the app's LTR chrome -- "deeper" -- so
+     RTL titles inside the row can't flip its meaning. */
+  .module-row:not(.module-row-locked)::after,
+  .lesson-row:not(:disabled)::after,
+  .lit-chapter:not(.is-locked)::after {
+    content: '';
+    flex: none;
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    align-self: center;
+    border-top: 1.8px solid var(--color-accent-700);
+    border-right: 1.8px solid var(--color-accent-700);
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 120ms var(--ease), transform 120ms var(--ease);
+  }
+  .module-row:not(.module-row-locked):hover::after,
+  .module-row:not(.module-row-locked):focus-visible::after,
+  .lesson-row:not(:disabled):hover::after,
+  .lesson-row:not(:disabled):focus-visible::after,
+  .lit-chapter:not(.is-locked):hover::after,
+  .lit-chapter:not(.is-locked):focus-visible::after {
+    opacity: 1;
+    /* translate runs after the 45° rotate, so (2px, -2px) in the rotated
+       frame is ~3px of pure screen-rightward travel. */
+    transform: rotate(45deg) translate(2px, -2px);
+  }
+  .module-row:not(.module-row-locked):hover .module-row-title,
+  .lesson-row:not(:disabled):hover .lesson-row-title,
+  .lit-chapter:not(.is-locked):hover .lit-chapter-title {
+    color: var(--color-accent-700);
   }
 }
 
@@ -8931,13 +9532,27 @@ button.deadline-day:active {
    pushing it back down into the page rather than as a second, separate
    animation layered on the lift. */
 .home-explore-card:active,
-.kind-card:active,
+.kind-card:active:not(:disabled),
 .theme-card:active,
 .lit-book:active,
 .path-group-card:active,
 .lit-continue:active {
   transform: scale(0.985);
   box-shadow: var(--shadow-sm);
+}
+
+/* Icon-only buttons flash their ground instead of scaling the glyph
+   (POLISH-012) -- engages on pointer down via :active, and the glyph
+   itself never moves. */
+.practice-popout-close:active,
+.sections-menu-trigger:active,
+.home-search-clear:active,
+.lit-search-clear:active,
+.lit-para-en:active,
+.lit-para-hover-btn:active,
+.lit-gloss-btn:active,
+.deadline-picker-nav button:active {
+  background-color: var(--accent-tint);
 }
 
 /* Full-width rows deepen instead of scaling. A row is wide enough that a
@@ -9042,6 +9657,48 @@ body {
   animation-name: m-screen-back;
 }
 
+/* MOTION-004: on phones the stacked hierarchy gets real push/pop direction
+   -- deeper content enters from the right, returning content from the left,
+   over 180ms with only a light opacity ramp. Same selectors as above, so
+   pinned shells and the tab bar hold still; desktop keeps the vertical
+   treatment. */
+@media (max-width: 900px) {
+  .screen-enter .main-content:not(:has(.home-hero, .page-header, .module-cover, .hero-plate, .lit-book-page > .plate, .lesson-head, .lit-reader-head)),
+  .screen-enter :is(
+    .home-body,
+    .lit-library-page > :not(.page-header, .context-bar),
+    .schedule-page > :not(.page-header, .context-bar),
+    .account-page > :not(.page-header, .context-bar),
+    .settings-col > :not(.page-header, .module-backrow, .context-bar),
+    .module-page > section > :not(.module-cover),
+    .module-page > .module-rail,
+    .hero-page > :not(.plate, .module-backrow),
+    .lit-book-page > :not(.plate, .module-backrow),
+    .lesson-body,
+    .lit-reader-body
+  ) {
+    animation-name: m-push-in;
+    animation-duration: 180ms;
+  }
+  .screen-enter.screen-enter-back .main-content:not(:has(.home-hero, .page-header, .module-cover, .hero-plate, .lit-book-page > .plate, .lesson-head, .lit-reader-head)),
+  .screen-enter.screen-enter-back :is(
+    .home-body,
+    .lit-library-page > :not(.page-header, .context-bar),
+    .schedule-page > :not(.page-header, .context-bar),
+    .account-page > :not(.page-header, .context-bar),
+    .settings-col > :not(.page-header, .module-backrow, .context-bar),
+    .module-page > section > :not(.module-cover),
+    .module-page > .module-rail,
+    .hero-page > :not(.plate, .module-backrow),
+    .lit-book-page > :not(.plate, .module-backrow),
+    .lesson-body,
+    .lit-reader-body
+  ) {
+    animation-name: m-pop-back;
+    animation-duration: 180ms;
+  }
+}
+
 /* Progress figures draw to their value -- gated on their own class, not on
    screen-enter, because js/motion.js hands it out once per screen per
    session. A ring that redraws itself every single time you glance at Home
@@ -9073,11 +9730,36 @@ body {
 .anim-rise-in {
   animation: m-rise-in var(--t-ui) var(--ease-out) backwards;
 }
+/* A filtered result group arriving (or the unfiltered list returning) rises
+   3px as one block, quickly enough never to delay typing (MOTION-008). */
+.anim-search-in {
+  animation: m-step-in 120ms var(--ease-out) backwards;
+}
+/* An in-flow disclosure's children ride in a beat behind the container's
+   height animation (added by animateHeight in js/motion.js -- MOTION-001):
+   a short fade-and-rise, delayed ~40ms so the surface visibly arrives
+   first, `backwards` so the content is not painted during the delay. */
+.anim-expand-content > * {
+  animation: m-step-in 140ms var(--ease-out) 40ms backwards;
+}
 .anim-step-in {
   animation: m-step-in var(--t-ui) var(--ease-out) backwards;
 }
 .anim-step-back {
   animation: m-step-back var(--t-ui) var(--ease-out) backwards;
+}
+/* POLISH-010: concept paging and quiz question turns move HORIZONTALLY in
+   the direction of travel -- the header, dots and sticky actions around
+   them hold still. Concept turns take the pronounced m-page slide (user
+   request); quiz question turns keep the quicker 4px step. */
+.quiz-body.anim-step-in {
+  animation: m-step-fwd var(--t-quick) var(--ease-out) backwards;
+}
+.concept-block.anim-step-in {
+  animation: m-page-fwd 280ms var(--ease-out) backwards;
+}
+.concept-block.anim-step-back {
+  animation: m-page-bwd 280ms var(--ease-out) backwards;
 }
 .xp-toast.anim-toast-in {
   animation: m-toast-in var(--t-ui) var(--ease-out) backwards;
@@ -9166,11 +9848,21 @@ body {
   transform-origin: 0 50%;
 }
 
-/* The shared slide. One keyframe, one duration, three families. */
+/* The shared slide. One keyframe, one duration, three families. The
+   symmetric ease (not --ease-out) keeps the travel perceptible through the
+   middle of the run instead of finishing most of it in the first 80ms
+   (MOTION-005). */
 .app-tab-active.anim-indicator-slide::after,
 .practice-tab.active.anim-indicator-slide::before,
 .app-tabbar-item-active.anim-indicator-slide::after {
-  animation: m-indicator-slide var(--t-ui) var(--ease-out);
+  animation: m-indicator-slide var(--t-ui) var(--ease);
+}
+/* The reader's progress fill takes the same slide directly (no pseudo):
+   left-anchored, so the FLIP resolves to a pure scaleX between the old and
+   new widths -- forward grows, back shrinks. */
+.progress-bar-fill.anim-indicator-slide {
+  transform-origin: 0 50%;
+  animation: m-indicator-slide var(--t-ui) var(--ease);
 }
 
 /* Phone tab bar. The desktop tabs carry an underline; the phone's primary
@@ -9202,7 +9894,31 @@ body {
    perfectly still. */
 .anim-verdict :is(.mcq-option, .exercise-choice).correct::before,
 .anim-verdict :is(.mcq-option, .exercise-choice).incorrect::before {
-  animation: m-mark-in var(--t-ui) var(--ease-pop) backwards;
+  animation: m-mark-in var(--t-quick) var(--ease-pop) backwards;
+}
+/* One breath of tint on the just-graded pick (MOTION-009): an overlay
+   fading out over ~260ms so the verdict registers beside the strong answer
+   borders, with no extra movement and no layout involvement. */
+.anim-verdict :is(.mcq-option, .exercise-choice).selected {
+  position: relative;
+}
+.anim-verdict :is(.mcq-option, .exercise-choice).selected::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--accent-tint-strong);
+  animation: m-flash-out 260ms var(--ease-out) forwards;
+}
+.anim-verdict :is(.mcq-option, .exercise-choice).selected.incorrect::after {
+  background: var(--color-neutral-200);
+}
+/* The verdict/explanation block rises in a beat AFTER the mark stamps
+   (MOTION-009): a short 3px step, so the whole sequence -- mark, then
+   words, then progress -- resolves inside ~280ms. */
+.quiz-feedback.anim-rise-in {
+  animation: m-step-in var(--t-quick) var(--ease-out) 60ms backwards;
 }
 .anim-verdict :is(.mcq-option, .exercise-choice, .tarkeeb-slot, .lit-slot, .lit-chip).incorrect {
   animation: m-nudge var(--t-ui) var(--ease);
@@ -9220,6 +9936,22 @@ body {
    pointer; a slot that just took a chip pops very slightly fuller. */
 .anim-select {
   animation: m-settle var(--t-quick) var(--ease-out);
+}
+/* After the settle ends, selection keeps a legible resting state
+   (MOTION-007): a persistent 1px lift and a small shadow on the selected
+   card families, so "chosen" survives without motion or tint alone. The
+   press rules further up (higher specificity via :active) still win while
+   the card is held down, and the radio/check dot fills over ~120ms. */
+.kind-card.is-selected,
+.theme-card.is-selected,
+.face-row.is-selected,
+.accent-chip.is-selected {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.kind-radio-dot,
+.face-radio-dot {
+  transition: background-color 120ms var(--ease);
 }
 .anim-fill {
   animation: m-fill-pop var(--t-ui) var(--ease-out);
@@ -9243,17 +9975,47 @@ body {
    head -- same arrival keyframe as the verdict mark it answers to, so the
    "you may advance" signal reads as part of the same gesture (MOT-006). */
 .concept-dot.anim-dot-in {
-  animation: m-mark-in var(--t-ui) var(--ease-pop) backwards;
+  /* Progress fills only after the verdict that earned it is established
+     (POLISH-011/MOTION-010): the dot waits one verdict-length beat, then
+     settles in over --t-quick. Only ever handed out once per new
+     completion -- revisits render the dot at rest. */
+  animation: m-mark-in var(--t-quick) var(--ease-pop) 120ms backwards;
 }
 /* The refreshed course region arriving after a switch (MOT-002): only the
-   course-scoped regions crossfade — Home's hero and body, or Schedule's
-   plan columns — while the shell and page title hold still. */
-.anim-content-in :is(.home-hero, .home-body, .two-col) {
+   paper-on-paper body regions crossfade — the ink hero swaps hard, because
+   fading a full-bleed dark plate up from opacity 0 flashed a huge paper
+   rectangle where the hero sits (user report: white flash on course
+   change). */
+.anim-content-in :is(.home-body, .two-col) {
   animation: m-fade-in var(--t-ui) var(--ease-out) backwards;
 }
 .anim-tick-in {
   transform-origin: 0 50%;
-  animation: m-grow-x var(--t-ui) var(--ease-out);
+  /* The banked tick grows in a beat behind the arriving question
+     (MOTION-010), so cause (advance) and effect (progress) read in order. */
+  animation: m-grow-x var(--t-ui) var(--ease-out) 120ms backwards;
+}
+
+/* Returning to Home identifies the module row you came from (MOTION-012):
+   one ~220ms breath of accent riding a ::before overlay (::after belongs to
+   the hover chevron), handed out for a single render by dashboardHtml. */
+.module-row.anim-row-flash {
+  position: relative;
+}
+.module-row.anim-row-flash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--accent-tint-strong);
+  animation: m-flash-out 220ms var(--ease-out) forwards;
+}
+/* The destination cover/plate arrives from 6px below on a FORWARD
+   navigation (MOTION-012's card-to-detail continuity); coming back, the
+   shell holds still as before. */
+.screen-enter:not(.screen-enter-back) :is(.module-page .module-cover, .lit-book-page > .plate, .hero-page > .plate) {
+  animation: m-rise-in 180ms var(--ease-out) backwards;
 }
 
 /* A rewritten schedule: the figures the new deadline changed take one breath

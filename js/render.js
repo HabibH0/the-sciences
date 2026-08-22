@@ -264,7 +264,12 @@ function sectionsMenuHtml(state) {
     <span class="sections-menu-anchor only-phone">
       <button class="sections-menu-trigger" data-action="toggleSectionsMenu"
         aria-haspopup="true" aria-expanded="${open ? 'true' : 'false'}"
-        aria-label="Go to another section" title="Go to another section">${icon('grid', 18, 1.8)}</button>
+        aria-label="${open ? 'Close the sections menu' : 'Go to another section'}" title="${open ? 'Close the sections menu' : 'Go to another section'}">
+        <span class="sections-trigger-icons" aria-hidden="true">
+          <span class="sections-icon-grid">${icon('grid', 18, 1.8)}</span>
+          <span class="sections-icon-close">${icon('cross', 18, 1.8)}</span>
+        </span>
+      </button>
       ${open ? `
         <nav class="sections-menu" aria-label="Sections">
           ${shellTabs(state).map((t) => `
@@ -697,7 +702,10 @@ function courseMenuHtml(state, action = 'chooseCourse') {
           : `data-action="openUnlockPrompt" data-target-type="course" data-target-id="${escAttr(course.id)}"`;
         return `
           <button class="course-menu-item${active ? ' is-active' : ''}${unlocked ? '' : ' is-locked'}" ${attrs}${active ? ' aria-current="true"' : ''}>
-            <span class="course-menu-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
+            <span class="course-menu-row">
+              <span class="course-menu-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
+              ${active ? `<span class="course-menu-current">${icon('check', 13, 2.2)}Current</span>` : ''}
+            </span>
             <span class="course-menu-meta">${esc(course.name)} · ${count} module${count === 1 ? '' : 's'}${unlocked ? '' : ' · locked'}</span>
           </button>`;
       }).join('')}
@@ -758,6 +766,9 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
       isCurrent ? 'module-row-current' : '',
       isDone ? 'module-row-done' : '',
       !unlocked ? 'module-row-locked' : '',
+      // MOTION-012: the row being returned to takes one brief flash so the
+      // restored scroll position also SAYS which row you came back from.
+      state.returnFlashModuleId === m.id ? 'anim-row-flash' : '',
     ].filter(Boolean).join(' ');
 
     const stateIcon = isDone ? icon('check', 14, 2.4) : isCurrent ? icon('clock', 14, 1.8) : !unlocked ? icon('lock', 13, 2) : '';
@@ -789,6 +800,15 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
         <div class="context-bar-inner"><span class="context-bar-title" lang="ar" dir="rtl">${esc(activeCourse ? (activeCourse.arabicName || activeCourse.name) : 'Home')}</span></div>
       </div>
       ${homeHeroHtml(state, MODULES)}
+      ${continueInfo ? `
+      <div class="home-resume-strip only-desktop">
+        <div class="home-resume-strip-inner">
+          <span class="kicker">Continue</span>
+          <span class="home-resume-strip-title" lang="ar" dir="rtl">${esc(continueInfo.mod.title)}</span>
+          <span class="home-resume-strip-meta">Lesson ${continueInfo.index + 1} · <bdi lang="ar">${esc(continueInfo.lesson.title)}</bdi></span>
+          <button class="btn btn-primary btn-sm home-resume-strip-cta" data-action="continueLesson" data-module-id="${escAttr(continueInfo.mod.id)}" data-lesson-id="${escAttr(continueInfo.lesson.id)}">Resume lesson</button>
+        </div>
+      </div>` : ''}
       <div class="home-body">
         <section class="home-modules-col">
           <div class="section-head">
@@ -800,7 +820,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
                   : `Switch course — currently ${escAttr(activeCourse ? activeCourse.name : '')}`}"
                 aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
                 <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
-                <span aria-hidden="true">▾</span>
+                <span class="caret" aria-hidden="true">▾</span>
               </button>
               ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
             </span>
@@ -838,7 +858,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
             <div class="kicker">Today</div>
             <p class="home-rail-invite-title">No target date yet</p>
             <p class="home-rail-note">Pick the date you want to finish this course and this rail will track the day's target against it.</p>
-            <button class="btn btn-secondary btn-sm" data-action="openSchedule">Set a target date</button>
+            <button class="btn btn-secondary btn-sm" data-action="openScheduleTargetDate">Set a target date</button>
           </div>`}
           <div class="home-explore only-phone">
             <div class="home-explore-title">Explore</div>
@@ -867,6 +887,27 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
 // lessons are excluded: search is for finding something you've already
 // seen, not previewing what's still ahead (which the module page's own
 // lock affordance already handles).
+// Wraps every occurrence of `query` in a <mark> (POLISH-001). Matched
+// fragments are escaped WITHOUT bidi-isolate control characters -- RLI/PDI
+// at a <mark> boundary would break Arabic letter joining mid-word -- while a
+// string with no match keeps the usual escBidi treatment.
+function highlightMatch(text, query) {
+  const s = String(text ?? '');
+  const needle = String(query || '').toLowerCase();
+  if (!s || !needle) return escBidi(s);
+  const lower = s.toLowerCase();
+  let idx = lower.indexOf(needle);
+  if (idx === -1) return escBidi(s);
+  let out = '';
+  let i = 0;
+  while (idx !== -1) {
+    out += `${esc(s.slice(i, idx))}<mark class="search-hit">${esc(s.slice(idx, idx + needle.length))}</mark>`;
+    i = idx + needle.length;
+    idx = lower.indexOf(needle, i);
+  }
+  return out + esc(s.slice(i));
+}
+
 function lessonSearchResultsHtml(MODULES, state, query) {
   const q = query.toLowerCase();
   const results = [];
@@ -885,16 +926,19 @@ function lessonSearchResultsHtml(MODULES, state, query) {
       note: `No unlocked lesson is titled anything like "${escBidi(query)}". Try a shorter word, or the Arabic title.`,
     });
   }
+  // Purpose-built search rows (POLISH-001): a visible result count, the
+  // matching term highlighted, and one compact module breadcrumb per row in
+  // place of the old repeated module description.
   return `
     <div class="lesson-search-results">
+      <div class="lesson-search-count" role="status">${results.length} lesson${results.length === 1 ? '' : 's'} found</div>
       ${results.map(({ mod: m, lesson: l }) => `
         <button class="lesson-search-row" data-action="searchOpenLesson" data-module-id="${escAttr(m.id)}" data-lesson-id="${escAttr(l.id)}">
           <span class="lesson-search-row-body">
-            <span class="lesson-search-row-title" lang="ar" dir="rtl">${esc(l.title)}</span>
-            <span class="lesson-search-row-sub">${escBidi(l.subtitle || '')}</span>
-            ${m.blurb ? `<span class="lesson-search-row-outcome only-desktop">${escBidi(firstSentence(m.blurb))}</span>` : ''}
+            <span class="lesson-search-row-title" lang="ar" dir="rtl">${highlightMatch(l.title, query)}</span>
+            <span class="lesson-search-row-sub">${highlightMatch(l.subtitle || '', query)}</span>
+            <span class="lesson-search-row-crumb">Module ${MODULES.indexOf(m) + 1} · <bdi lang="ar">${esc(m.title)}</bdi></span>
           </span>
-          <span class="lesson-search-row-module" lang="ar" dir="rtl">${esc(m.title)}</span>
         </button>`).join('')}
     </div>`;
 }
@@ -970,7 +1014,7 @@ function modulePageHtml(state, MODULES) {
             <h1 class="module-cover-title" lang="ar" dir="rtl">${esc(mod.title)}</h1>
             <div class="module-cover-rule" aria-hidden="true"></div>
             <p class="module-cover-blurb cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(mod.blurb)}</p>
-            <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'}</button>
+            <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'} <span class="caret" aria-hidden="true">▾</span></button>
             <div class="module-cover-progress">
               <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
               <span class="module-cover-count">${done} / ${total} lesson${total === 1 ? '' : 's'}</span>
@@ -978,7 +1022,7 @@ function modulePageHtml(state, MODULES) {
           </div>
         </div>
 
-        <button class="entry-row" ${bankPool.length ? 'data-action="openPractice"' : 'disabled title="Complete a lesson first — Practice Mode only draws from finished lessons\' cards"'}>
+        <button class="entry-row${state.practiceSetupOpen && state.practiceModuleId === mod.id ? ' is-open' : ''}" ${bankPool.length ? `data-action="openPractice" aria-expanded="${state.practiceSetupOpen && state.practiceModuleId === mod.id ? 'true' : 'false'}"` : 'disabled title="Complete a lesson first — Practice Mode only draws from finished lessons\' cards"'}>
           ${icon('pencil', 17, 1.8)}
           <span class="entry-row-body">
             <span class="entry-row-title">Practice Mode</span>
@@ -997,10 +1041,16 @@ function modulePageHtml(state, MODULES) {
           <span class="lesson-section-title">Lessons</span>
           <span class="lesson-section-note">In order</span>
         </div>
-        <div class="lesson-list">${rows}</div>
+        <!-- On desktop this is the left column's own scroller (see the
+             module-page split in styles.css): everything above it — back
+             row, cover, Practice Mode, the Lessons head — holds still and
+             only the list below the rule scrolls. -->
+        <div class="lesson-scroll">
+          <div class="lesson-list">${rows}</div>
 
-        ${done > 0 ? `<button class="module-reset" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">Reset this module's progress</button>` : ''}
-        ${modulePagerHtml(state, MODULES, mod)}
+          ${done > 0 ? `<button class="module-reset" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">Reset this module's progress</button>` : ''}
+          ${modulePagerHtml(state, MODULES, mod)}
+        </div>
       </section>
 
       <aside class="module-rail">
@@ -1302,6 +1352,13 @@ function renderMcqOptions({ options, correct, selected, submitted, actionName, e
   </div>`;
 }
 
+// A verdict's leading check/cross (POLISH-003): outcome stays legible as an
+// outcome -- not a focus ring, not a selected answer -- and never by colour
+// alone.
+function verdictIcon(correct) {
+  return `<span class="quiz-feedback-icon ${correct ? 'is-correct' : 'is-incorrect'}" aria-hidden="true">${icon(correct ? 'check' : 'cross', 14, 2.6)}</span>`;
+}
+
 function checkButton(actionName, enabled, extraData = '') {
   return `<button class="btn btn-primary" data-action="${actionName}" ${extraData} ${enabled ? '' : 'disabled'}>Check</button>`;
 }
@@ -1559,7 +1616,7 @@ function lessonExerciseCardHtml(state, mod, lesson) {
     ? (Array.isArray(item.explanations) && item.explanations[exState.selected]) || item.explanation || ''
     : '';
   const feedback = submitted
-    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}" role="status">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}${why ? ` ${escBidi(why)}` : ''}</div>`
+    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}" role="status">${verdictIcon(wasCorrect)}<span>${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}${why ? ` ${escBidi(why)}` : ''}</span></div>`
     : '';
 
   return `
@@ -1640,7 +1697,7 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
       : ex.explanation || '';
     const feedback = submitted
       ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}" tabindex="-1">
-           <span class="exercise-feedback-line">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</span>
+           <span class="exercise-feedback-line">${wasCorrect ? icon('check', 13, 2.4) : icon('cross', 13, 2.4)}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</span>
            ${why ? `<span class="exercise-feedback-why">${escBidi(why)}</span>` : ''}
          </div>`
       : '';
@@ -1718,12 +1775,15 @@ function lessonHtml(state, MODULES, revealedKeys) {
   const isLast = index === total - 1;
 
   // Reachable concepts are clickable; the rest are dim markers of what is
-  // still ahead.
+  // still ahead. Each dot names its state (POLISH-018) -- the same string
+  // serves as the desktop tooltip and the accessible label.
   const dots = lesson.concepts.map((_, i) => {
     const cls = ['concept-dot', i < shown ? 'reached' : '', i === index ? 'current' : ''].filter(Boolean).join(' ');
+    const status = i === index ? 'current' : i < shown - 1 ? 'complete' : i < shown ? 'unlocked' : 'locked';
+    const label = `Concept ${i + 1}, ${status}`;
     return i < shown
-      ? `<button class="${cls}" data-action="goToConcept" data-index="${i}" aria-label="Concept ${i + 1}"></button>`
-      : `<span class="${cls}" aria-hidden="true"></span>`;
+      ? `<button class="${cls}" data-action="goToConcept" data-index="${i}" aria-label="${label}" title="${label}"${i === index ? ' aria-current="true"' : ''}></button>`
+      : `<span class="${cls}" role="img" aria-label="${label}" title="${label}"></span>`;
   }).join('');
 
   const block = conceptBlockHtml(state, mod, lesson, index, revealedKeys);
@@ -1900,7 +1960,7 @@ function quizHtml(state, MODULES) {
   }).join('');
   const feedback = revealed ? `
     <div class="quiz-feedback${wasCorrect ? '' : ' quiz-feedback-incorrect'}">
-      <div class="quiz-feedback-line">${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])}`}</div>
+      <div class="quiz-feedback-line">${verdictIcon(wasCorrect)}<span>${wasCorrect ? `Correct — +${quizCosmeticXp(true)} XP` : `Not quite — the answer is ${escBidi(q.options[q.correct])}`}</span></div>
       ${q.explanation ? `<p class="quiz-feedback-explanation">${escBidi(q.explanation)}</p>` : ''}
     </div>` : '';
 
@@ -2315,11 +2375,17 @@ function vocabTypeTabsHtml(activeType, actionName) {
 
 function practiceSetupPanelHtml(state, mod) {
   const hasTarkeeb = moduleHasTarkeeb(mod);
-  const kind = state.practiceSetupKind === 'tarkeeb' && !hasTarkeeb ? 'mcq' : (state.practiceSetupKind || 'mcq');
+  const requestedKind = state.practiceSetupKind === 'tarkeeb' && !hasTarkeeb ? 'mcq' : (state.practiceSetupKind || 'mcq');
   const vocabType = state.practiceVocabType || 'en-ar';
   const mcqPool = getMcqPool(mod.id, state.completed, state.forceUnlockAll);
   const tarkeebPool = hasTarkeeb ? getTarkeebPool(mod.id, state.completed, state.forceUnlockAll) : [];
   const vocabPool = getVocabPool(mod.id, state.completed, vocabType, state.forceUnlockAll);
+  // A zero-card kind is shown disabled rather than selectable (its tile says
+  // why it's empty), so a stale selection falls to the first kind that
+  // actually has cards to drill.
+  const countFor = { mcq: mcqPool.length, tarkeeb: tarkeebPool.length, vocab: vocabPool.length };
+  const kindOrder = ['mcq', ...(hasTarkeeb ? ['tarkeeb'] : []), 'vocab'];
+  const kind = countFor[requestedKind] > 0 ? requestedKind : (kindOrder.find((k) => countFor[k] > 0) || requestedKind);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
 
   // "Review what I need": one decision instead of a type + a length. Built
@@ -2361,24 +2427,37 @@ function practiceSetupPanelHtml(state, mod) {
 
   // One card per kind of drill this module can offer: the radio carries the
   // choice, the count says how much there is to draw on, and the line under
-  // it says what that kind actually asks you to do.
+  // it says what that kind actually asks you to do. The MCQ line has to
+  // agree with the lock configuration -- with course locks off the pool
+  // spans the whole module, not just cleared lessons (POLISH-006).
   const kinds = [
-    { id: 'mcq', name: 'MCQ', count: mcqPool.length, desc: 'Multiple choice, drawn from the lesson quizzes and book exercises you have cleared.' },
+    { id: 'mcq', name: 'MCQ', count: mcqPool.length, desc: poolIncludesUnfinished
+      ? 'Multiple choice, drawn from lesson quizzes and book exercises across the whole module.'
+      : 'Multiple choice, drawn from the lesson quizzes and book exercises you have cleared.' },
     ...(hasTarkeeb ? [{ id: 'tarkeeb', name: 'تركيب', ar: true, count: tarkeebPool.length, desc: 'Label each word in a sentence with its grammatical role.' }] : []),
     { id: 'vocab', name: 'Vocab', count: vocabPool.length, desc: 'Word meanings in both directions, plus plural and مصدر forms.' },
   ];
 
-  const kindCards = kinds.map((k) => `
-    <button class="kind-card${kind === k.id ? ' is-selected' : ''}" data-action="setPracticeTab" data-kind="${k.id}">
+  // A tile with nothing in it can't be picked -- it stays visible, disabled,
+  // with its unavailable reason where the description would be, so the dead
+  // end explains itself without opening an empty state (POLISH-006).
+  const kindCards = kinds.map((k) => {
+    const isEmpty = k.count === 0;
+    const emptyNote = state.forceUnlockAll
+      ? `No ${k.name} cards in this module.`
+      : `No ${k.name} cards yet — complete a lesson to unlock them.`;
+    return `
+    <button class="kind-card${kind === k.id ? ' is-selected' : ''}" ${isEmpty ? 'disabled' : `data-action="setPracticeTab" data-kind="${k.id}"`} aria-pressed="${kind === k.id}">
       <span class="kind-radio" aria-hidden="true"><span class="kind-radio-dot"></span></span>
       <span class="kind-card-body">
         <span class="kind-card-head">
           <span class="kind-card-name"${k.ar ? ' lang="ar" dir="rtl"' : ''}>${esc(k.name)}</span>
           <span class="kind-card-count">${k.count} card${k.count === 1 ? '' : 's'}</span>
         </span>
-        <span class="kind-card-desc">${escBidi(k.desc)}</span>
+        <span class="kind-card-desc">${escBidi(isEmpty ? emptyNote : k.desc)}</span>
       </span>
-    </button>`).join('');
+    </button>`;
+  }).join('');
 
   const tarkeebTranslationsOn = state.practiceTarkeebTranslations == null
     ? state.tarkeebTranslations !== false
@@ -2389,16 +2468,25 @@ function practiceSetupPanelHtml(state, mod) {
     ? `No ${kindLabel} practice questions exist in this module.`
     : `Complete a lesson to unlock ${kindLabel} practice questions.`;
 
-  // Session length is the last choice and the one that starts the session --
-  // picking a count IS the start, so there is no separate confirm step.
+  // Session length is a selection, not a launch: 10 cards (or the whole
+  // pool when it's smaller) is preselected, and the clearly-labelled primary
+  // action below is what actually starts the session (POLISH-005).
+  const countOpts = practiceCountOptions(pool.length);
+  const selectedOpt = countOpts.find((o) => o.count === state.practiceSetupCount)
+    || countOpts.find((o) => o.count === 10)
+    || countOpts[0];
+  const startLabel = selectedOpt && selectedOpt.label === 'All'
+    ? `Start practice · all ${selectedOpt.count} card${selectedOpt.count === 1 ? '' : 's'}`
+    : selectedOpt ? `Start ${selectedOpt.count}-card practice` : '';
   const lengthControl = pool.length === 0
     ? emptyStateHtml({ icon: 'target', title: `No ${kindLabel} cards yet`, note: escBidi(emptyText) })
     : `
       <div class="setup-group">
         <div class="kicker">Session length</div>
-        <div class="practice-tabs practice-tabs-sub">
-          ${practiceCountOptions(pool.length).map((o) => `<button class="practice-tab" data-action="startPractice" data-kind="${kind}" data-count="${o.count}">${o.label}</button>`).join('')}
+        <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Session length">
+          ${countOpts.map((o) => `<button class="practice-tab${o.count === selectedOpt.count ? ' active' : ''}" data-action="setPracticeCount" data-count="${o.count}" aria-pressed="${o.count === selectedOpt.count}">${o.label}</button>`).join('')}
         </div>
+        <button class="btn btn-primary btn-block practice-start-btn" data-action="startPractice" data-kind="${kind}" data-count="${selectedOpt.count}">${startLabel}</button>
       </div>`;
 
   const vocabControl = kind === 'vocab' && pool.length ? `
@@ -2567,6 +2655,22 @@ function practiceHtml(state, MODULES) {
           <span title="Session XP">${icon('star', 13, 2)}${p.xpGained || 0}</span>
         </div>`;
 
+  // Ending with questions still unanswered is easy to hit by accident, so
+  // it asks first, inline -- and the action is labelled for what it really
+  // does ("Finish early") while answers remain. After the final answer no
+  // confirmation appears (POLISH-007).
+  const answered = p.log.length;
+  const remaining = p.queue.length - answered;
+  const endControl = p.endConfirm && remaining > 0 ? `
+        <div class="practice-end-confirm" role="alertdialog" aria-labelledby="practice-end-confirm-q">
+          <span class="practice-end-confirm-q" id="practice-end-confirm-q">Finish with ${remaining} question${remaining === 1 ? '' : 's'} remaining?</span>
+          <div class="practice-end-confirm-actions">
+            <button class="btn btn-secondary" data-action="cancelEndPracticeSession">Keep practising</button>
+            <button class="btn btn-ghost" data-action="confirmEndPracticeSession">Finish</button>
+          </div>
+        </div>`
+    : `<button class="btn btn-ghost btn-block" data-action="endPracticeSession">${answered > 0 && remaining > 0 ? 'Finish early' : 'End session'}</button>`;
+
   // Which widget to render is decided per-QUESTION (entry.item.kind), not
   // per-session (p.kind) -- a My Path revision node mixes mcq/vocab items
   // with تركيب ones in the same queue, so p.kind (e.g. 'revision') doesn't
@@ -2590,7 +2694,7 @@ function practiceHtml(state, MODULES) {
           ${body}
         </div>
         <div class="quiz-foot">
-          <button class="btn btn-ghost btn-block" data-action="endPracticeSession">End session</button>
+          ${endControl}
         </div>
       </div>`;
   }
@@ -2605,7 +2709,7 @@ function practiceHtml(state, MODULES) {
   // selectPracticeOption in main.js).
   const feedback = p.submitted ? `
     <div class="quiz-feedback${p.correct ? '' : ' quiz-feedback-incorrect'}">
-      <div class="quiz-feedback-line">${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</div>
+      <div class="quiz-feedback-line">${verdictIcon(p.correct)}<span>${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</span></div>
       ${entry.item.explanation ? `<p class="quiz-feedback-explanation">${escBidi(entry.item.explanation)}</p>` : ''}
     </div>` : '';
 
@@ -2623,7 +2727,7 @@ function practiceHtml(state, MODULES) {
       </div>
       <div class="quiz-foot">
         <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See results' : 'Next question'}</button>
-        <button class="btn btn-ghost btn-block" style="margin-top:8px;" data-action="endPracticeSession">End session</button>
+        ${endControl}
       </div>
     </div>`;
 }
@@ -2701,11 +2805,18 @@ function practiceReviewHtml(state, MODULES) {
       <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="openPractice">Practice again</button>
       <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to lessons</button>`;
 
+  // A session ended before its queue ran out must not be labelled
+  // "complete" -- the plate says how much of the planned session was
+  // actually answered (POLISH-007).
+  const planned = p.queue.length;
+  const endedEarly = total < planned;
   const kicker = pathNode
     ? `${p.mastery ? 'Mastery · ' : ''}${pathPassed ? 'Passed' : `Need ${Math.round(pathPassRatio * 100)}%`}`
     : isUnlockTest
       ? (unlockPassed ? 'Unlocked' : `Need ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
-      : `Session complete${p.kind ? ` · ${esc(String(p.kind).toUpperCase())}` : ''}`;
+      : endedEarly
+        ? `Session ended early · ${total} of ${planned} answered`
+        : `Session complete${p.kind ? ` · ${esc(String(p.kind).toUpperCase())}` : ''}`;
 
   return `
     <div class="complete-page">
@@ -2736,7 +2847,7 @@ function practiceReviewHtml(state, MODULES) {
           <div class="kicker">Worth another look</div>
           <div class="review-list">${missedRows}</div>` : ''}
         <div class="section-head section-head-sub">
-          <h3 class="section-head-title">All ${total} card${total === 1 ? '' : 's'}</h3>
+          <h3 class="section-head-title">${endedEarly ? `Answered ${total} of ${planned} card${planned === 1 ? '' : 's'}` : `All ${total} card${total === 1 ? '' : 's'}`}</h3>
           <span class="section-head-meta">In the order you answered</span>
         </div>
         <div class="review-log">${rows}</div>
@@ -2940,7 +3051,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
           : `Planning ${escAttr(activeCourse ? activeCourse.name : '')} — switch course`}"
         aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
         <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
-        <span aria-hidden="true">▾</span>
+        <span class="caret" aria-hidden="true">▾</span>
       </button>
       ${state.courseMenuOpen ? courseMenuHtml(state, 'chooseScheduleCourse') : ''}
     </span>`;
@@ -2966,7 +3077,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
           <button type="button" class="plan-input reset-hour-trigger${deadline ? '' : ' is-empty'}" data-action="toggleDeadlinePicker"
             aria-haspopup="dialog" aria-expanded="${state.deadlinePickerOpen ? 'true' : 'false'}" aria-labelledby="schedule-deadline-label">
             <span>${deadline ? esc(formatDeadlineDate(deadline)) : 'Not set'}</span>
-            <span aria-hidden="true">▾</span>
+            <span class="caret" aria-hidden="true">▾</span>
           </button>
           ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
         </div>
@@ -2978,7 +3089,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
           <button type="button" class="plan-input reset-hour-trigger" data-action="toggleResetHourMenu"
             aria-haspopup="listbox" aria-expanded="${state.resetHourMenuOpen ? 'true' : 'false'}" aria-labelledby="schedule-reset-hour-label">
             <span>${formatResetHour(resetHour)}</span>
-            <span aria-hidden="true">▾</span>
+            <span class="caret" aria-hidden="true">▾</span>
           </button>
           ${state.resetHourMenuOpen ? resetHourMenuHtml(resetHour) : ''}
         </div>
@@ -4303,7 +4414,7 @@ function accountHtml(state) {
             const tier = [...LEVEL_TIERS].reverse().find((t) => li.level >= t.level);
             return tier ? ` · ${tier.name}` : '';
           })()}</div>
-          <div class="account-email">${signedIn ? esc(account.user.email) : 'Not signed in — progress is saved on this device'}</div>
+          <div class="account-email${signedIn ? '' : ' account-email-status'}">${signedIn ? esc(account.user.email) : 'Saved on this device · Not signed in'}</div>
         </div>
       </div>
       <div class="account-xp-track" aria-hidden="true"><span class="account-xp-fill" style="width:${pct}%"></span></div>
@@ -4678,12 +4789,14 @@ function libraryHtml(state) {
   const query = normalizeLitSearchText(rawQuery);
   const searchTools = `
     <div class="lit-search-wrap">
+      <span class="lit-search-icon" aria-hidden="true">${icon('search', 15, 2)}</span>
       <input id="lit-search-input" class="home-search lit-search" type="search" data-action="searchLibrary"
         placeholder="Search books and chapters…" value="${escAttr(state.litSearchQuery || '')}"
         autocomplete="off" aria-label="Search the Library's books and chapters">
       ${rawQuery ? `
         <button class="lit-search-clear" type="button" data-action="clearLibrarySearch"
-          aria-label="Clear library search" title="Clear library search">${icon('cross', 14, 2)}</button>` : ''}
+          aria-label="Clear library search" title="Clear library search">${icon('cross', 14, 2)}</button>`
+    : '<kbd class="lit-search-kbd only-desktop" aria-hidden="true">/</kbd>'}
     </div>`;
 
   // One shelf per series: its Arabic heading, a hairline out to the count,
@@ -4798,13 +4911,17 @@ function litChapterRowHtml(state, book, chapter, index, isCurrent = false) {
       : `<span class="lit-chapter-num">${icon('lock', 11, 2)}</span>`;
 
   // The chapter in hand says what continuing actually means; the rest stay
-  // quiet with just their blurb.
+  // quiet with just their blurb. A chapter whose graded pass is still gated
+  // says exactly which half is locked (POLISH-009): reading is always open,
+  // so the row stays live and opens the same Free read / Practice dialog --
+  // with Practice disabled there.
   const cta = isCurrent ? `
-    <span class="lit-chapter-cta">${started ? 'Continue' : 'Start'}${pages ? ` · ${esc(pages)}` : ''}, then the drills${icon('chevronRight', 13, 2)}</span>` : '';
+    <span class="lit-chapter-cta">${started ? 'Continue' : 'Start'}${pages ? ` · ${esc(pages)}` : ''}, then the drills${icon('chevronRight', 13, 2)}</span>`
+    : !unlocked ? '<span class="lit-chapter-state">Free read available · progression locked</span>' : '';
 
   return `
     <button class="${cls}"
-      ${unlocked ? `data-action="openLitChapterPreview" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}"` : 'disabled'}>
+      data-action="openLitChapterPreview" data-book-id="${escAttr(book.id)}" data-chapter-id="${escAttr(chapter.id)}">
       ${ring}
       <span class="lit-chapter-body">
         <span class="lit-chapter-title" lang="ar" dir="rtl">${esc(chapter.title.ar)}</span>
@@ -4828,6 +4945,7 @@ function litChapterPreviewHtml(state) {
   const idx = book ? book.chapters.findIndex((c) => c.id === state.litChapterPreviewId) : -1;
   if (!book || idx < 0) return '';
   const chapter = book.chapters[idx];
+  const unlocked = isChapterUnlocked(book, idx, state.litProgress, state.forceUnlockAll);
   const done = isChapterDone(state.litProgress, book.id, chapter.id);
   const rec = chapterRecord(state.litProgress, book.id, chapter.id);
   // rec.para only, deliberately -- this labels the Practice button
@@ -4860,11 +4978,12 @@ function litChapterPreviewHtml(state) {
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
+        ${unlocked ? '' : `<p class="modal-note">${icon('lock', 12, 2)} Free read available · progression locked — finish the previous chapter to unlock Practice.</p>`}
         ${statusHtml}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="cancelLitChapterPreview">Cancel</button>
-          <button class="btn btn-secondary" data-action="startLitFreeRead" ${loading ? 'disabled' : ''}>Free read</button>
-          <button class="btn btn-primary" data-action="startLitPractice" ${loading ? 'disabled' : ''}>${practiceLabel}</button>
+          <button class="btn ${unlocked ? 'btn-secondary' : 'btn-primary'}" data-action="startLitFreeRead" ${loading ? 'disabled' : ''}>Free read</button>
+          <button class="btn btn-primary" data-action="startLitPractice" ${loading || !unlocked ? 'disabled' : ''}>${practiceLabel}</button>
         </div>
       </div>
     </div>`;
@@ -4918,7 +5037,7 @@ function litBookHtml(state) {
         ${icon('archive', 17, 1.8)}
         <span class="entry-row-body">
           <span class="entry-row-title">Practice weak words</span>
-          <span class="entry-row-meta">${weakCount ? `${weakCount} marked across this book` : 'Nothing marked yet — tap a word twice while reading'}</span>
+          <span class="entry-row-meta">${weakCount ? `${weakCount} marked across this book` : 'Nothing marked yet — while reading, tap a word and choose Mark for practice'}</span>
         </span>
         <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
       </button>
@@ -4928,8 +5047,13 @@ function litBookHtml(state) {
           <span class="lesson-section-title">Contents</span>
           ${pageRange ? `<span class="lesson-section-note">${esc(pageRange)}</span>` : ''}
         </div>
-        <div class="lit-chapter-list">${book.chapters.map((c, i) => litChapterRowHtml(state, book, c, i, i === current)).join('')}</div>
-        <p class="lit-contents-note">Chapters unlock in order — finish one to open the next.</p>
+        <!-- On desktop this is the page's own scroller (same split as the
+             module page): back row, cover, weak-words row and the Contents
+             head hold still; only the chapter list below the rule scrolls. -->
+        <div class="lit-chapter-scroll">
+          <div class="lit-chapter-list">${book.chapters.map((c, i) => litChapterRowHtml(state, book, c, i, i === current)).join('')}</div>
+          <p class="lit-contents-note">Every chapter is open — free-read anywhere, or follow the highlighted chapter to keep the practice path in order.</p>
+        </div>
       </div>
     </div>`;
 }
@@ -5037,10 +5161,8 @@ function litChecksHtml(state, para, pi) {
     <section class="lit-checks">
       <div class="lit-checks-head">
         <span class="card-kicker">On this paragraph</span>
-        <div class="lit-checks-head-right">
-          ${translated ? litCheckLangToggleHtml(state) : ''}
-          <span class="lit-checks-count">${answered} / ${para.checks.length}</span>
-        </div>
+        <span class="lit-checks-count">${answered} / ${para.checks.length}</span>
+        ${translated ? `<div class="lit-checks-head-right">${litCheckLangToggleHtml(state)}</div>` : ''}
       </div>
       ${para.checks.map((c, ci) => {
         const rec = state.lit.checks[`${pi}:${ci}`];
@@ -5069,15 +5191,10 @@ function litChecksHtml(state, para, pi) {
 // path to marking, double-click being only the fast path.
 function litWordDockHtml(state, chapter) {
   const w = state.lit.word;
-  if (!w) {
-    return `
-      <div class="lit-word-dock is-empty">
-        <span class="lit-word-dock-hint">Tap a word for its meaning and form — twice to mark it as one to work on. The small ${icon('book', 10, 2)} at a phrase's end shows its English.</span>
-      </div>`;
-  }
+  if (!w) return '';
   const sentence = chapterSentences(chapter).find((s) => s.id === w.s);
   const token = sentence && sentence.tokens[w.t];
-  if (!token) return '<div class="lit-word-dock is-empty"><span class="lit-word-dock-hint">That word is no longer on the page.</span></div>';
+  if (!token) return '';
   const unknown = isUnknownLemma(state.litUnknown, state.lit.bookId, token.lemma);
   const entry = (chapter.lemmas || {})[token.lemma] || {};
   // A particle's `features` is often just its word class again (مع is a
@@ -5098,9 +5215,10 @@ function litWordDockHtml(state, chapter) {
     <div class="lit-word-dock"${entry.book_note ? ` title="${escAttr(entry.book_note)}"` : ''}>
       <div class="lit-word-dock-head">
         <bdi class="lit-word-dock-surface" lang="ar">${esc(token.surface)}</bdi>
-        <button class="btn btn-sm ${unknown ? 'btn-primary' : 'btn-secondary'} lit-word-dock-mark" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}">
-          ${unknown ? 'Marked — undo' : "I don't know this"}
+        <button class="btn btn-sm ${unknown ? 'btn-primary' : 'btn-secondary'} lit-word-dock-mark" data-action="litToggleUnknown" data-lemma="${escAttr(token.lemma)}" aria-pressed="${unknown ? 'true' : 'false'}">
+          ${icon('star', 12, 2)}${unknown ? 'Marked for practice · Undo' : 'Mark for practice'}
         </button>
+        <button class="lit-word-dock-close" data-action="litCloseWord" data-s="${escAttr(w.s)}" data-t="${w.t}" aria-label="Close word details" title="Close">${icon('cross', 14, 2)}</button>
       </div>
       <dl class="lit-word-table">
         ${items.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}
@@ -5211,7 +5329,7 @@ function litWorkshopHtml(state, chapter) {
       })}
       ${submitted ? `
         <div class="quiz-feedback${correct ? '' : ' quiz-feedback-incorrect'}">
-          <div class="quiz-feedback-line">${correct ? 'Correct.' : `Not quite — it is ${escBidi(item.options[item.answer])}.`}</div>
+          <div class="quiz-feedback-line">${verdictIcon(correct)}<span>${correct ? 'Correct.' : `Not quite — it is ${escBidi(item.options[item.answer])}.`}</span></div>
           ${rationale ? `<p class="quiz-feedback-explanation">${escBidi(rationale)}</p>` : ''}
           ${!correct && (item.rationales || [])[item.answer] ? `<p class="quiz-feedback-explanation">${escBidi(item.rationales[item.answer])}</p>` : ''}
         </div>` : ''}
@@ -5264,7 +5382,7 @@ function litBuildHtml(state, chapter) {
       })}
       ${submitted ? `
         <div class="quiz-feedback${correct ? '' : ' quiz-feedback-incorrect'}">
-          <div class="quiz-feedback-line">${correct ? 'Correct.' : 'Not quite.'}</div>
+          <div class="quiz-feedback-line">${verdictIcon(correct)}<span>${correct ? 'Correct.' : 'Not quite.'}</span></div>
           ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
           ${wrongNote ? `<p class="quiz-feedback-explanation">${escBidi(wrongNote)}</p>` : ''}
         </div>` : ''}
@@ -5349,11 +5467,12 @@ function litPagerHtml(state, chapter) {
 
 function litReadStageHtml(state, chapter) {
   const lit = state.lit;
-  // The reading interactions are introduced by the dock's own empty state
-  // (always in view in the sticky strip) -- the separate phone intro
-  // paragraph doubled that guidance and cost a full band of space.
-  return `<div class="lit-topbar">${litWordDockHtml(state, chapter)}</div>
-    ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
+  // No hint strip: the page opens straight onto the prose (user request --
+  // the old sticky how-to line cost a full band of reading space). The
+  // selected word's details live in the desktop margin rail, or in a
+  // compact bottom-anchored card on phones (see litReadHtml) -- either way
+  // the reading surface never moves while inspecting word after word.
+  return `${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
     ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
 }
 
@@ -5393,7 +5512,8 @@ function litReadHtml(state) {
       <div class="lit-reader-body">
         <div class="lit-page">${stageBody}</div>
         ${lit.stage === 'read' ? `
-        <aside class="lit-aside" aria-label="Marked words">
+        <aside class="lit-aside" aria-label="Word details and marked words">
+          ${litWordDockHtml(state, chapter)}
           ${litUnknownListHtml(state, chapter)}
         </aside>` : ''}
       </div>
@@ -5437,7 +5557,7 @@ function litWordPracticeDrillHtml(p, item) {
         disabled: submitted,
       })}
       ${submitted ? `
-        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${correct ? 'Correct.' : 'Not quite.'}</div>
+        <div class="quiz-feedback-line ${correct ? 'correct' : 'incorrect'}">${verdictIcon(correct)}<span>${correct ? 'Correct.' : 'Not quite.'}</span></div>
         ${correct ? '' : `<p class="lit-answer" lang="ar" dir="rtl">${esc(item.ar)}</p>`}
         ${wrongNote ? `<div class="quiz-feedback-explanation">${escBidi(wrongNote)}</div>` : ''}` : ''}
       <div class="action-row">

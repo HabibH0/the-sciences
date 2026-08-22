@@ -90,7 +90,7 @@ function cssEsc(value) {
 // on the compositor. Margins ride along -- .practice-popout carries its own
 // margin-top, and a collapse that left the margin standing would end on a
 // 12px hole that then snaps shut.
-function animateHeight(el, { collapse = false } = {}) {
+function animateHeight(el, { collapse = false, duration: durationOverride } = {}) {
   if (!el || prefersReducedMotion() || typeof el.animate !== 'function') return 0;
   const height = el.offsetHeight;
   if (!height) return 0; // hidden at this breakpoint (e.g. the inline copy on desktop)
@@ -102,7 +102,7 @@ function animateHeight(el, { collapse = false } = {}) {
     opacity: 1,
   };
   const flat = { height: '0px', marginTop: '0px', marginBottom: '0px', opacity: 0 };
-  const duration = collapse ? DUR.exit : DUR.expand;
+  const duration = durationOverride ?? (collapse ? DUR.exit : DUR.expand);
   const prevOverflow = el.style.overflow;
   el.style.overflow = 'hidden';
   const anim = el.animate(collapse ? [grown, flat] : [flat, grown], {
@@ -113,13 +113,21 @@ function animateHeight(el, { collapse = false } = {}) {
   if (collapse) {
     el.style.pointerEvents = 'none';
   } else {
-    anim.onfinish = () => { el.style.overflow = prevOverflow; };
+    // The surface's children ride in a beat behind the container (the CSS
+    // half is .anim-expand-content in the Motion layer), and nothing inside
+    // is clickable until the panel has physically arrived (MOTION-001).
+    el.classList.add('anim-expand-content');
+    el.style.pointerEvents = 'none';
+    anim.onfinish = () => {
+      el.style.overflow = prevOverflow;
+      el.style.pointerEvents = '';
+    };
   }
   return duration;
 }
 
-export function expandIn(el) {
-  animateHeight(el);
+export function expandIn(el, opts) {
+  animateHeight(el, opts);
 }
 
 // --- overlay presence diff -------------------------------------------------
@@ -132,13 +140,26 @@ const OVERLAYS = [
   { sel: '.unlock-modal-backdrop', cls: 'anim-overlay-in' },
   { sel: '.course-menu', cls: 'anim-drop-in' },
   { sel: '.sections-menu', cls: 'anim-drop-in' },
-  { sel: '.lesson-search-results', cls: 'anim-drop-in' },
+  // Search results arrive/depart as one quiet group (MOTION-008): a short
+  // rise when filtering begins, and the module list (or the Library's
+  // chapter-hit block) gets the same treatment when it returns -- presence-
+  // diffed, so per-keystroke rerenders while results stay on screen never
+  // replay it.
+  { sel: '.lesson-search-results', cls: 'anim-search-in' },
+  { sel: '.module-list', cls: 'anim-search-in' },
+  { sel: '.lit-search-chapters', cls: 'anim-search-in' },
   // The practice setup panel opens IN document flow (it pushes the lesson
   // list down on phones), so it expands to its measured height rather than
-  // rising over a layout that already jumped -- see animateHeight.
-  { sel: '.practice-popout', expand: true },
+  // rising over a layout that already jumped -- see animateHeight. Its own
+  // entrance runs a beat quicker than the generic disclosure (MOTION-001:
+  // the whole entrance stays under 180ms for a ~426px panel).
+  { sel: '.practice-popout', expand: true, dur: 170 },
   { sel: '.deadline-picker', cls: 'anim-drop-in' },
   { sel: '.reset-hour-menu', cls: 'anim-drop-in' },
+  // The reader's word card drops down on its FIRST appearance only --
+  // switching from word to word keeps it on screen, so the presence diff
+  // sees no change and the card just updates in place.
+  { sel: '.lit-aside .lit-word-dock', cls: 'anim-drop-in' },
   { sel: '.xp-toast', cls: 'anim-toast-in' },
   // The verdict/explanation block that appears under a just-answered
   // question -- presence-diffed rather than action-mapped because many
@@ -160,6 +181,11 @@ const INDICATORS = [
   { sel: '.app-tabs .app-tab-active', key: () => 'top-tabs' },
   { sel: '.app-tabbar .app-tabbar-item-active', key: () => 'tab-bar' },
   { sel: '.practice-tabs .practice-tab.active', key: (el) => `seg:${el.dataset.action || ''}` },
+  // The reader head's progress fill slides between its old and new width on
+  // a paragraph turn (user request) instead of snapping -- same FLIP: the
+  // fresh fill starts scaled to the outgoing width and eases home, in both
+  // directions.
+  { sel: '.lit-reader-head .progress-bar-fill', key: () => 'lit-progress' },
 ];
 
 function measureIndicators(root) {
@@ -267,7 +293,7 @@ export function applyRenderMotion(root, snap, changedScreen, nav) {
       if (root.querySelector('.complete-page')) runCountUps(root);
     }
   }
-  for (const { sel, cls, expand } of OVERLAYS) {
+  for (const { sel, cls, expand, dur } of OVERLAYS) {
     if (snap.overlays.has(sel)) continue;
     // Every match, not just the first: the practice setup panel is rendered
     // twice (inline for phones, in the rail for desktop -- CSS shows one per
@@ -280,7 +306,7 @@ export function applyRenderMotion(root, snap, changedScreen, nav) {
       // that is simply part of the arriving page (e.g. a practice question's
       // feedback block right after a page turn). Screen entrance wins.
       if (enterScreen && el.closest('.main')) continue;
-      if (expand) expandIn(el); // measures 0 on the breakpoint-hidden copy and skips itself
+      if (expand) expandIn(el, dur ? { duration: dur } : undefined); // measures 0 on the breakpoint-hidden copy and skips itself
       else el.classList.add(cls);
     }
   }
@@ -311,6 +337,15 @@ const MODAL_DISMISS = new Set([
 // toggle-closed half only: pressing the Practice Mode row while its panel
 // is open closes that panel, and the presence check already tells the two
 // halves apart exactly as it does for the toggle* actions.
+// On hover-capable devices with the hover-translate aid on, hovering has
+// already revealed the gloss before any click lands -- animating the pin
+// on top of that would flicker. Everywhere else (touch, or the aid off)
+// the pin IS the only reveal, so it earns the slide.
+function glossNeedsMotion(root) {
+  const hoverCapable = typeof matchMedia === 'function' && matchMedia('(hover: hover)').matches;
+  return !hoverCapable || !!root.querySelector('.lit-reader.no-hover-translate');
+}
+
 const POP_DISMISS = {
   toggleCourseMenu: { sel: '.course-menu' },
   toggleSectionsMenu: { sel: '.sections-menu' },
@@ -318,10 +353,26 @@ const POP_DISMISS = {
   toggleResetHourMenu: { sel: '.reset-hour-menu' },
   closePracticeSetup: { sel: '.practice-popout', collapse: true },
   openPractice: { sel: '.practice-popout', collapse: true },
+  // Unpinning a phrase translation slides it back up -- the same collapse
+  // the hover reveal plays in reverse (user request). The presence check
+  // tells the closing half from the opening one exactly as the toggles
+  // above do; `when` stands the motion down where hover already showed it.
+  litToggleGloss: { sel: '.lit-sentence.is-open .lit-gloss', collapse: true, when: glossNeedsMotion },
 };
 
 const MODAL_EXIT_MS = DUR.exit;
 const POP_EXIT_MS = DUR.pop;
+
+// The Schedule pickers become bottom-attached sheets on phones (MOTION-003,
+// styles.css's 640px block) -- their exit travels back to the bottom edge
+// over 140ms there, a beat longer than a desktop popover's fade.
+const SHEET_SELS = new Set(['.deadline-picker', '.reset-hour-menu']);
+const SHEET_EXIT_MS = 140;
+function popExitMs(sel) {
+  return SHEET_SELS.has(sel) && typeof matchMedia === 'function' && matchMedia('(max-width: 640px)').matches
+    ? SHEET_EXIT_MS
+    : POP_EXIT_MS;
+}
 
 // The copy of a twice-rendered element (see the practice panel note above)
 // that the current breakpoint actually shows.
@@ -340,11 +391,12 @@ export function dismissDelay(root, actionName) {
   }
   const entry = POP_DISMISS[actionName];
   if (entry) {
+    if (entry.when && !entry.when(root)) return 0;
     const pop = visibleMatch(root, entry.sel);
     if (!pop) return 0;
     if (entry.collapse) return animateHeight(pop, { collapse: true });
     pop.classList.add('anim-drop-out');
-    return POP_EXIT_MS;
+    return popExitMs(entry.sel);
   }
   return 0;
 }
@@ -358,7 +410,7 @@ export function dismissOpenPopover(root, sel = '.course-menu') {
   const menu = root.querySelector(sel);
   if (!menu) return 0;
   menu.classList.add('anim-drop-out');
-  return POP_EXIT_MS;
+  return popExitMs(sel);
 }
 
 // Escape closes whichever modal is open without going through an action --
@@ -544,12 +596,44 @@ const ACTION_FX = {
   litBuildNext: (root) => mark(root.querySelector('.lit-slot-card'), 'anim-step-in'),
   litWordPracticeNext: (root) => mark(root.querySelector('.lit-slot-card'), 'anim-step-in'),
   litNextParagraph: (root) => mark(root.querySelector('.lit-para:last-of-type'), 'anim-rise-in'),
+  // Back gets the same paragraph entrance as forward (user request).
+  litPrevParagraph: (root) => mark(root.querySelector('.lit-para:last-of-type'), 'anim-rise-in'),
 
   // A newly revealed section: an in-flow disclosure, so it expands to its
   // measured height (moving the footer with it) rather than popping into
   // space the layout already allocated (audit MOT-004).
   revealExercise(root, el) {
     expandIn(root.querySelector(`[data-concept-index="${cssEsc(el.dataset.index)}"] .exercise-card`));
+  },
+
+  // The module hero's description expander (MOTION-002): the freshly
+  // rendered blurb is already in its NEW state, so the OLD state's height
+  // is reconstructed from a hidden clone (the same trick
+  // updateCoverBlurbToggle in js/main.js uses to measure the clamp) and the
+  // height eases between the two -- opening a touch slower than closing.
+  // The hero's title above holds still; only the blurb's box moves.
+  toggleCoverBlurb(root) {
+    if (prefersReducedMotion()) return;
+    const blurb = root.querySelector('.cover-blurb');
+    if (!blurb || typeof blurb.animate !== 'function' || !blurb.offsetParent) return;
+    const open = blurb.classList.contains('is-open');
+    const clone = blurb.cloneNode(true);
+    clone.classList.toggle('is-open', !open);
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.width = `${blurb.clientWidth}px`;
+    blurb.parentNode.appendChild(clone);
+    const fromH = clone.offsetHeight;
+    clone.remove();
+    const toH = blurb.offsetHeight;
+    if (!toH || Math.abs(fromH - toH) < 2) return;
+    const prevOverflow = blurb.style.overflow;
+    blurb.style.overflow = 'hidden';
+    const anim = blurb.animate(
+      [{ height: `${fromH}px` }, { height: `${toH}px` }],
+      { duration: open ? 160 : 130, easing: EASE_OUT },
+    );
+    anim.onfinish = () => { blurb.style.overflow = prevOverflow; };
   },
 
   // The course just switched (audit MOT-002): the chooser closed the moment
@@ -568,6 +652,7 @@ const ACTION_FX = {
   pickHeadingFace: settleSelf,
   setPracticeTab: settleSelf,
   setPracticeVocabType: settleSelf,
+  setPracticeCount: settleSelf,
   setScheduleRevisionKind: settleSelf,
   setScheduleRevisionMode: settleSelf,
   setScheduleRevisionModule: settleSelf,
@@ -589,8 +674,28 @@ const ACTION_FX = {
   litBuildSlot: fillSelf,
   litWorkshopSlot: fillSelf,
 
-  // The reader's margin word card just swapped to the clicked word.
-  litWord: (root) => mark(root.querySelector('.lit-word-card:not(.is-empty)'), 'anim-select'),
+  // The reader's word card entrance is presence-diffed (see OVERLAYS);
+  // in-place word switches deliberately get no replay, so no litWord entry
+  // here.
+
+  // Pinning a phrase translation slides it down exactly like the hover
+  // reveal does (user request) -- the freshly-rendered gloss is born open,
+  // so it grows to its measured height. Only where hover has not already
+  // revealed it (see glossNeedsMotion); the unpin half is the matching
+  // collapse in POP_DISMISS.
+  litToggleGloss(root) {
+    if (!glossNeedsMotion(root)) return;
+    expandIn(root.querySelector('.lit-sentence.is-open .lit-gloss'));
+  },
+
+  // "Set a target date" hands off INTO the open picker (POLISH-004): the
+  // Plan block is brought into comfortable view in the same frame the
+  // screen arrives, so the Schedule heading stays above it for context and
+  // the freshly-focused date grid is never below the fold.
+  openScheduleTargetDate(root) {
+    const plan = root.querySelector('.deadline-picker-wrap');
+    if (plan) plan.scrollIntoView({ block: 'center', behavior: 'auto' });
+  },
 
   // The plan that was just rewritten: flash the figures it changed.
   pickScheduleDeadline: (root) => mark(root.querySelector('.schedule-page .two-col-main'), 'anim-flash'),

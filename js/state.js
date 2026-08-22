@@ -139,6 +139,15 @@ export async function createInitialState() {
     // Transient: which tab ("mcq" | "tarkeeb" | "vocab") the Practice Mode
     // setup popout is showing. Not persisted -- always reopens on "mcq".
     practiceSetupKind: null,
+    // Transient: the session length picked in the Practice Mode setup
+    // popout. Picking a length only selects it -- the panel's Start button
+    // launches (POLISH-005). Not persisted; the panel defaults to 10 cards
+    // (or the whole pool when smaller) when unset.
+    practiceSetupCount: null,
+    // Transient, one render only (cleared at the end of every rerender):
+    // the module row Home should briefly flash because the learner just
+    // came back from it (MOTION-012).
+    returnFlashModuleId: null,
     // Transient: which of the three vocab question directions ("en-ar" |
     // "ar-en" | "form", see the vocabType tag on generated vocab bank items
     // in content-fstu/module-0N.js) the Vocab tab is showing -- picking one

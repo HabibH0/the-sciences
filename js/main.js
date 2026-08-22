@@ -384,6 +384,16 @@ const CONTAINER_SCROLL_TARGETS = [
   // stage; the deliberate page-turn scroll to the top still wins because
   // litNext/PrevParagraph scroll before the state change is applied.
   { selector: '.lit-reader-body', key: (s) => (s.lit ? `reader:${s.lit.bookId}:${s.lit.chapterId}:${s.lit.stage}` : 'reader') },
+  // The desktop module page's two independent columns (the lesson list
+  // under the pinned cover/Practice row, and the rail with the practice
+  // panel) -- each keyed per module, so a same-screen rerender (opening the
+  // practice popout, picking a length) and a later return trip both land
+  // where the learner left them.
+  { selector: '.lesson-scroll', key: (s) => `module-lessons:${s.moduleId || ''}` },
+  { selector: '.module-page > .module-rail', key: (s) => `module-rail:${s.moduleId || ''}` },
+  // The book page's chapter list, split the same way (desktop pins the
+  // cover and Contents head; the list scrolls on its own).
+  { selector: '.lit-chapter-scroll', key: (s) => `book-contents:${s.litBookId || ''}` },
 ];
 const containerScrollPositions = new Map();
 
@@ -678,16 +688,45 @@ function updateCoverBlurbToggle() {
 // Driven from scroll (capture: true, since scroll doesn't bubble and the
 // container is rebuilt every render) and re-checked after each rerender so
 // a restored scroll position starts in the right state.
-function updateContextBar() {
+// Whether each condensing bar was shown as of the last update -- survives
+// rerenders (the nodes themselves don't), so a rebuilt bar can tell "still
+// shown" apart from "newly shown".
+let contextBarShownPrev = false;
+let resumeStripShownPrev = false;
+
+function updateContextBar(freshDom = false) {
   const bar = root.querySelector('.context-bar');
-  if (!bar) return;
+  // Desktop Home: the hero now scrolls away with the page (POLISH-013) and
+  // this compact resume strip pins in its place -- same condensing pattern
+  // and the same scroll trigger as the phone context bar (MOTION-014).
+  const strip = root.querySelector('.home-resume-strip');
+  if (!bar && !strip) return;
   const container = mainScrollContainer();
   // Whichever identity block the screen leads with: Home has the ink hero
   // instead of a page header, and its phone context bar keys off that.
   const header = root.querySelector('.page-header, .home-hero');
   if (!container || !header) return;
   const containerTop = container.getBoundingClientRect().top;
-  bar.classList.toggle('is-shown', header.getBoundingClientRect().bottom < containerTop + 6);
+  const headerOut = header.getBoundingClientRect().bottom < containerTop + 6;
+  // A rerender rebuilds these bars from scratch, and the layout reads in
+  // rerender() force a style pass on the fresh node in its hidden resting
+  // state BEFORE is-shown lands -- so toggling it replayed the entrance
+  // transition on every same-screen update, visibly flashing the pinned
+  // header (user report: the Schedule title jittered on every picker
+  // open/close). When shown-ness has not actually changed since the last
+  // render, the entrance is suppressed for this one swap; genuine
+  // scroll-driven show/hide still animates.
+  const apply = (el, shownPrev) => {
+    if (!el) return shownPrev;
+    if (freshDom && headerOut && shownPrev) {
+      el.classList.add('context-instant');
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('context-instant')));
+    }
+    el.classList.toggle('is-shown', headerOut);
+    return headerOut;
+  };
+  contextBarShownPrev = apply(bar, contextBarShownPrev);
+  resumeStripShownPrev = apply(strip, resumeStripShownPrev);
 }
 
 document.addEventListener('scroll', (e) => {
@@ -886,7 +925,7 @@ function rerender(focusSelector) {
   positionSchedulePopovers();
   positionCourseMenu();
   updateCoverBlurbToggle();
-  updateContextBar();
+  updateContextBar(true);
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (conceptChanged) {
     // The concept the learner is now reading changed under a same-screen
@@ -921,6 +960,10 @@ function rerender(focusSelector) {
     if (main) main.focus({ preventScroll: true });
   }
   trackHistory();
+  // One-frame hint (MOTION-012): the returning-flash class was just painted
+  // (or wasn't needed); clearing here guarantees no later dashboard render
+  // replays it on a freshly-created row node.
+  state.returnFlashModuleId = null;
   if (!suppressPersist) persistSoon(state);
 }
 
@@ -1647,12 +1690,6 @@ async function activateCourse(id) {
 
 // --- Literature helpers ---------------------------------------------------
 
-// How close together two clicks on the same word have to be to read as a
-// double-click. Timed by hand rather than with a dblclick listener because
-// every click re-renders the whole page (root.innerHTML), so the two clicks
-// land on two different DOM nodes and the browser has no single element to
-// dispatch a dblclick on. Touch double-taps go through the same path.
-const LIT_DOUBLE_CLICK_MS = 450;
 // Awarded once, the first time a chapter is finished, plus a little per
 // correct answer along the way -- deliberately smaller than a lesson quiz:
 // reading is its own reward and shouldn't out-earn the courses.
@@ -1745,7 +1782,6 @@ function startLitSession(chapter, para, freeRead) {
     gloss: null,
     fullPara: null,
     word: null,
-    lastWordClick: null,
     workshop: [],
     wIndex: 0,
     wSelected: null,
@@ -1824,6 +1860,14 @@ async function launchLitChapter(mode) {
   const bookId = state.litBookId;
   const chapterId = state.litChapterPreviewId;
   if (!bookId || !chapterId) return false;
+  // Every chapter is freely readable; only the graded Practice pass gates on
+  // progression (POLISH-009). Its button renders disabled on a locked
+  // chapter -- this is the belt to that brace.
+  if (mode === 'practice') {
+    const book = getLitBook(bookId);
+    const idx = book ? book.chapters.findIndex((c) => c.id === chapterId) : -1;
+    if (idx >= 0 && !isChapterUnlocked(book, idx, state.litProgress, state.forceUnlockAll)) return false;
+  }
   if (state.litChapterLoad && state.litChapterLoad.status === 'loading') return false;
   state.litChapterLoad = { status: 'loading', mode };
   rerender();
@@ -1956,6 +2000,11 @@ function returnToValidLockedView() {
 const actions = {
   openDashboard() {
     if (guardSessionExit('openDashboard')) return;
+    // MOTION-012: coming back from a module briefly identifies the row you
+    // came from -- dashboardHtml gives that row a one-frame flash class,
+    // and rerender() clears the hint so no later dashboard render replays
+    // it. (Scroll restoration already brings the row into view.)
+    state.returnFlashModuleId = state.view === 'module' ? state.moduleId : null;
     state.view = 'dashboard';
     state.courseMenuOpen = false;
     state.moduleId = null;
@@ -2319,6 +2368,11 @@ const actions = {
   setPracticeVocabType(el) {
     state.practiceVocabType = el.dataset.vocabType;
   },
+  // Length is a selection, not a launch (POLISH-005) -- the Start button in
+  // the setup panel is what actually begins the session.
+  setPracticeCount(el) {
+    state.practiceSetupCount = +el.dataset.count;
+  },
   setPracticeTarkeebTranslation(el) {
     state.practiceTarkeebTranslations = el.dataset.show !== '0';
   },
@@ -2394,6 +2448,9 @@ const actions = {
     p.selected = selected;
     p.submitted = true;
     p.correct = pass;
+    // Answering while the finish-early confirm is up is a decision to keep
+    // practising -- the confirm folds away.
+    p.endConfirm = false;
     recordPracticeAnswer(key, entry.item.prompt, pass);
     if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
@@ -2421,6 +2478,7 @@ const actions = {
   nextPracticeQuestion() {
     const p = state.practice;
     if (!p) return false;
+    p.endConfirm = false;
 
     // Computed BEFORE advancing p.index, off the answer just given (p.log
     // already includes it) -- req: falling under the required percentage
@@ -2468,12 +2526,32 @@ const actions = {
   // it was launched from (the path map if pathActive, else the module page)
   // -- both mid-session (no answers yet) and after reviewing.
   endPracticeSession() {
-    if (state.practice && state.practice.log.length > 0) {
+    const p = state.practice;
+    if (!p) return false;
+    // Answers banked AND questions still unanswered: easy to hit by
+    // accident, so it asks first via the inline confirm the session foot
+    // renders (POLISH-007). With nothing answered yet there is nothing to
+    // lose; after the final answer there is nothing to protect.
+    if (p.log.length > 0 && p.log.length < p.queue.length) {
+      p.endConfirm = true;
+      return;
+    }
+    if (p.log.length > 0) {
       state.view = 'practiceReview';
     } else {
-      exitPracticeSession(state.practice);
+      exitPracticeSession(p);
       state.practice = null;
     }
+  },
+  cancelEndPracticeSession() {
+    if (!state.practice) return false;
+    state.practice.endConfirm = false;
+  },
+  confirmEndPracticeSession() {
+    const p = state.practice;
+    if (!p) return false;
+    p.endConfirm = false;
+    state.view = 'practiceReview';
   },
   closePracticeReview() {
     exitPracticeSession(state.practice);
@@ -2496,6 +2574,20 @@ const actions = {
     state.view = 'schedule';
     state.practice = null;
     state.pathActive = false;
+  },
+  // "Set a target date" finishes its own handoff (POLISH-004): it lands on
+  // Schedule with the Plan section scrolled into view and the date picker
+  // already open (the scroll and the focus land via ACTION_FX in
+  // js/motion.js and refocusSelector below), instead of leaving the learner
+  // to rediscover the control below the fold.
+  openScheduleTargetDate() {
+    if (guardSessionExit('openScheduleTargetDate')) return;
+    state.view = 'schedule';
+    state.practice = null;
+    state.pathActive = false;
+    state.deadlinePickerOpen = true;
+    state.deadlinePickerMonth = null;
+    state.resetHourMenuOpen = false;
   },
   openSettings() {
     if (guardSessionExit('openSettings')) return;
@@ -3662,40 +3754,29 @@ const actions = {
     if (!chapter) return false;
     startLitSession(chapter, 0, false);
   },
-  // A word carries two gestures, split by the double-click window:
-  //
-  //   tap        -> highlight it and show its form in the margin; tapping
-  //                 the same word again clears the highlight, so a word can
-  //                 always be put back the way it was found.
-  //   tap twice  -> mark it unknown (and leave it highlighted), the
-  //                 double-click gesture from before.
-  //
-  // See LIT_DOUBLE_CLICK_MS for why the double-click is timed by hand rather
-  // than listened for.
+  // A word carries exactly one gesture (POLISH-008): tap to highlight it
+  // and show its form in the dock; tapping the same word again clears the
+  // highlight, so a word can always be put back the way it was found.
+  // Marking a word for practice is the dock's own explicit, labelled action
+  // (litToggleUnknown) -- the old hidden tap-twice shortcut both fought
+  // rapid lookup and was undiscoverable, so it is gone.
   litWord(el) {
     const lit = state.lit;
     if (!lit) return false;
     const s = el.dataset.s;
     const t = +el.dataset.t;
-    const key = `${s}:${t}`;
-    const now = Date.now();
-    const prev = lit.lastWordClick;
-
-    if (prev && prev.key === key && now - prev.at < LIT_DOUBLE_CLICK_MS) {
-      lit.lastWordClick = null;
-      lit.word = { s, t };
-      const token = litToken(s, t);
-      if (token) toggleLitUnknown(token.lemma);
-      return;
-    }
-
     const alreadyOn = !!(lit.word && lit.word.s === s && lit.word.t === t);
     lit.word = alreadyOn ? null : { s, t };
-    lit.lastWordClick = { key, at: now };
   },
   litToggleUnknown(el) {
     if (!state.lit || !el.dataset.lemma) return false;
     toggleLitUnknown(el.dataset.lemma);
+  },
+  // The word card's own close control -- focus returns to the word it
+  // described (see refocusSelector).
+  litCloseWord() {
+    if (!state.lit) return false;
+    state.lit.word = null;
   },
   litToggleGloss(el) {
     const lit = state.lit;
@@ -3931,6 +4012,15 @@ function refocusSelector(el) {
   // screen reader announces the result, and the next Tab reaches Try
   // again / Next concept in order (audit MOT-006/UX-004).
   if (action === 'checkConceptExercise') return `[data-concept-index="${el.dataset.index}"] .exercise-feedback`;
+  // Opening the course chooser lands keyboard focus on the current course
+  // (POLISH-002); when the same trigger closes it, the default counterpart
+  // refocus below puts focus back on the trigger.
+  if (action === 'toggleCourseMenu' && state.courseMenuOpen) return '.course-menu-item.is-active';
+  // The target-date handoff (POLISH-004): focus enters the freshly-opened
+  // picker at the earliest selectable date (today, or the first valid day of
+  // the month on view). Past days render as <span>s, so the first button IS
+  // the earliest valid date.
+  if (action === 'openScheduleTargetDate') return '.deadline-picker button.deadline-day';
   // The chooser is long gone by the time the switched course's dashboard
   // renders (chooseCourse closes it in its first paint), so the menu item
   // pressed has no counterpart. The switch trigger is the control narrating
@@ -3954,6 +4044,9 @@ function refocusSelector(el) {
   // Reading is a long tab-through -- losing focus back to <body> on every
   // word or gloss would send a keyboard user to the top of the page.
   if (action === 'litWord') return `[data-action="litWord"][data-s="${el.dataset.s}"][data-t="${el.dataset.t}"]`;
+  // Closing the word card puts focus back on the word it described (its
+  // close button carries the word's own coordinates for exactly this).
+  if (action === 'litCloseWord') return `[data-action="litWord"][data-s="${el.dataset.s}"][data-t="${el.dataset.t}"]`;
   if (action === 'litToggleGloss') return `.lit-gloss-btn[data-s="${el.dataset.s}"]`;
   if (action === 'litBuildSlot') return `[data-action="litBuildSlot"][data-slot="${el.dataset.slot}"]`;
   if (action === 'litWorkshopSlot') return '[data-action="litWorkshopSlot"]';
@@ -4060,7 +4153,9 @@ document.addEventListener('click', (e) => {
 // so a click anywhere else must put them away.
 document.addEventListener('click', (e) => {
   if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
-  if (e.target.closest('.deadline-picker-wrap, .reset-hour-picker')) return;
+  // The deep-link CTA (POLISH-004) OPENS the picker on this very click --
+  // it must not read as a click "outside" the panel it just opened.
+  if (e.target.closest('.deadline-picker-wrap, .reset-hour-picker, [data-action="openScheduleTargetDate"]')) return;
   state.deadlinePickerOpen = false;
   state.resetHourMenuOpen = false;
   rerender();
@@ -4178,6 +4273,12 @@ document.addEventListener('keydown', (e) => {
     const hasMore = state.badgeQueue.length > 0;
     actions.closeBadgeModal();
     rerenderAfterModalExit(consumeModalTriggerSelector(), hasMore);
+  } else if (state.lit && state.lit.word) {
+    // The reader's word card closes on Escape like every other transient
+    // surface, with focus back on the word it described.
+    const w = state.lit.word;
+    state.lit.word = null;
+    rerender(`[data-action="litWord"][data-s="${w.s}"][data-t="${w.t}"]`);
   }
 });
 
@@ -4205,6 +4306,87 @@ document.addEventListener('keydown', (e) => {
   } else if (!e.shiftKey && document.activeElement === last) {
     e.preventDefault();
     first.focus();
+  }
+});
+
+// --- Desktop keyboard shortcuts (POLISH-015) -------------------------------
+// `/` focuses the page's search; 1-4 / A-D answer the question on screen;
+// Enter checks or advances when the primary action is ready; ←/→ page
+// between unlocked concepts. Everything stands down while typing in a
+// field or while a dialog is up, and every key routes through the exact
+// same [data-action] handlers a click would -- so validation, feedback and
+// disabled states cannot drift from the pointer path.
+function shortcutTypingContext(e) {
+  const t = e.target;
+  return !!(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable));
+}
+
+const SHORTCUT_CHECK_OR_ADVANCE = [
+  '[data-action="checkConceptExercise"]',
+  '[data-action="checkTarkeeb"]',
+  '[data-action="litWorkshopCheck"]',
+  '[data-action="litBuildCheck"]',
+  '[data-action="litWordPracticeCheck"]',
+  '[data-action="nextPracticeQuestion"]',
+  '[data-action="nextQuizQuestion"]',
+  '[data-action="nextConcept"]',
+  '[data-action="litNextParagraph"]',
+  '[data-action="litWorkshopNext"]',
+  '[data-action="litBuildNext"]',
+  '[data-action="litWordPracticeNext"]',
+].join(', ');
+
+document.addEventListener('keydown', (e) => {
+  if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (shortcutTypingContext(e)) return;
+  if (e.key === '/') {
+    const search = [...root.querySelectorAll('#lesson-search-input, #lit-search-input')].find((s) => s.offsetParent);
+    if (search) {
+      e.preventDefault();
+      search.focus();
+      search.select();
+    }
+    return;
+  }
+  if (root.querySelector('[role="dialog"]')) return;
+  const active = document.activeElement;
+  const onControl = !!(active && (active.tagName === 'BUTTON' || active.tagName === 'A'
+    || (active.closest && active.closest('[data-action]'))));
+  if (e.key === 'Enter') {
+    // A focused control already owns Enter natively -- never double-fire.
+    if (onControl) return;
+    const target = [...root.querySelectorAll(SHORTCUT_CHECK_OR_ADVANCE)]
+      .find((b) => b.offsetParent && !b.disabled);
+    if (target) {
+      e.preventDefault();
+      target.click();
+    }
+    return;
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (state.view !== 'lesson') return;
+    const target = root.querySelector(e.key === 'ArrowLeft'
+      ? '[data-action="prevConcept"]'
+      : '[data-action="nextConcept"]');
+    if (target && !target.disabled && target.offsetParent) {
+      e.preventDefault();
+      target.click();
+    }
+    return;
+  }
+  // Answer selection by displayed position: 1-4 or A-D land on the first
+  // still-answerable option group on screen.
+  let pos = null;
+  if (/^[1-9]$/.test(e.key)) pos = +e.key - 1;
+  else if (/^[a-dA-D]$/.test(e.key)) pos = e.key.toLowerCase().charCodeAt(0) - 97;
+  if (pos === null) return;
+  const group = [...root.querySelectorAll('.mcq-options, .exercise-choices')]
+    .find((g) => g.offsetParent && g.querySelector('button[data-option]:not([disabled])'));
+  if (!group) return;
+  const option = [...group.querySelectorAll('button[data-option]')][pos];
+  if (option && !option.disabled) {
+    e.preventDefault();
+    option.click();
   }
 });
 
