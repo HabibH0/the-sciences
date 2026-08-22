@@ -39,7 +39,7 @@ export const SECTIONS = [
 // inside a child page of a section, the parent navigation item should
 // usually remain visibly active").
 const LIT_VIEWS = new Set(['library', 'litBook', 'litRead', 'litWordPractice']);
-const ACCOUNT_VIEWS = new Set(['account', 'settings', 'achievements']);
+const ACCOUNT_VIEWS = new Set(['account', 'settings', 'learningAids', 'courseProgression', 'achievements']);
 const HOME_VIEWS = new Set(['dashboard', 'module', 'lesson', 'quiz', 'lessonComplete']);
 export const PATH_VIEWS = new Set(['pathGroups', 'path']);
 
@@ -170,6 +170,10 @@ export function crumbTrail(state) {
       return [account, { label: 'Achievements', current: true }];
     case 'settings':
       return [account, { label: 'Appearance', current: true }];
+    case 'learningAids':
+      return [account, { label: 'Learning aids', current: true }];
+    case 'courseProgression':
+      return [account, { label: 'Course progression', current: true }];
     case 'path': {
       const group = findPathGroup(state.pathGroupId);
       return [
@@ -255,6 +259,10 @@ export function hashForState(state) {
       return '#/account/achievements';
     case 'settings':
       return '#/account/appearance';
+    case 'learningAids':
+      return '#/account/learning-aids';
+    case 'courseProgression':
+      return '#/account/progression';
     case 'pathGroups':
       return '#/path';
     case 'path':
@@ -298,6 +306,8 @@ export function navFromHash(hash) {
     case 'account':
       if (parts[1] === 'achievements') return { view: 'achievements' };
       if (parts[1] === 'appearance') return { view: 'settings' };
+      if (parts[1] === 'learning-aids') return { view: 'learningAids' };
+      if (parts[1] === 'progression') return { view: 'courseProgression' };
       return { view: 'account' };
     case 'path': {
       if (!parts[1]) return { view: 'pathGroups', pathHome: true };

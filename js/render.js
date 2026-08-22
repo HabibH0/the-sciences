@@ -194,7 +194,7 @@ const SHELL_INNER_VIEWS = new Set(['path']);
 // The four tab destinations plus Account's two children -- the only screens
 // the phone's bottom tab bar appears on (inner screens and live sessions
 // navigate through their own heads instead).
-const SHELL_TAB_VIEWS = new Set(['dashboard', 'library', 'schedule', 'account', 'achievements', 'settings']);
+const SHELL_TAB_VIEWS = new Set(['dashboard', 'library', 'schedule', 'account', 'achievements', 'settings', 'learningAids', 'courseProgression']);
 const SHELL_SESSION_VIEWS = new Set(['practice', 'practiceReview', 'masteryV2Complete']);
 
 // `extra` comes off a nav.js trail entry as a plain object so nav.js can stay
@@ -2254,6 +2254,7 @@ function practiceSetupPanelHtml(state, mod) {
         <button class="practice-tab ${tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="1">Show</button>
         <button class="practice-tab ${!tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="0">Hide</button>
       </div>
+      <button class="text-link-btn practice-settings-link" data-action="openLearningAids">All Tarkeeb settings — translations and label colour</button>
     </div>` : '';
 
   return `
@@ -3651,11 +3652,6 @@ function settingsHtml(state) {
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
   const litTextScale = normalizeLitTextScale(state.litTextScale);
-  const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
-  const tarkeebLabelsBlueOn = state.tarkeebLabelsBlue === true;
-  const forceUnlockOn = state.forceUnlockAll === true;
-  const courseLocksOn = !forceUnlockOn;
-
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
     const selected = key === theme;
@@ -3723,51 +3719,13 @@ function settingsHtml(state) {
       <span class="specimen-word-label">${esc(w.label)}</span>
     </div>`).join('');
 
-  const tarkeebTranslationToggle = `
-    <button class="settings-toggle-row ${tarkeebTranslationsOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebTranslationsOn}" data-action="toggleTarkeebTranslations">
-      <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Translate Tarkeeb sentence</span>
-        <span class="settings-toggle-sub">Default for the small English line under Tarkeeb exercises.</span>
-      </span>
-      <span class="settings-toggle-pill">${tarkeebTranslationsOn ? `${icon('check', 11, 2.6)} Shown` : 'Hidden'}</span>
-    </button>`;
-
-  const tarkeebLabelColorToggle = `
-    <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
-      <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Colour Tarkeeb labels</span>
-        <span class="settings-toggle-sub">Introductory Nahw's diagram exercises show blue for primary sentence roles (فعل، فاعل، مبتدأ، خبر...) and green for secondary ones (نعت، مضاف، معطوف...); boxes and slots pick up the colour too. Advanced Nahw's labels turn blue.</span>
-      </span>
-      <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? `${icon('check', 11, 2.6)} Coloured` : 'Default'}</span>
-    </button>`;
-
-  const forceUnlockToggle = `
-    <button class="settings-toggle-row settings-toggle-warning ${courseLocksOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${courseLocksOn}" data-action="toggleCourseLocks">
-      <span class="settings-toggle-copy">
-        <span class="settings-toggle-title">Course locks</span>
-        <span class="settings-toggle-sub">${courseLocksOn
-          ? 'Lessons, modules, paths, vocab, Tarkeeb exercises, and quizzes unlock through normal progress.'
-          : 'Everything is open by default. Turn this on if you want the course to unlock step by step.'}</span>
-      </span>
-      <span class="settings-toggle-pill">${courseLocksOn ? `${icon('check', 11, 2.6)} On` : 'Off'}</span>
-    </button>`;
-
   return `
     <div class="settings-page">
       <div class="settings-col">
         ${navBackRowHtml(state)}
-        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand. Everything here is a preference — how the text is set, and how much of the course is open at once. None of it changes what is taught.' })}
+        ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand — paper, accent, typeface and text size. Everything here changes only how the page looks, in every course; learning aids and course progression have their own pages under Account.' })}
 
-        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
-        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
-        <div class="settings-toggle-stack">
-          ${tarkeebTranslationToggle}
-          ${tarkeebLabelColorToggle}
-        </div>
-
-        <hr class="settings-hr">
-
-        <h2 class="settings-group-title">Paper</h2>
+        <h2 class="settings-group-title" style="margin-top:26px">Paper</h2>
         <p class="settings-group-sub">Five grounds. The structure of the page does not change with them.</p>
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
 
@@ -3810,12 +3768,6 @@ function settingsHtml(state) {
         </div>
         <hr class="settings-hr">
 
-        <h2 class="settings-group-title">Course progress</h2>
-        <p class="settings-group-sub">The only setting here that is not about how the page looks.</p>
-        <div class="settings-toggle-stack">${forceUnlockToggle}</div>
-
-        <hr class="settings-hr">
-
         <h2 class="settings-group-title">Arabic typeface</h2>
         <p class="settings-group-sub">Each specimen is set in the face it names.</p>
         <div class="face-list">
@@ -3844,6 +3796,69 @@ function settingsHtml(state) {
           </div>
         </div>
       </aside>
+    </div>`;
+}
+
+// Appearance's two former lodgers, each on its own short page (audit
+// IA-001): a learner looking for "why is everything unlocked" or "where do
+// I turn off the English line under Tarkeeb" will not search under a page
+// named Appearance, and the mixed page had become one long mobile scroll.
+// The values live on the exact same state keys as before, so nothing about
+// a saved profile changes -- only where the controls are found.
+
+function learningAidsHtml(state) {
+  const tarkeebTranslationsOn = state.tarkeebTranslations !== false;
+  const tarkeebLabelsBlueOn = state.tarkeebLabelsBlue === true;
+  return `
+    <div class="settings-page">
+      <div class="settings-col">
+        ${navBackRowHtml(state)}
+        ${pageHeaderHtml({ title: 'Learning aids', ar: 'وسائل التعلم', lede: 'Scaffolding for the exercises — translations and label colour. These apply in every course, wherever a Tarkeeb exercise appears; none of them change what is taught or what is unlocked.' })}
+
+        <h2 class="settings-group-title" style="margin-top:26px">Tarkeeb</h2>
+        <p class="settings-group-sub">Sentence helpers and grammar label colour for Tarkeeb exercises.</p>
+        <div class="settings-toggle-stack">
+          <button class="settings-toggle-row ${tarkeebTranslationsOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebTranslationsOn}" data-action="toggleTarkeebTranslations">
+            <span class="settings-toggle-copy">
+              <span class="settings-toggle-title">Translate Tarkeeb sentence</span>
+              <span class="settings-toggle-sub">Default for the small English line under Tarkeeb exercises.</span>
+            </span>
+            <span class="settings-toggle-pill">${tarkeebTranslationsOn ? `${icon('check', 11, 2.6)} Shown` : 'Hidden'}</span>
+          </button>
+          <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
+            <span class="settings-toggle-copy">
+              <span class="settings-toggle-title">Colour Tarkeeb labels</span>
+              <span class="settings-toggle-sub">Introductory Nahw's diagram exercises show blue for primary sentence roles (فعل، فاعل، مبتدأ، خبر...) and green for secondary ones (نعت، مضاف، معطوف...); boxes and slots pick up the colour too. Advanced Nahw's labels turn blue.</span>
+            </span>
+            <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? `${icon('check', 11, 2.6)} Coloured` : 'Default'}</span>
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function courseProgressionHtml(state) {
+  const courseLocksOn = state.forceUnlockAll !== true;
+  return `
+    <div class="settings-page">
+      <div class="settings-col">
+        ${navBackRowHtml(state)}
+        ${pageHeaderHtml({ title: 'Course progression', ar: 'تقدم الدورة', lede: 'How much of the material is open at once. This applies to all four courses and My Path on this device; it never marks anything complete or removes progress.' })}
+
+        <h2 class="settings-group-title" style="margin-top:26px">Course locks</h2>
+        <p class="settings-group-sub">Whether lessons and modules have to be earned in order.</p>
+        <div class="settings-toggle-stack">
+          <button class="settings-toggle-row settings-toggle-warning ${courseLocksOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${courseLocksOn}" data-action="toggleCourseLocks">
+            <span class="settings-toggle-copy">
+              <span class="settings-toggle-title">Course locks</span>
+              <span class="settings-toggle-sub">${courseLocksOn
+                ? 'Lessons, modules, paths, vocab, Tarkeeb exercises, and quizzes unlock through normal progress.'
+                : 'Everything is open by default. Turn this on if you want the course to unlock step by step.'}</span>
+            </span>
+            <span class="settings-toggle-pill">${courseLocksOn ? `${icon('check', 11, 2.6)} On` : 'Off'}</span>
+          </button>
+        </div>
+      </div>
     </div>`;
 }
 
@@ -4127,7 +4142,23 @@ function accountHtml(state) {
         ${icon('book', 18, 1.8)}
         <span class="entry-row-body">
           <span class="entry-row-title">Appearance</span>
-          <span class="entry-row-meta">Paper, accent, and Arabic typeface</span>
+          <span class="entry-row-meta">Paper, accent, typeface, and text size</span>
+        </span>
+        <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+      </button>
+      <button class="entry-row" data-action="openLearningAids">
+        ${icon('pencil', 18, 1.8)}
+        <span class="entry-row-body">
+          <span class="entry-row-title">Learning aids</span>
+          <span class="entry-row-meta">Tarkeeb translations and label colour</span>
+        </span>
+        <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
+      </button>
+      <button class="entry-row" data-action="openCourseProgression">
+        ${icon('lock', 18, 1.8)}
+        <span class="entry-row-body">
+          <span class="entry-row-title">Course progression</span>
+          <span class="entry-row-meta">Course locks and unlock behaviour</span>
         </span>
         <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
       </button>
@@ -4985,6 +5016,12 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       break;
     case 'settings':
       body = settingsHtml(state);
+      break;
+    case 'learningAids':
+      body = learningAidsHtml(state);
+      break;
+    case 'courseProgression':
+      body = courseProgressionHtml(state);
       break;
     case 'account':
       body = accountHtml(state);

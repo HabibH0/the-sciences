@@ -407,6 +407,7 @@ const lastContainerKeys = new Map();
 // some half-reconstructed session.
 const HISTORY_TRACKED_VIEWS = new Set([
   'dashboard', 'module', 'lesson', 'quiz', 'schedule', 'settings', 'account',
+  'learningAids', 'courseProgression',
   'achievements', 'pathGroups', 'path', 'library', 'litBook',
 ]);
 
@@ -2241,6 +2242,23 @@ const actions = {
   openSettings() {
     if (guardSessionExit('openSettings')) return;
     state.view = 'settings';
+    state.practice = null;
+    state.pathActive = false;
+  },
+  // Appearance's two former lodgers, each on its own page now (audit
+  // IA-001): translations and Tarkeeb labels change instructional
+  // scaffolding, and Course locks change progression -- neither is "how the
+  // page looks", so neither belongs under Appearance. Same shape as
+  // openSettings so the guard, history and back behaviour stay identical.
+  openLearningAids() {
+    if (guardSessionExit('openLearningAids')) return;
+    state.view = 'learningAids';
+    state.practice = null;
+    state.pathActive = false;
+  },
+  openCourseProgression() {
+    if (guardSessionExit('openCourseProgression')) return;
+    state.view = 'courseProgression';
     state.practice = null;
     state.pathActive = false;
   },

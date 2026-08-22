@@ -5638,6 +5638,15 @@ bdi,
   }
 }
 
+/* Contextual shortcut from a Tarkeeb practice setup into the Learning aids
+   page (audit IA-001) -- so the global setting is findable from the place
+   the learner actually meets Tarkeeb, not only from Account. */
+.practice-settings-link {
+  display: block;
+  margin-top: 8px;
+  font-size: var(--text-meta);
+}
+
 /* Progress on a My Path group card. */
 .path-group-card-track {
   display: block;
