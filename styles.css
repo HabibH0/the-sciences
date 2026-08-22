@@ -5757,6 +5757,13 @@ mark.search-hit {
   border-radius: var(--radius-md);
   justify-content: center;
 }
+/* The Check/Reset row -- and the ✓/✗ verdict tag that replaces it after
+   grading -- steps clear of the chip tray above it instead of hugging its
+   dashed border (user request). Scoped to the تركيب widget; other
+   action-rows keep their own spacing. */
+.tarkeeb .action-row {
+  margin-top: 16px;
+}
 .tarkeeb-chip {
   font-family: var(--font-ar);
   font-size: var(--text-md);
