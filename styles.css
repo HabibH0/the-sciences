@@ -7779,22 +7779,18 @@ span.deadline-day {
     padding: 6px 10px;
     gap: 2px 12px;
   }
-  /* The phone head reflows into two tight rows instead of one crowded
-     line that crushed the titles into one-word columns:
-       row 1 -- back chevron, titles (one line each), sections menu
-       row 2 -- paragraph pager on the left, the stage rail on the right
-     with the thin progress bar keeping the full-width bottom edge. The
-     series line is dropped here (the book page the reader came from just
-     named it) and the rail collapses to its numbered dots -- together the
-     head takes barely more than two control rows. */
+  /* The phone head is ONE control row: back chevron, the titles (each
+     line clipped to one line), the pager, and the sections menu -- with
+     only the thin progress bar beneath. The series line is dropped (the
+     book page the reader came from just named it) and the stage rail is
+     dropped entirely here: the progress bar already carries position, and
+     the rail cost a whole row. Desktop keeps the full head. */
   .lit-reader-head {
     gap: 2px var(--space-3);
     padding: 10px 22px 8px;
   }
   .lit-reader-titles {
-    /* auto basis: the titles claim their natural width on row 1, which is
-       what pushes the pager + rail onto their own line. */
-    flex: 1 1 auto;
+    flex: 1 1 0;
   }
   .lit-reader-book {
     display: none;
@@ -7811,25 +7807,15 @@ span.deadline-day {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .lit-reader-head .lit-pager {
-    order: 2;
-    margin-right: auto;
-  }
   .lit-reader-head .lit-rail {
-    order: 3;
-    align-self: center;
-    gap: 7px;
-  }
-  .lit-rail-label {
     display: none;
   }
-  .lit-rail-dot {
-    width: 21px;
-    height: 21px;
-  }
   .lit-reader-head .progress-bar {
-    order: 4;
     margin-top: 4px;
+  }
+  /* The dock strip gives back a few px too. */
+  .lit-topbar {
+    padding: 6px 22px 8px;
   }
 }
 
@@ -8073,6 +8059,18 @@ span.deadline-day {
   padding-bottom: 40px;
   /* Lets .lit-para-full take its own row below the Arabic -- see its rule. */
   flex-wrap: wrap;
+}
+/* The 40px lane fits a one-line gloss; a pinned sentence's translation can
+   run three or four lines on a phone and, being absolutely positioned, it
+   grew UPWARD over the paragraph's last Arabic line. While a gloss is
+   pinned open, the paragraph reserves a real multi-line lane instead. */
+.lit-para:has(.lit-sentence.is-open) {
+  padding-bottom: 100px;
+}
+@media (min-width: 641px) {
+  .lit-para:has(.lit-sentence.is-open) {
+    padding-bottom: 64px;
+  }
 }
 .lit-gloss {
   position: absolute;
