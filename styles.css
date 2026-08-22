@@ -1459,8 +1459,7 @@ bdi,
   flex-direction: column;
   min-height: 0;
 }
-.home-modules-col > .section-head,
-.home-modules-col > .course-menu {
+.home-modules-col > .section-head {
   flex: none;
 }
 
@@ -5494,10 +5493,29 @@ bdi,
 }
 
 /* ---------- Home: course menu ----------
-   Switching course happens here, in place, rather than on a separate picker
-   screen -- a 2x2 of the courses dropping out of the "Your modules" heading. */
+   Switching course is navigation, so the chooser is a popover hanging off
+   its trigger -- a 2x2 of the courses -- not accordion content: the old
+   in-flow version inserted itself above the search field and pushed the
+   whole module list ~146px down the page every time it opened, a layout
+   shift unrelated to any navigation (audit MOT-002/MOT-004). The anchor
+   wrapper is shared with Schedule's switcher; `-end` right-aligns the panel
+   where the trigger sits at the row's end (the page-header actions slot). */
+.course-switch-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.course-switch-anchor-end .course-menu {
+  left: auto;
+  right: 0;
+}
 .course-menu {
-  margin-top: 10px;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  min-width: 380px;
+  max-width: min(480px, calc(100vw - 36px));
+  background: var(--color-bg);
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
@@ -5552,12 +5570,33 @@ bdi,
 .course-menu-item.is-active .course-menu-meta {
   color: var(--color-accent-700);
 }
+/* On phones the anchored panel becomes a bottom sheet (audit MOT-002):
+   the four courses within thumb reach, over the tab bar, without touching
+   the dashboard's layout. Dismissal is the same outside-tap/Escape the
+   popover already has; its sheet-specific entrance/exit keyframes are
+   mapped in the Motion layer. */
 @media (max-width: 900px) {
   .course-menu {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    min-width: 0;
+    max-width: none;
     grid-template-columns: 1fr;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .course-switch-anchor-end .course-menu {
+    left: 0;
+    right: 0;
   }
   .course-menu-item {
     border-right: 0;
+    min-height: var(--tap-min);
   }
   .course-menu-item:nth-last-child(-n + 2) {
     border-bottom: 1px solid var(--color-divider);
@@ -7602,6 +7641,25 @@ span.deadline-day {
 @keyframes m-screen-in {
   from { transform: translateY(var(--travel-sm)); }
 }
+/* The same arrival reversed: reaching a screen through a back affordance
+   settles downward, so forward and back read as a reciprocal pair (audit
+   MOT-005). js/motion.js decides which applies, from the control pressed. */
+@keyframes m-screen-back {
+  from { transform: translateY(calc(var(--travel-sm) * -1)); }
+}
+/* m-step-in's reverse, for paging back through concepts (audit MOT-006). */
+@keyframes m-step-back {
+  from { opacity: 0; transform: translateY(calc(var(--travel-sm) * -1)); }
+}
+/* The phone course sheet rises from the screen's bottom edge -- the one
+   surface besides the toast allowed to enter from off its own footprint,
+   because a sheet's point of origin IS the edge (audit MOT-003). */
+@keyframes m-sheet-in {
+  from { opacity: 0; transform: translateY(var(--travel-lg)); }
+}
+@keyframes m-sheet-out {
+  to { opacity: 0; transform: translateY(var(--travel-md)); }
+}
 /* Popovers hang off their trigger, so they arrive from its edge and scale
    from the corner nearest it (transform-origin is set per family below). */
 @keyframes m-pop-in {
@@ -7969,6 +8027,9 @@ body {
 .screen-enter .main-content {
   animation: m-screen-in var(--t-ui) var(--ease-out) backwards;
 }
+.screen-enter.screen-enter-back .main-content {
+  animation-name: m-screen-back;
+}
 
 /* Progress figures draw to their value -- gated on their own class, not on
    screen-enter, because js/motion.js hands it out once per screen per
@@ -8004,6 +8065,9 @@ body {
 .anim-step-in {
   animation: m-step-in var(--t-ui) var(--ease-out) backwards;
 }
+.anim-step-back {
+  animation: m-step-back var(--t-ui) var(--ease-out) backwards;
+}
 .xp-toast.anim-toast-in {
   animation: m-toast-in var(--t-ui) var(--ease-out) backwards;
 }
@@ -8028,6 +8092,21 @@ body {
   transform-origin: top center;
   animation: m-pop-out 100ms var(--ease-in) forwards;
   pointer-events: none;
+}
+/* The course chooser is a popover on desktop and a bottom sheet on phones
+   (see the course-menu section); the same JS-applied classes map to sheet
+   travel here so each variant enters from and exits toward its own point of
+   origin (MOT-003) -- the popover from its trigger, the sheet from the
+   bottom edge. */
+@media (max-width: 900px) {
+  .course-menu.anim-drop-in {
+    transform-origin: bottom center;
+    animation: m-sheet-in var(--t-ui) var(--ease-out) backwards;
+  }
+  .course-menu.anim-drop-out {
+    transform-origin: bottom center;
+    animation: m-sheet-out 100ms var(--ease-in) forwards;
+  }
 }
 
 /* ---------- Selection indicators ----------
@@ -8159,6 +8238,17 @@ body {
 .anim-bump {
   animation: m-bump var(--t-ui) var(--ease-out);
 }
+/* The concept dot a passed exercise just unlocked stamps into the lesson
+   head -- same arrival keyframe as the verdict mark it answers to, so the
+   "you may advance" signal reads as part of the same gesture (MOT-006). */
+.concept-dot.anim-dot-in {
+  animation: m-mark-in var(--t-ui) var(--ease-pop) backwards;
+}
+/* The refreshed course region arriving after a switch (MOT-002): only the
+   course-scoped regions crossfade; the shell and page frame hold still. */
+.anim-content-in :is(.home-hero, .home-body) {
+  animation: m-fade-in var(--t-ui) var(--ease-out) backwards;
+}
 .anim-tick-in {
   transform-origin: 0 50%;
   animation: m-grow-x var(--t-ui) var(--ease-out);
@@ -8187,6 +8277,27 @@ body {
 [data-action].is-busy {
   position: relative;
   opacity: 0.7;
+  pointer-events: none;
+}
+/* The dialog a busy action was launched from: frozen as a whole while its
+   navigation is in flight, so sibling buttons cannot start a second,
+   competing launch and the outgoing surface stops being interactive the
+   moment it is on its way out (audit MOT-001). Class added by markBusy. */
+.is-busy-surface {
+  pointer-events: none;
+}
+/* Home while a course switch is loading (audit MOT-002): the old course's
+   hero and lists visibly stand down -- they must not look authoritative
+   while the switch trigger already names the incoming course -- and nothing
+   under them is clickable until the new course lands. The section head is
+   deliberately NOT in this list: it holds the trigger, which is the one
+   element narrating the switch (target course name + busy spinner) and must
+   stay fully legible. */
+.home-page.is-switching :is(.home-hero, .home-search, .module-list, .lesson-search-results, .home-rail) {
+  opacity: 0.45;
+  transition: opacity var(--t-quick) var(--ease);
+}
+.home-page.is-switching .home-body {
   pointer-events: none;
 }
 [data-action].is-busy::after {

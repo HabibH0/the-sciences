@@ -650,6 +650,13 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
   const currentModuleId = continueInfo ? continueInfo.mod.id : null;
   const summary = deadlineSummary(state, MODULES);
   const activeCourse = COURSES.find((c) => c.id === state.courseId);
+  // Mid course-switch (audit MOT-002), the switch trigger already names the
+  // INCOMING course -- the selection was confirmed the moment it was made --
+  // while the outgoing course's regions sit dimmed under .is-switching.
+  const switchingCourse = state.courseSwitchingTo
+    ? COURSES.find((c) => c.id === state.courseSwitchingTo)
+    : null;
+  const shownCourse = switchingCourse || activeCourse;
   const completedModules = MODULES.filter((m) => m.lessons.length && completedCount(m.id, state.completed) === m.lessons.length).length;
 
   let lastGroupKey = null;
@@ -717,21 +724,25 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
   // nothing at all.
   const query = (state.lessonSearchQuery || '').trim();
   return `
-    <div class="home-page">
+    <div class="home-page${switchingCourse ? ' is-switching' : ''}">
       ${homeHeroHtml(state, MODULES)}
       <div class="home-body">
         <section class="home-modules-col">
           <div class="section-head">
             <h2 class="section-head-title">Your modules</h2>
-            <button class="home-course-switch" data-action="toggleCourseMenu" title="Switch course"
-              aria-label="Switch course — currently ${escAttr(activeCourse ? activeCourse.name : '')}"
-              aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}">
-              <span lang="ar" dir="rtl">${esc(activeCourse ? activeCourse.arabicName || activeCourse.name : '')}</span>
-              <span aria-hidden="true">▾</span>
-            </button>
+            <span class="course-switch-anchor">
+              <button class="home-course-switch${switchingCourse ? ' is-busy' : ''}" data-action="toggleCourseMenu" title="Switch course"
+                aria-label="${switchingCourse
+                  ? `Loading ${escAttr(switchingCourse.name)}`
+                  : `Switch course — currently ${escAttr(activeCourse ? activeCourse.name : '')}`}"
+                aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
+                <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
+                <span aria-hidden="true">▾</span>
+              </button>
+              ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
+            </span>
             <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
           </div>
-          ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
           <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
             placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
             autocomplete="off" aria-label="Search lessons in this course">
@@ -1525,8 +1536,13 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
     const submitted = !!exState.submitted;
     const passed = !!exState.passed;
     const wasCorrect = exState.selected === ex.correct;
+    // tabindex="-1" makes the verdict focusable: after Check, the button
+    // that held focus un-renders, so the dispatcher moves focus here (see
+    // refocusSelector in js/main.js) -- the screen reader announces the
+    // result, and the next Tab continues to Try again / Next concept
+    // (audit MOT-006/UX-004: confirmation first, navigation as its own act).
     const feedback = submitted
-      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
+      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}" tabindex="-1">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
       : '';
     // Order matters here and used to be wrong: .exercise-content is a
     // flex column, so .exercise-left (prompt + Check) always painted above
