@@ -1106,7 +1106,7 @@ function badgeModalHtml(state) {
   return `
     <div class="modal-backdrop" style="z-index:60;" data-action="closeBadgeModal">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(b.name)}">
-        <div class="badge-modal-icon">${icon('award', 36, 1.6)}</div>
+        <div class="badge-modal-icon earned">${badgeMedalHtml(b.id, null, 64)}</div>
         <h2 class="badge-modal-title">Badge earned</h2>
         <p class="badge-modal-desc">${esc(b.name)} — ${esc(b.desc)}</p>
         <div class="modal-buttons">
@@ -3785,6 +3785,59 @@ function levelProgressHtml(li) {
     </div>`;
 }
 
+// --- Badge medallions (audit UI-011) --------------------------------------
+// A small family of manuscript-style line-work medallions, one motif per
+// achievement category, drawn in the same stroke language as the app's
+// icons: a seal ring, the category's device at its centre, a bead ring and
+// engraved inner ring that only an EARNED badge reveals, and the tier's
+// threshold stamped in a countermark -- so badges are recognisable at a
+// glance without reading their descriptions, and each tier is distinct.
+// States are coloured per group from CSS (see .ach-medal rules).
+
+const BADGE_CATEGORY = (() => {
+  const map = {};
+  ACHIEVEMENT_CATEGORIES.forEach((c) => c.badgeIds.forEach((id) => { map[id] = c.id; }));
+  return map;
+})();
+
+const BADGE_MOTIFS = {
+  onboarding: ICON_PATHS.book,
+  // An eight-pointed khatam star: two overlapping squares.
+  level: '<rect x="6.8" y="6.8" width="10.4" height="10.4"/><rect x="6.8" y="6.8" width="10.4" height="10.4" transform="rotate(45 12 12)"/>',
+  streak: ICON_PATHS.flame,
+  perfect: ICON_PATHS.star,
+  practice: ICON_PATHS.pencil,
+  modules: ICON_PATHS.archive,
+  lessons: ICON_PATHS.check,
+  // A scholar's arch for the course capstones.
+  courses: '<path d="M5 20h14"/><path d="M7 20v-7a5 5 0 0 1 10 0v7"/><path d="M12 4v2.5"/>',
+};
+
+function badgeMedalHtml(badgeId, threshold, size = 40) {
+  const motif = BADGE_MOTIFS[BADGE_CATEGORY[badgeId]] || BADGE_MOTIFS.level;
+  const beads = Array.from({ length: 8 }, (_, i) => {
+    const a = (Math.PI / 4) * i + Math.PI / 8;
+    const x = (24 + 20.5 * Math.cos(a)).toFixed(1);
+    const y = (24 + 20.5 * Math.sin(a)).toFixed(1);
+    return `<circle cx="${x}" cy="${y}" r="1.2" fill="currentColor" stroke="none"/>`;
+  }).join('');
+  const label = threshold == null ? '' : threshold >= 1000 ? `${threshold / 1000}k` : String(threshold);
+  return `
+    <svg class="ach-medal" width="${size}" height="${size}" viewBox="0 0 48 48" fill="none"
+      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+      aria-hidden="true" focusable="false">
+      <circle class="ach-medal-ring" cx="24" cy="24" r="17"/>
+      <circle class="ach-medal-ring2" cx="24" cy="24" r="14" stroke-dasharray="1.5 3.2" stroke-width="1"/>
+      <g class="ach-medal-beads">${beads}</g>
+      <g class="ach-medal-motif" transform="translate(12 12)">${motif}</g>
+      ${label ? `
+      <g class="ach-medal-counter">
+        <circle cx="38" cy="38" r="8" fill="var(--color-bg)"/>
+        <text x="38" y="${label.length > 2 ? 40.4 : 40.8}" text-anchor="middle" font-size="${label.length > 2 ? 6.6 : 8}" stroke="none" fill="currentColor">${esc(label)}</text>
+      </g>` : ''}
+    </svg>`;
+}
+
 // One badge as plain data: how far along it is, whether it can be reasoned
 // about numerically (courses can't), and the action that moves it forward.
 // The three visual states (earned / in progress / locked) are derived here
@@ -3814,7 +3867,6 @@ function achievementCardData(state, id, current, threshold, unit, hint) {
 // differ by icon and structure, never by colour alone.
 function achievementCardHtml(c) {
   const stateCls = c.earned ? 'earned' : c.inProgress ? 'in-progress' : 'locked';
-  const iconName = c.earned ? 'award' : c.inProgress ? 'target' : 'lock';
   const progress = !c.earned && c.threshold != null
     ? `
       <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
@@ -3822,7 +3874,7 @@ function achievementCardHtml(c) {
     : c.earned ? '<span class="ach-card-progress">Earned</span>' : '';
   return `
     <div class="ach-card ${stateCls}">
-      <span class="ach-card-icon">${icon(iconName, 18, 1.7)}</span>
+      ${badgeMedalHtml(c.id, c.threshold)}
       <span class="ach-card-body">
         <span class="ach-card-name">${esc(c.name)}</span>
         <span class="ach-card-desc">${escBidi(c.desc)}</span>
@@ -3845,10 +3897,13 @@ function achievementsNextHtml(cards) {
       <h2 class="ach-section-title">Closest next</h2>
       <div class="ach-next-grid">
         ${candidates.map((c) => `
-          <div class="ach-next-card">
+          <div class="ach-next-card in-progress">
+            ${badgeMedalHtml(c.id, c.threshold, 34)}
+            <span class="ach-next-body">
             <span class="ach-next-name">${esc(c.name)}</span>
             <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
             <span class="ach-next-meta">${c.current} / ${c.threshold}${c.unit ? ` ${c.unit}` : ''}${c.hint ? ` · ${esc(c.hint)}` : ''}</span>
+            </span>
           </div>`).join('')}
       </div>
     </section>`;
@@ -4507,6 +4562,19 @@ const LIT_STAGES = [
   { id: 'build', label: 'Build' },
 ];
 
+// Each series gets one of four spine head-ornaments (audit UI-010), assigned
+// deterministically in shelf order, so its volumes read as a set -- the
+// numeral says which volume, the ornament says which series. Styles:
+// .lit-spine-m0..m3 in styles.css.
+const LIT_SERIES_MOTIF = (() => {
+  const map = new Map();
+  LIT_BOOKS.forEach((b) => {
+    const key = ((bookSeries(b) || {}).ar) || '';
+    if (!map.has(key)) map.set(key, map.size % 4);
+  });
+  return map;
+})();
+
 function litBookCardHtml(state, book, index) {
   const { done, total } = bookProgress(book, state.litProgress);
   const pct = total ? Math.round((done / total) * 100) : 0;
@@ -4520,7 +4588,7 @@ function litBookCardHtml(state, book, index) {
   const volumeNumber = seriesBooks.indexOf(book) + 1;
   return `
     <button class="lit-book${started && done < total ? ' is-current' : ''}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
-      <span class="lit-book-spine" aria-hidden="true"><bdi lang="ar">${esc(arabicNumeral(volumeNumber))}</bdi></span>
+      <span class="lit-book-spine lit-spine-m${LIT_SERIES_MOTIF.get(seriesKey) || 0}" aria-hidden="true"><bdi lang="ar">${esc(arabicNumeral(volumeNumber))}</bdi></span>
       <span class="lit-book-face">
         <span class="lit-book-kicker">${esc(book.volumeLabel || '')}</span>
         <span class="lit-book-title" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
@@ -4590,7 +4658,7 @@ function libraryHtml(state) {
   const resumeCard = resume ? `
     <button class="lit-continue" data-action="continueReading"
       data-book-id="${escAttr(resume.book.id)}" data-chapter-id="${escAttr(resume.chapter.id)}">
-      <span class="lit-continue-spine" aria-hidden="true"><span lang="ar" dir="rtl">${esc(arabicNumeral(resume.index + 1))}</span></span>
+      <span class="lit-continue-spine lit-spine-m${LIT_SERIES_MOTIF.get(((bookSeries(resume.book) || {}).ar) || '') || 0}" aria-hidden="true"><span lang="ar" dir="rtl">${esc(arabicNumeral(resume.index + 1))}</span></span>
       <span class="lit-continue-body">
         <span class="kicker">${resumeMidPractice ? 'Resume reading' : 'Continue reading'}</span>
         <span class="lit-continue-title" lang="ar" dir="rtl">${esc(resume.book.title.ar)}</span>

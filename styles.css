@@ -3720,20 +3720,44 @@ bdi,
   background: var(--accent-tint-weak);
   opacity: 1;
 }
-.ach-card-icon {
+/* The medallion (see badgeMedalHtml in js/render.js): a seal ring with the
+   category's device at its centre and the tier threshold in a countermark.
+   Lifecycle is drawn structurally, not by colour alone -- locked shows the
+   subdued silhouette; in progress reveals the device and countermark in
+   accent while the ring stays quiet; earned lights the whole seal and adds
+   the bead ring and engraved inner ring that only completion carries. */
+.ach-medal {
   flex: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid var(--color-divider);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--color-neutral-400);
+}
+.ach-medal text {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ach-medal .ach-medal-ring2,
+.ach-medal .ach-medal-beads {
+  opacity: 0;
+}
+.ach-medal .ach-medal-motif {
   color: var(--color-neutral-500);
 }
-.ach-card.earned .ach-card-icon {
-  border-color: var(--color-accent);
+.in-progress .ach-medal .ach-medal-motif,
+.in-progress .ach-medal .ach-medal-counter {
+  color: var(--color-accent-700);
+}
+.earned .ach-medal {
   color: var(--color-accent);
+}
+.earned .ach-medal .ach-medal-motif,
+.earned .ach-medal .ach-medal-counter {
+  color: var(--color-accent-700);
+}
+.earned .ach-medal .ach-medal-ring2 {
+  opacity: 1;
+}
+.earned .ach-medal .ach-medal-beads {
+  opacity: 0.7;
 }
 .ach-card-body {
   flex: 1;
@@ -3769,11 +3793,6 @@ bdi,
   opacity: 1;
   border-color: var(--color-neutral-300);
 }
-.ach-card.in-progress .ach-card-icon {
-  border-color: var(--color-accent);
-  color: var(--color-accent-700);
-  background: var(--accent-tint-weak);
-}
 .ach-card-track {
   display: block;
   height: 3px;
@@ -3796,11 +3815,18 @@ bdi,
   gap: 10px;
 }
 .ach-next-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-accent);
   border-radius: var(--radius-lg);
   background: var(--accent-tint-weak);
   box-shadow: var(--shadow-sm);
+}
+.ach-next-body {
+  flex: 1;
+  min-width: 0;
 }
 .ach-next-name {
   display: block;
@@ -4383,6 +4409,56 @@ bdi,
   font-family: var(--font-ar-heading);
   font-size: var(--text-base);
   color: var(--color-accent);
+}
+.lit-book-spine,
+.lit-continue-spine {
+  position: relative;
+  overflow: hidden;
+}
+.lit-book-spine::before,
+.lit-continue-spine::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.lit-spine-m0::before {
+  left: 4px;
+  right: 3px;
+  top: 4px;
+  height: 3px;
+  border-top: 1px solid var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+  opacity: 0.7;
+}
+.lit-spine-m1::before {
+  left: 50%;
+  top: 5px;
+  height: 15px;
+  width: 2px;
+  margin-left: -1px;
+  background-image: radial-gradient(circle, var(--color-accent) 45%, transparent 60%);
+  background-size: 2px 5px;
+  background-repeat: repeat-y;
+  opacity: 0.85;
+}
+.lit-spine-m2::before {
+  left: 50%;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border: 1px solid var(--color-accent);
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+.lit-spine-m3::before {
+  left: 3px;
+  right: 3px;
+  top: 5px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--color-accent);
+  opacity: 0.3;
 }
 .lit-book-face {
   flex: 1;
@@ -5665,6 +5741,13 @@ bdi,
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
+}
+/* The earned-badge modal shows the medallion itself, full size. */
+.badge-modal-icon.earned {
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
 }
 .unlock-modal-title,
 .badge-modal-title {
