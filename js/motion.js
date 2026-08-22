@@ -127,7 +127,7 @@ function animateHeight(el, { collapse = false, duration: durationOverride } = {}
 }
 
 export function expandIn(el, opts) {
-  animateHeight(el, opts);
+  return animateHeight(el, opts);
 }
 
 // --- overlay presence diff -------------------------------------------------
@@ -601,7 +601,10 @@ const ACTION_FX = {
 
   // A newly revealed section: an in-flow disclosure, so it expands to its
   // measured height (moving the footer with it) rather than popping into
-  // space the layout already allocated (audit MOT-004).
+  // space the layout already allocated (audit MOT-004). The follow-down
+  // scroll -- so the whole card, Check button included, lands in view --
+  // belongs to the revealExercise action in js/main.js, which waits for
+  // this expand to finish before measuring.
   revealExercise(root, el) {
     expandIn(root.querySelector(`[data-concept-index="${cssEsc(el.dataset.index)}"] .exercise-card`));
   },

@@ -3291,22 +3291,25 @@ const actions = {
     const key = conceptKey(state.moduleId, state.lessonId, idx);
     state.revealState[key] = 1;
 
-    // Deferred to the next frame rather than to an arbitrary delay: the
-    // dispatcher rerenders synchronously once this handler returns, so by
-    // the first rAF the revealed card exists and has been laid out. A timer
-    // was doing the same job with tens of milliseconds of dead air in front
-    // of the scroll, which read as the reveal hesitating.
-    requestAnimationFrame(() => {
+    // Deferred until the card's expand animation has finished (js/motion.js
+    // grows it to its measured height over DUR.expand): measuring mid-grow
+    // undershot, which is why the old centring scroll kept leaving the
+    // card's tail -- and its Check button -- below the fold (user report).
+    // Once the geometry is final, scroll so the card's BOTTOM clears the
+    // sticky lesson foot; never scroll up (a short card already fully in
+    // view stays put).
+    setTimeout(() => {
       const scrollContainer = root.querySelector('.main-content') || root.querySelector('.main');
       const exCard = root.querySelector(`[data-concept-index="${idx}"] .exercise-card`);
       if (exCard && scrollContainer) {
         const cardRect = exCard.getBoundingClientRect();
         const containerRect = scrollContainer.getBoundingClientRect();
-        const targetY = scrollContainer.scrollTop + (cardRect.top - containerRect.top) - (containerRect.height / 2) + (cardRect.height / 2);
-
-        smoothScrollTo(scrollContainer, Math.max(0, targetY));
+        const foot = root.querySelector('.lesson-foot');
+        const clearance = (foot ? foot.offsetHeight : 0) + 12;
+        const delta = cardRect.bottom - (containerRect.bottom - clearance);
+        if (delta > 0) smoothScrollTo(scrollContainer, scrollContainer.scrollTop + delta);
       }
-    });
+    }, prefersReducedMotion() ? 0 : DUR.expand + 20);
   },
   // Sidebar "In This Lesson" list -- clicking a concept you've already
   // reached scrolls back up to it. No state changes, so this returns
