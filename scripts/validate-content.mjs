@@ -32,6 +32,13 @@ function checkMcqItem(item, where) {
   if (!Number.isInteger(item.correct) || item.correct < 0 || item.correct >= item.options.length) {
     fail(`${where}: correct index ${item.correct} out of bounds for ${item.options.length} options`);
   }
+  // Optional per-option teaching feedback (explanations[i] says why option i
+  // fails -- see conceptBlockHtml in js/render.js). A list longer than its
+  // options has slipped out of alignment with them, same check the
+  // literature rationales get.
+  if (Array.isArray(item.explanations) && item.explanations.length > item.options.length) {
+    fail(`${where}: ${item.explanations.length} explanations for ${item.options.length} options`);
+  }
 }
 
 // Original course + Unit 1's flat schema: one slot per word.

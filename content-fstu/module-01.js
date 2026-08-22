@@ -33,7 +33,14 @@ export default {
               "فِعْلٌ، حَرْفٌ، جَمْعٌ",
               "اِسْمٌ، حَرْفٌ، جَمْعٌ"
             ],
-            "correct": 0
+            "correct": 0,
+            "explanation": "Every word is an اِسْمٌ (noun), a فِعْلٌ (verb), or a حَرْفٌ (particle).",
+            "explanations": [
+              null,
+              "جَمْعٌ (plural) is a property a noun can have, not a division of speech — the third division is حَرْفٌ (particle).",
+              "جَمْعٌ (plural) describes a noun's number, and this list also leaves out اِسْمٌ (noun) — the divisions are اِسْمٌ، فِعْلٌ، حَرْفٌ.",
+              "جَمْعٌ (plural) is a property a noun can have, not a division of speech — the missing division is فِعْلٌ (verb)."
+            ]
           }
         },
         {
@@ -66,7 +73,13 @@ export default {
               "فِعْلٌ (verb)",
               "حَرْفٌ (particle)"
             ],
-            "correct": 0
+            "correct": 0,
+            "explanation": "قَلَمٌ (a pen) names a thing, and its تَنْوِيْنٌ ending is the classic sign of an اِسْمٌ.",
+            "explanations": [
+              null,
+              "A فِعْلٌ is an action word like فَتَحَ — قَلَمٌ names a thing, and its تَنْوِيْنٌ ending is the sign of an اِسْمٌ.",
+              "A حَرْفٌ is usually only one or two letters, like فِيْ or لِ — قَلَمٌ names a thing and carries تَنْوِيْنٌ, the sign of an اِسْمٌ."
+            ]
           }
         },
         {
@@ -104,7 +117,13 @@ export default {
               "فِعْلٌ (verb)",
               "حَرْفٌ (particle)"
             ],
-            "correct": 1
+            "correct": 1,
+            "explanation": "فَتَحَ ('he opened') is an action on the pattern فَتَحَ، يَفْتَحُ، اِفْتَحْ — an action word is a فِعْلٌ.",
+            "explanations": [
+              "An اِسْمٌ names a person or thing and takes أَلْ or تَنْوِيْنٌ — فَتَحَ ('he opened') is an action, so it is a فِعْلٌ.",
+              null,
+              "A حَرْفٌ is a short linking word of one or two letters — فَتَحَ ('he opened') is an action, so it is a فِعْلٌ."
+            ]
           }
         },
         {
@@ -133,7 +152,13 @@ export default {
               "فِعْلٌ (verb)",
               "حَرْفٌ (particle)"
             ],
-            "correct": 2
+            "correct": 2,
+            "explanation": "لِ (for) is a one-letter linking word — exactly the shape of a حَرْفٌ.",
+            "explanations": [
+              "An اِسْمٌ names something and takes أَلْ or تَنْوِيْنٌ — لِ (for) is a one-letter linking word, the shape of a حَرْفٌ.",
+              "A فِعْلٌ is an action word like فَتَحَ — لِ (for) does no action; a one-letter linking word is a حَرْفٌ.",
+              null
+            ]
           }
         },
         {
@@ -153,7 +178,14 @@ export default {
               "The opposite in meaning",
               "The verb related to the word"
             ],
-            "correct": 0
+            "correct": 0,
+            "explanation": "ج stands for جَمْعٌ (plural), so the word after it is the plural form.",
+            "explanations": [
+              null,
+              "ج stands for جَمْعٌ (plural), not the feminine — the word after it is the plural form.",
+              "ج stands for جَمْعٌ (plural), not an opposite — the word after it is the plural form.",
+              "ج stands for جَمْعٌ (plural), not a related verb — the word after it is the plural form."
+            ]
           }
         }
       ],

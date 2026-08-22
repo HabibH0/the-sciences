@@ -43,6 +43,7 @@ import {
 } from '../content-lit/index.js';
 import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
+  buildSmartPracticeSession,
   buildModuleRevisionQueue, moduleRevisionPool,
   buildRevisionVocabQueue,
   buildPathMcqCheckpointQueue, buildPathVocabCheckpointQueue,
@@ -206,6 +207,7 @@ function applyMergedProgressToState(envelope) {
     'litTextScale',
     'streak',
     'lastVisit',
+    'visitDays',
     'xp',
     'badges',
     'practiceCorrectTotal',
@@ -627,6 +629,28 @@ function mainScrollContainer() {
   return root.querySelector('.main-content') || root.querySelector('.main');
 }
 
+// The Schedule popovers (target-date calendar, reset-hour list) anchor below
+// their trigger, which sits low on the page -- opened there, the panel's own
+// foot ran past the viewport and the learner had to scroll the page just to
+// reach Today/Clear. Desktop flips the panel above the trigger when the room
+// below is short; on phones the same panels render as a centred fixed sheet
+// (see styles.css), which needs no measuring. Runs on every rerender --
+// cheap: it exits immediately unless one of the two is actually open.
+function positionSchedulePopovers() {
+  if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
+  const panel = root.querySelector('.deadline-picker, .reset-hour-menu');
+  if (!panel) return;
+  if (window.matchMedia('(max-width: 640px)').matches) return;
+  const trigger = panel.parentElement;
+  if (!trigger) return;
+  const rect = trigger.getBoundingClientRect();
+  const panelHeight = panel.offsetHeight;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  if (spaceBelow < panelHeight + 12 && rect.top > panelHeight + 12) {
+    panel.classList.add('opens-up');
+  }
+}
+
 function rememberScrollPosition(navKey, container = mainScrollContainer()) {
   if (!navKey || !container) return;
   scrollPositions.set(navKey, container.scrollTop || 0);
@@ -771,6 +795,7 @@ function rerender(focusSelector) {
   // (the live value on a same-screen update, the last-known one from a
   // previous visit otherwise) is already the right thing to reapply.
   restoreContainerScrollPositions();
+  positionSchedulePopovers();
   applyRenderMotion(root, motionSnap, changedScreen, nav);
   if (conceptChanged) {
     // The concept the learner is now reading changed under a same-screen
@@ -1193,7 +1218,7 @@ function scheduleToastClear() {
 // render.js, which reads state.lessonExIndex rather than re-deriving it, so
 // this delay is the only thing that actually advances it).
 let lessonExAdvanceTimer = null;
-function scheduleLessonExerciseAdvance() {
+function scheduleLessonExerciseAdvance(delay = 1100) {
   clearTimeout(lessonExAdvanceTimer);
   // state.lessonExIndex is a single shared field, not scoped to a lesson --
   // if the learner navigates away before this fires, applying a stale
@@ -1211,7 +1236,7 @@ function scheduleLessonExerciseAdvance() {
     // Timer-driven advance never passes through the action dispatcher, so
     // the next question's step-in is applied here instead.
     root.querySelector('.lesson-exercise-card')?.classList.add('anim-step-in');
-  }, 1100);
+  }, delay);
 }
 
 function rerenderAccountIfOpen() {
@@ -1242,6 +1267,18 @@ function accountFieldError(email, password, { minPasswordLength = 1 } = {}) {
     return { field: 'password', message: `Use at least ${minPasswordLength} characters.` };
   }
   return null;
+}
+
+// The account form's inputs are uncontrolled, so every rerender() rebuilds
+// them empty -- any flow that re-renders mid-form (a validation failure, the
+// "Signing in..." progress state, a failed sign-in) was silently discarding
+// whatever the learner had typed. Callers capture the values first and put
+// them back after the swap.
+function restoreAccountInputs(email, password) {
+  const emailEl = document.getElementById('account-email');
+  if (emailEl && email !== undefined) emailEl.value = email;
+  const passwordEl = document.getElementById('account-password');
+  if (passwordEl && password !== undefined) passwordEl.value = password;
 }
 
 async function refreshCloudSaveStatus() {
@@ -1682,6 +1719,56 @@ function finishLitChapter() {
   queueAutoUpload('literature-chapter');
 }
 
+// One launcher for both of the chapter preview's modes ('free' | 'practice'),
+// with the load treated as an explicit state instead of a silent await: the
+// dialog shows "loading" while the chapter module is fetched (both launch
+// buttons disabled, so repeated clicks can't start parallel loads), and a
+// failed fetch keeps the dialog open with a visible error and a Retry that
+// re-runs the SAME mode. Before this, a transient load failure looked like
+// two dead buttons -- the promise rejected, the dispatcher's .then never ran,
+// and the clicked button sat in its busy state forever.
+async function launchLitChapter(mode) {
+  const bookId = state.litBookId;
+  const chapterId = state.litChapterPreviewId;
+  if (!bookId || !chapterId) return false;
+  if (state.litChapterLoad && state.litChapterLoad.status === 'loading') return false;
+  state.litChapterLoad = { status: 'loading', mode };
+  rerender();
+  let chapter = null;
+  try {
+    chapter = await loadChapter(bookId, chapterId);
+  } catch (e) {
+    chapter = null;
+  }
+  // The dialog may have been cancelled while the fetch was in flight --
+  // never launch a reader the learner already dismissed.
+  if (state.litChapterPreviewId !== chapterId) {
+    state.litChapterLoad = null;
+    return false;
+  }
+  if (!chapter) {
+    state.litChapterLoad = { status: 'error', mode };
+    // Focus lands on Retry, per the dialog's own error recovery -- not on
+    // the dialog root, which would make the reader re-find the fix.
+    rerender('[data-action="retryLitChapterLoad"]');
+    return false;
+  }
+  state.litChapterLoad = null;
+  state.litChapterPreviewId = null;
+  enterLitContext();
+  state.litBookId = bookId;
+  state.litChapterId = chapterId;
+  state.view = 'litRead';
+  if (mode === 'free') {
+    startLitSession(chapter, 0, true);
+    return;
+  }
+  const done = isChapterDone(state.litProgress, bookId, chapterId);
+  const para = done ? 0 : resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length);
+  startLitSession(chapter, para, false);
+  if (done) startLitWorkshop(chapter);
+}
+
 // --- Literature: "Practice weak words" -------------------------------
 // A book-wide sibling of the chapter build stage above (state.lit), kept as
 // its own session (state.litPractice) rather than folded into state.lit:
@@ -1884,6 +1971,12 @@ const actions = {
     state.pathActive = false;
     state.pathHome = false;
     state.litHome = false;
+    state.coverBlurbOpen = false;
+  },
+  // Phone-only: the module/book cover clamps its description to a couple of
+  // lines (see .cover-blurb in styles.css); this opens and closes the rest.
+  toggleCoverBlurb() {
+    state.coverBlurbOpen = !state.coverBlurbOpen;
   },
   // --- My Path ---
   // Always lands on the group list
@@ -2148,6 +2241,11 @@ const actions = {
     const queue = buildPracticeQueue(pool, state.practiceHistory, count);
     state.practiceSetupOpen = false;
     state.practice = {
+      // Stated explicitly: practiceReviewHtml/drillMissed test
+      // source === 'module', and an absent source made both treat an
+      // ordinary module session as something it had no follow-ons for --
+      // "Drill the N you missed" never appeared.
+      source: 'module',
       kind,
       moduleId: state.practiceModuleId,
       queue,
@@ -2165,6 +2263,26 @@ const actions = {
     };
     state.view = 'practice';
     prepPracticeQuestion(queue[0]);
+  },
+  // "Review what I need" (see practiceSetupPanelHtml): a one-decision mixed
+  // session over the completed-lessons pool -- recent mistakes and overdue
+  // items first, topped up with the ordinary weighted sample. Deliberately
+  // built from the locks-off-independent pool so it can never surface
+  // material the learner has not actually studied.
+  startSmartPractice() {
+    const moduleId = state.practiceModuleId || state.moduleId;
+    const pool = getBankPool(moduleId, state.completed, false);
+    const session = buildSmartPracticeSession(pool, state.practiceHistory);
+    if (!session) return false;
+    state.practiceSetupOpen = false;
+    state.practice = {
+      source: 'module', kind: 'smart', moduleId, lessonId: null,
+      queue: session.queue, index: 0, log: [], startedAt: Date.now(),
+      selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
+      tarkeebTranslations: state.tarkeebTranslations !== false,
+    };
+    state.view = 'practice';
+    prepPracticeQuestion(session.queue[0]);
   },
   // Reveal-on-click, matching the lesson quiz: choosing an option grades
   // and reveals it immediately, no separate Check step. Guards on
@@ -2320,6 +2438,9 @@ const actions = {
     state.view = 'achievements';
     state.practice = null;
     state.pathActive = false;
+  },
+  setAchievementsFilter(el) {
+    state.achievementsFilter = el.dataset.filter || 'all';
   },
   pickTheme(el) {
     state.theme = el.dataset.theme;
@@ -2498,13 +2619,16 @@ const actions = {
     state.account.fieldError = fieldError;
     if (fieldError) {
       state.account.message = '';
-      rerender();
-      return;
+      // Focus lands on the failing field, with what was typed still in it.
+      rerender(`#account-${fieldError.field}`);
+      restoreAccountInputs(email, password);
+      return false;
     }
     state.account.status = 'working';
     state.account.message = 'Creating account...';
     state.account.messageTone = 'info';
     rerender();
+    restoreAccountInputs(email, password);
     try {
       const result = await register(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
@@ -2523,7 +2647,13 @@ const actions = {
       state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
+      // Self-rendered (return false skips the dispatcher's own rerender) so
+      // a failed attempt can put the typed values back afterwards -- on
+      // success the signed-in panel has no inputs and the restore no-ops.
+      rerender();
+      restoreAccountInputs(email, password);
     }
+    return false;
   },
   // DOM-only, no rerender (`return false`): a rerender would rebuild the
   // uncontrolled password <input> and silently discard whatever's typed.
@@ -2544,13 +2674,15 @@ const actions = {
     state.account.fieldError = fieldError;
     if (fieldError) {
       state.account.message = '';
-      rerender();
-      return;
+      rerender(`#account-${fieldError.field}`);
+      restoreAccountInputs(email, password);
+      return false;
     }
     state.account.status = 'working';
     state.account.message = 'Signing in...';
     state.account.messageTone = 'info';
     rerender();
+    restoreAccountInputs(email, password);
     try {
       const result = await login(email, password);
       if (result.disabled) throw new Error('Sync server is not configured.');
@@ -2569,7 +2701,11 @@ const actions = {
       state.account.messageTone = 'error';
     } finally {
       state.account.status = 'idle';
+      // See registerAccount's matching comment.
+      rerender();
+      restoreAccountInputs(email, password);
     }
+    return false;
   },
   async logoutAccount() {
     state.account.status = 'working';
@@ -2708,6 +2844,16 @@ const actions = {
   searchLessons(el) {
     state.lessonSearchQuery = el.value;
   },
+  // The visible × beside the search field, as a real focusable button --
+  // clearing restores the module list and puts focus back in the field so a
+  // fresh search can start immediately. Escape does the same while the
+  // field is focused (see the keydown handler below).
+  clearLessonSearch() {
+    if (!state.lessonSearchQuery) return false;
+    state.lessonSearchQuery = '';
+    rerender('#lesson-search-input');
+    return false;
+  },
   // A search result row -- spans every unlocked module of the course, so
   // (unlike openLessonPreview, reached only from inside a module page
   // where state.moduleId is already that module) this sets it first, same
@@ -2811,6 +2957,7 @@ const actions = {
   // isn't disturbed.
   toggleDeadlinePicker() {
     state.deadlinePickerOpen = !state.deadlinePickerOpen;
+    state.resetHourMenuOpen = false;
     if (state.deadlinePickerOpen) state.deadlinePickerMonth = null;
   },
   deadlinePickerPrevMonth() {
@@ -2838,6 +2985,7 @@ const actions = {
   },
   toggleResetHourMenu() {
     state.resetHourMenuOpen = !state.resetHourMenuOpen;
+    state.deadlinePickerOpen = false;
   },
   backToSchedule() {
     state.view = 'schedule';
@@ -2903,7 +3051,10 @@ const actions = {
   // --- Concept paging (see lessonHtml) ---
   // The lesson shows one concept at a time; how far paging can reach is
   // decided by conceptsToRender, not by these, so they only ever move within
-  // what is already unlocked.
+  // what is already unlocked. Every concept change opens the new concept at
+  // its heading -- rerender()'s displayedConceptSignature detector (audit
+  // NAV-001) resets the scroller and focuses the incoming heading, so these
+  // only move the index.
   prevConcept() {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
@@ -3033,7 +3184,13 @@ const actions = {
     ex.selected = +el.dataset.option;
     ex.submitted = true;
     ex.passed = true; // "attempted" -- see isLessonExerciseItemPassed's comment in content/index.js; correctness itself is read back from ex.selected vs item.correct at render time
-    scheduleLessonExerciseAdvance();
+    // A wrong answer holds its verdict (and any authored explanation, see
+    // lessonExerciseCardHtml) on screen noticeably longer than a right one
+    // -- 1.1s is enough to confirm success, not enough to read a correction.
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    const item = lesson && lesson.exercise && lesson.exercise.items[state.lessonExIndex];
+    const wasCorrect = item ? ex.selected === item.correct : true;
+    scheduleLessonExerciseAdvance(wasCorrect ? 1100 : 2800);
     queueAutoUpload('lesson-exercise');
   },
 
@@ -3209,6 +3366,7 @@ const actions = {
     state.litBookId = bookId;
     state.view = 'litBook';
     state.lit = null;
+    state.coverBlurbOpen = false;
   },
   // The Library's "Continue reading" card (audit NAV-004): one action back
   // into the book. A chapter with a graded pass mid-way resumes Practice at
@@ -3269,24 +3427,17 @@ const actions = {
   closeLitChapterPreview(el, e) {
     if (e && e.target !== el) return false;
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
   },
   cancelLitChapterPreview() {
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
   },
   // Free reading: no comprehension checks, no drills, and it never marks the
   // chapter done (see startLitSession) -- always opens at the top regardless
   // of how far Practice mode has gotten.
-  async startLitFreeRead() {
-    const bookId = state.litBookId;
-    const chapterId = state.litChapterPreviewId;
-    const chapter = await loadChapter(bookId, chapterId);
-    if (!chapter) return false;
-    state.litChapterPreviewId = null;
-    enterLitContext();
-    state.litBookId = bookId;
-    state.litChapterId = chapterId;
-    state.view = 'litRead';
-    startLitSession(chapter, 0, true);
+  startLitFreeRead() {
+    return launchLitChapter('free');
   },
   // Practice: the graded pass, and the only route to marking a chapter done.
   // A chapter not yet done reads paragraph by paragraph with its
@@ -3294,20 +3445,14 @@ const actions = {
   // straight to the Patterns/Build drills at the end -- coming back to
   // Practice a finished chapter is for the drills, not a reread (that's what
   // Free read is for).
-  async startLitPractice() {
-    const bookId = state.litBookId;
-    const chapterId = state.litChapterPreviewId;
-    const chapter = await loadChapter(bookId, chapterId);
-    if (!chapter) return false;
-    state.litChapterPreviewId = null;
-    enterLitContext();
-    state.litBookId = bookId;
-    state.litChapterId = chapterId;
-    state.view = 'litRead';
-    const done = isChapterDone(state.litProgress, bookId, chapterId);
-    const para = done ? 0 : resumeParagraph(state.litProgress, bookId, chapterId, chapter.paragraphs.length);
-    startLitSession(chapter, para, false);
-    if (done) startLitWorkshop(chapter);
+  startLitPractice() {
+    return launchLitChapter('practice');
+  },
+  // A failed load's Retry -- re-runs whichever mode the learner had already
+  // chosen, so the failure never costs them the choice they made.
+  retryLitChapterLoad() {
+    const mode = state.litChapterLoad && state.litChapterLoad.mode;
+    return launchLitChapter(mode || 'practice');
   },
   exitLitChapter() {
     state.lit = null;
@@ -3818,6 +3963,16 @@ document.addEventListener('click', (e) => {
   else rerender();
 });
 
+// Same job for the Schedule popovers -- backdrop-less like the course menu,
+// so a click anywhere else must put them away.
+document.addEventListener('click', (e) => {
+  if (!state.deadlinePickerOpen && !state.resetHourMenuOpen) return;
+  if (e.target.closest('.deadline-picker-wrap, .reset-hour-picker')) return;
+  state.deadlinePickerOpen = false;
+  state.resetHourMenuOpen = false;
+  rerender();
+});
+
 document.addEventListener('keydown', (e) => {
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
@@ -3837,13 +3992,19 @@ document.addEventListener('keydown', (e) => {
     }
   }
   if (e.key !== 'Escape') return;
-  // Escape in the Library search clears the query while keeping focus in
-  // the field (audit NAV-004; the same contract UX-007 asks of the lesson
-  // search) -- checked before the overlay branches below so a stray open
-  // popover elsewhere can't swallow the keypress meant for the field.
+  // Escape in a search field clears the query while keeping focus in the
+  // field (Library per audit NAV-004, the lesson search per UX-007 -- the
+  // same contract on both) -- checked before the overlay branches below so
+  // a stray open popover elsewhere can't swallow the keypress meant for
+  // the field.
   if (e.target.closest && e.target.closest('#lit-search-input') && state.litSearchQuery) {
     state.litSearchQuery = '';
     rerender('#lit-search-input');
+    return;
+  }
+  if (e.target && e.target.id === 'lesson-search-input' && state.lessonSearchQuery) {
+    state.lessonSearchQuery = '';
+    rerender('#lesson-search-input');
     return;
   }
   // Escape-close plays the same overlay exit the Cancel buttons do: the
@@ -3870,11 +4031,25 @@ document.addEventListener('keydown', (e) => {
     const menuExitMs = dismissOpenPopover(root, '.course-menu');
     if (menuExitMs) setTimeout(() => rerender('[data-action="toggleCourseMenu"]'), menuExitMs);
     else rerender('[data-action="toggleCourseMenu"]');
+  } else if (state.deadlinePickerOpen) {
+    // The Schedule popovers close like any other transient surface (audit
+    // UI-002): the same matched drop-out the course menu plays, with focus
+    // handed back to the trigger that opened them.
+    state.deadlinePickerOpen = false;
+    const pickerExitMs = dismissOpenPopover(root, '.deadline-picker');
+    if (pickerExitMs) setTimeout(() => rerender('[data-action="toggleDeadlinePicker"]'), pickerExitMs);
+    else rerender('[data-action="toggleDeadlinePicker"]');
+  } else if (state.resetHourMenuOpen) {
+    state.resetHourMenuOpen = false;
+    const hourExitMs = dismissOpenPopover(root, '.reset-hour-menu');
+    if (hourExitMs) setTimeout(() => rerender('[data-action="toggleResetHourMenu"]'), hourExitMs);
+    else rerender('[data-action="toggleResetHourMenu"]');
   } else if (state.lessonPreviewId) {
     state.lessonPreviewId = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.litChapterPreviewId) {
     state.litChapterPreviewId = null;
+    state.litChapterLoad = null;
     rerenderAfterModalExit(consumeModalTriggerSelector());
   } else if (state.pathCheckpointSetupNodeId) {
     state.pathCheckpointSetupNodeId = null;
@@ -3938,7 +4113,14 @@ document.addEventListener('change', (e) => {
   // now themed popovers of the app's own -- see deadlinePickerHtml/
   // resetHourMenuHtml in js/render.js): dragging it is exactly the built-in
   // interaction this screen wants, so there was no reason to replace it.
+  //
+  // Ranges skip the rerender below: the 'input' listener already applied the
+  // value, repainted the preview and readout live, and queued the persist --
+  // and Chromium fires 'change' after every discrete KEYBOARD step, so the
+  // rerender was rebuilding the focused slider out from under the keyboard.
+  // The first ArrowRight worked; every arrow after it went to <body>.
   const el = e.target.closest('[data-action]');
+  if (el && el.type === 'range') return;
   if (el && !el.disabled && actions[el.dataset.action]) {
     const result = actions[el.dataset.action](el, e);
     if (result && typeof result.then === 'function') {
@@ -3964,6 +4146,21 @@ document.addEventListener('input', (e) => {
   applyAppearance(state);
   const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
   if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  // The Account page's copies of these sliders have no data-*-value outputs
+  // of their own -- patch the readout sitting in this slider's own control
+  // block, so the visible percentage tracks arrow keys and drags there too.
+  const control = el.closest('.lesson-size-control');
+  const localValue = control?.querySelector('.lesson-size-value');
+  if (localValue) localValue.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  // Account's previews size themselves through an inline font-size rather
+  // than the CSS custom property -- keep that live here too, since range
+  // events deliberately never rerender (see the 'change' listener above).
+  const preview = control?.querySelector('.lesson-size-preview');
+  if (preview && (preview.getAttribute('style') || '').includes('font-size')) {
+    const base = isLit ? 19 : 15;
+    const scale = isLit ? state.litTextScale : state.lessonTextScale;
+    preview.style.fontSize = `${((scale / 100) * base).toFixed(1)}px`;
+  }
   // The track's travelled portion is painted from --range-pct (see the range
   // rules in styles.css -- WebKit has no ::-moz-range-progress, and the
   // native track it would otherwise use is a solid dark bar). Patched by
@@ -3976,6 +4173,33 @@ document.addEventListener('input', (e) => {
     el.style.setProperty('--range-pct', `${pct}%`);
   }
   persistSoon(state);
+});
+
+// Once a submission has failed validation, the error tracks the input
+// instead of describing a value that is no longer there: fixing the field
+// clears its message without another submit, and emptying it swaps the
+// format error for the required-field one. Only the field the standing
+// error names is ever re-judged here -- the OTHER field's problems still
+// wait for a real submit, so nobody is scolded about a password they have
+// not typed yet. The rerender rebuilds the uncontrolled inputs, so both
+// values (and the caret) are put back by hand.
+document.addEventListener('input', (e) => {
+  const el = e.target.closest('#account-email, #account-password');
+  if (!el || !state.account.fieldError) return;
+  const email = document.getElementById('account-email')?.value || '';
+  const password = document.getElementById('account-password')?.value || '';
+  const prev = state.account.fieldError;
+  const recomputed = accountFieldError(email, password);
+  const next = recomputed && recomputed.field === prev.field ? recomputed : null;
+  if (next && next.message === prev.message) return;
+  state.account.fieldError = next;
+  const caret = el.selectionStart;
+  rerender(`#${el.id}`);
+  restoreAccountInputs(email, password);
+  const fresh = document.getElementById(el.id);
+  if (fresh && caret !== null && caret !== undefined) {
+    try { fresh.setSelectionRange(caret, caret); } catch (err) { /* email inputs disallow selection APIs in some engines */ }
+  }
 });
 
 // The dashboard's lesson search box also wants a live-as-you-type result

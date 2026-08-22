@@ -50,7 +50,7 @@ import {
   MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
   perfectQuizCount,
 } from './gamification.js';
-import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable } from './state.js';
+import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
 import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
 import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
@@ -284,11 +284,16 @@ function shellTabs(state) {
 
 function shellStatsHtml(state) {
   const li = levelInfo(state.xp);
+  const streak = state.streak || 1;
+  // The aria-label names both the status and the destination -- from its
+  // visible content alone this control announced as little more than two
+  // bare numbers.
   return `
-    <a class="app-stats" href="#/account/achievements" data-action="openAchievements" title="Streak and level">
-      <span class="app-stat" title="Current streak">${icon('flame', 13, 2)}${state.streak || 1}</span>
+    <a class="app-stats" href="#/account/achievements" data-action="openAchievements" title="Streak and level"
+      aria-label="Achievements — ${streak}-day streak, level ${li.level}">
+      <span class="app-stat" title="Current streak" aria-hidden="true">${icon('flame', 13, 2)}${streak}</span>
       <span class="app-stats-sep" aria-hidden="true"></span>
-      <span class="app-stat" title="Level ${li.level}">Level ${li.level}</span>
+      <span class="app-stat" title="Level ${li.level}" aria-hidden="true">Level ${li.level}</span>
     </a>`;
 }
 
@@ -419,6 +424,16 @@ function emptyStateHtml({ icon: iconName, title, note, action = '' }) {
       ${note ? `<span class="empty-state-note">${note}</span>` : ''}
       ${action}
     </div>`;
+}
+
+// The first sentence of a module blurb, for the dashboard rows' outcome
+// line -- enough to say what the module teaches while browsing, without
+// growing every row by a paragraph.
+function firstSentence(text) {
+  const t = String(text || '').trim();
+  const m = t.match(/^.*?[.!؟?](\s|$)/);
+  const s = (m ? m[0] : t).trim();
+  return s.length > 110 ? `${s.slice(0, 107).trimEnd()}…` : s;
 }
 
 // The next thing to do: the first incomplete lesson in course order. Since
@@ -624,10 +639,11 @@ function homeHeroHtml(state, MODULES) {
         <div>
           <div class="home-hero-top">
             <div class="home-hero-greeting" lang="ar" dir="rtl">السلام عليكم</div>
-            <button class="home-hero-pill only-phone" data-action="openAchievements" title="Streak and level">
-              <span>${icon('flame', 13, 2)}${streak}</span>
+            <button class="home-hero-pill only-phone" data-action="openAchievements" title="Streak and level"
+              aria-label="Achievements — ${streak}-day streak, level ${li.level}">
+              <span aria-hidden="true">${icon('flame', 13, 2)}${streak}</span>
               <span class="home-hero-pill-sep" aria-hidden="true"></span>
-              <span>${icon('shield', 13, 2)}${li.level}</span>
+              <span aria-hidden="true">${icon('shield', 13, 2)}${li.level}</span>
             </button>
           </div>
           <h1 class="home-hero-title">${title}</h1>
@@ -742,6 +758,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
         <span class="module-row-num only-phone">${i + 1}</span>
         <span class="module-row-body">
           <span class="module-row-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+          ${m.blurb ? `<span class="module-row-outcome only-desktop">${escBidi(firstSentence(m.blurb))}</span>` : ''}
           <span class="module-row-status">${esc(status)}</span>
         </span>
         ${stateIcon ? `<span class="module-row-state only-phone">${stateIcon}</span>` : ''}
@@ -777,9 +794,14 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
             </span>
             <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
           </div>
-          <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
-            placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
-            autocomplete="off" aria-label="Search lessons in this course">
+          <div class="home-search-wrap">
+            <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
+              placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
+              autocomplete="off" aria-label="Search lessons in this course">
+            ${state.lessonSearchQuery ? `
+            <button class="home-search-clear" type="button" data-action="clearLessonSearch"
+              aria-label="Clear lesson search" title="Clear lesson search">${icon('cross', 14, 2)}</button>` : ''}
+          </div>
           ${query
             ? lessonSearchResultsHtml(MODULES, state, query)
             : `<div class="module-list noscroll">${rows}</div>`}
@@ -874,6 +896,12 @@ function modulePageHtml(state, MODULES) {
   const done = completedCount(mod.id, state.completed);
   const pct = total ? Math.round((done / total) * 100) : 0;
   const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
+  // With course locks off (the default for a fresh install) the pool spans
+  // every lesson, finished or not -- the copy has to say so rather than
+  // claim the cards came "from lessons you've finished" beside a 0-lesson
+  // progress count (the two statements directly contradicted each other).
+  const poolIncludesUnfinished = state.forceUnlockAll
+    && bankPool.length > getBankPool(mod.id, state.completed, false).length;
   const index = MODULES.indexOf(mod) + 1;
   const chapterPath = [mod.heading, mod.subheading].filter(Boolean).join(' · ');
   // The first lesson still to do -- the one the row list points at.
@@ -928,7 +956,8 @@ function modulePageHtml(state, MODULES) {
             ${chapterPath ? `<div class="module-cover-path" lang="ar" dir="rtl">${esc(chapterPath)}</div>` : ''}
             <h1 class="module-cover-title" lang="ar" dir="rtl">${esc(mod.title)}</h1>
             <div class="module-cover-rule" aria-hidden="true"></div>
-            <p class="module-cover-blurb">${escBidi(mod.blurb)}</p>
+            <p class="module-cover-blurb cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(mod.blurb)}</p>
+            <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'}</button>
             <div class="module-cover-progress">
               <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
               <span class="module-cover-count">${done} / ${total} lesson${total === 1 ? '' : 's'}</span>
@@ -940,7 +969,11 @@ function modulePageHtml(state, MODULES) {
           ${icon('pencil', 17, 1.8)}
           <span class="entry-row-body">
             <span class="entry-row-title">Practice Mode</span>
-            <span class="entry-row-meta">${bankPool.length ? `${bankPool.length} cards from lessons you've finished` : 'Finish a lesson to unlock'}</span>
+            <span class="entry-row-meta">${bankPool.length
+              ? poolIncludesUnfinished
+                ? `${bankPool.length} cards — every lesson's cards are open while course locks are off`
+                : `${bankPool.length} cards from lessons you've finished`
+              : 'Finish a lesson to unlock'}</span>
           </span>
           <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
         </button>
@@ -1506,8 +1539,14 @@ function lessonExerciseCardHtml(state, mod, lesson) {
   const exState = state.exStates[key] || {};
   const submitted = !!exState.submitted;
   const wasCorrect = exState.selected === item.correct;
+  // A wrong answer holds its verdict longer than a right one (see
+  // scheduleLessonExerciseAdvance in js/main.js), so the authored
+  // explanation -- where the item carries one -- actually gets read.
+  const why = submitted && !wasCorrect
+    ? (Array.isArray(item.explanations) && item.explanations[exState.selected]) || item.explanation || ''
+    : '';
   const feedback = submitted
-    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}</div>`
+    ? `<div class="quiz-feedback-line ${wasCorrect ? 'correct' : 'incorrect'}" role="status">${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(item.options[item.correct])}.`}${why ? ` ${escBidi(why)}` : ''}</div>`
     : '';
 
   return `
@@ -1575,8 +1614,22 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
     // refocusSelector in js/main.js) -- the screen reader announces the
     // result, and the next Tab continues to Try again / Next concept
     // (audit MOT-006/UX-004: confirmation first, navigation as its own act).
+    //
+    // The verdict also carries authored teaching feedback where the content
+    // has it (audit UX-010): ex.explanations[i] says why option i
+    // specifically fails (the misconception), ex.explanation states the
+    // governing rule. A wrong answer prefers the per-option line; a right
+    // answer gets the rule as confirmation. Content without either keeps
+    // the plain verdict, and the focused element reads verdict + why as one
+    // announcement.
+    const why = !wasCorrect
+      ? (Array.isArray(ex.explanations) && ex.explanations[exState.selected]) || ex.explanation || ''
+      : ex.explanation || '';
     const feedback = submitted
-      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}" tabindex="-1">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</div>`
+      ? `<div class="exercise-feedback ${wasCorrect ? 'correct' : 'incorrect'}" tabindex="-1">
+           <span class="exercise-feedback-line">${wasCorrect ? icon('check', 13, 2.4) : ''}${wasCorrect ? 'Correct.' : `Not quite — the answer is ${escBidi(ex.options[ex.correct])}.`}</span>
+           ${why ? `<span class="exercise-feedback-why">${escBidi(why)}</span>` : ''}
+         </div>`
       : '';
     // Order matters here and used to be wrong: .exercise-content is a
     // flex column, so .exercise-left (prompt + Check) always painted above
@@ -2246,6 +2299,43 @@ function practiceSetupPanelHtml(state, mod) {
   const vocabPool = getVocabPool(mod.id, state.completed, vocabType, state.forceUnlockAll);
   const pool = kind === 'tarkeeb' ? tarkeebPool : kind === 'vocab' ? vocabPool : mcqPool;
 
+  // "Review what I need": one decision instead of a type + a length. Built
+  // strictly from the completed-lessons pool (never material the learner
+  // hasn't studied, even with course locks off), and its meta line says WHY
+  // the material was picked. The manual kind/length controls below remain
+  // as the build-your-own path.
+  const earnedPool = getBankPool(mod.id, state.completed, false);
+  let smartHtml = '';
+  if (earnedPool.length) {
+    const { mistakes, due } = smartPracticeBreakdown(earnedPool, state.practiceHistory);
+    const totalQs = Math.min(SMART_SESSION_LENGTH, earnedPool.length);
+    const mistakeCount = Math.min(SMART_MISTAKE_SLOTS, mistakes.length);
+    const dueCount = Math.min(SMART_DUE_SLOTS, due.length);
+    const otherCount = Math.max(0, totalQs - mistakeCount - dueCount);
+    const parts = [
+      `${totalQs} question${totalQs === 1 ? '' : 's'}`,
+      mistakeCount ? `${mistakeCount} recent mistake${mistakeCount === 1 ? '' : 's'}` : null,
+      dueCount ? `${dueCount} due a review` : null,
+      otherCount ? `${otherCount} to keep sharp` : null,
+    ].filter(Boolean).join(' · ');
+    smartHtml = `
+      <div class="smart-review">
+        <button class="btn btn-primary btn-block" data-action="startSmartPractice">Review what I need</button>
+        <span class="smart-review-meta">${esc(parts)}</span>
+      </div>
+      <div class="setup-group">
+        <div class="kicker">Or build a session</div>
+      </div>`;
+  }
+
+  // With course locks off the pools span unfinished lessons too -- the
+  // panel must not claim otherwise (see modulePageHtml's matching note).
+  const poolIncludesUnfinished = state.forceUnlockAll
+    && getBankPool(mod.id, state.completed, state.forceUnlockAll).length > earnedPool.length;
+  const ledeText = poolIncludesUnfinished
+    ? "Course locks are off, so these pools span every lesson — including ones you haven't studied yet. Pick what to drill and how long a session should run."
+    : "Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.";
+
   // One card per kind of drill this module can offer: the radio carries the
   // choice, the count says how much there is to draw on, and the line under
   // it says what that kind actually asks you to do.
@@ -2294,6 +2384,11 @@ function practiceSetupPanelHtml(state, mod) {
       ${vocabTypeTabsHtml(vocabType, 'setPracticeVocabType')}
     </div>` : '';
 
+  // The colour toggle is the same global setting Settings > Learning aids
+  // holds (toggleTarkeebLabelsBlue) -- surfaced here too so Tarkeeb's own
+  // scaffolding is adjustable from the exercise it scaffolds, not only from
+  // a settings page two screens away.
+  const tarkeebColorOn = state.tarkeebLabelsBlue === true;
   const tarkeebControl = kind === 'tarkeeb' && pool.length ? `
     <div class="setup-group">
       <div class="kicker">Translation</div>
@@ -2301,7 +2396,12 @@ function practiceSetupPanelHtml(state, mod) {
         <button class="practice-tab ${tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="1">Show</button>
         <button class="practice-tab ${!tarkeebTranslationsOn ? 'active' : ''}" data-action="setPracticeTarkeebTranslation" data-show="0">Hide</button>
       </div>
-      <button class="text-link-btn practice-settings-link" data-action="openLearningAids">All Tarkeeb settings — translations and label colour</button>
+      <div class="kicker" style="margin-top:12px;">Label colour</div>
+      <div class="practice-tabs practice-tabs-sub" role="group" aria-label="Tarkeeb label colour (applies everywhere)">
+        <button class="practice-tab ${tarkeebColorOn ? 'active' : ''}" data-action="toggleTarkeebLabelsBlue" ${tarkeebColorOn ? 'disabled' : ''}>Coloured</button>
+        <button class="practice-tab ${!tarkeebColorOn ? 'active' : ''}" data-action="toggleTarkeebLabelsBlue" ${!tarkeebColorOn ? 'disabled' : ''}>Default</button>
+      </div>
+      <button class="text-link-btn practice-settings-link" data-action="openLearningAids">All Tarkeeb settings</button>
     </div>` : '';
 
   return `
@@ -2310,7 +2410,8 @@ function practiceSetupPanelHtml(state, mod) {
         <span class="practice-popout-title">Practice Mode</span>
         <button class="practice-popout-close" data-action="closePracticeSetup" aria-label="Close">✕</button>
       </div>
-      <p class="lede practice-popout-lede">Drawn only from lessons you've finished — no new material. Pick what to drill and how long a session should run.</p>
+      <p class="lede practice-popout-lede">${esc(ledeText)}</p>
+      ${smartHtml}
       <div class="kind-cards">${kindCards}</div>
       ${vocabControl}
       ${tarkeebControl}
@@ -2360,7 +2461,7 @@ function sessionKicker(p, mod) {
     const label = p.kind === 'revisionVocab' ? 'Vocab' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
   }
-  const label = p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
+  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
   return `PRACTICE · ${label}`;
 }
 
@@ -2400,6 +2501,10 @@ function practiceHtml(state, MODULES) {
     pool = p.unlockKind === 'course' ? courseUnlockTestPool(p.targetId)
       : p.unlockKind === 'track' ? trackUnlockTestPool(p.targetId)
         : moduleSkipTestPool(p.targetId);
+  } else if (p.kind === 'smart') {
+    // A smart session mixes every kind in one queue, so its keys resolve
+    // against the whole bank pool rather than a single kind's slice.
+    pool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
   } else {
     pool = poolForKind(
       getMcqPool(mod.id, state.completed, state.forceUnlockAll),
@@ -2843,6 +2948,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
           ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
         </div>
       </div>
+      ${paceWarningHtml(summary, remaining, today)}
       <div class="plan-row">
         <label id="schedule-reset-hour-label">Daily reset time</label>
         <div class="reset-hour-picker">
@@ -2857,6 +2963,28 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       <p class="plan-note">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</p>
       </div>
       </div>
+    </div>`;
+}
+
+// A mathematically valid plan is not automatically a usable one: picking
+// tomorrow with 111 lessons left computes "56 a day" and, without this,
+// presented it deadpan. Above this daily load the plan gets a concise,
+// non-blocking reality check with one more realistic alternative the learner
+// can take in a single click -- or ignore. Recomputed every render, so it
+// updates (and disappears) the moment the date changes.
+const INTENSIVE_DAILY_TARGET = 8;
+const EASED_DAILY_TARGET = 2;
+function paceWarningHtml(summary, remaining, today) {
+  if (!summary || summary.overdue || summary.dailyTarget < INTENSIVE_DAILY_TARGET) return '';
+  const easedDays = Math.ceil(remaining / EASED_DAILY_TARGET);
+  const eased = new Date(`${today}T00:00:00`);
+  eased.setDate(eased.getDate() + easedDays);
+  const easedIso = isoDateAt(eased.getTime());
+  return `
+    <div class="plan-pace-note" role="note">
+      ${icon('info', 14, 2)}
+      <span>${summary.dailyTarget} lessons a day is an intensive pace. Finishing by ${esc(formatDeadlineDate(easedIso))} would be about ${EASED_DAILY_TARGET} a day — or keep your date if you're sure.</span>
+      <button class="btn btn-secondary btn-sm" data-action="pickScheduleDeadline" data-date="${escAttr(easedIso)}">Use ${esc(formatDeadlineDate(easedIso))}</button>
     </div>`;
 }
 
@@ -3038,10 +3166,29 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
   const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
 
   if (!eligible.length) {
+    // The prerequisite is known, so the empty state bridges into it: name
+    // the module closest to unlocking the first quiz (started modules win
+    // by having fewer lessons left) and offer the next lesson directly,
+    // rather than describing the rule and stopping.
+    let nearest = null;
+    MODULES.forEach((m) => {
+      const total = m.lessons.length;
+      if (!total) return;
+      const done = completedCount(m.id, state.completed);
+      if (done >= total) return;
+      const left = total - done;
+      if (!nearest || left < nearest.left) nearest = { mod: m, done, total, left };
+    });
+    const cont = findContinueLesson(state, MODULES);
     return emptyStateHtml({
       icon: 'award',
       title: 'No modules to revise yet',
-      note: 'Finish every lesson in a module and its Revision quiz unlocks here.',
+      note: nearest && nearest.done > 0
+        ? `Finish every lesson in a module and its quiz unlocks here. Closest right now: <bdi lang="ar">${esc(nearest.mod.title)}</bdi> — ${nearest.done} of ${nearest.total} lessons done, ${nearest.left} to go.`
+        : 'Finish every lesson in a module and its quiz unlocks here — your first module is the nearest one.',
+      action: cont
+        ? `<button class="btn btn-primary" data-action="continueLesson" data-module-id="${escAttr(cont.mod.id)}" data-lesson-id="${escAttr(cont.lesson.id)}">Continue · <bdi lang="ar">${esc(cont.lesson.title)}</bdi></button>`
+        : '',
     });
   }
 
@@ -3618,21 +3765,73 @@ function levelProgressHtml(li) {
     </div>`;
 }
 
-function achievementCardHtml(state, id, current, threshold, unit) {
+// One badge as plain data: how far along it is, whether it can be reasoned
+// about numerically (courses can't), and the action that moves it forward.
+// The three visual states (earned / in progress / locked) are derived here
+// once and read by both the catalogue card and the "Closest next" shelf.
+function achievementCardData(state, id, current, threshold, unit, hint) {
   const def = BADGE_DEFS[id];
   const earned = state.badges.includes(id);
-  const progress = (!earned && threshold != null)
-    ? `<span class="ach-card-progress">${Math.min(current, threshold)} / ${threshold}${unit ? ` ${unit}` : ''}</span>`
-    : '';
+  const capped = threshold != null ? Math.min(current, threshold) : null;
+  const fraction = earned ? 1 : threshold ? Math.min(1, Math.max(0, current / threshold)) : 0;
+  return {
+    id,
+    name: def.name,
+    desc: def.desc,
+    earned,
+    current: capped,
+    threshold,
+    unit,
+    hint,
+    fraction,
+    inProgress: !earned && threshold != null && current > 0,
+  };
+}
+
+// The badge lifecycle made visible (UI-011): earned carries the award mark
+// and full strength; in-progress carries a target mark, its own progress
+// bar, and the counter; locked stays quiet behind the padlock. The states
+// differ by icon and structure, never by colour alone.
+function achievementCardHtml(c) {
+  const stateCls = c.earned ? 'earned' : c.inProgress ? 'in-progress' : 'locked';
+  const iconName = c.earned ? 'award' : c.inProgress ? 'target' : 'lock';
+  const progress = !c.earned && c.threshold != null
+    ? `
+      <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
+      <span class="ach-card-progress">${c.current} / ${c.threshold}${c.unit ? ` ${c.unit}` : ''}</span>`
+    : c.earned ? '<span class="ach-card-progress">Earned</span>' : '';
   return `
-    <div class="ach-card ${earned ? 'earned' : 'locked'}">
-      <span class="ach-card-icon">${icon(earned ? 'award' : 'lock', 18, 1.7)}</span>
+    <div class="ach-card ${stateCls}">
+      <span class="ach-card-icon">${icon(iconName, 18, 1.7)}</span>
       <span class="ach-card-body">
-        <span class="ach-card-name">${esc(def.name)}</span>
-        <span class="ach-card-desc">${escBidi(def.desc)}</span>
+        <span class="ach-card-name">${esc(c.name)}</span>
+        <span class="ach-card-desc">${escBidi(c.desc)}</span>
         ${progress}
       </span>
     </div>`;
+}
+
+// The two or three nearest attainable badges, surfaced above the catalogue
+// with the action that advances each one -- the catalogue alone documented
+// the system without ever pointing at the next win (UX-012).
+function achievementsNextHtml(cards) {
+  const candidates = cards
+    .filter((c) => !c.earned && c.threshold != null)
+    .sort((a, b) => (b.fraction - a.fraction) || (a.threshold - b.threshold))
+    .slice(0, 3);
+  if (!candidates.length) return '';
+  return `
+    <section class="ach-section ach-next-section">
+      <h2 class="ach-section-title">Closest next</h2>
+      <div class="ach-next-grid">
+        ${candidates.map((c) => `
+          <div class="ach-next-card">
+            <span class="ach-next-name">${esc(c.name)}</span>
+            <span class="ach-card-track" aria-hidden="true"><span class="ach-card-fill" style="width:${Math.round(c.fraction * 100)}%"></span></span>
+            <span class="ach-next-meta">${c.current} / ${c.threshold}${c.unit ? ` ${c.unit}` : ''}${c.hint ? ` · ${esc(c.hint)}` : ''}</span>
+          </div>`).join('')}
+      </div>
+    </section>`;
 }
 
 function achievementsHtml(state) {
@@ -3641,44 +3840,69 @@ function achievementsHtml(state) {
   const lessonsDone = completedLessonsAllCourses(state.completed);
   const perfectCount = perfectQuizCount(state.quizScores);
   const streak = state.streak || 1;
-  const card = (id, current, threshold, unit) => achievementCardHtml(state, id, current, threshold, unit);
+  const card = (id, current, threshold, unit, hint) => achievementCardData(state, id, current, threshold, unit, hint);
 
   const sections = [
-    { title: 'Getting started', cards: [card('first-steps', 0, null, null)] },
-    { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null)) },
-    { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days')) },
-    { title: 'Perfect quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes')) },
-    { title: 'Practice volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills')) },
+    { title: 'Getting started', cards: [card('first-steps', Math.min(lessonsDone, 1), 1, null, 'Complete your first lesson')] },
+    { title: 'Level', cards: LEVEL_TIERS.map((t) => card(t.id, li.level, t.level, null, 'Earn XP from quizzes, drills, and reading')) },
+    { title: 'Streak', cards: STREAK_TIERS.map((t) => card(t.id, streak, t.days, 'days', 'Study on consecutive days')) },
+    { title: 'Perfect quizzes', cards: PERFECT_QUIZ_TIERS.map((t) => card(t.id, perfectCount, t.count, 'quizzes', 'Score 100% on a lesson quiz')) },
+    { title: 'Practice volume', cards: PRACTICE_TIERS.map((t) => card(t.id, state.practiceCorrectTotal || 0, t.count, 'drills', 'Answer practice drills correctly')) },
     {
       title: 'Modules completed',
       cards: [
-        ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules')),
-        card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules'),
+        ...MODULE_TIERS.map((t) => card(t.id, modulesDone, t.count, 'modules', 'Finish every lesson in a module')),
+        card(MODULES_ALL_BADGE.id, modulesDone, totalModulesAllCourses(), 'modules', 'Finish every lesson in a module'),
       ],
     },
     {
       title: 'Lessons cleared',
       cards: [
-        ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons')),
-        card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons'),
+        ...LESSON_TIERS.map((t) => card(t.id, lessonsDone, t.count, 'lessons', 'Clear lessons in any course')),
+        card(LESSONS_ALL_BADGE.id, lessonsDone, totalLessonsAllCourses(), 'lessons', 'Clear lessons in any course'),
       ],
     },
     {
       title: 'Courses',
-      cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null)],
+      cards: [...COURSE_TIERS.map((t) => card(t.id, 0, null, null, null)), card(COURSE_ALL_BADGE.id, 0, null, null, null)],
     },
   ];
+  const allCards = sections.flatMap((s) => s.cards);
   // My Path itself doesn't award badges (see LEGACY_PATH_BADGE_DEFS in
   // gamification.js) -- totalBadges is the count of cards actually shown
   // above, not Object.keys(BADGE_DEFS).length, so it doesn't silently
   // include the legacy path-* ids nothing can earn any more.
-  const totalBadges = sections.reduce((sum, s) => sum + s.cards.length, 0);
+  const totalBadges = allCards.length;
+  const earnedCount = allCards.filter((c) => c.earned).length;
+  const inProgressCount = allCards.filter((c) => c.inProgress).length;
 
-  const sectionsHtml = sections.map((s) => `
+  // Earned / in-progress / everything, as the same segmented pills every
+  // other filter in the app uses. Transient -- reopens on All.
+  const filter = state.achievementsFilter === 'earned' || state.achievementsFilter === 'progress'
+    ? state.achievementsFilter : 'all';
+  const matches = (c) => filter === 'all' || (filter === 'earned' ? c.earned : c.inProgress);
+  const filterTabs = `
+    <div class="practice-tabs ach-filter" role="group" aria-label="Filter badges">
+      <button class="practice-tab ${filter === 'all' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="all">All ${totalBadges}</button>
+      <button class="practice-tab ${filter === 'progress' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="progress">In progress ${inProgressCount}</button>
+      <button class="practice-tab ${filter === 'earned' ? 'active' : ''}" data-action="setAchievementsFilter" data-filter="earned">Earned ${earnedCount}</button>
+    </div>`;
+
+  const sectionsHtml = sections
+    .map((s) => ({ ...s, cards: s.cards.filter(matches) }))
+    .filter((s) => s.cards.length)
+    .map((s) => `
     <section class="ach-section">
       <h2 class="ach-section-title">${esc(s.title)}</h2>
-      <div class="ach-grid">${s.cards.join('')}</div>
-    </section>`).join('');
+      <div class="ach-grid">${s.cards.map(achievementCardHtml).join('')}</div>
+    </section>`).join('')
+    || emptyStateHtml({
+      icon: 'award',
+      title: filter === 'earned' ? 'Nothing earned yet' : 'Nothing in progress',
+      note: filter === 'earned'
+        ? 'Your first lesson earns the first badge.'
+        : 'Start a lesson or a practice session and the nearest badges begin filling in.',
+    });
 
   const hero = heroPanelHtml({
     watermark: 'أوسمة',
@@ -3686,7 +3910,7 @@ function achievementsHtml(state) {
     title: 'Achievements',
     body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
     ledger: `<div class="ach-ledger-block">${heroLedgerHtml([
-      ['Badges earned', `${state.badges.length} / ${totalBadges}`],
+      ['Badges earned', `${earnedCount} / ${totalBadges}`],
       ['Level', li.level],
       ['XP', state.xp],
     ])}${levelProgressHtml(li)}</div>`,
@@ -3697,7 +3921,11 @@ function achievementsHtml(state) {
       ${navBackRowHtml(state)}
       ${hero}
       ${separatorHtml()}
-      <div class="col-wide achievements-page">${sectionsHtml}</div>
+      <div class="col-wide achievements-page">
+        ${achievementsNextHtml(allCards)}
+        ${filterTabs}
+        ${sectionsHtml}
+      </div>
     </div>`;
 }
 
@@ -3790,7 +4018,7 @@ function settingsHtml(state) {
         <p class="settings-group-sub">Five grounds. The structure of the page does not change with them.</p>
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
 
-        <h2 class="settings-group-title" style="margin-top:26px">Accent</h2>
+        <h3 class="settings-group-title" style="margin-top:26px">Accent</h3>
         <p class="settings-group-sub">Independent of the paper — any accent pairs with any ground.</p>
         <div class="accent-grid" role="radiogroup" aria-label="Accent colour">${accentChips}</div>
 
@@ -4014,10 +4242,15 @@ function accountHtml(state) {
       <div><span class="ledger-inline-value">${state.badges.length}</span><span class="ledger-inline-label">Badges</span></div>
     </div>`;
 
-  // Four weeks back from today, as a 7-wide grid so the columns line up under
-  // their weekday. Filled = a lesson was finished that day; today is outlined
-  // whether or not anything has been done yet.
+  // Four weeks back from today, as a 7-wide grid so the columns line up
+  // under their weekday. Filled = the app was studied in that day -- a
+  // union of lesson-completion dates and the visit-day history the streak
+  // itself counts (state.visitDays), so the grid can no longer show four
+  // empty weeks under a "2 days" headline. Every cell carries its date and
+  // status as its accessible name; today keeps a ring distinct from the
+  // filled treatment.
   const days = activeDaySet(state.completed);
+  (state.visitDays || []).forEach((d) => days.add(d));
   const weekdayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const todayDate = new Date(`${today}T00:00:00`);
   // Sunday-first, matching the mockup's calendar.
@@ -4027,17 +4260,23 @@ function accountHtml(state) {
     const d = new Date(todayDate);
     d.setDate(d.getDate() - back);
     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const cls = ['streak-cell', days.has(iso) ? 'is-filled' : '', iso === today ? 'is-today' : '', d > todayDate ? 'is-future' : ''].filter(Boolean).join(' ');
-    cells.push(`<span class="${cls}" title="${iso}"></span>`);
+    const studied = days.has(iso);
+    const isToday = iso === today;
+    const isFuture = d > todayDate;
+    const cls = ['streak-cell', studied ? 'is-filled' : '', isToday ? 'is-today' : '', isFuture ? 'is-future' : ''].filter(Boolean).join(' ');
+    const dayLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const status = isFuture ? 'upcoming' : studied ? 'studied' : 'no study recorded';
+    const label = `${dayLabel}${isToday ? ' (today)' : ''} — ${status}`;
+    cells.push(`<span class="${cls}" role="img" title="${escAttr(label)}" aria-label="${escAttr(label)}"></span>`);
   }
   const streakSection = `
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Streak</h2>
       <span class="account-streak-meta">${icon('flame', 12, 2)}${state.streak || 1} day${(state.streak || 1) === 1 ? '' : 's'}</span>
     </div>
-    <div class="streak-labels">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
+    <div class="streak-labels" aria-hidden="true">${weekdayLabels.map((l) => `<span>${l}</span>`).join('')}</div>
     <div class="streak-grid">${cells.join('')}</div>
-    <p class="streak-note">Last four weeks · a day starts at ${esc(formatResetHour(resetHour))}.</p>`;
+    <p class="streak-note">Last four weeks — a marked day is one you opened the app or finished a lesson on. A day starts at ${esc(formatResetHour(resetHour))}.</p>`;
 
   const courseRows = COURSES.map((course) => {
     const stats = courseModuleStats(course, state.completed);
@@ -4252,9 +4491,16 @@ function litBookCardHtml(state, book, index) {
   const { done, total } = bookProgress(book, state.litProgress);
   const pct = total ? Math.round((done / total) * 100) : 0;
   const started = done > 0;
+  // The spine carries the volume's own numeral within its series (same
+  // treatment the Continue-reading card already uses) -- fourteen
+  // otherwise-identical black spines gave the shelf no landmarks at all.
+  const series = bookSeries(book);
+  const seriesKey = series ? series.ar : '';
+  const seriesBooks = LIT_BOOKS.filter((b) => ((bookSeries(b) || {}).ar || '') === seriesKey);
+  const volumeNumber = seriesBooks.indexOf(book) + 1;
   return `
     <button class="lit-book${started && done < total ? ' is-current' : ''}" data-action="openLitBook" data-book-id="${escAttr(book.id)}">
-      <span class="lit-book-spine" aria-hidden="true"></span>
+      <span class="lit-book-spine" aria-hidden="true"><bdi lang="ar">${esc(arabicNumeral(volumeNumber))}</bdi></span>
       <span class="lit-book-face">
         <span class="lit-book-kicker">${esc(book.volumeLabel || '')}</span>
         <span class="lit-book-title" lang="ar" dir="rtl">${esc(book.title.ar)}</span>
@@ -4500,16 +4746,34 @@ function litChapterPreviewHtml(state) {
   const started = !done && rec && rec.para > 0;
   const practiceLabel = done ? 'Practice (drills)' : started ? 'Resume' : 'Practice';
 
+  // The launch is an explicit state (see launchLitChapter in js/main.js):
+  // while the chapter is being fetched both launch buttons are disabled and
+  // a status line says so; a failed fetch keeps this dialog open and offers
+  // a Retry for the mode that was chosen, announced as an alert.
+  const load = state.litChapterLoad;
+  const loading = !!(load && load.status === 'loading');
+  const failed = !!(load && load.status === 'error');
+  const statusHtml = loading
+    ? '<p class="modal-status" role="status">Opening the chapter…</p>'
+    : failed
+      ? `<div class="modal-error" role="alert">
+           ${icon('alert', 14, 2)}
+           <span>The chapter could not be opened. Check your connection and try again.</span>
+           <button class="btn btn-primary btn-sm" data-action="retryLitChapterLoad">Retry</button>
+         </div>`
+      : '';
+
   return `
     <div class="modal-backdrop" data-action="closeLitChapterPreview">
       <div class="modal lit-chapter-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(chapter.title.en)}">
         <div class="card-kicker modal-kicker">CHAPTER ${idx + 1} &middot; ${esc(book.title.en)}</div>
         <h3 lang="ar" dir="rtl">${esc(chapter.title.ar)}</h3>
         <p class="modal-sub">${escBidi(chapter.title.en)}</p>
+        ${statusHtml}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="cancelLitChapterPreview">Cancel</button>
-          <button class="btn btn-secondary" data-action="startLitFreeRead">Free read</button>
-          <button class="btn btn-primary" data-action="startLitPractice">${practiceLabel}</button>
+          <button class="btn btn-secondary" data-action="startLitFreeRead" ${loading ? 'disabled' : ''}>Free read</button>
+          <button class="btn btn-primary" data-action="startLitPractice" ${loading ? 'disabled' : ''}>${practiceLabel}</button>
         </div>
       </div>
     </div>`;
@@ -4550,7 +4814,8 @@ function litBookHtml(state) {
           <h1 class="lit-cover-title" lang="ar" dir="rtl">${esc(book.title.ar)}</h1>
           <div class="module-cover-rule" aria-hidden="true"></div>
           <p class="lit-cover-author" lang="ar" dir="rtl">${esc(book.author.ar)}</p>
-          <p class="lit-cover-body">${escBidi(book.blurb)}</p>
+          <p class="lit-cover-body cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(book.blurb)}</p>
+          <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'}</button>
           <div class="module-cover-progress">
             <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
             <span class="module-cover-count">${done} / ${total} read</span>
@@ -4608,7 +4873,7 @@ function litSentenceHtml(state, sentence) {
   const open = state.lit.gloss === sentence.id;
   const words = sentence.tokens.map((t, ti) => litWordHtml(state, sentence, t, ti)).join(' ');
   return `<span class="lit-sentence${open ? ' is-open' : ''}" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}"
-    >${words}<button class="lit-gloss-btn" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}" aria-expanded="${open ? 'true' : 'false'}" aria-label="Show the translation of this phrase">${icon('book', 11, 2)}</button
+    >${words}<button class="lit-gloss-btn${open ? ' is-on' : ''}" data-action="litToggleGloss" data-s="${escAttr(sentence.id)}" aria-expanded="${open ? 'true' : 'false'}" aria-label="${open ? 'Hide the translation of this phrase' : 'Show the translation of this phrase'}">${icon('book', 11, 2)}</button
     ><span class="lit-gloss" dir="ltr" lang="en">${esc(sentence.en)}</span></span>`;
 }
 
@@ -4632,7 +4897,9 @@ function litParagraphHtml(state, para, pi, active) {
       <div class="lit-para-gutter">
         <span class="lit-para-mark" aria-hidden="true">${pi + 1}</span>
         <button class="lit-para-en${fullOpen ? ' is-active' : ''}" data-action="litToggleFullPara" data-para="${pi}"
-          aria-pressed="${fullOpen ? 'true' : 'false'}" title="This paragraph in English">EN</button>
+          aria-pressed="${fullOpen ? 'true' : 'false'}"
+          aria-label="${fullOpen ? 'Hide the English translation of this paragraph' : 'Show the English translation of this paragraph'}"
+          title="${fullOpen ? 'Hide English' : 'Show English'}">EN</button>
         <button class="lit-para-hover-btn${hoverOn ? ' is-active' : ''}" data-action="toggleLitHoverTranslate"
           aria-pressed="${hoverOn ? 'true' : 'false'}" title="${hoverOn ? 'Hover translation: ON (click to turn off)' : 'Hover translation: OFF (click to turn on)'}">${icon('pointer', 11, 2)}</button>
       </div>
@@ -4986,7 +5253,13 @@ function litPagerHtml(state, chapter) {
 
 function litReadStageHtml(state, chapter) {
   const lit = state.lit;
+  // The reading interactions introduced up front, beside the first
+  // paragraph -- on a phone the word-notes card that used to explain them
+  // sits below the whole passage, after every marker has already been met.
+  const intro = lit.para === 0 ? `
+    <p class="lit-intro only-phone">Tap a word for its meaning and form — tap the small ${icon('book', 10, 2)} at a phrase's end for its English.</p>` : '';
   return `${litPagerHtml(state, chapter)}
+    ${intro}
     ${litParagraphHtml(state, chapter.paragraphs[lit.para], lit.para, true)}
     ${lit.freeRead ? '' : litChecksHtml(state, chapter.paragraphs[lit.para], lit.para)}`;
 }

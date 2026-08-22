@@ -232,6 +232,12 @@ export async function createInitialState() {
     // Transient: Revision's top-level toggle -- 'module' (the module quiz)
     // or 'vocab'. Not persisted -- always reopens on "module".
     scheduleRevisionKind: 'module',
+    // Transient: Achievements' catalogue filter -- 'all' | 'progress' |
+    // 'earned'. Not persisted; always reopens on 'all'.
+    achievementsFilter: 'all',
+    // Transient: whether a cover blurb (module page / book page) is expanded
+    // past its phone clamp. Reset on entering a module or book.
+    coverBlurbOpen: false,
     // Transient: Revision's "Pick a module" vs "Random" toggle. Not
     // persisted -- always reopens on "pick".
     scheduleRevisionMode: 'pick',
@@ -260,6 +266,13 @@ export async function createInitialState() {
     // modal is open, mirroring lessonPreviewId's job for grammar lessons.
     // Not persisted.
     litChapterPreviewId: null,
+    // Transient: the chapter-preview modal's launch state -- null (idle),
+    // { status: 'loading', mode } while the chapter module is fetched, or
+    // { status: 'error', mode } after a failed fetch, where mode is
+    // 'free' | 'practice' so Retry can re-run the same choice. Without this
+    // the dialog gave no feedback at all on a slow or failed load: both
+    // buttons just appeared dead (see launchLitChapter in js/main.js).
+    litChapterLoad: null,
     // `${bookId}/${chapterId}` -> { para, done, at, score } -- `para` is the
     // furthest paragraph reached, so a long chapter resumes where it was left
     // rather than restarting (unlike a practice session, a chapter is a long
@@ -309,6 +322,9 @@ export async function createInitialState() {
     exStates: boot.exStates,
     streak: boot.streak,
     lastVisit: boot.lastVisit,
+    // Days the app was opened (rolling window) -- what the Account streak
+    // calendar fills from, alongside lesson-completion dates. Persisted.
+    visitDays: boot.visitDays || [],
     xp: boot.xp,
     badges: boot.badges,
     // Lifetime correct-practice-drill count, driving the Practice Volume
@@ -470,6 +486,55 @@ function weightedSample(pool, count, weightFn) {
 
 export function buildPracticeQueue(pool, history, count) {
   return weightedSample(pool, count, (e) => practiceWeight(e, history));
+}
+
+// "Review what I need" -- the one-decision session (see practiceSetupPanelHtml
+// / startSmartPractice). Built from the learner's own record over the
+// COMPLETED-lessons pool only, so it never includes material they have not
+// encountered: recent mistakes first (last answer wrong), then items due a
+// look (seen, but not for a few days), topped up to length with the ordinary
+// history-weighted sample over whatever remains. Returns the queue plus the
+// composition counts, so the UI can say why the material was picked -- or
+// null when the pool is empty.
+export const SMART_SESSION_LENGTH = 10;
+export const SMART_MISTAKE_SLOTS = 4;
+export const SMART_DUE_SLOTS = 3;
+const SMART_DUE_AGE_MS = 3 * 86400000;
+
+export function smartPracticeBreakdown(pool, history, now = Date.now()) {
+  const mistakes = [];
+  const due = [];
+  const rest = [];
+  pool.forEach((e) => {
+    const h = history[e.key];
+    if (h && h.lastCorrect === false) mistakes.push(e);
+    else if (h && h.lastSeen && now - h.lastSeen > SMART_DUE_AGE_MS) due.push(e);
+    else rest.push(e);
+  });
+  return { mistakes, due, rest };
+}
+
+export function buildSmartPracticeSession(pool, history, now = Date.now()) {
+  if (!pool.length) return null;
+  const { mistakes, due } = smartPracticeBreakdown(pool, history, now);
+  const queue = [];
+  shuffle(mistakes).slice(0, SMART_MISTAKE_SLOTS).forEach((e) => queue.push(e.key));
+  shuffle(due).slice(0, SMART_DUE_SLOTS).forEach((e) => queue.push(e.key));
+  const used = new Set(queue);
+  const remainder = pool.filter((e) => !used.has(e.key));
+  buildPracticeQueue(remainder, history, SMART_SESSION_LENGTH - queue.length).forEach((k) => queue.push(k));
+  if (!queue.length) return null;
+  const mistakeCount = Math.min(SMART_MISTAKE_SLOTS, mistakes.length);
+  const dueCount = Math.min(SMART_DUE_SLOTS, due.length);
+  return {
+    queue: shuffle(queue),
+    counts: {
+      total: queue.length,
+      mistakes: mistakeCount,
+      due: dueCount,
+      other: queue.length - mistakeCount - dueCount,
+    },
+  };
 }
 
 // Fisher-Yates, used to shuffle a tarkeeb item's drag-tray chips on entry.

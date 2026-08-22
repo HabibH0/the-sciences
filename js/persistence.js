@@ -137,6 +137,18 @@ export async function bootProgress() {
     litHoverTranslate: saved.litHoverTranslate !== false,
     streak,
     lastVisit: today,
+    // Every day the app was opened, oldest first, capped to a rolling window
+    // comfortably beyond the four weeks the Account streak calendar shows.
+    // The streak number above counts consecutive visits; without this list
+    // the calendar could only show lesson-completion days, so a streak
+    // sustained by practice or reading rendered as an empty grid that
+    // contradicted its own headline (the calendar unions both -- see
+    // accountHtml in js/render.js).
+    visitDays: (() => {
+      const prev = Array.isArray(saved.visitDays) ? saved.visitDays : [];
+      const withToday = prev.includes(today) ? prev : [...prev, today];
+      return withToday.slice(-60);
+    })(),
     xp: saved.xp || 0,
     badges: saved.badges || [],
     // Lifetime count of correctly-answered practice drills (module Practice
@@ -224,6 +236,7 @@ function snapshot(state) {
     litHoverTranslate: state.litHoverTranslate !== false,
     streak: state.streak,
     lastVisit: state.lastVisit,
+    visitDays: Array.isArray(state.visitDays) ? state.visitDays : [],
     xp: state.xp,
     badges: state.badges,
     practiceCorrectTotal: state.practiceCorrectTotal,

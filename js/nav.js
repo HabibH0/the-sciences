@@ -305,7 +305,10 @@ export function navFromHash(hash) {
       return { view: 'schedule' };
     case 'account':
       if (parts[1] === 'achievements') return { view: 'achievements' };
-      if (parts[1] === 'appearance') return { view: 'settings' };
+      // '/settings' was audit-uiux's name for the appearance page while the
+      // two audit branches were in flight -- kept as an alias so links from
+      // that interval keep resolving.
+      if (parts[1] === 'appearance' || parts[1] === 'settings') return { view: 'settings' };
       if (parts[1] === 'learning-aids') return { view: 'learningAids' };
       if (parts[1] === 'progression') return { view: 'courseProgression' };
       return { view: 'account' };

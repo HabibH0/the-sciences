@@ -220,9 +220,13 @@
      uppercase and letterspaced, where the caps height buys back the size.
      It is also where the old 8.5px and 9px labels landed, which were below
      what this face stays legible at. */
-  --text-micro: 10px;   /* kickers, tags, axis labels */
-  --text-meta: 11px;    /* metadata, ledger labels, helper lines */
-  --text-sm: 12px;      /* secondary body, notes, row subtitles */
+  /* Raised one step in the audit's typography pass (UI-009): supporting
+     text at 10-11px made the restrained palette read faint, especially on
+     desktop. Micro stays the caps-and-letterspacing floor; running
+     metadata should sit on -meta or above. */
+  --text-micro: 11px;   /* kickers, tags, axis labels */
+  --text-meta: 12px;    /* metadata, ledger labels, helper lines */
+  --text-sm: 12.5px;    /* secondary body, notes, row subtitles */
   --text-base: 13px;    /* UI default: buttons, inputs, row titles */
   --text-md: 15px;      /* lesson and reader prose */
   --text-lg: 17px;      /* callouts, group headings */
@@ -1029,12 +1033,16 @@ bdi,
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
 }
+/* Primary carries a resting accent wash as well as the stroke (UI-007): a
+   1px colour change alone left the one action to press indistinguishable
+   from every passive hairline box around it. Still a wash, never a slab --
+   the accent stays a stroke colour in this system. */
 .btn-primary,
 .ds-btn-primary,
 .btn-outline {
   border-color: var(--color-accent);
   color: var(--color-accent-700);
-  background: transparent;
+  background: var(--accent-tint-weak);
 }
 .btn-primary:hover:not(:disabled),
 .ds-btn-primary:hover:not(:disabled),
@@ -1117,6 +1125,9 @@ bdi,
 .plate .ds-btn-primary {
   border-color: var(--color-accent);
   color: var(--color-accent);
+  /* The paper-mixed wash above would read as a light smudge on ink -- the
+     plate's primary takes its wash from the accent alone. */
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 .plate .btn:hover:not(:disabled),
 .plate .ds-btn:hover:not(:disabled) {
@@ -1537,6 +1548,18 @@ bdi,
   margin-top: 1px;
   display: block;
 }
+/* What the module teaches, in one clamped line -- browsing 30 titles no
+   longer means opening each one to find out (UI-005). Desktop only: the
+   phone rows stay compact. */
+.module-row-outcome {
+  display: block;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .module-row-current .module-row-status {
   color: var(--color-accent-700);
 }
@@ -1643,6 +1666,44 @@ bdi,
   border-radius: var(--radius-sm);
 }
 
+.home-search-wrap {
+  position: relative;
+  flex: none;
+}
+/* The clear control is a real button (keyboard focusable, named), sitting
+   inside the field's right edge. Room for it comes off the input's own
+   padding so text never runs beneath it. */
+.home-search-wrap .home-search {
+  padding-right: 36px;
+}
+.home-search-clear {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(calc(-50% + 6px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+}
+.home-search-clear:hover {
+  color: var(--color-text);
+}
+.home-search-clear:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+/* The native ✕ WebKit draws inside type="search" would double up with ours. */
+.home-search::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
 .home-search {
   width: 100%;
   margin-top: 12px;
@@ -1707,7 +1768,7 @@ bdi,
   color: var(--color-text);
 }
 .home-explore-meta {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 
@@ -1858,9 +1919,7 @@ bdi,
   color: var(--color-text);
 }
 .lesson-section-note {
-  font-size: var(--text-micro);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 
@@ -1929,7 +1988,7 @@ bdi,
 }
 .lesson-row-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   margin-top: 6px;
   font-variant-numeric: tabular-nums;
@@ -1988,22 +2047,34 @@ bdi,
   }
 }
 
-/* ---------- Home: phone ---------- */
+/* ---------- Home: phone ----------
+   Content-prioritised (UI-008): the hero establishes context and offers one
+   action, then hands the viewport to the module list -- it does not restate
+   the desktop band at full height. */
 @media (max-width: 900px) {
   .home-hero-inner {
     grid-template-columns: 1fr;
-    gap: 22px;
-    padding: 22px 22px 20px;
+    gap: 14px;
+    padding: 16px 22px 16px;
   }
   .home-hero-title {
-    font-size: 25px;
+    font-size: 21px;
+    margin-top: 3px;
+  }
+  .home-hero .rule-accent {
+    display: none;
   }
   .home-resume {
     max-width: none;
     flex-wrap: wrap;
+    margin-top: 12px;
+    padding: 11px 13px;
   }
   .home-resume .btn {
     width: 100%;
+  }
+  .home-resume-cta {
+    margin-top: 8px;
   }
   .home-body {
     display: flex;
@@ -2345,6 +2416,19 @@ bdi,
 }
 .exercise-feedback.correct {
   color: var(--color-accent-700);
+}
+.exercise-feedback-line {
+  display: block;
+  font-weight: 600;
+}
+/* The authored "why" under a verdict -- the teaching line, quieter than the
+   verdict itself so the exercise keeps moving. */
+.exercise-feedback-why {
+  display: block;
+  margin-top: 3px;
+  font-weight: 400;
+  color: var(--color-neutral-700);
+  max-width: var(--measure-prose);
 }
 .exercise-content {
   display: flex;
@@ -3641,14 +3725,72 @@ bdi,
   display: block;
 }
 .ach-card-progress {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
-  margin-top: 5px;
+  margin-top: 4px;
   display: block;
 }
 .ach-card.earned .ach-card-progress {
   color: var(--color-accent-700);
+}
+/* In progress is its own visible state, between locked and earned: full
+   strength, an accent-tinted mark, and a real progress bar -- previously it
+   was pixel-identical to a distant locked tier. */
+.ach-card.in-progress {
+  opacity: 1;
+  border-color: var(--color-neutral-300);
+}
+.ach-card.in-progress .ach-card-icon {
+  border-color: var(--color-accent);
+  color: var(--color-accent-700);
+  background: var(--accent-tint-weak);
+}
+.ach-card-track {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-neutral-200);
+  margin-top: 8px;
+  overflow: hidden;
+}
+.ach-card-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+/* "Closest next": the two or three attainable badges, ahead of the
+   catalogue, each naming the action that moves it. */
+.ach-next-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+.ach-next-card {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-tint-weak);
+  box-shadow: var(--shadow-sm);
+}
+.ach-next-name {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.ach-next-meta {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+.ach-filter {
+  margin: var(--space-6) 0 var(--space-2);
+  max-width: 460px;
 }
 
 /* ---------- Settings ---------- */
@@ -3671,6 +3813,31 @@ bdi,
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-700);
   margin-bottom: var(--space-2);
+}
+
+/* The three top-level areas the page is split into (Appearance / Learning
+   aids / Course progression, see IA note in settingsHtml) -- one visual
+   step above the group headings inside them. */
+.settings-area-head {
+  margin-top: var(--space-5);
+}
+.settings-area-title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--text-title);
+  color: var(--color-text);
+  padding-bottom: var(--space-2);
+  margin: 0 0 var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+.settings-area-head .settings-group-sub {
+  margin-bottom: var(--space-5);
+}
+/* Inside an area, the group headings drop their rule -- the area heading
+   already carries it, and two ruled levels read as one flat list again. */
+.settings-page .settings-group-title {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* Group heading: one step below .section-head-title, matching the section
@@ -3856,7 +4023,7 @@ bdi,
   display: block;
 }
 .theme-card-note {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   display: block;
 }
@@ -4008,7 +4175,7 @@ bdi,
   display: block;
 }
 .specimen-word-label {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   display: block;
 }
@@ -4179,6 +4346,15 @@ bdi,
   border-radius: 2px 4px 4px 2px;
   background: var(--color-plate);
   border-left: 2px solid var(--color-accent);
+  /* The volume's numeral within its series (UI-010) -- the one glanceable
+     landmark on an otherwise uniform shelf, matching .lit-continue-spine. */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-family: var(--font-ar-heading);
+  font-size: var(--text-base);
+  color: var(--color-accent);
 }
 .lit-book-face {
   flex: 1;
@@ -4221,7 +4397,7 @@ bdi,
   background: var(--color-accent);
 }
 .lit-book-meta {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
   flex: none;
@@ -4383,7 +4559,7 @@ bdi,
   display: block;
 }
 .lit-chapter-pages {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   margin-top: 6px;
   font-variant-numeric: tabular-nums;
@@ -4573,9 +4749,41 @@ bdi,
   padding: 0 3px;
   border: 0;
   background: transparent;
+  position: relative;
 }
 .lit-gloss-btn.is-on {
   color: var(--color-accent);
+}
+/* Touch: the visible marker stays its quiet size, but the tappable box
+   grows to the platform floor through an invisible overlay. Kept narrower
+   than it is tall (the line-height's own slack absorbs the vertical reach)
+   so it cannot swallow taps meant for the Arabic word beside it. */
+@media (pointer: coarse) {
+  .lit-gloss-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: var(--tap-min);
+    transform: translate(-50%, -50%);
+  }
+}
+/* One quiet line introducing the reading interactions, beside the first
+   paragraph (phone only -- the desktop margin card already sits alongside). */
+.lit-intro {
+  margin: 14px 22px 0;
+  padding: 8px 12px;
+  border-left: 2px solid var(--color-divider);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-neutral-700);
+}
+.lit-intro .icon {
+  vertical-align: -2px;
+  color: var(--color-neutral-500);
 }
 
 .lit-gloss {
@@ -4588,8 +4796,18 @@ bdi,
   line-height: 1.55;
   color: var(--color-neutral-700);
 }
+/* The whole-paragraph translation (the gutter's EN toggle). It renders as a
+   flex child of .lit-para, and without a forced wrap it sat BESIDE the
+   Arabic as a third column -- squeezing the passage into a one-word-wide
+   vertical strip at every width, worst at 390px where the English then
+   owned the whole screen (the audit's UI-001). flex-basis:100% (with wrap
+   on .lit-para below) drops it onto its own full-width row underneath: the
+   Arabic keeps its full measure, and the English reads as a stacked panel
+   aligned under the text it translates. */
 .lit-para-full {
-  margin: 14px 22px 0;
+  flex-basis: 100%;
+  min-width: 0;
+  margin: 14px 0 0 26px;
   padding: 12px 14px;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
@@ -4820,7 +5038,7 @@ bdi,
 }
 .lit-unknown-gloss {
   font-family: var(--font-body);
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
 }
 .lit-unknown-empty {
@@ -4950,6 +5168,38 @@ bdi,
 }
 .lit-chapter-modal {
   max-width: 380px;
+}
+/* Launch feedback inside a dialog (the chapter preview's load states). The
+   error carries an icon and its own Retry, so colour is never the only
+   signal and the fix sits beside the failure it fixes. */
+.modal-status {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
+  margin-top: var(--space-3);
+}
+.modal-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-danger-line);
+  border-radius: var(--radius-md);
+  background: var(--color-danger-tint);
+  font-size: var(--text-sm);
+  color: var(--color-danger-text);
+  text-align: left;
+}
+.modal-error .icon {
+  flex: none;
+}
+.modal-error span {
+  flex: 1;
+  min-width: 0;
+  line-height: var(--leading-snug);
+}
+.modal-error .btn {
+  flex: none;
 }
 
 @media (max-width: 900px) {
@@ -5119,7 +5369,7 @@ bdi,
   display: block;
 }
 .lesson-search-row-module {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-accent-700);
   flex: none;
 }
@@ -5700,7 +5950,7 @@ bdi,
 }
 .path-group-card-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
   margin-top: 6px;
@@ -5972,7 +6222,7 @@ button.concept-dot {
 }
 .up-next-meta {
   display: block;
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   margin-top: 1px;
 }
@@ -6047,6 +6297,42 @@ button.concept-dot {
   margin-top: var(--space-3);
   line-height: var(--leading-body);
   max-width: var(--measure-prose);
+}
+/* Workload reality check under the target date -- informative, never
+   blocking, in the warning earth rather than an alarm colour. */
+.plan-pace-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--color-warning-line);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--text-sm);
+  color: var(--color-warning-text);
+  line-height: var(--leading-body);
+}
+.plan-pace-note .icon {
+  flex: none;
+  margin-top: 3px;
+}
+.plan-pace-note span {
+  flex: 1;
+  min-width: 0;
+}
+.plan-pace-note .btn {
+  flex: none;
+  align-self: center;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .plan-pace-note {
+    flex-wrap: wrap;
+  }
+  .plan-pace-note .btn {
+    margin-left: 22px;
+  }
 }
 
 /* Daily-reset-time picker: the app's own popover in place of a native
@@ -6271,6 +6557,48 @@ span.deadline-day {
   font-size: var(--text-sm);
 }
 
+/* Placement (see positionSchedulePopovers in js/main.js): when the room
+   under the trigger is too short for the whole panel, it opens upward
+   instead -- header, selected date and the Today/Clear foot all visible
+   without scrolling the page underneath. */
+.deadline-picker.opens-up,
+.reset-hour-menu.opens-up {
+  top: auto;
+  bottom: calc(100% + 6px);
+}
+/* On a phone the popover-hanging-off-a-trigger model has nowhere to go --
+   the trigger sits near the fold and the tab bar eats the rest -- so both
+   panels become a centred sheet with their own bounded scroll. Outside
+   clicks and Escape dismiss them exactly as on desktop. */
+@media (max-width: 640px) {
+  .deadline-picker,
+  .reset-hour-menu {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    width: auto;
+    max-width: 340px;
+    margin: 0 auto;
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
+    z-index: 45;
+    box-shadow: var(--shadow-lg);
+  }
+  /* The drop-in/out keyframes animate `transform`, which would stomp the
+     sheet's own centering translate mid-animation -- fade only here. */
+  .deadline-picker.anim-drop-in,
+  .reset-hour-menu.anim-drop-in {
+    animation-name: m-fade-in;
+  }
+  .deadline-picker.anim-drop-out,
+  .reset-hour-menu.anim-drop-out {
+    animation-name: m-fade-out;
+  }
+}
+
 /* ---------- Practice setup: kind cards ----------
    The choice of what to drill is a set of radio cards, not a tab strip: each
    one carries how much material it has and what it actually asks of you,
@@ -6284,6 +6612,20 @@ span.deadline-day {
 .practice-popout-lede {
   margin-top: 6px;
   font-size: var(--text-sm);
+}
+/* "Review what I need" -- the one-decision session at the top of Practice
+   Mode's setup, with its composition stated under the button so the picked
+   material explains itself. */
+.smart-review {
+  margin-top: 14px;
+}
+.smart-review-meta {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+  font-variant-numeric: tabular-nums;
 }
 .kind-cards {
   display: flex;
@@ -6480,20 +6822,39 @@ span.deadline-day {
   margin-top: 4px;
 }
 .streak-cell {
+  position: relative;
   aspect-ratio: 1;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
   background: transparent;
 }
+/* A studied day is a solid ink of accent with a paper dot at its centre --
+   the dot is the non-colour cue that separates "studied" from "empty" for a
+   reader who cannot rely on the fill alone. */
 .streak-cell.is-filled {
   background: var(--color-accent);
   border-color: var(--color-accent);
 }
-.streak-cell.is-today {
-  border-color: var(--color-accent);
-  border-width: 1.5px;
+.streak-cell.is-filled::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-bg);
 }
+/* Today is a ring, whether or not it has been studied yet -- a studied
+   today shows both the fill and the ring. */
+.streak-cell.is-today {
+  box-shadow: 0 0 0 1.5px var(--color-bg), 0 0 0 3px var(--color-accent);
+  border-color: var(--color-accent);
+}
+/* Days that have not happened yet are visibly not part of the record. */
 .streak-cell.is-future {
+  border-style: dashed;
   opacity: 0.35;
 }
 .streak-note {
@@ -6529,7 +6890,7 @@ span.deadline-day {
   white-space: nowrap;
 }
 .course-row-en {
-  font-size: var(--text-micro);
+  font-size: var(--text-meta);
   color: var(--color-neutral-600);
   white-space: nowrap;
   overflow: hidden;
@@ -7110,7 +7471,7 @@ span.deadline-day {
   min-width: 0;
 }
 .module-pager-label {
-  font-size: 10px;
+  font-size: var(--text-micro);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-accent-700);
@@ -7257,6 +7618,33 @@ span.deadline-day {
 .lit-pager-btn-next {
   min-width: 0;
 }
+/* Phone: status and actions become two tiers instead of three competing
+   columns -- the count sits on its own line, and whichever action is
+   available takes a real thumb target, with Next dominant when it exists. */
+@media (max-width: 640px) {
+  .lit-pager {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .lit-pager-count {
+    flex-basis: 100%;
+    order: -1;
+  }
+  .lit-pager-btn {
+    min-height: var(--tap-min);
+    padding: 3px 16px;
+  }
+  .lit-pager-btn-next {
+    flex: 1;
+    border-color: var(--color-accent);
+    color: var(--color-accent-700);
+  }
+  /* A disabled direction should not claim the same width and weight as the
+     live one. */
+  .lit-pager-btn:disabled {
+    flex: none;
+  }
+}
 
 /* Reader head: chevron, titles, the Read→Patterns→Build rail on the right,
    and the thin progress bar running the head's full width beneath. */
@@ -7326,6 +7714,55 @@ span.deadline-day {
   }
   .module-page-wrap .module-page {
     margin-top: 0;
+  }
+}
+
+/* ---------- Phone covers: task-first heroes (UI-008) ----------
+   The module and book covers keep their identity but stop spending the
+   first viewport on it: the description clamps to two lines behind its own
+   expander, so the lesson/chapter list is on screen from the start. */
+.cover-blurb-toggle {
+  display: none;
+}
+@media (max-width: 900px) {
+  .module-cover,
+  .lit-cover {
+    padding: 16px 18px 14px;
+  }
+  .cover-blurb:not(.is-open) {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .cover-blurb-toggle {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-meta);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cover-blurb-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  /* The Achievements plate: keep the identity row tight so the "Closest
+     next" shelf below it makes the first viewport. */
+  .hero-plate .ach-ledger-block {
+    margin: 10px 0 0;
+    padding: 10px 0 0;
+    border-bottom: 0;
+  }
+  .hero-plate .ach-level-progress {
+    margin-bottom: 0;
   }
 }
 @media (min-width: 901px) {
@@ -7436,6 +7873,8 @@ span.deadline-day {
 .lit-para {
   position: relative;
   padding-bottom: 40px;
+  /* Lets .lit-para-full take its own row below the Arabic -- see its rule. */
+  flex-wrap: wrap;
 }
 .lit-gloss {
   position: absolute;
@@ -7635,6 +8074,33 @@ span.deadline-day {
   box-shadow: var(--shadow-sm);
 }
 
+/* One frame per level (UI-007): a repeated row inside an already-bordered
+   pane drops its own full outline and separates by hairline divider
+   instead -- containers, rows and actions stop competing at the same
+   visual weight, and a thirty-row list stops reading as thirty cards
+   inside a card. The one CURRENT (or selected) row keeps the full accent
+   frame: coming forward is its job. Book cards in the Library shelves are
+   deliberately exempt -- a cover is a genuinely self-contained object. */
+.module-list .module-row:not(.module-row-current),
+.lit-chapter-list .lit-chapter:not(.is-current),
+.revision-module-list .revision-module-row:not(.is-selected) {
+  border-color: transparent;
+  border-bottom-color: var(--color-divider);
+  border-radius: 0;
+}
+.module-list .module-row:not(.module-row-current):last-child,
+.lit-chapter-list .lit-chapter:not(.is-current):last-child,
+.revision-module-list .revision-module-row:not(.is-selected):last-child {
+  border-bottom-color: transparent;
+}
+/* Hover keeps a visible boundary while the frame is gone. */
+.module-list .module-row:not(.module-row-current):hover,
+.lit-chapter-list .lit-chapter:not(.is-current):hover,
+.revision-module-list .revision-module-row:not(.is-selected):hover {
+  background: var(--color-neutral-100);
+  border-bottom-color: var(--color-divider);
+}
+
 /* ---------- Bounded scroll panes ----------
    Three lists scroll inside a bounded box on desktop -- Home's modules, the
    Library shelves, a book's contents -- so a 30-module course cannot push
@@ -7739,6 +8205,17 @@ span.deadline-day {
   }
   .lit-search-wrap .home-search {
     padding-right: 48px;
+  }
+  /* The hero's streak/level pill and the lesson search's clear × are tapped
+     on their own -- both take the same floor. The pill keeps its visual
+     size; the clear button widens its box inside the field's free right
+     edge. */
+  .home-hero-pill {
+    min-height: var(--tap-min);
+  }
+  .home-search-clear {
+    width: var(--tap-min);
+    height: var(--tap-min);
   }
 }
 
