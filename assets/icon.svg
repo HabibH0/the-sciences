@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="page" cx="50%" cy="42%" r="72%">
+      <stop offset="0%" stop-color="#f7f1e1" />
+      <stop offset="62%" stop-color="#ece0ca" />
+      <stop offset="100%" stop-color="#ddc79f" />
+    </radialGradient>
+    <radialGradient id="medallion" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#fbf6e8" />
+      <stop offset="55%" stop-color="#efe0bb" />
+      <stop offset="100%" stop-color="#cfa14a" />
+    </radialGradient>
+  </defs>
+
+  <rect width="100" height="100" fill="url(#page)" />
+  <circle cx="50" cy="50" r="41" fill="url(#medallion)" stroke="#b68235" stroke-width="2.2" />
+
+  <!-- reed pen (qalam): flat-cut shaft tapering to a nib point, with the
+       carved nib slit -->
+  <path d="M 62.3 20.5 L 75.4 30.3 L 28.7 76.2 Z" fill="#241a0f" />
+  <line x1="28.7" y1="76.2" x2="40.75" y2="61" stroke="#e9c477" stroke-width="1.8" stroke-linecap="round" />
+</svg>

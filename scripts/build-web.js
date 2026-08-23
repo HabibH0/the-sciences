@@ -36,6 +36,6 @@ entries.forEach(copyEntry);
 
 const assetsDir = path.join(outDir, 'assets');
 fs.mkdirSync(assetsDir, { recursive: true });
-fs.copyFileSync(path.join(root, 'assets', 'icon.png'), path.join(assetsDir, 'icon.png'));
+fs.copyFileSync(path.join(root, 'assets', 'icon.svg'), path.join(assetsDir, 'icon.svg'));
 
 console.log(`Web build written to ${outDir}`);
