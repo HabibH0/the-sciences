@@ -58,7 +58,7 @@ import { hashForState, navFromHash } from './nav.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import {
   persistSoon, flushPersist, cancelPendingPersist, persist, todayISO,
-  normalizeLitTextScale,
+  normalizeLitTextScale, normalizeUiTextScale,
 } from './persistence.js';
 import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, uploadLocalProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
 import {
@@ -208,6 +208,7 @@ function applyMergedProgressToState(envelope) {
     'litWordReps',
     'litCheckLang',
     'litTextScale',
+    'uiTextScale',
     'streak',
     'lastVisit',
     'visitDays',
@@ -862,6 +863,7 @@ function applyAppearance(state) {
   document.documentElement.style.setProperty('--font-ar-heading', headingFace.font || face.body);
   document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
   document.documentElement.style.setProperty('--lit-text-scale', String(normalizeLitTextScale(state.litTextScale) / 100));
+  document.documentElement.style.setProperty('--ui-text-scale', String(normalizeUiTextScale(state.uiTextScale) / 100));
 }
 
 // focusSelector re-focuses a specific element after the innerHTML swap below
@@ -2646,6 +2648,9 @@ const actions = {
   setLitTextScale(el) {
     state.litTextScale = normalizeLitTextScale(el.value);
   },
+  setUiTextScale(el) {
+    state.uiTextScale = normalizeUiTextScale(el.value);
+  },
   toggleTarkeebTranslations() {
     state.tarkeebTranslations = state.tarkeebTranslations === false;
     state.practiceTarkeebTranslations = state.tarkeebTranslations !== false;
@@ -2795,6 +2800,7 @@ const actions = {
     state.arabicHeadingFace = 'body';
     state.lessonTextScale = 100;
     state.litTextScale = 100;
+    state.uiTextScale = 100;
     state.kufiHeadings = false;
   },
   async registerAccount() {
@@ -4404,9 +4410,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('change', (e) => {
-  // The lesson/reading text-size range sliders reach their handlers through
-  // this exact same data-action dispatch as clicks -- see setLessonTextScale/
-  // setLitTextScale, which read el.value. A native range still IS a native
+  // The lesson/reading/display text-size range sliders reach their handlers
+  // through this exact same data-action dispatch as clicks -- see
+  // setLessonTextScale/setLitTextScale/setUiTextScale, which read el.value.
+  // A native range still IS a native
   // range here (unlike the date/select fields elsewhere on the Schedule tab,
   // now themed popovers of the app's own -- see deadlinePickerHtml/
   // resetHourMenuHtml in js/render.js): dragging it is exactly the built-in
@@ -4432,32 +4439,40 @@ document.addEventListener('change', (e) => {
   }
 });
 
-// Both text-size sliders update live as they're dragged: the action runs and
+// All three text-size sliders update live as they're dragged: the action runs and
 // the custom property is reapplied WITHOUT a re-render, so the preview
 // resizes under the thumb instead of the slider being rebuilt mid-drag (which
 // would drop the pointer capture). Only the readout is patched by hand.
+const TEXT_SCALE_SLIDER_KINDS = {
+  setLessonTextScale: { key: 'lesson', stateProp: 'lessonTextScale', previewBase: 15 },
+  setLitTextScale: { key: 'lit', stateProp: 'litTextScale', previewBase: 19 },
+  setUiTextScale: { key: 'ui', stateProp: 'uiTextScale', previewBase: 15 },
+};
 document.addEventListener('input', (e) => {
-  const el = e.target.closest('input[type="range"][data-action="setLessonTextScale"], input[type="range"][data-action="setLitTextScale"]');
+  const el = e.target.closest(
+    'input[type="range"][data-action="setLessonTextScale"], '
+    + 'input[type="range"][data-action="setLitTextScale"], '
+    + 'input[type="range"][data-action="setUiTextScale"]',
+  );
   if (!el || el.disabled) return;
-  const isLit = el.dataset.action === 'setLitTextScale';
+  const kind = TEXT_SCALE_SLIDER_KINDS[el.dataset.action];
   actions[el.dataset.action](el, e);
   applyAppearance(state);
-  const value = root.querySelector(isLit ? '[data-lit-text-scale-value]' : '[data-lesson-text-scale-value]');
-  if (value) value.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  const scale = state[kind.stateProp];
+  const value = root.querySelector(`[data-${kind.key}-text-scale-value]`);
+  if (value) value.textContent = `${scale}%`;
   // The Account page's copies of these sliders have no data-*-value outputs
   // of their own -- patch the readout sitting in this slider's own control
   // block, so the visible percentage tracks arrow keys and drags there too.
   const control = el.closest('.lesson-size-control');
   const localValue = control?.querySelector('.lesson-size-value');
-  if (localValue) localValue.textContent = `${isLit ? state.litTextScale : state.lessonTextScale}%`;
+  if (localValue) localValue.textContent = `${scale}%`;
   // Account's previews size themselves through an inline font-size rather
   // than the CSS custom property -- keep that live here too, since range
   // events deliberately never rerender (see the 'change' listener above).
   const preview = control?.querySelector('.lesson-size-preview');
   if (preview && (preview.getAttribute('style') || '').includes('font-size')) {
-    const base = isLit ? 19 : 15;
-    const scale = isLit ? state.litTextScale : state.lessonTextScale;
-    preview.style.fontSize = `${((scale / 100) * base).toFixed(1)}px`;
+    preview.style.fontSize = `${((scale / 100) * kind.previewBase).toFixed(1)}px`;
   }
   // The track's travelled portion is painted from --range-pct (see the range
   // rules in styles.css -- WebKit has no ::-moz-range-progress, and the

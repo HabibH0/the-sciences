@@ -352,6 +352,10 @@ export async function createInitialState() {
     arabicFace: boot.arabicFace || 'naskh',
     arabicHeadingFace: boot.arabicHeadingFace || (boot.kufiHeadings ? 'kufi' : 'body'),
     lessonTextScale: boot.lessonTextScale || 100,
+    // How large the general UI (nav, buttons, page headings and copy) is
+    // set, as a percentage -- its own control, separate from the lesson and
+    // reading scales above. Persisted, applied to --ui-text-scale.
+    uiTextScale: boot.uiTextScale || 100,
     tarkeebTranslations: boot.tarkeebTranslations !== false,
     forceUnlockAll: boot.forceUnlockAll === true,
     // False can now be a deliberate "course locks on" setting rather than

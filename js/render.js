@@ -51,7 +51,7 @@ import {
   perfectQuizCount,
 } from './gamification.js';
 import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
-import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX } from './persistence.js';
+import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX, normalizeUiTextScale, UI_TEXT_SCALE_MIN, UI_TEXT_SCALE_MAX } from './persistence.js';
 import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
 // --- Line icons -----------------------------------------------------------
@@ -1973,18 +1973,20 @@ function quizHtml(state, MODULES) {
     <div class="quiz-page">
       <div class="quiz-head">
         <button class="back-chevron" data-action="backToLesson" aria-label="Back to the lesson" title="Back to the lesson">${icon('cross', 18, 2)}</button>
-        <div class="quiz-crumb"><bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} · Question ${qi + 1} of ${lesson.quiz.length}</div>
+        <div class="quiz-crumb"><span class="quiz-crumb-context"><bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} · </span><span class="quiz-crumb-word">Question </span>${qi + 1} of ${lesson.quiz.length}</div>
         <div class="quiz-combo">
-          <span aria-label="Answer streak: ${liveStreak}">${icon('flame', 13, 2)}<span aria-hidden="true">${liveStreak}</span></span>
+          <span aria-label="Answer streak: ${liveStreak}" class="${liveStreak >= 3 ? 'quiz-combo-hot' : ''}">${icon('flame', 13, 2)}<span aria-hidden="true">${liveStreak}</span></span>
           <span aria-label="Session XP: ${liveXp}">${icon('star', 13, 2)}<span aria-hidden="true">${liveXp}</span></span>
         </div>
         ${sectionsMenuHtml(state)}
       </div>
       <div class="quiz-ticks">${ticks}</div>
       <div class="quiz-body">
-        <h2 class="quiz-question">${escBidi(q.q)}</h2>
-        ${renderMcqOptions({ options: q.options, correct: q.correct, selected: state.quizSelected, submitted: revealed, actionName: 'selectQuizOption', order: state.quizOptionOrder[qi] })}
-        ${feedback}
+        <div class="quiz-body-inner">
+          <h2 class="quiz-question">${escBidi(q.q)}</h2>
+          ${renderMcqOptions({ options: q.options, correct: q.correct, selected: state.quizSelected, submitted: revealed, actionName: 'selectQuizOption', order: state.quizOptionOrder[qi] })}
+          ${feedback}
+        </div>
       </div>
       <div class="quiz-foot">
         ${revealed
@@ -2656,7 +2658,7 @@ function practiceHtml(state, MODULES) {
   }).join('');
   const comboHtml = `
         <div class="quiz-combo">
-          <span title="Combo">${icon('flame', 13, 2)}${p.combo || 0}</span>
+          <span title="Combo" class="${(p.combo || 0) >= 3 ? 'quiz-combo-hot' : ''}">${icon('flame', 13, 2)}${p.combo || 0}</span>
           <span title="Session XP">${icon('star', 13, 2)}${p.xpGained || 0}</span>
         </div>`;
 
@@ -2691,12 +2693,14 @@ function practiceHtml(state, MODULES) {
     return `
       <div class="quiz-page practice-page">
         <div class="quiz-head">
-          <div class="quiz-crumb">${sessionKicker(p, mod)} · Question ${p.index + 1} of ${p.queue.length}</div>
+          <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
           ${comboHtml}
         </div>
         <div class="quiz-ticks">${ticks}</div>
         <div class="quiz-body practice-body">
-          ${body}
+          <div class="quiz-body-inner">
+            ${body}
+          </div>
         </div>
         <div class="quiz-foot">
           ${endControl}
@@ -2721,14 +2725,16 @@ function practiceHtml(state, MODULES) {
   return `
     <div class="quiz-page practice-page">
       <div class="quiz-head">
-        <div class="quiz-crumb">${sessionKicker(p, mod)} · Question ${p.index + 1} of ${p.queue.length}</div>
+        <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
         ${comboHtml}
       </div>
       <div class="quiz-ticks">${ticks}</div>
       <div class="quiz-body practice-body">
-        <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
-        ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', order: state.optionOrder[key] })}
-        ${feedback}
+        <div class="quiz-body-inner">
+          <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
+          ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', order: state.optionOrder[key] })}
+          ${feedback}
+        </div>
       </div>
       <div class="quiz-foot">
         <button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See results' : 'Next question'}</button>
@@ -4135,6 +4141,7 @@ function settingsHtml(state) {
     ? Math.min(130, Math.max(85, Math.round(rawLessonTextScale)))
     : 100;
   const litTextScale = normalizeLitTextScale(state.litTextScale);
+  const uiTextScale = normalizeUiTextScale(state.uiTextScale);
   const themeCards = THEME_ORDER.map((key) => {
     const th = THEMES[key];
     const selected = key === theme;
@@ -4247,6 +4254,23 @@ function settingsHtml(state) {
           <div class="lesson-size-preview">
             <span class="settings-kicker">Reading preview</span>
             <p class="lit-size-preview-line" lang="ar" dir="rtl">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</p>
+          </div>
+        </div>
+
+        <div class="lesson-size-control">
+          <div class="lesson-size-head">
+            <label class="lesson-size-label" for="ui-text-scale">Display text size</label>
+            <output class="lesson-size-value" for="ui-text-scale" data-ui-text-scale-value>${uiTextScale}%</output>
+          </div>
+          <input id="ui-text-scale" class="lesson-size-slider" type="range" min="${UI_TEXT_SCALE_MIN}" max="${UI_TEXT_SCALE_MAX}" step="5" value="${uiTextScale}" style="--range-pct:${rangePct(uiTextScale, UI_TEXT_SCALE_MIN, UI_TEXT_SCALE_MAX)}" data-action="setUiTextScale" aria-label="Display text size">
+          <div class="lesson-size-ticks" aria-hidden="true">
+            <span>Small</span>
+            <span>Default</span>
+            <span>Large</span>
+          </div>
+          <div class="lesson-size-preview">
+            <span class="settings-kicker">Display preview</span>
+            <p>Nav, buttons, and every page's own headings and copy — everywhere but the lesson and reading columns above.</p>
           </div>
         </div>
         <hr class="settings-hr">
@@ -4496,6 +4520,7 @@ function accountHtml(state) {
     ? Math.min(130, Math.max(85, Math.round(rawLessonScale)))
     : 100;
   const litScale = normalizeLitTextScale(state.litTextScale);
+  const uiScale = normalizeUiTextScale(state.uiTextScale);
   const textSection = `
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Reading &amp; text</h2>
@@ -4516,6 +4541,14 @@ function accountHtml(state) {
       </div>
       <input class="lesson-size-slider" type="range" min="${LIT_TEXT_SCALE_MIN}" max="${LIT_TEXT_SCALE_MAX}" step="5" value="${litScale}" style="--range-pct:${rangePct(litScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX)}" data-action="setLitTextScale" aria-label="Reading text size">
       <div class="lesson-size-preview lit-size-preview-line" lang="ar" dir="rtl" style="font-size:${(litScale / 100 * 19).toFixed(1)}px;">أَنَامُ مُبَكِّراً فِي اللَّيْلِ وَأَقُومُ مُبَكِّراً فِي الصَّبَاحِ</div>
+    </div>
+    <div class="lesson-size-control">
+      <div class="lesson-size-head">
+        <span class="lesson-size-label">Display text size</span>
+        <span class="lesson-size-value">${uiScale}%</span>
+      </div>
+      <input class="lesson-size-slider" type="range" min="${UI_TEXT_SCALE_MIN}" max="${UI_TEXT_SCALE_MAX}" step="5" value="${uiScale}" style="--range-pct:${rangePct(uiScale, UI_TEXT_SCALE_MIN, UI_TEXT_SCALE_MAX)}" data-action="setUiTextScale" aria-label="Display text size">
+      <div class="lesson-size-preview" style="font-size:${(uiScale / 100 * 15).toFixed(1)}px;">Nav, buttons, and every page's own headings and copy.</div>
     </div>`;
 
   // Three different things used to share one grey line: progress ("Signing

@@ -80,6 +80,16 @@ export function normalizeLitTextScale(value) {
   return normalizeScale(value, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX);
 }
 
+// The general display scale (nav, buttons, headings, page copy) -- separate
+// from the lesson and reading scales above, which only affect their own
+// content areas.
+export const UI_TEXT_SCALE_MIN = 85;
+export const UI_TEXT_SCALE_MAX = 130;
+
+export function normalizeUiTextScale(value) {
+  return normalizeScale(value, UI_TEXT_SCALE_MIN, UI_TEXT_SCALE_MAX);
+}
+
 function normalizeArabicFace(value) {
   if (value === 'uthmani') return 'amiri';
   return ['naskh', 'amiri', 'scheherazade', 'lateef'].includes(value) ? value : 'naskh';
@@ -157,6 +167,7 @@ export async function bootProgress() {
     litWordReps: saved.litWordReps || {},
     litCheckLang: saved.litCheckLang === 'en' ? 'en' : 'ar',
     litTextScale: normalizeLitTextScale(saved.litTextScale),
+    uiTextScale: normalizeUiTextScale(saved.uiTextScale),
     litHoverTranslate: saved.litHoverTranslate !== false,
     streak,
     lastVisit: today,
@@ -256,6 +267,7 @@ function snapshot(state) {
     litWordReps: state.litWordReps,
     litCheckLang: state.litCheckLang === 'en' ? 'en' : 'ar',
     litTextScale: normalizeLitTextScale(state.litTextScale),
+    uiTextScale: normalizeUiTextScale(state.uiTextScale),
     litHoverTranslate: state.litHoverTranslate !== false,
     streak: state.streak,
     lastVisit: state.lastVisit,

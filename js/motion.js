@@ -478,9 +478,31 @@ function mark(el, cls) {
 // One correct answer's worth of celebration: the session's combo counter
 // (when the screen has one) gets a single bump.
 function bumpComboIfWon(root, container) {
-  if (!container) return;
+  if (!container) return false;
   const won = container.querySelector('.selected.correct') || container.querySelector('.action-row .tag-accent');
   if (won) mark(root.querySelector('.quiz-combo'), 'anim-bump');
+  return !!won;
+}
+
+// A little "+10" rises off the star badge and fades, echoing the actual
+// figure the quiz's own feedback line just printed (see quizCosmeticXp in
+// js/gamification.js) rather than a hardcoded amount here -- so it silently
+// stops matching anything, instead of drifting stale, if that figure ever
+// changes shape. Practice's feedback line never states a number (its combo
+// badge already carries the running total), so this simply finds nothing
+// and no-ops there.
+function popXpIfWon(root, won) {
+  if (!won || prefersReducedMotion()) return;
+  const line = root.querySelector('.quiz-feedback-line');
+  const found = /\+(\d+)\s*XP/.exec(line ? line.textContent : '');
+  const star = root.querySelector('.quiz-combo span:last-child');
+  if (!found || !star) return;
+  const pop = document.createElement('span');
+  pop.className = 'xp-pop';
+  pop.setAttribute('aria-hidden', 'true');
+  pop.textContent = `+${found[1]}`;
+  star.appendChild(pop);
+  pop.addEventListener('animationend', () => pop.remove(), { once: true });
 }
 
 // The just-graded question: mark the option group that owns the clicked
@@ -490,7 +512,7 @@ function gradedAnswer(root, el) {
   const twin = counterpart(root, el);
   const group = twin ? twin.closest('.mcq-options, .exercise-choices') : null;
   mark(group, 'anim-verdict');
-  bumpComboIfWon(root, group);
+  popXpIfWon(root, bumpComboIfWon(root, group));
 }
 
 // The clicked control itself (a theme card, a segmented tab, an armed chip)

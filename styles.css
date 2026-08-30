@@ -190,6 +190,11 @@
   --font-ar: 'Scheherazade New', 'Amiri', serif;
   --font-ar-heading: var(--font-ar);
   --lesson-text-scale: 1;
+  /* Settings > Appearance > "Display text size" scales the general UI
+     type scale below (nav, buttons, headings, page copy) -- separate from
+     the lesson and reading scales, which have their own sliders and their
+     own calc(...) multipliers at each usage site. */
+  --ui-text-scale: 1;
 
   /* ---------- Spacing scale ----------
      A 4px-based ramp, loosening at the top where the steps are doing
@@ -224,15 +229,15 @@
      text at 10-11px made the restrained palette read faint, especially on
      desktop. Micro stays the caps-and-letterspacing floor; running
      metadata should sit on -meta or above. */
-  --text-micro: 11px;   /* kickers, tags, axis labels */
-  --text-meta: 12px;    /* metadata, ledger labels, helper lines */
-  --text-sm: 12.5px;    /* secondary body, notes, row subtitles */
-  --text-base: 13px;    /* UI default: buttons, inputs, row titles */
-  --text-md: 15px;      /* lesson and reader prose */
-  --text-lg: 17px;      /* callouts, group headings */
-  --text-title: 20px;   /* section headings */
-  --text-page: 26px;    /* page titles */
-  --text-display: 33px; /* hero titles */
+  --text-micro: calc(12px * var(--ui-text-scale));   /* kickers, tags, axis labels */
+  --text-meta: calc(13px * var(--ui-text-scale));    /* metadata, ledger labels, helper lines */
+  --text-sm: calc(14px * var(--ui-text-scale));      /* secondary body, notes, row subtitles */
+  --text-base: calc(15px * var(--ui-text-scale));    /* UI default: buttons, inputs, row titles */
+  --text-md: calc(17px * var(--ui-text-scale));      /* lesson and reader prose */
+  --text-lg: calc(19px * var(--ui-text-scale));      /* callouts, group headings */
+  --text-title: calc(23px * var(--ui-text-scale));   /* section headings */
+  --text-page: calc(30px * var(--ui-text-scale));    /* page titles */
+  --text-display: calc(38px * var(--ui-text-scale)); /* hero titles */
 
   /* Arabic runs one step larger than the Latin it sits beside, and that is
      a real typographic requirement rather than an oversight left in the
@@ -242,8 +247,8 @@
      vowel marks this app never omits need room to stay distinct. So the
      Arabic titles keep their own two steps instead of being folded into
      the Latin scale. */
-  --text-ar: 19px;      /* Arabic row and section titles */
-  --text-ar-sm: 16px;   /* Arabic beside Latin body copy */
+  --text-ar: calc(22px * var(--ui-text-scale));      /* Arabic row and section titles */
+  --text-ar-sm: calc(18px * var(--ui-text-scale));   /* Arabic beside Latin body copy */
 
   --leading-tight: 1.15; /* display */
   --leading-snug: 1.4;   /* UI text, row titles */
@@ -265,6 +270,19 @@
      starts losing its place on the return sweep, and justification with no
      hyphenation opens rivers to get there. */
   --measure-prose: 58ch;
+
+  /* The shell measure: nav, backbar and every top-level page (home, module,
+     library, schedule, account, path) centre their content to this width.
+     Fixed at 1180px it left over a third of the screen empty on wide
+     monitors, so it now grows past that floor as the viewport does, capped
+     so lines never run unreasonably wide. */
+  --shell-max-width: clamp(1180px, 78vw, 1600px);
+
+  /* Single-question focus screens (quiz, practice, lesson-complete) used a
+     720px floor here too, but capping it well short of the shell still read
+     as a narrow column stranded in empty space on wide monitors -- so these
+     now share the shell's own measure instead of a separate, smaller one. */
+  --focus-max-width: var(--shell-max-width);
 
   /* ---------- Control sizing ----------
      One height for every control that sits on a line with another control,
@@ -519,7 +537,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: calc(16px * var(--ui-text-scale));
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -751,7 +769,7 @@ bdi,
   border-bottom: 1px solid var(--color-divider);
 }
 .app-nav-inner {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   padding: 0 32px;
   display: flex;
@@ -775,7 +793,7 @@ bdi,
 }
 .app-wordmark-ar {
   font-family: var(--font-ar);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-accent-700);
 }
 .app-tabs {
@@ -863,7 +881,7 @@ bdi,
   gap: 12px;
   padding: 18px 32px 16px;
   border-bottom: 1px solid var(--color-divider);
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
 }
@@ -1286,7 +1304,7 @@ bdi,
   color: var(--color-neutral-600);
 }
 .ledger-value {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text);
   font-variant-numeric: tabular-nums;
 }
@@ -1320,7 +1338,7 @@ bdi,
 }
 .ledger-inline-value {
   display: block;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--color-text);
@@ -1371,7 +1389,7 @@ bdi,
   right: -6px;
   bottom: -34px;
   font-family: var(--font-ar-heading);
-  font-size: 130px;
+  font-size: 146px;
   line-height: 1;
   color: var(--color-plate-ghost);
   pointer-events: none;
@@ -1405,7 +1423,7 @@ bdi,
   color: var(--color-plate-text);
 }
 .home-hero-inner {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   padding: 38px 32px 36px;
   display: grid;
@@ -1421,7 +1439,7 @@ bdi,
 .home-hero-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 33px;
+  font-size: 37px;
   color: var(--color-plate-text);
   margin: 6px 0 0;
   line-height: 1.1;
@@ -1444,7 +1462,7 @@ bdi,
 }
 .home-resume-title {
   font-family: var(--font-ar);
-  font-size: 21px;
+  font-size: 24px;
   color: var(--color-plate-text);
   margin-top: 1px;
 }
@@ -1461,7 +1479,7 @@ bdi,
 }
 
 .home-body {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
   padding: 26px 32px 44px;
@@ -1604,7 +1622,7 @@ bdi,
   margin-top: 8px;
 }
 .home-rail-figure strong {
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 600;
   color: var(--color-text);
   margin-right: 4px;
@@ -1644,7 +1662,7 @@ bdi,
   padding: 0;
   cursor: pointer;
   font-family: var(--font-ar);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-accent-700);
 }
 .home-course-switch:hover {
@@ -1765,7 +1783,7 @@ bdi,
 /* ---------- Module page ---------- */
 
 .module-page {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
   padding: 14px 32px 44px;
@@ -1789,7 +1807,7 @@ bdi,
 }
 .module-cover-title {
   font-family: var(--font-ar-heading);
-  font-size: 29px;
+  font-size: 32px;
   color: var(--color-plate-text);
   margin: 7px 0 0;
   line-height: 1.3;
@@ -1977,7 +1995,7 @@ bdi,
   line-height: 1.35;
 }
 .lesson-row-current .lesson-row-title {
-  font-size: 18px;
+  font-size: 20px;
 }
 .lesson-row-subtitle {
   display: block;
@@ -2061,7 +2079,7 @@ bdi,
     padding: calc(16px + env(safe-area-inset-top, 0px)) 22px 16px;
   }
   .home-hero-title {
-    font-size: 21px;
+    font-size: 24px;
     margin-top: 3px;
   }
   .home-hero .rule-accent {
@@ -2218,7 +2236,7 @@ bdi,
 }
 .lesson-head-title {
   font-family: var(--font-ar-heading);
-  font-size: 25px;
+  font-size: 28px;
   line-height: 1.35;
   color: var(--color-text);
   margin: 0;
@@ -2256,7 +2274,7 @@ bdi,
 .concept-block h3 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 23px;
+  font-size: 26px;
   color: var(--color-text);
   /* An Arabic heading carries dir="rtl" so its own text orders correctly,
      but it is titling an English column and belongs on that column's edge
@@ -2337,7 +2355,7 @@ bdi,
 .dropcap {
   float: left;
   font-family: var(--font-heading);
-  font-size: 44px;
+  font-size: 49px;
   line-height: 0.9;
   padding: 4px 8px 0 0;
   color: var(--color-accent-700);
@@ -2592,7 +2610,7 @@ bdi,
 .quiz-prompt h3 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 19px;
+  font-size: 21px;
   margin: 0;
 }
 .quiz-prompt p {
@@ -2625,7 +2643,7 @@ bdi,
     flex-wrap: wrap;
   }
   .lesson-head-title {
-    font-size: 20px;
+    font-size: 22px;
   }
   .concept-block h2,
   .concept-block h3 {
@@ -2655,14 +2673,73 @@ bdi,
    full-width action pinned to the foot. Shared with practice so a drill and
    a quiz question never look like two different apps. */
 
+/* A plain borderless strip that filled with whatever the app's own
+   background was read as bland and shapeless -- especially once the shell
+   widened and left even more of that background showing either side. The
+   quiz/practice screen is now its own inset card (the unused --color-surface
+   token was defined for exactly this and never spent), so the question
+   reads as a page sitting on the app rather than loose text on empty
+   ground. overflow:hidden lets the card's radius clip the head/foot's own
+   square corners for free, without touching their own rules below. */
 .quiz-page {
   flex: 1;
   display: flex;
   flex-direction: column;
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: var(--focus-max-width);
+  margin: var(--space-5) auto;
   width: 100%;
   min-height: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+  /* Contains the ::after ghost's negative z-index to this card, rather than
+     letting it escape to compete with the topbar above (overflow:hidden
+     alone doesn't create a stacking context). */
+  isolation: isolate;
+}
+/* An oversized Arabic question mark bleeding off the card's own corner,
+   the same "ghost numeral on a plate" move the home hero and book covers
+   already use (see .plate-ghost) -- reads as a deliberately set page rather
+   than a bare answer form, at an opacity too faint to compete with the
+   real question sitting in front of it. */
+.quiz-page::after {
+  content: '؟';
+  position: absolute;
+  z-index: -1;
+  right: -0.06em;
+  bottom: -0.32em;
+  font-family: var(--font-ar-heading);
+  font-size: min(60vh, 320px);
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-text) 5%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+/* A ribbon spine along the card's top edge -- the one place on the card
+   allowed a hard accent fill rather than a tint, since it is trim, not a
+   surface anything sits on. */
+.quiz-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 25%, transparent));
+}
+@media (max-width: 640px) {
+  /* Full-bleed on a phone: the inset card reads as a comfortable frame on
+     a monitor, but on a narrow screen the same margin is just width the
+     options can't use. */
+  .quiz-page {
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 .quiz-head {
   display: flex;
@@ -2670,6 +2747,10 @@ bdi,
   gap: 12px;
   padding: 18px 22px 14px;
   border-bottom: 1px solid var(--color-divider);
+  /* A whisper of the accent behind the toolbar row, fading out toward the
+     question below -- the card's one warm surface against the rest of its
+     otherwise-neutral tones. */
+  background: linear-gradient(180deg, var(--accent-tint-weak), transparent);
 }
 .quiz-crumb {
   flex: 1;
@@ -2677,6 +2758,31 @@ bdi,
   color: var(--color-neutral-600);
   font-variant-numeric: tabular-nums;
   min-width: 0;
+  /* Truncates rather than wraps to three lines and stretching .quiz-head
+     around it -- a real risk now that a long lesson title, the bigger type
+     scale, and a narrow phone width can all land at once. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 480px) {
+  /* The module/lesson (or session-kind) prefix was the first thing to give
+     under the streak/XP badges and the close button -- ellipsis was cutting
+     it mid-word ("Less…") rather than at a clean boundary. "Question X of
+     Y" alone is the one piece every screen actually needs moment to moment;
+     drop the rest instead of truncating it illegibly. */
+  .quiz-crumb-context {
+    display: none;
+  }
+}
+@media (max-width: 400px) {
+  /* Even with the prefix gone, "Question X of Y" alone can still outrun a
+     small phone's width once the streak/XP badges and the review grid
+     button next to it are accounted for -- "X of Y" reads fine on its own,
+     with the ticks bar right below already saying what's being counted. */
+  .quiz-crumb-word {
+    display: none;
+  }
 }
 /* Session-only streak and XP -- a combo readout, not the credited total. */
 .quiz-combo {
@@ -2689,9 +2795,52 @@ bdi,
   font-variant-numeric: tabular-nums;
 }
 .quiz-combo span {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-tint-weak);
+}
+/* Three or more right in a row: the streak badge stops being a passive
+   counter and starts looking like one -- a solid warm fill instead of the
+   whisper tint every other badge carries, and its flame breathes instead of
+   sitting dead still. Composite-only (transform) so it can loop forever
+   without cost, same rule the boot/sync/spinner loops already follow. */
+.quiz-combo-hot {
+  background: var(--accent-tint-strong) !important;
+  color: var(--color-accent-700);
+  font-weight: 700;
+}
+.quiz-combo-hot svg {
+  transform-origin: 50% 85%;
+  animation: m-flame-breathe 1.4s var(--ease) infinite;
+}
+@keyframes m-flame-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+/* Rises off the XP badge and fades -- js/motion.js's popXpIfWon appends and
+   removes it, reading the figure straight from the feedback line so it
+   never has to know the XP rules itself. */
+.xp-pop {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  font-size: var(--text-meta);
+  font-weight: 700;
+  color: var(--color-accent-700);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: m-xp-rise 900ms var(--ease-out) forwards;
+}
+@keyframes m-xp-rise {
+  0% { opacity: 0; transform: translate(-50%, 4px) scale(0.9); }
+  20% { opacity: 1; transform: translate(-50%, 0) scale(1.05); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -16px) scale(1); }
 }
 
 .quiz-ticks {
@@ -2700,9 +2849,9 @@ bdi,
   padding: 12px 22px 0;
 }
 .quiz-tick {
-  height: 3px;
+  height: 5px;
   flex: 1;
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   background: var(--color-neutral-200);
 }
 .quiz-tick-done {
@@ -2710,22 +2859,49 @@ bdi,
 }
 .quiz-tick-current {
   background: var(--color-accent-700);
+  /* The one tick standing for "right now" -- a soft halo instead of just a
+     darker fill, so the eye finds it without having to compare it against
+     its still-grey neighbours first. */
+  box-shadow: 0 0 0 3px var(--accent-tint);
 }
 
 /* One question per screen, with the action pinned to the foot so it is
    always in the same place. That left the question itself stranded at the
    top of the space: four short options on a 900px window put roughly 600px
-   of nothing between the last option and the button. The block now centres
-   in whatever room it has -- `safe` so a long question with its verdict
-   still starts at the top and scrolls, rather than having its opening lines
-   pushed out of the scroll container. */
+   of nothing between the last option and the button.
+
+   The block sits inside two flexible spacers (::before/::after) rather than
+   being centred with `align-content` -- a first attempt at this used
+   asymmetric padding to bias a centred block upward, but padding only
+   shifts the resting point by half the top/bottom difference, a FIXED
+   pixel amount that does not scale with the window at all (a 40px nudge on
+   a 900px-tall window and on a 1400px-tall one alike -- invisible on the
+   second). Two flex-grow spacers split the leftover room by RATIO instead,
+   so the block sits at the same fraction of the way down on every screen,
+   and both spacers shrink to nothing together once a long question's
+   content fills the space -- the same flush-top, scrolls-if-it-must
+   fallback `safe center` gave, just arrived at through flex-basis instead
+   of the `safe` keyword. */
 .quiz-body {
   flex: 1;
   overflow: auto;
-  padding: var(--space-5) var(--space-5);
-  display: grid;
-  align-content: safe center;
-  gap: 0;
+  padding: 0 var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+.quiz-body::before,
+.quiz-body::after {
+  content: '';
+  flex: 1 0 0;
+  min-height: var(--space-4);
+}
+.quiz-body::after {
+  /* More room below than above puts the block's resting point a little
+     above true centre (user request). */
+  flex-grow: 1.6;
+}
+.quiz-body-inner {
+  flex: 0 0 auto;
 }
 .quiz-kicker {
   font-family: var(--font-ar);
@@ -2735,44 +2911,82 @@ bdi,
 .quiz-question {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 19px;
+  font-size: 25px;
   color: var(--color-text);
-  line-height: 1.4;
-  margin: 10px 0 0;
+  line-height: 1.35;
+  margin: 4px 0 0;
   /* Quiz and practice prompts (MCQ and vocab alike) sit centred over their
      option list (user request) -- the lesson's inline exercises keep their
      own left-aligned prompt styling. */
   text-align: center;
+  position: relative;
+}
+/* The same short gold rule .rule-accent sets under a page's display
+   heading (home, module, lesson), centred here since the question itself
+   is -- one more small mark of a page that was actually designed, not a
+   bare line of text sitting over a form. */
+.quiz-question::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 2px;
+  margin: 10px auto 0;
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
 }
 .quiz-body .mcq-options {
-  margin-top: 18px;
-  gap: 9px;
+  margin-top: 14px;
+  gap: 7px;
 }
 
 /* Quiz/practice options carry a lettered mark and a softer corner than the
-   lesson's inline exercise choices. */
+   lesson's inline exercise choices. Now that the body they sit on is its
+   own --color-surface card (see .quiz-page), each option gets the page's
+   --color-bg back underneath -- a filled tile lifted off the card, rather
+   than a bare outline that read as the same flat plane as everything
+   around it -- plus a light rise on hover so the row answers the pointer
+   before it is even clicked. */
 .quiz-body .mcq-option,
 .practice-body .mcq-option {
   align-items: flex-start;
   gap: 11px;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-quick) var(--ease-out), box-shadow var(--t-quick) var(--ease-out), border-color var(--t-quick) var(--ease-out);
+}
+.quiz-body .mcq-option:hover:not(:disabled),
+.practice-body .mcq-option:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.quiz-body .mcq-option:active:not(:disabled),
+.practice-body .mcq-option:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 .quiz-body .mcq-option.correct,
 .practice-body .mcq-option.correct {
   padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
-  box-shadow: var(--shadow-sm);
+  /* A soft accent halo outside the border, on top of the normal card
+     shadow -- the right answer stays visually rewarding to look at after
+     the .anim-verdict flash (MOTION-009) has already faded, not just in
+     the instant it lands. */
+  box-shadow: var(--shadow-sm), 0 0 0 4px var(--accent-tint);
 }
 .quiz-body .mcq-letter,
 .practice-body .mcq-letter {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 1px solid var(--color-divider);
+  background: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--text-meta);
+  font-weight: 600;
   color: var(--color-neutral-600);
 }
 .quiz-body .mcq-option.selected .mcq-letter,
@@ -2780,46 +2994,55 @@ bdi,
 .practice-body .mcq-option.selected .mcq-letter,
 .practice-body .mcq-option.correct .mcq-letter {
   border-color: var(--color-accent);
-  color: var(--color-accent-700);
-  background: var(--accent-tint-weak);
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
 }
 .quiz-body .mcq-option.incorrect .mcq-letter,
 .practice-body .mcq-option.incorrect .mcq-letter {
   border-color: var(--color-neutral-700);
-  color: var(--color-neutral-700);
+  color: var(--color-bg);
+  background: var(--color-neutral-700);
 }
 
 /* Verdict + why, as a margin note against the question. */
-/* Outcome as a status block, not a focus ring (POLISH-003): a 3px leading
-   rule, a quiet tint, and a check/cross carried by the line itself -- so
-   selection, keyboard focus and verdict stay three different signals. */
+/* Outcome as a status block, not a focus ring (POLISH-003): selection,
+   keyboard focus and verdict stay three different signals -- a check/cross
+   now carried by its own filled roundel rather than a bare glyph, since a
+   thin left rule on the same flat neutral tint for both outcomes read as
+   one more grey box regardless of whether the answer was right. */
 .quiz-feedback {
-  margin-top: 16px;
+  margin-top: 12px;
   padding: var(--space-3) var(--space-4);
-  border-left: 3px solid var(--color-accent);
-  background: var(--color-neutral-100);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border: 1px solid var(--color-accent);
+  background: var(--accent-tint);
+  border-radius: var(--radius-lg);
 }
 .quiz-feedback-incorrect {
-  border-left-color: var(--color-neutral-700);
+  border-color: var(--color-divider);
+  background: var(--color-neutral-100);
 }
 .quiz-feedback-line {
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-accent-700);
   display: flex;
-  align-items: baseline;
-  gap: 7px;
+  align-items: center;
+  gap: 10px;
 }
 .quiz-feedback-icon {
   flex: none;
   display: inline-flex;
-  align-self: flex-start;
-  margin-top: 2px;
-  color: var(--color-accent-700);
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
 }
 .quiz-feedback-icon.is-incorrect {
-  color: var(--color-neutral-700);
+  background: var(--color-neutral-700);
+  color: var(--color-bg);
 }
 .quiz-feedback-incorrect .quiz-feedback-line {
   color: var(--color-neutral-700);
@@ -2868,6 +3091,22 @@ bdi,
 .quiz-foot > .btn {
   flex: 1;
 }
+/* The one button on this screen that matters gets to look like it: a solid
+   fill rather than the tinted-outline every other primary button in the app
+   uses. Scoped to the quiz/practice foot alone -- this is a deliberately
+   louder exception, not a change to .btn-primary itself. */
+.quiz-foot > .btn-primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+.quiz-foot > .btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-600);
+  border-color: var(--color-accent-600);
+  box-shadow: var(--shadow-md);
+}
 .quiz-foot-hint {
   margin: 0;
   width: 100%;
@@ -2902,7 +3141,7 @@ bdi,
   top: 50%;
   transform: translate(-50%, -45%);
   font-family: var(--font-ar-heading);
-  font-size: 120px;
+  font-size: 134px;
   line-height: 1;
   color: color-mix(in srgb, var(--color-bg) 6%, transparent);
   white-space: nowrap;
@@ -2915,7 +3154,7 @@ bdi,
 .complete-plate-inner {
   position: relative;
   text-align: center;
-  max-width: 720px;
+  max-width: var(--focus-max-width);
   margin: 0 auto;
 }
 .complete-tag {
@@ -2933,7 +3172,7 @@ bdi,
 .complete-score {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 46px;
+  font-size: 52px;
   color: var(--color-plate-text);
   font-variant-numeric: tabular-nums;
   margin: 14px 0 0;
@@ -2941,7 +3180,7 @@ bdi,
 }
 .complete-title {
   font-family: var(--font-ar-heading);
-  font-size: 32px;
+  font-size: 36px;
   color: var(--color-plate-text);
   margin: 16px 0 0;
   line-height: 1.3;
@@ -2969,7 +3208,7 @@ bdi,
   border-top-color: color-mix(in srgb, var(--color-text) 18%, transparent);
 }
 .complete-ledger-value {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-plate-text);
   font-variant-numeric: tabular-nums;
 }
@@ -2988,7 +3227,7 @@ bdi,
   flex: 1;
   overflow: auto;
   padding: 20px 22px 32px;
-  max-width: 720px;
+  max-width: var(--focus-max-width);
   margin: 0 auto;
   width: 100%;
 }
@@ -3110,10 +3349,10 @@ bdi,
     padding: 34px 22px 26px;
   }
   .complete-title {
-    font-size: 27px;
+    font-size: 30px;
   }
   .complete-score {
-    font-size: 40px;
+    font-size: 45px;
   }
   .complete-ledger {
     gap: 18px;
@@ -3124,7 +3363,7 @@ bdi,
 /* ---------- Practice: setup + session ---------- */
 
 .practice-page {
-  max-width: 720px;
+  max-width: var(--focus-max-width);
 }
 /* A drill's widget area needs more room than a plain MCQ list. */
 .practice-body .exercise-card,
@@ -3242,7 +3481,7 @@ bdi,
   top: auto;
   bottom: -30px;
   transform: none;
-  font-size: 110px;
+  font-size: 123px;
 }
 
 .review-card {
@@ -3259,7 +3498,7 @@ bdi,
 }
 .review-card-title {
   font-family: var(--font-ar);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text);
   flex: 1;
   min-width: 0;
@@ -3301,7 +3540,7 @@ bdi,
   gap: 8px;
   padding: 13px 22px calc(20px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--color-divider);
-  max-width: 720px;
+  max-width: var(--focus-max-width);
   margin: 0 auto;
   width: 100%;
 }
@@ -3474,7 +3713,7 @@ bdi,
 }
 .revision-module-title {
   font-family: var(--font-ar);
-  font-size: 16px;
+  font-size: 18px;
   color: var(--color-text);
   flex: 1;
   min-width: 0;
@@ -3513,7 +3752,7 @@ bdi,
 .col-wide,
 .library-page,
 .achievements-page {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
 }
 
 /* A page container nested inside .hero-page (Achievements, My Path) was
@@ -3756,7 +3995,7 @@ bdi,
 .ach-level-progress-value {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-text);
 }
 .ach-level-progress-label,
@@ -4301,7 +4540,7 @@ bdi,
   position: absolute;
   right: -6px;
   bottom: -26px;
-  font-size: 96px;
+  font-size: 108px;
   line-height: 1;
   color: color-mix(in srgb, var(--color-text) 5%, transparent);
   pointer-events: none;
@@ -4419,7 +4658,7 @@ bdi,
 /* ---------- Library shelf ---------- */
 
 .lit-library-page {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
   padding: 20px 32px 44px;
@@ -4653,7 +4892,7 @@ bdi,
   right: -8px;
   bottom: -28px;
   font-family: var(--font-ar-heading);
-  font-size: 104px;
+  font-size: 116px;
   line-height: 1;
   color: var(--color-plate-ghost);
   pointer-events: none;
@@ -4664,7 +4903,7 @@ bdi,
 }
 .lit-cover-title {
   font-family: var(--font-ar-heading);
-  font-size: 28px;
+  font-size: 31px;
   color: var(--color-plate-text);
   margin: 6px 0 0;
   line-height: 1.3;
@@ -4826,7 +5065,7 @@ bdi,
 }
 .lit-reader-title {
   font-family: var(--font-ar-heading);
-  font-size: 21px;
+  font-size: 24px;
   /* The h1 default (1.15) clipped the Arabic title's ascenders and
      descenders into the series line above and the English line below. */
   line-height: 1.5;
@@ -5092,7 +5331,7 @@ bdi,
 }
 .lit-word-card-surface {
   font-family: var(--font-ar);
-  font-size: 24px;
+  font-size: 27px;
   color: var(--color-text);
 }
 .lit-word-rows {
@@ -5319,7 +5558,7 @@ bdi,
 }
 .lit-complete-title {
   font-family: var(--font-ar-heading);
-  font-size: 30px;
+  font-size: 34px;
   color: var(--color-plate-text);
   margin: 14px 0 0;
 }
@@ -5367,7 +5606,7 @@ bdi,
 .force-unlock-modal h2 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 21px;
+  font-size: 24px;
   line-height: var(--leading-tight);
   margin: var(--space-1) 0 0;
 }
@@ -5469,7 +5708,7 @@ bdi,
     grid-template-columns: 1fr;
   }
   .lit-cover-title {
-    font-size: 25px;
+    font-size: 28px;
   }
   .lit-reader-head {
     flex-wrap: wrap;
@@ -5500,7 +5739,7 @@ bdi,
 .hero-plate-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 30px;
+  font-size: 34px;
   color: var(--color-plate-text);
   margin: 6px 0 0;
   line-height: 1.15;
@@ -5617,7 +5856,7 @@ bdi,
 }
 .lesson-search-row-title {
   font-family: var(--font-ar);
-  font-size: 16px;
+  font-size: 18px;
   color: var(--color-text);
   display: block;
 }
@@ -5832,7 +6071,7 @@ mark.search-hit {
   align-items: center;
   justify-content: center;
   font-family: var(--font-ar);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-neutral-500);
   cursor: pointer;
 }
@@ -5965,7 +6204,7 @@ mark.search-hit {
 .badge-modal-title {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 21px;
+  font-size: 24px;
   color: var(--color-text);
   margin: 0;
 }
@@ -6008,7 +6247,7 @@ mark.search-hit {
 
 .path-groups-page,
 .path-track-section {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
 }
@@ -6114,7 +6353,7 @@ mark.search-hit {
     gap: 20px;
   }
   .hero-plate-title {
-    font-size: 25px;
+    font-size: 28px;
   }
   .path-group-grid {
     grid-template-columns: 1fr;
@@ -6490,7 +6729,7 @@ button.concept-dot {
 .today-figure strong {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 27px;
+  font-size: 30px;
   color: var(--color-text);
   line-height: 1;
 }
@@ -6524,7 +6763,7 @@ button.concept-dot {
 }
 .today-next-title {
   font-family: var(--font-ar);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-text);
   margin-top: 2px;
 }
@@ -7113,7 +7352,7 @@ span.deadline-day {
   gap: 8px;
 }
 .kind-card-name {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -7177,7 +7416,7 @@ span.deadline-day {
   align-items: center;
   justify-content: center;
   font-family: var(--font-ar-heading);
-  font-size: 22px;
+  font-size: 25px;
   color: var(--color-accent-700);
 }
 .account-identity {
@@ -7187,7 +7426,7 @@ span.deadline-day {
 .account-level {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-text);
 }
 .account-email {
@@ -7415,7 +7654,7 @@ span.deadline-day {
   top: 50%;
   transform: translateY(-50%);
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1;
   padding: 3px 6px;
   border: 1px solid var(--color-divider);
@@ -7575,7 +7814,7 @@ span.deadline-day {
 .lit-from-text-line {
   flex: 1;
   font-family: var(--font-ar);
-  font-size: 16px;
+  font-size: 18px;
   color: var(--color-neutral-700);
   text-align: right;
 }
@@ -7758,7 +7997,7 @@ span.deadline-day {
 
 /* Module page heads: text breadcrumbs on desktop, chevron row on phone. */
 .module-page-wrap {
-  max-width: 1180px;
+  max-width: var(--shell-max-width);
   margin: 0 auto;
   width: 100%;
   padding: 20px 32px 44px;
@@ -8014,7 +8253,7 @@ span.deadline-day {
 }
 .module-pager-title {
   font-family: var(--font-ar);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -8097,11 +8336,11 @@ span.deadline-day {
 @media (min-width: 901px) {
   .schedule-page,
   .account-page {
-    max-width: 1180px;
+    max-width: var(--shell-max-width);
     padding-top: 26px;
   }
   .page-title {
-    font-size: 29px;
+    font-size: 32px;
   }
 }
 
@@ -8234,7 +8473,7 @@ span.deadline-day {
 }
 .lit-word-dock-surface {
   font-family: var(--font-ar);
-  font-size: 21px;
+  font-size: 24px;
   color: var(--color-text);
   line-height: 1.4;
 }
@@ -8310,7 +8549,7 @@ span.deadline-day {
     display: none;
   }
   .lit-reader-title {
-    font-size: 19px;
+    font-size: 21px;
     /* Roomy: the ellipsis clip (overflow:hidden) cuts on BOTH axes, and a
        tight line box was shearing the Arabic diacritics top and bottom. */
     line-height: 1.9;
@@ -9950,6 +10189,12 @@ body {
 .anim-verdict :is(.mcq-option, .exercise-choice).incorrect::before {
   animation: m-mark-in var(--t-quick) var(--ease-pop) backwards;
 }
+/* The right answer settles into its own halo (see .correct's box-shadow)
+   with the same small pop-in every other "this landed correctly" surface
+   in the app uses -- تركيب slots and reader chips included. */
+.anim-verdict :is(.mcq-option, .exercise-choice).correct {
+  animation: m-fill-pop var(--t-ui) var(--ease-out);
+}
 /* One breath of tint on the just-graded pick (MOTION-009): an overlay
    fading out over ~260ms so the verdict registers beside the strong answer
    borders, with no extra movement and no layout involvement. */
@@ -10194,11 +10439,11 @@ body {
 .boot-name {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 27px;
+  font-size: 30px;
 }
 .boot-ar {
   font-family: var(--font-ar);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-accent-700);
 }
 .boot-rule {
