@@ -480,7 +480,7 @@ function mark(el, cls) {
 function bumpComboIfWon(root, container) {
   if (!container) return false;
   const won = container.querySelector('.selected.correct') || container.querySelector('.action-row .tag-accent');
-  if (won) mark(root.querySelector('.quiz-combo'), 'anim-bump');
+  if (won) mark(root.querySelector('.quiz-progress-card'), 'anim-bump');
   return !!won;
 }
 
@@ -495,7 +495,10 @@ function popXpIfWon(root, won) {
   if (!won || prefersReducedMotion()) return;
   const line = root.querySelector('.quiz-feedback-line');
   const found = /\+(\d+)\s*XP/.exec(line ? line.textContent : '');
-  const star = root.querySelector('.quiz-combo span:last-child');
+  // The XP stat is always the second of the progress card's two cells
+  // (streak/combo first, XP last -- same order the old .quiz-combo badges
+  // used), so this reaches it without a dedicated hook.
+  const star = root.querySelector('.quiz-progress-stat:last-child .quiz-progress-value');
   if (!found || !star) return;
   const pop = document.createElement('span');
   pop.className = 'xp-pop';

@@ -1994,16 +1994,24 @@ function quizHtml(state, MODULES) {
       <div class="quiz-head">
         <button class="back-chevron" data-action="backToLesson" aria-label="Back to the lesson" title="Back to the lesson">${icon('cross', 18, 2)}</button>
         <div class="quiz-crumb"><span class="quiz-crumb-context"><bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} · </span><span class="quiz-crumb-word">Question </span>${qi + 1} of ${lesson.quiz.length}</div>
-        <div class="quiz-combo">
-          <span aria-label="Answer streak: ${liveStreak}" class="${liveStreak >= 3 ? 'quiz-combo-hot' : ''}">${icon('flame', 13, 2)}<span aria-hidden="true">${liveStreak}</span></span>
-          <span aria-label="Session XP: ${liveXp}">${icon('star', 13, 2)}<span aria-hidden="true">${liveXp}</span></span>
-        </div>
         ${sectionsMenuHtml(state)}
       </div>
       <div class="quiz-ticks">${ticks}</div>
+      <div class="quiz-progress-card">
+        <div class="quiz-progress-stat" aria-label="Answer streak: ${liveStreak}">
+          <span class="quiz-progress-value${liveStreak >= 3 ? ' is-hot' : ''}" aria-hidden="true">${icon('flame', 14, 2)}${liveStreak}</span>
+          <span class="quiz-progress-label" aria-hidden="true">Streak</span>
+        </div>
+        <div class="quiz-progress-stat" aria-label="Session XP: ${liveXp}">
+          <span class="quiz-progress-value" aria-hidden="true">${icon('star', 14, 2)}${liveXp}</span>
+          <span class="quiz-progress-label" aria-hidden="true">XP</span>
+        </div>
+      </div>
       <div class="quiz-body">
         <div class="quiz-body-inner">
-          <h2 class="quiz-question">${escBidi(q.q)}</h2>
+          <div class="quiz-question-card">
+            <h2 class="quiz-question">${escBidi(q.q)}</h2>
+          </div>
           ${renderMcqOptions({ options: q.options, correct: q.correct, selected: state.quizSelected, submitted: revealed, actionName: 'selectQuizOption', order: state.quizOptionOrder[qi] })}
           ${feedback}
         </div>
@@ -2702,11 +2710,21 @@ function practiceHtml(state, MODULES) {
     const cls = i < p.index ? 'quiz-tick quiz-tick-done' : i === p.index ? 'quiz-tick quiz-tick-current' : 'quiz-tick';
     return `<div class="${cls}"></div>`;
   }).join('');
+  // Its own progress card rather than the header (reference mockup, user
+  // request) -- same layout as the lesson quiz's .quiz-progress-card, just
+  // reading the combo/XP practice already tracks per session instead of the
+  // quiz's own live streak/XP.
   const comboHtml = `
-        <div class="quiz-combo">
-          <span title="Combo" class="${(p.combo || 0) >= 3 ? 'quiz-combo-hot' : ''}">${icon('flame', 13, 2)}${p.combo || 0}</span>
-          <span title="Session XP">${icon('star', 13, 2)}${p.xpGained || 0}</span>
-        </div>`;
+      <div class="quiz-progress-card">
+        <div class="quiz-progress-stat" aria-label="Combo: ${p.combo || 0}">
+          <span class="quiz-progress-value${(p.combo || 0) >= 3 ? ' is-hot' : ''}" aria-hidden="true">${icon('flame', 14, 2)}${p.combo || 0}</span>
+          <span class="quiz-progress-label" aria-hidden="true">Combo</span>
+        </div>
+        <div class="quiz-progress-stat" aria-label="Session XP: ${p.xpGained || 0}">
+          <span class="quiz-progress-value" aria-hidden="true">${icon('star', 14, 2)}${p.xpGained || 0}</span>
+          <span class="quiz-progress-label" aria-hidden="true">XP</span>
+        </div>
+      </div>`;
 
   // Ending with questions still unanswered is easy to hit by accident, so
   // it asks first, inline -- and the action is labelled for what it really
@@ -2740,9 +2758,9 @@ function practiceHtml(state, MODULES) {
       <div class="quiz-page practice-page">
         <div class="quiz-head">
           <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
-          ${comboHtml}
         </div>
         <div class="quiz-ticks">${ticks}</div>
+        ${comboHtml}
         <div class="quiz-body practice-body">
           <div class="quiz-body-inner">
             ${sourceTag}
@@ -2773,13 +2791,15 @@ function practiceHtml(state, MODULES) {
     <div class="quiz-page practice-page">
       <div class="quiz-head">
         <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
-        ${comboHtml}
       </div>
       <div class="quiz-ticks">${ticks}</div>
+      ${comboHtml}
       <div class="quiz-body practice-body">
         <div class="quiz-body-inner">
           ${sourceTag}
-          <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
+          <div class="quiz-question-card">
+            <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
+          </div>
           ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', order: state.optionOrder[key] })}
           ${feedback}
         </div>

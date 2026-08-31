@@ -2784,39 +2784,11 @@ bdi,
     display: none;
   }
 }
-/* Session-only streak and XP -- a combo readout, not the credited total. */
-.quiz-combo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: none;
-  font-size: var(--text-meta);
-  color: var(--color-accent-700);
-  font-variant-numeric: tabular-nums;
-}
-.quiz-combo span {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
-  background: var(--accent-tint-weak);
-}
-/* Three or more right in a row: the streak badge stops being a passive
-   counter and starts looking like one -- a solid warm fill instead of the
-   whisper tint every other badge carries, and its flame breathes instead of
-   sitting dead still. Composite-only (transform) so it can loop forever
-   without cost, same rule the boot/sync/spinner loops already follow. */
-.quiz-combo-hot {
-  background: var(--accent-tint-strong) !important;
-  color: var(--color-accent-700);
-  font-weight: 700;
-}
-.quiz-combo-hot svg {
-  transform-origin: 50% 85%;
-  animation: m-flame-breathe 1.4s var(--ease) infinite;
-}
+/* Three or more right in a row: composite-only (transform), so it can loop
+   forever without cost, same rule the boot/sync/spinner loops already
+   follow. Shared by .quiz-progress-value.is-hot below (session streak/combo
+   card) -- the only remaining user since .quiz-combo's header badges moved
+   into that card. */
 @keyframes m-flame-breathe {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.2); }
@@ -2863,6 +2835,60 @@ bdi,
      darker fill, so the eye finds it without having to compare it against
      its still-grey neighbours first. */
   box-shadow: 0 0 0 3px var(--accent-tint);
+}
+
+/* Session streak/XP as their own small ledger card (reference mockup, user
+   request) -- moved out of .quiz-head, which was already the first thing to
+   give up space on a narrow phone (see the crumb truncation rules above),
+   into a row of its own where a bordered card actually has room to read as
+   a card. Same value-over-label ledger language as .complete-ledger on the
+   result plate, just light instead of on ink. */
+.quiz-progress-card {
+  display: flex;
+  margin: 12px 22px 0;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+}
+.quiz-progress-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 8px;
+}
+.quiz-progress-stat + .quiz-progress-stat {
+  border-left: 1px solid var(--color-divider);
+}
+.quiz-progress-value {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  /* Anchors .xp-pop (js/motion.js's popXpIfWon), which rises from this
+     element's own top edge -- same relative-positioned-parent role
+     .quiz-combo span played for it before. */
+  position: relative;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-accent-700);
+  font-variant-numeric: tabular-nums;
+}
+.quiz-progress-label {
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-neutral-500);
+}
+/* Three or more right in a row: bold plus the breathing flame below (shared
+   @keyframes m-flame-breathe), standing in for a bare number going up. */
+.quiz-progress-value.is-hot {
+  font-weight: 700;
+}
+.quiz-progress-value.is-hot svg {
+  transform-origin: 50% 85%;
+  animation: m-flame-breathe 1.4s var(--ease) infinite;
 }
 
 /* One question per screen, with the action pinned to the foot so it is
@@ -2925,6 +2951,18 @@ bdi,
   justify-content: center;
   margin-bottom: 10px;
 }
+/* The question gets its own inset plate, a step down in tone from the
+   --color-surface card it sits on -- same "lifted tile" logic the option
+   rows below it already use (see .quiz-body .mcq-option), just one size up
+   so the prompt itself reads as a distinct object before you reach the
+   choices (reference mockup, user request). */
+.quiz-question-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5) var(--space-5) var(--space-6);
+}
 .quiz-question {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
@@ -2951,9 +2989,10 @@ bdi,
   background: var(--color-accent);
   border-radius: var(--radius-pill);
 }
-.quiz-body .mcq-options {
+.quiz-body .mcq-options,
+.practice-body .mcq-options {
   margin-top: 14px;
-  gap: 7px;
+  gap: 5px;
 }
 
 /* Quiz/practice options carry a lettered mark and a softer corner than the
@@ -2962,12 +3001,14 @@ bdi,
    --color-bg back underneath -- a filled tile lifted off the card, rather
    than a bare outline that read as the same flat plane as everything
    around it -- plus a light rise on hover so the row answers the pointer
-   before it is even clicked. */
+   before it is even clicked. Compact padding and a smaller letter mark
+   (reference mockup, user request) keep a page of 4-6 rows from running
+   long. */
 .quiz-body .mcq-option,
 .practice-body .mcq-option {
   align-items: flex-start;
-  gap: 11px;
-  padding: var(--space-3) var(--space-4);
+  gap: 9px;
+  padding: 9px var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--color-bg);
   box-shadow: var(--shadow-sm);
@@ -2985,7 +3026,9 @@ bdi,
 }
 .quiz-body .mcq-option.correct,
 .practice-body .mcq-option.correct {
-  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
+  /* Compensates the border thickening from 1px to 2px, same idea as the
+     base .mcq-option.correct rule -- just at this tile's own padding. */
+  padding: 8px calc(var(--space-4) - 1px);
   /* A soft accent halo outside the border, on top of the normal card
      shadow -- the right answer stays visually rewarding to look at after
      the .anim-verdict flash (MOTION-009) has already faded, not just in
@@ -2994,8 +3037,8 @@ bdi,
 }
 .quiz-body .mcq-letter,
 .practice-body .mcq-letter {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 1px solid var(--color-divider);
   background: var(--color-surface);
