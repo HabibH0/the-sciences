@@ -1903,6 +1903,21 @@ function quizResultHtml(state, mod, lesson) {
     : `<button class="btn btn-secondary" data-action="backToLesson">Back to lesson</button>
        <button class="btn btn-primary" data-action="retakeQuiz">Retake quiz</button>`;
 
+  // The full record, not just the misses -- "review what you missed" above
+  // covers corrections, but there was previously no way to see how question
+  // 3 (say) actually went if you got it right. Same row shape as Practice
+  // Mode's own review screen (practiceReviewHtml) -- .review-log/.review-dot
+  // -- reused rather than invented, per q.q instead of a bank item's title.
+  const rows = lesson.quiz.map((q, qi) => {
+    const ok = state.quizAnswers[qi] === q.correct;
+    return `
+      <div class="review-log-row">
+        <span class="review-row-num">${qi + 1}</span>
+        <span class="review-row-title">${escBidi(q.q)}</span>
+        <span class="review-dot${ok ? ' review-dot-ok' : ''}">${ok ? '✓' : '✗'}</span>
+      </div>`;
+  }).join('');
+
   return `
     <div class="complete-page">
       <div class="complete-plate">
@@ -1929,6 +1944,11 @@ function quizResultHtml(state, mod, lesson) {
       </div>
       <div class="complete-body">
         ${missed ? `<div class="kicker">Worth another look</div><div class="review-list">${missed}</div>` : ''}
+        <div class="section-head section-head-sub">
+          <h3 class="section-head-title">All ${total} question${total === 1 ? '' : 's'}</h3>
+          <span class="section-head-meta">In the order you answered</span>
+        </div>
+        <div class="review-log">${rows}</div>
         <div class="complete-actions">${actions}</div>
       </div>
     </div>`;

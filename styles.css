@@ -2893,7 +2893,14 @@ bdi,
 .quiz-body::after {
   content: '';
   flex: 1 0 0;
-  min-height: var(--space-4);
+  /* No min-height floor: flex-basis:0 already means neither spacer takes
+     any of the shrink budget once the block stops fitting (a zero-basis
+     item's shrink share is zero no matter its flex-shrink), so a min-height
+     here does not "protect" breathing room -- it just pins both spacers to
+     that many px even under overflow, which is the min-height*2 this
+     comment above used to cost the block on short windows before the
+     spacers could actually reach zero. */
+  min-height: 0;
 }
 .quiz-body::after {
   /* More room below than above puts the block's resting point a little
@@ -2921,7 +2928,7 @@ bdi,
 .quiz-question {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 25px;
+  font-size: calc(25px * var(--ui-text-scale));
   color: var(--color-text);
   line-height: 1.35;
   margin: 4px 0 0;
