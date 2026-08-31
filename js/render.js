@@ -50,7 +50,7 @@ import {
   MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
   perfectQuizCount,
 } from './gamification.js';
-import { moduleRevisionPool, moduleRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
+import { moduleRevisionPool, moduleRevisionCounts, courseRevisionPool, courseRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
 import { todayISO, isoDateAt, normalizeLitTextScale, LIT_TEXT_SCALE_MIN, LIT_TEXT_SCALE_MAX, normalizeUiTextScale, UI_TEXT_SCALE_MIN, UI_TEXT_SCALE_MAX } from './persistence.js';
 import { SECTIONS, sectionIdFor, crumbTrail, backTargetFor } from './nav.js';
 
@@ -2576,11 +2576,23 @@ function sessionKicker(p, mod) {
   if (p.source === 'masteryV2') return 'MASTERY';
   if (p.source === 'unlockTest') return 'UNLOCK TEST';
   if (p.source === 'revision') {
-    const label = p.kind === 'revisionVocab' ? 'Vocab' : mod ? mod.title : '';
+    const label = p.kind === 'revisionVocab' ? 'Vocab' : p.kind === 'courseRevision' ? 'Course' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
   }
   const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
   return `PRACTICE · ${label}`;
+}
+
+// A small pill naming which module and lesson the current Revision question
+// was drawn from -- see practiceHtml's own comment on why. Reuses the app's
+// plain hairline .tag rather than inventing new chrome for a one-off label.
+function revisionSourceTagHtml(entry) {
+  const owningMod = getModule(entry.moduleId);
+  if (!owningMod) return '';
+  return `
+    <div class="quiz-source-tag">
+      <span class="tag"><bdi lang="ar" dir="rtl">${esc(owningMod.title)}</bdi> · <bdi lang="ar" dir="rtl">${esc(entry.lessonTitle || '')}</bdi></span>
+    </div>`;
 }
 
 function practiceHtml(state, MODULES) {
@@ -2588,14 +2600,16 @@ function practiceHtml(state, MODULES) {
   if (!p) return modulePageHtml(state, MODULES);
   // 'path' spans more than one lesson (and even more than one course) at
   // once, and so does a 'revisionVocab' session (the whole course's
-  // unlocked vocab, no single module) -- no single owning module to look up
-  // for either. Neither does an 'unlockTest' session -- a course/track test
-  // spans multiple modules (possibly across courses), and even a module-skip
-  // test draws from the modules BEFORE its target, not the target itself.
-  // 'module', 'masteryV2', and an ordinary (module-quiz) 'revision' session
-  // (pinned to one fully-completed module -- see buildModuleRevisionQueue in
-  // js/state.js) all have exactly one.
-  const mod = (p.source === 'path' || p.source === 'unlockTest' || p.kind === 'revisionVocab') ? null : MODULES.find((m) => m.id === p.moduleId);
+  // unlocked vocab, no single module) or a 'courseRevision' session (a
+  // learner-picked SET of modules, see startCourseRevision) -- no single
+  // owning module to look up for any of the three. Neither does an
+  // 'unlockTest' session -- a course/track test spans multiple modules
+  // (possibly across courses), and even a module-skip test draws from the
+  // modules BEFORE its target, not the target itself. 'module', 'masteryV2',
+  // and an ordinary (module-quiz) 'revision' session (pinned to one
+  // fully-completed module -- see buildModuleRevisionQueue in js/state.js)
+  // all have exactly one.
+  const mod = (p.source === 'path' || p.source === 'unlockTest' || p.kind === 'revisionVocab' || p.kind === 'courseRevision') ? null : MODULES.find((m) => m.id === p.moduleId);
   if (p.source === 'module' && !mod) return sessionFallback(state, MODULES);
 
   const poolForKind = (mcqPool, tarkeebPool, vocabPool) => (
@@ -2604,7 +2618,9 @@ function practiceHtml(state, MODULES) {
   const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
   let pool;
   if (p.source === 'revision') {
-    pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll) : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
+    pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll)
+      : p.kind === 'courseRevision' ? courseRevisionPool(p.moduleIds || [], state.completed, state.forceUnlockAll)
+        : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
   } else if (p.source === 'masteryV2') {
     pool = masteryV2Pool(p.moduleId, p.lessonId);
   } else if (p.source === 'path') {
@@ -2635,6 +2651,16 @@ function practiceHtml(state, MODULES) {
   // The unlocked pool can only grow between sessions, never shrink mid-one --
   // but bail safely rather than render a missing item.
   if (!entry) return sessionFallback(state, MODULES);
+
+  // Every Revision question gets a small module/lesson source tag (user
+  // request): essential for courseRevision (a learner-picked SET of
+  // modules -- the header alone can't say which one THIS question is from)
+  // and revisionVocab (spans the whole course), and still a small bonus on
+  // the single-module quiz, whose header names the module but never the
+  // lesson. Every pool entry already carries its own moduleId/lessonTitle
+  // (see courseRevisionPool/moduleRevisionPool in js/state.js), so this is
+  // purely a rendering addition, not a new data source.
+  const sourceTag = p.source === 'revision' ? revisionSourceTagHtml(entry) : '';
 
   // A graded session (Mastery, or a My Path checkpoint/test) can become
   // mathematically un-passable before the queue actually runs out -- once
@@ -2699,6 +2725,7 @@ function practiceHtml(state, MODULES) {
         <div class="quiz-ticks">${ticks}</div>
         <div class="quiz-body practice-body">
           <div class="quiz-body-inner">
+            ${sourceTag}
             ${body}
           </div>
         </div>
@@ -2731,6 +2758,7 @@ function practiceHtml(state, MODULES) {
       <div class="quiz-ticks">${ticks}</div>
       <div class="quiz-body practice-body">
         <div class="quiz-body-inner">
+          ${sourceTag}
           <h2 class="quiz-question">${escBidi(entry.item.prompt)}</h2>
           ${renderMcqOptions({ options: entry.item.options, correct: entry.item.correct, selected: p.selected, submitted: p.submitted, actionName: 'selectPracticeOption', order: state.optionOrder[key] })}
           ${feedback}
@@ -2759,15 +2787,21 @@ function practiceReviewHtml(state, MODULES) {
   const bestCombo = p.bestCombo || p.combo || 0;
 
   // Corrections first, then the full log: what went wrong is the reason to
-  // be on this screen at all.
+  // be on this screen at all. A Revision session's log entries carry their
+  // own moduleId/lessonTitle (see recordPracticeAnswer in js/main.js), so a
+  // missed question can say exactly where it came from -- most useful once
+  // a session spans more than one module (courseRevision, revisionVocab),
+  // where the review's own header can't name a single owning module.
   const missedRows = p.log.map((l) => {
     if (l.correct) return '';
+    const sourceMod = p.source === 'revision' && l.moduleId ? getModule(l.moduleId) : null;
     return `
       <div class="review-card">
         <div class="review-card-head">
           <span class="review-card-title" lang="ar" dir="rtl">${escBidi(l.title)}</span>
           ${l.kind ? `<span class="tag">${esc(l.kind)}</span>` : ''}
         </div>
+        ${sourceMod ? `<div class="review-card-source"><bdi lang="ar" dir="rtl">${esc(sourceMod.title)}</bdi> · <bdi lang="ar" dir="rtl">${esc(l.lessonTitle || '')}</bdi></div>` : ''}
         ${l.answer ? `<div class="review-answer">Correct answer: ${escBidi(l.answer)}</div>` : ''}
       </div>`;
   }).join('');
@@ -2801,8 +2835,9 @@ function practiceReviewHtml(state, MODULES) {
     ? `<button class="btn btn-primary btn-block" data-action="drillMissed">Drill the ${missedCount} you missed</button>`
     : '';
 
+  const reviseAgainAction = p.kind === 'revisionVocab' ? 'startRevisionVocab' : p.kind === 'courseRevision' ? 'startCourseRevision' : 'startRevision';
   const footer = p.source === 'revision' ? `
-      <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="${p.kind === 'revisionVocab' ? 'startRevisionVocab' : 'startRevision'}">Revise again</button>
+      <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="${reviseAgainAction}">Revise again</button>
       <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Schedule</button>`
     : pathNode && !pathPassed ? `
       <button class="btn btn-primary btn-block" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
@@ -2827,7 +2862,7 @@ function practiceReviewHtml(state, MODULES) {
       ? (unlockPassed ? 'Unlocked' : `Need ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
       : endedEarly
         ? `Session ended early · ${total} of ${planned} answered`
-        : `Session complete${p.kind ? ` · ${esc(String(p.kind).toUpperCase())}` : ''}`;
+        : `Session complete${p.kind ? ` · ${esc(p.kind === 'courseRevision' ? 'COURSE REVISION' : String(p.kind).toUpperCase())}` : ''}`;
 
   return `
     <div class="complete-page">
@@ -3266,31 +3301,34 @@ function formatResetHour(h) {
 // Revision Mode both already followed.
 function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
   const hasVocab = courseHasVocab();
-  const kind = state.scheduleRevisionKind === 'vocab' && hasVocab ? 'vocab' : 'module';
+  const kind = state.scheduleRevisionKind === 'course' ? 'course'
+    : state.scheduleRevisionKind === 'vocab' && hasVocab ? 'vocab' : 'module';
 
-  // The vocab kind is omitted entirely for a vocab-less course (annahw,
-  // sarf-advanced -- see courseHasVocab) rather than showing a permanently
-  // empty toggle. The design only draws the module quiz, which is what every
-  // course has.
-  const kindTabs = hasVocab ? `
+  // 'course' (revise every module you pick, in one configurable session) is
+  // always offered -- unlike 'vocab', which is omitted entirely for a
+  // vocab-less course (annahw, sarf-advanced -- see courseHasVocab) rather
+  // than showing a permanently empty toggle.
+  const kindTabs = `
     <div class="practice-tabs">
       <button class="practice-tab ${kind === 'module' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="module">Module quiz</button>
-      <button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="vocab">Vocab</button>
-    </div>` : '';
+      <button class="practice-tab ${kind === 'course' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="course">Course</button>
+      ${hasVocab ? `<button class="practice-tab ${kind === 'vocab' ? 'active' : ''}" data-action="setScheduleRevisionKind" data-kind="vocab">Vocab</button>` : ''}
+    </div>`;
 
-  const body = kind === 'vocab'
-    ? scheduleRevisionVocabHtml(state, attempt, hasVocab ? 1 : 0)
-    : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, hasVocab ? 1 : 0);
+  const body = kind === 'vocab' ? scheduleRevisionVocabHtml(state, attempt, 2)
+    : kind === 'course' ? scheduleRevisionCourseHtml(state, MODULES, revealedKeys, attempt)
+      : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, 1);
 
   // The "30 questions" note used to print unconditionally, so a reader with
   // nothing yet to revise was told the size of a quiz they cannot take,
   // directly above the panel explaining that there isn't one. Section
-  // metadata should describe what the section is actually showing.
+  // metadata should describe what the section is actually showing --
+  // course revision has no fixed size to report, its own panel says so.
   const anyRevisable = MODULES.some((m) => isModuleComplete(m.id, state.completed));
   return `
     <div class="section-head schedule-section">
       <h2 class="section-head-title">Revision quiz</h2>
-      ${anyRevisable ? '<span class="lesson-section-note">30 questions</span>' : ''}
+      ${anyRevisable && kind === 'module' ? '<span class="lesson-section-note">30 questions</span>' : ''}
     </div>
     <div class="schedule-panel">
       ${kindTabs}
@@ -3299,7 +3337,7 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
 }
 
 // The per-module mcq+تركيب quiz -- unchanged from its original standalone
-// version, just re-homed as one of Revision's two kinds.
+// version, just re-homed as one of Revision's three kinds.
 function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseOrder) {
   // Always completed-only, regardless of state.forceUnlockAll ("Course
   // locks" off, which is every fresh install's own default -- see
@@ -3373,6 +3411,99 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
     ${modeTabs}
     ${body}
     <button class="btn btn-primary btn-block revision-start" data-action="startRevision" ${canStart ? '' : 'disabled'}>Start revision quiz</button>`;
+}
+
+// Course Revision: every completed module the learner picks (checked/
+// unchecked individually, defaulting to all of them -- the user's own ask
+// to "revise everything you've completed"), mixed into one session whose
+// MCQ and تركيب counts they also choose -- the configurable counterpart to
+// the fixed single-module quiz above. Reuses .revision-module-row's shape
+// (see scheduleRevisionModuleHtml) with a checkbox in place of the radio
+// dot, since more than one row can be selected at once, and
+// practiceCountOptions' preset-tabs pattern (see practiceSetupPanelHtml)
+// for both count steppers.
+function scheduleRevisionCourseHtml(state, MODULES, revealedKeys, attempt) {
+  // Same "completed lessons only, regardless of forceUnlockAll" rule the
+  // single-module quiz applies just above -- see its own comment.
+  const eligible = MODULES.filter((m) => isModuleComplete(m.id, state.completed));
+
+  if (!eligible.length) {
+    return emptyStateHtml({
+      icon: 'award',
+      title: 'No modules to revise yet',
+      note: 'Finish every lesson in a module and it becomes available here to include in a course revision.',
+    });
+  }
+
+  const eligibleIds = eligible.map((m) => m.id);
+  // Mirrors selectedCourseRevisionModuleIds in js/main.js: null (never
+  // customized) reads as "every eligible module", an explicit array
+  // (possibly empty, via Clear all) is exactly what the learner checked.
+  const stored = state.courseRevisionModuleIds;
+  const selectedIds = stored ? stored.filter((id) => eligibleIds.includes(id)) : eligibleIds;
+  const selectedSet = new Set(selectedIds);
+
+  const moduleRowHtml = (m) => {
+    const checked = selectedSet.has(m.id);
+    const rowKey = `sched${attempt}_crevrow_${m.id}`;
+    const rowCls = `revision-module-row${checked ? ' is-selected' : ''}`;
+    return `
+      <button class="${revealCls(rowKey, rowCls, revealedKeys)}" data-action="toggleCourseRevisionModule" data-module-id="${escAttr(m.id)}" role="checkbox" aria-checked="${checked}">
+        <span class="revision-check" aria-hidden="true">${checked ? icon('check', 11, 3) : ''}</span>
+        <span class="revision-module-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+      </button>`;
+  };
+
+  const allSelected = selectedSet.size === eligible.length;
+  const selectAllRow = `
+    <div class="revision-select-all">
+      <button class="text-link-btn" data-action="${allSelected ? 'clearCourseRevisionModules' : 'selectAllCourseRevisionModules'}">${allSelected ? 'Clear all' : 'Select all'}</button>
+      <span class="revision-select-count">${selectedSet.size} of ${eligible.length} selected</span>
+    </div>`;
+
+  const counts = courseRevisionCounts(selectedIds, state.completed, state.forceUnlockAll);
+  const hasTarkeeb = eligible.some((m) => moduleHasTarkeeb(m));
+
+  // Same preset-tabs shape Practice Mode's own session-length picker uses
+  // (practiceCountOptions in this file) -- 10/20/40 filtered to what the
+  // current selection can actually fill, plus "All".
+  const mcqOpts = practiceCountOptions(counts.mcq);
+  const selectedMcq = mcqOpts.find((o) => o.count === state.courseRevisionMcqCount)
+    || mcqOpts.find((o) => o.count === 10) || mcqOpts[0];
+  const tarkeebOpts = hasTarkeeb ? practiceCountOptions(counts.tarkeeb) : [];
+  const selectedTarkeeb = hasTarkeeb
+    ? (tarkeebOpts.find((o) => o.count === state.courseRevisionTarkeebCount) || tarkeebOpts.find((o) => o.count === 10) || tarkeebOpts[0])
+    : null;
+
+  const mcqControl = counts.mcq === 0 ? '' : `
+    <div class="setup-group">
+      <div class="kicker">MCQ questions</div>
+      <div class="practice-tabs practice-tabs-sub" role="group" aria-label="MCQ question count">
+        ${mcqOpts.map((o) => `<button class="practice-tab${o.count === selectedMcq.count ? ' active' : ''}" data-action="setCourseRevisionMcqCount" data-count="${o.count}" aria-pressed="${o.count === selectedMcq.count}">${o.label}</button>`).join('')}
+      </div>
+    </div>`;
+
+  const tarkeebControl = !hasTarkeeb || counts.tarkeeb === 0 ? '' : `
+    <div class="setup-group">
+      <div class="kicker">تركيب exercises</div>
+      <div class="practice-tabs practice-tabs-sub" role="group" aria-label="تركيب exercise count">
+        ${tarkeebOpts.map((o) => `<button class="practice-tab${o.count === selectedTarkeeb.count ? ' active' : ''}" data-action="setCourseRevisionTarkeebCount" data-count="${o.count}" aria-pressed="${o.count === selectedTarkeeb.count}">${o.label}</button>`).join('')}
+      </div>
+    </div>`;
+
+  const totalMcq = selectedMcq ? selectedMcq.count : 0;
+  const totalTarkeeb = selectedTarkeeb ? selectedTarkeeb.count : 0;
+  const total = totalMcq + totalTarkeeb;
+  const canStart = selectedSet.size > 0 && total > 0;
+  const startLabel = total > 0 ? `Start course revision · ${total} question${total === 1 ? '' : 's'}` : 'Start course revision';
+
+  return `
+    <p class="lede revision-lede">Every module you pick, mixed into one quiz — choose how much of each kind to include.</p>
+    <div class="revision-module-list revision-check-list" role="group" aria-label="Modules to include">${eligible.map(moduleRowHtml).join('')}</div>
+    ${selectAllRow}
+    ${mcqControl}
+    ${tarkeebControl}
+    <button class="btn btn-primary btn-block revision-start" data-action="startCourseRevision" ${canStart ? '' : 'disabled'}>${startLabel}</button>`;
 }
 
 // Course-wide vocab quiz -- reuses the path's own vocab-checkpoint idea

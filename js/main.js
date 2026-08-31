@@ -45,6 +45,7 @@ import {
   createInitialState, shuffleQuizOrder, shuffle, buildPracticeQueue,
   buildSmartPracticeSession,
   buildModuleRevisionQueue, moduleRevisionPool,
+  buildCourseRevisionQueue, courseRevisionPool, courseRevisionCounts,
   buildRevisionVocabQueue,
   buildPathMcqCheckpointQueue, buildPathVocabCheckpointQueue,
   buildPathTarkeebCheckpointQueue, buildPathRevisionQueue, buildPathSectionTestQueue,
@@ -1060,15 +1061,21 @@ function prepPracticeQuestion(key) {
 // `label` is what the end-of-session review row shows for this question --
 // the question's own text (prompt/sentence), never entry.item's "title"
 // field, which is an internal book/page/exercise citation for content
-// authoring and was never meant to reach a learner's screen.
-function recordPracticeAnswer(key, label, pass) {
+// authoring and was never meant to reach a learner's screen. moduleId/
+// lessonTitle are carried onto the log entry purely so a multi-module
+// session's review screen can tag a missed question with where it came
+// from (see practiceReviewHtml in js/render.js) -- undefined for callers
+// that don't pass them, same as every other optional log field here.
+function recordPracticeAnswer(key, label, pass, moduleId, lessonTitle) {
   const h = state.practiceHistory[key] || { timesSeen: 0, timesWrong: 0 };
   h.timesSeen += 1;
   if (!pass) h.timesWrong += 1;
   h.lastSeen = Date.now();
   h.lastCorrect = pass;
   state.practiceHistory[key] = h;
-  state.practice.log.push({ key, title: label, correct: pass });
+  state.practice.log.push({
+    key, title: label, correct: pass, moduleId, lessonTitle,
+  });
   if (pass) {
     state.practiceCorrectTotal = (state.practiceCorrectTotal || 0) + 1;
     checkPracticeVolumeBadges(state);
@@ -1571,18 +1578,23 @@ function ensureTarkeeb(key, item, moduleId) {
 // The active session's source decides which pool findBankItem/prepPracticeQuestion/
 // checkTarkeeb etc. all resolve keys against -- 'module' (undefined source,
 // the original per-module Practice Mode) looks up practiceModuleId/moduleId
-// as before; 'revision' is either pinned to one (fully completed) module's
-// whole تركيب+mcq+quiz pool (same shape as 'masteryV2' just one level up) or,
-// for a 'revisionVocab' session, the whole course's unlocked vocab pool
-// (kind distinguishes the two -- see startRevision/startRevisionVocab);
-// 'path' resolves against whichever node's window is currently active,
+// as before; 'revision' is pinned to one (fully completed) module's whole
+// تركيب+mcq+quiz pool (same shape as 'masteryV2' just one level up), a
+// learner-picked SET of modules' pools unioned together for a
+// 'courseRevision' session (see startCourseRevision), or, for a
+// 'revisionVocab' session, the whole course's unlocked vocab pool (kind
+// distinguishes the three -- see startRevision/startCourseRevision/
+// startRevisionVocab); 'path' resolves against whichever node's window is
+// currently active,
 // spanning both fstu and sarf. Everything downstream of this
 // (selectPracticeOption, checkTarkeeb, tarkeebChipClick...) is unchanged and
 // source-agnostic.
 function bankPool() {
   const p = state.practice;
   if (p && p.source === 'revision') {
-    return p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll) : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
+    if (p.kind === 'revisionVocab') return getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll);
+    if (p.kind === 'courseRevision') return courseRevisionPool(p.moduleIds || [], state.completed, state.forceUnlockAll);
+    return moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
   }
   if (p && p.source === 'masteryV2') {
     return masteryV2Pool(p.moduleId, p.lessonId);
@@ -1603,6 +1615,29 @@ function bankPool() {
         : moduleSkipTestPool(p.targetId);
   }
   return getBankPool(state.practiceModuleId || state.moduleId, state.completed, state.forceUnlockAll);
+}
+
+// Every module in the active course the learner has fully completed -- the
+// same "completed lessons only, regardless of forceUnlockAll" rule the
+// single-module Revision quiz applies (see scheduleRevisionModuleHtml in
+// js/render.js), reused here as the Course Revision picker's checklist and
+// its "nothing customized yet" default.
+function eligibleCourseRevisionModuleIds() {
+  return MODULES.filter((m) => isModuleComplete(m.id, state.completed)).map((m) => m.id);
+}
+
+// state.courseRevisionModuleIds is null until the learner first touches the
+// checklist -- null reads as "everything eligible" (so the panel opens with
+// every completed module already included, per the user's ask to "revise
+// everything you've completed") without having to write that full list into
+// state up front; an empty array, by contrast, is a deliberate "nothing
+// selected" the learner reached via Clear all, and stays empty. Either way
+// the result is trimmed to modules that are STILL eligible, in case progress
+// somehow regressed between renders.
+function selectedCourseRevisionModuleIds() {
+  const eligible = eligibleCourseRevisionModuleIds();
+  const stored = state.courseRevisionModuleIds;
+  return stored ? stored.filter((id) => eligible.includes(id)) : eligible;
 }
 
 function findBankItem(key) {
@@ -2216,7 +2251,10 @@ const actions = {
     const queue = p.log.filter((l) => !l.correct).map((l) => l.key);
     if (!queue.length) return false;
     state.practice = {
-      source: p.source, kind: p.kind, moduleId: p.moduleId, lessonId: p.lessonId,
+      // moduleIds carries a courseRevision session's module set forward --
+      // undefined for every other source/kind, same as moduleId/lessonId
+      // already were for sources that don't use them.
+      source: p.source, kind: p.kind, moduleId: p.moduleId, moduleIds: p.moduleIds, lessonId: p.lessonId,
       queue, index: 0, log: [], startedAt: Date.now(),
       selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
     };
@@ -2453,7 +2491,7 @@ const actions = {
     // Answering while the finish-early confirm is up is a decision to keep
     // practising -- the confirm folds away.
     p.endConfirm = false;
-    recordPracticeAnswer(key, entry.item.prompt, pass);
+    recordPracticeAnswer(key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
     if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
       if (node) recordPathRepAnswer(key, entry.item.kind, pass, node);
@@ -3064,11 +3102,13 @@ const actions = {
     state.scheduleTab = el.dataset.tab;
     state.scheduleTabAttempt += 1;
   },
-  // Top-level Revision toggle -- 'module' (the module quiz below) or
-  // 'vocab' (startRevisionVocab further down). Only offered at all when
-  // courseHasVocab() (see scheduleRevisionHtml in js/render.js).
+  // Top-level Revision toggle -- 'module' (the single-module quiz below),
+  // 'course' (startCourseRevision, the configurable multi-module version),
+  // or 'vocab' (startRevisionVocab further down). 'vocab' is only offered
+  // at all when courseHasVocab() (see scheduleRevisionHtml in js/render.js),
+  // which re-validates this on render rather than trusting it blindly.
   setScheduleRevisionKind(el) {
-    state.scheduleRevisionKind = el.dataset.kind === 'vocab' ? 'vocab' : 'module';
+    state.scheduleRevisionKind = ['course', 'vocab'].includes(el.dataset.kind) ? el.dataset.kind : 'module';
   },
   setScheduleRevisionMode(el) {
     state.scheduleRevisionMode = el.dataset.mode === 'random' ? 'random' : 'pick';
@@ -3121,6 +3161,56 @@ const actions = {
     if (!queue.length) return false;
     state.practice = {
       source: 'revision', kind: 'revisionVocab', moduleId: null, lessonId: null,
+      queue, index: 0, log: [], startedAt: Date.now(),
+      selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
+    };
+    state.view = 'practice';
+    prepPracticeQuestion(queue[0]);
+  },
+  // Course Revision's own module checklist -- toggles one module in or out
+  // of state.courseRevisionModuleIds, first materializing the "nothing
+  // customized yet" default (every eligible module) so a single click
+  // deselects just the one module rather than starting from an empty set.
+  toggleCourseRevisionModule(el) {
+    const id = el.dataset.moduleId;
+    const current = selectedCourseRevisionModuleIds();
+    state.courseRevisionModuleIds = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
+  },
+  selectAllCourseRevisionModules() {
+    state.courseRevisionModuleIds = eligibleCourseRevisionModuleIds();
+  },
+  clearCourseRevisionModules() {
+    state.courseRevisionModuleIds = [];
+  },
+  setCourseRevisionMcqCount(el) {
+    const n = Number(el.dataset.count);
+    if (Number.isFinite(n) && n >= 0) state.courseRevisionMcqCount = n;
+  },
+  setCourseRevisionTarkeebCount(el) {
+    const n = Number(el.dataset.count);
+    if (Number.isFinite(n) && n >= 0) state.courseRevisionTarkeebCount = n;
+  },
+  // Builds and enters a quiz spanning every module the learner picked in the
+  // Course Revision checklist (or every completed module, if they haven't
+  // customized the selection yet), mixing in as many MCQ and تركيب
+  // questions as they chose with the count steppers -- the configurable
+  // counterpart to startRevision's fixed single-module quiz. Each question
+  // still carries its own moduleId/lessonTitle (see courseRevisionPool in
+  // js/state.js), so practiceHtml can tag every question with where it came
+  // from once the module set is no longer implied by a single header line.
+  // Disabled in the UI until there's a selection with a nonzero total (see
+  // scheduleRevisionCourseHtml), so the checks here are a backstop.
+  startCourseRevision() {
+    const moduleIds = selectedCourseRevisionModuleIds();
+    if (!moduleIds.length) return false;
+    const counts = courseRevisionCounts(moduleIds, state.completed, state.forceUnlockAll);
+    const mcqCount = Math.min(state.courseRevisionMcqCount ?? 10, counts.mcq);
+    const tarkeebCount = Math.min(state.courseRevisionTarkeebCount ?? 10, counts.tarkeeb);
+    if (mcqCount + tarkeebCount <= 0) return false;
+    const queue = buildCourseRevisionQueue(moduleIds, state.completed, state.forceUnlockAll, { mcqCount, tarkeebCount });
+    if (!queue.length) return false;
+    state.practice = {
+      source: 'revision', kind: 'courseRevision', moduleId: null, moduleIds, lessonId: null,
       queue, index: 0, log: [], startedAt: Date.now(),
       selected: undefined, submitted: false, correct: false, combo: 0, xpGained: 0,
     };
@@ -3522,7 +3612,7 @@ const actions = {
     // p.kind === 'tarkeeb' guard -- see selectPracticeOption's matching
     // comment on why a My Path revision node needs this.
     if (p && p.queue[p.index] === key) {
-      recordPracticeAnswer(key, entry.item.source, allPass);
+      recordPracticeAnswer(key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
       if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);

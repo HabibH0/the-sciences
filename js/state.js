@@ -259,6 +259,17 @@ export async function createInitialState() {
     // Not persisted -- same treatment as pathVocabDirection/
     // practiceVocabType, defaults to 'en-ar' when unset.
     scheduleRevisionVocabDirection: null,
+    // Transient: Course Revision's module checklist -- null means "every
+    // completed module" (see selectedCourseRevisionModuleIds in js/main.js),
+    // an explicit array is whatever the learner has actually checked/
+    // unchecked (possibly empty, via Clear all). Not persisted -- always
+    // reopens defaulted to every eligible module.
+    courseRevisionModuleIds: null,
+    // Transient: Course Revision's MCQ/تركيب count steppers. Not persisted --
+    // null falls back to 10 (or the pool size, if smaller), same default
+    // Practice Mode's own session-length picker uses.
+    courseRevisionMcqCount: null,
+    courseRevisionTarkeebCount: null,
     // --- Literature (content-lit/) ---
     // A book is not a course, so none of the course nav above applies to it:
     // which book/chapter is open lives here instead, and the reader's own
@@ -626,6 +637,69 @@ export function buildModuleRevisionQueue(moduleId, completed, forceUnlockAll = f
   const bookKeys = shuffle(bookPool).slice(0, REVISION_BOOK_TARGET).map((e) => e.key);
   const tarkeebKeys = shuffle(tarkeebPool).slice(0, REVISION_TARKEEB_TARGET).map((e) => e.key);
   return shuffle([...quizKeys, ...bookKeys, ...tarkeebKeys]);
+}
+
+// --- Revision Mode: Course-wide -----------------------------------------
+// The configurable counterpart to the single-module quiz above: every
+// module the learner picks (see scheduleRevisionCourseHtml/
+// startCourseRevision in js/render.js and js/main.js), not just one, and
+// however many MCQ/تركيب questions they choose rather than a fixed 20+10.
+// Same underlying content as moduleRevisionSubPools, just unioned over a
+// caller-supplied module list instead of pinned to a single moduleId --
+// each entry still keeps its own moduleId/lessonTitle (set by getBankPool
+// and the lesson-quiz pool below), which is what lets a session spanning
+// several modules tag each question with where it came from (see
+// practiceHtml's revisionSourceTagHtml in js/render.js).
+function courseRevisionSubPools(moduleIds, completed, forceUnlockAll = false) {
+  const quizPool = [];
+  let bookPool = [];
+  let tarkeebPool = [];
+  moduleIds.forEach((moduleId) => {
+    const mod = getModule(moduleId);
+    if (!mod) return;
+    mod.lessons.forEach((lesson) => {
+      (lesson.quiz || []).forEach((q, idx) => {
+        quizPool.push({
+          key: quizKey(moduleId, lesson.id, idx), moduleId, lessonId: lesson.id, lessonTitle: lesson.title, title: lesson.title,
+          item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation },
+        });
+      });
+    });
+    const bank = getBankPool(moduleId, completed, forceUnlockAll);
+    bookPool = bookPool.concat(bank.filter((p) => p.item.kind === 'mcq'));
+    tarkeebPool = tarkeebPool.concat(bank.filter((p) => p.item.kind === 'tarkeeb'));
+  });
+  return { quizPool, bookPool, tarkeebPool };
+}
+
+// Mirrors moduleRevisionPool -- the full lookup pool for an in-progress
+// course-wide Revision session (bankPool()/findBankItem in js/main.js,
+// practiceHtml in js/render.js).
+export function courseRevisionPool(moduleIds, completed, forceUnlockAll = false) {
+  const { quizPool, bookPool, tarkeebPool } = courseRevisionSubPools(moduleIds, completed, forceUnlockAll);
+  return [...quizPool, ...bookPool, ...tarkeebPool];
+}
+
+// How many MCQ (quiz + book combined) and تركيب items the current module
+// selection actually has to draw on -- used by scheduleRevisionCourseHtml to
+// cap its count steppers at what the pool can really fill, the same way
+// moduleRevisionCounts previews the single-module quiz's fixed composition.
+export function courseRevisionCounts(moduleIds, completed, forceUnlockAll = false) {
+  const { quizPool, bookPool, tarkeebPool } = courseRevisionSubPools(moduleIds, completed, forceUnlockAll);
+  return { mcq: quizPool.length + bookPool.length, tarkeeb: tarkeebPool.length };
+}
+
+// mcqCount/tarkeebCount are the learner's own picks (the count steppers in
+// scheduleRevisionCourseHtml), capped by whatever the selected modules
+// actually have -- same "capped, not padded" rule buildModuleRevisionQueue
+// follows for its fixed 20+10. The mcq portion draws from quiz and book
+// pools shuffled together rather than sliced separately, so a module with
+// only one of the two sources isn't shortchanged relative to one with both.
+export function buildCourseRevisionQueue(moduleIds, completed, forceUnlockAll, { mcqCount, tarkeebCount }) {
+  const { quizPool, bookPool, tarkeebPool } = courseRevisionSubPools(moduleIds, completed, forceUnlockAll);
+  const mcqKeys = shuffle([...quizPool, ...bookPool]).slice(0, mcqCount).map((e) => e.key);
+  const tarkeebKeys = shuffle(tarkeebPool).slice(0, tarkeebCount).map((e) => e.key);
+  return shuffle([...mcqKeys, ...tarkeebKeys]);
 }
 
 // --- Revision Mode: Vocab ---------------------------------------------

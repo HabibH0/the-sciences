@@ -2908,6 +2908,16 @@ bdi,
   font-size: var(--text-meta);
   color: var(--color-accent-700);
 }
+/* Which module/lesson a Revision question came from (see
+   revisionSourceTagHtml in js/render.js) -- essential once a session spans
+   more than one module, so it sits right above the question rather than
+   competing with the quiz-head crumb, which stays about the SESSION, not
+   the individual question. */
+.quiz-source-tag {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
 .quiz-question {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
@@ -3333,6 +3343,14 @@ bdi,
   font-size: var(--text-sm);
   color: var(--color-accent-700);
   margin-top: 6px;
+}
+/* Which module/lesson a missed Revision question came from (see
+   practiceReviewHtml's missedRows) -- muted, since the title above it is
+   still the primary thing a reader is scanning this card for. */
+.review-card-source {
+  font-size: var(--text-micro);
+  color: var(--color-neutral-500);
+  margin-top: 4px;
 }
 
 .complete-actions {
@@ -6886,6 +6904,34 @@ button.concept-dot {
 }
 .revision-module-row.is-selected .revision-radio-dot {
   background: var(--color-accent);
+}
+
+/* Course Revision's module checklist -- same .revision-module-row shape as
+   the single-module picker above, a filled square with a check glyph in
+   place of the radio dot since more than one row can be selected at once
+   (see scheduleRevisionCourseHtml). */
+.revision-check {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  border: 1.5px solid var(--color-neutral-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-ink);
+}
+.revision-module-row.is-selected .revision-check {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+.revision-select-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
 }
 
 /* Plan: the two settings the whole page is computed from. */
