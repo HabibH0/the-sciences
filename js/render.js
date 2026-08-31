@@ -2148,7 +2148,16 @@ function tarkeebDiagramGridHtml(item, slotContent, { fillBlanks = false } = {}) 
   // band means. Rendered as their own column past the last cell.
   const rowLabelsHtml = hasRowLabels ? rowLabels.map((rl) => `
     <div class="tarkeeb-diagram-row-label" style="grid-column:${labelCol};grid-row:${rl.gridRow};">${escBidi(rl.label)}</div>`).join('') : '';
-  const columns = `repeat(${numCells}, minmax(64px, auto))${hasRowLabels ? ' auto' : ''}`;
+  // min-content, not a fixed px floor: a definite-length minimum resolves a
+  // track's base size immediately, so the `auto` maximum only ever grows it
+  // into already-available free space -- there usually isn't any once
+  // .tarkeeb-diagram-scroll's overflow-x:auto has already constrained the
+  // container, so every column just sat at the fixed floor regardless of
+  // how wide its label actually needed to be (see the CSS comment on
+  // .tarkeeb-diagram-grid's child rule). min-content is itself a
+  // content-based minimum, so it still contributes to intrinsic sizing and
+  // the diagram grows (then scrolls) to fit its longest label as intended.
+  const columns = `repeat(${numCells}, minmax(min-content, auto))${hasRowLabels ? ' auto' : ''}`;
   return `
     <div class="tarkeeb-diagram-scroll" dir="rtl">
       <div class="tarkeeb-diagram-grid" dir="rtl" style="grid-template-columns:${columns};grid-template-rows:repeat(${totalRows}, auto);">
