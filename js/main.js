@@ -4420,18 +4420,22 @@ document.addEventListener('keydown', (e) => {
 
 // --- Desktop keyboard shortcuts (POLISH-015) -------------------------------
 // `/` focuses the page's search; 1-4 / A-D answer the question on screen;
-// Enter checks or advances when the primary action is ready; ←/→ page
-// between unlocked concepts. Everything stands down while typing in a
-// field or while a dialog is up, and every key routes through the exact
-// same [data-action] handlers a click would -- so validation, feedback and
-// disabled states cannot drift from the pointer path.
+// Enter drives the single primary step of whichever answer flow is on
+// screen -- opening a gated exercise, checking an answer, retrying a missed
+// one, or advancing once it's graded; ←/→ page between unlocked concepts.
+// Everything stands down while typing in a field or while a dialog is up,
+// and every key routes through the exact same [data-action] handlers a
+// click would -- so validation, feedback and disabled states cannot drift
+// from the pointer path.
 function shortcutTypingContext(e) {
   const t = e.target;
   return !!(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable));
 }
 
 const SHORTCUT_CHECK_OR_ADVANCE = [
+  '[data-action="revealExercise"]',
   '[data-action="checkConceptExercise"]',
+  '[data-action="retryConceptExercise"]',
   '[data-action="checkTarkeeb"]',
   '[data-action="litWorkshopCheck"]',
   '[data-action="litBuildCheck"]',
