@@ -50,6 +50,7 @@ export const PATH_VIEWS = new Set(['pathGroups', 'path']);
 function sessionSectionId(state) {
   const src = state.practice && state.practice.source;
   if (src === 'revision') return 'schedule';
+  if (src === 'review') return state.practice.exitView === 'schedule' ? 'schedule' : 'home';
   if (src === 'path') return null;
   if (state.pathActive) return null;
   return 'home';

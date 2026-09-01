@@ -37,7 +37,12 @@ import {
   courseUnlockTestPool,
   moduleSkipTestPool,
   UNLOCK_TEST_PASS_RATIO,
+  getReviewPool,
 } from '../content/index.js';
+import {
+  reviewPoolStatus, effectiveReviewCard, nextDueLabel, estimateReviewMinutes,
+  RATING_LABELS, reviewDayISO,
+} from './reviewScheduler.js';
 import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   LIT_BOOKS, getLitBook, getLoadedChapter, bookProgress, isChapterDone, isChapterUnlocked,
@@ -712,6 +717,158 @@ function courseMenuHtml(state, action = 'chooseCourse') {
     </div>`;
 }
 
+// --- Review (spaced repetition) entry points -------------------------------
+// Two placements share one status computation: the course-home rail card
+// (primary, directly below Today / target date) and the Schedule tab's
+// "Today's review" panel. The pool itself is cached per completed-lessons
+// signature in content/index.js, so computing status per render stays cheap.
+
+function reviewStatusFor(state, pool) {
+  return reviewPoolStatus(
+    pool, state.reviewCards, state.practiceHistory, state.reviewDayStats,
+    state.reviewSettings, Date.now(), state.dailyResetHour || 0,
+  );
+}
+
+// Mirrors main.js's reviewFocusPool so the Schedule panel's numbers and its
+// Start button describe the same session the action will actually build.
+function reviewFocusedPool(state) {
+  let pool = getReviewPool(state.completed);
+  if (state.reviewFocusModuleId) pool = pool.filter((e) => e.moduleId === state.reviewFocusModuleId);
+  const kind = state.reviewFocusKind;
+  if (kind === 'tarkeeb') pool = pool.filter((e) => e.item.kind === 'tarkeeb');
+  else if (kind === 'vocab') pool = pool.filter((e) => e.item.kind === 'vocab');
+  else if (kind === 'mcq') pool = pool.filter((e) => e.item.kind !== 'tarkeeb' && e.item.kind !== 'vocab');
+  return pool;
+}
+
+// "Next due" for the caught-up states, in the same plain language the
+// per-card labels use.
+function reviewNextDueText(nextDueAt, resetHour) {
+  if (!nextDueAt) return null;
+  const today = todayISO(resetHour);
+  const day = reviewDayISO(nextDueAt, resetHour);
+  if (day <= today) return 'later today';
+  const diff = Math.round((Date.parse(`${day}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86400000);
+  return diff === 1 ? 'tomorrow' : `in ${diff} days`;
+}
+
+function reviewWorkloadLine(st) {
+  const parts = [];
+  parts.push(`<strong>${st.due}</strong> due`);
+  if (st.newToday > 0) parts.push(`<strong>${st.newToday}</strong> new`);
+  return parts.join(' · ');
+}
+
+// The shared inner content of the home-page review card. `compact` drops
+// the explanatory note for the phone slot.
+function reviewCardBodyHtml(state, { compact = false } = {}) {
+  const pool = getReviewPool(state.completed);
+  if (!pool.length) {
+    return `
+      <div class="kicker">Review</div>
+      <p class="home-rail-invite-title">Nothing to review yet</p>
+      <p class="home-rail-note">Complete your first lesson and its questions start entering your daily review.</p>`;
+  }
+  const st = reviewStatusFor(state, pool);
+  const sessionSize = st.due + st.newToday;
+  if (sessionSize > 0) {
+    return `
+      <div class="kicker">Review</div>
+      <div class="home-rail-figure">${reviewWorkloadLine(st)}</div>
+      ${compact ? '' : `<p class="home-rail-note home-rail-note-flush">About ${estimateReviewMinutes(Math.min(sessionSize, 30))} min today, from everything you've completed in this course.</p>`}
+      <button class="btn btn-primary btn-block review-card-cta" data-action="startReview">Review now</button>`;
+  }
+  const nextDue = reviewNextDueText(st.nextDueAt, state.dailyResetHour || 0);
+  return `
+    <div class="kicker">Review</div>
+    <p class="home-rail-invite-title">You're caught up</p>
+    <p class="home-rail-note home-rail-note-flush">${nextDue ? `Next review due ${esc(nextDue)}.` : 'New cards arrive as you complete lessons.'}</p>
+    ${st.newAvailable > 0 ? `<button class="btn btn-secondary btn-sm review-card-cta" data-action="startReviewExtraNew" title="Adds up to ${state.reviewSettings.extraNewBatchSize} new cards to today's review — they join the schedule and will come back as future reviews.">Add up to ${state.reviewSettings.extraNewBatchSize} new cards</button>` : ''}`;
+}
+
+function homeReviewCardHtml(state, extraCls = '') {
+  const pool = getReviewPool(state.completed);
+  const st = pool.length ? reviewStatusFor(state, pool) : null;
+  const active = st && st.due + st.newToday > 0;
+  return `
+    <div class="${active ? 'home-rail-card' : 'home-rail-invite'} review-rail-card${extraCls ? ` ${extraCls}` : ''}">
+      ${reviewCardBodyHtml(state, { compact: extraCls.includes('only-phone') })}
+    </div>`;
+}
+
+// The Schedule tab's "Today's review" panel: the same numbers as the home
+// card, plus the quiet Choose-focus control (a module and/or format filter
+// tucked behind a toggle, never in front of the main start button).
+function scheduleTodayReviewHtml(state, MODULES) {
+  const fullPool = getReviewPool(state.completed);
+  if (!fullPool.length) {
+    return `
+      <div class="section-head schedule-section"><h2 class="section-head-title">Today's review</h2></div>
+      <div class="schedule-panel review-schedule-panel">
+        <p class="practice-empty">Review builds itself from lessons you've completed. Finish your first lesson and its questions appear here, scheduled for you.</p>
+      </div>`;
+  }
+  const focused = state.reviewFocusModuleId || state.reviewFocusKind;
+  const pool = focused ? reviewFocusedPool(state) : fullPool;
+  const st = reviewStatusFor(state, pool);
+  const fullSt = focused ? reviewStatusFor(state, fullPool) : st;
+  const sessionSize = st.due + st.newToday;
+  const nextDue = reviewNextDueText(st.nextDueAt, state.dailyResetHour || 0);
+
+  const hasTarkeeb = fullPool.some((e) => e.item.kind === 'tarkeeb');
+  const hasVocab = fullPool.some((e) => e.item.kind === 'vocab');
+  const kindChip = (kind, label) => `
+    <button class="practice-tab ${state.reviewFocusKind === kind || (!kind && !state.reviewFocusKind) ? 'active' : ''}"
+      data-action="setReviewFocusKind" ${kind ? `data-kind="${kind}"` : ''}>${label}</button>`;
+  const completedModules = MODULES.filter((m) => (state.completed[m.id] && Object.keys(state.completed[m.id]).length));
+  const moduleRow = (m) => `
+    <button class="review-focus-module${state.reviewFocusModuleId === (m ? m.id : null) || (!m && !state.reviewFocusModuleId) ? ' is-selected' : ''}"
+      data-action="setReviewFocusModule" ${m ? `data-module-id="${escAttr(m.id)}"` : ''}>
+      ${m ? `<bdi lang="ar" dir="rtl">${esc(m.title)}</bdi>` : 'Whole course'}
+    </button>`;
+
+  const focusPanel = state.reviewFocusOpen ? `
+    <div class="review-focus-panel">
+      <div class="practice-tabs">
+        ${kindChip(null, 'All formats')}
+        ${kindChip('mcq', 'MCQ')}
+        ${hasTarkeeb ? kindChip('tarkeeb', 'تركيب') : ''}
+        ${hasVocab ? kindChip('vocab', 'Vocab') : ''}
+      </div>
+      <div class="review-focus-modules">
+        ${moduleRow(null)}
+        ${completedModules.map(moduleRow).join('')}
+      </div>
+    </div>` : '';
+
+  const body = sessionSize > 0 ? `
+      <div class="review-panel-figures">
+        <div><span class="ledger-inline-value">${st.due}</span><span class="ledger-inline-label">Due now</span></div>
+        <div><span class="ledger-inline-value">${st.newToday}</span><span class="ledger-inline-label">New today</span></div>
+        <div><span class="ledger-inline-value">~${estimateReviewMinutes(Math.min(sessionSize, 30))}m</span><span class="ledger-inline-label">Estimated</span></div>
+      </div>
+      ${st.due > 30 ? `<p class="practice-hint">A big backlog — sessions come in chunks of 30, oldest first, and you can keep going until it's clear.</p>` : ''}
+      <button class="btn btn-primary btn-block" data-action="startReview">Start review${focused ? ' (focused)' : ''}</button>`
+    : `
+      <p class="review-caught-up">${icon('check', 15, 2.4)} You're caught up${nextDue ? ` — next review due ${esc(nextDue)}` : ''}.</p>
+      ${st.newAvailable > 0 ? `<button class="btn btn-secondary btn-block" data-action="startReviewExtraNew">Add up to ${state.reviewSettings.extraNewBatchSize} new cards to today's review</button>` : ''}`;
+
+  return `
+    <div class="section-head schedule-section">
+      <h2 class="section-head-title">Today's review</h2>
+      ${fullSt.total ? `<span class="lesson-section-note">${fullSt.total} cards in rotation</span>` : ''}
+    </div>
+    <div class="schedule-panel review-schedule-panel">
+      ${body}
+      <div class="review-panel-foot">
+        <button class="text-link-btn" data-action="toggleReviewFocus" aria-expanded="${state.reviewFocusOpen ? 'true' : 'false'}">Choose focus${focused ? ' · on' : ''}</button>
+        ${fullSt.suspended > 0 ? `<button class="text-link-btn" data-action="restoreSuspendedReviewCards">Restore ${fullSt.suspended} suspended</button>` : ''}
+      </div>
+      ${focusPanel}
+    </div>`;
+}
+
 function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
   const continueInfo = findContinueLesson(state, MODULES);
   const currentModuleId = continueInfo ? continueInfo.mod.id : null;
@@ -811,6 +968,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
       </div>` : ''}
       <div class="home-body">
         <section class="home-modules-col">
+          ${homeReviewCardHtml(state, 'only-phone')}
           <div class="section-head">
             <h2 class="section-head-title">Your modules</h2>
             <span class="course-switch-anchor">
@@ -860,6 +1018,7 @@ function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
             <p class="home-rail-note">Pick the date you want to finish this course and this rail will track the day's target against it.</p>
             <button class="btn btn-secondary btn-sm" data-action="openScheduleTargetDate">Set a target date</button>
           </div>`}
+          ${homeReviewCardHtml(state, 'only-desktop')}
           <div class="home-explore only-phone">
             <div class="home-explore-title">Explore</div>
             <div class="home-explore-grid">
@@ -2592,6 +2751,7 @@ function sessionFallback(state, MODULES) {
   if (src === 'masteryV2') return state.pathActive ? pathMapHtml(state) : modulePageHtml(state, MODULES);
   if (src === 'revision') return scheduleHtml(state, MODULES);
   if (src === 'unlockTest') return dashboardHtml(state, MODULES);
+  if (src === 'review') return state.practice.exitView === 'schedule' ? scheduleHtml(state, MODULES) : dashboardHtml(state, MODULES);
   return modulePageHtml(state, MODULES);
 }
 
@@ -2612,6 +2772,7 @@ function sessionKicker(p, mod) {
   }
   if (p.source === 'masteryV2') return 'MASTERY';
   if (p.source === 'unlockTest') return 'UNLOCK TEST';
+  if (p.source === 'review') return 'REVIEW';
   if (p.source === 'revision') {
     const label = p.kind === 'revisionVocab' ? 'Vocab' : p.kind === 'courseRevision' ? 'Course' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
@@ -2632,6 +2793,28 @@ function revisionSourceTagHtml(entry) {
     </div>`;
 }
 
+// Post-answer scheduler feedback for a Review question: the applied rating
+// and, in plain language, when this card comes back ("Good · in 4 days",
+// "Again · later today"), plus the optional Hard/Easy override on a correct
+// answer -- pressing one re-rates THIS answer (see overrideReviewRating in
+// js/main.js), it never queues a second rating.
+function reviewIntervalNoteHtml(state, p, key) {
+  const card = state.reviewCards[key];
+  if (!card || !p.lastRating || p.ratedKey !== key) return '';
+  const label = RATING_LABELS[p.lastRating] || p.lastRating;
+  const due = nextDueLabel(card, Date.now(), state.dailyResetHour || 0);
+  const canOverride = p.correct && p.cardBefore;
+  return `
+    <div class="review-interval-row">
+      <span class="review-interval-note">${esc(label)} · ${esc(due)}</span>
+      ${canOverride ? `
+      <span class="review-override" role="group" aria-label="Adjust how well you knew this">
+        <button class="btn btn-ghost btn-sm${p.lastRating === 'hard' ? ' is-active' : ''}" data-action="overrideReviewRating" data-rating="hard">Hard</button>
+        <button class="btn btn-ghost btn-sm${p.lastRating === 'easy' ? ' is-active' : ''}" data-action="overrideReviewRating" data-rating="easy">Easy</button>
+      </span>` : ''}
+    </div>`;
+}
+
 function practiceHtml(state, MODULES) {
   const p = state.practice;
   if (!p) return modulePageHtml(state, MODULES);
@@ -2646,7 +2829,7 @@ function practiceHtml(state, MODULES) {
   // and an ordinary (module-quiz) 'revision' session (pinned to one
   // fully-completed module -- see buildModuleRevisionQueue in js/state.js)
   // all have exactly one.
-  const mod = (p.source === 'path' || p.source === 'unlockTest' || p.kind === 'revisionVocab' || p.kind === 'courseRevision') ? null : MODULES.find((m) => m.id === p.moduleId);
+  const mod = (p.source === 'path' || p.source === 'unlockTest' || p.source === 'review' || p.kind === 'revisionVocab' || p.kind === 'courseRevision') ? null : MODULES.find((m) => m.id === p.moduleId);
   if (p.source === 'module' && !mod) return sessionFallback(state, MODULES);
 
   const poolForKind = (mcqPool, tarkeebPool, vocabPool) => (
@@ -2654,7 +2837,12 @@ function practiceHtml(state, MODULES) {
   );
   const pathNode = p.source === 'path' ? findPathNode(p.nodeId) : null;
   let pool;
-  if (p.source === 'revision') {
+  if (p.source === 'review') {
+    // The scheduled Review queue spans every completed lesson of the
+    // active course -- its keys are scheduler card ids, resolved against
+    // the same cached pool main.js's bankPool() serves.
+    pool = getReviewPool(state.completed);
+  } else if (p.source === 'revision') {
     pool = p.kind === 'revisionVocab' ? getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll)
       : p.kind === 'courseRevision' ? courseRevisionPool(p.moduleIds || [], state.completed, state.forceUnlockAll)
         : moduleRevisionPool(p.moduleId, state.completed, state.forceUnlockAll);
@@ -2697,7 +2885,9 @@ function practiceHtml(state, MODULES) {
   // lesson. Every pool entry already carries its own moduleId/lessonTitle
   // (see courseRevisionPool/moduleRevisionPool in js/state.js), so this is
   // purely a rendering addition, not a new data source.
-  const sourceTag = p.source === 'revision' ? revisionSourceTagHtml(entry) : '';
+  // Review sessions get the same tag: a course-wide queue mixes lessons
+  // freely, so every question card names the module and lesson it came from.
+  const sourceTag = (p.source === 'revision' || p.source === 'review') ? revisionSourceTagHtml(entry) : '';
 
   // A graded session (Mastery, or a My Path checkpoint/test) can become
   // mathematically un-passable before the queue actually runs out -- once
@@ -2719,6 +2909,23 @@ function practiceHtml(state, MODULES) {
     const cls = i < p.index ? 'quiz-tick quiz-tick-done' : i === p.index ? 'quiz-tick quiz-tick-current' : 'quiz-tick';
     return `<div class="${cls}"></div>`;
   }).join('');
+
+  // A Review queue GROWS mid-session (a missed card re-enters a few cards
+  // ahead), so fixed "Question 3 of 10" ticks would jump around. Its head
+  // is workload-based instead: what's left, and how much of that is
+  // relearning repeats -- with a plain fill bar in place of the ticks.
+  const isReview = p.source === 'review';
+  const reviewRemaining = p.queue.length - p.index;
+  const reviewRelearning = isReview
+    ? Object.values(p.reinserted || {}).reduce((a, b) => a + Math.max(0, b), 0)
+    : 0;
+  const reviewPct = isReview ? Math.round((p.log.length / Math.max(1, p.log.length + reviewRemaining)) * 100) : 0;
+  const crumbHtml = isReview
+    ? `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span>${reviewRemaining} remaining${reviewRelearning > 0 ? ` · ${reviewRelearning} learning again` : ''}</div>`
+    : `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>`;
+  const ticksHtml = isReview
+    ? `<div class="review-progress-track" aria-hidden="true"><span class="review-progress-fill" style="width:${reviewPct}%"></span></div>`
+    : `<div class="quiz-ticks">${ticks}</div>`;
   // Its own progress card rather than the header (reference mockup, user
   // request) -- same layout as the lesson quiz's .quiz-progress-card, just
   // reading the combo/XP practice already tracks per session instead of the
@@ -2761,14 +2968,15 @@ function practiceHtml(state, MODULES) {
     let body = renderTarkeeb(state, entry.item, entry.key, entry.moduleId);
     const ts = state.tarkeebState[entry.key];
     if (ts && ts.submitted) {
+      if (isReview) body += reviewIntervalNoteHtml(state, p, key);
       body += `<div class="action-row">${nextPracticeButton(isLast)}</div>`;
     }
     return `
       <div class="quiz-page practice-page">
         <div class="quiz-head">
-          <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
+          ${crumbHtml}
         </div>
-        <div class="quiz-ticks">${ticks}</div>
+        ${ticksHtml}
         ${comboHtml}
         <div class="quiz-body practice-body">
           <div class="quiz-body-inner">
@@ -2794,14 +3002,15 @@ function practiceHtml(state, MODULES) {
     <div class="quiz-feedback${p.correct ? '' : ' quiz-feedback-incorrect'}">
       <div class="quiz-feedback-line">${verdictIcon(p.correct)}<span>${p.correct ? 'Correct.' : `Not quite — the answer is ${escBidi(entry.item.options[entry.item.correct])}.`}</span></div>
       ${entry.item.explanation ? `<p class="quiz-feedback-explanation">${escBidi(entry.item.explanation)}</p>` : ''}
+      ${isReview ? reviewIntervalNoteHtml(state, p, key) : ''}
     </div>` : '';
 
   return `
     <div class="quiz-page practice-page">
       <div class="quiz-head">
-        <div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>
+        ${crumbHtml}
       </div>
-      <div class="quiz-ticks">${ticks}</div>
+      ${ticksHtml}
       ${comboHtml}
       <div class="quiz-body practice-body">
         <div class="quiz-body-inner">
@@ -2948,6 +3157,119 @@ function practiceReviewHtml(state, MODULES) {
         <div class="review-log">${rows}</div>
       </div>
       <div class="complete-foot">${drillMissedBtn}${footer}</div>
+    </div>`;
+}
+
+// End screen for a scheduled Review session. Unlike practiceReviewHtml
+// (a one-off quiz's score sheet), this reports the session in scheduler
+// terms -- reviewed cleanly, still in learning/relearning, missed at least
+// once, new cards introduced -- then offers exactly one obvious next step:
+// Continue review while due cards remain, the optional extra-new batch once
+// they're clear, or the caught-up state with the next due time.
+function reviewCompleteHtml(state, MODULES) {
+  const p = state.practice;
+  if (!p || p.source !== 'review') return dashboardHtml(state, MODULES);
+  const pool = getReviewPool(state.completed);
+  const byId = new Map(pool.map((e) => [e.cardId, e]));
+
+  const answeredKeys = Object.keys(p.answeredKeys || {});
+  const missedKeys = Object.keys(p.missedKeys || {});
+  const stillLearning = answeredKeys.filter((k) => {
+    const c = state.reviewCards[k];
+    return c && (c.state === 'learning' || c.state === 'relearning');
+  });
+  const reviewedClean = answeredKeys.filter((k) => p.answeredKeys[k] && !p.missedKeys[k]);
+  const total = p.log.length;
+  const correctCount = p.log.filter((l) => l.correct).length;
+  const pct = total ? Math.round((correctCount / total) * 100) : 0;
+
+  const st = reviewStatusFor(state, pool);
+  const nextDue = reviewNextDueText(st.nextDueAt, state.dailyResetHour || 0);
+  const caughtUp = st.due === 0;
+
+  // Leeches met this session: flagged, never silently suspended -- the
+  // learner decides between parking the card and keeping at it.
+  const leechRows = answeredKeys
+    .filter((k) => {
+      const c = state.reviewCards[k];
+      return c && c.leech && c.state !== 'suspended';
+    })
+    .map((k) => {
+      const entry = byId.get(k);
+      if (!entry) return '';
+      const label = entry.item.kind === 'tarkeeb' ? (entry.item.source || entry.title) : entry.item.prompt;
+      return `
+        <div class="review-card review-leech-row">
+          <div class="review-card-head">
+            <span class="review-card-title" lang="ar" dir="rtl">${escBidi(label || '')}</span>
+            <span class="tag">${entry.moduleTitle ? `<bdi lang="ar" dir="rtl">${esc(entry.moduleTitle)}</bdi> · ` : ''}<bdi lang="ar" dir="rtl">${esc(entry.lessonTitle || '')}</bdi></span>
+          </div>
+          <div class="review-leech-actions">
+            <span class="review-leech-note">Missed ${state.reviewCards[k].lapses} times — a leech.</span>
+            <button class="btn btn-secondary btn-sm" data-action="suspendReviewCard" data-key="${escAttr(k)}">Suspend</button>
+          </div>
+        </div>`;
+    })
+    .join('');
+
+  const missedRows = p.log.map((l) => {
+    if (l.correct) return '';
+    const sourceMod = l.moduleId ? getModule(l.moduleId) : null;
+    return `
+      <div class="review-card">
+        <div class="review-card-head">
+          <span class="review-card-title" lang="ar" dir="rtl">${escBidi(l.title)}</span>
+        </div>
+        ${sourceMod ? `<div class="review-card-source"><bdi lang="ar" dir="rtl">${esc(sourceMod.title)}</bdi> · <bdi lang="ar" dir="rtl">${esc(l.lessonTitle || '')}</bdi></div>` : ''}
+      </div>`;
+  }).join('');
+
+  const nextStep = caughtUp ? `
+      <div class="review-done-caughtup">
+        <p class="review-caught-up">${icon('check', 15, 2.4)} You're caught up${nextDue ? ` — next review due ${esc(nextDue)}` : ''}.</p>
+        ${st.newAvailable > 0 ? `<button class="btn btn-secondary btn-block" data-action="startReviewExtraNew">Add up to ${state.reviewSettings.extraNewBatchSize} new cards to today's review</button>` : ''}
+      </div>`
+    : `<button class="btn btn-primary btn-block" data-action="startReview">Continue review · ${st.due} still due</button>`;
+
+  return `
+    <div class="complete-page">
+      <div class="complete-plate">
+        <span class="complete-plate-ghost complete-plate-ghost-num" aria-hidden="true">${pct}</span>
+        <div class="complete-plate-inner">
+          <div class="complete-tag">Review session</div>
+          <div class="complete-score">${correctCount} / ${total}</div>
+          <div class="complete-ledger">
+            <div>
+              <div class="complete-ledger-value">${reviewedClean.length}</div>
+              <div class="complete-ledger-label">Reviewed</div>
+            </div>
+            <div>
+              <div class="complete-ledger-value">${stillLearning.length}</div>
+              <div class="complete-ledger-label">Still learning</div>
+            </div>
+            <div>
+              <div class="complete-ledger-value">${missedKeys.length}</div>
+              <div class="complete-ledger-label">Missed</div>
+            </div>
+            <div>
+              <div class="complete-ledger-value complete-ledger-value-accent">${p.introducedCount || 0}</div>
+              <div class="complete-ledger-label">New cards</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="complete-body">
+        ${leechRows ? `
+          <div class="kicker">Stubborn cards</div>
+          <div class="review-list">${leechRows}</div>` : ''}
+        ${missedRows ? `
+          <div class="kicker">Worth another look</div>
+          <div class="review-list">${missedRows}</div>` : ''}
+      </div>
+      <div class="complete-foot">
+        ${nextStep}
+        <button class="btn btn-ghost btn-block" data-action="closePracticeReview">${p.exitView === 'schedule' ? 'Back to Schedule' : 'Back to Home'}</button>
+      </div>
     </div>`;
 }
 
@@ -3157,6 +3479,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
       <div class="two-col">
       <div class="two-col-main">
       ${todayCard}
+      ${scheduleTodayReviewHtml(state, MODULES)}
       ${ledger}
       ${upNext}
       </div>
@@ -3374,12 +3697,16 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
   // metadata should describe what the section is actually showing --
   // course revision has no fixed size to report, its own panel says so.
   const anyRevisable = MODULES.some((m) => isModuleComplete(m.id, state.completed));
+  // Reframed as "Custom practice" now that the scheduled Review flow owns
+  // deciding what needs revisiting: this stays the deliberate, learner-
+  // driven cram/exam-prep tool, and it never moves Review's due dates.
   return `
     <div class="section-head schedule-section">
-      <h2 class="section-head-title">Revision quiz</h2>
+      <h2 class="section-head-title">Custom practice</h2>
       ${anyRevisable && kind === 'module' ? '<span class="lesson-section-note">30 questions</span>' : ''}
     </div>
     <div class="schedule-panel">
+      <p class="review-custom-note">Pick your own material — for exam prep or deliberate cramming. Doesn't affect your review schedule.</p>
       ${kindTabs}
       ${body}
     </div>`;
@@ -5852,6 +6179,9 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       break;
     case 'practiceReview':
       body = practiceReviewHtml(state, MODULES);
+      break;
+    case 'reviewComplete':
+      body = reviewCompleteHtml(state, MODULES);
       break;
     case 'schedule':
       body = scheduleHtml(state, MODULES, revealedKeys);

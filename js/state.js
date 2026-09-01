@@ -234,6 +234,25 @@ export async function createInitialState() {
     // buildMasteryV2Queue/masteryV2Pool below. `${moduleId}_${lessonId}` -> {
     // passed, attempts, lastAttemptAt }.
     masteryV2: boot.masteryV2 || {},
+    // --- Review engine (js/reviewScheduler.js) ---
+    // cardId -> scheduler record (state/dueAt/intervalDays/ease/...), one
+    // per question ever introduced to spaced repetition. Persisted; merged
+    // per-card by updatedAt on sync. Cards for lessons no longer complete
+    // (a module reset) simply drop out of the pool while their records
+    // stay archived here, resuming if the lesson is completed again.
+    reviewCards: boot.reviewCards || {},
+    // 'YYYY-MM-DD' -> { introduced, extraNewAuthorized, reviewed, correct },
+    // bounded to a rolling window (see normalizeReviewDayStats). Persisted --
+    // extraNewAuthorized is what makes "Do 10 more" survive a reload.
+    reviewDayStats: boot.reviewDayStats || {},
+    // { newPerDay, extraNewBatchSize, scope, hardEasyControls }. Persisted.
+    reviewSettings: boot.reviewSettings,
+    // Transient: the Schedule review panel's "Choose focus" popout -- open
+    // state plus the module/format filters it holds. Not persisted; a
+    // fresh session always reviews the whole course by default.
+    reviewFocusOpen: false,
+    reviewFocusModuleId: null,
+    reviewFocusKind: null,
     // Transient: which of the two Schedule sub-tabs is showing. Not
     // persisted -- always reopens on "deadline".
     scheduleTab: 'deadline',

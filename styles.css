@@ -10613,3 +10613,160 @@ body {
     animation-iteration-count: infinite !important;
   }
 }
+
+/* ---------- Review (spaced repetition) ----------
+   The daily "Review now" engine's chrome: the home-rail entry card, the
+   Schedule tab's Today's review panel with its Choose-focus popout, the
+   in-session workload bar and post-answer interval note, and the review
+   completion screen's leech rows. Everything leans on the existing tokens
+   and .home-rail-card / .schedule-panel / .complete-* families rather than
+   inventing a parallel visual language. */
+
+.review-rail-card .review-card-cta {
+  margin-top: var(--space-3);
+}
+.home-rail-note-flush {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 8px;
+}
+/* The phone slot sits above the module list inside the modules column. */
+.home-modules-col .review-rail-card {
+  margin-bottom: 18px;
+}
+
+.review-schedule-panel .practice-empty {
+  font-size: var(--text-base);
+  color: var(--color-neutral-700);
+  line-height: 1.55;
+  margin: 0;
+}
+.practice-hint {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  line-height: 1.5;
+  margin: 10px 0 0;
+}
+.review-panel-figures {
+  display: flex;
+  gap: 26px;
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
+  padding: 10px 0;
+  margin-bottom: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.review-panel-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.review-caught-up {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-neutral-700);
+  font-size: var(--text-base);
+  margin: 0 0 10px;
+}
+.review-caught-up svg {
+  color: var(--color-accent);
+  flex: none;
+}
+.review-panel-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+.review-focus-panel {
+  border-top: 1px solid var(--color-divider);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+.review-focus-modules {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+.review-focus-module {
+  text-align: right;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: transparent;
+  padding: 7px 12px;
+  font-size: var(--text-base);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.review-focus-module:hover {
+  border-color: var(--color-neutral-400);
+}
+.review-focus-module.is-selected {
+  border-color: var(--color-accent);
+  background: var(--accent-tint-weak);
+}
+.review-custom-note {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  line-height: 1.5;
+  margin: 0 0 4px;
+}
+
+/* In-session: workload fill bar where the quiz ticks would be. */
+.review-progress-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-neutral-200);
+  overflow: hidden;
+  margin: 6px 0 2px;
+}
+.review-progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 200ms var(--ease, ease);
+}
+
+/* Post-answer scheduler note + optional Hard/Easy override. */
+.review-interval-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-divider);
+}
+.review-interval-note {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+  font-variant-numeric: tabular-nums;
+}
+.review-override {
+  display: inline-flex;
+  gap: 6px;
+}
+.review-override .btn.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent-700);
+}
+
+/* Completion screen: leech rows. */
+.review-leech-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+.review-leech-note {
+  font-size: var(--text-meta);
+  color: var(--color-neutral-700);
+}
+.review-done-caughtup {
+  width: 100%;
+}

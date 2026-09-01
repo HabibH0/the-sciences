@@ -1,4 +1,5 @@
 import { loadProgress, saveProgress } from './storage/storageManager.js';
+import { normalizeReviewCards, normalizeReviewDayStats, normalizeReviewSettings } from './reviewScheduler.js';
 
 export function isoDateAt(ts) {
   const d = new Date(ts);
@@ -159,6 +160,13 @@ export async function bootProgress() {
     vocabExposure: saved.vocabExposure || {},
     pathCheckpointMastery: saved.pathCheckpointMastery || {},
     masteryV2: saved.masteryV2 || {},
+    // Review engine (js/reviewScheduler.js): per-card scheduler records,
+    // bounded per-day counters, and the learner's review settings. Old
+    // saves have none of these -- default to empty/defaults without
+    // throwing, and clamp anything malformed a sync could have carried in.
+    reviewCards: normalizeReviewCards(saved.reviewCards),
+    reviewDayStats: normalizeReviewDayStats(saved.reviewDayStats, Date.now(), dailyResetHour),
+    reviewSettings: normalizeReviewSettings(saved.reviewSettings),
     // Literature (content-lit/): chapter progress, and the words marked
     // unknown while reading. Absent from every save written before the
     // Library existed, hence the usual default-don't-throw treatment.
@@ -262,6 +270,9 @@ function snapshot(state) {
     vocabExposure: state.vocabExposure,
     pathCheckpointMastery: state.pathCheckpointMastery,
     masteryV2: state.masteryV2,
+    reviewCards: state.reviewCards || {},
+    reviewDayStats: normalizeReviewDayStats(state.reviewDayStats, Date.now(), state.dailyResetHour || 0),
+    reviewSettings: normalizeReviewSettings(state.reviewSettings),
     litProgress: state.litProgress,
     litUnknown: state.litUnknown,
     litWordReps: state.litWordReps,

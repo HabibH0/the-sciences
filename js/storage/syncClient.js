@@ -358,6 +358,25 @@ function mergeLitWordRep(localValue, remoteValue) {
   };
 }
 
+// One review card, merged whole rather than field-by-field: a scheduler
+// record's fields are only coherent together (state + dueAt + stepIndex),
+// so the newer updatedAt side wins outright. Ties break deterministically
+// (more reps, then stable JSON order) so two devices always converge on
+// the same record regardless of which one runs the merge. Simultaneous
+// offline reviews of the same card are last-write-wins by design -- see
+// the plan's compatibility section.
+function mergeReviewCard(localValue, remoteValue) {
+  if (!isPlainObject(localValue)) return cloneValue(remoteValue);
+  if (!isPlainObject(remoteValue)) return cloneValue(localValue);
+  const lu = typeof localValue.updatedAt === 'string' ? localValue.updatedAt : '';
+  const ru = typeof remoteValue.updatedAt === 'string' ? remoteValue.updatedAt : '';
+  if (lu !== ru) return cloneValue(lu > ru ? localValue : remoteValue);
+  const lReps = numberValue(localValue.reps);
+  const rReps = numberValue(remoteValue.reps);
+  if (lReps !== rReps) return cloneValue(lReps > rReps ? localValue : remoteValue);
+  return cloneValue(JSON.stringify(localValue) >= JSON.stringify(remoteValue) ? localValue : remoteValue);
+}
+
 export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   const local = isPlainObject(localProgress) ? localProgress : {};
   const remote = isPlainObject(remoteProgress) ? remoteProgress : {};
@@ -381,6 +400,14 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.vocabExposure = mergeRecord(local.vocabExposure, remote.vocabExposure, mergeStatsObject);
   merged.pathCheckpointMastery = mergeRecord(local.pathCheckpointMastery, remote.pathCheckpointMastery, mergeProgressStatus);
   merged.masteryV2 = mergeRecord(local.masteryV2, remote.masteryV2, mergeProgressStatus);
+  // Review engine: per-card newest-updatedAt-wins (see mergeReviewCard);
+  // daily counters merge per day by max-per-field (mergeStatsObject's
+  // number rule), matching the existing conflict-avoidance style rather
+  // than adding counts from two devices together; settings are a plain
+  // local-first preference like theme/accent below.
+  merged.reviewCards = mergeRecord(local.reviewCards, remote.reviewCards, mergeReviewCard);
+  merged.reviewDayStats = mergeRecord(local.reviewDayStats, remote.reviewDayStats, mergeStatsObject);
+  merged.reviewSettings = mergeRecord(local.reviewSettings, remote.reviewSettings, (localItem, remoteItem) => valueOr(localItem, remoteItem));
   merged.unlockedCourses = mergeBooleanRecord(local.unlockedCourses, remote.unlockedCourses);
   merged.unlockedTracks = mergeBooleanRecord(local.unlockedTracks, remote.unlockedTracks);
   merged.unlockedModules = mergeBooleanRecord(local.unlockedModules, remote.unlockedModules);
@@ -460,6 +487,7 @@ function summarizeEnvelope(envelope) {
     exerciseStates: countObject(progress.exStates),
     practiceHistory: countObject(progress.practiceHistory),
     pathNodes: countObject(progress.pathNodeStatus),
+    reviewCards: countObject(progress.reviewCards),
   };
 }
 

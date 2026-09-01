@@ -34,7 +34,13 @@ import {
   moduleSkipTestSubPools,
   MODULE_SKIP_TEST_LENGTH,
   UNLOCK_TEST_PASS_RATIO,
+  getReviewPool,
 } from '../content/index.js';
+import {
+  effectiveReviewCard, rateCard, buildReviewQueue, reviewPoolStatus,
+  newAllowanceLeft, normalizeReviewDayStats, REVIEW_REINSERT_GAP,
+  REVIEW_SESSION_CHUNK,
+} from './reviewScheduler.js';
 import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   getLitBook, isChapterUnlocked, isChapterDone, loadChapter, getLoadedChapter,
@@ -204,6 +210,9 @@ function applyMergedProgressToState(envelope) {
     'vocabExposure',
     'pathCheckpointMastery',
     'masteryV2',
+    'reviewCards',
+    'reviewDayStats',
+    'reviewSettings',
     'litProgress',
     'litUnknown',
     'litWordReps',
@@ -262,7 +271,7 @@ function applyMergedProgressToState(envelope) {
   // boot too), so any of these just fall back to the path map (if that's
   // where it was launched from), the module page, or the Schedule tab for
   // Revision, which has no module page of its own.
-  if (['bank', 'practiceSetup', 'practice', 'practiceReview', 'masteryV2Complete'].includes(state.view)) {
+  if (['bank', 'practiceSetup', 'practice', 'practiceReview', 'masteryV2Complete', 'reviewComplete'].includes(state.view)) {
     state.view = state.pathActive ? 'path' : (state.moduleId ? 'module' : 'schedule');
   }
   if (state.view === 'lessonComplete') {
@@ -1589,8 +1598,111 @@ function ensureTarkeeb(key, item, moduleId) {
 // spanning both fstu and sarf. Everything downstream of this
 // (selectPracticeOption, checkTarkeeb, tarkeebChipClick...) is unchanged and
 // source-agnostic.
+// --- Review engine (spaced repetition) -----------------------------------
+// The scheduled counterpart to everything below: "Review now" is the only
+// flow that moves a card's due date; Custom practice/Path/Mastery/quizzes
+// never touch reviewCards (they only share practiceHistory, which merely
+// SEEDS a card's first state -- see effectiveReviewCard).
+
+// Today's mutable day-stats record, created on first touch. Also the one
+// place the bounded rolling window gets pruned as days roll over.
+function reviewDayStatsToday() {
+  const day = todayISO(state.dailyResetHour);
+  if (!state.reviewDayStats[day]) {
+    state.reviewDayStats = normalizeReviewDayStats(state.reviewDayStats, Date.now(), state.dailyResetHour);
+    state.reviewDayStats[day] = { introduced: 0, extraNewAuthorized: 0, reviewed: 0, correct: 0 };
+  }
+  return state.reviewDayStats[day];
+}
+
+// The active course's review pool, narrowed by the Choose-focus filters
+// (a module, a question format) when set.
+function reviewFocusPool() {
+  let pool = getReviewPool(state.completed);
+  if (state.reviewFocusModuleId) pool = pool.filter((e) => e.moduleId === state.reviewFocusModuleId);
+  const kind = state.reviewFocusKind;
+  if (kind === 'tarkeeb') pool = pool.filter((e) => e.item.kind === 'tarkeeb');
+  else if (kind === 'vocab') pool = pool.filter((e) => e.item.kind === 'vocab');
+  else if (kind === 'mcq') pool = pool.filter((e) => e.item.kind !== 'tarkeeb' && e.item.kind !== 'vocab');
+  return pool;
+}
+
+function launchReviewSession(queue, dueTotal) {
+  state.practice = {
+    source: 'review',
+    kind: 'review',
+    moduleId: null,
+    queue,
+    index: 0,
+    log: [],
+    startedAt: Date.now(),
+    selected: undefined,
+    submitted: false,
+    correct: false,
+    combo: 0,
+    xpGained: 0,
+    // Where "End session"/finishing returns to -- review launches from
+    // Home or Schedule, never a module page. A follow-on session started
+    // from the completion screen (Continue review / the extra-new batch)
+    // inherits the original launch point.
+    exitView: state.view === 'schedule'
+      || (state.practice && state.practice.source === 'review' && state.practice.exitView === 'schedule')
+      ? 'schedule' : 'dashboard',
+    // cardId -> final pass/fail; cardId -> true once missed at least once;
+    // reinserted[cardId] counts live same-session relearning repeats still
+    // ahead in the queue (the "N learning again" figure).
+    answeredKeys: {},
+    missedKeys: {},
+    reinserted: {},
+    introducedCount: 0,
+    dueTotal,
+    tarkeebTranslations: state.tarkeebTranslations !== false,
+  };
+  state.view = 'practice';
+  prepPracticeQuestion(queue[0]);
+}
+
+// Applies the scheduler side of one review answer: automatic Again/Good
+// rating, immediate write to reviewCards + day stats, and (on a miss) the
+// same-session relearning reinsertion a few cards ahead. The pre-rating
+// card is kept on the session so the optional Hard/Easy override can
+// re-rate THIS answer from the same starting point.
+function applyReviewAnswer(cardId, entry, pass) {
+  const p = state.practice;
+  const now = Date.now();
+  const before = effectiveReviewCard(state.reviewCards, cardId, state.practiceHistory[entry.legacyKey]);
+  const wasNew = before.state === 'new';
+  p.cardBefore = before;
+  p.ratedKey = cardId;
+  p.lastRating = pass ? 'good' : 'again';
+  state.reviewCards[cardId] = rateCard(before, p.lastRating, cardId, now, state.dailyResetHour);
+  const stats = reviewDayStatsToday();
+  stats.reviewed += 1;
+  if (pass) stats.correct += 1;
+  if (wasNew) {
+    stats.introduced += 1;
+    p.introducedCount += 1;
+  }
+  p.answeredKeys[cardId] = pass;
+  // This appearance may itself be a pending repeat -- consume it first so
+  // `reinserted` always equals the copies still AHEAD in the queue (the
+  // "N learning again" figure), then add one back if the card missed again.
+  if (p.reinserted[cardId] > 0) p.reinserted[cardId] -= 1;
+  if (!pass) {
+    p.missedKeys[cardId] = true;
+    // Return the card later in the same session, after other cards, so the
+    // retry is a real retrieval rather than short-term visual memory.
+    const insertAt = Math.min(p.index + 1 + REVIEW_REINSERT_GAP, p.queue.length);
+    p.queue.splice(insertAt, 0, cardId);
+    p.reinserted[cardId] = (p.reinserted[cardId] || 0) + 1;
+  }
+}
+
 function bankPool() {
   const p = state.practice;
+  if (p && p.source === 'review') {
+    return getReviewPool(state.completed);
+  }
   if (p && p.source === 'revision') {
     if (p.kind === 'revisionVocab') return getUnlockedVocabPool(state.completed, undefined, state.forceUnlockAll);
     if (p.kind === 'courseRevision') return courseRevisionPool(p.moduleIds || [], state.completed, state.forceUnlockAll);
@@ -1673,7 +1785,11 @@ function hasUnsavedSessionProgress() {
   // the learner pressed Next -- and leaving in that gap threw the answer
   // away just as silently.
   const liveQuiz = state.view === 'quiz' && !state.quizShowResult;
-  return !!(state.practice && state.practice.log.length > 0)
+  // A review session is excluded: every answer is already persisted the
+  // moment it lands (applyReviewAnswer), so leaving discards nothing --
+  // the still-due cards simply remain due and the next "Review now"
+  // rebuilds the queue without double-counting.
+  return !!(state.practice && state.practice.source !== 'review' && state.practice.log.length > 0)
     || (liveQuiz && (state.quizAnswers.length > 0 || state.quizRevealed));
 }
 
@@ -1700,6 +1816,7 @@ function exitPracticeSession(p) {
   if (src === 'path') { state.view = 'path'; return; }
   if (src === 'masteryV2') { state.view = state.pathActive ? 'path' : 'module'; return; }
   if (src === 'revision') { state.view = 'schedule'; return; }
+  if (src === 'review') { state.view = p.exitView === 'schedule' ? 'schedule' : 'dashboard'; return; }
   state.view = 'module';
 }
 
@@ -2491,8 +2608,13 @@ const actions = {
     // Answering while the finish-early confirm is up is a decision to keep
     // practising -- the confirm folds away.
     p.endConfirm = false;
-    recordPracticeAnswer(key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
-    if (p.source === 'path') {
+    // A review session's queue is keyed by cardId; practiceHistory stays on
+    // the legacy index key so Practice Mode weighting and achievements keep
+    // reading one shared store.
+    recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
+    if (p.source === 'review') {
+      applyReviewAnswer(key, entry, pass);
+    } else if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
       if (node) recordPathRepAnswer(key, entry.item.kind, pass, node);
     } else if (p.source === 'revision' && p.kind === 'revisionVocab') {
@@ -2548,7 +2670,17 @@ const actions = {
       return;
     }
 
+    // Clear the one-answer override window: Hard/Easy only ever re-rate
+    // the answer whose feedback is still on screen.
+    p.cardBefore = null;
+    p.ratedKey = null;
+
     if (p.index >= p.queue.length || doomed) {
+      if (p.source === 'review') {
+        state.view = 'reviewComplete';
+        queueAutoUpload('review-session-complete');
+        return;
+      }
       if (p.source === 'path') finalizePathSession();
       else if (p.source === 'unlockTest') finalizeUnlockTest();
       state.view = 'practiceReview';
@@ -2577,7 +2709,7 @@ const actions = {
       return;
     }
     if (p.log.length > 0) {
-      state.view = 'practiceReview';
+      state.view = p.source === 'review' ? 'reviewComplete' : 'practiceReview';
     } else {
       exitPracticeSession(p);
       state.practice = null;
@@ -2591,11 +2723,119 @@ const actions = {
     const p = state.practice;
     if (!p) return false;
     p.endConfirm = false;
-    state.view = 'practiceReview';
+    state.view = p.source === 'review' ? 'reviewComplete' : 'practiceReview';
   },
   closePracticeReview() {
     exitPracticeSession(state.practice);
     state.practice = null;
+  },
+
+  // --- Review (spaced repetition) ---
+  // The one-button daily flow: due and relearning cards first, then up to
+  // the day's remaining new-card allowance, capped to a manageable chunk.
+  // Serves as both "Review now" and "Continue review" -- every answer is
+  // persisted as it lands, so rebuilding from what's still due can never
+  // double-count.
+  startReview() {
+    // The Choose-focus filters belong to the Schedule panel that shows
+    // them (and carry through that session's "Continue review"); the home
+    // card always reviews the whole course.
+    const focused = state.view === 'schedule'
+      || (state.practice && state.practice.source === 'review' && state.practice.exitView === 'schedule');
+    const pool = focused ? reviewFocusPool() : getReviewPool(state.completed);
+    if (!pool.length) return false;
+    const now = Date.now();
+    const allowance = newAllowanceLeft(state.reviewDayStats, state.reviewSettings, todayISO(state.dailyResetHour));
+    const { queue, dueTotal } = buildReviewQueue(pool, state.reviewCards, state.practiceHistory, now, state.dailyResetHour, {
+      newAllowance: allowance,
+      chunk: REVIEW_SESSION_CHUNK,
+    });
+    if (!queue.length) return false;
+    launchReviewSession(queue, dueTotal);
+  },
+  // "Do 10 more": explicitly authorizes another batch of new cards for
+  // today's study day (persisted, so a reload can't lose or re-grant it)
+  // and starts a session over just that batch. Only offered once due and
+  // relearning work is clear; if fewer eligible cards remain than the
+  // batch size, the session is simply shorter -- never padded.
+  startReviewExtraNew() {
+    const pool = getReviewPool(state.completed);
+    if (!pool.length) return false;
+    const stats = reviewDayStatsToday();
+    stats.extraNewAuthorized += state.reviewSettings.extraNewBatchSize;
+    const now = Date.now();
+    const allowance = newAllowanceLeft(state.reviewDayStats, state.reviewSettings, todayISO(state.dailyResetHour));
+    const { queue } = buildReviewQueue(pool, state.reviewCards, state.practiceHistory, now, state.dailyResetHour, {
+      newAllowance: Math.min(allowance, state.reviewSettings.extraNewBatchSize),
+      chunk: state.reviewSettings.extraNewBatchSize,
+      newOnly: true,
+    });
+    if (!queue.length) {
+      // Nothing eligible after all -- roll the authorization back rather
+      // than banking allowance no session consumed.
+      stats.extraNewAuthorized -= state.reviewSettings.extraNewBatchSize;
+      return false;
+    }
+    queueAutoUpload('review-extra-new');
+    launchReviewSession(queue, 0);
+  },
+  toggleReviewFocus() {
+    state.reviewFocusOpen = !state.reviewFocusOpen;
+  },
+  setReviewFocusModule(el) {
+    state.reviewFocusModuleId = el.dataset.moduleId || null;
+  },
+  setReviewFocusKind(el) {
+    state.reviewFocusKind = el.dataset.kind || null;
+  },
+  // Optional post-answer Hard/Easy: re-rates the answer still on screen
+  // from the SAME pre-answer card state the automatic Good rating used,
+  // so pressing it replaces the rating rather than stacking a second one.
+  // Correct answers only -- a miss is always Again.
+  overrideReviewRating(el) {
+    const p = state.practice;
+    if (!p || p.source !== 'review' || !p.submitted || !p.correct) return false;
+    if (!p.cardBefore || p.ratedKey !== p.queue[p.index]) return false;
+    const rating = el.dataset.rating === 'hard' ? 'hard' : 'easy';
+    if (p.lastRating === rating) return false;
+    state.reviewCards[p.ratedKey] = rateCard(p.cardBefore, rating, p.ratedKey, Date.now(), state.dailyResetHour);
+    p.lastRating = rating;
+    queueAutoUpload('review-answer');
+  },
+  // Leech handling (from the review-complete screen): suspending parks the
+  // card out of every future queue until restored. Restoring gives it a
+  // fresh relearning run with its lapse count cleared, so it isn't
+  // instantly re-flagged.
+  suspendReviewCard(el) {
+    const key = el.dataset.key;
+    const card = state.reviewCards[key];
+    if (!card || card.state === 'suspended') return false;
+    state.reviewCards[key] = {
+      ...card, state: 'suspended', prevState: card.state, updatedAt: new Date().toISOString(),
+    };
+    queueAutoUpload('review-suspend');
+  },
+  restoreSuspendedReviewCards() {
+    const pool = getReviewPool(state.completed);
+    const now = Date.now();
+    let changed = false;
+    pool.forEach((entry) => {
+      const card = state.reviewCards[entry.cardId];
+      if (!card || card.state !== 'suspended') return;
+      state.reviewCards[entry.cardId] = {
+        ...card,
+        state: 'relearning',
+        stepIndex: 0,
+        dueAt: now,
+        lapses: 0,
+        leech: false,
+        prevState: undefined,
+        updatedAt: new Date(now).toISOString(),
+      };
+      changed = true;
+    });
+    if (!changed) return false;
+    queueAutoUpload('review-restore');
   },
 
   // --- Schedule tab: Deadline / Revision / Mastery ---
@@ -3612,8 +3852,10 @@ const actions = {
     // p.kind === 'tarkeeb' guard -- see selectPracticeOption's matching
     // comment on why a My Path revision node needs this.
     if (p && p.queue[p.index] === key) {
-      recordPracticeAnswer(key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
-      if (p.source === 'path') {
+      recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
+      if (p.source === 'review') {
+        applyReviewAnswer(key, entry, allPass);
+      } else if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);
       }

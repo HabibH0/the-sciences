@@ -1,4 +1,5 @@
 import { COURSE_LOADERS, COURSE_SHELLS } from './meta.js';
+import { reviewFingerprint } from '../js/reviewScheduler.js';
 
 // Every course the app knows about. Every helper below (getModule,
 // isModuleUnlocked, getBankPool, totalLessons, ...) resolves against the
@@ -585,6 +586,88 @@ export function moduleHasTarkeeb(mod) {
 // showing an empty state.
 export function courseHasVocab() {
   return MODULES.some((m) => m.lessons.some((l) => (l.bank || []).some((b) => b.kind === 'vocab')));
+}
+
+// --- Review (spaced repetition) pool ------------------------------------
+// Every reusable question in the ACTIVE course's COMPLETED lessons, shaped
+// for the review scheduler (js/reviewScheduler.js): lesson-quiz MCQs plus
+// every bank item (mcq, تركيب, vocab alike -- unlike Practice Mode, one
+// queue mixes all formats). Concept exercises are deliberately excluded --
+// many depend on the prose above them; the bank is authored to stand alone.
+//
+// Strictly completed-lessons-only, with NO forceUnlockAll bypass: turning
+// course locks off grants browsing access, and browsing must never make
+// unfinished lessons eligible for scheduling (see the plan's edge cases).
+//
+// Each entry carries two identities:
+//  - cardId (also `key`, so findBankItem/practiceHtml resolve it unchanged):
+//    the durable scheduler identity -- course/module/lesson/source plus a
+//    content fingerprint, so REORDERING an authored array preserves a
+//    card's history while REWORDING a question archives the old card and
+//    starts a new one. Two identical questions in one lesson get an
+//    occurrence suffix rather than colliding.
+//  - legacyKey: the index-based bankKey/quizKey, kept so review answers
+//    still feed practiceHistory (Practice Mode weighting, achievements)
+//    and so legacy history can seed a card's first scheduler state.
+//
+// Cached per (course, completed-lessons signature): fingerprinting a few
+// thousand items is cheap but not per-render cheap, and the pool only ever
+// changes when a lesson completes, a module resets, or the course switches.
+// A module reset needs nothing special here: its lessons drop out of
+// `completed`, so their cards simply leave the pool -- their reviewCards
+// records stay untouched ("archived") and resume if the lesson is redone.
+let reviewPoolCache = null;
+
+function completedSignature(completed) {
+  return MODULES.map((m) => {
+    const done = completed[m.id] || {};
+    return `${m.id}:${m.lessons.filter((l) => done[l.id]).length}`;
+  }).join('|');
+}
+
+export function getReviewPool(completed) {
+  const courseId = activeCourseId;
+  const sig = `${courseId}|${completedSignature(completed)}`;
+  if (reviewPoolCache && reviewPoolCache.sig === sig) return reviewPoolCache.pool;
+  const pool = [];
+  MODULES.forEach((mod) => {
+    const done = completed[mod.id] || {};
+    mod.lessons.forEach((lesson) => {
+      if (!done[lesson.id]) return;
+      const seen = new Map();
+      const push = (source, item, idx, legacyKey, title) => {
+        const fp = reviewFingerprint(item);
+        const occKey = `${source}|${fp}`;
+        const n = (seen.get(occKey) || 0) + 1;
+        seen.set(occKey, n);
+        const cardId = `rv1|${courseId}|${mod.id}|${lesson.id}|${source}|${fp}${n > 1 ? `|${n}` : ''}`;
+        pool.push({
+          key: cardId,
+          cardId,
+          legacyKey,
+          courseId,
+          moduleId: mod.id,
+          lessonId: lesson.id,
+          lessonTitle: lesson.title,
+          moduleTitle: mod.title,
+          source,
+          bankIndex: source === 'bank' ? idx : undefined,
+          title,
+          item,
+        });
+      };
+      (lesson.quiz || []).forEach((q, idx) => {
+        push('quiz', {
+          kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation,
+        }, idx, quizKey(mod.id, lesson.id, idx), lesson.title);
+      });
+      (lesson.bank || []).forEach((item, idx) => {
+        push('bank', item, idx, bankKey(mod.id, lesson.id, idx), item.title);
+      });
+    });
+  });
+  reviewPoolCache = { sig, pool };
+  return pool;
 }
 
 // --- Skip-ahead unlock tests -------------------------------------------
