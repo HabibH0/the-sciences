@@ -2858,7 +2858,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Word — لفظ, قول, and being مفرد rather than مركب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -2866,7 +2866,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Signs of the Noun — اسم’s definition and the six signs that identify it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -2874,7 +2874,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Kinds of the Noun — الصريح vs المؤول, and اسم ذات vs اسم معنى vs اسم صفة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -2882,7 +2882,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Verb and Its Signs — the three meanings of a فعل, and every لفظي and معنوي sign that marks one",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -2890,7 +2890,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Particle — دلالته على معنى في غيره, and the four senses the word حرف carries",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -2908,7 +2908,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Sentence — إسناد, its two essential parts, and جملة اسمية vs جملة فعلية",
             "sourceRef": "app-lessons/009–010",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -2916,7 +2916,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Kinds of Meaning — خبر vs إنشاء, and جملة كبرى containing a جملة صغرى",
             "sourceRef": "app-lessons/011–012",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -2924,7 +2924,7 @@ export const COURSE_SHELLS = [
             "subtitle": "شبه الجملة by Structure — الجار والمجرور vs الظرف والمضاف إليه",
             "sourceRef": "app-lessons/013",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -2932,7 +2932,7 @@ export const COURSE_SHELLS = [
             "subtitle": "شبه الجملة by Governor — الظرف اللغو vs الظرف المستقر",
             "sourceRef": "app-lessons/014",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -2940,7 +2940,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الكلام — قول مفيد, and its division into موجب and غير موجب",
             "sourceRef": "app-lessons/015",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -2958,7 +2958,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Governor and the Governed — العامل, المعمول, غير العامل, and غير المعمول",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -2966,7 +2966,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الإعراب Defined — its three لغوي senses, its three أقسام, and الإعراب اللفظي",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -2974,7 +2974,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الإعراب التقديري and المحلي — where the sign is estimated, and where it belongs only to the محل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -2992,7 +2992,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Intransitive Verb — لازم بنفسه, لازم بواسطة حرف الجر, and the complements it still allows",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3000,7 +3000,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Transitive Verb — متعدي بنفسه vs متعدي بواسطة حرف الجر, and reading the same verb from two angles",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3008,7 +3008,7 @@ export const COURSE_SHELLS = [
             "subtitle": "One Verb, Two Structures — اهدنا vs وهداه, انتهاء الغاية, and how مفاعيل are counted",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3016,7 +3016,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Two-Object Verb — أفعال العطاء, حذف المفعولين, أفعال الظن, and فعل الجارحة vs فعل القلب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3034,7 +3034,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Verbs of Certainty — وجد’s shift from physical finding to sure knowledge, and رأى’s three readings",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3042,7 +3042,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Verbs of Certainty, continued — knowing a صفة, recognising a ذات, learning after ignorance",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3050,7 +3050,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Verbs of Assumption — رجحان, ظن used for certainty, and the difference between حسب and زعم",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3058,7 +3058,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The أنّ / أنْ / two-object scale of emphasis with علم and ظن, plus حَجَا، عَدَّ، هَبْ، خَالَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3066,7 +3066,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Two رأى-based idioms of astonishment, and when the objects of أفعال القلوب may or may not be dropped",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3084,7 +3084,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Verbs of Transformation — صيّر، ردّ، ترك، تخذ/اتخذ، وهب، and the two faces of جعل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3092,7 +3092,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Three-Object قلب Verbs and Suspension — how a جملة can fill both مفعولي فعل القلب, and what التعليق does to its عمل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3100,7 +3100,7 @@ export const COURSE_SHELLS = [
             "subtitle": "What Triggers التعليق, and الإلغاء — the full list of صدارة particles, then when to cancel a فعل قلب's عمل entirely",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3118,7 +3118,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Deficient Verb — why كان is called ناقص, and the eight senses it carries",
             "sourceRef": "app-lessons/028 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3126,7 +3126,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Dropping كان — the three conditions for حذف النون, and the Kufi/Basri split over حذف كان واسمها",
             "sourceRef": "app-lessons/028 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3134,7 +3134,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Time-of-Day Sisters — كان’s five sisters, distinguished only by the part of day each one fixes",
             "sourceRef": "app-lessons/029",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3142,7 +3142,7 @@ export const COURSE_SHELLS = [
             "subtitle": "صار and Its Borrowed Meaning — تحول الذات and تحول الصفات, then which verbs can carry صار’s sense",
             "sourceRef": "app-lessons/030",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3150,7 +3150,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Continuity Verbs — four أخوات كان whose older, complete-verb meaning still works inside their ناقص use",
             "sourceRef": "app-lessons/031",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3158,7 +3158,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Closing the List — the last two أخوات كان, then word order and تامة usage across the whole family",
             "sourceRef": "app-lessons/032",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3176,7 +3176,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Hope Verbs — عسى’s three senses, and اخلولق and حرى beside it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3184,7 +3184,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Nearness Verbs — كاد’s affirmative and negated senses, and كرب and أوشك beside it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3192,7 +3192,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Verbs of Beginning — قياسية members like جعل، أخذ، and طفق, and the شروط on their خبر",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3200,7 +3200,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Verbs of Praise and Blame — نعم، حبذا، بئس، ساء and لا حبذا, and how they raise فاعل and مخصوص",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3208,7 +3208,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Further Rulings on Praise and Blame — ما after نعم/بئس, حذف المخصوص, and حبذا’s منصوب companion",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3216,7 +3216,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Forms of Wonder — ما أفعله and أفعل به, and the سماعي expressions that borrow their sense from context",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3234,7 +3234,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introducing حروف الجر — what they do, their three names, and whether الجار والمجرور is a متعلق or a مفعول به",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3242,7 +3242,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الباء — root meaning الإلصاق, and every role it can carry across its مجرور",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3250,7 +3250,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مِنْ — root meaning ابتداء الغاية, its own roles, and what it reveals about الإضافة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3258,7 +3258,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إِلَى — the mirror image of مِنْ — and عَنْ, whose root meaning المجاوزة takes three distinct shapes",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3266,7 +3266,7 @@ export const COURSE_SHELLS = [
             "subtitle": "عَلَى — الاستعلاء حقيقي or معنوي, and the pronoun that decides whether حبه means مفعول معه or مفعول له",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3274,7 +3274,7 @@ export const COURSE_SHELLS = [
             "subtitle": "اللام — three root senses at once, لام التبليغ, and the difference between لام التعليل and لام العاقبة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3292,7 +3292,7 @@ export const COURSE_SHELLS = [
             "subtitle": "في — root meaning الظرفية, and every role it can carry across its مجرور",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3300,7 +3300,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الكاف — its one solitary role — and حتى — rank-extremes and its stricter endpoint condition against إلى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3308,7 +3308,7 @@ export const COURSE_SHELLS = [
             "subtitle": "واو، تاء، وباء — the three oath particles, and how sharply their conditions diverge",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3316,7 +3316,7 @@ export const COURSE_SHELLS = [
             "subtitle": "the twelfth and thirteenth حروف الجر — nearly identical, apart from one narrow point of إعراب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3324,7 +3324,7 @@ export const COURSE_SHELLS = [
             "subtitle": "حرف الجر الشبيه بالزائد opens with رُبَّ — real meaning, without the syntactic tie الأصلي particles require",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3332,7 +3332,7 @@ export const COURSE_SHELLS = [
             "subtitle": "the second and third حروف شبيهة بالزائد, closing with a lingering question about الكاف's own classification",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3350,7 +3350,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الباء الزائدة — قياسية and سماعية positions, and how it differs from الباء الأصلية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3358,7 +3358,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مِنْ الزائدة — its role on تمييز كم الخبرية, its condition of كلام غير موجب, and the debate over كلام موجب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3366,7 +3366,7 @@ export const COURSE_SHELLS = [
             "subtitle": "اللام الزائدة — لام الجحود على خبر كان المنفي, لام التبيين على الفاعل, ولام التقوية على المعمول الضعيف الصلة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3374,7 +3374,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الكاف الزائدة closing the أحرف صلة, then لعلّ، خلا/عدا، متى، وكي — words a minority additionally treat as حرف جر",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3382,7 +3382,7 @@ export const COURSE_SHELLS = [
             "subtitle": "حذف حرف الجر — قياسا قبل أنْ وأنّ, سماعا elsewhere, and the noun that survives the drop as منصوب بنزع الخافض",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3390,7 +3390,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إلّا — the one particle giving نصب to a single noun, and its role in الاستثناء المتصل and المنقطع",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3408,7 +3408,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إنّ — the first of the seven حروف تنصب الاسم وترفع الخبر, and where the الابتداء, القسم, and القول contexts keep its همزة مكسورة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3416,7 +3416,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إنّ — the remaining كسر contexts: الصلة, النعت, تعليق العامل اللفظي, إلا للحصر, حيث, and خبر اسم عين",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3424,7 +3424,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أنّ — the second of the seven, and the twelve مواضع مفرد where its همزة is فتح",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3432,7 +3432,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Five positions where either إنّ or أنّ works — علة سابقة, فاء الجزاء, لا جرم, عطف بعد جملة ومفرد, and إذا الفجائية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3440,7 +3440,7 @@ export const COURSE_SHELLS = [
             "subtitle": "What their اسم can be, where their خبر can sit, how عطف works around them, and two extensions of أنّ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3448,7 +3448,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Three more of the seven — the حرف تشبيه, the حرف استدراك, and the حرف توقع — closing this module short of ليت",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3466,7 +3466,7 @@ export const COURSE_SHELLS = [
             "subtitle": "ليت and Why the Family Is \"مشبهة بالفعل\" — the last of six حروف, and the five ways they all resemble a verb",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3474,7 +3474,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Lightening إنّ and أنّ — the five-قراءة ayah, اللام الفارقة, and the dropped ضمير الشأن",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3482,7 +3482,7 @@ export const COURSE_SHELLS = [
             "subtitle": "كأنّ under تخفيف, and How ما الكافّة Neutralizes the Whole Family",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3490,7 +3490,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لا Negating the Whole جنس — the seventh حرف تنصب الاسم وترفع الخبر, its two names, and when it stops governing",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3498,7 +3498,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Particles Resembling لَيْسَ — ما الحجازية, لا الشعرية, لاتَ, and إنْ عند أهل العالية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3506,7 +3506,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Closing النواسخ — the five families that override a plain مبتدأ + خبر, and which side of the sentence each one moves to النصب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3524,7 +3524,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أنْ — يقين vs ظنّ distinction, and the 2 جوازًا positions",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3532,7 +3532,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أنْ — the 5 وجوبًا positions (حتى، لام الجحود، أو، واو المعية، فاء السببية)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3540,7 +3540,7 @@ export const COURSE_SHELLS = [
             "subtitle": "كَيْ and لَنْ — both individually thin, pair naturally",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3548,7 +3548,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إِذَنْ — حرف/اسم debate, 3 شروط العمل, plus a recap of أنْ/كَيْ/لَنْ/إِذَنْ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3556,7 +3556,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لَمْ، لَمّا، لام الأمر، لا الناهية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3564,7 +3564,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إنْ مقدّرة بعد طلب, ما الزائدة, 4 tense-combination patterns, معنى إنْ vs إذا, الفاء, إذما",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3582,7 +3582,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الواو — لِلْجَمْعِ مُطْلَقًا, and how قرينة alone supplies any order or simultaneity it never asserts",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3590,7 +3590,7 @@ export const COURSE_SHELLS = [
             "subtitle": "ثمّ and الفاء — both assert order, but تراخي vs تعقيب, and each carries three senses of its own between جمل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3598,7 +3598,7 @@ export const COURSE_SHELLS = [
             "subtitle": "حتّى — غاية and تدريج, its two شروط as عاطفة, and how to tell it apart from حتّى الجارّة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3606,7 +3606,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أم — restricted to الاستفهام, for طلب التعيين or التسوية — and أو, whose sense shifts with خبر, أمر, or نفي/نهي",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3614,7 +3614,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لا — نفي الحكم عن المعطوف, its شرائط and its تكرار — and بل, whose mechanism flips between إبطال and تقرير",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3622,7 +3622,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إمّا — not actually a حرف عطف على الأصح, though it behaves like أو/أم — and لكن, the ninth and last, whose عمل depends on a preceding واو",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3640,7 +3640,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Affirmative Response Particles — نعم confirms a question’s own polarity, بلى flips a negative one",
             "sourceRef": "app-lessons/089 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3648,7 +3648,7 @@ export const COURSE_SHELLS = [
             "subtitle": "إي، أجل، إنّه، وجير — the four rarer أحرف الإيجاب, each with its own strict condition",
             "sourceRef": "app-lessons/089 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3656,7 +3656,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لا wholly neutral, كلّا carrying الزجر والردع — a firm, scolding rejection of what came before",
             "sourceRef": "app-lessons/090 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3664,7 +3664,7 @@ export const COURSE_SHELLS = [
             "subtitle": "التصديق and الاستفتاح beyond الردع, where the recitation pause falls, and how to read an ambiguous كلا",
             "sourceRef": "app-lessons/090 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3672,7 +3672,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لام الابتداء على المبتدأ، اللام المزحلقة على خبر إنّ، ولام جواب القسم — three أحرف تأكيد built around one shared لام",
             "sourceRef": "app-lessons/091 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3680,7 +3680,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The two forms of an emphatic ن, and قَدْ — always تحقيق with الماضي, usually تقليل with المضارع",
             "sourceRef": "app-lessons/091 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3698,7 +3698,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لَوْ — Ibn Hishām's corrected definition, why الجواب can have more than one cause, its past-tense meaning, the لام on its جواب, its تمني sense, and the noun that can follow it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3706,7 +3706,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لَوْلا and لَوْما — the mirror-image polarity of لَوْ, and the fixed اسمية+فعلية two-clause structure both particles share",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3714,7 +3714,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أَمّا — three functions at once (شَرْط, تَفْصيل, تَوْكيد), Sībawayh's derivation, تكرار and its omission, and what can sit between أَمّا and its فاء",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3732,7 +3732,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Reproach and Incitement — هلا، ألا، and لولا’s tense-governed and rank-governed senses",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3740,7 +3740,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Attention Particles — ألا، أما، and ها across four sites of attachment",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3748,7 +3748,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Non-Governing Nominalizing Particles — ما، لو بعد ودّ، and همزة التسوية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3756,7 +3756,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Non-Governing Negators — ما، لا، and إنْ, and where each attaches",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3764,7 +3764,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Extra Particles (أحرف الصلة) — إنْ، أنْ، ما، and لا, extra in الإعراب but never in المعنى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3782,7 +3782,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Two Interrogatives and the Two Futurizers — الهمزة وهل’s تصديق vs تصوّر, and السين وسوف’s near vs far future",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3790,7 +3790,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Two Explanatory Particles — أيْ explaining مفرد or جملة, and أنْ restricted to جملة under strict شروط",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3798,7 +3798,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Nunation — why it counts as a حرف, and its four أقسام: تمكين, تنكير, مقابلة, تعويض",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3816,7 +3816,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Verbal Noun — governing its معمول through إضافة or تنوين, and its two exceptions among أسماء عاملة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3824,7 +3824,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Active and Passive Derived Nouns — عمل عمل الفعل المعلوم أو المجهول, the شروط for a نكرة to govern, and متصل vs منفصل معمول",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3832,7 +3832,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Adjective Resembling اسم الفاعل — formed from لازم verbs, yet its معمول can still take رفع, نصب, or جر بالإضافة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3840,7 +3840,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Noun of Comparison — its three أركان, مسألة الكحل's lone exception, and how مِنْ, الإضافة, and أل decide إفراد or مطابقة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3848,7 +3848,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Verb-Noun — governing like its underlying verb, its three tenses, and مرتجلة vs منقولة origin",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3856,7 +3856,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Closing اسم الفعل — تنوين flipping بله and رويد's meaning, هلم's missing مفعول به, the one قياسي pattern, and why its معمول can never front",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3874,7 +3874,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Remaining Governing Nouns — الظرف المستقر, الاسم المنسوب, and الاسم الجامد المؤول بمعنى المشتق",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3882,7 +3882,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Implicit Iḍāfa — the elided اللام, مِن, or في hiding behind every plain possessive إضافة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3890,7 +3890,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Further Rulings on Implicit Iḍāfa — dropping المضاف إليه, بناء على الضم, تنوين العوض, and borrowed gender",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3898,7 +3898,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Conditional Nouns — eleven أسماء that جزم two أفعال each, unlike the إعراب-free حرف الشرط",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l5",
@@ -3906,7 +3906,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Notional Governor — الابتداء, خلوّ المضارع, and the six word-classes that hide the meaning of a فعل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l6",
@@ -3914,7 +3914,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Lexical Iḍāfa — where المضاف is a مشتق still carrying a فعل, and المضاف إليه is its فاعل or مفعول",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3932,7 +3932,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Two Governors, One معمول — التنازع’s إيجاز, then the four قياسي patterns and the سماعي phrases where المفعول المطلق’s governor is obligatorily dropped",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3940,7 +3940,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Warning, Encouragement, and Pinning Down a Pronoun — three of the خمسة مواضع under حذف عامل المفعول به, each a noun made منصوب by a permanently dropped verb",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3948,7 +3948,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Fourth موضع — a fronted noun whose verb governs a pronoun referring back to it instead of the noun itself",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3956,7 +3956,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Third ضرب of حذف العامل المعنوي — four قياسي situations where الحال survives without its governing verb, and a سماعي handful besides",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -3974,7 +3974,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Construction of Calling Out — a dropped أدعو, its three أركان, and the seven أحرف that stand in its place",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -3982,7 +3982,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The إعراب of المنادى — منصوب لفظًا vs مبني cases, المضاف لياء المتكلم, ترخيم, and اللهم",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -3990,7 +3990,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Calling Out for Rescue and in Astonishment — الاستغاثة’s three أركان, its فتحة/كسرة contrast, and نداء التعجب reusing the same skeleton",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -3998,7 +3998,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Calling Out in Grief — the two أحرف الندبة, the same إعراب as ordinary نداء, and ألف الندبة with هاء السكت",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4016,7 +4016,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Subject — its definition, when it appears مجرور لفظًا, and its word order with المفعول به",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4024,7 +4024,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Subject-Substitute and the Topic — نائب الفاعل's mirror definition, لام التوكيد, and when a نكرة may open a sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4032,7 +4032,7 @@ export const COURSE_SHELLS = [
             "subtitle": "When the Topic Must Be Dropped — the four positions where leaving المبتدأ in place would itself be wrong",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4050,7 +4050,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Predicate — تعدد الخبر, ترتيب المبتدأ والخبر, and where حذف الخبر is وجوب or جواز",
             "sourceRef": "app-lessons/127 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4058,7 +4058,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Agreement and the Conditional المبتدأ — when الخبر must match, and the seven situations that license فَ on الخبر",
             "sourceRef": "app-lessons/127 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4066,7 +4066,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Absolute Object — the مصدر that reinforces, specifies, or counts its فعل, and what can stand in its place",
             "sourceRef": "app-lessons/128",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4084,7 +4084,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Direct Object's Word Order — إياك نعبد's جوازًا fronting, and the وجوبًا fronting that صدارة الكلام forces",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4092,7 +4092,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Locative and Temporal Object — ظرف زمان vs مكان, each مبهم or محدود, and what stands in for a ظرف",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4100,7 +4100,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Object of Reason — مفعول لأجله, and the four شروط that let it take نصب without a لام",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -4108,7 +4108,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Object of Accompaniment — واو المعية after a فعل or شبه فعل, and when النصب becomes the only option",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4126,7 +4126,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Defining الحال — صاحب الحال, when ذو الحال or الحال itself may be نكرة, and مشتقة vs جامدة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4134,7 +4134,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Three Classification Axes — متنقلة/لازمة, مؤسِّسة/مؤكِّدة, and محكية/مقارِنة/مقدَّرة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4142,7 +4142,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Remaining Axes — مقصودة/موطِّئة, تعدد الحال, and حقيقية/سببية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4160,7 +4160,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Specifying a Single Word — عدد صريح and مبهم, المقدار, and what resembles or extends it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4168,7 +4168,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Specifying a Relation, and How to إعراب a Number — غير محوّل vs محوّل, and كم الخبرية",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4186,7 +4186,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Excepted Noun — its three أركان, then التام vs غير التام and المتصل vs المنقطع",
             "sourceRef": "app-lessons/135 (part 1)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4194,7 +4194,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Tools of Exception — أداة الاستثناء as حرف, فعل, or اسم, and إعراب المستثنى across موجب, غير موجب, and تقديم",
             "sourceRef": "app-lessons/135 (part 2)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4202,7 +4202,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Special Rulings — فعل استثناء, حاشا, the غير/إلا interchange, and المستثنى in المنقطع",
             "sourceRef": "app-lessons/135 (part 3)",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       },
@@ -4220,7 +4220,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Predicate of the Deficient Verbs and Their Sisters — كان’s خبر, its freedom of word order, and the three حروف that borrow ليس’s own عمل",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l2",
@@ -4228,7 +4228,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Noun Governed by لا النافية للجنس — منصوب لفظًا when مضاف or شبيه بالمضاف, مبني elsewhere, and what تكرار and حذف do to it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l3",
@@ -4236,7 +4236,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Genitive Noun — its two types, and how a زائد حرف جر can wrap a word in الجر لفظًا while its true role stays مرفوع or منصوب محلًّا",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           },
           {
             "id": "l4",
@@ -4244,7 +4244,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Adjectival التابع — what qualifies as a نعت, حقيقي vs سببي, and how the described noun can vanish and leave the نعت standing alone",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-nahw"
           }
         ]
       }

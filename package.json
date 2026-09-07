@@ -11,7 +11,8 @@
     "lit:convert": "node scripts/convert-literature.mjs",
     "build:web": "node scripts/build-web.js",
     "verify:mizan": "node scripts/verify-mizan.mjs",
-    "verify:server": "node scripts/verify-server.mjs"
+    "verify:server": "node scripts/verify-server.mjs",
+    "verify:nahw": "node scripts/verify-nahw.mjs"
   },
   "keywords": [],
   "author": "",

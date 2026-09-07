@@ -29,10 +29,15 @@ await check('all 498 lessons retain their teaching, practice and quiz content', 
   const totals = { lessons: 0, concepts: 0, inline: 0, quiz: 0, bank: 0 };
   for (const c of COURSES.filter(c => c.id !== 'mantiq')) for (const m of c.modules) for (const l of m.lessons) {
     const steps = grammarSteps(l);
-    assert.equal(steps.filter(s => s.kind === 'teach').length, l.concepts.length);
+    if (l.learningModel === 'mizan-nahw') {
+      l.concepts.forEach((concept, index) => assert.deepEqual(
+        steps.filter(s => s.kind === 'teach' && s.conceptIndex === index).flatMap(s => s.lineIndices),
+        concept.lines.map((_, i) => i), 'Every Advanced Nahw source block is taught once, in order',
+      ));
+    } else assert.equal(steps.filter(s => s.kind === 'teach').length, l.concepts.length);
     assert.equal(steps.filter(s => s.kind === 'check').length, l.concepts.filter(x => x.exercise).length);
     assert.equal(steps.filter(s => s.kind === 'practice').length, l.exercise?.items.length || 0);
-    assert.equal(steps.filter(s => s.kind === 'summary').length, Number(!!l.summary));
+    assert.equal(steps.filter(s => s.kind === 'summary').length, Number(l.learningModel === 'mizan-nahw' || !!l.summary));
     totals.lessons++; totals.concepts += l.concepts.length; totals.inline += l.concepts.filter(x => x.exercise).length;
     totals.quiz += l.quiz.length; totals.bank += l.bank.length;
   }

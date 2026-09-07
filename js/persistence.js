@@ -284,6 +284,7 @@ export function snapshot(state) {
       quizRevealed: state.quizRevealed, quizAnswers: state.quizAnswers,
       quizShowResult: state.quizShowResult, quizPassed: state.quizPassed,
       quizOptionOrder: state.quizOptionOrder,
+      quizCorrection: state.quizCorrection || null,
     } : state.quizSession || null,
     courseId: state.courseId,
     completed: state.completed,

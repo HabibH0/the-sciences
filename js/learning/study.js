@@ -2,12 +2,14 @@ import { makeLessonSession, sessionAvailable } from '../mizan/course/lesson-play
 import { introduced, recordAttempt } from '../mizan/mastery/engine.js';
 import { emptyCourse } from '../mizan/progress/model.js';
 import { logicCourse } from './logic-course.js';
+import { nahwSteps, nativeSessionPosition } from './nahw.js';
 
 export function studyKey(courseId, moduleId, lessonId) {
   return `${courseId}/${moduleId}/${lessonId}`;
 }
 
 export function grammarSteps(lesson) {
+  if (lesson.learningModel === 'mizan-nahw') return nahwSteps(lesson);
   const steps = [];
   lesson.concepts.forEach((concept, index) => {
     steps.push({ id: `concept:${index}:teach`, kind: 'teach', conceptIndex: index });
@@ -26,7 +28,7 @@ export function createStudySession(state, mod, lesson, now, id) {
   if (existing?.version === 1 && Array.isArray(existing.steps) && existing.steps.length) {
     if (lesson.learningModel === 'mizan' && existing.logic && sessionAvailable(logicCourse(), existing)) return existing;
     const steps = grammarSteps(lesson);
-    if (lesson.learningModel !== 'mizan' && !existing.logic) return { ...existing, steps, stepIndex: Math.min(existing.stepIndex || 0, steps.length - 1) };
+    if (lesson.learningModel !== 'mizan' && !existing.logic) return { ...existing, steps, stepIndex: nativeSessionPosition(existing, steps) };
   }
   if (lesson.learningModel === 'mizan') {
     const p = state.mizanCourses?.mantiq || emptyCourse();
@@ -39,7 +41,7 @@ export function createStudySession(state, mod, lesson, now, id) {
   let stepIndex = 0;
   for (let i = 0; i < lesson.concepts.length; i++) {
     const ex = state.exStates?.[`${mod.id}_${lesson.id}_c${i}`];
-    if (ex?.passed) stepIndex = Math.min(steps.length - 1, steps.findIndex(s => s.conceptIndex === i) + 2);
+    if (ex?.passed) stepIndex = Math.min(steps.length - 1, steps.findIndex(s => s.conceptIndex === i && s.kind === 'check') + 1);
     else if (lesson.concepts[i].exercise) break;
   }
   return { id, version: 1, kind: 'lesson', lessonId: lesson.id, steps, stepIndex, index: 0, itemIds: [], updatedAt: now };
@@ -76,7 +78,7 @@ export function normalizeStudySessions(input) {
   if (!record(input)) return {};
   return Object.fromEntries(Object.entries(input).filter(([key, s]) => safeKey(key) && record(s)
     && s.version === 1 && typeof s.id === 'string' && typeof s.lessonId === 'string'
-    && Array.isArray(s.steps) && s.steps.length && s.steps.every(step => record(step) && ['teach', 'exercise', 'check', 'practice', 'summary'].includes(step.kind))
+    && Array.isArray(s.steps) && s.steps.length && s.steps.every(step => record(step) && ['teach', 'exercise', 'check', 'practice', 'analysis', 'summary'].includes(step.kind))
     && Number.isInteger(s.stepIndex) && s.stepIndex >= 0 && s.stepIndex < s.steps.length)
     .map(([key, s]) => [key, { ...s, ...(s.draft ? { draft: { ...s.draft, busy: false } } : {}) }]));
 }

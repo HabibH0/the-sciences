@@ -62,6 +62,7 @@ import {
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
 import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessions, mergeLogicProgress } from './learning/study.js';
+import { nahwAnalysisItems, nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
 import { getAt } from './mizan/exercises/validator.js';
@@ -397,6 +398,9 @@ const FRESH_SCROLL_VIEWS = new Set(['lesson', 'quiz', 'lessonComplete']);
 // change in it can be treated as new content: scroll to the top, and move
 // focus to the incoming concept's heading so the change is announced.
 function displayedConceptSignature() {
+  // Guided sessions advance through explicit steps. Grading a check must
+  // keep focus on its feedback even when legacy concept progress changes.
+  if (state.view === 'lesson' && currentStudy(state)) return null;
   if (state.view !== 'lesson' || !state.moduleId || !state.lessonId) return null;
   const lesson = getLesson(state.moduleId, state.lessonId);
   if (!lesson) return null;
@@ -919,7 +923,7 @@ function rerender(focusSelector) {
   applyAppearance(state);
   if (state.view === 'quiz') {
     state.quizSession = { moduleId: state.moduleId, lessonId: state.lessonId };
-    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder']) state.quizSession[field] = state[field];
+    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder', 'quizCorrection']) state.quizSession[field] = state[field];
   }
   document.title = `${state.view === 'practice' ? 'Practice' : crumbTrail(state).at(-1)?.label || 'My learning'} — Mīzān`;
   const previousNav = lastNav;
@@ -963,7 +967,7 @@ function rerender(focusSelector) {
   // while a scrollTop is being reapplied).
   root.innerHTML = html;
   const newContainer = mainScrollContainer();
-  if (newContainer && nextScrollTop) newContainer.scrollTop = nextScrollTop;
+  if (newContainer) newContainer.scrollTop = nextScrollTop;
   // Unconditional, same as the page-level restore just above -- root.innerHTML
   // just replaced every element wholesale, so a SAME-screen rerender (a
   // comprehension check being answered, say) needs this exactly as much as a
@@ -1068,6 +1072,11 @@ function startQuizAttempt(lesson) {
         && order.every(n => Number.isInteger(n) && n >= 0 && n < q.options.length);
     })) {
     for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder']) state[field] = prior[field];
+    const correction = prior.quizCorrection;
+    state.quizCorrection = correction && typeof correction === 'object' ? {
+      active: correction.active === true, correct: correction.correct === true,
+      selected: Number.isInteger(correction.selected) && correction.selected >= 0 && correction.selected < lesson.quiz[state.quizIndex].options.length ? correction.selected : null,
+    } : null;
     return;
   }
   state.quizOptionOrder = shuffleQuizOrder(lesson);
@@ -1076,6 +1085,7 @@ function startQuizAttempt(lesson) {
   state.quizRevealed = false;
   state.quizAnswers = [];
   state.quizShowResult = false;
+  state.quizCorrection = null;
   state.quizAttempt += 1;
 }
 
@@ -2247,6 +2257,12 @@ function ensureStudySession(moduleId = state.moduleId, lessonId = state.lessonId
   const now = new Date().toISOString();
   const session = createStudySession(state, mod, lesson, now, crypto.randomUUID());
   state.studySessions[key] = session;
+  if (lesson.learningModel === 'mizan-nahw') {
+    for (const item of nahwAnalysisItems(lesson)) {
+      const analysisKey = `${moduleId}_${lessonId}_analysis_${item.id}`;
+      state.optionOrder[analysisKey] ||= shuffledIndices(item.options.length);
+    }
+  }
   if (session.logic) {
     const p = state.mizanCourses.mantiq ||= emptyCourse();
     p.lessons[lessonId] ||= { lessonId, startedAt: now, position: 0, read: false };
@@ -2271,8 +2287,15 @@ function prepareLogicDraft(session) {
 
 function nativeStudyContext() {
   const session = currentStudy(state), step = studyStep(session);
-  if (!session || session.logic || !['check', 'practice'].includes(step?.kind)) return null;
+  if (!session || session.logic || !['check', 'practice', 'analysis'].includes(step?.kind)) return null;
   const lesson = getLesson(state.moduleId, state.lessonId);
+  if (step.kind === 'analysis') {
+    const item = nahwAnalysisItems(lesson)[step.analysisIndex];
+    if (!item) return null;
+    const key = `${state.moduleId}_${state.lessonId}_analysis_${item.id}`;
+    const record = state.exStates[key] ||= {};
+    return { session, step, item, key, record };
+  }
   const key = step.kind === 'check' ? conceptKey(state.moduleId, state.lessonId, step.conceptIndex) : lessonExerciseItemKey(state.moduleId, state.lessonId, step.exerciseIndex);
   const item = step.kind === 'check' ? lesson.concepts[step.conceptIndex].exercise : lesson.exercise.items[step.exerciseIndex];
   const record = state.exStates[key] ||= {};
@@ -2448,15 +2471,39 @@ const actions = {
     if (!Number.isInteger(n) || n < 0 || n >= ctx.item.options.length) return false;
     ctx.record.selected = n;
   },
+  studyField(el) {
+    const ctx = nativeStudyContext(), index = Number(el.dataset.field);
+    if (!ctx || ctx.step.kind !== 'analysis' || ctx.record.submitted && !ctx.record.correcting
+      || !Number.isInteger(index) || index < 0 || index >= ctx.item.words.length) return false;
+    const value = el.value === '' ? null : ctx.item.options[Number(el.value)];
+    ctx.record.response ||= Array(ctx.item.words.length).fill(null);
+    ctx.record.response[index] = value;
+    ctx.session.updatedAt = new Date().toISOString();
+  },
+  studyHint() {
+    const ctx = nativeStudyContext();
+    if (!ctx || ctx.record.submitted && !ctx.record.correcting) return false;
+    ctx.record.hintShown = true;
+  },
+  nahwVisual(el) {
+    const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
+    if (!session || !step || !Number.isInteger(selected) || selected < 0 || selected > 100) return false;
+    session.visualState ||= {};
+    session.visualState[step.id] = { selected };
+    session.updatedAt = new Date().toISOString();
+  },
   studyCheck() {
     const ctx = nativeStudyContext();
-    if (!ctx || ctx.record.selected == null || ctx.record.submitted && !ctx.record.correcting) return false;
-    const pass = ctx.record.selected === ctx.item.correct;
+    if (!ctx || ctx.record.submitted && !ctx.record.correcting) return false;
+    const analysis = ctx.step.kind === 'analysis';
+    if (analysis ? !nahwAnalysisComplete(ctx.item, ctx.record.response) : ctx.record.selected == null) return false;
+    const pass = analysis ? gradeNahwAnalysis(ctx.item, ctx.record.response).correct : ctx.record.selected === ctx.item.correct;
     if (ctx.record.correcting) {
       ctx.record.corrected = pass;
       ctx.record.correcting = !pass;
     } else {
-      ctx.record.firstSelected ??= ctx.record.selected;
+      if (analysis) ctx.record.originalResponse = structuredClone(ctx.record.response);
+      else ctx.record.firstSelected ??= ctx.record.selected;
       ctx.record.correct = pass;
       ctx.record.passed = true;
       ctx.record.submitted = true;
@@ -2470,6 +2517,7 @@ const actions = {
     const ctx = nativeStudyContext();
     if (!ctx) return false;
     ctx.record.correcting = true;
+    if (ctx.step.kind === 'analysis') { ctx.record.response = Array(ctx.item.words.length).fill(null); return; }
     ctx.record.firstSelected ??= ctx.record.selected;
     ctx.record.selected = null;
   },
@@ -4147,9 +4195,34 @@ const actions = {
   // Reveal-on-click: choosing an option immediately shows correct/incorrect
   // (see quizHtml) rather than waiting on a separate submit step.
   selectQuizOption(el) {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (lesson?.learningModel === 'mizan-nahw') {
+      const selected = Number(el.dataset.option);
+      if (!Number.isInteger(selected) || selected < 0 || selected >= lesson.quiz[state.quizIndex].options.length) return false;
+      if (state.quizCorrection?.active) state.quizCorrection.selected = selected;
+      else if (!state.quizRevealed) state.quizSelected = selected;
+      else return false;
+      return;
+    }
     if (state.quizRevealed) return false;
     state.quizSelected = +el.dataset.option;
     state.quizRevealed = true;
+  },
+  checkNahwQuiz() {
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    if (lesson?.learningModel !== 'mizan-nahw') return false;
+    if (state.quizCorrection?.active) {
+      if (state.quizCorrection.selected == null) return false;
+      state.quizCorrection.correct = state.quizCorrection.selected === lesson.quiz[state.quizIndex].correct;
+      state.quizCorrection.active = !state.quizCorrection.correct;
+    } else {
+      if (state.quizRevealed || state.quizSelected == null) return false;
+      state.quizRevealed = true;
+    }
+  },
+  correctNahwQuiz() {
+    if (!state.quizRevealed || getLesson(state.moduleId, state.lessonId)?.learningModel !== 'mizan-nahw') return false;
+    state.quizCorrection = { active: true, correct: false, selected: null };
   },
   // Commits the just-revealed answer and either advances to the next
   // question or, on the last one, scores the attempt and shows the result
@@ -4159,6 +4232,7 @@ const actions = {
     if (!state.quizRevealed) return false;
     const lesson = getLesson(state.moduleId, state.lessonId);
     const answers = [...state.quizAnswers, state.quizSelected];
+    state.quizCorrection = null;
     if (state.quizIndex + 1 < lesson.quiz.length) {
       state.quizAnswers = answers;
       state.quizIndex += 1;
@@ -4780,9 +4854,9 @@ function refocusSelector(el) {
   // focus to whatever opened it rather than falling through to <body>.
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
-  if (action === 'studyCheck' || action === 'submitLogicAnswer') return '.mz-feedback';
-  if (action === 'studyCorrect' || action === 'logicCorrect') return '.mz-response button:not([disabled]), .mz-response input';
-  if (action === 'setStudyVisual' || action === 'studyChoice' || action.startsWith('logic')) return triggerSelectorFor(el);
+  if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkNahwQuiz') return '.mz-feedback';
+  if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctNahwQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
+  if (action === 'setStudyVisual' || action === 'studyChoice' || action === 'nahwVisual' || action === 'studyHint' || action === 'selectQuizOption' || action.startsWith('logic')) return triggerSelectorFor(el);
   // The Check button un-renders once the answer is graded, so its own
   // counterpart never exists. Focus moves to the verdict itself (the
   // exercise-feedback line carries tabindex="-1" for exactly this): a
@@ -5237,7 +5311,7 @@ document.addEventListener('change', (e) => {
       });
       return;
     }
-    if (result !== false) rerender();
+    if (result !== false) rerender(el.dataset.action === 'studyField' ? `#nahw-role-${el.dataset.field}` : undefined);
     return;
   }
 });

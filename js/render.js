@@ -1,6 +1,7 @@
 import { esc, escAttr, escBidi, isolateArabicHtml } from './html.js';
 import { catalogHtml, courseOverviewHtml, moduleLessonsHtml, completedLessonHtml, brandMark } from './learning/catalog.js';
 import { studyHtml } from './learning/render-study.js';
+import { nahwQuizHtml } from './learning/render-nahw.js';
 import { logicItem } from './learning/logic-course.js';
 import { logicExerciseHtml } from './learning/exercises.js';
 import {
@@ -1737,6 +1738,8 @@ function quizHtml(state, MODULES) {
   const mod = MODULES.find((m) => m.id === state.moduleId);
   const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
+
+  if (lesson.learningModel === 'mizan-nahw') return nahwQuizHtml(state, mod, lesson);
 
   if (state.quizShowResult) return quizResultHtml(state, mod, lesson);
 

@@ -275,9 +275,13 @@ function mergeExerciseState(localValue, remoteValue) {
   if (localValue.submittedAt && remoteValue.submittedAt) {
     const first = localValue.submittedAt <= remoteValue.submittedAt ? localValue : remoteValue;
     const latest = localValue.submittedAt <= remoteValue.submittedAt ? remoteValue : localValue;
-    return cloneValue(first.firstSelected === latest.firstSelected
-      ? { ...first, corrected: first.corrected || latest.corrected, correcting: first.correcting && latest.correcting }
-      : first);
+    const sameAttempt = first.originalResponse || latest.originalResponse
+      ? JSON.stringify(first.originalResponse) === JSON.stringify(latest.originalResponse)
+      : first.firstSelected === latest.firstSelected;
+    if (!sameAttempt) return cloneValue(first);
+    const corrected = first.corrected ? first : latest.corrected ? latest : first;
+    return cloneValue({ ...first, selected: corrected.selected, response: corrected.response,
+      corrected: first.corrected || latest.corrected, correcting: first.correcting && latest.correcting });
   }
 
   if (localValue.passed && !remoteValue.passed) return cloneValue(localValue);

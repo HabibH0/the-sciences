@@ -131,6 +131,7 @@ export async function createInitialState() {
     quizShowResult: false,
     quizPassed: false,
     quizOptionOrder: {},
+    quizCorrection: null,
     // Bumped on every fresh attempt (see startQuizAttempt in js/main.js).
     quizAttempt: 0,
     // Which item of the CURRENT lesson's own exercise (lesson.exercise.items,

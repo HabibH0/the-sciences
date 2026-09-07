@@ -3,6 +3,8 @@ import { conceptKey, lessonExerciseItemKey } from '../../content/index.js';
 import { currentStudy, studyStep } from './study.js';
 import { logicCourse, logicVisuals, logicItem } from './logic-course.js';
 import { logicExerciseHtml } from './exercises.js';
+import { nahwAnalysisItems } from './nahw.js';
+import { nahwTeachingHtml, nahwSummaryHtml, nahwExerciseHtml } from './render-nahw.js';
 
 export function visualHtml(spec, state = {}) {
   const choices = logicVisuals()?.[spec.kind];
@@ -13,7 +15,14 @@ export function visualHtml(spec, state = {}) {
   return `<div class="mz-visual" data-visual-kind="${escAttr(spec.kind)}">${html.replace('<h3></h3>', `<h3>${esc(spec.title)}</h3>`).replace('<figcaption></figcaption>', `<figcaption>${esc(spec.caption)}</figcaption>`)}</div>`;
 }
 
-export function nativeStepExercise(lesson, mod, step, state) {
+export function nativeStepExercise(lesson, mod, step, state, helpers) {
+  if (lesson.learningModel === 'mizan-nahw') {
+    const item = step.kind === 'analysis' ? nahwAnalysisItems(lesson)[step.analysisIndex] : lesson.concepts[step.conceptIndex].exercise;
+    const key = step.kind === 'analysis' ? `${mod.id}_${lesson.id}_analysis_${item.id}` : conceptKey(mod.id, lesson.id, step.conceptIndex);
+    const record = state.exStates[key] || {};
+    const order = state.optionOrder[key] || item.options.map((_, i) => i);
+    return { record, html: nahwExerciseHtml(lesson, step, record, order, helpers, state) };
+  }
   const concept = step.kind === 'check' ? lesson.concepts[step.conceptIndex] : null;
   const item = concept?.exercise || lesson.exercise.items[step.exerciseIndex];
   const key = step.kind === 'check' ? conceptKey(mod.id, lesson.id, step.conceptIndex) : lessonExerciseItemKey(mod.id, lesson.id, step.exerciseIndex);
@@ -53,6 +62,12 @@ export function studyHtml(state, mod, lesson, helpers) {
       ready = !!draft.grade && !draft.busy;
       body = logicExerciseHtml(item, draft, { context: label });
     }
+  } else if (step.kind === 'teach' && lesson.learningModel === 'mizan-nahw') {
+    label = { learn: 'Learn', example: 'Worked example', takeaway: 'Takeaway' }[step.presentation];
+    body = nahwTeachingHtml(lesson, step, session, helpers, state);
+  } else if (step.kind === 'summary' && lesson.learningModel === 'mizan-nahw') {
+    label = 'Takeaway';
+    body = nahwSummaryHtml(lesson, helpers, state);
   } else if (step.kind === 'teach') {
     const concept = lesson.concepts[step.conceptIndex];
     body = `<article class="mz-teaching"><div class="mz-teaching-copy"><p class="mz-eyebrow">LEARN · ${step.conceptIndex + 1} OF ${lesson.concepts.length}</p><h2>${escBidi(concept.heading)}</h2><div class="mz-prose concept-body">${helpers.prose(concept, '', null, true, state.tarkeebLabelsBlue === true)}${concept.clarification ? `<aside class="mz-clarification">${helpers.prose({ body: concept.clarification }, '', null, true, state.tarkeebLabelsBlue === true)}</aside>` : ''}</div></div></article>`;
@@ -61,16 +76,16 @@ export function studyHtml(state, mod, lesson, helpers) {
     body = `<article class="mz-teaching"><div class="mz-teaching-copy"><p class="mz-eyebrow">TAKEAWAY</p><h2>Bring it together</h2>${helpers.summary(lesson, state, mod, 'mz-summary')}</div></article>`;
   } else {
     label = step.kind === 'check' ? 'Guided practice' : 'Independent practice';
-    const exercise = nativeStepExercise(lesson, mod, step, state);
+    const exercise = nativeStepExercise(lesson, mod, step, state, helpers);
     body = exercise.html;
     ready = !!exercise.record.submitted || !!exercise.record.correcting;
   }
   const last = index + 1 === total;
   const notes = state.studyNotesOpen ? `<div class="modal-backdrop mz-notes-backdrop" data-action="closeStudyNotes"><section class="mz-notes-modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="mz-notes-title"><header><h2 id="mz-notes-title">Lesson notes</h2><button class="btn btn-secondary" data-action="closeStudyNotes" aria-label="Close lesson notes">Close ×</button></header><div class="mz-notes-content mz-prose">${session.logic ? logicCourse().lessons[lesson.id].notesHtml : lesson.concepts.map(c => `<h3>${escBidi(c.heading)}</h3>${helpers.prose(c, '', null, true, state.tarkeebLabelsBlue === true)}${c.clarification ? helpers.prose({ body: c.clarification }, '', null, true, state.tarkeebLabelsBlue === true) : ''}`).join('')}${!session.logic ? helpers.summary(lesson, state, mod, 'mz-notes-summary') : ''}</div></section></div>` : '';
-  return `<section class="mz-study${Number(state.lessonTextScale) > 100 ? ' large-text' : ''}" data-step="${index}" aria-label="${escAttr(lesson.title)}">
+  return `<section class="mz-study${lesson.learningModel === 'mizan-nahw' ? ' mz-nahw' : ''}${Number(state.lessonTextScale) > 100 ? ' large-text' : ''}" data-step="${index}" aria-label="${escAttr(lesson.title)}">
     <header class="mz-study-head"><button class="mz-study-exit" data-action="openModule" data-module-id="${escAttr(mod.id)}" aria-label="Save and return to ${escAttr(mod.title)}">←</button><div class="mz-study-title"><span>${escBidi(mod.title)}</span><h1>${escBidi(lesson.title)}</h1></div><button class="mz-text-button" data-action="openStudyNotes">Lesson notes</button></header>
     <div class="mz-step-track"><span>${esc(label)}</span><div class="mz-meter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${index + 1}"><span style="width:${(index + 1) / total * 100}%"></span></div><span>${index + 1} / ${total}</span></div>
     <div class="mz-study-body" data-study-step>${body}</div>
-    <footer class="mz-study-foot"><button class="btn btn-ghost" data-action="studyBack" ${!index ? 'disabled' : ''}>← Back</button><span>${!ready ? 'Check your answer to continue.' : state.storageError ? 'Progress is not saved. See the notice above.' : 'Your progress is saved as you learn.'}</span><button class="btn btn-primary" data-action="studyNext" ${ready ? '' : 'disabled'}>${last ? session.logic ? 'Finish lesson' : 'Continue to quiz' : 'Continue'} →</button></footer>
+    <footer class="mz-study-foot"><button class="btn btn-ghost" data-action="studyBack" ${!index ? 'disabled' : ''}>← Back</button><span>${!ready ? 'Check your answer to continue.' : state.storageError ? 'Progress is not saved. See the notice above.' : 'Your progress is saved as you learn.'}</span><button class="btn btn-primary" data-action="studyNext" ${ready ? '' : 'disabled'}>${last ? session.logic ? 'Finish lesson' : lesson.learningModel === 'mizan-nahw' ? 'Start lesson check' : 'Continue to quiz' : 'Continue'} →</button></footer>
   </section>${notes}`;
 }

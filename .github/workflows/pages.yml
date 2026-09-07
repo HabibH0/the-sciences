@@ -32,6 +32,7 @@ jobs:
       - name: Verify learning, migration and review
         run: |
           npm run verify:mizan
+          npm run verify:nahw
           npm run verify:review
           npm run verify:server
       - name: Build static app

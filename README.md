@@ -18,6 +18,7 @@ Open http://localhost:4173. This server includes the Logic grader and live reloa
 ~~~sh
 npm run validate
 npm run verify:mizan
+npm run verify:nahw
 npm run verify:review
 npm run verify:server
 npm run build:web
@@ -25,6 +26,8 @@ node scripts/dev-server.mjs 4174 --built
 ~~~
 
 The last command previews the exact static files in web/ with the local Logic grader. Content validation checks all five courses and the 14-volume reading library. Mīzān verification covers content preservation, every Logic grader and authored lesson flow, response compatibility, migrations, recovery, session merging and practice pools. Server checks use a temporary local file database; they never write to live accounts. Postgres uses a transaction and row lock for conditional writes; validate that path against a configured test database before a database infrastructure change.
+
+Advanced Nahw verification renders every lesson step and checks source coverage, grammatical analysis, corrections and saved-session migration. See [the learning update](advanced-nahw-learning-update.md) for its scope and browser verification.
 
 ## Hosting
 

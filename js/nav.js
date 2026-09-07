@@ -124,7 +124,7 @@ export function crumbTrail(state) {
     const tail = state.view === 'quiz'
       ? [
         lesson ? { label: lesson.title, lang: 'ar', action: 'backToLesson' } : null,
-        { label: 'Quiz', current: true },
+        { label: lesson?.learningModel === 'mizan-nahw' ? 'Lesson check' : 'Quiz', current: true },
       ]
       : [{ label: lesson ? lesson.title : 'Lesson', lang: lesson ? 'ar' : null, current: true }];
     return [
@@ -154,7 +154,7 @@ export function crumbTrail(state) {
         courseRoot,
         modCrumb,
         lesson ? { label: lesson.title, lang: 'ar', action: 'backToLesson' } : null,
-        { label: 'Quiz', current: true },
+        { label: lesson?.learningModel === 'mizan-nahw' ? 'Lesson check' : 'Quiz', current: true },
       ].filter(Boolean);
     case 'litBook': {
       const book = getLitBook(state.litBookId);

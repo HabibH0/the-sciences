@@ -545,7 +545,7 @@ function stepConceptTo(cls) {
 // the tally, exactly what a screen entrance would have done had the nav
 // signature changed.
 function stepQuestion(root) {
-  const plate = root.querySelector('.complete-page');
+  const plate = root.querySelector('.complete-page, .mz-completed');
   if (plate) {
     mark(plate, 'anim-rise-in');
     // A result plate is the one screen whose meters are the whole point, and
@@ -556,7 +556,7 @@ function stepQuestion(root) {
     runCountUps(root);
     return;
   }
-  mark(root.querySelector('.quiz-body'), 'anim-step-in');
+  mark(root.querySelector('.quiz-body, [data-study-step]'), 'anim-step-in');
   const done = root.querySelectorAll('.quiz-ticks .quiz-tick-done');
   if (done.length) mark(done[done.length - 1], 'anim-tick-in');
 }
@@ -567,6 +567,8 @@ const ACTION_FX = {
   studyNext: (root) => mark(root.querySelector('[data-study-step]'), 'anim-step-in'),
   studyBack: (root) => mark(root.querySelector('[data-study-step]'), 'anim-step-back'),
   studyChoice: settleSelf,
+  nahwVisual: settleSelf,
+  checkNahwQuiz: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
   logicChoice: settleSelf,
   studyCheck: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
   submitLogicAnswer: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
