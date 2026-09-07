@@ -29,6 +29,8 @@ The last command previews the exact static files in web/ with the local Logic gr
 
 Advanced Nahw verification renders every lesson step and checks source coverage, grammatical analysis, corrections and saved-session migration. See [the learning update](advanced-nahw-learning-update.md) for its scope and browser verification.
 
+For desktop geometry checks, open `/scripts/verify-lesson-layout.html` on the source dev server and click **Verify lesson layouts**. It checks every Advanced Nahw teaching/summary page for overflow and text preservation without saving lesson progress. Query options include `scale=1.3`, `details=1` and `course=all`.
+
 ## Hosting
 
 The established frontend remains on GitHub Pages under /the-sciences/. The repository's Pages workflow builds web/ and deploys main. The Render service in server/ supplies account sync and POST /api/grade. See server/README.md.

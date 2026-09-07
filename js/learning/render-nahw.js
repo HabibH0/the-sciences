@@ -23,7 +23,7 @@ export function nahwTeachingHtml(lesson, step, session, helpers, state) {
   const copy = visual ? lines.filter(l => !l.tarkeebDiagram) : lines;
   const diagram = visual ? lines.filter(l => l.tarkeebDiagram) : [];
   const label = { learn: 'Learn', example: 'Worked example', takeaway: 'Takeaway' }[step.presentation];
-  return `<article class="mz-teaching mz-nahw-teaching${visual ? ' has-visual' : ''}"><div class="mz-teaching-copy"><p class="mz-eyebrow">${label}</p><h2>${escBidi(concept.heading)}</h2><div class="mz-prose concept-body">${helpers.prose({ lines: copy }, '', null, true, state.tarkeebLabelsBlue)}${diagram.length ? `<details class="mz-nahw-full-analysis"><summary>See the complete analysis</summary>${helpers.prose({ lines: diagram }, '', null, true, state.tarkeebLabelsBlue)}</details>` : ''}</div></div>${visual}</article>`;
+  return `<article class="mz-teaching mz-nahw-teaching${visual ? ' has-visual' : ''}"><div class="mz-teaching-copy"><p class="mz-eyebrow">${label}</p><h2>${escBidi(concept.heading)}</h2><div class="mz-prose concept-body">${helpers.prose({ lines: copy }, '', null, true, state.tarkeebLabelsBlue)}${diagram.length ? `<details class="mz-nahw-full-analysis" data-study-detail ${session.readingDetails?.[step.id] ? 'open' : ''}><summary>See the complete analysis</summary>${helpers.prose({ lines: diagram }, '', null, true, state.tarkeebLabelsBlue)}</details>` : ''}</div></div>${visual}</article>`;
 }
 
 export function nahwSummaryHtml(lesson, helpers, state) {

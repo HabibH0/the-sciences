@@ -31,4 +31,8 @@ Browser verification sampled the opening lesson and later grammar material rathe
 
 ## Preview and release
 
+Desktop teaching now uses the available viewport height, with Back and Continue remaining visible. Longer explanations, rule boxes, tables and summaries continue over additional pages without reducing the selected text size. Page positions and expanded analyses survive refresh. Interactive diagrams keep their controls and explanations together. Mobile retains the continuous reading layout.
+
+The browser geometry checker verified all 1,678 Advanced Nahw teaching and summary steps at 1280×720, including 130% interface/lesson text and expanded analyses, and at 1024×600 with standard text and expanded analyses. It checks page height, footer visibility and preservation of the original text. Notes remain available as a separate reading dialog. On exceptionally small windows where an indivisible object cannot fit, the full content remains readable rather than being clipped.
+
 Open `http://localhost:4173/#/module/01/l1` for the first Advanced Nahw lesson. The existing local source and built preview servers remain available. These changes have not been published to the hosted app.

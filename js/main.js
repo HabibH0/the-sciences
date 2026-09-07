@@ -63,6 +63,7 @@ import {
 import { render, FACES, HEADING_FACES } from './render.js';
 import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessions, mergeLogicProgress } from './learning/study.js';
 import { nahwAnalysisItems, nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
+import { fitLessonPages } from './learning/lesson-pages.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
 import { getAt } from './mizan/exercises/validator.js';
@@ -918,6 +919,8 @@ function applyAppearance(state) {
 // user but breaks a keyboard user's ability to place several تركيب chips in
 // a row without re-tabbing from the top of the page each time. See
 // refocusSelector, the only current caller.
+let lessonPageLayout = null;
+let readingDetailRequested = false;
 function rerender(focusSelector) {
   refreshLogicMastery();
   applyAppearance(state);
@@ -966,6 +969,13 @@ function rerender(focusSelector) {
   // DOM immediately after (and after scroll restoration, so nothing animates
   // while a scrollTop is being reapplied).
   root.innerHTML = html;
+  const readingSession = currentStudy(state), readingStep = studyStep(readingSession);
+  lessonPageLayout = fitLessonPages(root, readingDetailRequested ? 'detail' : readingSession?.readingPages?.[readingStep?.id] || 0);
+  if (readingDetailRequested && lessonPageLayout?.fits) {
+    if (!readingSession.readingPages || typeof readingSession.readingPages !== 'object' || Array.isArray(readingSession.readingPages)) readingSession.readingPages = {};
+    readingSession.readingPages[readingStep.id] = lessonPageLayout.index;
+  }
+  readingDetailRequested = false;
   const newContainer = mainScrollContainer();
   if (newContainer) newContainer.scrollTop = nextScrollTop;
   // Unconditional, same as the page-level restore just above -- root.innerHTML
@@ -998,7 +1008,10 @@ function rerender(focusSelector) {
     }
   } else if (focusSelector) {
     const toFocus = root.querySelector(focusSelector);
-    if (toFocus) toFocus.focus();
+    if (toFocus) {
+      if (!toFocus.matches('button, a, input, select, textarea, summary')) toFocus.tabIndex = -1;
+      toFocus.focus({ preventScroll: !!lessonPageLayout?.fits });
+    }
   } else if (changedScreen) {
     // root.innerHTML replaces every element on every render, so focus lands
     // back on <body> each time. On a same-screen update that is invisible;
@@ -1019,6 +1032,42 @@ function rerender(focusSelector) {
   // replays it on a freshly-created row node.
   state.returnFlashModuleId = null;
   if (!suppressPersist) persistSoon(state);
+}
+
+// The viewport and font metrics determine page breaks. Re-measure after a
+// resize or font load, preserving the learner's saved page and text size.
+let lessonLayoutFrame;
+function scheduleLessonLayout() {
+  cancelAnimationFrame(lessonLayoutFrame);
+  lessonLayoutFrame = requestAnimationFrame(() => {
+    if (root.querySelector('.mz-teaching') && !state.studyNotesOpen) rerender();
+  });
+}
+window.addEventListener('resize', scheduleLessonLayout);
+document.fonts?.ready.then(scheduleLessonLayout);
+document.fonts?.addEventListener('loadingdone', scheduleLessonLayout);
+
+document.addEventListener('toggle', event => {
+  const details = event.target;
+  if (!details.isConnected || !details.matches('[data-study-detail]')) return;
+  const session = currentStudy(state), step = studyStep(session);
+  if (!session || !step || !!session.readingDetails?.[step.id] === details.open) return;
+  if (!session.readingDetails || typeof session.readingDetails !== 'object' || Array.isArray(session.readingDetails)) session.readingDetails = {};
+  session.readingDetails[step.id] = details.open;
+  session.updatedAt = new Date().toISOString();
+  readingDetailRequested = true;
+  rerender('[data-study-detail] > summary');
+}, true);
+
+function turnReadingPage(direction) {
+  const session = currentStudy(state), step = studyStep(session);
+  if (!session || !step || !lessonPageLayout?.fits) return false;
+  const next = lessonPageLayout.index + direction;
+  if (next < 0 || next >= lessonPageLayout.count) return false;
+  if (!session.readingPages || typeof session.readingPages !== 'object' || Array.isArray(session.readingPages)) session.readingPages = {};
+  session.readingPages[step.id] = next;
+  session.updatedAt = new Date().toISOString();
+  return true;
 }
 
 function savePos() {
@@ -2522,6 +2571,7 @@ const actions = {
     ctx.record.selected = null;
   },
   studyBack() {
+    if (turnReadingPage(-1)) return;
     const session = currentStudy(state);
     if (!session || !session.stepIndex || session.draft?.busy) return false;
     session.stepIndex--;
@@ -2529,6 +2579,7 @@ const actions = {
     if (session.logic) prepareLogicDraft(session);
   },
   studyNext() {
+    if (turnReadingPage(1)) return;
     const session = currentStudy(state), step = studyStep(session);
     if (!step || session.draft?.busy) return false;
     const now = new Date().toISOString();
@@ -4854,6 +4905,7 @@ function refocusSelector(el) {
   // focus to whatever opened it rather than falling through to <body>.
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
+  if (action === 'studyNext' || action === 'studyBack') return '.mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
   if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkNahwQuiz') return '.mz-feedback';
   if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctNahwQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
   if (action === 'setStudyVisual' || action === 'studyChoice' || action === 'nahwVisual' || action === 'studyHint' || action === 'selectQuizOption' || action.startsWith('logic')) return triggerSelectorFor(el);
