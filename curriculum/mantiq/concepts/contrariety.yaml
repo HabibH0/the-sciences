@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: contrariety
+  title: {en: "Contrariety", ar: "تَضَادّ", transliteration: "taḍādd"}
+  type: relationship
+  definition: {en: "The A-E relationship: both cannot be true, though both can be false."}
+  prerequisites: [square_of_opposition]
+  properties: {pair: [A, E], truth_rule: not_both_true}
+  skills: [infer_contrary_value]
+  exercise_families: [truth_inference, relationship_classification]
+  source: {book_id: fst_logic, pages: [43]}

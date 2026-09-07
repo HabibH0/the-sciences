@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: ad_hominem_fallacy
+  title: {en: "Ad Hominem (Attacking the Person)"}
+  type: exception
+  definition: {en: "Making an irrelevant attack on a person instead of addressing their argument or position."}
+  prerequisites: [informal_fallacy]
+  skills: [diagnose_ad_hominem]
+  exercise_families: [error_detection, relevance_analysis]
+  source: {book_id: fst_logic, pages: [72]}

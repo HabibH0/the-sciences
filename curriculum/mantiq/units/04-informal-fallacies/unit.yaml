@@ -1,0 +1,34 @@
+schema_version: 1
+
+unit:
+  id: informal_fallacies
+  title: {en: "Informal Fallacies"}
+  order: 4
+
+source: {book_id: fst_logic, pages: [71, 72, 73, 74]}
+
+topics:
+  - id: formal_and_informal_fallacies
+    title: "Formal and Informal Fallacies"
+    lesson: lessons/01-formal-and-informal-fallacies.md
+    concepts: [formal_fallacy, informal_fallacy]
+  - id: scope_and_meaning_fallacies
+    title: "Part, Whole, and Meaning"
+    lesson: lessons/02-scope-and-meaning.md
+    concepts: [composition_fallacy, division_fallacy, equivocation_fallacy]
+  - id: relevance_and_rhetoric_fallacies
+    title: "Relevance and Rhetoric"
+    lesson: lessons/03-relevance-and-rhetoric.md
+    concepts: [ad_hominem_fallacy, loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy]
+  - id: evidence_fallacies
+    title: "Faulty Evidential Support"
+    lesson: lessons/04-faulty-evidence.md
+    concepts: [circular_argument, appeal_to_ignorance, irrelevant_authority]
+  - id: causation_and_justification_fallacies
+    title: "Causation, Chains, and Justification"
+    lesson: lessons/05-causation-and-justification.md
+    concepts: [false_cause, correlation_causation_fallacy, slippery_slope_fallacy, two_wrongs_fallacy]
+
+exercise_sets: [../../exercises/informal_fallacies.yaml]
+misconceptions: ../../misconceptions/unit_4.yaml
+vocabulary_pool: ../../vocabulary/informal_fallacies.yaml

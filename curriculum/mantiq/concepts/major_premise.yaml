@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: major_premise
+  title: {en: "Major Premise", ar: "الكُبْرَى", transliteration: "al-kubrā"}
+  type: component
+  definition: {en: "The premise containing the major term."}
+  prerequisites: [categorical_syllogism, major_term]
+  skills: [identify_major_premise]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [47]}

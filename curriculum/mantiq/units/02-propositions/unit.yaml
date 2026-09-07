@@ -1,0 +1,51 @@
+schema_version: 1
+
+unit:
+  id: propositions
+  title:
+    en: "Propositions"
+    ar: "القَضَايَا"
+  order: 2
+
+source:
+  book_id: fst_logic
+  pages: [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+
+topics:
+  - id: proposition_structure
+    title: "Structure of a Proposition"
+    lesson: lessons/01-structure.md
+    concepts: [proposition, subject, predicate, quantifier, copula]
+  - id: proposition_value
+    title: "Value: Truth and Falsity"
+    lesson: lessons/02-value.md
+    concepts: [proposition_value]
+  - id: proposition_quality_quantity
+    title: "Quality and Quantity"
+    lesson: lessons/03-quality-and-quantity.md
+    concepts: [quality, quantity]
+  - id: aeio_forms
+    title: "The A, E, I, and O Forms"
+    lesson: lessons/04-aeio-forms.md
+    concepts: [a_proposition, e_proposition, i_proposition, o_proposition]
+  - id: proposition_distribution
+    title: "Distribution"
+    lesson: lessons/05-distribution.md
+    concepts: [distribution]
+  - id: proposition_mode
+    title: "Mode and Its Basis"
+    lesson: lessons/06-mode.md
+    concepts: [proposition_mode, necessary_mode, contingent_mode, impossible_mode, physical_mode_basis, metaphysical_mode_basis, moral_religious_mode_basis]
+  - id: categorical_translation
+    title: "Translation into Categorical Form"
+    lesson: lessons/07-categorical-translation.md
+    concepts: [categorical_translation, adjective_to_noun, verb_to_noun, adverb_to_noun, missing_quantifier, only_ambiguity]
+  - id: venn_representation
+    title: "Venn Representation"
+    lesson: lessons/08-venn-representation.md
+    concepts: [venn_convention, a_venn_representation, e_venn_representation, i_venn_representation, o_venn_representation]
+
+exercise_sets:
+  - ../../exercises/propositions.yaml
+misconceptions: ../../misconceptions/unit_2.yaml
+vocabulary_pool: ../../vocabulary/propositions.yaml

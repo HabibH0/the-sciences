@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: moral_religious_mode_basis
+  title:
+    en: "Moral or Religious Basis of Mode"
+    ar: "حُكْم شَرْعِي"
+    transliteration: "ḥukm sharʿī"
+  type: classification
+  definition:
+    en: "A moral or religious relationship is affirmed or negated from moral or religious evidence."
+  prerequisites: [proposition_mode, physical_mode_basis, metaphysical_mode_basis]
+  properties: { evidence_basis: moral_or_religious }
+  knowledge:
+    - "The textbook treats moral or religious evidence as a distinct basis."
+  skills:
+    - identify_moral_or_religious_evidence_basis
+  exercise_families: [classification, compare_and_distinguish]
+  source: { book_id: fst_logic, pages: [25] }

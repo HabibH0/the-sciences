@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: red_herring_fallacy
+  title: {en: "Red Herring Fallacy"}
+  type: exception
+  definition: {en: "Introducing a distracting point that diverts attention from the relevant question."}
+  prerequisites: [informal_fallacy]
+  skills: [diagnose_red_herring, identify_relevant_question]
+  exercise_families: [error_detection, relevance_analysis]
+  source: {book_id: fst_logic, pages: [73]}

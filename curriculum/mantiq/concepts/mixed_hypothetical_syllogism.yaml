@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: mixed_hypothetical_syllogism
+  title: {en: "Mixed Hypothetical Syllogism"}
+  type: inference
+  definition: {en: "A syllogism with one hypothetical premise, one simple premise, and a simple conclusion."}
+  prerequisites: [deduction, hypothetical_proposition, antecedent, consequent]
+  skills: [analyse_mixed_hypothetical_syllogism]
+  exercise_families: [classification, validity_classification]
+  source: {book_id: fst_logic, pages: [57, 58]}

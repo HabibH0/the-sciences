@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: particular_conclusion_rule
+  title: {en: "Rule 8: Particular Conclusion"}
+  type: rule
+  definition: {en: "If either premise is particular, the conclusion must be particular."}
+  prerequisites: [categorical_syllogism, quantity]
+  skills: [test_particular_conclusion]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [54, 55]}

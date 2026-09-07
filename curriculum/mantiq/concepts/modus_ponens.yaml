@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: modus_ponens
+  title: {en: "Affirming the Antecedent (Modus Ponens)"}
+  type: inference
+  definition: {en: "From If P then Q and P, validly infer Q."}
+  prerequisites: [mixed_hypothetical_syllogism]
+  properties: {pattern: ["P -> Q", P, Q], valid: true}
+  skills: [apply_modus_ponens]
+  exercise_families: [rule_application, validity_classification]
+  source: {book_id: fst_logic, pages: [57]}

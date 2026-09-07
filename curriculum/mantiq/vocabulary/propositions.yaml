@@ -1,0 +1,35 @@
+schema_version: 1
+
+vocabulary_pool:
+  id: propositions
+  guidance:
+    - "Prefer familiar classes so the task tests logic rather than specialist knowledge."
+    - "Treat real-world truth as metadata, not as a consequence of categorical form."
+  terms:
+    - {id: students, label: "students", kind: people}
+    - {id: hardworking_people, label: "hardworking people", kind: people}
+    - {id: writers, label: "writers", kind: people}
+    - {id: scholars, label: "scholars", kind: people}
+    - {id: admitted_people, label: "admitted people", kind: people}
+    - {id: muslims, label: "Muslims", kind: people}
+    - {id: monotheists, label: "monotheists", kind: people}
+    - {id: polytheists, label: "polytheists", kind: people}
+    - {id: arabs, label: "Arabs", kind: people}
+    - {id: books, label: "books", kind: objects}
+    - {id: boring_things, label: "boring things", kind: objects}
+    - {id: interesting_things, label: "interesting things", kind: objects}
+    - {id: men, label: "men", kind: people}
+    - {id: humans, label: "humans", kind: living_things}
+    - {id: lions, label: "lions", kind: living_things}
+    - {id: squares, label: "squares", kind: shapes}
+    - {id: triangles, label: "triangles", kind: shapes}
+    - {id: circles, label: "circles", kind: shapes}
+    - {id: living_things, label: "living things", kind: living_things}
+    - {id: growing_things, label: "things that grow", kind: living_things}
+  safe_relationships:
+    - {left: muslims, right: monotheists, relation: subset}
+    - {left: muslims, right: polytheists, relation: disjoint}
+    - {left: men, right: humans, relation: subset}
+    - {left: lions, right: humans, relation: disjoint}
+    - {left: squares, right: triangles, relation: disjoint}
+    - {left: triangles, right: circles, relation: disjoint}

@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: false_dilemma
+  title: {en: "False Dilemma"}
+  type: exception
+  definition: {en: "Presenting non-exhaustive alternatives as though one of them must be true."}
+  prerequisites: [exclusive_nonexhaustive_disjunction, inclusive_disjunction]
+  skills: [diagnose_false_dilemma]
+  exercise_families: [error_detection, construction]
+  source: {book_id: fst_logic, pages: [61]}

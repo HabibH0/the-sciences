@@ -10,6 +10,10 @@ export async function createInitialState() {
   const boot = await bootProgress();
   const nav = boot.nav || {};
   return {
+    storageError: boot.storageError,
+    studySessions: boot.studySessions,
+    mizanCourses: boot.mizanCourses,
+    quizSession: boot.quizSession,
     // Which course is active -- 'adv-nahw' | 'intro-nahw' | 'intro-sarf' |
     // 'adv-sarf' (see
     // content/index.js's COURSES/setActiveCourse). Shared xp/streak/badges/
@@ -25,7 +29,7 @@ export async function createInitialState() {
     // direct reloads/internal navigation retain their position while the
     // session is already inside the app.
     launchScreen: true,
-    view: nav.view || 'dashboard',
+    view: nav.view || 'catalog',
     moduleId: nav.moduleId || null,
     lessonId: nav.lessonId || null,
     // conceptKey -> 0 (exercise hidden) or 1 (exercise shown). Persisted;
@@ -614,7 +618,7 @@ function moduleRevisionSubPools(moduleId, completed, forceUnlockAll = false) {
     });
   });
   const bank = getBankPool(moduleId, completed, forceUnlockAll);
-  const bookPool = bank.filter((p) => p.item.kind === 'mcq');
+  const bookPool = bank.filter((p) => ['mcq', 'mizan'].includes(p.item.kind));
   const tarkeebPool = bank.filter((p) => p.item.kind === 'tarkeeb');
   return { quizPool, bookPool, tarkeebPool };
 }
@@ -685,7 +689,7 @@ function courseRevisionSubPools(moduleIds, completed, forceUnlockAll = false) {
       });
     });
     const bank = getBankPool(moduleId, completed, forceUnlockAll);
-    bookPool = bookPool.concat(bank.filter((p) => p.item.kind === 'mcq'));
+    bookPool = bookPool.concat(bank.filter((p) => ['mcq', 'mizan'].includes(p.item.kind)));
     tarkeebPool = tarkeebPool.concat(bank.filter((p) => p.item.kind === 'tarkeeb'));
   });
   return { quizPool, bookPool, tarkeebPool };
@@ -1077,7 +1081,7 @@ function masteryV2SubPools(moduleId, lessonId) {
   const lesson = getLesson(moduleId, lessonId);
   if (!lesson) return { quizPool: [], bookPool: [], tarkeebPool: [] };
   const bankEntries = (lesson.bank || []).map((item, idx) => ({ item, idx }));
-  const bookPool = bankEntries.filter(({ item }) => item.kind === 'mcq')
+  const bookPool = bankEntries.filter(({ item }) => ['mcq', 'mizan'].includes(item.kind))
     .map(({ item, idx }) => ({
       key: bankKey(moduleId, lessonId, idx), moduleId, lessonId, lessonTitle: lesson.title, bankIndex: idx, title: item.title, item,
     }));

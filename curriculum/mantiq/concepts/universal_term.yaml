@@ -1,0 +1,23 @@
+schema_version: 1
+concept:
+  id: universal_term
+  type: classification
+  title:
+    en: Universal term
+    ar: كُلِّي
+    transliteration: kullī
+  definition: A universal is a word that applies to all things within a category.
+  objectives:
+    knowledge:
+      - State the textbook definition of a universal term.
+    skills:
+      - Classify a term as universal from its scope.
+  prerequisites: []
+  source: { book_id: fst_logic, pages: [16] }
+  examples:
+    - id: all_pens
+      expression: all pens
+      scope: whole_category
+      classification: universal_term
+  exercise_families: [recognition, classification, construction]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

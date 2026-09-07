@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: composition_fallacy
+  title: {en: "Fallacy of Composition"}
+  type: exception
+  definition: {en: "Attributing a property of a part to the whole without sufficient support."}
+  prerequisites: [informal_fallacy]
+  properties: {invalid_transfer: part_to_whole}
+  skills: [diagnose_composition]
+  exercise_families: [error_detection, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [72]}

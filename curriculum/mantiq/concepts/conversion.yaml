@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: conversion
+  title: {en: "Conversion", ar: "عَكْس مُسْتَوِي", transliteration: "ʿaks mustawī"}
+  type: transformation
+  definition: {en: "A direct inference that interchanges subject and predicate while retaining the quantifier."}
+  prerequisites: [direct_inference, subject, predicate, quantifier]
+  rules: ["E and I convert validly without qualification."]
+  skills: [perform_conversion, test_conversion]
+  exercise_families: [transformation, validity_classification]
+  source: {book_id: fst_logic, pages: [33, 34, 35]}

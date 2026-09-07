@@ -1,0 +1,30 @@
+schema_version: 1
+
+concept:
+  id: quality
+  title:
+    en: "Quality of a Proposition"
+  definition:
+    en: "Whether a proposition affirms or denies its predicate of its subject."
+  type: classification
+  prerequisites:
+    - proposition
+    - subject
+    - predicate
+  values:
+    - id: affirmative
+      ar: "مُوْجِبَة"
+      transliteration: "mūjibah"
+    - id: negative
+      ar: "سَالِبَة"
+      transliteration: "sālibah"
+  knowledge:
+    - "Affirmative propositions join the predicate to the subject; negative propositions deny that connection."
+  skills:
+    - identify_quality
+  exercise_families:
+    - classification
+    - compare_and_distinguish
+  source:
+    book_id: fst_logic
+    pages: [21]

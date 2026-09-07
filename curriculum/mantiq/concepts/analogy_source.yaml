@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: analogy_source
+  title: {en: "Source of an Analogy", ar: "مَقِيْس عَلَيْهِ", transliteration: "maqīs ʿalayhi"}
+  type: component
+  definition: {en: "The original case on which an analogy is based."}
+  prerequisites: [analogy]
+  skills: [identify_analogy_source]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [68]}

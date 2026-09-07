@@ -1,0 +1,46 @@
+schema_version: 1
+seed: 24071923
+
+categorical_matrix:
+  enabled: true
+  pair_limit: 12
+  forms: [A, E, I, O]
+  source_pool: propositions
+  truth_evaluable: false
+
+syllogism_relabeling:
+  enabled: true
+  triples:
+    - {S: poets, M: writers, P: readers}
+    - {S: roses, M: flowers, P: living_things}
+    - {S: squares, M: polygons, P: shapes}
+    - {S: sparrows, M: birds, P: animals}
+    - {S: teachers, M: graduates, P: educated_people}
+    - {S: copper_objects, M: metals, P: conductors}
+
+hypothetical_scenarios:
+  - {antecedent: alarm_rings, consequent: guard_wakes}
+  - {antecedent: key_turns, consequent: door_opens}
+  - {antecedent: battery_charged, consequent: device_starts}
+  - {antecedent: student_registers, consequent: student_appears_on_roster}
+
+induction_scenarios:
+  - {method: complete_induction, observed: all_members, conclusion_scope: universal, certainty: certain}
+  - {method: incomplete_induction, observed: representative_sample, conclusion_scope: universal, certainty: probable}
+  - {method: incomplete_induction, observed: expanding_sample, conclusion_scope: universal, certainty: probable}
+  - {method: anecdotal_fallacy, observed: one_member, conclusion_scope: universal, certainty: unsupported}
+
+analogy_scenarios:
+  - {source: alcohol, target: cocaine, similarities: [{feature: intoxication, relevant: true}], dissimilarities: [], conclusion_supported: true}
+  - {source: first_shirt, target: second_shirt, similarities: [{feature: same_manufacturer, relevant: true}], dissimilarities: [], conclusion_supported: probable}
+  - {source: cocaine, target: sugar, similarities: [{feature: white_powder, relevant: false}], dissimilarities: [], conclusion_supported: false, fallacy: analogical_fallacy}
+  - {source: bird, target: aeroplane, similarities: [{feature: flight, relevant: false}], dissimilarities: [{feature: mechanism, relevant: true}], conclusion_supported: false, fallacy: analogical_fallacy}
+
+surface_variants:
+  per_item: 3
+  prompt_prefixes: ["Analyse the following.", "Work from the logical structure.", "Give the rule-based answer."]
+
+quality_thresholds:
+  minimum_items_per_concept: 8
+  minimum_application_items_per_core_concept: 12
+  core_concepts: [a_proposition, e_proposition, i_proposition, o_proposition, distribution, conversion, obversion, contradiction, categorical_syllogism, mixed_hypothetical_syllogism, disjunctive_syllogism, incomplete_induction, analogy, informal_fallacy]

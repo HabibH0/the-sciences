@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: contingent_mode
+  title:
+    en: "Contingent Mode"
+    ar: "مُمْكِن"
+    transliteration: "mumkin"
+  type: classification
+  definition:
+    en: "A contingent mode is one in which the subject-predicate relationship is not necessary and may be disconnected."
+  prerequisites: [proposition_mode, necessary_mode]
+  properties: { mode: contingent, relationship_can_disconnect: true }
+  knowledge:
+    - "A contingent relationship may hold but need not hold."
+  skills:
+    - classify_contingent_relationship
+  exercise_families: [classification, compare_and_distinguish, error_detection]
+  source: { book_id: fst_logic, pages: [25] }

@@ -564,6 +564,12 @@ function stepQuestion(root) {
 // Action name -> effect(root, el). Anything not listed is covered by screen
 // entrance, an overlay entrance/exit, or plain CSS hover/press states.
 const ACTION_FX = {
+  studyNext: (root) => mark(root.querySelector('[data-study-step]'), 'anim-step-in'),
+  studyBack: (root) => mark(root.querySelector('[data-study-step]'), 'anim-step-back'),
+  studyChoice: settleSelf,
+  logicChoice: settleSelf,
+  studyCheck: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
+  submitLogicAnswer: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
   // Graded answers: verdict pop + wrong-answer nudge on the option group.
   selectQuizOption: gradedAnswer,
   selectPracticeOption: gradedAnswer,

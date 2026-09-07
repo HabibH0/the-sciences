@@ -1,0 +1,53 @@
+schema_version: 1
+
+unit:
+  id: terms
+  title:
+    en: "Terms"
+  order: 1
+
+source:
+  book_id: fst_logic
+  pages: [11, 12, 13, 14, 15, 16, 17]
+
+topics:
+  - id: sound_definitions
+    title: "Sound Definitions"
+    lesson: lessons/01-sound-definitions.md
+    concepts:
+      - inclusive_definition
+      - exclusive_definition
+      - circular_definition
+
+  - id: signification
+    title: "Signification"
+    lesson: lessons/02-signification.md
+    concepts:
+      - signification
+      - signifier
+      - signified
+      - complete_signification
+      - partial_signification
+      - concomitant_signification
+
+  - id: types_of_terms
+    title: "Types of Terms"
+    lesson: lessons/03-types-of-terms.md
+    concepts:
+      - universal_term
+      - particular_term
+
+  - id: universal_relations
+    title: "Relationships Between Universals"
+    lesson: lessons/04-universal-relations.md
+    concepts:
+      - coextensive_relation
+      - disjoint_relation
+      - absolute_generality_relation
+      - partial_overlap_relation
+
+exercise_sets:
+  - ../../exercises/terms.yaml
+
+misconceptions: ../../misconceptions/unit_1.yaml
+vocabulary_pool: ../../vocabulary/terms.yaml

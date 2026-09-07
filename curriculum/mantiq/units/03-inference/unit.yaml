@@ -1,0 +1,76 @@
+schema_version: 1
+
+unit:
+  id: inference
+  title:
+    en: "Inference"
+    ar: "الِاسْتِدْلَال"
+  order: 3
+
+source:
+  book_id: fst_logic
+  pages: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 67, 68, 69]
+
+sections:
+  - {id: direct_inference, title: "Direct Inference", topics: [inference_overview, conversion, obversion, contradiction, square_relations]}
+  - {id: deduction, title: "Deduction", topics: [indirect_inference_types, categorical_structure, figure_and_mood, categorical_rules, hypothetical_syllogisms, disjunctive_syllogisms]}
+  - {id: induction, title: "Induction", topics: [inductive_reasoning]}
+  - {id: analogy, title: "Analogy", topics: [analogical_reasoning]}
+
+topics:
+  - id: inference_overview
+    title: "Inference and Its Main Types"
+    lesson: lessons/01-inference-overview.md
+    concepts: [inference, direct_inference, indirect_inference]
+  - id: conversion
+    title: "Conversion"
+    lesson: lessons/02-conversion.md
+    concepts: [conversion, simple_conversion, conversion_by_limitation, illicit_conversion]
+  - id: obversion
+    title: "Obversion"
+    lesson: lessons/03-obversion.md
+    concepts: [complement, obversion]
+  - id: contradiction
+    title: "Contradiction and Its Conditions"
+    lesson: lessons/04-contradiction.md
+    concepts: [square_of_opposition, contradiction, contradiction_conditions]
+  - id: square_relations
+    title: "Subalternation, Contrariety, and Subcontrariety"
+    lesson: lessons/05-square-relations.md
+    concepts: [subalternation, contrariety, subcontrariety]
+  - id: indirect_inference_types
+    title: "Types of Indirect Inference"
+    lesson: lessons/06-indirect-inference-types.md
+    concepts: [deduction, induction, analogy]
+  - id: categorical_structure
+    title: "Categorical Syllogism Structure"
+    lesson: lessons/07-categorical-syllogism-structure.md
+    concepts: [categorical_syllogism, minor_term, major_term, middle_term, minor_premise, major_premise, enthymeme]
+  - id: figure_and_mood
+    title: "Figure and Mood"
+    lesson: lessons/08-figure-and-mood.md
+    concepts: [syllogism_figure, syllogism_mood]
+  - id: categorical_rules
+    title: "Eight Rules of Categorical Syllogisms"
+    lesson: lessons/09-categorical-rules.md
+    concepts: [syllogism_term_count_rule, syllogism_proposition_count_rule, distributed_middle_rule, illicit_process_rule, negative_premises_rule, negative_conclusion_rule, particular_premises_rule, particular_conclusion_rule]
+  - id: hypothetical_syllogisms
+    title: "Hypothetical Syllogisms"
+    lesson: lessons/10-hypothetical-syllogisms.md
+    concepts: [hypothetical_proposition, antecedent, consequent, mixed_hypothetical_syllogism, modus_ponens, modus_tollens, affirming_consequent_fallacy, denying_antecedent_fallacy, pure_hypothetical_syllogism]
+  - id: disjunctive_syllogisms
+    title: "Disjunctive Syllogisms"
+    lesson: lessons/11-disjunctive-syllogisms.md
+    concepts: [disjunctive_syllogism, strong_disjunction, inclusive_disjunction, exclusive_nonexhaustive_disjunction, false_dilemma]
+  - id: inductive_reasoning
+    title: "Induction"
+    lesson: lessons/12-induction.md
+    concepts: [complete_induction, incomplete_induction, anecdotal_fallacy, overgeneralisation, abduction]
+  - id: analogical_reasoning
+    title: "Analogy"
+    lesson: lessons/13-analogy.md
+    concepts: [analogy_source, analogy_target, relevant_similarity, analogical_fallacy]
+
+exercise_sets: [../../exercises/inference.yaml]
+misconceptions: ../../misconceptions/unit_3.yaml
+vocabulary_pool: ../../vocabulary/inference.yaml

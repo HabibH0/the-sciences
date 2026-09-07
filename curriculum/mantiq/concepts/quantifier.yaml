@@ -1,0 +1,21 @@
+schema_version: 1
+
+concept:
+  id: quantifier
+  title:
+    en: "Quantifier"
+    ar: "سُؤْر"
+    transliteration: "sūr"
+  type: component
+  definition:
+    en: "The word which indicates the scope of a term."
+  prerequisites:
+    - proposition
+  skills:
+    - identify_quantifier
+  exercise_families:
+    - identification
+    - component_analysis
+  source:
+    book_id: fst_logic
+    pages: [20]

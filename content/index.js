@@ -131,6 +131,7 @@ export function isLessonComplete(moduleId, lessonId, completed) {
 // opens its own first lesson this way -- there is no lesson-level skip test,
 // so the rest of the module has to be earned normally.
 export function isLessonUnlocked(moduleId, lessonId, completed, unlockedModules, forceUnlockAll = false) {
+  if (completed[moduleId]?.[lessonId]) return true;
   if (forceUnlockAll) return true;
   if (!isModuleUnlocked(moduleId, completed, unlockedModules)) return false;
   const idx = lessonIndex(moduleId, lessonId);
@@ -636,7 +637,7 @@ export function getReviewPool(completed) {
       if (!done[lesson.id]) return;
       const seen = new Map();
       const push = (source, item, idx, legacyKey, title) => {
-        const fp = reviewFingerprint(item);
+        const fp = item.kind === 'mizan' ? item.logicItemId : reviewFingerprint(item);
         const occKey = `${source}|${fp}`;
         const n = (seen.get(occKey) || 0) + 1;
         seen.set(occKey, n);

@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: particular_premises_rule
+  title: {en: "Rule 7: No Two Particular Premises"}
+  type: rule
+  definition: {en: "A valid categorical syllogism cannot have two particular premises."}
+  prerequisites: [categorical_syllogism, quantity]
+  properties: {maximum_particular_premises: 1}
+  skills: [test_particular_premises]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [54]}

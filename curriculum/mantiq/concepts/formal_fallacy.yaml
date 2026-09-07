@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: formal_fallacy
+  title: {en: "Formal Fallacy"}
+  type: classification
+  definition: {en: "An error arising from the logical structure of an inference."}
+  prerequisites: [inference]
+  knowledge: ["A formal fallacy can be diagnosed from argument form independently of topic."]
+  skills: [distinguish_formal_fallacy]
+  exercise_families: [classification, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [72]}

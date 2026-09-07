@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: consequent
+  title: {en: "Consequent", ar: "تَالِي", transliteration: "tālī"}
+  type: component
+  definition: {en: "The then-clause of a hypothetical proposition."}
+  prerequisites: [hypothetical_proposition]
+  skills: [identify_consequent]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [56]}

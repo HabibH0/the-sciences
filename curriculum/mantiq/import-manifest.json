@@ -1,0 +1,1332 @@
+{
+  "version": "1.0.0",
+  "runtimeSha256": "6f3ff908c51b4fd9f172ee0c5172a691c1b46279f625673a8080d51c47dcb56f",
+  "domainSources": {
+    "content/adapter": "b4280e0d7f49f446695ef17bd59e8fd30606b92714ce027ce80d0798f72857b6",
+    "content/stimulus": "326ca028743bfe08442a94b604f8c42663baa135e9744d0875b0902266bd6b13",
+    "content/arabic": "91c5ee8fdc9d8daadc6fd5f19c4d8c3f3036a07a153826fac4e8a4ff9708209e",
+    "course/engine": "8aa67a4b192c5603c396d3a3eacbd6e34ed8daa641a64642895cee734ff6e62b",
+    "course/lesson-player": "adde4060648b5c2de44bc6b58627e0b1d586770d785643531da0f18f66b9a1ec",
+    "course/sessions": "7e3f84894ca51956bfd44af0ed4789a1d033c1cb48cfa3dd1806ffa3fccdc313",
+    "mastery/engine": "7dc60fbff20cfa4f55e1ff2d6b585bba262368593315cb72683a11e87380f3cf",
+    "progress/model": "760b1aefb6c6fdda38aa5667e1f53e7f8ae544782db3845c4e51e714b813bb2f",
+    "exercises/validator": "0469686222336e66423df3815815c18adc579770fe020c434adf9dd8bacb49bb",
+    "exercises/interaction-model": "7c4645ab44879eb0789a08d10b23c4069bd9048a8e7ab44f785e831d027d2b8e"
+  },
+  "lessons": 30,
+  "usableItems": 3066,
+  "excludedItems": [
+    {
+      "itemId": "classify_inference_family::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_strong_day_night::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_strong_day_night::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_strong_day_night::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_inclusive_documents::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_inclusive_documents::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_inclusive_documents::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_nonexhaustive_word::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_nonexhaustive_word::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::disjunction_nonexhaustive_word::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_strong_day_night::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_strong_day_night::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_strong_day_night::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_inclusive_documents::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_inclusive_documents::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_inclusive_documents::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_nonexhaustive_word::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_nonexhaustive_word::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_inference_family::generated_disjunction_complement_disjunction_nonexhaustive_word::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "identify_syllogism_components::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "reconstruct_enthymeme::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_figure_and_mood::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_number_rules::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_distribution_rules::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_negative_rules::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_undistributed_middle::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_undistributed_middle::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_undistributed_middle::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_two_negative_premises::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_two_negative_premises::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "audit_particular_rules::categorical_two_negative_premises::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_strong_day_night::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_strong_day_night::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_strong_day_night::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_inclusive_documents::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_inclusive_documents::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_inclusive_documents::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_nonexhaustive_word::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_nonexhaustive_word::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::disjunction_nonexhaustive_word::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_strong_day_night::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_strong_day_night::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_strong_day_night::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_inclusive_documents::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_inclusive_documents::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_inclusive_documents::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_nonexhaustive_word::v1",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_nonexhaustive_word::v2",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "classify_disjunction::generated_disjunction_complement_disjunction_nonexhaustive_word::v3",
+      "reason": "Structured stimulus lacks sufficient prompt-facing information"
+    },
+    {
+      "itemId": "concept_review::a_proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::a_proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::a_venn_representation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::a_venn_representation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::abduction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::abduction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::absolute_generality_relation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::absolute_generality_relation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::ad_hominem_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::ad_hominem_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::adjective_to_noun::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::adjective_to_noun::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::adverb_to_noun::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::adverb_to_noun::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::affirming_consequent_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::affirming_consequent_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogical_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogical_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy_source::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy_source::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy_target::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::analogy_target::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::anecdotal_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::anecdotal_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::antecedent::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::antecedent::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::appeal_to_ignorance::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::appeal_to_ignorance::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::categorical_syllogism::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::categorical_syllogism::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::categorical_translation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::categorical_translation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::circular_argument::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::circular_argument::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::circular_definition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::circular_definition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::coextensive_relation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::coextensive_relation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complement::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complement::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complete_induction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complete_induction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complete_signification::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::complete_signification::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::composition_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::composition_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::concomitant_signification::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::concomitant_signification::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::consequent::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::consequent::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contingent_mode::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contingent_mode::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contradiction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contradiction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contradiction_conditions::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contradiction_conditions::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contrariety::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::contrariety::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::conversion::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::conversion::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::conversion_by_limitation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::conversion_by_limitation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::copula::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::copula::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::correlation_causation_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::correlation_causation_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::deduction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::deduction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::denying_antecedent_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::denying_antecedent_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::direct_inference::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::direct_inference::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::disjoint_relation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::disjoint_relation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::disjunctive_syllogism::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::disjunctive_syllogism::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::distributed_middle_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::distributed_middle_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::distribution::recognise::v1",
+      "reason": "Recognition question lacks distinct alternatives"
+    },
+    {
+      "itemId": "concept_review::distribution::recognise::v2",
+      "reason": "Recognition question lacks distinct alternatives"
+    },
+    {
+      "itemId": "concept_review::distribution::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::distribution::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::division_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::division_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::e_proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::e_proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::e_venn_representation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::e_venn_representation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::enthymeme::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::enthymeme::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::equivocation_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::equivocation_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::exclusive_definition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::exclusive_definition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::exclusive_nonexhaustive_disjunction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::exclusive_nonexhaustive_disjunction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::false_cause::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::false_cause::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::false_dilemma::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::false_dilemma::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::formal_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::formal_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::hypothetical_proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::hypothetical_proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::i_proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::i_proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::i_venn_representation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::i_venn_representation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::illicit_conversion::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::illicit_conversion::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::illicit_process_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::illicit_process_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::impossible_mode::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::impossible_mode::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inclusive_definition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inclusive_definition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inclusive_disjunction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inclusive_disjunction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::incomplete_induction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::incomplete_induction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::indirect_inference::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::indirect_inference::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::induction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::induction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inference::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::inference::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::informal_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::informal_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::irrelevant_authority::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::irrelevant_authority::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::loaded_language_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::loaded_language_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::major_premise::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::major_premise::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::major_term::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::major_term::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::metaphysical_mode_basis::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::metaphysical_mode_basis::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::middle_term::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::middle_term::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::minor_premise::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::minor_premise::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::minor_term::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::minor_term::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::missing_quantifier::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::missing_quantifier::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::mixed_hypothetical_syllogism::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::mixed_hypothetical_syllogism::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::modus_ponens::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::modus_ponens::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::modus_tollens::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::modus_tollens::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::moral_religious_mode_basis::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::moral_religious_mode_basis::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::necessary_mode::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::necessary_mode::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::negative_conclusion_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::negative_conclusion_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::negative_premises_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::negative_premises_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::o_proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::o_proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::o_venn_representation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::o_venn_representation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::obversion::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::obversion::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::only_ambiguity::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::only_ambiguity::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::overgeneralisation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::overgeneralisation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::partial_overlap_relation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::partial_overlap_relation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::partial_signification::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::partial_signification::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_conclusion_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_conclusion_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_premises_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_premises_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_term::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::particular_term::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::physical_mode_basis::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::physical_mode_basis::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::predicate::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::predicate::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition_mode::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition_mode::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition_value::recognise::v1",
+      "reason": "Recognition question lacks distinct alternatives"
+    },
+    {
+      "itemId": "concept_review::proposition_value::recognise::v2",
+      "reason": "Recognition question lacks distinct alternatives"
+    },
+    {
+      "itemId": "concept_review::proposition_value::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::proposition_value::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::pure_hypothetical_syllogism::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::pure_hypothetical_syllogism::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quality::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quality::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quantifier::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quantifier::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quantity::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::quantity::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::red_herring_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::red_herring_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::relevant_similarity::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::relevant_similarity::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signification::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signification::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signified::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signified::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signifier::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::signifier::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::simple_conversion::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::simple_conversion::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::slippery_slope_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::slippery_slope_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::square_of_opposition::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::square_of_opposition::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::straw_man_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::straw_man_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::strong_disjunction::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::strong_disjunction::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subalternation::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subalternation::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subcontrariety::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subcontrariety::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subject::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::subject::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_figure::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_figure::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_mood::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_mood::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_proposition_count_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_proposition_count_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_term_count_rule::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::syllogism_term_count_rule::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::two_wrongs_fallacy::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::two_wrongs_fallacy::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::universal_term::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::universal_term::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::venn_convention::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::venn_convention::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::verb_to_noun::prerequisite::v1",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    },
+    {
+      "itemId": "concept_review::verb_to_noun::prerequisite::v2",
+      "reason": "Prerequisite metadata is not a learner-facing exercise"
+    }
+  ]
+}

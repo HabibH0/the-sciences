@@ -1,0 +1,37 @@
+schema_version: 1
+vocabulary_pool:
+  id: unit_1_safe_terms
+  description: Curated examples whose category relationships are explicit.
+  entries:
+    - id: wudhu
+      singular: wudhu
+      aliases: [ablution]
+    - id: woman
+      singular: woman
+      plural: women
+    - id: mother
+      singular: mother
+      plural: mothers
+      subset_of: [woman]
+    - id: adult
+      singular: adult
+      plural: adults
+    - id: male
+      singular: male
+      plural: males
+    - id: married_person
+      singular: married person
+      plural: married people
+      disjoint_with: [unmarried_person]
+    - id: unmarried_person
+      singular: unmarried person
+      plural: unmarried people
+      disjoint_with: [married_person]
+    - id: pen
+      singular: pen
+      plural: pens
+    - id: quran
+      singular: Quran
+    - id: human
+      singular: human
+      plural: humans

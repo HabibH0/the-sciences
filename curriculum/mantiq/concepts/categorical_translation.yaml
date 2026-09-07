@@ -1,0 +1,21 @@
+schema_version: 1
+concept:
+  id: categorical_translation
+  title:
+    en: "Translation into Categorical Form"
+  type: procedure
+  definition:
+    en: "Translation rewrites ordinary language as a categorical proposition composed around two noun terms."
+  prerequisites: [proposition, subject, predicate, quantifier, copula]
+  procedure:
+    - identify_intended_subject
+    - identify_intended_predicate
+    - determine_quantity_from_wording_or_context
+    - nominalise_non_noun_predicate
+    - render_standard_categorical_form
+  knowledge:
+    - "The textbook excludes adjectives, verbs, and adverbs as standalone categorical terms."
+  skills:
+    - translate_ordinary_language_to_categorical_form
+  exercise_families: [transformation, construction, error_detection]
+  source: { book_id: fst_logic, pages: [26, 27] }

@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: a_venn_representation
+  title:
+    en: "Venn Representation of A"
+  type: representation
+  definition:
+    en: "An A-proposition shades the part of the subject circle outside the predicate circle."
+  prerequisites: [venn_convention, a_proposition]
+  properties: { form: A, shaded_regions: [subject_only], x_regions: [] }
+  knowledge:
+    - "The shaded subject-only region says that no subject members exist outside the predicate."
+  skills:
+    - represent_a_proposition_in_venn
+  exercise_families: [visual_reasoning, rule_application]
+  source: { book_id: fst_logic, pages: [28] }

@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: i_venn_representation
+  title:
+    en: "Venn Representation of I"
+  type: representation
+  definition:
+    en: "An I-proposition places x in the overlap to mark at least one member shared by subject and predicate."
+  prerequisites: [venn_convention, i_proposition]
+  properties: { form: I, shaded_regions: [], x_regions: [overlap] }
+  knowledge:
+    - "No other region is shaded because the proposition gives no information about every member."
+  skills:
+    - represent_i_proposition_in_venn
+  exercise_families: [visual_reasoning, rule_application]
+  source: { book_id: fst_logic, pages: [29] }

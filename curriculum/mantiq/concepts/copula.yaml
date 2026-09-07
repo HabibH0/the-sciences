@@ -1,0 +1,23 @@
+schema_version: 1
+
+concept:
+  id: copula
+  title:
+    en: "Copula"
+    ar: "رَابِطَة"
+    transliteration: "rābiṭah"
+  type: component
+  definition:
+    en: "The word connecting the subject and the predicate."
+  prerequisites:
+    - proposition
+    - subject
+    - predicate
+  skills:
+    - identify_copula
+  exercise_families:
+    - identification
+    - component_analysis
+  source:
+    book_id: fst_logic
+    pages: [20]

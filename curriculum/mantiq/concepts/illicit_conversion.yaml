@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: illicit_conversion
+  title: {en: "Fallacy of Illicit Conversion"}
+  type: exception
+  definition: {en: "The invalid inference produced by simply converting an A- or O-proposition."}
+  prerequisites: [conversion, a_proposition, o_proposition]
+  properties: {invalid_simple_forms: [A, O]}
+  skills: [diagnose_illicit_conversion]
+  exercise_families: [error_detection, validity_classification]
+  source: {book_id: fst_logic, pages: [34, 35]}

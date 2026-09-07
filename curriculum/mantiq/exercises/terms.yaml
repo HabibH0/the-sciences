@@ -1,0 +1,346 @@
+schema_version: 1
+
+exercise_set:
+  id: terms_core
+  unit: terms
+
+templates:
+
+  - id: evaluate_definition
+    family: error_detection
+    concepts:
+      - inclusive_definition
+      - exclusive_definition
+      - circular_definition
+    difficulty: 3
+    prompt: "Identify the fault in this proposed definition."
+    input_type: proposed_definition
+    options:
+      - not_inclusive
+      - not_exclusive
+      - circular
+      - sound
+    answer_source: definition.result
+
+  - id: compare_definition_faults
+    family: compare_and_distinguish
+    concepts:
+      - inclusive_definition
+      - exclusive_definition
+      - circular_definition
+    difficulty: 5
+    prompt: "Compare these definitions and explain how their faults differ."
+    input_type: definition_pair
+    answer_source: pair.faults
+
+  - id: identify_signification_role
+    family: identification
+    concepts:
+      - signification
+      - signifier
+      - signified
+    difficulty: 2
+    prompt: "Identify the {role}."
+    input_type: signification_pair
+    answer_source: "signification.{role}"
+
+  - id: classify_signification
+    family: classification
+    concepts:
+      - complete_signification
+      - partial_signification
+      - concomitant_signification
+    difficulty: 3
+    prompt: "Classify the signification used in this context."
+    input_type: signification_context
+    options:
+      - complete
+      - partial
+      - concomitant
+    answer_source: signification.kind
+
+  - id: diagnose_signification
+    family: error_detection
+    concepts:
+      - complete_signification
+      - partial_signification
+      - concomitant_signification
+    difficulty: 5
+    prompt: "The analysis is incorrect. Identify what the learner confused."
+    generator:
+      type: misconception_injection
+      misconception_tags:
+        - complete_partial_confusion
+        - concomitant_literal_confusion
+
+  - id: classify_term_scope
+    family: classification
+    concepts:
+      - universal_term
+      - particular_term
+    difficulty: 2
+    prompt: "Is this term universal or particular?"
+    input_type: scoped_term
+    options:
+      - universal
+      - particular
+    answer_source: term.scope
+
+  - id: classify_universal_relation
+    family: classification
+    concepts:
+      - coextensive_relation
+      - disjoint_relation
+      - absolute_generality_relation
+      - partial_overlap_relation
+    difficulty: 4
+    prompt: "Classify the relationship between these universals."
+    input_type: universal_pair
+    options:
+      - coextensive
+      - disjoint
+      - absolute_generality_and_specificity
+      - partial_overlap
+    answer_source: universals.relation
+
+  - id: choose_relation_diagram
+    family: visual_reasoning
+    concepts:
+      - coextensive_relation
+      - disjoint_relation
+      - absolute_generality_relation
+      - partial_overlap_relation
+    difficulty: 4
+    prompt: "Choose the Venn diagram that represents this relationship."
+    input_type: universal_pair
+    answer_source: universals.venn
+    options: [coincident_sets, separate_sets, nested_sets, intersecting_sets]
+
+  - id: diagnose_relation
+    family: error_detection
+    concepts:
+      - coextensive_relation
+      - disjoint_relation
+      - absolute_generality_relation
+      - partial_overlap_relation
+    difficulty: 6
+    prompt: "The proposed relation is wrong. Identify the membership fact that disproves it."
+    generator:
+      type: misconception_injection
+      misconception_tags:
+        - equality_subset_confusion
+        - disjoint_overlap_confusion
+        - absolute_partial_overlap_confusion
+
+examples:
+
+  - id: definition_muslim_hajj
+    type: proposed_definition
+    render:
+      en: "A Muslim is someone who performs Hajj."
+    definition:
+      term: muslim
+      proposed_meaning: person_who_performs_hajj
+      result: not_inclusive
+      rationale: "Some Muslims are unable to perform Hajj."
+      misconception_tag: inclusive_exclusive_confusion
+
+  - id: definition_muslim_believes_in_god
+    type: proposed_definition
+    render:
+      en: "A Muslim is someone who believes in God."
+    definition:
+      term: muslim
+      proposed_meaning: person_who_believes_in_god
+      result: not_exclusive
+      rationale: "The wording also includes Jews and Christians."
+      misconception_tag: inclusive_exclusive_confusion
+
+  - id: definition_weight_weighs
+    type: proposed_definition
+    render:
+      en: "Weight is the amount that something weighs."
+    definition:
+      term: weight
+      proposed_meaning: amount_something_weighs
+      result: circular
+      rationale: "The definition repeats a form of the word being defined."
+      misconception_tag: circularity_scope_error
+
+  - id: signification_football
+    type: signification_pair
+    render:
+      en: "The word ‘football’ denotes the meaning of football."
+    signification:
+      signifier: football
+      signified: meaning_of_football
+      relation: signification
+
+  - id: signification_tree
+    type: signification_pair
+    render:
+      en: "The spoken word ‘tree’ denotes the meaning of a tree."
+    signification:
+      signifier: spoken_word_tree
+      signified: meaning_of_tree
+      relation: signification
+
+  - id: signification_written_book
+    type: signification_pair
+    render:
+      en: "The written word ‘book’ denotes the meaning of a book."
+    signification:
+      signifier: written_word_book
+      signified: meaning_of_book
+      relation: signification
+
+  - id: signification_stop_symbol
+    type: signification_pair
+    render:
+      en: "A stop symbol denotes the instruction to stop."
+    signification:
+      signifier: stop_symbol
+      signified: instruction_to_stop
+      relation: signification
+
+  - id: signification_quran_whole
+    type: signification_context
+    render:
+      en: "She has memorised the Quran."
+    context: "The entire Quran is intended."
+    rationale: 'The speaker uses “Quran” for the entire Quran, so the word denotes its whole meaning: complete signification. The sentence alone would not establish the intended scope.'
+    signification:
+      expression: quran
+      kind: complete
+
+  - id: signification_quran_part
+    type: signification_context
+    render:
+      en: "She has memorised the Quran."
+    context: "Only part of the Quran is intended."
+    rationale: 'The stated context says that “Quran” refers to only part of it. In this lesson’s terminology, that is partial signification. Without that context, the sentence would be ambiguous.'
+    signification:
+      expression: quran
+      kind: partial
+
+  - id: signification_human_feelings
+    type: signification_context
+    render:
+      en: "He is not human."
+    context: "The speaker means that he has no feelings."
+    rationale: 'The speaker uses “human” to point to feelings, an associated quality, rather than to deny membership of the human species. This is concomitant signification.'
+    signification:
+      expression: human
+      kind: concomitant
+
+  - id: term_all_pens
+    type: scoped_term
+    render:
+      en: "all pens"
+    term:
+      category: pens
+      quantifier: all
+      scope: universal
+
+  - id: term_most_pens
+    type: scoped_term
+    render:
+      en: "most pens"
+    term:
+      category: pens
+      quantifier: most
+      scope: particular
+
+  - id: term_every_teacher
+    type: scoped_term
+    render: {en: "every teacher"}
+    term: {category: teachers, quantifier: every, scope: universal}
+
+  - id: term_any_triangle
+    type: scoped_term
+    render: {en: "any triangle"}
+    term: {category: triangles, quantifier: any, scope: universal}
+
+  - id: term_one_book
+    type: scoped_term
+    render: {en: "one book"}
+    term: {category: books, quantifier: one, scope: particular}
+
+  - id: term_some_students
+    type: scoped_term
+    render: {en: "some students"}
+    term: {category: students, quantifier: some, scope: particular}
+
+  - id: universals_wudhu_ablution
+    type: universal_pair
+    render:
+      en: "wudhu and ablution"
+    universals:
+      left: wudhu
+      right: ablution
+      relation: coextensive
+      membership:
+        all_left_are_right: true
+        all_right_are_left: true
+        some_shared: true
+      venn: coincident_sets
+
+  - id: universals_married_unmarried
+    type: universal_pair
+    render:
+      en: "married and unmarried"
+    universals:
+      left: married_people
+      right: unmarried_people
+      relation: disjoint
+      membership:
+        all_left_are_right: false
+        all_right_are_left: false
+        some_shared: false
+      venn: separate_sets
+
+  - id: universals_mothers_women
+    type: universal_pair
+    render:
+      en: "mothers and women"
+    universals:
+      narrower: mothers
+      broader: women
+      relation: absolute_generality_and_specificity
+      membership:
+        all_narrower_are_broader: true
+        all_broader_are_narrower: false
+      venn: nested_sets
+
+  - id: universals_adults_males
+    type: universal_pair
+    render:
+      en: "adults and males"
+    universals:
+      left: adults
+      right: males
+      relation: partial_overlap
+      membership:
+        some_shared: true
+        some_left_not_right: true
+        some_right_not_left: true
+      venn: intersecting_sets
+
+mastery_check:
+  minimum_accuracy: 0.85
+  minimum_independent_items: 6
+  require_every_concept: true
+  required_families:
+    - classification
+    - error_detection
+    - visual_reasoning
+
+review:
+  intervals_days: [1, 3, 10, 30]
+  increase_difficulty_over_time: true
+  interleave_after_topic: types_of_terms
+  prioritise:
+    - due
+    - recent_mistakes
+    - weak_prerequisites
+    - low_mastery

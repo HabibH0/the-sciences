@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: antecedent
+  title: {en: "Antecedent", ar: "مُقَدَّم", transliteration: "muqaddam"}
+  type: component
+  definition: {en: "The if-clause of a hypothetical proposition."}
+  prerequisites: [hypothetical_proposition]
+  skills: [identify_antecedent]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [56]}

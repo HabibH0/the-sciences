@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: straw_man_fallacy
+  title: {en: "Straw Man Fallacy"}
+  type: exception
+  definition: {en: "Attacking a weakened or distorted version of the actual claim instead of the claim itself."}
+  prerequisites: [informal_fallacy]
+  skills: [diagnose_straw_man, reconstruct_original_claim]
+  exercise_families: [error_detection, reconstruction]
+  source: {book_id: fst_logic, pages: [73]}

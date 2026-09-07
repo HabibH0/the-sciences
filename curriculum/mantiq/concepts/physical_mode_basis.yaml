@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: physical_mode_basis
+  title:
+    en: "Physical Basis of Mode"
+    ar: "حُكْم عَادِي"
+    transliteration: "ḥukm ʿādī"
+  type: classification
+  definition:
+    en: "A physical relationship is affirmed or negated from empirical evidence acquired through observation, measurement, or experiment."
+  prerequisites: [proposition_mode]
+  properties: { evidence_basis: empirical }
+  knowledge:
+    - "The textbook's physical aspect is grounded in observed data."
+  skills:
+    - identify_physical_evidence_basis
+  exercise_families: [classification, compare_and_distinguish]
+  source: { book_id: fst_logic, pages: [25] }

@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: e_venn_representation
+  title:
+    en: "Venn Representation of E"
+  type: representation
+  definition:
+    en: "An E-proposition shades the overlap of the subject and predicate circles."
+  prerequisites: [venn_convention, e_proposition]
+  properties: { form: E, shaded_regions: [overlap], x_regions: [] }
+  knowledge:
+    - "The shaded overlap says that no member belongs to both terms."
+  skills:
+    - represent_e_proposition_in_venn
+  exercise_families: [visual_reasoning, rule_application]
+  source: { book_id: fst_logic, pages: [28, 29] }

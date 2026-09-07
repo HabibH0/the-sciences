@@ -1,0 +1,31 @@
+schema_version: 1
+
+concept:
+  id: i_proposition
+  title:
+    en: "I-Proposition"
+    ar: "مُوْجِبَة جُزْئِيَّة"
+    transliteration: "mūjibah juzʾiyyah"
+  type: classification
+  prerequisites:
+    - quality
+    - quantity
+  properties:
+    quantity: particular
+    quality: affirmative
+    symbol: I
+    distribution:
+      subject: false
+      predicate: false
+  knowledge:
+    - "I means particular affirmative: Some S are P. Neither term is distributed."
+  skills:
+    - classify_i_proposition
+    - analyse_i_proposition
+  exercise_families:
+    - classification
+    - multi_property_analysis
+    - construction
+  source:
+    book_id: fst_logic
+    pages: [22, 23]

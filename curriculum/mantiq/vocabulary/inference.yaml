@@ -1,0 +1,33 @@
+schema_version: 1
+vocabulary_pool:
+  id: inference
+  guidance:
+    - "Prefer examples whose background facts are familiar or explicitly supplied."
+    - "Store validity separately from the real-world truth of premises and conclusion."
+  categorical_terms:
+    - {id: muslims, label: "Muslims"}
+    - {id: monotheists, label: "monotheists"}
+    - {id: polytheists, label: "polytheists"}
+    - {id: arabs, label: "Arabs"}
+    - {id: hanafis, label: "Hanafis"}
+    - {id: birds, label: "birds"}
+    - {id: animals, label: "animals"}
+    - {id: practising_muslims, label: "practising Muslims"}
+    - {id: honest_people, label: "honest people"}
+    - {id: red_scarf_wearers, label: "people wearing red scarves"}
+    - {id: doctors, label: "doctors"}
+    - {id: taxpayers, label: "people who pay tax"}
+  conditional_scenarios:
+    - {antecedent: it_rains, consequent: ground_wet, alternate_causes: [car_washing, sprinkler]}
+    - {antecedent: student_works_hard, consequent: student_passes, strength: usual_not_necessary}
+    - {antecedent: wake_up, consequent: go_to_work, strength: context_dependent}
+  disjunction_scenarios:
+    - {alternatives: [day, night], relationship: strong}
+    - {alternatives: [passport, driving_licence], relationship: inclusive}
+    - {alternatives: [noun, verb], relationship: exclusive_nonexhaustive, third_option: particle}
+  induction_populations:
+    - {population: houses_on_one_street, finite: true, observable: true}
+    - {population: swans, finite: false, counterexample: black_swan}
+  analogy_pairs:
+    - {source: alcohol, target: cocaine, relevant_similarity: intoxication}
+    - {source: cocaine, target: sugar, irrelevant_similarities: [white, powder]}

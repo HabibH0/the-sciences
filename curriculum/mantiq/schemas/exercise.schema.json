@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mantiq Exercise Template",
+  "type": "object",
+  "required": [
+    "id",
+    "family",
+    "concepts",
+    "difficulty",
+    "prompt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "family": {
+      "type": "string"
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "difficulty": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "input_type": {
+      "type": "string"
+    },
+    "answer_source": {
+      "type": "string"
+    }
+  }
+}

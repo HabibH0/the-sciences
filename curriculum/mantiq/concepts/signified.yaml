@@ -1,0 +1,22 @@
+schema_version: 1
+concept:
+  id: signified
+  type: terminology
+  title:
+    en: Signified
+    ar: مَدْلُوْل
+    transliteration: madlūl
+  definition: The signified is the meaning denoted by a word or expression.
+  objectives:
+    knowledge:
+      - Recall the Arabic term for the meaning denoted.
+    skills:
+      - Identify the signified in a word-and-meaning pair.
+  prerequisites: [signification, signifier]
+  source: { book_id: fst_logic, pages: [14] }
+  examples:
+    - id: football_signified
+      expression: the meaning of football
+      role: signified
+  exercise_families: [recognition, identification, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 1 }

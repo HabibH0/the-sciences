@@ -1,0 +1,25 @@
+schema_version: 1
+concept:
+  id: exclusive_definition
+  type: rule
+  title:
+    en: Exclusive definition
+    ar: مَانِع
+    transliteration: māniʿ
+  definition: A definition is exclusive when it excludes every thing that does not fit the term.
+  objectives:
+    knowledge:
+      - State what makes a definition exclusive.
+    skills:
+      - Identify a definition that admits invalid members.
+      - Explain why a proposed definition is too broad.
+  prerequisites: []
+  source: { book_id: fst_logic, pages: [12] }
+  examples:
+    - id: muslim_believes_in_god
+      term: Muslim
+      proposed_definition: someone who believes in God
+      result: not_exclusive
+      rationale: The wording also includes Jews and Christians.
+  exercise_families: [recognition, error_detection, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

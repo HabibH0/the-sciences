@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Compiled Mantiq Runtime",
+  "type": "object",
+  "required": ["schema_version", "build", "course", "units", "lessons", "concepts", "misconceptions", "vocabulary", "pedagogy", "practice_items", "assessments"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "build": {"type": "object", "required": ["generator_seed", "content_version"]},
+    "units": {"type": "array", "minItems": 4},
+    "lessons": {"type": "object", "minProperties": 30},
+    "concepts": {"type": "object", "minProperties": 120},
+    "practice_items": {
+      "type": "array",
+      "minItems": 1000,
+      "items": {
+        "type": "object",
+        "required": ["id", "unit", "template", "family", "concepts", "difficulty", "stage", "assessment_domain", "interaction", "prompt", "stimulus", "answer", "feedback", "scoring"]
+      }
+    },
+    "assessments": {"type": "array", "minItems": 6}
+  }
+}

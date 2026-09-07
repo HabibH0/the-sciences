@@ -61,10 +61,20 @@ import {
   PATH_REP_LEARNED_COUNT, VOCAB_LEARNED_COUNT, LIT_WORD_RETIRE_COUNT,
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
-import { hashForState, navFromHash } from './nav.js';
+import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessions, mergeLogicProgress } from './learning/study.js';
+import { logicCourse, logicItem } from './learning/logic-course.js';
+import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
+import { getAt } from './mizan/exercises/validator.js';
+import { paintRegion, selectedWords, restoreTokens, moveEntry } from './mizan/exercises/interaction-model.js';
+import { emptyCourse } from './mizan/progress/model.js';
+import { advanceTeaching } from './mizan/course/lesson-player.js';
+import { completeLesson as completeLogicLesson, practiceKey as logicPracticeKey } from './mizan/course/engine.js';
+import { recordAttempt } from './mizan/mastery/engine.js';
+import { recoverySave, dismissRecovery, originalSaveText, retryStorageWrites } from './storage/storageManager.js';
+import { hashForState, navFromHash, crumbTrail } from './nav.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import {
-  persistSoon, flushPersist, cancelPendingPersist, persist, todayISO,
+  persistSoon, flushPersist, cancelPendingPersist, persist, snapshot, todayISO,
   normalizeLitTextScale, normalizeUiTextScale,
 } from './persistence.js';
 import { getBackendUrl, register, login, logout, me, mergeLocalAndRemoteProgress, uploadLocalProgress, getCloudSaveStatus, getLocalSaveStatus } from './storage/syncClient.js';
@@ -82,6 +92,7 @@ import {
 // CSS --color-plate mix), for tinting the browser chrome when a dark plate
 // is the screen's top surface -- see applyAppearance.
 const THEME_CHROME = {
+  mizan: { bg: '#f7f8f5', scheme: 'light', plate: '#f7f8f5' },
   manuscript: { bg: '#f3f2f2', scheme: 'light', plate: '#1d1c1b' },
   mushaf: { bg: '#f7f1e1', scheme: 'light', plate: '#1f241c' },
   lamp: { bg: '#16130f', scheme: 'dark', plate: '#13110d' },
@@ -90,6 +101,7 @@ const THEME_CHROME = {
 };
 
 const state = await createInitialState();
+state.storageRecovery = recoverySave();
 state.account.backendUrl = getBackendUrl();
 if (state.account.backendUrl) {
   me().then(async (result) => {
@@ -130,6 +142,21 @@ state.tarkeebState = {}; // key -> { chipPool, chipOrder, placements, selectedCh
 checkStreakBadges(state);
 
 const root = document.getElementById('root');
+
+function downloadSave(raw, name) {
+  const url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
+  const link = document.createElement('a'); link.href = url; link.download = name; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// Saving settles after rendering. Update only its status area so a storage
+// error cannot discard keyboard focus or an answer being typed.
+document.addEventListener('mizan:storage-status', () => {
+  const banner = document.getElementById('mz-storage-error');
+  if (!banner) return;
+  banner.hidden = !state.storageError;
+  banner.querySelector('p').textContent = state.storageError || '';
+});
 
 function normalizeLessonTextScale(value) {
   const n = Number(value);
@@ -196,6 +223,8 @@ function envelopeProgress(envelope) {
 
 function applyMergedProgressToState(envelope) {
   const progress = envelopeProgress(envelope);
+  state.studySessions = mergeStudySessions(state.studySessions, progress.studySessions, progress.moduleResetAt);
+  state.mizanCourses = mergeLogicProgress(state.mizanCourses, progress.mizanCourses);
   const persistedKeys = [
     'completed',
     'quizScores',
@@ -341,6 +370,7 @@ function navSignature() {
     state.pathGroupId || '',
     practiceKey,
     litKey,
+    state.view === 'lesson' ? currentStudy(state)?.stepIndex ?? '' : '',
   ].join('|');
 }
 let lastNav = null;
@@ -433,6 +463,7 @@ const lastContainerKeys = new Map();
 // screen led into it -- Back from mid-session lands on that screen, not on
 // some half-reconstructed session.
 const HISTORY_TRACKED_VIEWS = new Set([
+  'catalog',
   'dashboard', 'module', 'lesson', 'quiz', 'schedule', 'settings', 'account',
   'learningAids', 'courseProgression',
   'achievements', 'pathGroups', 'path', 'library', 'litBook',
@@ -870,6 +901,7 @@ function applyAppearance(state) {
   const headingFaceKey = state.arabicHeadingFace || (state.kufiHeadings ? 'kufi' : 'body');
   const headingFace = HEADING_FACES[headingFaceKey] || HEADING_FACES.body;
   document.documentElement.style.setProperty('--font-ar', face.body);
+  document.documentElement.dataset.arabicFace = state.arabicFace;
   document.documentElement.style.setProperty('--font-ar-heading', headingFace.font || face.body);
   document.documentElement.style.setProperty('--lesson-text-scale', String(normalizeLessonTextScale(state.lessonTextScale) / 100));
   document.documentElement.style.setProperty('--lit-text-scale', String(normalizeLitTextScale(state.litTextScale) / 100));
@@ -883,7 +915,13 @@ function applyAppearance(state) {
 // a row without re-tabbing from the top of the page each time. See
 // refocusSelector, the only current caller.
 function rerender(focusSelector) {
+  refreshLogicMastery();
   applyAppearance(state);
+  if (state.view === 'quiz') {
+    state.quizSession = { moduleId: state.moduleId, lessonId: state.lessonId };
+    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder']) state.quizSession[field] = state[field];
+  }
+  document.title = `${state.view === 'practice' ? 'Practice' : crumbTrail(state).at(-1)?.label || 'My learning'} — Mīzān`;
   const previousNav = lastNav;
   const scrollContainer = mainScrollContainer();
   const nav = navSignature();
@@ -1002,6 +1040,7 @@ function shuffledIndices(n) {
 function shuffleLessonOptions(moduleId, lessonId) {
   const lesson = getLesson(moduleId, lessonId);
   if (!lesson) return;
+  ensureStudySession(moduleId, lessonId);
   lesson.concepts.forEach((concept, i) => {
     if (!concept.exercise) return;
     state.optionOrder[conceptKey(moduleId, lessonId, i)] = shuffledIndices(concept.exercise.options.length);
@@ -1018,6 +1057,19 @@ function shuffleLessonOptions(moduleId, lessonId) {
 // "Start lesson" (landing straight on the quiz), "Continue to quiz", and
 // "Retake quiz".
 function startQuizAttempt(lesson) {
+  if (lesson.learningModel === 'mizan') { state.view = 'lesson'; ensureStudySession(); return; }
+  const prior = state.quizSession;
+  if (prior?.moduleId === state.moduleId && prior?.lessonId === state.lessonId
+    && Number.isInteger(prior.quizIndex) && prior.quizIndex >= 0 && prior.quizIndex < lesson.quiz.length
+    && Array.isArray(prior.quizAnswers) && prior.quizAnswers.length <= lesson.quiz.length
+    && prior.quizOptionOrder && lesson.quiz.every((q, index) => {
+      const order = prior.quizOptionOrder[index];
+      return Array.isArray(order) && order.length === q.options.length && new Set(order).size === q.options.length
+        && order.every(n => Number.isInteger(n) && n >= 0 && n < q.options.length);
+    })) {
+    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder']) state[field] = prior[field];
+    return;
+  }
   state.quizOptionOrder = shuffleQuizOrder(lesson);
   state.quizIndex = 0;
   state.quizSelected = null;
@@ -1045,6 +1097,11 @@ function enterLesson(moduleId, lessonId) {
   // than paging back to the beginning.
   state.conceptIndex = null;
   shuffleLessonOptions(moduleId, lessonId);
+  if (state.completed[moduleId]?.[lessonId]) {
+    state.view = 'lesson';
+    const session = currentStudy(state);
+    if (session) { session.stepIndex = 0; if (session.logic) prepareLogicDraft(session); }
+  }
   if (state.view === 'quiz') startQuizAttempt(getLesson(moduleId, lessonId));
 }
 
@@ -1054,6 +1111,11 @@ function enterLesson(moduleId, lessonId) {
 function prepPracticeQuestion(key) {
   const entry = findBankItem(key);
   if (!entry) return;
+  if (entry.item.kind === 'mizan') {
+    const item = logicItem(entry.item.logicItemId);
+    state.practice.logicDraft = { response: initialResponse(item), hintsUsed: 0 };
+    return;
+  }
   if (entry.item.kind === 'tarkeeb') {
     state.tarkeebState[key] = initTarkeeb(entry.item, entry.moduleId);
   } else {
@@ -1319,6 +1381,26 @@ function resetModuleProgress(moduleId) {
   delete state.completed[moduleId];
   delete state.completedAt[moduleId];
   state.moduleResetAt[moduleId] = new Date().toISOString();
+  delete state.quizScores[moduleId];
+  if (state.quizSession?.moduleId === moduleId) state.quizSession = null;
+  for (const [key, session] of Object.entries(state.studySessions)) {
+    if (key.split('/')[1] === moduleId) delete state.studySessions[key];
+  }
+  const mod = getModule(moduleId);
+  const progress = state.mizanCourses.mantiq;
+  if (mod?.language === 'en' && progress) {
+    const ids = new Set(mod.lessons.map(l => l.id));
+    const concepts = new Set(mod.lessons.flatMap(l => logicCourse().lessons[l.id].metadata.concepts));
+    progress.conceptResetAt ||= {};
+    progress.lessonResetAt ||= {};
+    for (const id of concepts) progress.conceptResetAt[id] = state.moduleResetAt[moduleId];
+    for (const id of ids) progress.lessonResetAt[id] = state.moduleResetAt[moduleId];
+    for (const id of ids) delete progress.lessons[id];
+    for (const id of concepts) delete progress.concepts[id];
+    progress.attempts = progress.attempts.filter(a => !a.conceptIds.some(id => concepts.has(id)));
+    progress.resetAt = state.moduleResetAt[moduleId];
+    progress.lastStudiedAt = progress.resetAt;
+  }
   for (const key of Object.keys(state.quizScores)) {
     if (key.startsWith(prefix)) delete state.quizScores[key];
   }
@@ -2151,7 +2233,341 @@ function returnToValidLockedView() {
   }
 }
 
+function refreshLogicMastery() {
+  if (logicCourse() && state.mizanCourses.mantiq?.masteryNeedsReplay) {
+    state.mizanCourses = mergeLogicProgress(state.mizanCourses);
+  }
+}
+
+function ensureStudySession(moduleId = state.moduleId, lessonId = state.lessonId) {
+  refreshLogicMastery();
+  const mod = getModule(moduleId), lesson = getLesson(moduleId, lessonId);
+  if (!mod || !lesson) return null;
+  const key = studyKey(state.courseId, moduleId, lessonId);
+  const now = new Date().toISOString();
+  const session = createStudySession(state, mod, lesson, now, crypto.randomUUID());
+  state.studySessions[key] = session;
+  if (session.logic) {
+    const p = state.mizanCourses.mantiq ||= emptyCourse();
+    p.lessons[lessonId] ||= { lessonId, startedAt: now, position: 0, read: false };
+    p.lessons[lessonId].sessionId = session.id;
+    p.lessons[lessonId].itemIds = session.itemIds;
+    p.session = session;
+    prepareLogicDraft(session);
+    if (session.draft) session.draft.busy = false;
+  }
+  return session;
+}
+
+function prepareLogicDraft(session) {
+  const step = studyStep(session);
+  session.index = session.steps.slice(0, session.stepIndex || 0).filter(s => s.kind === 'exercise').length;
+  if (step?.kind !== 'exercise') return;
+  if (session.draft?.itemId === step.itemId) return;
+  const item = logicItem(step.itemId);
+  const previous = session.responses?.[step.itemId];
+  session.draft = previous ? { ...previous, busy: false } : { itemId: item.id, response: initialResponse(item), hintsUsed: 0 };
+}
+
+function nativeStudyContext() {
+  const session = currentStudy(state), step = studyStep(session);
+  if (!session || session.logic || !['check', 'practice'].includes(step?.kind)) return null;
+  const lesson = getLesson(state.moduleId, state.lessonId);
+  const key = step.kind === 'check' ? conceptKey(state.moduleId, state.lessonId, step.conceptIndex) : lessonExerciseItemKey(state.moduleId, state.lessonId, step.exerciseIndex);
+  const item = step.kind === 'check' ? lesson.concepts[step.conceptIndex].exercise : lesson.exercise.items[step.exerciseIndex];
+  const record = state.exStates[key] ||= {};
+  return { session, step, item, key, record };
+}
+
+function logicContext() {
+  const p = state.practice;
+  if (state.view === 'practice' && p) {
+    const entry = findBankItem(p.queue[p.index]);
+    if (entry?.item.kind !== 'mizan') return null;
+    return { item: logicItem(entry.item.logicItemId), draft: p.logicDraft, practice: p, entry };
+  }
+  const session = currentStudy(state), step = studyStep(session);
+  if (!session?.logic || step?.kind !== 'exercise') return null;
+  prepareLogicDraft(session);
+  return { item: logicItem(step.itemId), draft: session.draft, session, step };
+}
+
+function changeLogicDraft(change) {
+  const ctx = logicContext();
+  if (!ctx || ctx.draft.busy || ctx.draft.grade && !ctx.draft.correcting) return false;
+  change(ctx.draft, ctx.item);
+  ctx.draft.error = '';
+  if (ctx.session) ctx.session.updatedAt = new Date().toISOString();
+  return ctx;
+}
+
+function finishLogicStudy(session = currentStudy(state)) {
+  if (!session?.logic || !session.steps.every(step => step.kind === 'teach' || session.responses?.[step.itemId]?.grade)) return false;
+  const course = logicCourse();
+  let p = state.mizanCourses.mantiq;
+  p.session = session;
+  p = completeLogicLesson(course, session.lessonId, p, new Date().toISOString());
+  state.mizanCourses.mantiq = p;
+  const attempts = p.attempts.filter(a => a.sessionId === session.id && a.grade.correct !== null);
+  const alreadyComplete = isLessonComplete(state.moduleId, state.lessonId, state.completed);
+  const score = { correct: attempts.filter(a => a.grade.correct).length, total: attempts.length };
+  state.quizScores[state.moduleId] ||= {};
+  state.quizScores[state.moduleId][state.lessonId] = score;
+  markLessonComplete(state.moduleId, state.lessonId);
+  session.completedAt = new Date().toISOString();
+  session.stepIndex = Math.max(0, session.steps.length - 1);
+  state.view = 'lessonComplete';
+  if (!alreadyComplete) {
+    awardXp(state, xpForQuiz(score.correct, score.total));
+    awardBadge(state, 'first-steps');
+    checkModuleCompletionBadges(state);
+    checkLessonsClearedBadges(state);
+    checkCourseCompletionBadges(state);
+    scheduleToastClear();
+  }
+  queueAutoUpload('lesson-complete');
+}
+
+async function checkLogicAnswer() {
+  const ctx = logicContext();
+  if (!ctx || ctx.draft.busy || ctx.draft.grade && !ctx.draft.correcting || !responseComplete(ctx.item, ctx.draft.response)) return false;
+  const { draft, item, session, practice, entry } = ctx;
+  const ownerKey = session ? studyKey(state.courseId, state.moduleId, state.lessonId) : null;
+  const response = structuredClone(draft.response);
+  const correcting = !!draft.correcting;
+  draft.busy = true;
+  draft.error = '';
+  rerender();
+  try {
+    const local = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+    const url = local ? new URL('api/grade', document.baseURI).href : `${getBackendUrl().replace(/\/$/, '')}/api/grade`;
+    const result = await fetch(url, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
+      body: JSON.stringify({ courseId: 'mantiq', itemId: item.id, response, hintsUsed: draft.hintsUsed || 0 }),
+    });
+    if (!result.ok) throw new Error('Your answer could not be checked. Your response is kept here; try again.');
+    const grade = await result.json();
+    if (!grade || ![true, false, null].includes(grade.correct) || typeof grade.message !== 'string') throw new Error('The answer checker returned an invalid result. Please try again.');
+    // Navigation or a cloud merge can replace the session while a request
+    // is pending. Never apply that result to a different question or reset.
+    if (practice && (state.practice !== practice || practice.logicDraft !== draft)) return false;
+    if (session && state.studySessions[ownerKey] !== session) {
+      const current = state.studySessions[ownerKey];
+      if (current?.id === session.id && current.draft?.itemId === item.id) {
+        current.draft.busy = false;
+        current.draft.error = 'Your save changed while checking. Your answer is preserved; check it again.';
+      }
+      return false;
+    }
+    if (correcting) {
+      draft.correctionGrade = grade;
+      draft.correcting = !grade.correct;
+    } else {
+      draft.grade = grade;
+      draft.originalResponse = response;
+      const now = new Date().toISOString();
+      if (session) {
+        let p = state.mizanCourses.mantiq;
+        const attempt = {
+          id: `${session.id}:${item.id}`, itemId: item.id, key: logicPracticeKey(item),
+          conceptIds: item.concepts.filter(id => p.concepts[id]), family: item.family,
+          difficulty: item.difficulty, hintsUsed: draft.hintsUsed || 0, guided: !!ctx.step.guided,
+          response, grade, occurredAt: now, sessionId: session.id, mode: 'lesson',
+        };
+        p = recordAttempt(p, attempt, logicCourse());
+        p.lastStudiedAt = now;
+        p.session = session;
+        state.mizanCourses.mantiq = p;
+        session.responses ||= {};
+        session.responses[item.id] = draft;
+        session.updatedAt = now;
+      } else if (practice && !practice.submitted) {
+        const key = practice.queue[practice.index], pass = grade.correct === true;
+        practice.submitted = true;
+        practice.correct = pass;
+        if (practice.source === 'review') applyReviewAnswer(key, entry, pass);
+        recordPracticeAnswer(practice.source === 'review' ? entry.legacyKey : key, item.prompt, pass, entry.moduleId, entry.lessonTitle);
+        const p = state.mizanCourses.mantiq || emptyCourse();
+        practice.logicSessionId ||= crypto.randomUUID();
+        state.mizanCourses.mantiq = recordAttempt(p, {
+          id: crypto.randomUUID(), itemId: item.id, key: logicPracticeKey(item),
+          conceptIds: item.concepts.filter(id => p.concepts[id]), family: item.family,
+          difficulty: item.difficulty, hintsUsed: draft.hintsUsed || 0, guided: false,
+          response, grade, occurredAt: now, sessionId: practice.logicSessionId, mode: 'review',
+        }, logicCourse());
+        practice.combo = pass ? (practice.combo || 0) + 1 : 0;
+        if (pass) {
+          const xp = xpForPracticeCorrect(practice.combo);
+          practice.xpGained = (practice.xpGained || 0) + xp;
+          awardXp(state, xp);
+          scheduleToastClear();
+        }
+      }
+      queueAutoUpload(session ? 'concept-exercise' : 'practice-answer');
+    }
+  } catch (error) {
+    draft.error = error.name === 'TimeoutError' || error instanceof TypeError
+      ? 'The answer checker could not be reached. Your answer is kept here. Reconnect and try again.' : error.message;
+  } finally {
+    draft.busy = false;
+  }
+}
+
 const actions = {
+  async retrySaving() { retryStorageWrites(); await persist(state); },
+  downloadCurrentProgress() {
+    downloadSave(JSON.stringify(snapshot(state), null, 2), 'mizan-progress.json');
+    return false;
+  },
+  downloadOriginalProgress() {
+    const raw = originalSaveText();
+    if (raw) downloadSave(raw, 'mizan-original-save.json');
+    return false;
+  },
+  resumeStudy() { ensureStudySession(); },
+  openStudyNotes() { state.studyNotesOpen = true; },
+  closeStudyNotes(el, event) {
+    if (el.classList.contains('mz-notes-backdrop') && event?.target !== el) return false;
+    state.studyNotesOpen = false;
+  },
+  setStudyVisual(el) {
+    const session = currentStudy(state), step = studyStep(session);
+    if (!session || !step) return false;
+    const group = el.dataset.visualGroup;
+    const field = group === 'Highlight a region' || group === 'Highlight a term' ? 'secondary' : 'primary';
+    session.visualState ||= {};
+    const value = session.visualState[step.stepId] ||= {};
+    const selected = el.dataset.visualValue;
+    value[field] = group === 'Proposition part' ? Number(selected) : field === 'secondary' && group === 'Highlight a region' && value[field] === selected ? '' : selected;
+    if (group === 'Categorical form') value.secondary = '';
+  },
+  studyChoice(el) {
+    const ctx = nativeStudyContext();
+    if (!ctx || ctx.record.submitted && !ctx.record.correcting) return false;
+    const n = Number(el.dataset.option);
+    if (!Number.isInteger(n) || n < 0 || n >= ctx.item.options.length) return false;
+    ctx.record.selected = n;
+  },
+  studyCheck() {
+    const ctx = nativeStudyContext();
+    if (!ctx || ctx.record.selected == null || ctx.record.submitted && !ctx.record.correcting) return false;
+    const pass = ctx.record.selected === ctx.item.correct;
+    if (ctx.record.correcting) {
+      ctx.record.corrected = pass;
+      ctx.record.correcting = !pass;
+    } else {
+      ctx.record.firstSelected ??= ctx.record.selected;
+      ctx.record.correct = pass;
+      ctx.record.passed = true;
+      ctx.record.submitted = true;
+      ctx.record.submittedAt = new Date().toISOString();
+      state.revealState[ctx.key] = 1;
+    }
+    ctx.session.updatedAt = new Date().toISOString();
+    queueAutoUpload('concept-exercise');
+  },
+  studyCorrect() {
+    const ctx = nativeStudyContext();
+    if (!ctx) return false;
+    ctx.record.correcting = true;
+    ctx.record.firstSelected ??= ctx.record.selected;
+    ctx.record.selected = null;
+  },
+  studyBack() {
+    const session = currentStudy(state);
+    if (!session || !session.stepIndex || session.draft?.busy) return false;
+    session.stepIndex--;
+    session.updatedAt = new Date().toISOString();
+    if (session.logic) prepareLogicDraft(session);
+  },
+  studyNext() {
+    const session = currentStudy(state), step = studyStep(session);
+    if (!step || session.draft?.busy) return false;
+    const now = new Date().toISOString();
+    if (session.logic) {
+      if (step.kind === 'teach') {
+        const p = { ...state.mizanCourses.mantiq, session };
+        const next = advanceTeaching(logicCourse(), p, now);
+        Object.assign(session, next.session);
+        next.session = session;
+        state.mizanCourses.mantiq = next;
+      } else {
+        if (!session.draft?.grade) return false;
+        session.responses ||= {};
+        session.responses[step.itemId] = session.draft;
+        session.stepIndex++;
+        session.index++;
+      }
+      if (session.stepIndex >= session.steps.length) return finishLogicStudy(session);
+      prepareLogicDraft(session);
+    } else {
+      const ctx = nativeStudyContext();
+      if (ctx && !ctx.record.submitted) return false;
+      if (session.stepIndex + 1 >= session.steps.length) return actions.gotoQuiz();
+      session.stepIndex++;
+    }
+    session.updatedAt = now;
+    queueAutoUpload('lesson-step');
+  },
+  submitLogicAnswer: checkLogicAnswer,
+  logicChoice(el) { return !!changeLogicDraft((draft, item) => { draft.response = structuredClone(item.options[Number(el.dataset.option)]); }); },
+  logicHint() { return !!changeLogicDraft((draft, item) => { draft.hintsUsed = Math.min(item.hints.length, (draft.hintsUsed || 0) + 1); }); },
+  logicCorrect() {
+    const ctx = logicContext();
+    if (!ctx || !ctx.draft.grade || ctx.draft.busy) return false;
+    ctx.draft.correcting = true;
+    ctx.draft.response = initialResponse(ctx.item);
+    ctx.draft.tokens = [];
+  },
+  logicSpan(el) { return !!changeLogicDraft((draft, item) => {
+    const words = item.stimulus.split(/\s+/), index = Number(el.dataset.index);
+    const picked = new Set(selectedWords(item.stimulus, draft.response));
+    if (picked.has(index)) picked.delete(index); else picked.add(index);
+    draft.response = [...picked].sort((a, b) => a - b).map(i => words[i]).join(' ');
+  }); },
+  logicTokenAdd(el) { return !!changeLogicDraft((draft, item) => {
+    const tokens = draft.tokens || restoreTokens(draft.response, item.word_bank);
+    const token = item.word_bank[Number(el.dataset.index)];
+    if (tokens.filter(t => t === token).length >= item.word_bank.filter(t => t === token).length) return;
+    draft.tokens = [...tokens, token]; draft.response = draft.tokens.join(' ');
+  }); },
+  logicTokenRemove(el) { return !!changeLogicDraft((draft, item) => {
+    draft.tokens = (draft.tokens || restoreTokens(draft.response, item.word_bank)).filter((_, i) => i !== Number(el.dataset.index));
+    draft.response = draft.tokens.join(' ');
+  }); },
+  logicVennTool(el) { return !!changeLogicDraft(draft => { draft.tool = el.dataset.value; }); },
+  logicVennRegion(el) { return !!changeLogicDraft(draft => { draft.response = paintRegion(draft.response || {}, el.dataset.value, draft.tool || 'shade'); }); },
+  logicListAdd(el) { return !!changeLogicDraft((draft, item) => {
+    const field = item.fields[Number(el.dataset.field)];
+    draft.response = setAt(draft.response, field.path, [...(getAt(draft.response, field.path) || []), '']);
+  }); },
+  logicListRemove(el) { return !!changeLogicDraft((draft, item) => {
+    const field = item.fields[Number(el.dataset.field)];
+    draft.response = setAt(draft.response, field.path, (getAt(draft.response, field.path) || []).filter((_, i) => i !== Number(el.dataset.entry)));
+  }); },
+  logicListMove(el) { return !!changeLogicDraft((draft, item) => {
+    const field = item.fields[Number(el.dataset.field)];
+    draft.response = setAt(draft.response, field.path, moveEntry(getAt(draft.response, field.path) || [], Number(el.dataset.entry), Number(el.dataset.delta)));
+  }); },
+  downloadRecovery() {
+    const recovered = recoverySave();
+    if (!recovered) return false;
+    const url = URL.createObjectURL(new Blob([recovered.raw], { type: 'application/json' }));
+    const a = document.createElement('a'); a.href = url; a.download = 'mizan-recovered-save.json'; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  },
+  dismissRecovery() { dismissRecovery(); state.storageRecovery = null; },
+  openCatalog() {
+    if (guardSessionExit('openCatalog')) return;
+    state.view = 'catalog';
+    state.moduleId = null;
+    state.lessonId = null;
+    state.practice = null;
+    state.pathActive = false;
+    state.pathHome = false;
+    state.litHome = false;
+    state.courseMenuOpen = false;
+  },
   openDashboard() {
     if (guardSessionExit('openDashboard')) return;
     // MOTION-012: coming back from a module briefly identifies the row you
@@ -2611,10 +3027,13 @@ const actions = {
     // A review session's queue is keyed by cardId; practiceHistory stays on
     // the legacy index key so Practice Mode weighting and achievements keep
     // reading one shared store.
-    recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
+    // Read the scheduler state before this answer becomes legacy history.
+    // Otherwise a first miss seeds a new card as an old relearning card.
     if (p.source === 'review') {
       applyReviewAnswer(key, entry, pass);
-    } else if (p.source === 'path') {
+    }
+    recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
+    if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
       if (node) recordPathRepAnswer(key, entry.item.kind, pass, node);
     } else if (p.source === 'revision' && p.kind === 'revisionVocab') {
@@ -3072,9 +3491,9 @@ const actions = {
     state.kufiHeadings = state.arabicHeadingFace === 'kufi';
   },
   resetAppearance() {
-    state.theme = 'manuscript';
-    state.accent = 'gold';
-    state.arabicFace = 'naskh';
+    state.theme = 'mizan';
+    state.accent = 'emerald';
+    state.arabicFace = 'traditional';
     state.arabicHeadingFace = 'body';
     state.lessonTextScale = 100;
     state.litTextScale = 100;
@@ -3615,6 +4034,7 @@ const actions = {
   gotoQuiz() {
     const lesson = getLesson(state.moduleId, state.lessonId);
     if (!lesson) return false;
+    if (lesson.learningModel === 'mizan') return finishLogicStudy();
     if (!state.forceUnlockAll && !isLessonReadyForQuiz(lesson, state.exStates, state.moduleId, state.lessonId)) return false;
     if (state.view !== 'quiz') startQuizAttempt(lesson);
     state.view = 'quiz';
@@ -3756,6 +4176,7 @@ const actions = {
     queueAutoUpload('quiz-complete');
   },
   retakeQuiz() {
+    state.quizSession = null;
     startQuizAttempt(getLesson(state.moduleId, state.lessonId));
   },
   // Passing the quiz is the end of the lesson -- there is no drill step,
@@ -3772,6 +4193,7 @@ const actions = {
     const wasFirstEver = totalLessonsCleared(state.completed) === 0;
     markLessonComplete(state.moduleId, state.lessonId);
     state.view = 'lessonComplete';
+    state.quizSession = null;
     // Re-opening a cleared lesson should land on the concepts, not the quiz.
     state.lessonPos[`${state.moduleId}_${state.lessonId}`] = { view: 'lesson' };
     // markLessonComplete just above already updated state.completed, which
@@ -3852,10 +4274,11 @@ const actions = {
     // p.kind === 'tarkeeb' guard -- see selectPracticeOption's matching
     // comment on why a My Path revision node needs this.
     if (p && p.queue[p.index] === key) {
-      recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
       if (p.source === 'review') {
         applyReviewAnswer(key, entry, allPass);
-      } else if (p.source === 'path') {
+      }
+      recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
+      if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);
       }
@@ -4343,7 +4766,7 @@ function refocusSelector(el) {
     || state.pathCheckpointSetupNodeId || state.pathSkipAheadPromptNodeId
     || state.unlockPrompt || state.resetModulePromptId
     || state.forceUnlockPrompt || state.badgeModal
-    || state.leaveSessionPromptTarget
+    || state.leaveSessionPromptTarget || state.studyNotesOpen
   ) {
     // Only capture on the transition into open -- an action that fires
     // while the SAME modal stays open (e.g. a direction-picker toggle
@@ -4357,6 +4780,9 @@ function refocusSelector(el) {
   // focus to whatever opened it rather than falling through to <body>.
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
+  if (action === 'studyCheck' || action === 'submitLogicAnswer') return '.mz-feedback';
+  if (action === 'studyCorrect' || action === 'logicCorrect') return '.mz-response button:not([disabled]), .mz-response input';
+  if (action === 'setStudyVisual' || action === 'studyChoice' || action.startsWith('logic')) return triggerSelectorFor(el);
   // The Check button un-renders once the answer is graded, so its own
   // counterpart never exists. Focus moves to the verdict itself (the
   // exercise-feedback line carries tabindex="-1" for exactly this): a
@@ -4408,9 +4834,41 @@ function refocusSelector(el) {
   return null;
 }
 
+document.addEventListener('input', (event) => {
+  const el = event.target;
+  if (!el.matches('[data-logic-field], [data-logic-reflection]')) return;
+  const ctx = changeLogicDraft((draft, item) => {
+    if (el.hasAttribute('data-logic-reflection')) { draft.response = el.value; return; }
+    const field = item.fields[Number(el.dataset.logicField)];
+    if (!field) return;
+    let value = el.value;
+    if (el.tagName === 'SELECT') {
+      const options = field.options?.length ? field.options : [true, false];
+      value = el.value === '' ? null : options[Number(el.value)];
+    } else if (field.kind === 'number') value = el.value === '' ? null : Number(el.value);
+    if (el.dataset.listIndex !== undefined) {
+      const entries = [...(getAt(draft.response, field.path) || [])];
+      entries[Number(el.dataset.listIndex)] = value;
+      value = entries;
+    }
+    draft.response = setAt(draft.response, field.path, fieldResponse(field, value));
+  });
+  if (!ctx) return;
+  const check = document.querySelector('[data-action="submitLogicAnswer"]');
+  if (check) check.disabled = !responseComplete(ctx.item, ctx.draft.response);
+  persistSoon(state);
+});
+
+document.addEventListener('submit', (event) => {
+  if (!event.target.matches('[data-logic-form]')) return;
+  event.preventDefault();
+  checkLogicAnswer().then(() => rerender('.mz-feedback'));
+});
+
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-action]');
   if (!el || el.disabled) return;
+  if (el.closest('[data-logic-form]') && el.type === 'submit') e.preventDefault();
   // Native form controls (the lesson/reading text-size range sliders) carry
   // data-action too, but only so the 'change' listener below can find them
   // the same way -- their action must fire once a value is actually
@@ -4513,6 +4971,12 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  if (state.studyNotesOpen && e.key === 'Escape') {
+    e.preventDefault();
+    state.studyNotesOpen = false;
+    rerender(consumeModalTriggerSelector() || '[data-action="openStudyNotes"]');
+    return;
+  }
   // Enter/Space activates a focused تركيب chip or slot the same way a click
   // would -- role="button" tells assistive tech these are buttons, but only
   // a real <button>/<a> gets that key handling from the browser for free;
@@ -4684,6 +5148,9 @@ const SHORTCUT_CHECK_OR_ADVANCE = [
   '[data-action="litWordPracticeCheck"]',
   '[data-action="nextPracticeQuestion"]',
   '[data-action="nextQuizQuestion"]',
+  '[data-action="studyCheck"]',
+  '[data-action="submitLogicAnswer"]',
+  '[data-action="studyNext"]',
   '[data-action="nextConcept"]',
   '[data-action="litNextParagraph"]',
   '[data-action="litWorkshopNext"]',
@@ -4721,8 +5188,8 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     if (state.view !== 'lesson') return;
     const target = root.querySelector(e.key === 'ArrowLeft'
-      ? '[data-action="prevConcept"]'
-      : '[data-action="nextConcept"]');
+      ? '[data-action="studyBack"]'
+      : '[data-action="studyNext"]');
     if (target && !target.disabled && target.offsetParent) {
       e.preventDefault();
       target.click();
@@ -5013,7 +5480,10 @@ document.addEventListener('dragend', (e) => {
 
 // --- lifecycle ----------------------------------------------------------
 
-window.addEventListener('beforeunload', flushPersist);
+window.addEventListener('beforeunload', () => { flushPersist().catch(() => {}); });
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') flushPersist().catch(() => {});
+});
 
 // A URL wins over the persisted position. Opening a bookmark, following a
 // shared link, or cmd-clicking a tab into a new window all have to land on
@@ -5022,7 +5492,7 @@ window.addEventListener('beforeunload', flushPersist);
 // something this profile cannot reach is not an error: navFromHash and
 // sanitizeRestoredNav between them fall back to the nearest screen that IS
 // reachable, the same way boot sanitation does for a stale saved position.
-if (location.hash && location.hash !== '#/') {
+if (location.hash) {
   const bootSnap = navFromHash(location.hash);
   if (bootSnap) {
     await restoreNav(bootSnap, { rerenderAfter: false });
@@ -5033,6 +5503,8 @@ if (location.hash && location.hash !== '#/') {
     lastHistorySig = null;
   }
 }
+
+if (!location.hash) state.view = 'catalog';
 
 // Pre-seed lastNav so the first paint's scroll bookkeeping starts from the
 // screen the learner actually lands on.

@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: negative_conclusion_rule
+  title: {en: "Rule 6: Negative Conclusion"}
+  type: rule
+  definition: {en: "A negative conclusion requires one negative premise, and one negative premise requires a negative conclusion."}
+  prerequisites: [categorical_syllogism, quality]
+  skills: [test_negative_conclusion]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [53, 55]}

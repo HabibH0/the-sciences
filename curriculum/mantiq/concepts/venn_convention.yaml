@@ -1,0 +1,22 @@
+schema_version: 1
+concept:
+  id: venn_convention
+  title:
+    en: "Categorical Venn Convention"
+  type: representation
+  definition:
+    en: "The subject is drawn as the left circle and the predicate as the right circle; shading marks emptiness and x marks existence."
+  prerequisites: [subject, predicate, distribution]
+  properties:
+    subject_position: left
+    predicate_position: right
+    empty_region_mark: shaded
+    existence_mark: x
+  knowledge:
+    - "Shading and x encode different kinds of information."
+  skills:
+    - label_venn_term_circles
+    - interpret_shading
+    - interpret_existence_mark
+  exercise_families: [visual_reasoning, identification]
+  source: { book_id: fst_logic, pages: [28, 29] }

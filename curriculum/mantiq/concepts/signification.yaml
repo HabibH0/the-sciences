@@ -1,0 +1,23 @@
+schema_version: 1
+concept:
+  id: signification
+  type: relationship
+  title:
+    en: Signification
+    ar: دَلَالَة
+    transliteration: dalālah
+  definition: Signification is a word denoting a meaning.
+  objectives:
+    knowledge:
+      - State what signification describes.
+    skills:
+      - Identify an act of signification in a word-and-meaning pair.
+  prerequisites: []
+  source: { book_id: fst_logic, pages: [14] }
+  examples:
+    - id: football_relation
+      signifier: football
+      signified: the meaning of football
+      relation: signification
+  exercise_families: [recognition, identification]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 1 }

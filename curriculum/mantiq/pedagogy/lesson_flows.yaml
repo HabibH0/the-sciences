@@ -1,0 +1,1000 @@
+# Authored presentation order. Section numbers index unchanged Markdown heading blocks.
+schema_version: 1
+lessons:
+  lesson_sound_definitions:
+  - kind: teach
+    section: 0
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts:
+    - inclusive_definition
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts: &id001
+    - inclusive_definition
+    presentation: example
+  - kind: practice
+    concepts: *id001
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 3
+    concepts:
+    - exclusive_definition
+    presentation: idea
+  - kind: teach
+    section: 4
+    concepts: &id002
+    - exclusive_definition
+    presentation: example
+  - kind: practice
+    concepts: *id002
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 5
+    concepts:
+    - circular_definition
+    presentation: idea
+  - kind: teach
+    section: 6
+    concepts: &id003
+    - circular_definition
+    presentation: example
+  - kind: practice
+    concepts: *id003
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 7
+    concepts:
+    - inclusive_definition
+    - exclusive_definition
+    - circular_definition
+    presentation: idea
+  - kind: teach
+    section: 8
+    concepts:
+    - inclusive_definition
+    - exclusive_definition
+    - circular_definition
+    presentation: takeaway
+  - kind: practice
+    concepts:
+    - inclusive_definition
+    - exclusive_definition
+    - circular_definition
+    limit: 4
+    stage: independent
+  lesson_signification:
+  - kind: teach
+    section: 0
+    concepts:
+    - signification
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: &id004
+    - complete_signification
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts: *id004
+    presentation: example
+  - kind: practice
+    concepts: *id004
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 3
+    concepts: &id005
+    - partial_signification
+    presentation: idea
+  - kind: teach
+    section: 4
+    concepts: *id005
+    presentation: example
+  - kind: practice
+    concepts: *id005
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 5
+    concepts: &id006
+    - concomitant_signification
+    presentation: idea
+  - kind: teach
+    section: 6
+    concepts: *id006
+    presentation: example
+  - kind: practice
+    concepts: *id006
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 7
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 8
+    concepts: &id007
+    - signification
+    - signifier
+    - signified
+    - complete_signification
+    - partial_signification
+    - concomitant_signification
+    presentation: takeaway
+  - kind: practice
+    concepts: *id007
+    limit: 4
+    stage: independent
+  lesson_types_of_terms:
+  - kind: teach
+    section: 0
+    concepts:
+    - universal_term
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: &id008
+    - universal_term
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts: *id008
+    presentation: example
+  - kind: practice
+    concepts: *id008
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 3
+    concepts: &id009
+    - particular_term
+    presentation: idea
+  - kind: teach
+    section: 4
+    concepts: *id009
+    presentation: example
+  - kind: practice
+    concepts: *id009
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 5
+    concepts: &id010
+    - universal_term
+    - particular_term
+    presentation: idea
+  - kind: practice
+    concepts: *id010
+    limit: 4
+    stage: independent
+  lesson_universal_relations:
+  - kind: teach
+    section: 0
+    concepts:
+    - coextensive_relation
+    - disjoint_relation
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts:
+    - disjoint_relation
+    presentation: idea
+  - kind: teach
+    section: 3
+    concepts:
+    - partial_overlap_relation
+    presentation: idea
+  - kind: teach
+    section: 4
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 5
+    concepts: &id011
+    - coextensive_relation
+    - disjoint_relation
+    - absolute_generality_relation
+    - partial_overlap_relation
+    presentation: idea
+  - kind: practice
+    concepts: *id011
+    limit: 4
+    stage: independent
+  lesson_proposition_structure:
+  - kind: teach
+    section: 0
+    concepts: &id012
+    - proposition
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id012
+    presentation: example
+  - kind: practice
+    concepts: *id012
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id013
+    - proposition
+    - subject
+    - predicate
+    - quantifier
+    - copula
+    presentation: takeaway
+  - kind: practice
+    concepts: *id013
+    limit: 4
+    stage: independent
+  lesson_proposition_value:
+  - kind: teach
+    section: 0
+    concepts: &id014
+    - proposition_value
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id014
+    presentation: example
+  - kind: practice
+    concepts: *id014
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id015
+    - proposition_value
+    presentation: takeaway
+  - kind: practice
+    concepts: *id015
+    limit: 4
+    stage: independent
+  lesson_quality_quantity:
+  - kind: teach
+    section: 0
+    concepts: &id016
+    - quality
+    - quantity
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id016
+    presentation: example
+  - kind: practice
+    concepts: *id016
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id017
+    - quality
+    - quantity
+    presentation: takeaway
+  - kind: practice
+    concepts: *id017
+    limit: 4
+    stage: independent
+  lesson_aeio_forms:
+  - kind: teach
+    section: 0
+    concepts: &id018
+    - e_proposition
+    - i_proposition
+    - o_proposition
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id018
+    presentation: example
+  - kind: practice
+    concepts: *id018
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id019
+    - a_proposition
+    - e_proposition
+    - i_proposition
+    - o_proposition
+    presentation: takeaway
+  - kind: practice
+    concepts: *id019
+    limit: 4
+    stage: independent
+  lesson_distribution:
+  - kind: teach
+    section: 0
+    concepts: &id020
+    - distribution
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id020
+    presentation: example
+  - kind: practice
+    concepts: *id020
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id021
+    - distribution
+    presentation: takeaway
+  - kind: practice
+    concepts: *id021
+    limit: 4
+    stage: independent
+  lesson_proposition_mode:
+  - kind: teach
+    section: 0
+    concepts: &id022
+    - proposition_mode
+    - necessary_mode
+    - contingent_mode
+    - impossible_mode
+    - physical_mode_basis
+    - metaphysical_mode_basis
+    - moral_religious_mode_basis
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id022
+    presentation: example
+  - kind: practice
+    concepts: *id022
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id023
+    - proposition_mode
+    - necessary_mode
+    - contingent_mode
+    - impossible_mode
+    - physical_mode_basis
+    - metaphysical_mode_basis
+    - moral_religious_mode_basis
+    presentation: takeaway
+  - kind: practice
+    concepts: *id023
+    limit: 4
+    stage: independent
+  lesson_categorical_translation:
+  - kind: teach
+    section: 0
+    concepts: &id024
+    - categorical_translation
+    - adjective_to_noun
+    - verb_to_noun
+    - adverb_to_noun
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id024
+    presentation: example
+  - kind: practice
+    concepts: *id024
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id025
+    - categorical_translation
+    - adjective_to_noun
+    - verb_to_noun
+    - adverb_to_noun
+    - missing_quantifier
+    - only_ambiguity
+    presentation: takeaway
+  - kind: practice
+    concepts: *id025
+    limit: 4
+    stage: independent
+  lesson_venn_representation:
+  - kind: teach
+    section: 0
+    concepts: &id026
+    - venn_convention
+    - a_venn_representation
+    - e_venn_representation
+    - i_venn_representation
+    - o_venn_representation
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id026
+    presentation: example
+  - kind: practice
+    concepts: *id026
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id027
+    - venn_convention
+    - a_venn_representation
+    - e_venn_representation
+    - i_venn_representation
+    - o_venn_representation
+    presentation: takeaway
+  - kind: practice
+    concepts: *id027
+    limit: 4
+    stage: independent
+  lesson_inference_overview:
+  - kind: teach
+    section: 0
+    concepts: &id028
+    - inference
+    - direct_inference
+    - indirect_inference
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id028
+    presentation: example
+  - kind: practice
+    concepts: *id028
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id029
+    - inference
+    - direct_inference
+    - indirect_inference
+    presentation: takeaway
+  - kind: practice
+    concepts: *id029
+    limit: 4
+    stage: independent
+  lesson_conversion:
+  - kind: teach
+    section: 0
+    concepts: &id030
+    - conversion
+    - simple_conversion
+    - conversion_by_limitation
+    - illicit_conversion
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id030
+    presentation: example
+  - kind: practice
+    concepts: *id030
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id031
+    - conversion
+    - simple_conversion
+    - conversion_by_limitation
+    - illicit_conversion
+    presentation: takeaway
+  - kind: practice
+    concepts: *id031
+    limit: 4
+    stage: independent
+  lesson_obversion:
+  - kind: teach
+    section: 0
+    concepts: &id032
+    - obversion
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id032
+    presentation: example
+  - kind: practice
+    concepts: *id032
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id033
+    - complement
+    - obversion
+    presentation: takeaway
+  - kind: practice
+    concepts: *id033
+    limit: 4
+    stage: independent
+  lesson_contradiction:
+  - kind: teach
+    section: 0
+    concepts: &id034
+    - contradiction
+    - contradiction_conditions
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id034
+    presentation: example
+  - kind: practice
+    concepts: *id034
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id035
+    - square_of_opposition
+    - contradiction
+    - contradiction_conditions
+    presentation: takeaway
+  - kind: practice
+    concepts: *id035
+    limit: 4
+    stage: independent
+  lesson_square_relations:
+  - kind: teach
+    section: 0
+    concepts: &id036
+    - subalternation
+    - contrariety
+    - subcontrariety
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id036
+    presentation: example
+  - kind: practice
+    concepts: *id036
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id037
+    - subalternation
+    - contrariety
+    - subcontrariety
+    presentation: takeaway
+  - kind: practice
+    concepts: *id037
+    limit: 4
+    stage: independent
+  lesson_indirect_inference_types:
+  - kind: teach
+    section: 0
+    concepts: &id038
+    - deduction
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id038
+    presentation: example
+  - kind: practice
+    concepts: *id038
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id039
+    - deduction
+    - induction
+    - analogy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id039
+    limit: 4
+    stage: independent
+  lesson_categorical_structure:
+  - kind: teach
+    section: 0
+    concepts: &id040
+    - categorical_syllogism
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id040
+    presentation: example
+  - kind: practice
+    concepts: *id040
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id041
+    - categorical_syllogism
+    - minor_term
+    - major_term
+    - middle_term
+    - minor_premise
+    - major_premise
+    - enthymeme
+    presentation: takeaway
+  - kind: practice
+    concepts: *id041
+    limit: 4
+    stage: independent
+  lesson_figure_and_mood:
+  - kind: teach
+    section: 0
+    concepts: &id042
+    - syllogism_figure
+    - syllogism_mood
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id042
+    presentation: example
+  - kind: practice
+    concepts: *id042
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id043
+    - syllogism_figure
+    - syllogism_mood
+    presentation: takeaway
+  - kind: practice
+    concepts: *id043
+    limit: 4
+    stage: independent
+  lesson_categorical_rules:
+  - kind: teach
+    section: 0
+    concepts: &id044
+    - syllogism_term_count_rule
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id044
+    presentation: example
+  - kind: practice
+    concepts: *id044
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id045
+    - syllogism_term_count_rule
+    - syllogism_proposition_count_rule
+    - distributed_middle_rule
+    - illicit_process_rule
+    - negative_premises_rule
+    - negative_conclusion_rule
+    - particular_premises_rule
+    - particular_conclusion_rule
+    presentation: takeaway
+  - kind: practice
+    concepts: *id045
+    limit: 4
+    stage: independent
+  lesson_hypothetical_syllogisms:
+  - kind: teach
+    section: 0
+    concepts:
+    - hypothetical_proposition
+    - mixed_hypothetical_syllogism
+    - pure_hypothetical_syllogism
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 2
+    concepts: &id046
+    - hypothetical_proposition
+    - antecedent
+    - consequent
+    - mixed_hypothetical_syllogism
+    - modus_ponens
+    - modus_tollens
+    - affirming_consequent_fallacy
+    - denying_antecedent_fallacy
+    - pure_hypothetical_syllogism
+    presentation: takeaway
+  - kind: practice
+    concepts: *id046
+    limit: 4
+    stage: independent
+  lesson_disjunctive_syllogisms:
+  - kind: teach
+    section: 0
+    concepts: &id047
+    - disjunctive_syllogism
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id047
+    presentation: example
+  - kind: practice
+    concepts: *id047
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id048
+    - disjunctive_syllogism
+    - strong_disjunction
+    - inclusive_disjunction
+    - exclusive_nonexhaustive_disjunction
+    - false_dilemma
+    presentation: takeaway
+  - kind: practice
+    concepts: *id048
+    limit: 4
+    stage: independent
+  lesson_induction:
+  - kind: teach
+    section: 0
+    concepts:
+    - complete_induction
+    - incomplete_induction
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 2
+    concepts: &id049
+    - complete_induction
+    - incomplete_induction
+    - anecdotal_fallacy
+    - overgeneralisation
+    - abduction
+    presentation: takeaway
+  - kind: practice
+    concepts: *id049
+    limit: 4
+    stage: independent
+  lesson_analogy:
+  - kind: teach
+    section: 0
+    concepts: &id050
+    - analogy_source
+    - analogy_target
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id050
+    presentation: example
+  - kind: practice
+    concepts: *id050
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id051
+    - analogy_source
+    - analogy_target
+    - relevant_similarity
+    - analogical_fallacy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id051
+    limit: 4
+    stage: independent
+  lesson_formal_and_informal_fallacies:
+  - kind: teach
+    section: 0
+    concepts:
+    - formal_fallacy
+    - informal_fallacy
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id052
+    - formal_fallacy
+    - informal_fallacy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id052
+    limit: 4
+    stage: independent
+  lesson_scope_and_meaning:
+  - kind: teach
+    section: 0
+    concepts: &id053
+    - composition_fallacy
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id053
+    presentation: example
+  - kind: practice
+    concepts: *id053
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id054
+    - composition_fallacy
+    - division_fallacy
+    - equivocation_fallacy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id054
+    limit: 4
+    stage: independent
+  lesson_relevance_and_rhetoric:
+  - kind: teach
+    section: 0
+    concepts:
+    - ad_hominem_fallacy
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: []
+    presentation: idea
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id055
+    - ad_hominem_fallacy
+    - loaded_language_fallacy
+    - straw_man_fallacy
+    - red_herring_fallacy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id055
+    limit: 4
+    stage: independent
+  lesson_faulty_evidence:
+  - kind: teach
+    section: 0
+    concepts: &id056
+    - circular_argument
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id056
+    presentation: example
+  - kind: practice
+    concepts: *id056
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id057
+    - circular_argument
+    - appeal_to_ignorance
+    - irrelevant_authority
+    presentation: takeaway
+  - kind: practice
+    concepts: *id057
+    limit: 4
+    stage: independent
+  lesson_causation_and_justification:
+  - kind: teach
+    section: 0
+    concepts: &id058
+    - correlation_causation_fallacy
+    presentation: idea
+  - kind: teach
+    section: 1
+    concepts: *id058
+    presentation: example
+  - kind: practice
+    concepts: *id058
+    limit: 1
+    stage: guided
+  - kind: teach
+    section: 2
+    concepts: []
+    presentation: takeaway
+  - kind: teach
+    section: 3
+    concepts: &id059
+    - false_cause
+    - correlation_causation_fallacy
+    - slippery_slope_fallacy
+    - two_wrongs_fallacy
+    presentation: takeaway
+  - kind: practice
+    concepts: *id059
+    limit: 4
+    stage: independent

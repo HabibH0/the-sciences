@@ -29,8 +29,15 @@ jobs:
         run: npm ci
       - name: Validate content
         run: npm run validate
+      - name: Verify learning, migration and review
+        run: |
+          npm run verify:mizan
+          npm run verify:review
+          npm run verify:server
       - name: Build static app
         run: npm run build:web
+      - name: Wait for the matching Logic grading service
+        run: node scripts/verify-deployment.mjs --wait
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

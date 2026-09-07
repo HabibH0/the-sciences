@@ -1,0 +1,77 @@
+schema_version: 1
+profiles:
+  evaluate_definition: {domain: rule_application, stage: 4, example_types: [proposed_definition], answer_path: definition.result, distractors: definition_faults}
+  compare_definition_faults: {domain: discrimination, stage: 5, example_types: [proposed_definition], answer_path: definition.result, distractors: definition_faults}
+  identify_signification_role: {domain: logical_structure, stage: 3, example_types: [signification_pair], answer_path: signification}
+  classify_signification: {domain: classification, stage: 3, example_types: [signification_context], answer_path: signification.kind, distractors: signification_kinds}
+  diagnose_signification: {domain: misconception_diagnosis, stage: 6, example_types: [signification_context], answer_path: signification.kind, distractors: signification_kinds}
+  classify_term_scope: {domain: classification, stage: 3, example_types: [scoped_term], answer_path: term.scope, distractors: term_scope}
+  classify_universal_relation: {domain: relationship, stage: 4, example_types: [universal_pair], answer_path: universals.relation, distractors: universal_relations}
+  choose_relation_diagram: {domain: visual_reasoning, stage: 4, example_types: [universal_pair], answer_path: universals.venn}
+  diagnose_relation: {domain: misconception_diagnosis, stage: 6, example_types: [universal_pair], answer_path: universals.relation, distractors: universal_relations}
+  recognise_proposition: {domain: syntax, stage: 2, example_types: [categorical_proposition, expression_check], answer_constant: true}
+  identify_component: {domain: logical_structure, stage: 3, example_types: [categorical_proposition], answer_path: proposition}
+  classify_value: {domain: truth_value, stage: 3, example_types: [proposition_value], answer_path: value.answer, distractors: boolean}
+  classify_quality_quantity: {domain: classification, stage: 3, example_types: [categorical_proposition], answer_paths: [proposition.quality, proposition.quantity]}
+  classify_aeio: {domain: classification, stage: 3, example_types: [categorical_proposition], answer_path: proposition.form, distractors: aeio}
+  multi_property_analysis: {domain: logical_structure, stage: 5, example_types: [categorical_proposition], answer_path: proposition}
+  diagnose_distribution: {domain: misconception_diagnosis, stage: 6, example_types: [categorical_proposition], answer_path: proposition.distribution, distractors: distribution_patterns}
+  classify_mode: {domain: modality, stage: 3, example_types: [modal_proposition], answer_path: modal.mode, distractors: modes}
+  classify_evidence_basis: {domain: evidence_basis, stage: 4, example_types: [modal_proposition], answer_path: modal.evidence_basis, distractors: evidence_bases}
+  translate_categorical: {domain: transformation, stage: 4, example_types: [categorical_translation], answer_path: normalized}
+  nominalise_expression: {domain: transformation, stage: 4, example_types: [categorical_translation], answer_path: transformation, distractors: nominalisations}
+  resolve_missing_quantifier: {domain: ambiguity, stage: 6, example_types: [missing_quantifier], answer_path: accepted_readings}
+  translate_only_readings: {domain: ambiguity, stage: 6, example_types: [only_translation], answer_path: accepted_readings}
+  choose_venn_representation: {domain: visual_reasoning, stage: 4, example_types: [categorical_proposition], answer_path: venn}
+  interpret_venn_representation: {domain: visual_reasoning, stage: 5, example_types: [categorical_proposition], answer_path: proposition.form, distractors: aeio}
+  construct_proposition: {domain: construction, stage: 6, example_types: [categorical_proposition], answer_path: proposition}
+  classify_inference_family: {domain: inference, stage: 3, example_types: [direct_transformation, categorical_syllogism, hypothetical_argument, pure_hypothetical_argument, disjunctive_argument, induction_case, analogy_case], answer_path: type}
+  perform_conversion: {domain: transformation, stage: 4, example_types: [direct_transformation], operation_filter: [conversion, conversion_by_limitation], answer_paths: [result, valid]}
+  perform_obversion: {domain: transformation, stage: 4, example_types: [direct_transformation], operation_filter: [obversion], answer_paths: [result, valid]}
+  classify_square_relationship: {domain: inference, stage: 4, example_types: [square_pair], answer_paths: [relationship, truth_rule], distractors: square_relations}
+  test_contradiction_conditions: {domain: inference, stage: 6, example_types: [contradiction_test], answer_paths: [conditions_match, mismatches]}
+  identify_syllogism_components: {domain: logical_structure, stage: 4, example_types: [categorical_syllogism], answer_path: terms}
+  reconstruct_enthymeme: {domain: inference, stage: 6, example_types: [categorical_syllogism], answer_path: conclusion}
+  classify_figure_and_mood: {domain: classification, stage: 5, example_types: [categorical_syllogism], answer_paths: [figure, mood], distractors: figures}
+  audit_number_rules: {domain: inference, stage: 5, example_types: [categorical_syllogism], answer_paths: [valid, failed_rules]}
+  audit_distribution_rules: {domain: inference, stage: 6, example_types: [categorical_syllogism], answer_paths: [valid, failed_rules]}
+  audit_negative_rules: {domain: inference, stage: 5, example_types: [categorical_syllogism], answer_paths: [valid, failed_rules]}
+  audit_particular_rules: {domain: inference, stage: 5, example_types: [categorical_syllogism], answer_paths: [valid, failed_rules]}
+  identify_hypothetical_components: {domain: logical_structure, stage: 3, example_types: [hypothetical_argument], answer_paths: [antecedent, consequent]}
+  classify_mixed_hypothetical: {domain: inference, stage: 5, example_types: [hypothetical_argument], answer_paths: [pattern, valid], distractors: hypothetical_patterns}
+  complete_hypothetical_chain: {domain: inference, stage: 4, example_types: [pure_hypothetical_argument], answer_path: conclusion}
+  classify_disjunction: {domain: inference, stage: 5, example_types: [disjunctive_argument], answer_paths: [relationship, valid], distractors: disjunction_types}
+  evaluate_induction: {domain: inference, stage: 6, example_types: [induction_case], answer_paths: [method, certainty], distractors: induction_types}
+  evaluate_analogy: {domain: inference, stage: 6, example_types: [analogy_case], answer_paths: [conclusion_supported, fallacy]}
+  classify_fallacy_level: {domain: classification, stage: 3, example_types: [fallacy_case], answer_path: level, distractors: fallacy_levels}
+  diagnose_part_whole: {domain: misconception_diagnosis, stage: 5, example_types: [fallacy_case], fallacy_filter: [composition_fallacy, division_fallacy], answer_path: fallacy, distractors: part_whole_fallacies}
+  diagnose_equivocation: {domain: misconception_diagnosis, stage: 5, example_types: [fallacy_case], fallacy_filter: [equivocation_fallacy], answer_paths: [ambiguous_term, meanings]}
+  diagnose_relevance_rhetoric: {domain: misconception_diagnosis, stage: 5, example_types: [fallacy_case], fallacy_filter: [ad_hominem_fallacy, loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy], answer_path: fallacy, distractors: relevance_fallacies}
+  repair_relevance_rhetoric: {domain: transfer, stage: 7, example_types: [fallacy_case], fallacy_filter: [loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy], answer_path: repair_criteria}
+  diagnose_faulty_support: {domain: misconception_diagnosis, stage: 5, example_types: [fallacy_case], fallacy_filter: [circular_argument, appeal_to_ignorance, irrelevant_authority], answer_path: fallacy, distractors: support_fallacies}
+  diagnose_causal_error: {domain: misconception_diagnosis, stage: 6, example_types: [fallacy_case], fallacy_filter: [false_cause, correlation_causation_fallacy, slippery_slope_fallacy], answer_path: fallacy, distractors: causal_fallacies}
+  diagnose_two_wrongs: {domain: misconception_diagnosis, stage: 5, example_types: [fallacy_case], fallacy_filter: [two_wrongs_fallacy], answer_path: fallacy}
+  distinguish_near_neighbours: {domain: discrimination, stage: 6, example_types: [fallacy_case], answer_path: fallacy, distractors: all_informal_fallacies}
+
+distractor_sets:
+  definition_faults: [not_inclusive, not_exclusive, circular, sound]
+  signification_kinds: [complete, partial, concomitant]
+  term_scope: [universal, particular]
+  universal_relations: [coextensive, disjoint, absolute_generality_and_specificity, partial_overlap]
+  boolean: [true, false]
+  aeio: [A, E, I, O]
+  distribution_patterns: [neither, subject_only, predicate_only, both]
+  modes: [necessary, contingent, impossible]
+  evidence_bases: [empirical, rational, moral_or_religious]
+  nominalisations: [adjective_to_noun, verb_to_noun, adverb_to_noun]
+  square_relations: [contradiction, subalternation, contrariety, subcontrariety]
+  figures: [1, 2, 3, 4]
+  hypothetical_patterns: [modus_ponens, modus_tollens, affirming_consequent, denying_antecedent]
+  disjunction_types: [strong, inclusive, exclusive_nonexhaustive]
+  induction_types: [complete_induction, incomplete_induction, anecdotal_fallacy, abduction]
+  fallacy_levels: [formal, informal]
+  part_whole_fallacies: [composition_fallacy, division_fallacy]
+  relevance_fallacies: [ad_hominem_fallacy, loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy]
+  support_fallacies: [circular_argument, appeal_to_ignorance, irrelevant_authority]
+  causal_fallacies: [false_cause, correlation_causation_fallacy, slippery_slope_fallacy]
+  all_informal_fallacies: [composition_fallacy, division_fallacy, equivocation_fallacy, ad_hominem_fallacy, loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy, circular_argument, appeal_to_ignorance, irrelevant_authority, false_cause, correlation_causation_fallacy, slippery_slope_fallacy, two_wrongs_fallacy]

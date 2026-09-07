@@ -6,6 +6,7 @@
   <script>
     (() => {
       const themes = {
+        mizan: { bg: '#f7f8f5', scheme: 'light', plate: '#f7f8f5' },
         manuscript: { bg: '#f3f2f2', scheme: 'light', plate: '#1d1c1b' },
         mushaf: { bg: '#f7f1e1', scheme: 'light', plate: '#1f241c' },
         lamp: { bg: '#16130f', scheme: 'dark', plate: '#13110d' },
@@ -28,8 +29,8 @@
         const progress = stored && typeof stored === 'object' && stored.progress
           ? stored.progress
           : stored;
-        const theme = themes[progress.theme] ? progress.theme : 'manuscript';
-        const accent = progress.accent || 'gold';
+        const theme = progress?.mizanVersion && themes[progress.theme] ? progress.theme : 'mizan';
+        const accent = progress?.mizanVersion ? progress.accent || 'emerald' : 'emerald';
         const chrome = themes[theme];
         document.documentElement.dataset.theme = theme;
         document.documentElement.dataset.accent = accent;
@@ -44,20 +45,22 @@
         }
         meta.setAttribute('content', surface);
       } catch (e) {
-        document.documentElement.dataset.theme = 'manuscript';
-        document.documentElement.dataset.accent = 'gold';
+        document.documentElement.dataset.theme = 'mizan';
+        document.documentElement.dataset.accent = 'emerald';
         document.documentElement.style.colorScheme = 'light';
-        document.documentElement.style.backgroundColor = themes.manuscript.bg;
+        document.documentElement.style.backgroundColor = themes.mizan.bg;
         const meta = document.createElement('meta');
         meta.setAttribute('name', 'theme-color');
-        meta.setAttribute('content', themes.manuscript.bg);
+        meta.setAttribute('content', themes.mizan.bg);
         document.head.appendChild(meta);
       }
     })();
   </script>
-  <title>The Sciences</title>
+  <title>Mīzān — My learning</title>
+  <meta name="description" content="Study Arabic grammar, morphology and classical logic through guided lessons, worked examples and spaced review with Mīzān." />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mizan.css" />
   <!-- Vanilla ES modules, no bundler (see AGENTS.md) means the browser only
        discovers this app's import graph one file at a time: fetch main.js,
        parse it for its imports, fetch those, parse THEM for their imports,
@@ -121,8 +124,8 @@
   <div id="root">
     <div class="boot-screen" aria-hidden="true">
       <div class="boot-wordmark">
-        <span class="boot-name">The Sciences</span>
-        <span class="boot-ar" lang="ar" dir="rtl">العُلُوم</span>
+        <span class="boot-name">Mīzān</span>
+        <span class="boot-ar" lang="ar" dir="rtl">ميزان</span>
       </div>
       <div class="boot-rule"><span class="boot-rule-sweep"></span></div>
     </div>

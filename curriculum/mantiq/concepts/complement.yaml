@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: complement
+  title: {en: "Complement of a Term"}
+  type: definition
+  definition: {en: "Everything that is not included in the class named by a term."}
+  prerequisites: [universal_term]
+  skills: [form_term_complement]
+  exercise_families: [identification, construction]
+  source: {book_id: fst_logic, pages: [36]}

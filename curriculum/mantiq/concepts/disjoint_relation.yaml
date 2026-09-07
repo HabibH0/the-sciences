@@ -1,0 +1,25 @@
+schema_version: 1
+concept:
+  id: disjoint_relation
+  type: relationship
+  title:
+    en: Disjoint universals
+    ar: التَّبَايُنُ
+    transliteration: al-tabāyun
+  definition: Two universals are disjoint when no member of either universal belongs to the other.
+  objectives:
+    knowledge:
+      - State the membership condition for disjoint universals.
+    skills:
+      - Classify categories that share no members.
+      - Select a non-overlapping Venn representation.
+  prerequisites: [universal_term, coextensive_relation]
+  source: { book_id: fst_logic, pages: [16, 17] }
+  examples:
+    - id: married_unmarried
+      left: married people
+      right: unmarried people
+      relation: disjoint
+      venn: separate_sets
+  exercise_families: [classification, visual_reasoning, error_detection]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

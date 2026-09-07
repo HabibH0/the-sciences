@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: enthymeme
+  title: {en: "Enthymeme"}
+  type: inference
+  definition: {en: "A categorical syllogism with a premise or conclusion left implicit."}
+  prerequisites: [categorical_syllogism, minor_premise, major_premise]
+  skills: [supply_missing_syllogism_proposition]
+  exercise_families: [completion, reconstruction]
+  source: {book_id: fst_logic, pages: [47, 48]}

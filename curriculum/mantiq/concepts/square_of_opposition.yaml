@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: square_of_opposition
+  title: {en: "Square of Opposition"}
+  type: representation
+  definition: {en: "A map of the truth relationships among A, E, I, and O propositions with the same subject and predicate."}
+  prerequisites: [a_proposition, e_proposition, i_proposition, o_proposition]
+  skills: [read_square_of_opposition]
+  exercise_families: [visual_reasoning, relationship_classification]
+  source: {book_id: fst_logic, pages: [37, 38, 42, 43]}

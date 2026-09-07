@@ -1,0 +1,24 @@
+schema_version: 1
+concept:
+  id: concomitant_signification
+  type: relationship
+  title:
+    en: Concomitant signification
+    ar: دَلَالَة بِالِالْتِزَامِ
+    transliteration: dalālah bi-l-iltizām
+  definition: A word has concomitant signification when it denotes something customarily or logically associated with it.
+  objectives:
+    knowledge:
+      - Explain how concomitant signification differs from direct denotation.
+      - Recall why concomitant usage can create ambiguity in discussion.
+    skills:
+      - Identify a customary or logical association used in context.
+  prerequisites: [signification, complete_signification, partial_signification]
+  source: { book_id: fst_logic, pages: [14, 15] }
+  examples:
+    - id: not_human_feelings
+      expression: He is not human.
+      intended_association: He has no feelings.
+      classification: concomitant_signification
+  exercise_families: [classification, error_detection, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

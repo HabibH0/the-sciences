@@ -1,0 +1,31 @@
+schema_version: 1
+
+concept:
+  id: a_proposition
+  title:
+    en: "A-Proposition"
+    ar: "مُوْجِبَة كُلِّيَّة"
+    transliteration: "mūjibah kulliyyah"
+  type: classification
+  prerequisites:
+    - quality
+    - quantity
+  properties:
+    quantity: universal
+    quality: affirmative
+    symbol: A
+    distribution:
+      subject: true
+      predicate: false
+  knowledge:
+    - "A means universal affirmative: All S are P. Its subject is distributed and its predicate is not."
+  skills:
+    - classify_a_proposition
+    - analyse_a_proposition
+  exercise_families:
+    - classification
+    - multi_property_analysis
+    - construction
+  source:
+    book_id: fst_logic
+    pages: [22, 23]

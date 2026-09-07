@@ -1,0 +1,31 @@
+schema_version: 1
+
+concept:
+  id: o_proposition
+  title:
+    en: "O-Proposition"
+    ar: "سَالِبَة جُزْئِيَّة"
+    transliteration: "sālibah juzʾiyyah"
+  type: classification
+  prerequisites:
+    - quality
+    - quantity
+  properties:
+    quantity: particular
+    quality: negative
+    symbol: O
+    distribution:
+      subject: false
+      predicate: true
+  knowledge:
+    - "O means particular negative: Some S are not P. Its predicate is distributed and its subject is not."
+  skills:
+    - classify_o_proposition
+    - analyse_o_proposition
+  exercise_families:
+    - classification
+    - multi_property_analysis
+    - construction
+  source:
+    book_id: fst_logic
+    pages: [22, 23]

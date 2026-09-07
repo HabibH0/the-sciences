@@ -1,0 +1,53 @@
+# Recognition prompts must describe the idea without naming the answer.
+# These are exercise wording overrides; glossary definitions remain unchanged.
+clues:
+  circular_definition:
+    prompt: 'What is wrong with this proposed definition?'
+    stimulus: '“A reliable witness is a witness who is reliable.”'
+    options: ['It repeats the idea it should explain.', 'It leaves out some valid members.', 'It includes things that do not belong.']
+    answer: 'It repeats the idea it should explain.'
+    feedback: '“Reliable” is used to explain “reliable,” so the reader learns nothing about what makes a witness reliable. This is circularity; the wording needs an independent explanation.'
+  inclusive_definition:
+    stimulus: 'A definition covers every member that belongs to the category; no valid member is left out.'
+  exclusive_definition:
+    stimulus: 'A definition keeps out everything that does not belong to the category.'
+  coextensive_relation:
+    stimulus: 'Every member of the first class belongs to the second, and every member of the second belongs to the first.'
+  disjoint_relation:
+    stimulus: 'Two classes have no members in common.'
+  complete_signification:
+    stimulus: 'A word denotes the whole of its assigned meaning.'
+  partial_signification:
+    stimulus: 'A word denotes only a part of its assigned meaning.'
+  concomitant_signification:
+    stimulus: 'A word points to something associated with its meaning, rather than to the whole meaning or one of its parts.'
+  contingent_mode:
+    stimulus: 'The subject–predicate relationship can hold, but it can also fail to hold.'
+  impossible_mode:
+    stimulus: 'The subject–predicate relationship can never hold.'
+  necessary_mode:
+    stimulus: 'The subject–predicate relationship must hold and cannot be disconnected.'
+  distribution:
+    stimulus: 'A proposition refers to every member of a term’s class.'
+  signification:
+    stimulus: 'The relationship by which a word denotes a meaning.'
+  signified:
+    stimulus: 'The meaning denoted by a word or expression.'
+  signifier:
+    stimulus: 'The word or expression that denotes a meaning.'
+  particular_term:
+    stimulus: 'A word that does not apply to all things within a category.'
+  universal_term:
+    stimulus: 'A word that applies to all things within a category.'
+  proposition_value:
+    stimulus: 'Whether a statement is true or false.'
+  proposition_mode:
+    stimulus: 'Whether the subject–predicate relationship must hold, may hold, or cannot hold.'
+  a_venn_representation:
+    stimulus: 'The part of the subject circle outside the predicate circle is shaded to show that it is empty.'
+  e_venn_representation:
+    stimulus: 'The overlap of the subject and predicate circles is shaded to show that it is empty.'
+  i_venn_representation:
+    stimulus: 'An x in the overlap marks at least one member shared by the subject and predicate classes.'
+  o_venn_representation:
+    stimulus: 'An x in the subject-only region marks at least one subject-class member outside the predicate class.'

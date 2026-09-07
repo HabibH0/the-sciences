@@ -1,0 +1,22 @@
+schema_version: 1
+
+concept:
+  id: predicate
+  title:
+    en: "Predicate"
+    ar: "مَحْمُوْل"
+    transliteration: "maḥmūl"
+  type: component
+  definition:
+    en: "What is affirmed or denied about the subject of a proposition."
+  prerequisites:
+    - proposition
+    - subject
+  skills:
+    - identify_predicate
+  exercise_families:
+    - identification
+    - component_analysis
+  source:
+    book_id: fst_logic
+    pages: [20]

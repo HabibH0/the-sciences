@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: irrelevant_authority
+  title: {en: "Appeal to Irrelevant Authority"}
+  type: exception
+  definition: {en: "Using fame or expertise in an unrelated field as evidence for a claim."}
+  prerequisites: [informal_fallacy]
+  diagnostic_question: "Does the source have relevant expertise concerning this exact claim?"
+  skills: [diagnose_irrelevant_authority]
+  exercise_families: [error_detection, source_evaluation]
+  source: {book_id: fst_logic, pages: [73, 74]}

@@ -1,0 +1,16 @@
+schema_version: 1
+unit: informal_fallacies
+misconceptions:
+  - {id: formal_informal_confusion, diagnosis: "Names a content-dependent error as a defect of form, or the reverse.", remediation: "Abstract the topic words and see whether the error remains."}
+  - {id: composition_division_reversal, diagnosis: "Recognises a scope transfer but reverses its direction.", remediation: "Draw the transfer arrow: part→whole is composition; whole→part is division."}
+  - {id: repeated_word_same_meaning_assumption, diagnosis: "Misses a meaning shift because the same spelling is repeated.", remediation: "Substitute a definition for each occurrence."}
+  - {id: criticism_as_ad_hominem, diagnosis: "Labels every criticism of a person as ad hominem.", remediation: "Ask whether the personal fact is irrelevant to the argument under review."}
+  - {id: straw_man_red_herring_confusion, diagnosis: "Confuses distortion of a claim with diversion to another issue.", remediation: "A straw man replaces the claim; a red herring changes the subject."}
+  - {id: emotional_word_as_evidence, diagnosis: "Accepts intensity of language as factual support.", remediation: "Rewrite neutrally and inventory the evidence that remains."}
+  - {id: restatement_as_reason, diagnosis: "Accepts a paraphrase of the conclusion as an independent premise.", remediation: "Remove the conclusion's wording and require new support."}
+  - {id: burden_of_proof_reversal, diagnosis: "Treats absence of disproof as proof.", remediation: "Ask for positive evidence from the person advancing the claim."}
+  - {id: fame_as_expertise, diagnosis: "Treats recognition or unrelated expertise as relevant authority.", remediation: "Match the source's expertise to the exact claim."}
+  - {id: temporal_sequence_as_cause, diagnosis: "Assumes earlier means causal.", remediation: "Test mechanisms, controls, and alternative causes."}
+  - {id: correlation_as_cause, diagnosis: "Assumes co-variation identifies a causal direction.", remediation: "Look for reverse causation and common causes."}
+  - {id: chain_endpoint_certainty, diagnosis: "Treats every link in a speculative chain as guaranteed.", remediation: "Assign evidence and probability to each link separately."}
+  - {id: retaliation_as_justification, diagnosis: "Uses another wrong to remove responsibility for this wrong.", remediation: "Evaluate the action by the same standard independently."}

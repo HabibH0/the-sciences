@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: syllogism_mood
+  title: {en: "Syllogism Mood"}
+  type: classification
+  definition: {en: "The ordered A/E/I/O forms of the major premise, minor premise, and conclusion."}
+  prerequisites: [categorical_syllogism, a_proposition, e_proposition, i_proposition, o_proposition]
+  skills: [identify_mood]
+  exercise_families: [classification, encoding]
+  source: {book_id: fst_logic, pages: [48]}

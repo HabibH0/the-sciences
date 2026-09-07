@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: contradiction
+  title: {en: "Contradiction", ar: "تَنَاقُض", transliteration: "tanāquḍ"}
+  type: relationship
+  definition: {en: "A relationship in which exactly one of two propositions must be true and the other false."}
+  prerequisites: [square_of_opposition]
+  properties: {pairs: [[A, O], [E, I]], truth_rule: exactly_one_true}
+  skills: [identify_contradictory, infer_contradictory_value]
+  exercise_families: [relationship_classification, truth_inference]
+  source: {book_id: fst_logic, pages: [38, 39]}

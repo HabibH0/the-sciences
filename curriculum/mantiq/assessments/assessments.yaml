@@ -1,0 +1,161 @@
+schema_version: 1
+
+defaults:
+  selection: fixed
+  feedback_release: after_submission
+  allow_hints: false
+  shuffle_items: false
+  shuffle_options: true
+  attempts: 2
+  pass_score: 0.8
+
+assessments:
+  - id: course_diagnostic
+    type: diagnostic
+    title: "Course Diagnostic"
+    purpose: "Place learners without awarding retained mastery."
+    time_limit_minutes: 25
+    mastery_effect: baseline_only
+    items:
+      - {template: evaluate_definition, example: definition_muslim_hajj}
+      - {template: classify_signification, example: signification_quran_part}
+      - {template: classify_term_scope, example: term_most_pens}
+      - {template: classify_universal_relation, example: universals_mothers_women}
+      - {template: classify_aeio, example: aeio_books_boring}
+      - {template: diagnose_distribution, example: aeio_students_not_writers}
+      - {template: classify_mode, example: mode_healthy_person_ill}
+      - {template: choose_venn_representation, example: aeio_vegetables_tasty}
+      - {template: perform_conversion, example: conversion_a_illicit}
+      - {template: classify_square_relationship, example: square_a_o_contradiction}
+      - {template: classify_figure_and_mood, example: categorical_aaa_figure1}
+      - {template: classify_mixed_hypothetical, example: hypothetical_affirming_consequent}
+      - {template: classify_disjunction, example: disjunction_inclusive_documents}
+      - {template: evaluate_induction, example: induction_some_houses_street}
+      - {template: evaluate_analogy, example: analogy_cocaine_sugar}
+      - {template: distinguish_near_neighbours, example: straw_man_fair_trial}
+
+  - id: unit_1_checkpoint
+    type: unit_checkpoint
+    unit: terms
+    title: "Unit 1 Checkpoint — Terms"
+    time_limit_minutes: 15
+    mastery_effect: competency_evidence
+    items:
+      - {template: evaluate_definition, example: definition_muslim_hajj}
+      - {template: evaluate_definition, example: definition_muslim_believes_in_god}
+      - {template: evaluate_definition, example: definition_weight_weighs}
+      - {template: identify_signification_role, example: signification_football}
+      - {template: classify_signification, example: signification_quran_whole}
+      - {template: classify_signification, example: signification_quran_part}
+      - {template: classify_signification, example: signification_human_feelings}
+      - {template: classify_term_scope, example: term_all_pens}
+      - {template: classify_term_scope, example: term_most_pens}
+      - {template: classify_universal_relation, example: universals_wudhu_ablution}
+      - {template: classify_universal_relation, example: universals_married_unmarried}
+      - {template: diagnose_relation, example: universals_adults_males}
+
+  - id: unit_2_checkpoint
+    type: unit_checkpoint
+    unit: propositions
+    title: "Unit 2 Checkpoint — Propositions"
+    time_limit_minutes: 20
+    mastery_effect: competency_evidence
+    items:
+      - {template: identify_component, example: aeio_students_hardworking}
+      - {template: classify_value, example: value_square_three_sides}
+      - {template: classify_quality_quantity, example: aeio_books_boring}
+      - {template: classify_aeio, example: aeio_vegetables_tasty}
+      - {template: multi_property_analysis, example: aeio_students_not_writers}
+      - {template: diagnose_distribution, example: distribution_no_triangles_circles}
+      - {template: classify_mode, example: mode_whole_greater_part}
+      - {template: classify_evidence_basis, example: basis_fire_burns}
+      - {template: translate_categorical, example: translate_students_work_hard}
+      - {template: nominalise_expression, example: translate_flowers_sweetly}
+      - {template: resolve_missing_quantifier, example: omitted_students_diligent}
+      - {template: translate_only_readings, example: only_scholars_admitted}
+      - {template: choose_venn_representation, example: aeio_books_boring}
+      - {template: interpret_venn_representation, example: aeio_students_not_writers}
+
+  - id: unit_3_checkpoint
+    type: unit_checkpoint
+    unit: inference
+    title: "Unit 3 Checkpoint — Inference"
+    time_limit_minutes: 30
+    mastery_effect: competency_evidence
+    items:
+      - {template: perform_conversion, example: conversion_e_muslims_polytheists}
+      - {template: perform_conversion, example: conversion_a_limitation}
+      - {template: perform_conversion, example: conversion_o_illicit}
+      - {template: perform_obversion, example: obversion_a_birds_animals}
+      - {template: classify_square_relationship, example: square_a_e_contrary}
+      - {template: classify_square_relationship, example: square_i_o_subcontrary}
+      - {template: test_contradiction_conditions, example: noncontradiction_time_mismatch}
+      - {template: identify_syllogism_components, example: categorical_aaa_figure1}
+      - {template: classify_figure_and_mood, example: categorical_undistributed_middle}
+      - {template: audit_distribution_rules, example: categorical_undistributed_middle}
+      - {template: audit_negative_rules, example: categorical_two_negative_premises}
+      - {template: identify_hypothetical_components, example: hypothetical_modus_ponens_rain}
+      - {template: classify_mixed_hypothetical, example: hypothetical_denying_antecedent}
+      - {template: complete_hypothetical_chain, example: hypothetical_pure_chain}
+      - {template: classify_disjunction, example: disjunction_nonexhaustive_word}
+      - {template: evaluate_induction, example: induction_one_house_generalised}
+      - {template: evaluate_analogy, example: analogy_alcohol_cocaine}
+
+  - id: unit_4_checkpoint
+    type: unit_checkpoint
+    unit: informal_fallacies
+    title: "Unit 4 Checkpoint — Informal Fallacies"
+    time_limit_minutes: 20
+    mastery_effect: competency_evidence
+    items:
+      - {template: classify_fallacy_level, example: level_affirming_consequent}
+      - {template: classify_fallacy_level, example: level_person_attack}
+      - {template: diagnose_part_whole, example: composition_water_drink}
+      - {template: diagnose_part_whole, example: division_wealthy_country}
+      - {template: diagnose_equivocation, example: equivocation_nothing}
+      - {template: diagnose_relevance_rhetoric, example: ad_hominem_lazy_speaker}
+      - {template: diagnose_relevance_rhetoric, example: loaded_language_policy}
+      - {template: diagnose_relevance_rhetoric, example: straw_man_fair_trial}
+      - {template: diagnose_relevance_rhetoric, example: red_herring_speeding}
+      - {template: diagnose_faulty_support, example: circular_illegal_law}
+      - {template: diagnose_faulty_support, example: ignorance_aliens}
+      - {template: diagnose_faulty_support, example: authority_celebrity_medicine}
+      - {template: diagnose_causal_error, example: false_cause_ladder}
+      - {template: diagnose_causal_error, example: correlation_icecream_sharks}
+      - {template: diagnose_causal_error, example: slippery_slope_homework}
+      - {template: diagnose_two_wrongs, example: two_wrongs_speeding}
+
+  - id: course_final
+    type: final
+    title: "Final Mastery Assessment"
+    purpose: "Test retained, interleaved application across the complete course."
+    time_limit_minutes: 45
+    mastery_effect: retained_mastery_evidence
+    attempts: 1
+    pass_score: 0.85
+    items:
+      - {template: compare_definition_faults, example: definition_muslim_believes_in_god}
+      - {template: diagnose_signification, example: signification_human_feelings}
+      - {template: diagnose_relation, example: universals_adults_males}
+      - {template: multi_property_analysis, example: aeio_students_hardworking}
+      - {template: diagnose_distribution, example: aeio_students_not_writers}
+      - {template: classify_evidence_basis, example: basis_duty_religious}
+      - {template: translate_categorical, example: translate_rose_red}
+      - {template: translate_only_readings, example: only_scholars_admitted}
+      - {template: interpret_venn_representation, example: aeio_books_boring}
+      - {template: perform_conversion, example: conversion_a_illicit}
+      - {template: perform_obversion, example: obversion_o_muslims_arabs}
+      - {template: classify_square_relationship, example: square_a_i_subaltern}
+      - {template: test_contradiction_conditions, example: noncontradiction_time_mismatch}
+      - {template: identify_syllogism_components, example: categorical_aaa_figure1}
+      - {template: classify_figure_and_mood, example: categorical_two_negative_premises}
+      - {template: audit_distribution_rules, example: categorical_undistributed_middle}
+      - {template: classify_mixed_hypothetical, example: hypothetical_affirming_consequent}
+      - {template: complete_hypothetical_chain, example: hypothetical_pure_chain}
+      - {template: classify_disjunction, example: disjunction_inclusive_documents}
+      - {template: evaluate_induction, example: induction_some_houses_street}
+      - {template: evaluate_analogy, example: analogy_cocaine_sugar}
+      - {template: diagnose_relevance_rhetoric, example: red_herring_speeding}
+      - {template: diagnose_faulty_support, example: authority_celebrity_medicine}
+      - {template: diagnose_causal_error, example: correlation_icecream_sharks}
+      - {template: distinguish_near_neighbours, example: straw_man_fair_trial}

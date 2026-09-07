@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: obversion
+  title: {en: "Obversion"}
+  type: transformation
+  definition: {en: "A direct inference that changes the quality and replaces the predicate with its complement."}
+  prerequisites: [direct_inference, quality, predicate, complement]
+  properties: {valid_forms: [A, E, I, O], mappings: {A: E, E: A, I: O, O: I}}
+  skills: [perform_obversion]
+  exercise_families: [transformation, construction]
+  source: {book_id: fst_logic, pages: [36]}

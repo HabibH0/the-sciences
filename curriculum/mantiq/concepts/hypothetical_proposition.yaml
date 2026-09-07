@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: hypothetical_proposition
+  title: {en: "Hypothetical Proposition"}
+  type: definition
+  definition: {en: "A proposition connecting two statements in an if-then relationship."}
+  prerequisites: [proposition]
+  skills: [recognise_hypothetical_proposition]
+  exercise_families: [recognition, component_analysis]
+  source: {book_id: fst_logic, pages: [56]}

@@ -5,6 +5,7 @@
 // pass of checks covers both -- just looped once per course.
 import { COURSES, conceptLines, ensureCoursesLoaded, flattenTarkeebSlots } from '../content/index.js';
 import { LIT_BOOKS, loadChapter, isBuildEligible, LIT_BUILD_MIN } from '../content-lit/index.js';
+import { validateLogic } from './validate-mizan.mjs';
 
 await ensureCoursesLoaded(COURSES.map((course) => course.id));
 
@@ -87,6 +88,7 @@ function checkTarkeebItem(item, where) {
 }
 
 function validateCourse(course) {
+  if (course.id === 'mantiq') return validateLogic();
   const { id: courseId, modules: MODULES } = course;
   const seenIds = new Set();
 

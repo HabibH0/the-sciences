@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: syllogism_proposition_count_rule
+  title: {en: "Rule 2: Exactly Three Propositions"}
+  type: rule
+  definition: {en: "One categorical syllogism contains exactly two premises and one conclusion."}
+  prerequisites: [categorical_syllogism]
+  properties: {required_count: 3}
+  skills: [test_proposition_count, separate_chained_syllogisms]
+  exercise_families: [rule_application, segmentation]
+  source: {book_id: fst_logic, pages: [49]}

@@ -1,0 +1,22 @@
+schema_version: 1
+vocabulary_pool:
+  id: informal_fallacies
+  guidance:
+    - "Use short, self-contained cases with one dominant diagnostic error."
+    - "For advanced items, combine two cues but retain one best-supported label."
+  domains:
+    - {id: everyday_choices, topics: [food, transport, homework, shopping]}
+    - {id: public_claims, topics: [policy, advertising, news, debate]}
+    - {id: evidence, topics: [science, medicine, statistics, expertise]}
+  neutral_replacements:
+    - {loaded: "heartless monster", neutral: "person who disagrees"}
+    - {loaded: "obviously disastrous", neutral: "potentially harmful"}
+    - {loaded: "miracle product", neutral: "advertised product"}
+  causal_confounders:
+    - {correlation: [ice_cream_sales, shark_attacks], possible_common_cause: warm_weather}
+    - {correlation: [umbrella_use, wet_streets], possible_common_cause: rain}
+  authority_pairs:
+    - {source: physician, claim: medical_treatment, relevance: relevant}
+    - {source: actor, claim: medical_treatment, relevance: irrelevant}
+    - {source: structural_engineer, claim: bridge_load, relevance: relevant}
+    - {source: athlete, claim: bridge_load, relevance: irrelevant}

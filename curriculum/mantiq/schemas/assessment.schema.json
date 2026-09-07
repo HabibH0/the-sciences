@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mantiq Assessment Collection",
+  "type": "object",
+  "required": ["schema_version", "defaults", "assessments"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "defaults": {"type": "object"},
+    "assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "title", "items"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "type": {"enum": ["diagnostic", "unit_checkpoint", "final"]},
+          "title": {"type": "string"},
+          "items": {
+            "type": "array",
+            "minItems": 10,
+            "items": {
+              "type": "object",
+              "required": ["template", "example"],
+              "properties": {
+                "template": {"type": "string"},
+                "example": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

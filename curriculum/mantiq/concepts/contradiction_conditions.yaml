@@ -1,0 +1,13 @@
+schema_version: 1
+concept:
+  id: contradiction_conditions
+  title: {en: "Conditions of Contradiction"}
+  type: rule
+  definition: {en: "Contradictories must match in every relevant aspect except affirmation and denial."}
+  prerequisites: [contradiction]
+  properties:
+    required_unities: [subject, predicate, place, time, potentiality_or_actuality, condition, whole_or_part, relationship]
+  knowledge: ["Additional contextual unities, such as tool, may also matter."]
+  skills: [test_genuine_contradiction]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [39, 40, 41]}

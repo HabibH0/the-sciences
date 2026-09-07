@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: informal_fallacy
+  title: {en: "Informal Fallacy"}
+  type: classification
+  definition: {en: "An error arising from an argument's content or method rather than its formal structure alone."}
+  prerequisites: [inference]
+  skills: [distinguish_informal_fallacy]
+  exercise_families: [classification, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [72]}

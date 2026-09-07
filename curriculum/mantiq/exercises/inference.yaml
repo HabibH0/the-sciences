@@ -1,0 +1,363 @@
+schema_version: 1
+
+exercise_set:
+  id: inference_core
+  unit: inference
+
+templates:
+  - id: classify_inference_family
+    family: classification
+    concepts: [inference, direct_inference, indirect_inference, deduction, induction, analogy]
+    difficulty: 2
+    prompt: "Classify this inference and explain its direction."
+  - id: perform_conversion
+    family: transformation
+    concepts: [conversion, simple_conversion, conversion_by_limitation, illicit_conversion]
+    difficulty: 4
+    prompt: "Convert this proposition if valid; otherwise name the fallacy."
+  - id: perform_obversion
+    family: transformation
+    concepts: [complement, obversion]
+    difficulty: 3
+    prompt: "Obvert this proposition and identify the predicate complement."
+  - id: classify_square_relationship
+    family: relationship_classification
+    concepts: [square_of_opposition, contradiction, subalternation, contrariety, subcontrariety]
+    difficulty: 4
+    prompt: "Name the square relationship and infer only licensed truth values."
+  - id: test_contradiction_conditions
+    family: error_detection
+    concepts: [contradiction_conditions]
+    difficulty: 5
+    prompt: "Are these genuine contradictories? Identify every mismatched aspect."
+  - id: identify_syllogism_components
+    family: component_analysis
+    concepts: [categorical_syllogism, minor_term, major_term, middle_term, minor_premise, major_premise]
+    difficulty: 3
+    prompt: "Label S, P, M, the major premise, and the minor premise."
+  - id: reconstruct_enthymeme
+    family: reconstruction
+    concepts: [enthymeme]
+    difficulty: 5
+    prompt: "Supply the missing proposition and reconstruct the full syllogism."
+  - id: classify_figure_and_mood
+    family: classification
+    concepts: [syllogism_figure, syllogism_mood]
+    difficulty: 5
+    prompt: "Identify this categorical syllogism's figure and mood."
+  - id: audit_number_rules
+    family: rule_application
+    concepts: [syllogism_term_count_rule, syllogism_proposition_count_rule]
+    difficulty: 4
+    prompt: "Test the number of unambiguous terms and propositions."
+  - id: audit_distribution_rules
+    family: rule_application
+    concepts: [distributed_middle_rule, illicit_process_rule]
+    difficulty: 6
+    prompt: "Test middle-term distribution and illicit major or minor."
+  - id: audit_negative_rules
+    family: rule_application
+    concepts: [negative_premises_rule, negative_conclusion_rule]
+    difficulty: 5
+    prompt: "Test the rules governing negative premises and conclusions."
+  - id: audit_particular_rules
+    family: rule_application
+    concepts: [particular_premises_rule, particular_conclusion_rule]
+    difficulty: 5
+    prompt: "Test the rules governing particular premises and conclusions."
+  - id: identify_hypothetical_components
+    family: component_analysis
+    concepts: [hypothetical_proposition, antecedent, consequent]
+    difficulty: 2
+    prompt: "Identify the antecedent and consequent."
+  - id: classify_mixed_hypothetical
+    family: validity_classification
+    concepts: [mixed_hypothetical_syllogism, modus_ponens, modus_tollens, affirming_consequent_fallacy, denying_antecedent_fallacy]
+    difficulty: 4
+    prompt: "Name the mixed hypothetical form and determine validity."
+  - id: complete_hypothetical_chain
+    family: completion
+    concepts: [pure_hypothetical_syllogism]
+    difficulty: 4
+    prompt: "Remove the repeated middle statement and complete the conditional chain."
+  - id: classify_disjunction
+    family: validity_classification
+    concepts: [disjunctive_syllogism, strong_disjunction, inclusive_disjunction, exclusive_nonexhaustive_disjunction, false_dilemma]
+    difficulty: 5
+    prompt: "Classify the alternatives and determine whether the inference is valid."
+  - id: evaluate_induction
+    family: evaluation
+    concepts: [complete_induction, incomplete_induction, anecdotal_fallacy, overgeneralisation, abduction]
+    difficulty: 5
+    prompt: "Classify the reasoning and calibrate the conclusion's certainty."
+  - id: evaluate_analogy
+    family: evaluation
+    concepts: [analogy, analogy_source, analogy_target, relevant_similarity, analogical_fallacy]
+    difficulty: 5
+    prompt: "Identify the analogy's parts and evaluate the relevance of its comparison."
+
+examples:
+  - id: conversion_e_muslims_polytheists
+    rationale: 'Yes. If the two classes have no members in common, their order can be reversed: no polytheists are Muslims.'
+    type: direct_transformation
+    operation: conversion
+    original: {text: "No Muslims are polytheists.", form: E, subject: muslims, predicate: polytheists}
+    result: {text: "No polytheists are Muslims.", form: E, subject: polytheists, predicate: muslims}
+    valid: true
+  - id: conversion_i_muslims_arabs
+    rationale: 'Yes. A member who is both Muslim and Arab is also both Arab and Muslim. Reversing the terms preserves this particular affirmative claim.'
+    type: direct_transformation
+    operation: conversion
+    original: {text: "Some Muslims are Arabs.", form: I, subject: muslims, predicate: arabs}
+    result: {text: "Some Arabs are Muslims.", form: I, subject: arabs, predicate: muslims}
+    valid: true
+  - id: conversion_a_limitation
+    rationale: 'Yes, under the stated existence assumption. At least one Muslim exists and every Muslim is a monotheist, so some monotheists are Muslims. This is conversion by limitation.'
+    type: direct_transformation
+    operation: conversion_by_limitation
+    original: {text: "All Muslims are monotheists.", form: A, subject: muslims, predicate: monotheists}
+    result: {text: "Some monotheists are Muslims.", form: I, subject: monotheists, predicate: muslims}
+    valid: true
+  - id: conversion_a_illicit
+    rationale: 'No. All Muslims being monotheists does not make every monotheist Muslim. The proposed universal reversal is illicit conversion.'
+    type: direct_transformation
+    operation: conversion
+    original: {text: "All Muslims are monotheists.", form: A, subject: muslims, predicate: monotheists}
+    result: {text: "All monotheists are Muslims.", form: A, subject: monotheists, predicate: muslims}
+    valid: false
+    fallacy: illicit_conversion
+  - id: conversion_o_illicit
+    rationale: 'No. The original asserts a Muslim outside the Hanafi class; it does not establish a Hanafi outside the Muslim class. This reversal is illicit conversion.'
+    type: direct_transformation
+    operation: conversion
+    original: {text: "Some Muslims are not Hanafis.", form: O, subject: muslims, predicate: hanafis}
+    result: {text: "Some Hanafis are not Muslims.", form: O, subject: hanafis, predicate: muslims}
+    valid: false
+    fallacy: illicit_conversion
+  - id: obversion_a_birds_animals
+    type: direct_transformation
+    operation: obversion
+    original: {text: "All birds are animals.", form: A, subject: birds, predicate: animals}
+    result: {text: "No birds are non-animals.", form: E, subject: birds, predicate: non_animals}
+    valid: true
+  - id: obversion_o_muslims_arabs
+    type: direct_transformation
+    operation: obversion
+    original: {text: "Some Muslims are not Arabs.", form: O, subject: muslims, predicate: arabs}
+    result: {text: "Some Muslims are non-Arabs.", form: I, subject: muslims, predicate: non_arabs}
+    valid: true
+  - id: square_a_o_contradiction
+    type: square_pair
+    forms: [A, O]
+    relationship: contradiction
+    conditions_match: true
+    truth_rule: exactly_one_true
+  - id: square_a_e_contrary
+    type: square_pair
+    forms: [A, E]
+    relationship: contrariety
+    conditions_match: true
+    truth_rule: not_both_true
+  - id: square_i_o_subcontrary
+    type: square_pair
+    forms: [I, O]
+    relationship: subcontrariety
+    conditions_match: true
+    truth_rule: not_both_false
+  - id: square_a_i_subaltern
+    type: square_pair
+    forms: [A, I]
+    relationship: subalternation
+    conditions_match: true
+    truth_rule: truth_descends
+  - id: noncontradiction_time_mismatch
+    type: contradiction_test
+    statements: ["Ahmad is walking now.", "Ahmad was not walking yesterday."]
+    conditions_match: false
+    mismatches: [time]
+  - id: noncontradiction_subject_mismatch
+    type: contradiction_test
+    statements: ["Ahmad is happy.", "Khalid is not happy."]
+    conditions_match: false
+    mismatches: [subject]
+  - id: noncontradiction_predicate_mismatch
+    type: contradiction_test
+    statements: ["Ahmad is happy.", "Ahmad is not sleepy."]
+    conditions_match: false
+    mismatches: [predicate]
+  - id: noncontradiction_place_mismatch
+    type: contradiction_test
+    statements: ["Ahmad is walking in the park.", "Ahmad is not walking in the shop."]
+    conditions_match: false
+    mismatches: [place]
+  - id: noncontradiction_actuality_mismatch
+    type: contradiction_test
+    statements: ["The child is potentially a leader.", "The child is not currently a leader."]
+    conditions_match: false
+    mismatches: [potentiality_or_actuality]
+  - id: noncontradiction_condition_mismatch
+    type: contradiction_test
+    statements: ["He will fail if he does not work.", "He will not fail if he works."]
+    conditions_match: false
+    mismatches: [condition]
+  - id: noncontradiction_part_mismatch
+    type: contradiction_test
+    statements: ["He likes the whole pizza.", "He dislikes one topping."]
+    conditions_match: false
+    mismatches: [whole_or_part]
+  - id: noncontradiction_relationship_mismatch
+    type: contradiction_test
+    statements: ["He is Mr Jones's student.", "He is not Mrs Smith's student."]
+    conditions_match: false
+    mismatches: [relationship]
+  - id: categorical_aaa_figure1
+    type: categorical_syllogism
+    major_premise: {text: "All practising Muslims are honest people.", form: A, terms: [M, P]}
+    minor_premise: {text: "All people identical with Ahmad are practising Muslims.", form: A, terms: [S, M]}
+    conclusion: {text: "All people identical with Ahmad are honest people.", form: A, terms: [S, P]}
+    terms: {S: ahmad, P: honest_people, M: practising_muslims}
+    figure: 1
+    mood: AAA
+    valid: true
+    failed_rules: []
+  - id: categorical_undistributed_middle
+    type: categorical_syllogism
+    major_premise: {form: A, terms: [P, M]}
+    minor_premise: {form: A, terms: [S, M]}
+    conclusion: {form: A, terms: [S, P]}
+    terms: {S: this_man, P: saudi_men, M: red_scarf_wearers}
+    figure: 2
+    mood: AAA
+    valid: false
+    failed_rules: [distributed_middle_rule]
+  - id: categorical_two_negative_premises
+    type: categorical_syllogism
+    major_premise: {form: E, terms: [P, M]}
+    minor_premise: {form: E, terms: [S, M]}
+    conclusion: {form: E, terms: [S, P]}
+    terms: {S: books, P: cheap_things, M: pens}
+    figure: 2
+    mood: EEE
+    valid: false
+    failed_rules: [negative_premises_rule]
+  - id: hypothetical_modus_ponens_rain
+    type: hypothetical_argument
+    pattern: modus_ponens
+    antecedent: it_rains
+    consequent: ground_wet
+    second_premise: it_rains
+    conclusion: ground_wet
+    valid: true
+  - id: hypothetical_modus_tollens_rain
+    type: hypothetical_argument
+    pattern: modus_tollens
+    antecedent: it_rains
+    consequent: ground_wet
+    second_premise: not_ground_wet
+    conclusion: not_it_rains
+    valid: true
+  - id: hypothetical_affirming_consequent
+    type: hypothetical_argument
+    pattern: affirming_consequent
+    antecedent: it_rains
+    consequent: ground_wet
+    second_premise: ground_wet
+    conclusion: it_rains
+    valid: false
+  - id: hypothetical_denying_antecedent
+    type: hypothetical_argument
+    pattern: denying_antecedent
+    antecedent: it_rains
+    consequent: ground_wet
+    second_premise: not_it_rains
+    conclusion: not_ground_wet
+    valid: false
+  - id: hypothetical_pure_chain
+    type: pure_hypothetical_argument
+    chain: ["rain -> wet", "wet -> cold"]
+    conclusion: "rain -> cold"
+    valid: true
+  - id: hypothetical_pure_study_chain
+    type: pure_hypothetical_argument
+    chain: ["study -> understand", "understand -> answer"]
+    conclusion: "study -> answer"
+    valid: true
+  - id: hypothetical_pure_key_chain
+    type: pure_hypothetical_argument
+    chain: ["key turns -> lock opens", "lock opens -> door opens"]
+    conclusion: "key turns -> door opens"
+    valid: true
+  - id: hypothetical_pure_registration_chain
+    type: pure_hypothetical_argument
+    chain: ["register -> roster", "roster -> access"]
+    conclusion: "register -> access"
+    valid: true
+  - id: disjunction_strong_day_night
+    type: disjunctive_argument
+    relationship: strong
+    alternatives: [day, night]
+    both_allowed: false
+    neither_allowed: false
+    move: affirming
+    valid: true
+  - id: disjunction_inclusive_documents
+    type: disjunctive_argument
+    relationship: inclusive
+    alternatives: [passport, driving_licence]
+    both_allowed: true
+    neither_allowed: false
+    move: affirming
+    valid: false
+  - id: disjunction_nonexhaustive_word
+    type: disjunctive_argument
+    relationship: exclusive_nonexhaustive
+    alternatives: [noun, verb]
+    both_allowed: false
+    neither_allowed: true
+    move: denying
+    valid: false
+  - id: induction_all_houses_street
+    type: induction_case
+    method: complete_induction
+    observed: all_members
+    conclusion_scope: universal
+    certainty: certain
+  - id: induction_some_houses_street
+    type: induction_case
+    method: incomplete_induction
+    observed: sample
+    conclusion_scope: universal
+    certainty: probable
+  - id: induction_one_house_generalised
+    type: induction_case
+    method: anecdotal_fallacy
+    observed: one_member
+    conclusion_scope: universal
+    certainty: unsupported
+  - id: analogy_alcohol_cocaine
+    type: analogy_case
+    source: alcohol
+    target: cocaine
+    similarities: [{feature: intoxication, relevant: true}]
+    dissimilarities: [{feature: physical_form, relevant: false}]
+    conclusion_supported: true
+  - id: analogy_cocaine_sugar
+    type: analogy_case
+    source: cocaine
+    target: sugar
+    similarities: [{feature: white_powder, relevant: false}]
+    dissimilarities: []
+    conclusion_supported: false
+    fallacy: analogical_fallacy
+
+mastery_check:
+  required_correct: 12
+  minimum_accuracy: 0.82
+  minimum_difficulty: 5
+  required_families: [transformation, truth_inference, rule_application, validity_classification, evaluation]
+  misconception_free_streak: 4
+
+review:
+  intervals_days: [1, 3, 10, 30]
+  interleave_with_units: [terms, propositions]
+  reset_interval_on_misconception: true

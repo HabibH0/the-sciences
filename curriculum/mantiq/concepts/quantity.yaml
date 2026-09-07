@@ -1,0 +1,29 @@
+schema_version: 1
+
+concept:
+  id: quantity
+  title:
+    en: "Quantity of a Proposition"
+  definition:
+    en: "Whether a proposition refers to every member of its subject class or only some members."
+  type: classification
+  prerequisites:
+    - proposition
+    - quantifier
+  values:
+    - id: universal
+      ar: "كُلِّيَّة"
+      transliteration: "kulliyyah"
+    - id: particular
+      ar: "جُزْئِيَّة"
+      transliteration: "juzʾiyyah"
+  knowledge:
+    - "Universal quantity is normally marked by all or no; particular quantity is normally marked by some."
+  skills:
+    - identify_quantity
+  exercise_families:
+    - classification
+    - compare_and_distinguish
+  source:
+    book_id: fst_logic
+    pages: [22]

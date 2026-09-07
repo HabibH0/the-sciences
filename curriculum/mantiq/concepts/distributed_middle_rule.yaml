@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: distributed_middle_rule
+  title: {en: "Rule 3: Distributed Middle"}
+  type: rule
+  definition: {en: "The middle term must be distributed in at least one premise."}
+  prerequisites: [categorical_syllogism, middle_term, distribution]
+  properties: {violation: undistributed_middle}
+  skills: [test_middle_distribution]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [50]}

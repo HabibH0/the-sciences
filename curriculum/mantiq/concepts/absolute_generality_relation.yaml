@@ -1,0 +1,25 @@
+schema_version: 1
+concept:
+  id: absolute_generality_relation
+  type: relationship
+  title:
+    en: Absolute generality and specificity
+    ar: الْعُمُوْمُ وَالْخُصُوْصُ مُطْلَقًا
+    transliteration: al-ʿumūm wa-l-khuṣūṣ muṭlaqan
+  definition: All members of one universal fall under a second universal, but not all members of the second fall under the first.
+  objectives:
+    knowledge:
+      - State the one-way membership condition for this relation.
+    skills:
+      - Identify which universal is narrower and which is broader.
+      - Select a nested-set Venn representation.
+  prerequisites: [universal_term, coextensive_relation, disjoint_relation]
+  source: { book_id: fst_logic, pages: [17] }
+  examples:
+    - id: mothers_women
+      narrower: mothers
+      broader: women
+      relation: absolute_generality_and_specificity
+      venn: nested_sets
+  exercise_families: [classification, visual_reasoning, multi_property_analysis]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

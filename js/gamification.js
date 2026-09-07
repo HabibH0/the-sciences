@@ -148,7 +148,7 @@ export const COURSE_TIERS = COURSES.map((c) => ({
   name: `${c.name}, Complete`,
   desc: `Finish every module in ${c.name}.`,
 }));
-export const COURSE_ALL_BADGE = { id: 'course-all', name: 'The Full Curriculum', desc: 'Finish every course The Sciences offers.' };
+export const COURSE_ALL_BADGE = { id: 'course-all', name: 'The Full Curriculum', desc: 'Finish every course Mīzān offers.' };
 
 function tierDefs(tiers) {
   return Object.fromEntries(tiers.map((t) => [t.id, { name: t.name, desc: t.desc }]));

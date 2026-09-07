@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: impossible_mode
+  title:
+    en: "Impossible Mode"
+    ar: "مُسْتَحِيْل"
+    transliteration: "mustaḥīl"
+  type: classification
+  definition:
+    en: "An impossible mode is one in which the subject-predicate relationship can never exist."
+  prerequisites: [proposition_mode, necessary_mode, contingent_mode]
+  properties: { mode: impossible, relationship_can_exist: false }
+  knowledge:
+    - "Impossible means the relationship can never obtain, not merely that a proposition is negative."
+  skills:
+    - classify_impossible_relationship
+  exercise_families: [classification, compare_and_distinguish, error_detection]
+  source: { book_id: fst_logic, pages: [25] }

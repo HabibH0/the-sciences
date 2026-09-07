@@ -11,6 +11,8 @@ await import('./generate-content-meta.mjs');
 const entries = [
   'index.html',
   'styles.css',
+  'mizan.css',
+  'content-mantiq',
   'content',
   'content-fstu',
   'content-fstu-sarf',

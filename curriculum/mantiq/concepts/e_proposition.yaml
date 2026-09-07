@@ -1,0 +1,31 @@
+schema_version: 1
+
+concept:
+  id: e_proposition
+  title:
+    en: "E-Proposition"
+    ar: "سَالِبَة كُلِّيَّة"
+    transliteration: "sālibah kulliyyah"
+  type: classification
+  prerequisites:
+    - quality
+    - quantity
+  properties:
+    quantity: universal
+    quality: negative
+    symbol: E
+    distribution:
+      subject: true
+      predicate: true
+  knowledge:
+    - "E means universal negative: No S are P. Both terms are distributed."
+  skills:
+    - classify_e_proposition
+    - analyse_e_proposition
+  exercise_families:
+    - classification
+    - multi_property_analysis
+    - construction
+  source:
+    book_id: fst_logic
+    pages: [22, 23]

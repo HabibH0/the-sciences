@@ -1,0 +1,264 @@
+schema_version: 1
+
+exercise_set:
+  id: propositions_core
+  unit: propositions
+
+templates:
+  - id: recognise_proposition
+    family: recognition
+    concepts: [proposition]
+    difficulty: 1
+    prompt: "What is this expression doing?"
+  - id: identify_component
+    family: identification
+    concepts: [subject, predicate, quantifier, copula]
+    difficulty: 1
+    prompt: "Identify the {component} in this proposition."
+  - id: classify_value
+    family: classification
+    concepts: [proposition_value]
+    difficulty: 2
+    prompt: "Is this proposition true or false, and is that question structural or external?"
+  - id: classify_quality_quantity
+    family: classification
+    concepts: [quality, quantity]
+    difficulty: 2
+    prompt: "State this proposition's quality and quantity."
+    response_options:
+      quality: [affirmative, negative]
+      quantity: [universal, particular]
+  - id: classify_aeio
+    family: classification
+    concepts: [a_proposition, e_proposition, i_proposition, o_proposition]
+    difficulty: 3
+    prompt: "Classify this proposition as A, E, I, or O."
+  - id: multi_property_analysis
+    family: multi_property_analysis
+    concepts: [a_proposition, e_proposition, i_proposition, o_proposition, distribution]
+    difficulty: 4
+    prompt: "Identify the components, quantity, quality, form, and distribution."
+    response_options:
+      quality: [affirmative, negative]
+      quantity: [universal, particular]
+      form: [A, E, I, O]
+  - id: diagnose_distribution
+    family: error_detection
+    concepts: [distribution]
+    difficulty: 5
+    prompt: "Find and correct the distribution error."
+  - id: classify_mode
+    family: classification
+    concepts: [proposition_mode, necessary_mode, contingent_mode, impossible_mode]
+    difficulty: 3
+    prompt: "Classify the connection as necessary, contingent, or impossible."
+  - id: classify_evidence_basis
+    family: classification
+    concepts: [physical_mode_basis, metaphysical_mode_basis, moral_religious_mode_basis]
+    difficulty: 4
+    prompt: "Classify the basis of this modal judgement."
+  - id: translate_categorical
+    family: transformation
+    concepts: [categorical_translation]
+    difficulty: 3
+    prompt: "Translate this sentence into explicit categorical form."
+  - id: nominalise_expression
+    family: transformation
+    concepts: [adjective_to_noun, verb_to_noun, adverb_to_noun]
+    difficulty: 4
+    prompt: "Turn the marked expression into a suitable noun phrase."
+  - id: resolve_missing_quantifier
+    family: ambiguity_detection
+    concepts: [missing_quantifier]
+    difficulty: 5
+    prompt: "Identify the missing quantifier and give both possible readings."
+  - id: translate_only_readings
+    family: ambiguity_detection
+    concepts: [only_ambiguity]
+    difficulty: 6
+    prompt: "Give the two categorical readings permitted by the scope of ‘only’."
+  - id: choose_venn_representation
+    family: visual_reasoning
+    concepts: [venn_convention, a_venn_representation, e_venn_representation, i_venn_representation, o_venn_representation]
+    difficulty: 4
+    prompt: "Choose the Venn marking that represents this proposition."
+  - id: interpret_venn_representation
+    family: visual_reasoning
+    concepts: [venn_convention, a_venn_representation, e_venn_representation, i_venn_representation, o_venn_representation]
+    difficulty: 5
+    prompt: "Translate this Venn marking into a categorical proposition."
+  - id: construct_proposition
+    family: construction
+    concepts: [a_proposition, e_proposition, i_proposition, o_proposition]
+    difficulty: 6
+    prompt: "Construct a proposition with the requested form and distribution."
+
+examples:
+  - id: expression_question_books
+    type: expression_check
+    render: {en: 'Are all books useful?'}
+    expression_kind: Asking a question
+    rationale: 'This asks whether a claim is true; it does not assert that the claim is true. A question is not itself a proposition.'
+  - id: expression_question_door
+    type: expression_check
+    render: {en: 'Is the door open?'}
+    expression_kind: Asking a question
+    rationale: 'The speaker asks for information rather than asserting that the door is open or closed.'
+  - id: expression_command_book
+    type: expression_check
+    render: {en: 'Open the book.'}
+    expression_kind: Giving an instruction
+    rationale: 'This directs someone to act. An instruction is not a claim that can be true or false.'
+  - id: expression_command_door
+    type: expression_check
+    render: {en: 'Please close the door.'}
+    expression_kind: Giving an instruction
+    rationale: 'Adding “please” does not turn the instruction into a proposition: the speaker is requesting an action, not asserting a claim.'
+  - id: expression_phrase_book
+    type: expression_check
+    render: {en: 'The book on the desk'}
+    expression_kind: Naming something
+    rationale: 'This phrase identifies a book but does not assert anything about it. “The book is on the desk” would make a claim.'
+  - id: expression_phrase_students
+    type: expression_check
+    render: {en: 'Some hardworking students'}
+    expression_kind: Naming something
+    rationale: 'The phrase names a group. The word “some” alone does not make it a proposition; nothing is yet asserted about that group.'
+  - id: expression_false_claim
+    type: expression_check
+    render: {en: 'All squares have three sides.'}
+    expression_kind: Making a claim
+    rationale: 'This is a false claim, but it still expresses a judgement. Being a proposition does not require being true.'
+  - id: expression_negative_claim
+    type: expression_check
+    render: {en: 'The door is not open.'}
+    expression_kind: Making a claim
+    rationale: 'Denying something is still making a claim. This judges that being open does not apply to the door.'
+  - id: aeio_students_hardworking
+    type: categorical_proposition
+    render: {en: "All students are hardworking people."}
+    proposition: {subject: students, predicate: hardworking_people, quantifier: all, copula: are, quantity: universal, quality: affirmative, form: A, distribution: {subject: true, predicate: false}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [subject_only], x_regions: []}
+  - id: aeio_books_boring
+    type: categorical_proposition
+    render: {en: "No books are boring things."}
+    proposition: {subject: books, predicate: boring_things, quantifier: "no", copula: are, quantity: universal, quality: negative, form: E, distribution: {subject: true, predicate: true}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [overlap], x_regions: []}
+  - id: aeio_vegetables_tasty
+    type: categorical_proposition
+    render: {en: "Some vegetables are tasty things."}
+    proposition: {subject: vegetables, predicate: tasty_things, quantifier: some, copula: are, quantity: particular, quality: affirmative, form: I, distribution: {subject: false, predicate: false}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [], x_regions: [overlap]}
+  - id: aeio_students_not_writers
+    type: categorical_proposition
+    render: {en: "Some students are not writers."}
+    proposition: {subject: students, predicate: writers, quantifier: some, copula: are_not, quantity: particular, quality: negative, form: O, distribution: {subject: false, predicate: true}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [], x_regions: [subject_only]}
+  - id: value_square_four_sides
+    type: proposition_value
+    render: {en: "All squares are four-sided shapes."}
+    value: {answer: true, basis: mathematical_definition, external_to_structure: true}
+  - id: value_square_three_sides
+    type: proposition_value
+    render: {en: "All squares are three-sided shapes."}
+    value: {answer: false, basis: mathematical_definition, external_to_structure: true}
+  - id: mode_whole_greater_part
+    type: modal_proposition
+    render: {en: "A whole is necessarily greater than one of its proper parts."}
+    modal: {mode: necessary, evidence_basis: rational}
+  - id: mode_healthy_person_ill
+    type: modal_proposition
+    render: {en: "A healthy person can become ill."}
+    modal: {mode: contingent, evidence_basis: empirical}
+  - id: mode_square_triangle
+    type: modal_proposition
+    render: {en: "A square can be a triangle in the same respect."}
+    modal: {mode: impossible, evidence_basis: rational}
+  - id: basis_fire_burns
+    type: modal_proposition
+    render: {en: "Fire normally burns combustible material."}
+    modal: {mode: contingent, evidence_basis: empirical}
+  - id: basis_duty_religious
+    type: modal_proposition
+    render: {en: "A specified act is religiously obligatory."}
+    modal: {mode: necessary, evidence_basis: moral_or_religious}
+  - id: translate_students_work_hard
+    type: categorical_translation
+    original: "Students work hard."
+    render: {en: "All students are hardworking people."}
+    normalized: {subject: students, predicate: hardworking_people, quantifier: all, copula: are}
+    transformation: verb_to_noun
+  - id: translate_flowers_sweetly
+    type: categorical_translation
+    original: "Some flowers smell sweetly."
+    render: {en: "Some flowers are sweet-smelling things."}
+    normalized: {subject: flowers, predicate: sweet_smelling_things, quantifier: some, copula: are}
+    transformation: adverb_to_noun
+  - id: translate_rose_red
+    type: categorical_translation
+    original: "Every rose is red."
+    render: {en: "All roses are red things."}
+    normalized: {subject: roses, predicate: red_things, quantifier: all, copula: are}
+    transformation: adjective_to_noun
+  - id: omitted_students_diligent
+    type: missing_quantifier
+    original: "Students are diligent people."
+    accepted_readings: ["All students are diligent people.", "Some students are diligent people."]
+  - id: omitted_books_useful
+    type: missing_quantifier
+    original: "Books are useful things."
+    accepted_readings: ["All books are useful things.", "Some books are useful things."]
+  - id: omitted_birds_flyers
+    type: missing_quantifier
+    original: "Birds are flying things."
+    accepted_readings: ["All birds are flying things.", "Some birds are flying things."]
+  - id: omitted_scholars_writers
+    type: missing_quantifier
+    original: "Scholars are writers."
+    accepted_readings: ["All scholars are writers.", "Some scholars are writers."]
+  - id: omitted_metals_conductors
+    type: missing_quantifier
+    original: "Metals are conductors."
+    accepted_readings: ["All metals are conductors.", "Some metals are conductors."]
+  - id: only_scholars_admitted
+    type: only_translation
+    original: "Only scholars are admitted."
+    accepted_readings: ["All admitted people are scholars.", "All scholars are admitted people."]
+  - id: only_members_vote
+    type: only_translation
+    original: "Only members vote."
+    accepted_readings: ["All voters are members.", "All members are voters."]
+  - id: only_doctors_prescribe
+    type: only_translation
+    original: "Only doctors prescribe this medicine."
+    accepted_readings: ["All people who prescribe this medicine are doctors.", "All doctors are people who prescribe this medicine."]
+  - id: only_registered_enter
+    type: only_translation
+    original: "Only registered students may enter."
+    accepted_readings: ["All people permitted to enter are registered students.", "All registered students are people permitted to enter."]
+  - id: only_birds_feathered
+    type: only_translation
+    original: "Only birds are feathered animals."
+    accepted_readings: ["All feathered animals are birds.", "All birds are feathered animals."]
+  - id: component_some_lions_animals
+    type: categorical_proposition
+    render: {en: "Some lions are animals."}
+    proposition: {subject: lions, predicate: animals, quantifier: some, copula: are, quantity: particular, quality: affirmative, form: I, distribution: {subject: false, predicate: false}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [], x_regions: [overlap]}
+  - id: distribution_no_triangles_circles
+    type: categorical_proposition
+    render: {en: "No triangles are circles."}
+    proposition: {subject: triangles, predicate: circles, quantifier: "no", copula: are, quantity: universal, quality: negative, form: E, distribution: {subject: true, predicate: true}}
+    venn: {subject_position: left, predicate_position: right, shaded_regions: [overlap], x_regions: []}
+
+mastery_check:
+  required_correct: 8
+  minimum_accuracy: 0.8
+  minimum_difficulty: 4
+  required_families: [classification, multi_property_analysis, transformation, visual_reasoning]
+  misconception_free_streak: 3
+
+review:
+  intervals_days: [1, 3, 10, 30]
+  interleave_with_units: [terms]
+  reset_interval_on_misconception: true

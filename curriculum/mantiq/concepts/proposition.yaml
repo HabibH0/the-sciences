@@ -1,0 +1,23 @@
+schema_version: 1
+
+concept:
+  id: proposition
+  title:
+    en: "Proposition"
+    ar: "قَضِيَّة"
+    transliteration: "qaḍiyyah"
+  type: definition
+  definition:
+    en: "A statement that expresses a judgement."
+  prerequisites: []
+  knowledge:
+    - "A proposition is also referred to as a categorical proposition."
+  skills:
+    - recognise_proposition
+    - distinguish_statement_from_non_proposition
+  exercise_families:
+    - recognition
+    - classification
+  source:
+    book_id: fst_logic
+    pages: [20]

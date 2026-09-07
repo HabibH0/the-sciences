@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: subcontrariety
+  title: {en: "Subcontrariety", ar: "دَاخِل فِي التَّضَادّ", transliteration: "dākhil fī al-taḍādd"}
+  type: relationship
+  definition: {en: "The I-O relationship: both cannot be false, though both can be true."}
+  prerequisites: [square_of_opposition]
+  properties: {pair: [I, O], truth_rule: not_both_false}
+  skills: [infer_subcontrary_value]
+  exercise_families: [truth_inference, relationship_classification]
+  source: {book_id: fst_logic, pages: [43]}

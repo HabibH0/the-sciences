@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: simple_conversion
+  title: {en: "Simple Conversion"}
+  type: rule
+  definition: {en: "Valid conversion that preserves quantity: E converts to E and I converts to I."}
+  prerequisites: [conversion, e_proposition, i_proposition]
+  properties: {valid_forms: [E, I], mappings: {E: E, I: I}}
+  skills: [convert_e_and_i]
+  exercise_families: [rule_application, construction]
+  source: {book_id: fst_logic, pages: [33, 35]}

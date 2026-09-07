@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: subalternation
+  title: {en: "Subalternation", ar: "تَدَاخُل", transliteration: "tadākhul"}
+  type: relationship
+  definition: {en: "The relationship in which truth descends from a universal proposition to its matching particular proposition."}
+  prerequisites: [square_of_opposition]
+  properties: {mappings: {A: I, E: O}, direction: truth_downward}
+  skills: [infer_subaltern_truth]
+  exercise_families: [truth_inference, relationship_classification]
+  source: {book_id: fst_logic, pages: [42]}

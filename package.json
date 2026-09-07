@@ -1,15 +1,17 @@
 {
-  "name": "nahw-trainer",
+  "name": "mizan",
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "description": "Classical Arabic grammar (نحو) trainer — lessons, quizzes, and drills generated from an Anki deck.",
+  "description": "Mīzān — Arabic grammar, morphology and classical logic, with guided lessons and spaced review.",
   "scripts": {
     "dev:web": "node scripts/dev-server.mjs",
     "validate": "node scripts/validate-content.mjs",
     "verify:review": "node scripts/verify-review-scheduler.mjs",
     "lit:convert": "node scripts/convert-literature.mjs",
-    "build:web": "node scripts/build-web.js"
+    "build:web": "node scripts/build-web.js",
+    "verify:mizan": "node scripts/verify-mizan.mjs",
+    "verify:server": "node scripts/verify-server.mjs"
   },
   "keywords": [],
   "author": "",

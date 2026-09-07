@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mantiq Unit",
+  "type": "object",
+  "required": ["schema_version", "unit", "source", "topics", "exercise_sets", "misconceptions", "vocabulary_pool"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "unit": {
+      "type": "object",
+      "required": ["id", "title", "order"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "title": {"type": "object", "required": ["en"]},
+        "order": {"type": "integer", "minimum": 1}
+      }
+    },
+    "source": {"type": "object", "required": ["book_id", "pages"]},
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "lesson", "concepts"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "lesson": {"type": "string", "pattern": "^lessons/.+\\.md$"},
+          "concepts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

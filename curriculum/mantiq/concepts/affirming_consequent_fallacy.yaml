@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: affirming_consequent_fallacy
+  title: {en: "Fallacy of Affirming the Consequent"}
+  type: exception
+  definition: {en: "The invalid pattern: If P then Q; Q; therefore P."}
+  prerequisites: [mixed_hypothetical_syllogism]
+  properties: {pattern: ["P -> Q", Q, P], valid: false}
+  skills: [diagnose_affirming_consequent]
+  exercise_families: [error_detection, validity_classification]
+  source: {book_id: fst_logic, pages: [58]}

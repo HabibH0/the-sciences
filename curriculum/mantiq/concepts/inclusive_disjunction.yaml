@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: inclusive_disjunction
+  title: {en: "Inclusive Disjunction", ar: "مَانِعَةُ الخُلُوّ", transliteration: "māniʿat al-khuluww"}
+  type: relationship
+  definition: {en: "At least one alternative must be true, and both may be true."}
+  prerequisites: [disjunctive_syllogism]
+  properties: {both_allowed: true, neither_allowed: false, affirming_valid: false, denying_valid: true}
+  skills: [reason_with_inclusive_disjunction]
+  exercise_families: [rule_application, validity_classification]
+  source: {book_id: fst_logic, pages: [60, 61]}

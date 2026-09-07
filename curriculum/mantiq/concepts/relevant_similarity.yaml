@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: relevant_similarity
+  title: {en: "Relevant Similarity"}
+  type: rule
+  definition: {en: "A shared feature that materially supports transferring the source's judgement to the target."}
+  prerequisites: [analogy, analogy_source, analogy_target]
+  knowledge: ["Strength depends on the number and relevance of similarities and dissimilarities."]
+  skills: [evaluate_analogy_relevance]
+  exercise_families: [evaluation, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [68]}

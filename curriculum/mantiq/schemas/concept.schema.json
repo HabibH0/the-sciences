@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mantiq Concept",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "concept"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer"
+    },
+    "concept": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "type",
+        "prerequisites"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "title": {
+          "type": "object"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "definition",
+            "component",
+            "classification",
+            "rule",
+            "relationship",
+            "procedure",
+            "transformation",
+            "inference",
+            "representation",
+            "exception",
+            "terminology"
+          ]
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -29,9 +29,9 @@ import { migrateCourseId } from './persistence.js';
 // already parked there by persisted state keeps working history, back, and
 // refresh -- see PATH_VIEWS.
 export const SECTIONS = [
-  { id: 'home', label: 'Home', icon: 'home', action: 'openDashboard', href: '#/' },
+  { id: 'home', label: 'My learning', icon: 'home', action: 'openCatalog', href: '#/' },
   { id: 'library', label: 'Library', icon: 'book', action: 'openLibrary', href: '#/library' },
-  { id: 'schedule', label: 'Schedule', icon: 'calendar', action: 'openSchedule', href: '#/schedule' },
+  { id: 'schedule', label: 'Review', icon: 'calendar', action: 'openSchedule', href: '#/schedule' },
   { id: 'account', label: 'Account', icon: 'user', action: 'openAccount', href: '#/account' },
 ];
 
@@ -41,7 +41,7 @@ export const SECTIONS = [
 // usually remain visibly active").
 const LIT_VIEWS = new Set(['library', 'litBook', 'litRead', 'litWordPractice']);
 const ACCOUNT_VIEWS = new Set(['account', 'settings', 'learningAids', 'courseProgression', 'achievements']);
-const HOME_VIEWS = new Set(['dashboard', 'module', 'lesson', 'quiz', 'lessonComplete']);
+const HOME_VIEWS = new Set(['catalog', 'dashboard', 'module', 'lesson', 'quiz', 'lessonComplete']);
 export const PATH_VIEWS = new Set(['pathGroups', 'path']);
 
 // A live drill has no screen of its own to look active under, so it borrows
@@ -98,6 +98,7 @@ function lessonFor(state, mod) {
 // below its section gets a two-entry trail, which callers render as a plain
 // back row rather than a crumb chain.
 export function crumbTrail(state) {
+  if (state.view === 'catalog') return [{ label: 'My learning', current: true }];
   const course = courseFor(state);
   // The root of a course trail is the course itself, not a generic "Home".
   // Home IS that course's module list, so listing both made the first two
@@ -188,7 +189,7 @@ export function crumbTrail(state) {
     case 'library':
       return [{ label: 'Library', current: true }];
     case 'schedule':
-      return [{ label: 'Schedule', current: true }];
+      return [{ label: 'Review & plan', current: true }];
     case 'account':
       return [{ label: 'Account', current: true }];
     default:
@@ -236,6 +237,8 @@ export function backTargetFor(state) {
 
 export function hashForState(state) {
   switch (state.view) {
+    case 'catalog':
+      return '#/';
     case 'module':
       return state.moduleId ? `#/module/${encodeURIComponent(state.moduleId)}` : '#/';
     case 'lesson':
@@ -281,8 +284,10 @@ export function hashForState(state) {
 // screen.
 export function navFromHash(hash) {
   const raw = String(hash || '').replace(/^#\/?/, '');
-  const parts = raw.split('/').filter(Boolean).map(decodeURIComponent);
-  if (!parts.length) return { view: 'dashboard' };
+  let parts;
+  try { parts = raw.split('/').filter(Boolean).map(decodeURIComponent); }
+  catch { return { view: 'catalog' }; }
+  if (!parts.length) return { view: 'catalog' };
 
   switch (parts[0]) {
     case 'course': {

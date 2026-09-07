@@ -1,0 +1,14 @@
+# Focus each check on one property, using the source example and its rationale.
+checks:
+  - concept: inclusive_definition
+    example: definition_muslim_hajj
+    prompt: Does this definition include every Muslim?
+    answer: false
+  - concept: exclusive_definition
+    example: definition_muslim_believes_in_god
+    prompt: Does this definition keep out everyone who is not Muslim?
+    answer: false
+  - concept: circular_definition
+    example: definition_weight_weighs
+    prompt: Does this definition repeat the idea it is meant to explain?
+    answer: true

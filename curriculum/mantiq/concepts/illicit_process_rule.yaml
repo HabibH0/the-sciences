@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: illicit_process_rule
+  title: {en: "Rule 4: No Illicit Process"}
+  type: rule
+  definition: {en: "Any term distributed in the conclusion must be distributed in its premise."}
+  prerequisites: [categorical_syllogism, distribution, minor_term, major_term]
+  properties: {violations: [illicit_major, illicit_minor]}
+  skills: [test_distribution_transfer]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [51, 52]}

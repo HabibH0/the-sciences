@@ -1,0 +1,17 @@
+schema_version: 1
+concept:
+  id: proposition_mode
+  title:
+    en: "Mode of a Proposition"
+  type: classification
+  definition:
+    en: "Mode shows the type of relationship between the subject and the predicate."
+  prerequisites: [proposition, subject, predicate]
+  values: [necessary, contingent, impossible]
+  knowledge:
+    - "Mode concerns how the subject-predicate relationship can or cannot obtain."
+  skills:
+    - identify_mode
+    - compare_modes
+  exercise_families: [classification, compare_and_distinguish]
+  source: { book_id: fst_logic, pages: [25] }

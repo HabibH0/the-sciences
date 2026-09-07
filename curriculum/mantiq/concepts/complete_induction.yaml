@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: complete_induction
+  title: {en: "Complete Induction", ar: "اِسْتِقْرَاء تَامّ", transliteration: "istiqrāʾ tāmm"}
+  type: inference
+  definition: {en: "A universal judgement reached by examining every member of a finite group."}
+  prerequisites: [induction]
+  properties: {coverage: all_members, certainty: certain}
+  skills: [recognise_complete_induction]
+  exercise_families: [classification, evaluation]
+  source: {book_id: fst_logic, pages: [64]}

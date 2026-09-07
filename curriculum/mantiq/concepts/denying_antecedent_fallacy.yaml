@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: denying_antecedent_fallacy
+  title: {en: "Fallacy of Denying the Antecedent"}
+  type: exception
+  definition: {en: "The invalid pattern: If P then Q; not-P; therefore not-Q."}
+  prerequisites: [mixed_hypothetical_syllogism]
+  properties: {pattern: ["P -> Q", "not P", "not Q"], valid: false}
+  skills: [diagnose_denying_antecedent]
+  exercise_families: [error_detection, validity_classification]
+  source: {book_id: fst_logic, pages: [58]}

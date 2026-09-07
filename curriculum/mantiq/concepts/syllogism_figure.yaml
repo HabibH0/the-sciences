@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: syllogism_figure
+  title: {en: "Syllogism Figure", ar: "شَكْل", transliteration: "shakl"}
+  type: classification
+  definition: {en: "One of four arrangements determined by the middle term's position in the premises."}
+  prerequisites: [categorical_syllogism, minor_term, major_term, middle_term]
+  properties: {figures: {1: [M-P, S-M], 2: [P-M, S-M], 3: [M-P, M-S], 4: [P-M, M-S]}}
+  skills: [identify_figure]
+  exercise_families: [classification, pattern_matching]
+  source: {book_id: fst_logic, pages: [48]}

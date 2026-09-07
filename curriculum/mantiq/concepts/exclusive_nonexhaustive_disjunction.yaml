@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: exclusive_nonexhaustive_disjunction
+  title: {en: "Exclusive Non-exhaustive Disjunction", ar: "مَانِعَةُ الجَمْع", transliteration: "māniʿat al-jamʿ"}
+  type: relationship
+  definition: {en: "Both alternatives cannot be true, but both may be false because another option can exist."}
+  prerequisites: [disjunctive_syllogism]
+  properties: {both_allowed: false, neither_allowed: true, affirming_valid: true, denying_valid: false}
+  skills: [reason_with_nonexhaustive_disjunction]
+  exercise_families: [rule_application, validity_classification]
+  source: {book_id: fst_logic, pages: [61]}

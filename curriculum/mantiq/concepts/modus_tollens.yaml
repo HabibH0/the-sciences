@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: modus_tollens
+  title: {en: "Denying the Consequent (Modus Tollens)"}
+  type: inference
+  definition: {en: "From If P then Q and not-Q, validly infer not-P."}
+  prerequisites: [mixed_hypothetical_syllogism]
+  properties: {pattern: ["P -> Q", "not Q", "not P"], valid: true}
+  skills: [apply_modus_tollens]
+  exercise_families: [rule_application, validity_classification]
+  source: {book_id: fst_logic, pages: [57]}

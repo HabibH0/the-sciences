@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: inference
+  title: {en: "Inference"}
+  type: inference
+  definition: {en: "A conclusion reached from evidence and reasoning."}
+  prerequisites: [proposition]
+  skills: [recognise_inference]
+  exercise_families: [recognition, classification]
+  source: {book_id: fst_logic, pages: [32]}

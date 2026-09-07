@@ -1,0 +1,25 @@
+schema_version: 1
+concept:
+  id: circular_definition
+  type: exception
+  title:
+    en: Circular definition
+    ar: null
+    transliteration: null
+  definition: A circular definition uses the term being defined as part of its own definition.
+  objectives:
+    knowledge:
+      - State why a circular definition fails to explain a term.
+    skills:
+      - Detect direct circularity in a proposed definition.
+      - Rewrite a circular definition without repeating the term.
+  prerequisites: [inclusive_definition, exclusive_definition]
+  source: { book_id: fst_logic, pages: [12] }
+  examples:
+    - id: weight_weighs
+      term: weight
+      proposed_definition: the amount that something weighs
+      result: circular
+      rationale: The definition repeats a form of the word being defined.
+  exercise_families: [recognition, error_detection, transformation]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

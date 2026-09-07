@@ -1,0 +1,70 @@
+schema_version: 1
+
+stages:
+  1: learn
+  2: recognise
+  3: identify_or_classify
+  4: apply
+  5: combine
+  6: diagnose
+  7: transfer
+
+families:
+  recognition: {default_stage: 2, interaction: single_choice, hint_ladder: recognition}
+  identification: {default_stage: 3, interaction: select_span, hint_ladder: component}
+  classification: {default_stage: 3, interaction: single_or_multi_choice, hint_ladder: classification}
+  multi_property_analysis: {default_stage: 5, interaction: structured_form, hint_ladder: decomposition}
+  rule_application: {default_stage: 4, interaction: structured_form, hint_ladder: rule}
+  transformation: {default_stage: 4, interaction: structured_editor, hint_ladder: transformation}
+  construction: {default_stage: 6, interaction: structured_editor, hint_ladder: construction}
+  error_detection: {default_stage: 6, interaction: diagnose_and_correct, hint_ladder: diagnosis}
+  compare_and_distinguish: {default_stage: 5, interaction: comparison, hint_ladder: contrast}
+  visual_reasoning: {default_stage: 4, interaction: diagram_select_or_edit, hint_ladder: visual}
+  ambiguity_detection: {default_stage: 6, interaction: multi_response, hint_ladder: ambiguity}
+  component_analysis: {default_stage: 3, interaction: structured_labels, hint_ladder: component}
+  relationship_classification: {default_stage: 4, interaction: relationship_map, hint_ladder: relationship}
+  reconstruction: {default_stage: 6, interaction: structured_editor, hint_ladder: reconstruction}
+  completion: {default_stage: 4, interaction: structured_editor, hint_ladder: completion}
+  validity_classification: {default_stage: 5, interaction: classify_and_justify, hint_ladder: validity}
+  evaluation: {default_stage: 6, interaction: rubric_response, hint_ladder: evaluation}
+  meaning_analysis: {default_stage: 5, interaction: annotate_meanings, hint_ladder: meaning}
+  relevance_analysis: {default_stage: 5, interaction: classify_and_justify, hint_ladder: relevance}
+  revision: {default_stage: 7, interaction: free_response_normalized, hint_ladder: revision}
+  support_analysis: {default_stage: 5, interaction: evidence_map, hint_ladder: support}
+  causal_analysis: {default_stage: 6, interaction: causal_map, hint_ladder: causation}
+  justification_analysis: {default_stage: 5, interaction: classify_and_justify, hint_ladder: justification}
+
+hint_ladders:
+  recognition: ["Recall the defining feature.", "Eliminate options that belong to a different concept type."]
+  component: ["Find the whole structure first.", "Use the component's role rather than its position alone."]
+  classification: ["Name the deciding dimensions separately.", "Map the resulting properties to the category."]
+  decomposition: ["Analyse one property at a time.", "Check that the properties agree with one another."]
+  rule: ["State the relevant rule before applying it.", "Test each condition of the rule explicitly."]
+  transformation: ["Identify what must stay fixed.", "Apply each required change once, then reclassify the result."]
+  construction: ["Translate the requested properties into a structural pattern.", "Verify every requested property after constructing the answer."]
+  diagnosis: ["Reconstruct the correct analysis first.", "Compare it with the learner's answer at the earliest point of divergence."]
+  contrast: ["List what the candidates share.", "Use the single property on which they differ."]
+  visual: ["Translate each mark or region into words.", "Match those words to the logical claim."]
+  ambiguity: ["Locate the expression whose scope is unstated.", "Preserve every reading licensed by the wording."]
+  relationship: ["Identify both forms before naming the relationship.", "State the relationship's exact truth constraint."]
+  reconstruction: ["Find the roles already expressed.", "Supply only what is required to complete the valid structure."]
+  completion: ["Locate the repeated middle element.", "Remove it and connect the remaining endpoints."]
+  validity: ["Name the structural move.", "Test it against the validity table rather than the conclusion's plausibility."]
+  evaluation: ["Separate observations from the conclusion.", "Calibrate certainty to the strength and relevance of the support."]
+  meaning: ["Replace each repeated word with a definition.", "Check whether the definition changes between occurrences."]
+  relevance: ["Restate the original claim neutrally.", "Ask whether the response supplies evidence about that exact claim."]
+  revision: ["Remove emotional or distracting language.", "Address the original claim with a relevant reason."]
+  support: ["Separate premise and conclusion.", "Look for independent positive evidence rather than a restatement or absence of disproof."]
+  causation: ["Distinguish sequence, correlation, and causation.", "Test alternative causes, confounders, and every link in the chain."]
+  justification: ["Judge the action independently.", "Another person's wrongdoing does not change the standard."]
+
+scoring:
+  default: {max_points: 1, hint_penalty: 0.2, floor_after_hint: 0.4}
+  structured_form: {max_points: 4, partial_credit: true, hint_penalty: 0.15}
+  free_response_normalized: {max_points: 3, partial_credit: true, human_review_below_confidence: 0.85}
+
+accessibility:
+  diagrams_require_text_equivalent: true
+  colour_cannot_be_only_signal: true
+  keyboard_operable: true
+  rtl_term_support: true

@@ -1,0 +1,25 @@
+schema_version: 1
+concept:
+  id: partial_overlap_relation
+  type: relationship
+  title:
+    en: Generality and specificity from one perspective
+    ar: الْعُمُوْمُ وَالْخُصُوْصُ مِنْ وَجْه
+    transliteration: al-ʿumūm wa-l-khuṣūṣ min wajh
+  definition: Two universals partially overlap when some members are shared while each also has members outside the other.
+  objectives:
+    knowledge:
+      - State all three membership conditions for partial overlap.
+    skills:
+      - Distinguish partial overlap from equality and one-way inclusion.
+      - Select an intersecting-set Venn representation.
+  prerequisites: [universal_term, coextensive_relation, disjoint_relation, absolute_generality_relation]
+  source: { book_id: fst_logic, pages: [17] }
+  examples:
+    - id: adults_males
+      left: adults
+      right: males
+      relation: partial_overlap
+      venn: intersecting_sets
+  exercise_families: [classification, visual_reasoning, error_detection, multi_property_analysis]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

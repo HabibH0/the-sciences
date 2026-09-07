@@ -1,0 +1,21 @@
+schema_version: 1
+
+concept:
+  id: subject
+  title:
+    en: "Subject"
+    ar: "مَوْضُوْع"
+    transliteration: "mawḍūʿ"
+  type: component
+  definition:
+    en: "The part of a proposition about which a statement is made."
+  prerequisites:
+    - proposition
+  skills:
+    - identify_subject
+  exercise_families:
+    - identification
+    - component_analysis
+  source:
+    book_id: fst_logic
+    pages: [20]

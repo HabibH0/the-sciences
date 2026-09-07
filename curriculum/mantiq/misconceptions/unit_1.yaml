@@ -1,0 +1,30 @@
+schema_version: 1
+unit: terms
+misconceptions:
+  - id: inclusive_exclusive_confusion
+    diagnosis: Learner reverses “include every valid member” and “exclude invalid members.”
+    remediate_with: [inclusive_definition, exclusive_definition]
+  - id: circularity_scope_error
+    diagnosis: Learner checks breadth but misses that the definition repeats the term being defined.
+    remediate_with: [circular_definition]
+  - id: signifier_signified_confusion
+    diagnosis: Learner confuses the expression with the meaning it denotes.
+    remediate_with: [signifier, signified, signification]
+  - id: complete_partial_confusion
+    diagnosis: Learner cannot distinguish denoting the whole meaning from part of it.
+    remediate_with: [complete_signification, partial_signification]
+  - id: concomitant_literal_confusion
+    diagnosis: Learner treats an associated implication as the word’s direct meaning.
+    remediate_with: [concomitant_signification, complete_signification]
+  - id: universal_particular_confusion
+    diagnosis: Learner mistakes “some/one/most” for a term applying to the whole category.
+    remediate_with: [universal_term, particular_term]
+  - id: equality_subset_confusion
+    diagnosis: Learner mistakes one-way inclusion for identical membership.
+    remediate_with: [coextensive_relation, absolute_generality_relation]
+  - id: disjoint_overlap_confusion
+    diagnosis: Learner overlooks whether the two categories share any members.
+    remediate_with: [disjoint_relation, partial_overlap_relation]
+  - id: absolute_partial_overlap_confusion
+    diagnosis: Learner mistakes partial overlap for total inclusion in one direction.
+    remediate_with: [absolute_generality_relation, partial_overlap_relation]

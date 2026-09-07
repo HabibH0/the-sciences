@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: analogical_fallacy
+  title: {en: "Analogical Fallacy"}
+  type: exception
+  definition: {en: "A conclusion drawn from an analogy that lacks enough relevant similarity between source and target."}
+  prerequisites: [relevant_similarity]
+  skills: [diagnose_analogical_fallacy]
+  exercise_families: [error_detection, evaluation]
+  source: {book_id: fst_logic, pages: [69]}

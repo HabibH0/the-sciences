@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: deduction
+  title: {en: "Deduction"}
+  type: inference
+  definition: {en: "Reasoning from a universal rule to a particular conclusion."}
+  prerequisites: [indirect_inference]
+  skills: [recognise_deduction]
+  exercise_families: [classification, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [46]}

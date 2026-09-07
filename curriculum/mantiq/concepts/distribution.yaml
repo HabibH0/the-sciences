@@ -1,0 +1,35 @@
+schema_version: 1
+
+concept:
+  id: distribution
+  title:
+    en: "Distribution"
+  type: rule
+  definition:
+    en: "A term is distributed when the proposition says something about all members of that term."
+  knowledge:
+    - "An undistributed term refers to less than the whole class."
+    - "Mnemonic: universal propositions distribute the subject; negative propositions distribute the predicate."
+  prerequisites:
+    - subject
+    - predicate
+    - a_proposition
+    - e_proposition
+    - i_proposition
+    - o_proposition
+  rules:
+    - id: universal_subject
+      statement: "In a universal proposition, the subject is distributed."
+    - id: negative_predicate
+      statement: "In a negative proposition, the predicate is distributed."
+  skills:
+    - determine_subject_distribution
+    - determine_predicate_distribution
+    - diagnose_distribution_error
+  exercise_families:
+    - rule_application
+    - multi_property_analysis
+    - error_detection
+  source:
+    book_id: fst_logic
+    pages: [23, 24]

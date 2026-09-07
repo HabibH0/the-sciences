@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: two_wrongs_fallacy
+  title: {en: "Two Wrongs Fallacy"}
+  type: exception
+  definition: {en: "Claiming that one's action is justified because another person did or would do the same wrong."}
+  prerequisites: [informal_fallacy]
+  skills: [diagnose_two_wrongs]
+  exercise_families: [error_detection, justification_analysis]
+  source: {book_id: fst_logic, pages: [74]}

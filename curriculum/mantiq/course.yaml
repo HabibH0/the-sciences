@@ -1,0 +1,49 @@
+schema_version: 1
+content_version: "1.0.0"
+
+course:
+  id: mantiq
+  title:
+    en: "Logic"
+    ar: "المنطق"
+  description:
+    en: "A structured, mastery-based introductory course in Manṭiq."
+  language:
+    primary: en
+    terminology:
+      - ar
+  content_authority:
+    type: textbook
+    note: "Teaching claims, terminology, and course order should be grounded in the selected textbook."
+
+units:
+  - id: terms
+    path: units/01-terms/unit.yaml
+  - id: propositions
+    path: units/02-propositions/unit.yaml
+  - id: inference
+    path: units/03-inference/unit.yaml
+  - id: informal_fallacies
+    path: units/04-informal-fallacies/unit.yaml
+
+mastery_defaults:
+  minimum_accuracy: 0.85
+  minimum_independent_items: 4
+  require_cross_session_success: true
+  stages:
+    - learn
+    - recognise
+    - identify
+    - apply
+    - combine
+    - diagnose
+    - transfer
+
+review_defaults:
+  enabled: true
+  interleave: true
+  prioritise:
+    - due
+    - recent_mistakes
+    - weak_prerequisites
+    - low_mastery

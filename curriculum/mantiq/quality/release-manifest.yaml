@@ -1,0 +1,33 @@
+schema_version: 1
+release:
+  content_version: "1.0.0"
+  status: engineering_qa_passed
+  source:
+    title: "First Steps to Understanding Logic"
+    book_id: fst_logic
+    instructional_pages: [11, 74]
+    sha256: "27f1543353e0db76f984429e610e15b3fac5070b622da7d5e68e36316d5e6c4e"
+  authored:
+    units: 4
+    lessons: 30
+    concepts: 120
+    exercise_templates: 52
+    seed_examples: 103
+  compiled:
+    runtime_sha256: "2d97a532b3eb31f8dc7ab4a9e36ced70fa119d7f8329d2e760fb75d301e1bc0d"
+    synthetic_examples: 101
+    practice_items: 3321
+    assessments: 6
+    fixed_assessment_items: 100
+  release_gates:
+    authoring_validation: passed
+    deterministic_compilation: passed
+    logical_invariants: passed
+    complete_answers: passed
+    staged_hints: passed
+    concept_coverage: passed
+    core_application_coverage: passed
+    assessment_references: passed
+    accessibility_contract: passed
+    scholarly_signoff: required_before_public_claim_of_endorsement
+    learner_pilot: recommended_before_high_stakes_use

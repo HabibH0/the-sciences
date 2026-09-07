@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: equivocation_fallacy
+  title: {en: "Fallacy of Equivocation"}
+  type: exception
+  definition: {en: "Using the same word in two different senses within one argument."}
+  prerequisites: [informal_fallacy]
+  diagnostic_question: "Does a repeated expression retain one meaning throughout?"
+  skills: [diagnose_equivocation]
+  exercise_families: [error_detection, meaning_analysis]
+  source: {book_id: fst_logic, pages: [72]}

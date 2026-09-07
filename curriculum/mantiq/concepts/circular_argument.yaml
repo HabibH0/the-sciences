@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: circular_argument
+  title: {en: "Circular Argument", ar: "دَوْر", transliteration: "dawr"}
+  type: exception
+  definition: {en: "An argument whose premise repeats or assumes its conclusion; also called begging the question."}
+  prerequisites: [informal_fallacy]
+  knowledge: ["A restatement does not provide independent support."]
+  skills: [diagnose_circular_argument]
+  exercise_families: [error_detection, support_analysis]
+  source: {book_id: fst_logic, pages: [73]}

@@ -1,0 +1,17 @@
+schema_version: 1
+concept:
+  id: proposition_value
+  title:
+    en: "Value of a Proposition"
+  type: classification
+  definition:
+    en: "The value of a proposition is whether it is true or false."
+  prerequisites: [proposition]
+  values: [true, false]
+  knowledge:
+    - "Logic uses propositions as inputs but does not itself establish their real-world truth."
+  skills:
+    - classify_value_from_stated_real_world_data
+    - distinguish_truth_assessment_from_structural_analysis
+  exercise_families: [classification, compare_and_distinguish, error_detection]
+  source: { book_id: fst_logic, pages: [21] }

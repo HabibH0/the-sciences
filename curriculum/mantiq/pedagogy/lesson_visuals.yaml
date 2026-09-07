@@ -1,0 +1,30 @@
+# Section IDs refer to the preserved Markdown teaching sections.
+lessons:
+  lesson_sound_definitions:
+    section_1: {kind: definition, initial: narrow, title: "A definition draws a boundary", caption: "Compare the proposed wording with the category itself. Dots are schematic members, not a count of people."}
+    section_3: {kind: definition, initial: broad, title: "Keep the boundary precise", caption: "A definition can include all valid members and still admit things that do not belong."}
+    section_5: {kind: definition, initial: circular, title: "Does the explanation move you forward?", caption: "A circular explanation returns you to the idea you wanted to understand."}
+  lesson_universal_relations:
+    section_1: {kind: relations, initial: equal, title: "Compare the membership", caption: "These diagrams show set relationships. They do not claim how many members each set has."}
+    section_2: {kind: relations, initial: disjoint, title: "No shared members", caption: "Separate circles represent categories with no shared members."}
+    section_3: {kind: relations, initial: subset, title: "Inclusion goes one way", caption: "The inner set belongs entirely to the outer set. The reverse does not follow."}
+    section_4: {kind: relations, initial: overlap, title: "Shared members and distinct members", caption: "Each set has members outside the other, as well as members in common."}
+  lesson_proposition_structure:
+    section_1: {kind: proposition, title: "Take the proposition apart", caption: "Select a phrase to see the job it performs in the judgement."}
+  lesson_quality_quantity:
+    section_0: {kind: categorical, initial: A, title: "Change quantity and quality", caption: "Switch forms to connect the wording with its logical structure."}
+  lesson_aeio_forms:
+    section_0: {kind: categorical, initial: A, title: "Four forms, four distinct claims", caption: "Shading means empty. An × asserts at least one member. Unmarked regions make no assertion."}
+  lesson_distribution:
+    section_1: {kind: categorical, initial: O, title: "Which whole class is spoken about?", caption: "Compare the distribution labels as you switch forms. Universal forms distribute S; negative forms distribute P."}
+  lesson_venn_representation:
+    section_0: {kind: categorical, initial: A, title: "Read the regions", caption: "Subject S is on the left, predicate P on the right. Every mark belongs to a specific region."}
+    section_1: {kind: categorical, initial: O, title: "Some students are not writers", caption: "The × sits among students who are outside the writers class. It does not mean exactly one student."}
+  lesson_square_relations:
+    section_0: {kind: square, title: "The traditional square of opposition", caption: "Use the same subject and predicate throughout. The traditional relations shown assume the subject class has members."}
+  lesson_contradiction:
+    section_1: {kind: square, initial: contradictory, title: "Follow the contradictory pairs", caption: "A contradicts O; E contradicts I. Compare propositions with matching terms, time, respect, and the other conditions in the lesson."}
+  lesson_categorical_structure:
+    section_0: {kind: syllogism, initial: '1', title: "The middle term connects the premises", caption: "These are term positions, not a proof that every mood is valid. Determine S and P from the conclusion first."}
+  lesson_figure_and_mood:
+    section_0: {kind: syllogism, initial: '1', title: "Follow M through the four figures", caption: "Changing figure changes term positions. Mood separately records the A/E/I/O forms of the three propositions."}

@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: pure_hypothetical_syllogism
+  title: {en: "Pure Hypothetical Syllogism"}
+  type: inference
+  definition: {en: "A chain of two hypothetical premises whose repeated middle statement is removed in the conclusion."}
+  prerequisites: [deduction, hypothetical_proposition]
+  properties: {pattern: ["P -> Q", "Q -> R", "P -> R"]}
+  skills: [complete_hypothetical_chain]
+  exercise_families: [completion, rule_application]
+  source: {book_id: fst_logic, pages: [59]}

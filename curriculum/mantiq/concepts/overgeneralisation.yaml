@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: overgeneralisation
+  title: {en: "Overgeneralisation"}
+  type: exception
+  definition: {en: "Passing a universal judgement from too few observed members."}
+  prerequisites: [incomplete_induction]
+  skills: [diagnose_overgeneralisation]
+  exercise_families: [error_detection, evaluation]
+  source: {book_id: fst_logic, pages: [64]}

@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: anecdotal_fallacy
+  title: {en: "Anecdotal Fallacy"}
+  type: exception
+  definition: {en: "Passing a judgement on an entire group from a single member."}
+  prerequisites: [incomplete_induction]
+  skills: [diagnose_anecdotal_fallacy]
+  exercise_families: [error_detection, evaluation]
+  source: {book_id: fst_logic, pages: [64, 65]}

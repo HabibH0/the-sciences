@@ -1,0 +1,17 @@
+schema_version: 1
+concept:
+  id: only_ambiguity
+  title:
+    en: "Ambiguity of 'Only'"
+  type: exception
+  definition:
+    en: "A sentence using 'only' may allow two different directions of categorical inclusion."
+  prerequisites: [categorical_translation, quantity]
+  properties: { accepted_readings: 2 }
+  knowledge:
+    - "The textbook gives both subject-to-predicate and predicate-to-subject readings."
+  skills:
+    - produce_both_only_readings
+    - identify_only_scope_ambiguity
+  exercise_families: [transformation, compare_and_distinguish, error_detection]
+  source: { book_id: fst_logic, pages: [26, 27] }

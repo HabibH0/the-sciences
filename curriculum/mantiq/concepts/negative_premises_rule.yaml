@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: negative_premises_rule
+  title: {en: "Rule 5: No Two Negative Premises"}
+  type: rule
+  definition: {en: "A valid categorical syllogism cannot have two negative premises."}
+  prerequisites: [categorical_syllogism, quality]
+  properties: {maximum_negative_premises: 1, violation: exclusive_premises}
+  skills: [test_negative_premises]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [53]}

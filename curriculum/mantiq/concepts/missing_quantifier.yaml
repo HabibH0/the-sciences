@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: missing_quantifier
+  title:
+    en: "Missing Quantifier"
+    ar: "قَضِيَّة مُهْمَلَة"
+    transliteration: "qaḍiyyah muhmalah"
+  type: exception
+  definition:
+    en: "A statement with no explicit quantifier requires context to determine whether its intended quantity is universal or particular."
+  prerequisites: [quantifier, quantity, categorical_translation]
+  knowledge:
+    - "The surface form alone may underdetermine quantity."
+  skills:
+    - infer_quantifier_from_context
+    - flag_under_determined_quantity
+  exercise_families: [classification, transformation, error_detection]
+  source: { book_id: fst_logic, pages: [26] }

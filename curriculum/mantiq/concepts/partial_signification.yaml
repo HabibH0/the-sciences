@@ -1,0 +1,23 @@
+schema_version: 1
+concept:
+  id: partial_signification
+  type: classification
+  title:
+    en: Partial signification
+    ar: دَلَالَة بِالتَّضَمُّنِ
+    transliteration: dalālah bi-l-taḍammun
+  definition: A word has partial signification when it denotes only part of its meaning.
+  objectives:
+    knowledge:
+      - Distinguish partial signification from complete signification.
+    skills:
+      - Classify a word in context as partial signification.
+  prerequisites: [signification, complete_signification]
+  source: { book_id: fst_logic, pages: [14, 15] }
+  examples:
+    - id: part_quran
+      expression: She has memorised the Quran.
+      context: She has memorised only part of the Quran.
+      classification: partial_signification
+  exercise_families: [classification, error_detection, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

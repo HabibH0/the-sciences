@@ -1,4 +1,5 @@
 import { exportProgress, importProgress } from './storageManager.js';
+import { mergeStudySessions, mergeLogicProgress } from '../learning/study.js';
 
 const DEFAULT_BACKEND_URL = 'https://the-sciences.onrender.com';
 const SESSION_TOKEN_KEY = 'the-sciences-session-token';
@@ -271,6 +272,14 @@ function mergeExerciseState(localValue, remoteValue) {
   if (!isPlainObject(localValue)) return cloneValue(remoteValue);
   if (!isPlainObject(remoteValue)) return cloneValue(localValue);
 
+  if (localValue.submittedAt && remoteValue.submittedAt) {
+    const first = localValue.submittedAt <= remoteValue.submittedAt ? localValue : remoteValue;
+    const latest = localValue.submittedAt <= remoteValue.submittedAt ? remoteValue : localValue;
+    return cloneValue(first.firstSelected === latest.firstSelected
+      ? { ...first, corrected: first.corrected || latest.corrected, correcting: first.correcting && latest.correcting }
+      : first);
+  }
+
   if (localValue.passed && !remoteValue.passed) return cloneValue(localValue);
   if (remoteValue.passed && !localValue.passed) return cloneValue(remoteValue);
   if (localValue.correct && !remoteValue.correct) return cloneValue(localValue);
@@ -381,6 +390,10 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   const local = isPlainObject(localProgress) ? localProgress : {};
   const remote = isPlainObject(remoteProgress) ? remoteProgress : {};
   const merged = { ...cloneValue(remote), ...cloneValue(local) };
+  merged.mizanVersion = Math.max(local.mizanVersion || 0, remote.mizanVersion || 0);
+  merged.moduleResetAt = mergeRecord(local.moduleResetAt, remote.moduleResetAt, latestString);
+  merged.studySessions = mergeStudySessions(local.studySessions, remote.studySessions, merged.moduleResetAt);
+  merged.mizanCourses = mergeLogicProgress(local.mizanCourses, remote.mizanCourses);
 
   merged.courseId = local.courseId || remote.courseId || merged.courseId;
   // Latest reset per module wins, from either side -- a reset either device

@@ -1,0 +1,52 @@
+schema_version: 1
+
+unit: propositions
+misconceptions:
+  - id: structural_truth_confusion
+    diagnosis: "Treats correct categorical form as proof that a proposition is true."
+    remediation: "Analyse form and value as separate questions."
+  - id: subject_predicate_confusion
+    diagnosis: "Reverses what is discussed and what is said of it."
+    remediation: "Ask ‘about what?’ before asking ‘what is affirmed or denied?’"
+  - id: quantifier_copula_confusion
+    diagnosis: "Mistakes the scope word for the connecting word."
+    remediation: "Mark all/no/some first; then mark is/are or their negative forms."
+  - id: quality_confusion
+    diagnosis: "Uses quantity to decide whether a proposition is affirmative or negative."
+    remediation: "Look only for affirmation or denial when classifying quality."
+  - id: quantity_confusion
+    diagnosis: "Uses negation to decide whether a proposition is universal or particular."
+    remediation: "Look only at the subject class's scope when classifying quantity."
+  - id: aeio_form_confusion
+    diagnosis: "Selects an A/E/I/O letter without combining both quantity and quality."
+    remediation: "Name quantity, then quality, then map the pair to a letter."
+  - id: distribution_subject_error
+    diagnosis: "Distributes a particular subject or fails to distribute a universal subject."
+    remediation: "Apply: universal propositions distribute the subject."
+  - id: distribution_predicate_error
+    diagnosis: "Distributes an affirmative predicate or misses a negative predicate."
+    remediation: "Apply: negative propositions distribute the predicate."
+  - id: necessary_contingent_confusion
+    diagnosis: "Treats what commonly occurs as what cannot be otherwise."
+    remediation: "Test whether the opposite is genuinely impossible."
+  - id: impossible_negative_confusion
+    diagnosis: "Assumes every negative proposition has impossible mode."
+    remediation: "Negation is quality; impossibility is mode."
+  - id: evidence_basis_confusion
+    diagnosis: "Confuses empirical, rational, and moral or religious grounds."
+    remediation: "Ask what warrants the judgement, independently of its mode."
+  - id: nominalisation_error
+    diagnosis: "Leaves an adjective, verb, or adverb where a predicate noun phrase is required."
+    remediation: "Restate the expression as a class of people or things."
+  - id: missing_quantifier_error
+    diagnosis: "Silently inserts all or some when context does not decide."
+    remediation: "Record both readings until context supplies the scope."
+  - id: only_scope_error
+    diagnosis: "Assumes ‘Only S are P’ and ‘Only P are S’ express the same inclusion."
+    remediation: "Rewrite each reading as an explicit all-statement and compare direction."
+  - id: venn_shading_error
+    diagnosis: "Uses shading to assert existence."
+    remediation: "Shading means empty; x means at least one member."
+  - id: venn_region_error
+    diagnosis: "Marks the correct symbol in the wrong region."
+    remediation: "Translate the region as subject-only, overlap, or predicate-only before marking it."

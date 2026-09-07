@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: verb_to_noun
+  title:
+    en: "Verb-to-Noun Translation"
+  type: transformation
+  definition:
+    en: "A verbal predicate is translated into a noun expression naming the things or objects that perform the action."
+  prerequisites: [categorical_translation, predicate]
+  transformation: { source_part: verb_phrase, target_part: noun_phrase }
+  knowledge:
+    - "The copula links the subject to a nominalised predicate."
+  skills:
+    - nominalise_verb_phrase
+  exercise_families: [transformation, construction]
+  source: { book_id: fst_logic, pages: [26] }

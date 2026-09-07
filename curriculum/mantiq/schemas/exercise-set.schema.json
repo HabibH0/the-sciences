@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mantiq Exercise Set",
+  "type": "object",
+  "required": ["schema_version", "exercise_set", "templates", "examples", "mastery_check", "review"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "exercise_set": {"type": "object", "required": ["id", "unit"]},
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "exercise.schema.json"}
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "type": {"type": "string"}
+        }
+      }
+    },
+    "mastery_check": {"type": "object"},
+    "review": {"type": "object"}
+  }
+}

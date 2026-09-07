@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: syllogism_term_count_rule
+  title: {en: "Rule 1: Exactly Three Terms"}
+  type: rule
+  definition: {en: "A categorical syllogism must contain exactly three unambiguous terms."}
+  prerequisites: [categorical_syllogism]
+  properties: {required_count: 3, violation: four_terms}
+  skills: [test_term_count]
+  exercise_families: [rule_application, error_detection]
+  source: {book_id: fst_logic, pages: [49]}

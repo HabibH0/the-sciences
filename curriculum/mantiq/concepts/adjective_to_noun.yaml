@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: adjective_to_noun
+  title:
+    en: "Adjective-to-Noun Translation"
+  type: transformation
+  definition:
+    en: "An adjective used as a predicate is translated into a noun expression."
+  prerequisites: [categorical_translation, predicate]
+  transformation: { source_part: adjective, target_part: noun_phrase }
+  knowledge:
+    - "A categorical proposition is rendered using noun terms."
+  skills:
+    - nominalise_adjective
+  exercise_families: [transformation, construction]
+  source: { book_id: fst_logic, pages: [26] }

@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: division_fallacy
+  title: {en: "Fallacy of Division"}
+  type: exception
+  definition: {en: "Attributing a property of a whole to each part without sufficient support."}
+  prerequisites: [informal_fallacy]
+  properties: {invalid_transfer: whole_to_part}
+  skills: [diagnose_division]
+  exercise_families: [error_detection, compare_and_distinguish]
+  source: {book_id: fst_logic, pages: [72]}

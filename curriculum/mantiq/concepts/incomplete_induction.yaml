@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: incomplete_induction
+  title: {en: "Incomplete Induction", ar: "اِسْتِقْرَاء نَاقِص", transliteration: "istiqrāʾ nāqiṣ"}
+  type: inference
+  definition: {en: "A general judgement based on examining only some members of a group."}
+  prerequisites: [induction]
+  properties: {coverage: sample, certainty: probable, strength_increases_with_relevant_sample: true}
+  skills: [recognise_incomplete_induction, evaluate_inductive_strength]
+  exercise_families: [classification, evaluation]
+  source: {book_id: fst_logic, pages: [64, 65]}

@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: false_cause
+  title: {en: "Questionable or False Cause (Post Hoc)"}
+  type: exception
+  definition: {en: "Assuming that an earlier event caused a later event merely because it came first."}
+  prerequisites: [informal_fallacy]
+  properties: {confused_relation: sequence_for_causation}
+  skills: [diagnose_false_cause]
+  exercise_families: [error_detection, causal_analysis]
+  source: {book_id: fst_logic, pages: [74]}

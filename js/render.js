@@ -1,4 +1,8 @@
 import { esc, escAttr, escBidi, isolateArabicHtml } from './html.js';
+import { catalogHtml, courseOverviewHtml, moduleLessonsHtml, completedLessonHtml, brandMark } from './learning/catalog.js';
+import { studyHtml } from './learning/render-study.js';
+import { logicItem } from './learning/logic-course.js';
+import { logicExerciseHtml } from './learning/exercises.js';
 import {
   QUIZ_PASS_RATIO,
   isModuleUnlocked,
@@ -126,9 +130,10 @@ function formatDateTime(value) {
 // accent are independent choices -- any of the five grounds can pair with
 // any of the five accents -- rather than one bundling the other.
 
-const THEME_ORDER = ['manuscript', 'mushaf', 'lamp', 'ink', 'sepia'];
+const THEME_ORDER = ['mizan', 'manuscript', 'mushaf', 'lamp', 'ink', 'sepia'];
 const THEMES = {
-  manuscript: { name: 'Manuscript', note: 'default', bg: '#f3f2f2', surface: '#eae9e9', text: '#201f1d' },
+  mizan: { name: 'Mīzān', note: 'default', bg: '#f7f8f5', surface: '#ffffff', text: '#202e29' },
+  manuscript: { name: 'Manuscript', note: 'paper', bg: '#f3f2f2', surface: '#eae9e9', text: '#201f1d' },
   mushaf: { name: 'Mushaf', note: 'ivory', bg: '#f7f1e1', surface: '#efe7d2', text: '#22271f' },
   lamp: { name: 'Lamp', note: 'night', bg: '#16130f', surface: '#211d16', text: '#ece3d1' },
   ink: { name: 'Ink', note: 'sober', bg: '#eceef1', surface: '#e0e4ea', text: '#1b2028' },
@@ -147,8 +152,9 @@ const ACCENTS = {
 // Body face and heading face are independent choices. Heading faces layer
 // over whichever body face is active, rather than being mutually-exclusive
 // body options of their own.
-const FACE_ORDER = ['naskh', 'amiri', 'scheherazade', 'lateef'];
+const FACE_ORDER = ['traditional', 'naskh', 'amiri', 'scheherazade', 'lateef'];
 export const FACES = {
+  traditional: { name: 'Traditional Arabic', note: 'Mīzān', body: "'Traditional Arabic', 'Noto Naskh Arabic', serif" },
   naskh: { name: 'Naskh', note: 'textbook', body: "'Noto Naskh Arabic', serif" },
   amiri: { name: 'Amiri', note: 'classical', body: "'Amiri', serif" },
   scheherazade: { name: 'Scheherazade New', note: 'traditional', body: "'Scheherazade New', 'Amiri', serif" },
@@ -200,7 +206,7 @@ const SHELL_INNER_VIEWS = new Set(['path']);
 // The four tab destinations plus Account's two children -- the only screens
 // the phone's bottom tab bar appears on (inner screens and live sessions
 // navigate through their own heads instead).
-const SHELL_TAB_VIEWS = new Set(['dashboard', 'library', 'schedule', 'account', 'achievements', 'settings', 'learningAids', 'courseProgression']);
+const SHELL_TAB_VIEWS = new Set(['catalog', 'dashboard', 'library', 'schedule', 'account', 'achievements', 'settings', 'learningAids', 'courseProgression']);
 const SHELL_SESSION_VIEWS = new Set(['practice', 'practiceReview', 'masteryV2Complete']);
 
 // `extra` comes off a nav.js trail entry as a plain object so nav.js can stay
@@ -330,9 +336,9 @@ function headerHtml(state, MODULES) {
   return `
     <header class="app-nav">
       <div class="app-nav-inner">
-        <a class="app-wordmark" href="#/" data-action="openDashboard" title="Home" aria-label="Home">
-          <span class="app-wordmark-name">The Sciences</span>
-          <span class="app-wordmark-ar" lang="ar" dir="rtl">العُلُوم</span>
+        <a class="app-wordmark" href="#/" data-action="openCatalog" title="Mīzān home" aria-label="Mīzān home">
+          ${brandMark}<span class="app-wordmark-name">Mīzān</span>
+          <span class="app-wordmark-ar" lang="ar" dir="rtl">ميزان</span>
         </a>
         ${tabs || '<span style="flex:1;"></span>'}
         ${shellStatsHtml(state)}
@@ -648,7 +654,7 @@ function homeHeroHtml(state, MODULES) {
           <div class="kicker">تمّ بحمد الله</div>
           <div class="home-resume-meta">All ${totalLessons()} lessons across every chapter are finished.</div>
         </div>
-        <button class="btn btn-primary" data-action="openSchedule">Go to Schedule</button>
+        <button class="btn btn-primary" data-action="openSchedule">Go to Review</button>
       </div>`;
   }
 
@@ -832,7 +838,7 @@ function scheduleTodayReviewHtml(state, MODULES) {
     <div class="review-focus-panel">
       <div class="practice-tabs">
         ${kindChip(null, 'All formats')}
-        ${kindChip('mcq', 'MCQ')}
+        ${kindChip('mcq', state.courseId === 'mantiq' ? 'Logic exercises' : 'MCQ')}
         ${hasTarkeeb ? kindChip('tarkeeb', 'تركيب') : ''}
         ${hasVocab ? kindChip('vocab', 'Vocab') : ''}
       </div>
@@ -869,187 +875,10 @@ function scheduleTodayReviewHtml(state, MODULES) {
     </div>`;
 }
 
-function dashboardHtml(state, MODULES, revealedKeys = new Set()) {
-  const continueInfo = findContinueLesson(state, MODULES);
-  const currentModuleId = continueInfo ? continueInfo.mod.id : null;
-  const summary = deadlineSummary(state, MODULES);
-  const activeCourse = COURSES.find((c) => c.id === state.courseId);
-  // Mid course-switch (audit MOT-002), the switch trigger already names the
-  // INCOMING course -- the selection was confirmed the moment it was made --
-  // while the outgoing course's regions sit dimmed under .is-switching.
-  const switchingCourse = state.courseSwitchingTo
-    ? COURSES.find((c) => c.id === state.courseSwitchingTo)
-    : null;
-  const shownCourse = switchingCourse || activeCourse;
-  const completedModules = MODULES.filter((m) => m.lessons.length && completedCount(m.id, state.completed) === m.lessons.length).length;
-
-  let lastGroupKey = null;
-  const rows = MODULES.map((m, i) => {
-    // One heading per distinct (heading, subheading) pair, exactly as the
-    // grid did -- the chapter rule replaces the old two-sided divider.
-    const groupKey = `${m.heading || ''}|${m.subheading || ''}`;
-    const groupChanged = groupKey !== lastGroupKey;
-    const headingChanged = groupChanged && m.heading && m.heading !== (lastGroupKey || '').split('|')[0];
-    const subheadingChanged = groupChanged && m.subheading && m.subheading !== m.heading;
-    lastGroupKey = groupKey;
-
-    let headingHtml = '';
-    if (headingChanged) {
-      headingHtml += `<div class="chapter-rule"><span class="chapter-rule-text" lang="ar" dir="rtl">${esc(m.heading)}</span><span class="chapter-rule-line" aria-hidden="true"></span></div>`;
-    }
-    if (subheadingChanged) {
-      headingHtml += `<div class="chapter-subrule" lang="ar" dir="rtl">${esc(m.subheading)}</div>`;
-    }
-
-    const total = m.lessons.length;
-    const done = completedCount(m.id, state.completed);
-    const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
-    const isDone = total > 0 && done === total;
-    const isCurrent = m.id === currentModuleId;
-
-    let status;
-    if (!unlocked) status = 'Locked';
-    else if (isDone) status = 'Complete';
-    else if (done > 0) status = `In progress · ${done} of ${total}`;
-    else status = `${total} lesson${total === 1 ? '' : 's'}`;
-
-    // A locked module opens the confirmation prompt rather than sitting
-    // dead, same as the card grid it replaces.
-    const clickAttrs = unlocked
-      ? `data-action="openModule" data-module-id="${escAttr(m.id)}"`
-      : `data-action="openUnlockPrompt" data-target-type="module" data-target-id="${escAttr(m.id)}"`;
-    const rowCls = [
-      'module-row',
-      isCurrent ? 'module-row-current' : '',
-      isDone ? 'module-row-done' : '',
-      !unlocked ? 'module-row-locked' : '',
-      // MOTION-012: the row being returned to takes one brief flash so the
-      // restored scroll position also SAYS which row you came back from.
-      state.returnFlashModuleId === m.id ? 'anim-row-flash' : '',
-    ].filter(Boolean).join(' ');
-
-    const stateIcon = isDone ? icon('check', 14, 2.4) : isCurrent ? icon('clock', 14, 1.8) : !unlocked ? icon('lock', 13, 2) : '';
-    return `${headingHtml}
-      <button class="${rowCls}" ${clickAttrs}>
-        <span class="only-desktop module-row-ringwrap">${moduleRingHtml(i, { done: isDone, current: isCurrent, unlocked })}</span>
-        <span class="module-row-num only-phone">${i + 1}</span>
-        <span class="module-row-body">
-          <span class="module-row-title" lang="ar" dir="rtl">${esc(m.title)}</span>
-          ${m.blurb ? `<span class="module-row-outcome only-desktop">${escBidi(firstSentence(m.blurb))}</span>` : ''}
-          <span class="module-row-status">${esc(status)}</span>
-        </span>
-        ${stateIcon ? `<span class="module-row-state only-phone">${stateIcon}</span>` : ''}
-      </button>`;
-  }).join('');
-
-  // "Which module was that lesson in again?" -- a course runs to 138 lessons
-  // across 30 modules, so finding one already seen otherwise means scrolling
-  // the whole list and opening modules to check. The search itself
-  // (searchLessons/searchOpenLesson in js/main.js, lessonSearchResultsHtml
-  // below, .home-search in styles.css, and the .lesson-search-results
-  // entrance in js/motion.js) already existed on every side but this one --
-  // the input was lost in the redesign, which left the feature reachable by
-  // nothing at all.
-  const query = (state.lessonSearchQuery || '').trim();
-  return `
-    <div class="home-page${switchingCourse ? ' is-switching' : ''}">
-      <div class="context-bar" aria-hidden="true">
-        <div class="context-bar-inner"><span class="context-bar-title" lang="ar" dir="rtl">${esc(activeCourse ? (activeCourse.arabicName || activeCourse.name) : 'Home')}</span></div>
-      </div>
-      ${homeHeroHtml(state, MODULES)}
-      ${continueInfo ? `
-      <div class="home-resume-strip only-desktop">
-        <div class="home-resume-strip-inner">
-          <span class="kicker">Continue</span>
-          <span class="home-resume-strip-title" lang="ar" dir="rtl">${esc(continueInfo.mod.title)}</span>
-          <span class="home-resume-strip-meta">Lesson ${continueInfo.index + 1} · <bdi lang="ar">${esc(continueInfo.lesson.title)}</bdi></span>
-          <button class="btn btn-primary btn-sm home-resume-strip-cta" data-action="continueLesson" data-module-id="${escAttr(continueInfo.mod.id)}" data-lesson-id="${escAttr(continueInfo.lesson.id)}">Resume lesson</button>
-        </div>
-      </div>` : ''}
-      <div class="home-body">
-        <section class="home-modules-col">
-          ${homeReviewCardHtml(state, 'only-phone')}
-          <div class="section-head">
-            <h2 class="section-head-title">Your modules</h2>
-            <span class="course-switch-anchor">
-              <button class="home-course-switch${switchingCourse ? ' is-busy' : ''}" data-action="toggleCourseMenu" title="Switch course"
-                aria-label="${switchingCourse
-                  ? `Loading ${escAttr(switchingCourse.name)}`
-                  : `Switch course — currently ${escAttr(activeCourse ? activeCourse.name : '')}`}"
-                aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
-                <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
-                <span class="caret" aria-hidden="true">▾</span>
-              </button>
-              ${state.courseMenuOpen ? courseMenuHtml(state) : ''}
-            </span>
-            <span class="section-head-meta only-desktop">${completedModules} / ${MODULES.length} complete</span>
-          </div>
-          <div class="home-search-wrap">
-            <input id="lesson-search-input" class="home-search" type="search" data-action="searchLessons"
-              placeholder="Search this course's lessons…" value="${escAttr(state.lessonSearchQuery || '')}"
-              autocomplete="off" aria-label="Search lessons in this course">
-            ${state.lessonSearchQuery ? `
-            <button class="home-search-clear" type="button" data-action="clearLessonSearch"
-              aria-label="Clear lesson search" title="Clear lesson search">${icon('cross', 14, 2)}</button>` : ''}
-          </div>
-          ${query
-            ? lessonSearchResultsHtml(MODULES, state, query)
-            : `<div class="module-list noscroll">${rows}</div>`}
-        </section>
-        <aside class="home-rail">
-          ${summary ? `
-          <div class="home-rail-card only-desktop">
-            <div class="kicker">Today</div>
-            <div class="home-rail-figure"><strong>${summary.done}</strong> of ${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} done</div>
-            <div class="home-rail-track" aria-hidden="true"><span class="home-rail-fill" style="width:${summary.pct}%"></span></div>
-            <p class="home-rail-note">${summary.overdue
-              ? `Your deadline passed ${Math.abs(summary.diffDays)} day${Math.abs(summary.diffDays) === 1 ? '' : 's'} ago with ${summary.remaining} left.`
-              : `${summary.done >= summary.dailyTarget ? "You're on course for" : 'Keep this pace to finish by'} ${esc(formatDeadlineDate(summary.deadline))}.`}
-              <button class="text-link-btn" data-action="openSchedule">Open schedule</button></p>
-          </div>` : `
-          <!-- Without this, the desktop rail rendered nothing at all until a
-               deadline existed: a new reader met a 320px column of blank
-               paper beside the one list on the page. The rail's whole subject
-               is progress against a target, so with no target set the honest
-               thing for it to hold is the invitation to set one. -->
-          <div class="home-rail-invite only-desktop">
-            <div class="kicker">Today</div>
-            <p class="home-rail-invite-title">No target date yet</p>
-            <p class="home-rail-note">Pick the date you want to finish this course and this rail will track the day's target against it.</p>
-            <button class="btn btn-secondary btn-sm" data-action="openScheduleTargetDate">Set a target date</button>
-          </div>`}
-          ${homeReviewCardHtml(state, 'only-desktop')}
-          <div class="home-explore only-phone">
-            <div class="home-explore-title">Explore</div>
-            <div class="home-explore-grid">
-              <button class="home-explore-card" data-action="openLibrary">
-                ${icon('book', 16, 2)}
-                <span class="home-explore-name">Library</span>
-                <span class="home-explore-meta">Graded readers</span>
-              </button>
-              <button class="home-explore-card" data-action="openSchedule">
-                ${icon('calendar', 16, 2)}
-                <span class="home-explore-name">Schedule</span>
-                <span class="home-explore-meta">${summary ? `${summary.dailyTarget} a day` : 'Set a deadline'}</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div>`;
+function dashboardHtml(state) {
+  return courseOverviewHtml(state);
 }
 
-// Live "which module was that lesson in again?" search over lesson
-// titles/subtitles across every unlocked module of the current course --
-// scoped to titles/subtitles only, not full-text over concept bodies, to
-// keep this a lightweight lookup rather than a search engine. Locked
-// lessons are excluded: search is for finding something you've already
-// seen, not previewing what's still ahead (which the module page's own
-// lock affordance already handles).
-// Wraps every occurrence of `query` in a <mark> (POLISH-001). Matched
-// fragments are escaped WITHOUT bidi-isolate control characters -- RLI/PDI
-// at a <mark> boundary would break Arabic letter joining mid-word -- while a
-// string with no match keeps the usual escBidi treatment.
 function highlightMatch(text, query) {
   const s = String(text ?? '');
   const needle = String(query || '').toLowerCase();
@@ -1105,124 +934,9 @@ function lessonSearchResultsHtml(MODULES, state, query) {
 // --- Module (lesson grid) ------------------------------------------------
 
 function modulePageHtml(state, MODULES) {
-  const mod = MODULES.find((m) => m.id === state.moduleId);
-  if (!mod) return dashboardHtml(state, MODULES);
-
-  const total = mod.lessons.length;
-  const done = completedCount(mod.id, state.completed);
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const bankPool = getBankPool(mod.id, state.completed, state.forceUnlockAll);
-  // With course locks off (the default for a fresh install) the pool spans
-  // every lesson, finished or not -- the copy has to say so rather than
-  // claim the cards came "from lessons you've finished" beside a 0-lesson
-  // progress count (the two statements directly contradicted each other).
-  const poolIncludesUnfinished = state.forceUnlockAll
-    && bankPool.length > getBankPool(mod.id, state.completed, false).length;
-  const index = MODULES.indexOf(mod) + 1;
-  const chapterPath = [mod.heading, mod.subheading].filter(Boolean).join(' · ');
-  // The first lesson still to do -- the one the row list points at.
-  const currentLesson = mod.lessons.find((l) => !isLessonComplete(mod.id, l.id, state.completed)
-    && isLessonUnlocked(mod.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll));
-
-  const rows = mod.lessons.map((lesson, i) => {
-    const unlocked = isLessonUnlocked(mod.id, lesson.id, state.completed, state.unlockedModules, state.forceUnlockAll);
-    const complete = isLessonComplete(mod.id, lesson.id, state.completed);
-    // Mastered: this lesson's Mastery test has been passed at 100%.
-    // Display-only -- the row's own click is openLessonPreview either way.
-    const masteryEntry = state.masteryV2[`${mod.id}_${lesson.id}`];
-    const mastered = complete && masteryEntry && masteryEntry.passed;
-    const isCurrent = currentLesson && lesson.id === currentLesson.id;
-    const score = (state.quizScores[mod.id] || {})[lesson.id];
-
-    let meta = '';
-    if (complete && score) {
-      meta = `<span class="lesson-row-meta">Quiz ${score.correct} / ${score.total}${mastered ? ' · Mastered' : ''}</span>`;
-    } else if (complete) {
-      meta = `<span class="lesson-row-meta">Complete${mastered ? ' · Mastered' : ''}</span>`;
-    } else if (isCurrent) {
-      const conceptCount = (lesson.concepts || []).length;
-      meta = `<span class="lesson-row-cta">Continue · ${conceptCount} concept${conceptCount === 1 ? '' : 's'}, then a quiz${icon('chevronRight', 13, 2)}</span>`;
-    }
-
-    const rowCls = [
-      'lesson-row',
-      isCurrent ? 'lesson-row-current' : '',
-      !unlocked ? 'lesson-row-locked' : '',
-    ].filter(Boolean).join(' ');
-
-    return `
-      <button class="${rowCls}" ${unlocked ? `data-action="openLessonPreview" data-lesson-id="${escAttr(lesson.id)}"` : 'disabled'}>
-        ${moduleRingHtml(i, { done: complete, current: isCurrent, unlocked })}
-        <span class="lesson-row-body">
-          <span class="lesson-row-title" lang="ar" dir="rtl">${esc(lesson.title)}</span>
-          <span class="lesson-row-subtitle">${escBidi(lesson.subtitle || '')}</span>
-          ${meta}
-        </span>
-      </button>`;
-  }).join('');
-
-  return `
-    <div class="module-page-wrap">
-      ${navBackRowHtml(state)}
-    <div class="module-page">
-      <section>
-        <div class="plate module-cover">
-          <span class="plate-ghost" aria-hidden="true">${esc(arabicNumeral(index))}</span>
-          <div class="module-cover-inner">
-            ${chapterPath ? `<div class="module-cover-path" lang="ar" dir="rtl">${esc(chapterPath)}</div>` : ''}
-            <h1 class="module-cover-title" lang="ar" dir="rtl">${esc(mod.title)}</h1>
-            <div class="module-cover-rule" aria-hidden="true"></div>
-            <p class="module-cover-blurb cover-blurb${state.coverBlurbOpen ? ' is-open' : ''}">${escBidi(mod.blurb)}</p>
-            <button class="cover-blurb-toggle only-phone" data-action="toggleCoverBlurb" aria-expanded="${state.coverBlurbOpen ? 'true' : 'false'}">${state.coverBlurbOpen ? 'Less' : 'Read the full description'} <span class="caret" aria-hidden="true">▾</span></button>
-            <div class="module-cover-progress">
-              <span class="module-cover-track" aria-hidden="true"><span class="module-cover-fill" style="width:${pct}%"></span></span>
-              <span class="module-cover-count">${done} / ${total} lesson${total === 1 ? '' : 's'}</span>
-            </div>
-          </div>
-        </div>
-
-        <button class="entry-row${state.practiceSetupOpen && state.practiceModuleId === mod.id ? ' is-open' : ''}" ${bankPool.length ? `data-action="openPractice" aria-expanded="${state.practiceSetupOpen && state.practiceModuleId === mod.id ? 'true' : 'false'}"` : 'disabled title="Complete a lesson first — Practice Mode only draws from finished lessons\' cards"'}>
-          ${icon('pencil', 17, 1.8)}
-          <span class="entry-row-body">
-            <span class="entry-row-title">Practice Mode</span>
-            <span class="entry-row-meta">${bankPool.length
-              ? poolIncludesUnfinished
-                ? `${bankPool.length} cards — every lesson's cards are open while course locks are off`
-                : `${bankPool.length} cards from lessons you've finished`
-              : 'Finish a lesson to unlock'}</span>
-          </span>
-          <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
-        </button>
-
-        <div class="module-setup-inline">${state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : ''}</div>
-
-        <div class="lesson-section-head">
-          <span class="lesson-section-title">Lessons</span>
-          <span class="lesson-section-note">In order</span>
-        </div>
-        <!-- On desktop this is the left column's own scroller (see the
-             module-page split in styles.css): everything above it — back
-             row, cover, Practice Mode, the Lessons head — holds still and
-             only the list below the rule scrolls. -->
-        <div class="lesson-scroll">
-          <div class="lesson-list">${rows}</div>
-
-          ${done > 0 ? `<button class="module-reset" data-action="openResetModulePrompt" data-module-id="${escAttr(mod.id)}">Reset this module's progress</button>` : ''}
-          ${modulePagerHtml(state, MODULES, mod)}
-        </div>
-      </section>
-
-      <aside class="module-rail">
-        <div class="module-setup-rail">${state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : ''}</div>
-        <div class="module-rail-card">
-          <div class="kicker">This module</div>
-          <div class="ledger-row"><span class="ledger-label">Lessons done</span><span class="ledger-value">${done} / ${total}</span></div>
-          <div class="ledger-row"><span class="ledger-label">Progress</span><span class="ledger-value">${pct}%</span></div>
-          <div class="ledger-row"><span class="ledger-label">Cards in pool</span><span class="ledger-value">${bankPool.length}</span></div>
-        </div>
-      </aside>
-    </div>
-    </div>`;
+  const mod = MODULES.find(m => m.id === state.moduleId);
+  if (!mod) return courseOverviewHtml(state);
+  return moduleLessonsHtml(state, mod, state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : '', modulePagerHtml(state, MODULES, mod));
 }
 
 // Sideways movement between modules, so finishing one does not mean a trip
@@ -1288,7 +1002,7 @@ function lessonPreviewHtml(state, MODULES) {
     ? `
       <button class="btn btn-secondary" data-action="startMasteryV2" data-lesson-id="${escAttr(lesson.id)}">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
       <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Review</button>`
-    : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${resumingQuiz ? 'Resume the quiz' : 'Start lesson'}</button>`;
+    : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${resumingQuiz ? 'Resume the quiz' : state.studySessions?.[`${state.courseId}/${mod.id}/${lesson.id}`] ? 'Continue lesson' : 'Start lesson'}</button>`;
 
   return `
     <div class="modal-backdrop" data-action="closeLessonPreview">
@@ -1667,7 +1381,7 @@ function conceptTableHtml(table, wrapCls, wrapAttr) {
   return `
     <div class="${wrapCls}"${wrapAttr}>
       ${table.title ? `<div class="concept-table-title">${escBidi(table.title)}</div>` : ''}
-      <div class="concept-table-scroll">
+      <div class="concept-table-scroll" tabindex="0" role="region" aria-label="${escAttr(table.title || 'Scrollable lesson table')}">
         <table class="concept-table">
           <thead><tr>${headHtml}</tr></thead>
           <tbody>${bodyHtml}</tbody>
@@ -1710,7 +1424,7 @@ function isSummaryRowUnlocked(lesson, row, exStates, moduleId, lessonId) {
 function lessonSummaryCardHtml(lesson, state, mod, sbSumKey) {
   const summary = lesson.summary;
   if (!summary) return '';
-  const rows = summary.rows.filter((row) => isSummaryRowUnlocked(lesson, row, state.exStates, mod.id, lesson.id));
+  const rows = sbSumKey.startsWith('mz-') ? summary.rows : summary.rows.filter((row) => isSummaryRowUnlocked(lesson, row, state.exStates, mod.id, lesson.id));
   // The card shell itself is always present (same three-card sidebar every
   // content-fstu lesson has, matching "In This Lesson"/"Your Progress"
   // right around it) -- only the ROWS inside build up gradually, with a
@@ -1914,105 +1628,11 @@ function conceptBlockHtml(state, mod, lesson, i, revealedKeys) {
     </div>`;
 }
 
-function lessonHtml(state, MODULES, revealedKeys) {
-  const mod = MODULES.find((m) => m.id === state.moduleId);
-  const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
+function lessonHtml(state, MODULES) {
+  const mod = MODULES.find(m => m.id === state.moduleId);
+  const lesson = mod?.lessons.find(l => l.id === state.lessonId);
   if (!mod || !lesson) return modulePageHtml(state, MODULES);
-
-  const total = lesson.concepts.length;
-  // How far the exercises have actually been cleared: a concept's own
-  // exercise gates the one after it (see conceptsToRender). With course
-  // locks ON, paging never runs past that. With course locks OFF every
-  // concept is freely navigable (user request) -- `shown` still drives the
-  // dots' gold fill and complete/unlocked labels. Completing the LESSON is
-  // the quiz's job alone (see finishLesson in js/main.js).
-  const shown = conceptsToRender(lesson, state.exStates, mod.id, lesson.id);
-  const navigable = state.forceUnlockAll ? total : shown;
-  const readyForQuiz = isLessonReadyForQuiz(lesson, state.exStates, mod.id, lesson.id);
-  const quizUnlocked = readyForQuiz || state.forceUnlockAll;
-
-  // A null index means "wherever the reader had got to" -- the furthest
-  // concept whose exercise chain has been cleared. Once they page by hand,
-  // the actions set a real number.
-  const index = state.conceptIndex == null
-    ? shown - 1
-    : Math.max(0, Math.min(state.conceptIndex, navigable - 1));
-  const isLast = index === total - 1;
-
-  // Navigable concepts are clickable; the rest are dim markers of what is
-  // still ahead. Each dot names its state (POLISH-018) -- the same string
-  // serves as the desktop tooltip and the accessible label.
-  const dots = lesson.concepts.map((_, i) => {
-    const cls = ['concept-dot', i < shown ? 'reached' : '', i === index ? 'current' : ''].filter(Boolean).join(' ');
-    const status = i === index ? 'current' : i < shown - 1 ? 'complete' : i < navigable ? 'unlocked' : 'locked';
-    const label = `Concept ${i + 1}, ${status}`;
-    return i < navigable
-      ? `<button class="${cls}" data-action="goToConcept" data-index="${i}" aria-label="${label}" title="${label}"${i === index ? ' aria-current="true"' : ''}></button>`
-      : `<span class="${cls}" role="img" aria-label="${label}" title="${label}"></span>`;
-  }).join('');
-
-  const block = conceptBlockHtml(state, mod, lesson, index, revealedKeys);
-
-  // The lesson's own trailing exercise and its summary table belong to the
-  // end of the lesson, so they ride along on the last concept's page.
-  const tail = isLast
-    ? `${lessonExerciseCardHtml(state, mod, lesson)}${lessonSummaryCardHtml(lesson, state, mod, `sb_sum_${mod.id}_${lesson.id}`)}`
-    : '';
-
-  const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
-  const moduleIdx = MODULES.indexOf(mod) + 1;
-
-  // Next opens once this concept's exercise has been cleared (course locks
-  // on), or always while another concept exists (course locks off).
-  const canAdvance = index < navigable - 1;
-  const forward = isLast
-    ? `<button class="btn btn-primary" data-action="gotoQuiz" ${quizUnlocked ? '' : 'disabled'}>Continue to quiz</button>`
-    : `<button class="btn btn-primary" data-action="nextConcept" ${canAdvance ? '' : 'disabled'}>Next concept</button>`;
-
-  // A disabled forward button on its own is a dead end: the reader can see
-  // they cannot go on but not why, and the exercise that is holding them is
-  // above the fold by the time the footer is in view. So whenever forward is
-  // gated, the footer says what would open it -- and the gate is always one
-  // of exactly two things, since a concept with no exercise passes
-  // automatically (see isConceptExercisePassed) and the quiz additionally
-  // waits on the lesson's own trailing exercise (isLessonReadyForQuiz).
-  const forwardBlocked = isLast ? !quizUnlocked : !canAdvance;
-  let footHint = '';
-  if (forwardBlocked) {
-    const thisConceptPending = !isConceptExercisePassed(lesson, index, state.exStates, mod.id, lesson.id);
-    footHint = isLast && !thisConceptPending
-      ? 'Answer the practice below to open the quiz.'
-      : 'Answer the exercise above to carry on.';
-  }
-
-  // The back control reads its destination from the same trail the
-  // breadcrumb and every other inner screen do, so a lesson opened from My
-  // Path still unwinds to the path map and the label says which it is --
-  // it said only "Back" before, whichever of the two it was about to do.
-  const lessonBack = backTargetFor(state);
-  return `
-    <div class="lesson-page">
-      <div class="lesson-head">
-        ${backLink(`Back to ${lessonBack ? lessonBack.label : 'the module'}`, lessonBack ? lessonBack.action : 'openModule', lessonBack ? dataAttrs(lessonBack.extra) : `data-module-id="${escAttr(mod.id)}"`)}
-        <div class="lesson-head-body">
-          <div class="lesson-head-crumb">Module ${moduleIdx} · <bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} of ${mod.lessons.length}</div>
-          <h1 class="lesson-head-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
-        </div>
-        <div class="concept-dots">${dots}</div>
-        ${sectionsMenuHtml(state)}
-      </div>
-      <div class="lesson-body">
-        ${block}
-        ${tail}
-      </div>
-      <div class="lesson-foot">
-        <button class="btn btn-ghost lesson-foot-back" data-action="prevConcept" ${index === 0 ? 'disabled' : ''}>${icon('arrowLeft', 14, 2)} Back</button>
-        <div class="lesson-foot-end">
-          ${footHint ? `<span class="lesson-foot-hint">${esc(footHint)}</span>` : ''}
-          ${forward}
-        </div>
-      </div>
-    </div>`;
+  return studyHtml(state, mod, lesson, { prose: conceptProseHtml, summary: lessonSummaryCardHtml });
 }
 
 // --- Quiz -------------------------------------------------------------
@@ -2190,96 +1810,9 @@ function quizHtml(state, MODULES) {
 // --- Lesson complete ---------------------------------------------------
 
 function lessonCompleteHtml(state, MODULES) {
-  const mod = MODULES.find((m) => m.id === state.moduleId);
-  const lesson = mod && mod.lessons.find((l) => l.id === state.lessonId);
-  if (!mod || !lesson) return modulePageHtml(state, MODULES);
-
-  const score = (state.quizScores[mod.id] || {})[lesson.id];
-  const lessonIdx = mod.lessons.findIndex((l) => l.id === lesson.id);
-  const moduleIdx = MODULES.indexOf(mod) + 1;
-  const done = completedCount(mod.id, state.completed);
-  const total = mod.lessons.length;
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const streak = state.streak || 1;
-  const nextLesson = mod.lessons[lessonIdx + 1];
-
-  // A lesson reached via My Path routes back to the path map rather than to
-  // the module page it technically belongs to -- not having to think in
-  // terms of "which module am I in" is the whole point of the path.
-  const follow = state.pathActive
-    ? `<button class="btn btn-primary btn-block" data-action="backToPath">Continue on My Path</button>`
-    : nextLesson
-      ? `
-        <div class="up-next">
-          <div class="kicker">Up next</div>
-          <span class="up-next-title" lang="ar" dir="rtl">${esc(nextLesson.title)}</span>
-          ${nextLesson.subtitle ? `<p class="up-next-body">${escBidi(nextLesson.subtitle)}</p>` : ''}
-          <button class="btn btn-primary btn-block" data-action="startLesson" data-lesson-id="${escAttr(nextLesson.id)}">Start next lesson</button>
-        </div>`
-      : (() => {
-        // Finishing a module used to end here, with Practice as the only
-        // offer and the module after it reachable solely by going back to
-        // Home and finding it in the list. Name it instead -- it is the one
-        // thing a learner who has just cleared a module is most likely to
-        // want next.
-        const nextMod = MODULES[MODULES.indexOf(mod) + 1];
-        const nextOpen = nextMod
-          && isModuleUnlocked(nextMod.id, state.completed, state.unlockedModules, state.forceUnlockAll);
-        return `
-        <div class="up-next">
-          <div class="kicker">${nextOpen ? 'Next module' : 'Module finished'}</div>
-          <span class="up-next-title" lang="ar" dir="rtl">${esc(nextOpen ? nextMod.title : mod.title)}</span>
-          <p class="up-next-body">${nextOpen
-            ? `Every lesson in <bdi lang="ar" dir="rtl">${esc(mod.title)}</bdi> is done.`
-            : 'Every lesson in this module is done — drill it to keep it sharp.'}</p>
-          ${nextOpen
-            ? `<button class="btn btn-primary btn-block" data-action="openModule" data-module-id="${escAttr(nextMod.id)}">Open the next module</button>
-               <button class="btn btn-secondary btn-block" style="margin-top:10px;" data-action="openPractice">Practice this module</button>`
-            : '<button class="btn btn-primary btn-block" data-action="openPractice">Practice this module</button>'}
-        </div>`;
-      })();
-
-  return `
-    <div class="complete-page">
-      <div class="complete-plate">
-        <span class="complete-plate-ghost" aria-hidden="true">أحسنت</span>
-        <div class="complete-plate-inner">
-          <span class="complete-tag">${icon('check', 11, 2.6)} Lesson cleared</span>
-          <h1 class="complete-title" lang="ar" dir="rtl">${esc(lesson.title)}</h1>
-          <div class="complete-meta">Module ${moduleIdx} · <bdi lang="ar">${esc(mod.title)}</bdi> · Lesson ${lessonIdx + 1} of ${total}</div>
-          <div class="complete-ledger">
-            ${score ? `<div>
-              <div class="complete-ledger-value">${score.correct} / ${score.total}</div>
-              <div class="complete-ledger-label">Quiz</div>
-            </div>` : ''}
-            ${score ? `<div>
-              <div class="complete-ledger-value complete-ledger-value-accent">+${xpForQuiz(score.correct, score.total)}</div>
-              <div class="complete-ledger-label">XP earned</div>
-            </div>` : ''}
-            <div>
-              <div class="complete-ledger-value">${streak} d</div>
-              <div class="complete-ledger-label">Streak</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="complete-body">
-        <div class="complete-progress">
-          <span class="complete-progress-track" aria-hidden="true"><span class="complete-progress-fill" style="width:${pct}%"></span></span>
-          <span class="complete-progress-label">${done} / ${total} in this module</span>
-        </div>
-        ${follow}
-        <button class="entry-row" data-action="openPractice">
-          ${icon('pencil', 17, 1.8)}
-          <span class="entry-row-body">
-            <span class="entry-row-title">Practice what you just learned</span>
-            <span class="entry-row-meta">This lesson's cards are now in the pool</span>
-          </span>
-          <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
-        </button>
-        <button class="btn btn-ghost btn-block" style="margin-top:14px;" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to lessons</button>
-      </div>
-    </div>`;
+  const mod = MODULES.find(m => m.id === state.moduleId);
+  const lesson = mod?.lessons.find(l => l.id === state.lessonId);
+  return lesson ? completedLessonHtml(state, mod, lesson) : modulePageHtml(state, MODULES);
 }
 
 // --- Practice: تركيب widget ------------------------------------------------
@@ -2634,11 +2167,11 @@ function practiceSetupPanelHtml(state, mod) {
   // agree with the lock configuration -- with course locks off the pool
   // spans the whole module, not just cleared lessons (POLISH-006).
   const kinds = [
-    { id: 'mcq', name: 'MCQ', count: mcqPool.length, desc: poolIncludesUnfinished
+    { id: 'mcq', name: state.courseId === 'mantiq' ? 'Logic exercises' : 'MCQ', count: mcqPool.length, desc: state.courseId === 'mantiq' ? 'Apply definitions, analyse arguments, construct propositions and work with diagrams.' : poolIncludesUnfinished
       ? 'Multiple choice, drawn from lesson quizzes and book exercises across the whole module.'
       : 'Multiple choice, drawn from the lesson quizzes and book exercises you have cleared.' },
     ...(hasTarkeeb ? [{ id: 'tarkeeb', name: 'تركيب', ar: true, count: tarkeebPool.length, desc: 'Label each word in a sentence with its grammatical role.' }] : []),
-    { id: 'vocab', name: 'Vocab', count: vocabPool.length, desc: 'Word meanings in both directions, plus plural and مصدر forms.' },
+    ...(state.courseId === 'mantiq' ? [] : [{ id: 'vocab', name: 'Vocab', count: vocabPool.length, desc: 'Word meanings in both directions, plus plural and مصدر forms.' }]),
   ];
 
   // A tile with nothing in it can't be picked -- it stays visible, disabled,
@@ -2666,7 +2199,7 @@ function practiceSetupPanelHtml(state, mod) {
     ? state.tarkeebTranslations !== false
     : state.practiceTarkeebTranslations !== false;
 
-  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : 'MCQ';
+  const kindLabel = kind === 'tarkeeb' ? 'تركيب' : kind === 'vocab' ? 'Vocab' : state.courseId === 'mantiq' ? 'Logic' : 'MCQ';
   const emptyText = state.forceUnlockAll
     ? `No ${kindLabel} practice questions exist in this module.`
     : `Complete a lesson to unlock ${kindLabel} practice questions.`;
@@ -2777,7 +2310,7 @@ function sessionKicker(p, mod) {
     const label = p.kind === 'revisionVocab' ? 'Vocab' : p.kind === 'courseRevision' ? 'Course' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
   }
-  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : 'MCQ';
+  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : state.courseId === 'mantiq' ? 'Logic practice' : 'MCQ';
   return `PRACTICE · ${label}`;
 }
 
@@ -2964,6 +2497,10 @@ function practiceHtml(state, MODULES) {
   // reliably say what the CURRENT question is. This also covers every
   // other session unchanged, since those are single-kind by construction
   // (p.kind and entry.item.kind always agree there).
+  if (entry.item.kind === 'mizan') {
+    const item = logicItem(entry.item.logicItemId);
+    return `<div class="quiz-page practice-page mz-logic-review"><div class="quiz-head">${crumbHtml}</div>${ticksHtml}${comboHtml}<div class="quiz-body practice-body"><div class="quiz-body-inner">${sourceTag}<div class="quiz-question-card">${logicExerciseHtml(item, p.logicDraft || { response: null, hintsUsed: 0 }, { context: 'Review', continuing: true })}</div>${p.submitted && isReview ? reviewIntervalNoteHtml(state, p, key) : ''}</div></div><div class="quiz-foot"><button class="btn btn-primary btn-block" data-action="nextPracticeQuestion" ${p.submitted ? '' : 'disabled'}>${isLast ? 'See results' : 'Next question'}</button>${endControl}</div></div>`;
+  }
   if (entry.item.kind === 'tarkeeb') {
     let body = renderTarkeeb(state, entry.item, entry.key, entry.moduleId);
     const ts = state.tarkeebState[entry.key];
@@ -3096,7 +2633,7 @@ function practiceReviewHtml(state, MODULES) {
   const reviseAgainAction = p.kind === 'revisionVocab' ? 'startRevisionVocab' : p.kind === 'courseRevision' ? 'startCourseRevision' : 'startRevision';
   const footer = p.source === 'revision' ? `
       <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="${reviseAgainAction}">Revise again</button>
-      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Schedule</button>`
+      <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Review</button>`
     : pathNode && !pathPassed ? `
       <button class="btn btn-primary btn-block" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
       <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Path</button>`
@@ -3268,7 +2805,7 @@ function reviewCompleteHtml(state, MODULES) {
       </div>
       <div class="complete-foot">
         ${nextStep}
-        <button class="btn btn-ghost btn-block" data-action="closePracticeReview">${p.exitView === 'schedule' ? 'Back to Schedule' : 'Back to Home'}</button>
+        <button class="btn btn-ghost btn-block" data-action="closePracticeReview">${p.exitView === 'schedule' ? 'Back to Review' : 'Back to Home'}</button>
       </div>
     </div>`;
 }
@@ -3475,7 +3012,7 @@ function scheduleHtml(state, MODULES, revealedKeys) {
 
   return `
     <div class="schedule-page${switchingCourse ? ' is-switching' : ''}">
-      ${pageHeaderHtml({ title: 'Schedule', ar: 'الجدول الزمني', lede, actions: courseSwitch })}
+      ${pageHeaderHtml({ title: 'Review & plan', ar: 'الجدول الزمني', lede, actions: courseSwitch })}
       <div class="two-col">
       <div class="two-col-main">
       ${todayCard}
@@ -3765,7 +3302,7 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
   // on the right says what that module's 30 questions would be drawn from.
   const moduleRowHtml = (m) => {
     const counts = moduleRevisionCounts(m.id, state.completed, state.forceUnlockAll);
-    const compo = counts.tarkeeb ? `${counts.mcq} MCQ + ${counts.tarkeeb} تركيب` : `${counts.mcq} MCQ`;
+    const compo = counts.tarkeeb ? `${counts.mcq} MCQ + ${counts.tarkeeb} تركيب` : `${counts.mcq} ${state.courseId === 'mantiq' ? 'logic exercises' : 'MCQ'}`;
     const rowKey = `sched${attempt}_revrow_${m.id}`;
     const rowCls = `revision-module-row${pickedId === m.id ? ' is-selected' : ''}`;
     return `
@@ -3783,7 +3320,7 @@ function scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, baseO
   const canStart = mode === 'random' || !!pickedId;
 
   return `
-    <p class="lede revision-lede">One completed module, 20 MCQ and 10 تركيب in random order — for keeping a chapter you've finished sharp.</p>
+    <p class="lede revision-lede">${state.courseId === 'mantiq' ? 'Mixed exercises from a completed unit to keep its ideas fresh.' : 'One completed module, 20 MCQ and 10 تركيب in random order — for keeping a chapter you have finished sharp.'}</p>
     ${modeTabs}
     ${body}
     <button class="btn btn-primary btn-block revision-start" data-action="startRevision" ${canStart ? '' : 'disabled'}>Start revision quiz</button>`;
@@ -3853,7 +3390,7 @@ function scheduleRevisionCourseHtml(state, MODULES, revealedKeys, attempt) {
 
   const mcqControl = counts.mcq === 0 ? '' : `
     <div class="setup-group">
-      <div class="kicker">MCQ questions</div>
+      <div class="kicker">${state.courseId === 'mantiq' ? 'Logic exercises' : 'MCQ questions'}</div>
       <div class="practice-tabs practice-tabs-sub" role="group" aria-label="MCQ question count">
         ${mcqOpts.map((o) => `<button class="practice-tab${o.count === selectedMcq.count ? ' active' : ''}" data-action="setCourseRevisionMcqCount" data-count="${o.count}" aria-pressed="${o.count === selectedMcq.count}">${o.label}</button>`).join('')}
       </div>
@@ -4615,7 +4152,7 @@ function achievementsHtml(state) {
     watermark: 'أوسمة',
     badge: 'أوسمة الإنجاز',
     title: 'Achievements',
-    body: 'Every badge The Sciences offers, across every course — earned ones in full, the rest waiting to be unlocked.',
+    body: 'Every badge Mīzān offers, across every course — earned ones in full, the rest waiting to be unlocked.',
     ledger: `<div class="ach-ledger-block">${heroLedgerHtml([
       ['Badges earned', `${earnedCount} / ${totalBadges}`],
       ['Level', li.level],
@@ -4637,8 +4174,8 @@ function achievementsHtml(state) {
 }
 
 function settingsHtml(state) {
-  const theme = state.theme || 'manuscript';
-  const accent = state.accent || 'gold';
+  const theme = state.theme || 'mizan';
+  const accent = state.accent || 'emerald';
   const accentHex = (ACCENTS[accent] || ACCENTS.gold).hex;
   const face = bodyFaceKey(state.arabicFace || 'naskh');
   const currentFace = FACES[face] || FACES.naskh;
@@ -4723,7 +4260,7 @@ function settingsHtml(state) {
         ${pageHeaderHtml({ title: 'Appearance', ar: 'المظهر', lede: 'The page, set to your hand — paper, accent, typeface and text size. Everything here changes only how the page looks, in every course; learning aids and course progression have their own pages under Account.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Paper</h2>
-        <p class="settings-group-sub">Five grounds. The structure of the page does not change with them.</p>
+        <p class="settings-group-sub">Six themes. The structure of the page does not change with them.</p>
         <div class="theme-grid" role="radiogroup" aria-label="Colour theme">${themeCards}</div>
 
         <h3 class="settings-group-title" style="margin-top:26px">Accent</h3>
@@ -4806,7 +4343,7 @@ function settingsHtml(state) {
             <div class="specimen-gloss" dir="ltr">Indeed Allah is with the patient. The ḥarf inna governs naṣb in the noun that follows it.</div>
           </div>
           <div class="specimen-actions">
-            <button class="btn btn-ghost" data-action="resetAppearance">Reset to Manuscript &amp; Gold</button>
+            <button class="btn btn-ghost" data-action="resetAppearance">Reset to Mīzān defaults</button>
           </div>
         </div>
       </aside>
@@ -4857,7 +4394,7 @@ function courseProgressionHtml(state) {
     <div class="settings-page">
       <div class="settings-col">
         ${navBackRowHtml(state)}
-        ${pageHeaderHtml({ title: 'Course progression', ar: 'تقدم الدورة', lede: 'How much of the material is open at once. This applies to all four courses and My Path on this device; it never marks anything complete or removes progress.' })}
+        ${pageHeaderHtml({ title: 'Course progression', ar: 'تقدم الدورة', lede: 'How much of the material is open at once. This applies to all five courses and My Path on this device; it never marks anything complete or removes progress.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Course locks</h2>
         <p class="settings-group-sub">Whether lessons and modules have to be earned in order.</p>
@@ -6162,6 +5699,12 @@ function litWordPracticeHtml(state) {
 export function render(state, MODULES, revealedKeys = new Set()) {
   let body;
   switch (state.view) {
+    case 'catalog':
+      body = catalogHtml(state);
+      break;
+    case 'dashboard':
+      body = courseOverviewHtml(state);
+      break;
     case 'module':
       body = modulePageHtml(state, MODULES);
       break;
@@ -6235,5 +5778,6 @@ export function render(state, MODULES, revealedKeys = new Set()) {
   // announces on arrival is what the breadcrumb says you arrived at.
   const trail = crumbTrail(state);
   const pageName = trail.length ? trail[trail.length - 1].label : '';
-  return `${headerHtml(state, MODULES)}<main class="${mainClasses}" tabindex="-1" aria-label="${escAttr(pageName)}"><div class="${contentClasses}">${body}</div></main>${tabBarHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
+  const recovery = state.storageRecovery && !state.storageRecovery.dismissed ? `<aside class="mz-save-banner" role="alert"><p>A previous save could not be read. Its original data has been preserved for recovery.</p><button class="btn btn-secondary" data-action="downloadRecovery">Download original save</button><button class="mz-text-button" data-action="dismissRecovery">Dismiss</button></aside>` : '';
+  return `${headerHtml(state, MODULES)}<aside id="mz-storage-error" class="mz-save-banner" role="alert" ${state.storageError ? "" : "hidden"}><p>${esc(state.storageError || "")}</p><button class="btn btn-secondary" data-action="downloadCurrentProgress">Download progress</button><button class="btn btn-secondary" data-action="downloadOriginalProgress">Download original save</button><button class="btn btn-secondary" data-action="retrySaving">Retry saving</button></aside>${recovery}<main class="${mainClasses}" id="main" tabindex="-1" aria-label="${escAttr(pageName)}"><div class="${contentClasses}">${body}</div></main>${tabBarHtml(state)}${lessonPreviewHtml(state, MODULES)}${litChapterPreviewHtml(state)}${pathCheckpointSetupHtml(state)}${pathSkipAheadPromptHtml(state)}${toastHtml(state)}${badgeModalHtml(state)}${forceUnlockPromptHtml(state)}${unlockPromptHtml(state)}${resetModulePromptHtml(state, MODULES)}${leaveSessionPromptHtml(state)}`;
 }

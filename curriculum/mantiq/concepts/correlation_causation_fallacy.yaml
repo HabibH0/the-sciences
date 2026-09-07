@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: correlation_causation_fallacy
+  title: {en: "Correlation Does Not Imply Causation"}
+  type: exception
+  definition: {en: "Assuming that two events occurring together proves that one causes the other."}
+  prerequisites: [informal_fallacy]
+  properties: {confused_relation: correlation_for_causation}
+  skills: [diagnose_correlation_causation, propose_confounder]
+  exercise_families: [error_detection, causal_analysis]
+  source: {book_id: fst_logic, pages: [74]}

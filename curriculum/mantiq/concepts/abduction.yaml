@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: abduction
+  title: {en: "Abduction"}
+  type: inference
+  definition: {en: "Inferring the best probable explanation for observed facts, including possible unobserved elements."}
+  prerequisites: [inference]
+  skills: [recognise_abduction]
+  exercise_families: [classification, evaluation]
+  source: {book_id: fst_logic, pages: [65]}

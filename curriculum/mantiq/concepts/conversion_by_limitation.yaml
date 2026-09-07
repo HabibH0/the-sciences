@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: conversion_by_limitation
+  title: {en: "Conversion by Limitation"}
+  type: rule
+  definition: {en: "Conversion of an A-proposition to an I-proposition by swapping the terms and changing universal quantity to particular."}
+  prerequisites: [conversion, a_proposition, i_proposition]
+  properties: {input_form: A, output_form: I}
+  skills: [convert_a_by_limitation]
+  exercise_families: [rule_application, transformation]
+  source: {book_id: fst_logic, pages: [34, 35]}

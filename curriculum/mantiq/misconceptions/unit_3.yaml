@@ -1,0 +1,22 @@
+schema_version: 1
+unit: inference
+misconceptions:
+  - {id: accidental_truth_as_validity, diagnosis: "Treats a true conclusion as proof of a valid inference.", remediation: "Test whether the form guarantees the conclusion for every matching case."}
+  - {id: swap_without_form_check, diagnosis: "Converts every categorical form by simply swapping terms.", remediation: "Recall: E and I simple; A by limitation; O invalid."}
+  - {id: obversion_single_change, diagnosis: "Changes quality or complement, but not both.", remediation: "Check both operations before accepting an obverse."}
+  - {id: contradictory_context_mismatch, diagnosis: "Calls two claims contradictory despite a change of time, place, condition, or another aspect.", remediation: "Audit every required unity first."}
+  - {id: some_means_some_not_all, diagnosis: "Reads ‘some’ as excluding ‘all’.", remediation: "In categorical logic, some asserts at least one and does not deny all."}
+  - {id: square_direction_error, diagnosis: "Moves truth or falsity in an unlicensed direction on the square.", remediation: "State the relationship's exact truth rule before inferring."}
+  - {id: syllogism_term_role_confusion, diagnosis: "Names S and P from a premise instead of the conclusion.", remediation: "Find S and P in the conclusion; the remaining repeated term is M."}
+  - {id: equivocal_middle_hidden_fourth_term, diagnosis: "Counts one ambiguous word as one term despite two meanings.", remediation: "Count meanings, not spellings."}
+  - {id: undistributed_middle, diagnosis: "Accepts a syllogism whose middle term is never distributed.", remediation: "Mark distribution in both premises and require M at least once."}
+  - {id: illicit_process, diagnosis: "Allows a conclusion to distribute a term more widely than its premise.", remediation: "Compare each conclusion term with its premise occurrence."}
+  - {id: negative_rule_confusion, diagnosis: "Misapplies the rules linking negative premises and conclusions.", remediation: "Two negatives fail; exactly one negative premise pairs with a negative conclusion."}
+  - {id: particular_rule_confusion, diagnosis: "Accepts two particular premises or a universal conclusion after a particular premise.", remediation: "Check both particularity rules separately."}
+  - {id: affirming_consequent, diagnosis: "Infers P from If P then Q and Q.", remediation: "Q may have another cause; only affirming P licenses Q."}
+  - {id: denying_antecedent, diagnosis: "Infers not-Q from If P then Q and not-P.", remediation: "Q may arise another way; deny Q to infer not-P."}
+  - {id: weak_conditional_as_necessary, diagnosis: "Treats a usual if-then link as exceptionless.", remediation: "Check the intended strength of the conditional before deduction."}
+  - {id: disjunction_type_confusion, diagnosis: "Assumes every ‘or’ excludes both and requires one.", remediation: "Ask independently whether both and neither are possible."}
+  - {id: false_dilemma, diagnosis: "Treats a non-exhaustive choice as exhaustive.", remediation: "Search for a live third option."}
+  - {id: sample_certainty, diagnosis: "Treats incomplete induction as certain.", remediation: "Match confidence to coverage and sample quality."}
+  - {id: analogy_surface_similarity, diagnosis: "Transfers a judgement through an irrelevant resemblance.", remediation: "Explain how each shared feature supports the exact conclusion."}

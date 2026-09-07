@@ -1,0 +1,23 @@
+schema_version: 1
+concept:
+  id: particular_term
+  type: classification
+  title:
+    en: Particular term
+    ar: جُزْئِي
+    transliteration: juzʾī
+  definition: A particular is a word that does not apply to all things within a category.
+  objectives:
+    knowledge:
+      - State the textbook definition of a particular term.
+    skills:
+      - Classify one, some, or most members of a category as particular.
+  prerequisites: [universal_term]
+  source: { book_id: fst_logic, pages: [16] }
+  examples:
+    - id: some_pens
+      expression: some pens
+      scope: less_than_whole_category
+      classification: particular_term
+  exercise_families: [classification, construction, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }

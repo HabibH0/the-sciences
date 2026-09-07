@@ -1,4 +1,6 @@
-import { loadProgress, saveProgress } from './storage/storageManager.js';
+import { loadProgress, saveProgress, preserveMigrationBackup, blockStorageWrites } from './storage/storageManager.js';
+import { COURSE_SHELLS } from '../content/meta.js';
+import { normalizeStudySessions, normalizeLogicProgress } from './learning/study.js';
 import { normalizeReviewCards, normalizeReviewDayStats, normalizeReviewSettings } from './reviewScheduler.js';
 
 export function isoDateAt(ts) {
@@ -93,7 +95,7 @@ export function normalizeUiTextScale(value) {
 
 function normalizeArabicFace(value) {
   if (value === 'uthmani') return 'amiri';
-  return ['naskh', 'amiri', 'scheherazade', 'lateef'].includes(value) ? value : 'naskh';
+  return ['traditional', 'naskh', 'amiri', 'scheherazade', 'lateef'].includes(value) ? value : 'traditional';
 }
 
 function normalizeArabicHeadingFace(saved) {
@@ -107,7 +109,7 @@ function isEmptyProgress(progress) {
 
 function defaultForceUnlockAll(saved) {
   if (typeof saved.forceUnlockAll === 'boolean') return saved.forceUnlockAll;
-  return isEmptyProgress(saved);
+  return false;
 }
 
 function defaultForceUnlockAllExplicit(saved) {
@@ -127,7 +129,14 @@ export async function saveRaw(data) {
 // streak algorithm: +1 on a consecutive calendar day, reset to 1 on a gap,
 // unchanged on a same-day revisit.
 export async function bootProgress() {
-  const saved = await loadRaw();
+  let saved = {}, storageError = '';
+  try {
+    saved = await loadRaw();
+    if (!saved.mizanVersion) preserveMigrationBackup();
+  } catch {
+    blockStorageWrites();
+    storageError = 'Your original save could not be backed up. It has been protected. Download it before freeing browser storage, then retry saving.';
+  }
   const dailyResetHour = normalizeResetHour(saved.dailyResetHour);
   const today = todayISO(dailyResetHour);
   const yesterday = yesterdayISO(dailyResetHour);
@@ -141,9 +150,18 @@ export async function bootProgress() {
     streak = 1;
   }
 
-  const courseId = migrateCourseId(saved.courseId) || 'adv-nahw';
+  const savedCourseId = migrateCourseId(saved.courseId);
+  const courseId = COURSE_SHELLS.some(c => c.id === savedCourseId) ? savedCourseId : 'mantiq';
+  for (const key of ['completed', 'completedAt', 'moduleResetAt', 'quizScores', 'exStates', 'lessonPos', 'revealState', 'practiceHistory', 'pathNodeStatus', 'pathReps', 'vocabExposure', 'pathCheckpointMastery', 'masteryV2', 'litProgress', 'litUnknown', 'litWordReps', 'unlockedTracks', 'unlockedModules']) {
+    if (!saved[key] || typeof saved[key] !== 'object' || Array.isArray(saved[key])) saved[key] = {};
+  }
+  if (!Array.isArray(saved.badges)) saved.badges = [];
   const arabicHeadingFace = normalizeArabicHeadingFace(saved);
   const next = {
+    mizanVersion: 1,
+    studySessions: normalizeStudySessions(saved.studySessions),
+    mizanCourses: normalizeLogicProgress(saved.mizanCourses),
+    quizSession: saved.quizSession || null,
     courseId,
     completed: saved.completed || {},
     completedAt: saved.completedAt || {},
@@ -198,9 +216,9 @@ export async function bootProgress() {
     // (one session's transient log), this survives across sessions for the
     // Practice Volume badge ladder (see gamification.js's checkPracticeVolumeBadges).
     practiceCorrectTotal: saved.practiceCorrectTotal || 0,
-    theme: saved.theme || 'manuscript',
-    accent: saved.accent || 'gold',
-    arabicFace: normalizeArabicFace(saved.arabicFace),
+    theme: saved.mizanVersion ? saved.theme || 'mizan' : 'mizan',
+    accent: saved.mizanVersion ? saved.accent || 'emerald' : 'emerald',
+    arabicFace: normalizeArabicFace(saved.mizanVersion ? saved.arabicFace : 'traditional'),
     arabicHeadingFace,
     lessonTextScale: normalizeLessonTextScale(saved.lessonTextScale),
     tarkeebTranslations: saved.tarkeebTranslations !== false,
@@ -213,8 +231,11 @@ export async function bootProgress() {
     unlockedModules: saved.unlockedModules || {},
     nav: saved.nav || null,
   };
-  await saveRaw(next);
-  return next;
+  if (!storageError) {
+    try { await saveRaw(next); }
+    catch { storageError = 'Progress could not be saved on this device. Download your progress, free browser storage, and retry saving.'; }
+  }
+  return { ...next, storageError };
 }
 
 let pendingTimer = null;
@@ -227,7 +248,7 @@ export function persistSoon(state, delay = 400) {
     pendingTimer = null;
     const s = pendingState;
     pendingState = null;
-    if (s) persist(s);
+    if (s) persist(s).catch(() => {});
   }, delay);
 }
 
@@ -252,8 +273,18 @@ export function cancelPendingPersist() {
   pendingState = null;
 }
 
-function snapshot(state) {
+export function snapshot(state) {
   return {
+    mizanVersion: 1,
+    studySessions: state.studySessions || {},
+    mizanCourses: state.mizanCourses || {},
+    quizSession: state.view === 'quiz' ? {
+      moduleId: state.moduleId, lessonId: state.lessonId,
+      quizIndex: state.quizIndex, quizSelected: state.quizSelected,
+      quizRevealed: state.quizRevealed, quizAnswers: state.quizAnswers,
+      quizShowResult: state.quizShowResult, quizPassed: state.quizPassed,
+      quizOptionOrder: state.quizOptionOrder,
+    } : state.quizSession || null,
     courseId: state.courseId,
     completed: state.completed,
     completedAt: state.completedAt,
@@ -311,6 +342,15 @@ function snapshot(state) {
   };
 }
 
-export function persist(state) {
-  return saveRaw(snapshot(state));
+export async function persist(state) {
+  try {
+    const result = await saveRaw(snapshot(state));
+    state.storageError = '';
+    globalThis.document?.dispatchEvent(new Event('mizan:storage-status'));
+    return result;
+  } catch (error) {
+    state.storageError = 'Progress could not be saved on this device. Download your progress, free browser storage, and retry saving.';
+    globalThis.document?.dispatchEvent(new Event('mizan:storage-status'));
+    throw error;
+  }
 }

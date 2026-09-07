@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: appeal_to_ignorance
+  title: {en: "Appeal to Ignorance"}
+  type: exception
+  definition: {en: "Treating failure to disprove a claim as proof of it, or failure to prove it as disproof."}
+  prerequisites: [informal_fallacy]
+  properties: {invalid_patterns: [not_proven_false_therefore_true, not_proven_true_therefore_false]}
+  skills: [diagnose_appeal_to_ignorance]
+  exercise_families: [error_detection, support_analysis]
+  source: {book_id: fst_logic, pages: [73]}

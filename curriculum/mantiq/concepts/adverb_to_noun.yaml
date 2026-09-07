@@ -1,0 +1,16 @@
+schema_version: 1
+concept:
+  id: adverb_to_noun
+  title:
+    en: "Adverb-to-Noun Translation"
+  type: transformation
+  definition:
+    en: "An adverbial construction is rewritten so its logical subject and predicate are noun expressions."
+  prerequisites: [categorical_translation, subject, predicate]
+  transformation: { source_part: adverbial_construction, target_part: categorical_noun_terms }
+  knowledge:
+    - "Time expressions may become the subject of the categorical proposition."
+  skills:
+    - nominalise_adverbial_construction
+  exercise_families: [transformation, construction, error_detection]
+  source: { book_id: fst_logic, pages: [26] }

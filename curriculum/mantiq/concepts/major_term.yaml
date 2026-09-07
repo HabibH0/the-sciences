@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: major_term
+  title: {en: "Major Term", ar: "الحَدّ الأَكْبَر", transliteration: "al-ḥadd al-akbar"}
+  type: component
+  definition: {en: "The predicate of a categorical syllogism's conclusion, represented by P."}
+  prerequisites: [categorical_syllogism]
+  skills: [identify_major_term]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [47, 48]}

@@ -1,0 +1,22 @@
+schema_version: 1
+concept:
+  id: signifier
+  type: terminology
+  title:
+    en: Signifier
+    ar: دَال
+    transliteration: dāll
+  definition: The signifier is the word or expression that denotes a meaning.
+  objectives:
+    knowledge:
+      - Recall the Arabic term for the word that denotes.
+    skills:
+      - Identify the signifier in a word-and-meaning pair.
+  prerequisites: [signification]
+  source: { book_id: fst_logic, pages: [14] }
+  examples:
+    - id: football_signifier
+      expression: football
+      role: signifier
+  exercise_families: [recognition, identification]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 1 }

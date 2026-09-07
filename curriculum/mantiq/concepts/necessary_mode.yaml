@@ -1,0 +1,18 @@
+schema_version: 1
+concept:
+  id: necessary_mode
+  title:
+    en: "Necessary Mode"
+    ar: "وَاجِب"
+    transliteration: "wājib"
+  type: classification
+  definition:
+    en: "A necessary mode is one in which the subject-predicate relationship is necessary and never disconnected."
+  prerequisites: [proposition_mode]
+  properties: { mode: necessary, relationship_can_disconnect: false }
+  knowledge:
+    - "A necessary relationship cannot be disconnected."
+  skills:
+    - classify_necessary_relationship
+  exercise_families: [recognition, classification, compare_and_distinguish]
+  source: { book_id: fst_logic, pages: [25] }

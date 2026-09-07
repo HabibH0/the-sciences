@@ -18,8 +18,11 @@ import http from 'http';
 import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { gradeResponse, readBoundedJson } from '../server/grading.js';
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const projectRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const built = process.argv.includes('--built');
+const root = built ? path.join(projectRoot, 'web') : projectRoot;
 const port = Number(process.argv[2]) || 5173;
 
 const MIME = {
@@ -113,7 +116,7 @@ function send(res, status, body, headers = {}) {
   res.end(body);
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   // A malformed request target (a bare "//", say) must not take the server
   // down with it -- new URL() throws on those rather than returning null.
   let url;
@@ -124,6 +127,13 @@ const server = http.createServer((req, res) => {
   }
 
   if (url.pathname === '/__dev/ping') return send(res, 200, 'ok');
+  if (url.pathname === '/api/grade' && req.method === 'POST') {
+    try {
+      return send(res, 200, JSON.stringify(gradeResponse(await readBoundedJson(req))), { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+    } catch (error) {
+      return send(res, error.status || 400, JSON.stringify({ error: error.message }), { 'Content-Type': 'application/json' });
+    }
+  }
 
   if (url.pathname === '/__dev/reload') {
     res.writeHead(200, {
@@ -137,10 +147,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
+  let relative;
+  try { relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html'; }
+  catch { return send(res, 400, 'Bad request'); }
   const filePath = path.join(root, relative);
   // Anything resolving outside the repo is a traversal attempt, not a mistake.
-  if (!filePath.startsWith(root)) return send(res, 403, 'Forbidden');
+  if (!filePath.startsWith(root + path.sep) || /^(?:server|curriculum|\.git)(?:[\\/]|$)/.test(relative)) return send(res, 403, 'Forbidden');
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     return send(res, 404, `Not found: ${relative}`);
   }
@@ -150,7 +162,7 @@ const server = http.createServer((req, res) => {
 
   if (ext === '.html') {
     const html = fs.readFileSync(filePath, 'utf8')
-      .replace('</body>', `${HIDE_ELECTRON_CHROME}${CLIENT}</body>`);
+      .replace('</body>', `${built ? '' : HIDE_ELECTRON_CHROME + CLIENT}</body>`);
     return send(res, 200, html, { 'Content-Type': type });
   }
 
@@ -164,16 +176,16 @@ server.listen(port, '0.0.0.0', () => {
     .map((nic) => nic.address);
 
   console.log('');
-  console.log('  The Sciences -- web dev server');
+  console.log('  Mīzān -- web dev server');
   console.log('');
   console.log(`  desktop   http://localhost:${port}`);
   for (const address of lan) console.log(`  phone     http://${address}:${port}`);
   if (!lan.length) console.log('  phone     (no LAN address found)');
   console.log('');
-  console.log('  live reload on: index.html, styles.css, js/, content*/');
+  console.log(built ? '  production files from web/ with the local Logic grader' : '  live reload on: index.html, styles.css, mizan.css, js/, content*/');
   console.log('  Ctrl+C to stop');
   console.log('');
 
-  ['index.html', 'styles.css', 'js', 'content', 'content-fstu', 'content-fstu-sarf', 'content-sarf', 'content-lit']
+  if (!built) ['index.html', 'styles.css', 'mizan.css', 'js', 'content', 'content-mantiq', 'content-fstu', 'content-fstu-sarf', 'content-sarf', 'content-lit']
     .forEach(watch);
 });

@@ -1,0 +1,189 @@
+schema_version: 1
+
+exercise_set:
+  id: informal_fallacies_core
+  unit: informal_fallacies
+
+templates:
+  - id: classify_fallacy_level
+    family: classification
+    concepts: [formal_fallacy, informal_fallacy]
+    difficulty: 2
+    prompt: "Is this error formal or informal, and what feature decides?"
+  - id: diagnose_part_whole
+    family: error_detection
+    concepts: [composition_fallacy, division_fallacy]
+    difficulty: 3
+    prompt: "Identify the unsupported property transfer and its direction."
+  - id: diagnose_equivocation
+    family: meaning_analysis
+    concepts: [equivocation_fallacy]
+    difficulty: 4
+    prompt: "Identify the repeated expression and state its two meanings."
+  - id: diagnose_relevance_rhetoric
+    family: relevance_analysis
+    concepts: [ad_hominem_fallacy, loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy]
+    difficulty: 4
+    prompt: "Classify the relevance or rhetorical error and justify the closest diagnosis."
+  - id: repair_relevance_rhetoric
+    family: revision
+    concepts: [loaded_language_fallacy, straw_man_fallacy, red_herring_fallacy]
+    difficulty: 5
+    prompt: "Rewrite the response neutrally so it addresses the original claim."
+  - id: diagnose_faulty_support
+    family: support_analysis
+    concepts: [circular_argument, appeal_to_ignorance, irrelevant_authority]
+    difficulty: 4
+    prompt: "Identify why the stated support does not establish the conclusion."
+  - id: diagnose_causal_error
+    family: causal_analysis
+    concepts: [false_cause, correlation_causation_fallacy, slippery_slope_fallacy]
+    difficulty: 5
+    prompt: "Identify the causal error and name the missing evidence or alternative cause."
+  - id: diagnose_two_wrongs
+    family: justification_analysis
+    concepts: [two_wrongs_fallacy]
+    difficulty: 3
+    prompt: "Explain why another person's conduct does not justify this action."
+  - id: distinguish_near_neighbours
+    family: compare_and_distinguish
+    concepts: [informal_fallacy, composition_fallacy, division_fallacy, ad_hominem_fallacy, straw_man_fallacy, red_herring_fallacy, false_cause, correlation_causation_fallacy]
+    difficulty: 6
+    prompt: "Choose between the two closest fallacy labels using the decisive feature."
+
+examples:
+  - id: level_affirming_consequent
+    type: fallacy_case
+    render: {en: "If it rains the ground is wet; the ground is wet; therefore it rained."}
+    level: formal
+    fallacy: affirming_consequent_fallacy
+    mechanism: invalid_form
+  - id: level_person_attack
+    type: fallacy_case
+    render: {en: "Your budget argument is wrong because you are lazy."}
+    level: informal
+    fallacy: ad_hominem_fallacy
+    mechanism: person_attack
+  - id: composition_water_drink
+    type: fallacy_case
+    render: {en: "Water is healthy; this fizzy drink contains water; therefore the drink is healthy."}
+    level: informal
+    fallacy: composition_fallacy
+    mechanism: part_to_whole
+  - id: division_wealthy_country
+    type: fallacy_case
+    render: {en: "This is a wealthy country; therefore every resident is wealthy."}
+    level: informal
+    fallacy: division_fallacy
+    mechanism: whole_to_part
+  - id: equivocation_nothing
+    type: fallacy_case
+    render: {en: "The dog said nothing; nothing is zero; therefore the dog answered a subtraction problem."}
+    level: informal
+    fallacy: equivocation_fallacy
+    mechanism: meaning_shift
+    ambiguous_term: nothing
+    meanings: [silence, zero]
+  - id: equivocation_bank
+    type: fallacy_case
+    render: {en: "The river has a bank; a bank lends money; therefore the river lends money."}
+    level: informal
+    fallacy: equivocation_fallacy
+    mechanism: meaning_shift
+    ambiguous_term: bank
+    meanings: [river_edge, financial_institution]
+  - id: equivocation_light
+    type: fallacy_case
+    render: {en: "This box is light; light travels quickly; therefore this box travels quickly."}
+    level: informal
+    fallacy: equivocation_fallacy
+    mechanism: meaning_shift
+    ambiguous_term: light
+    meanings: [not_heavy, visible_radiation]
+  - id: equivocation_fine
+    type: fallacy_case
+    render: {en: "The sign says the parking fine is fine; therefore the penalty is satisfactory."}
+    level: informal
+    fallacy: equivocation_fallacy
+    mechanism: meaning_shift
+    ambiguous_term: fine
+    meanings: [monetary_penalty, satisfactory]
+  - id: ad_hominem_lazy_speaker
+    type: fallacy_case
+    render: {en: "Ignore her evidence about the policy; she is unpleasant."}
+    level: informal
+    fallacy: ad_hominem_fallacy
+    mechanism: person_attack
+  - id: loaded_language_policy
+    type: fallacy_case
+    render: {en: "Only a heartless monster could question this wonderful policy."}
+    level: informal
+    fallacy: loaded_language_fallacy
+    mechanism: emotion_for_evidence
+  - id: straw_man_fair_trial
+    type: fallacy_case
+    render: {en: "Everyone deserves a fair trial. So you support terrorists."}
+    level: informal
+    fallacy: straw_man_fallacy
+    mechanism: distorted_claim
+  - id: red_herring_speeding
+    type: fallacy_case
+    render: {en: "Why discuss my speeding when there are dangerous criminals?"}
+    level: informal
+    fallacy: red_herring_fallacy
+    mechanism: distraction
+  - id: circular_illegal_law
+    type: fallacy_case
+    render: {en: "The act is illegal because it is against the law."}
+    level: informal
+    fallacy: circular_argument
+    mechanism: premise_repeats_conclusion
+  - id: ignorance_aliens
+    type: fallacy_case
+    render: {en: "You cannot prove aliens do not exist; therefore aliens exist."}
+    level: informal
+    fallacy: appeal_to_ignorance
+    mechanism: absence_as_proof
+  - id: authority_celebrity_medicine
+    type: fallacy_case
+    render: {en: "A famous actor endorses this medical claim, so it is true."}
+    level: informal
+    fallacy: irrelevant_authority
+    mechanism: irrelevant_expertise
+  - id: false_cause_ladder
+    type: fallacy_case
+    render: {en: "Something bad happened after she walked under a ladder, so the ladder caused it."}
+    level: informal
+    fallacy: false_cause
+    mechanism: sequence_for_causation
+  - id: correlation_icecream_sharks
+    type: fallacy_case
+    render: {en: "Ice-cream sales and shark attacks rise together, so ice cream causes shark attacks."}
+    level: informal
+    fallacy: correlation_causation_fallacy
+    mechanism: correlation_for_causation
+    plausible_confounder: warm_weather
+  - id: slippery_slope_homework
+    type: fallacy_case
+    render: {en: "Missing one homework task will inevitably end in homelessness."}
+    level: informal
+    fallacy: slippery_slope_fallacy
+    mechanism: weak_chain
+  - id: two_wrongs_speeding
+    type: fallacy_case
+    render: {en: "My speeding was justified because the car ahead was also speeding."}
+    level: informal
+    fallacy: two_wrongs_fallacy
+    mechanism: another_wrong_as_justification
+
+mastery_check:
+  required_correct: 10
+  minimum_accuracy: 0.85
+  minimum_difficulty: 5
+  required_families: [error_detection, meaning_analysis, relevance_analysis, support_analysis, causal_analysis]
+  misconception_free_streak: 4
+
+review:
+  intervals_days: [1, 3, 10, 30]
+  interleave_with_units: [propositions, inference]
+  reset_interval_on_misconception: true

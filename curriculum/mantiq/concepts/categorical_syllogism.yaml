@@ -1,0 +1,11 @@
+schema_version: 1
+concept:
+  id: categorical_syllogism
+  title: {en: "Categorical Syllogism", ar: "قِيَاس اِقْتِرَانِي", transliteration: "qiyās iqtirānī"}
+  type: inference
+  definition: {en: "A deduction in which two assumed premises yield a conclusion by eliminating their repeated middle term."}
+  prerequisites: [deduction, proposition]
+  properties: {terms: 3, propositions: 3, premises: 2, conclusions: 1}
+  skills: [recognise_categorical_syllogism, analyse_syllogism]
+  exercise_families: [recognition, component_analysis]
+  source: {book_id: fst_logic, pages: [47]}

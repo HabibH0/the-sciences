@@ -1,0 +1,10 @@
+schema_version: 1
+concept:
+  id: analogy_target
+  title: {en: "Target of an Analogy", ar: "مَقِيْس", transliteration: "maqīs"}
+  type: component
+  definition: {en: "The case to which the source is compared."}
+  prerequisites: [analogy]
+  skills: [identify_analogy_target]
+  exercise_families: [identification, component_analysis]
+  source: {book_id: fst_logic, pages: [68]}

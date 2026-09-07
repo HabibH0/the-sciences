@@ -1,0 +1,23 @@
+schema_version: 1
+concept:
+  id: complete_signification
+  type: classification
+  title:
+    en: Complete signification
+    ar: دَلَالَة بِالْمُطَابَقَةِ
+    transliteration: dalālah bi-l-muṭābaqah
+  definition: A word has complete signification when it denotes its meaning in its entirety.
+  objectives:
+    knowledge:
+      - Distinguish complete signification from partial and concomitant signification.
+    skills:
+      - Classify a word in context as complete signification.
+  prerequisites: [signification, signifier, signified]
+  source: { book_id: fst_logic, pages: [14] }
+  examples:
+    - id: whole_quran
+      expression: She has memorised the Quran.
+      context: She has memorised the entire Quran.
+      classification: complete_signification
+  exercise_families: [recognition, classification, compare_and_distinguish]
+  mastery: { minimum_accuracy: 0.85, minimum_application_questions: 2 }
