@@ -7,6 +7,7 @@ import { createStudySession, studyKey } from '../js/learning/study.js';
 import { fitLessonPages } from '../js/learning/lesson-pages.js';
 import { compactTable } from '../js/learning/comparison.js';
 import { introNahwVisualCount } from '../js/learning/intro-nahw.js';
+import { introSarfVisualCount } from '../js/learning/intro-sarf.js';
 
 const root = document.querySelector('#root'), result = document.querySelector('#result');
 const params = new URLSearchParams(location.search);
@@ -48,7 +49,8 @@ document.querySelector('#run').addEventListener('click', async () => {
           session.stepIndex = si;
           const step = session.steps[si];
           const table = lesson.learningModel === 'mizan-sarf' && lesson.concepts[step.conceptIndex]?.lines[step.tableIndex]?.table;
-          const variants = !params.has('variants') ? 1 : lesson.learningModel === 'mizan-intro-nahw'
+          const variants = !params.has('variants') ? 1 : lesson.learningModel === 'mizan-intro-sarf'
+            ? introSarfVisualCount(lesson, step) : lesson.learningModel === 'mizan-intro-nahw'
             ? introNahwVisualCount(lesson, step) : table && compactTable(table) ? table.rows.length : 1;
           for (let selected = 0; selected < variants; selected++) {
             session.visualState = { [step.id]: { selected } };
@@ -79,6 +81,12 @@ document.querySelector('#run').addEventListener('click', async () => {
               if (!totals.firstTextFailure) totals.firstTextFailure = { source: originalText, displayed, covered };
             }
             totals.steps++;
+            // Large conjugation lessons contain hundreds of selectable states.
+            // Yield within a lesson so the audit remains inspectable throughout.
+            if (totals.steps % 8 === 0) {
+              result.textContent = JSON.stringify(totals);
+              await new Promise(resolve => setTimeout(resolve, 0));
+            }
           }
         }
         totals.lessons++;

@@ -570,6 +570,7 @@ const ACTION_FX = {
   nahwVisual: settleSelf,
   tableVisual: settleSelf,
   introNahwPart: settleSelf,
+  introSarfTable: settleSelf,
   checkLessonQuiz: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),
   logicChoice: settleSelf,
   studyCheck: (root) => mark(root.querySelector('.mz-feedback'), 'anim-verdict'),

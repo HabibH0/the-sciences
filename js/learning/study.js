@@ -5,6 +5,7 @@ import { logicCourse } from './logic-course.js';
 import { nahwSteps, nativeSessionPosition } from './nahw.js';
 import { sarfSteps } from './sarf.js';
 import { introNahwSteps } from './intro-nahw.js';
+import { introSarfSteps } from './intro-sarf.js';
 
 export function studyKey(courseId, moduleId, lessonId) {
   return `${courseId}/${moduleId}/${lessonId}`;
@@ -14,6 +15,7 @@ export function grammarSteps(lesson) {
   if (lesson.learningModel === 'mizan-nahw') return nahwSteps(lesson);
   if (lesson.learningModel === 'mizan-sarf') return sarfSteps(lesson);
   if (lesson.learningModel === 'mizan-intro-nahw') return introNahwSteps(lesson);
+  if (lesson.learningModel === 'mizan-intro-sarf') return introSarfSteps(lesson);
   const steps = [];
   lesson.concepts.forEach((concept, index) => {
     steps.push({ id: `concept:${index}:teach`, kind: 'teach', conceptIndex: index });

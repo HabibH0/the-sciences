@@ -2190,7 +2190,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: Verbs and Conjugation — فِعْلٌ and ضَمِيْرٌ, and the fourteen صِيَغٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2198,7 +2198,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Past Tense — the conjugation of its fourteen صِيَغٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2206,7 +2206,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Present and Future Tense — its four components and the conjugation of its fourteen صِيَغٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2214,7 +2214,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Scale of a Verb — the فَاءُ/عَيْنُ/لَامُ الْكَلِمَةِ scale, بَاب فَتَحَ and بَاب سَمِعَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2222,7 +2222,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Two More أَبْوَابٌ — both with فَتْحَةٌ in الْمَاضِيْ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l6",
@@ -2230,7 +2230,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Last Two أَبْوَابٌ, Plus Revision — identifying possible أَبْوَابٌ from a verb’s حَرَكَةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l7",
@@ -2238,7 +2238,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Passive Voice — forming and translating فِعْلٌ مَجْهُوْلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l8",
@@ -2246,7 +2246,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Grammatical States of the Verb — مَرْفُوْعٌ، مَنْصُوْبٌ، مَجْزُوْمٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l9",
@@ -2254,7 +2254,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Negating the Verb — the particles مَا، لَا، لَمْ، لَنْ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l10",
@@ -2262,7 +2262,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Imperative and the Negative Command — forming both from الْمُضَارِعُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l11",
@@ -2270,7 +2270,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Active and Passive Participle — how each is built and used",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l12",
@@ -2278,7 +2278,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Short and Full Conjugation of a Verb",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l13",
@@ -2286,7 +2286,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2304,7 +2304,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: Root Letters and the Extra أَبْوَابٌ — حُرُوْفٌ أَصْلِيَّةٌ، حُرُوْفٌ زَائِدَةٌ، مُجَرَّدٌ، مَزِيْدٌ فِيْهِ، ثُلَاثِيٌّ، رُبَاعِيٌّ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2312,7 +2312,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Parts 1–3 — بَاب تَفْعِيْل (II)، بَاب مُفَاعَلَة (III)، بَاب إِفْعَال (IV)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2320,7 +2320,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Parts 4–5 — بَاب تَفَعُّل (V)، بَاب تَفَاعُل (VI)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2328,7 +2328,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Parts 6–8 — بَاب انْفِعَال (VII)، بَاب افْتِعَال (VIII)، بَاب اسْتِفْعَال (X)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2336,7 +2336,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Parts 9–10 — the رُبَاعِيٌّ verbs: بَاب فَعْلَلَة، بَاب تَفَعْلُل (II)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l6",
@@ -2344,7 +2344,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Using the Dictionary — reading a Hans Wehr entry and finding the حُرُوْفٌ أَصْلِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l7",
@@ -2352,7 +2352,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2370,7 +2370,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: Hamzated Verbs — الْمَهْمُوْزُ, its three types, and the تَخْفِيْفٌ / حَذْفٌ changes",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2378,7 +2378,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْمَهْمُوْزُ from the Base Abwab — بَاب فَتَحَ، سَمِعَ، ضَرَبَ، نَصَرَ (Parts 1–4)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2386,7 +2386,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْمَهْمُوْزُ from the مَزِيْدٌ فِيْهِ Abwab — Forms II, III, IV, V, VI, VIII, X (Parts 5–11)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2394,7 +2394,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement — هَمْزَةُ الْوَصْلِ, هَمْزَةُ الْقَطْعِ, and the rules of writing hamzah",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2402,7 +2402,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2420,7 +2420,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to مِثَالٌ, and the three changes that affect it: حَذْفٌ، قَلْبٌ and إِدْغَامٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2428,7 +2428,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The مِثَالٌ وَاوِيٌّ from the مُجَرَّدٌ أَبْوَاب — بَاب فَتَحَ، سَمِعَ، ضَرَبَ and حَسِبَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2436,7 +2436,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The مِثَالٌ وَاوِيٌّ from the مَزِيْدٌ فِيْهِ أَبْوَاب (Parts 5–11): تَفْعِيْل، مُفَاعَلَة، إِفْعَال، تَفَعُّل، تَفَاعُل، افْتِعَال and اسْتِفْعَال",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2444,7 +2444,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms, the master conjugation table, and the full section vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2462,7 +2462,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to الْمِثَالُ الْيَائِيُّ, and its conjugation from the مُجَرَّدٌ أَبْوَاب — بَاب فَتَحَ، سَمِعَ and ضَرَبَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2470,7 +2470,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The مِثَالٌ يَائِيٌّ from the مَزِيْدٌ فِيْهِ أَبْوَاب (Parts 4–10): تَفْعِيْل، مُفَاعَلَة، إِفْعَال، تَفَعُّل، تَفَاعُل، افْتِعَال and اسْتِفْعَال",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2478,7 +2478,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms, the master conjugation table, and the full section vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2496,7 +2496,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to الْأَجْوَفُ — the hollow verb, and its three changes: قَلْبٌ، نَقْلٌ، حَذْفٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2504,7 +2504,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْأَجْوَفُ from بَاب سَمِعَ، ضَرَبَ، نَصَرَ — with a full review of the changes",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2512,7 +2512,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْأَجْوَفُ from the مَزِيْدٌ فِيْهِ أَبْوَاب (II, III, IV, V, VI, VII, VIII, X)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2520,7 +2520,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms, the master conjugation table, and the full unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2538,7 +2538,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to النَّاقِصُ — the defective verb, and its three changes: تَسْكِيْنٌ، قَلْبٌ، حَذْفٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2546,7 +2546,7 @@ export const COURSE_SHELLS = [
             "subtitle": "النَّاقِصُ from بَاب فَتَحَ، سَمِعَ، ضَرَبَ، نَصَرَ — with a full review of the changes",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2554,7 +2554,7 @@ export const COURSE_SHELLS = [
             "subtitle": "النَّاقِصُ from the مَزِيْدٌ فِيْهِ أَبْوَاب (II, III, IV, V, VI, VII, VIII, X)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2562,7 +2562,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Review of the eight مَزِيْدٌ فِيْهِ نَاقِصٌ verbs (II, III, IV, V, VI, VII, VIII, X) — arranged by tense across all eight أَبْوَاب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2570,7 +2570,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms, the master conjugation table, and the full unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2588,7 +2588,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to اللَّفِيْفُ and the four ثُلَاثِيٌّ مُجَرَّدٌ models: قَوِيَ، رَوَى، وَفَى، وَلِيَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2596,7 +2596,7 @@ export const COURSE_SHELLS = [
             "subtitle": "اللَّفِيْفُ across the eight مَزِيْدٌ فِيْهِ أَبْوَاب — II, III, IV, V, VI, VII, VIII, X",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2604,7 +2604,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The master conjugation table, the four ثُلَاثِيٌّ مُجَرَّدٌ models, and the full unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2622,7 +2622,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to الْمُضَاعَفُ — where إِدْغَامٌ merges the doubled letter, and where it stays apart (فَكٌّ)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2630,7 +2630,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْمُضَاعَفُ from the ثُلَاثِيٌّ مُجَرَّدٌ abwāb: بَاب سَمِعَ، بَاب ضَرَبَ، بَاب نَصَرَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2638,7 +2638,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْمُضَاعَفُ from أَبْوَاب تَفْعِيْل، مُفَاعَلَة، إِفْعَال، تَفَعُّل، تَفَاعُل (II–VI)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2646,7 +2646,7 @@ export const COURSE_SHELLS = [
             "subtitle": "الْمُضَاعَفُ from أَبْوَاب اِنْفِعَال، اِفْتِعَال، اِفْعِلَال، اِسْتِفْعَال، اِفْعِيْلَال and the رُبَاعِيٌّ بَاب اِفْعِلَّال (VII–XI)",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2654,7 +2654,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The master conjugation table, the study-aid table of where إِدْغَامٌ does and does not occur, and the full unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2672,7 +2672,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction to مُرَكَّبٌ — verbs combining مَهْمُوْزٌ, مُعْتَلٌّ, or مُضَاعَفٌ, and how إِعْلَالٌ and تَخْفِيْفٌ interact",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2680,7 +2680,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مِثَالٌ Combinations — وَأَدَ، اِسْتَيْأَسَ، وَطِئَ، اِتَّكَأَ، وَدَّ، وَادَّ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2688,7 +2688,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أَجْوَفُ Combinations — آدَ، آلَ، شَاءَ، جَاءَ، بَاءَ، أَجَاءَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2696,7 +2696,7 @@ export const COURSE_SHELLS = [
             "subtitle": "نَاقِصٌ Combinations — أَبَى، أَسِيَ، أَتَى، أَلَا، أَدَّى، آتَى، اِيْتَلَى، رَأَى، رَاءَى، أَرَى، تَرَاءَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2704,7 +2704,7 @@ export const COURSE_SHELLS = [
             "subtitle": "لَفِيْفٌ Combinations — أَوَى، آوَى، وَأَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l6",
@@ -2712,7 +2712,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The master table of every مُرَكَّبٌ combination (Parts 1–9) and the full unit vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2730,7 +2730,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Review of the six أَبْوَابٌ of الثُّلَاثِيُّ الْمُجَرَّدُ — بَاب فَتَحَ، سَمِعَ، ضَرَبَ، نَصَرَ، كَرُمَ، and حَسِبَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2738,7 +2738,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Review of the ten أَبْوَابٌ of الثُّلَاثِيُّ الْمَزِيْدُ فِيْهِ, Forms II–XI",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2746,7 +2746,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Review of the three أَبْوَابٌ of الرُّبَاعِيُّ, and classifying verbs by فَاءُ الْكَلِمَةِ، عَيْنُ الْكَلِمَةِ، and لَامُ الْكَلِمَةِ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2764,7 +2764,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Derived Nouns & الصِّفَةُ الْمُشَبَّهَةُ بِاسْمِ الْفَاعِلِ — the مَصْدَرٌ, مُشْتَقَّاتٌ, and the noun of intrinsic quality",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2772,7 +2772,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Intensified and Comparative Nouns — اِسْمُ الْمُبَالَغَةِ and اِسْمُ التَّفْضِيْلِ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2780,7 +2780,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Nouns of Time/Place and Instrument — اِسْمُ الظَّرْفِ and اِسْمُ الْآلَةِ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       },
@@ -2798,7 +2798,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Mudari in the State of Nasb — الْمُضَارِعُ الْمَنْصُوْبُ across صَحِيْحٌ، مِثَالٌ، مَهْمُوْزٌ، أَجْوَفُ، مُضَاعَفٌ, and نَاقِصٌ verbs",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l2",
@@ -2806,7 +2806,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Mudari in the State of Jazm — الْمُضَارِعُ الْمَجْزُوْمُ and its effect on أَجْوَفُ، نَاقِصٌ, and مُضَاعَفٌ verbs",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l3",
@@ -2814,7 +2814,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Noon of Emphasis — نُوْنُ التَّأْكِيْدِ الثَّقِيْلَةُ and الْخَفِيْفَةُ, and how they attach to the مُضَارِعٌ، أَمْرٌ, and نَهْيٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l4",
@@ -2822,7 +2822,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Third-Person Command — الْأَمْرُ لِلْغَائِبِ formed with لَامُ الْأَمْرِ, and مُلْحَقٌ بِالرُّبَاعِيِّ verbs",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           },
           {
             "id": "l5",
@@ -2830,7 +2830,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Irregular Applications — unusual instances of حَذْفٌ، قَلْبٌ، نَقْلٌ، تَسْكِيْنٌ, and إِدْغَامٌ, plus تَدَاخُلُ اللُّغَاتِ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-sarf"
           }
         ]
       }

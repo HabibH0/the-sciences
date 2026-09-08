@@ -65,6 +65,7 @@ import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessio
 import { nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
 import { guidedGrammar, nativeItem, nativeItemKey } from './learning/native.js';
 import { introNahwSentenceParts } from './learning/intro-nahw.js';
+import { introSarfTablePages, introSarfVisualCount } from './learning/intro-sarf.js';
 import { fitLessonPages } from './learning/lesson-pages.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
@@ -2547,6 +2548,16 @@ const actions = {
     session.visualState[step.id] = { selected };
     session.updatedAt = new Date().toISOString();
   },
+  introSarfTable(el) {
+    const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    const table = lesson?.concepts[step?.conceptIndex]?.lines[step?.tableIndex]?.table;
+    if (!session || !step || !table || lesson?.learningModel !== 'mizan-intro-sarf'
+      || !Number.isInteger(selected) || selected < 0 || selected >= introSarfVisualCount(lesson, step)) return false;
+    session.visualState ||= {};
+    session.visualState[step.id] = { selected };
+    session.updatedAt = new Date().toISOString();
+  },
   introNahwPart(el) {
     const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
     const lesson = getLesson(state.moduleId, state.lessonId);
@@ -4931,6 +4942,15 @@ function refocusSelector(el) {
     const selected = Number(el.dataset.value);
     const label = !selected ? 'Next example' : selected === table.rows.length - 1 ? 'Previous example' : el.getAttribute('aria-label');
     return `.mz-sarf-example-nav button[aria-label="${label}"]`;
+  }
+  if (action === 'introSarfTable') {
+    const step = studyStep(currentStudy(state));
+    const table = getLesson(state.moduleId, state.lessonId).concepts[step.conceptIndex].lines[step.tableIndex].table;
+    const pages = introSarfTablePages(table).length, selected = Number(el.dataset.value), group = el.dataset.nav;
+    const index = group === 'forms' ? selected % pages : Math.floor(selected / pages);
+    const count = group === 'forms' ? pages : table.rows.length;
+    const label = !index ? `Next ${group}` : index + 1 === count ? `Previous ${group}` : el.getAttribute('aria-label');
+    return `[data-sarf-nav="${group}"] button[aria-label="${label}"]`;
   }
   if (action === 'introNahwPart') {
     const step = studyStep(currentStudy(state));

@@ -2,17 +2,20 @@ import { conceptKey, lessonExerciseItemKey } from '../../content/index.js';
 import { nahwAnalysisItems, nahwCheckItem } from './nahw.js';
 import { sarfAnalysisItems, sarfPracticeItems } from './sarf.js';
 import { introNahwAnalysisItems, introNahwPracticeItems } from './intro-nahw.js';
+import { introSarfAnalysisItems, introSarfPracticeItems } from './intro-sarf.js';
 
 export function guidedGrammar(lesson) {
-  return ['mizan-nahw', 'mizan-sarf', 'mizan-intro-nahw'].includes(lesson?.learningModel);
+  return ['mizan-nahw', 'mizan-sarf', 'mizan-intro-nahw', 'mizan-intro-sarf'].includes(lesson?.learningModel);
 }
 
 export function nativeAnalysisItems(lesson) {
+  if (lesson.learningModel === 'mizan-intro-sarf') return introSarfAnalysisItems(lesson);
   if (lesson.learningModel === 'mizan-intro-nahw') return introNahwAnalysisItems(lesson);
   return lesson.learningModel === 'mizan-sarf' ? sarfAnalysisItems(lesson) : nahwAnalysisItems(lesson);
 }
 
 export function nativePracticeItems(lesson) {
+  if (lesson.learningModel === 'mizan-intro-sarf') return introSarfPracticeItems(lesson);
   if (lesson.learningModel === 'mizan-intro-nahw') return introNahwPracticeItems(lesson);
   return lesson.learningModel === 'mizan-sarf' ? sarfPracticeItems(lesson) : lesson.exercise?.items || [];
 }

@@ -14,6 +14,7 @@
     "verify:server": "node scripts/verify-server.mjs",
     "verify:nahw": "node scripts/verify-nahw.mjs",
     "verify:intro-nahw": "node scripts/verify-intro-nahw.mjs",
+    "verify:intro-sarf": "node scripts/verify-intro-sarf.mjs",
     "verify:sarf": "node scripts/verify-sarf.mjs"
   },
   "keywords": [],

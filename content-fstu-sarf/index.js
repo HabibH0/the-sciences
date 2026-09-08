@@ -16,4 +16,5 @@ import m11 from './module-11.js';
 import m12 from './module-12.js';
 import m13 from './module-13.js';
 
-export const MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13];
+export const MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13]
+  .map(mod => ({ ...mod, lessons: mod.lessons.map(lesson => ({ ...lesson, learningModel: 'mizan-intro-sarf', learningKey: `${mod.id}/${lesson.id}` })) }));

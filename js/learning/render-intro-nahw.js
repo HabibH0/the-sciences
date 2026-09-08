@@ -30,9 +30,4 @@ export function introNahwTeachingHtml(lesson, step, session, helpers, state) {
   return `<article class="mz-teaching mz-nahw-teaching mz-intro-nahw-teaching${visual ? ' has-visual' : ''}"><div class="mz-teaching-copy"><p class="mz-eyebrow">${step.presentation === 'example' ? 'Worked example' : 'Learn'}</p><h2>${escBidi(concept.heading)}</h2><div class="mz-prose concept-body">${prose}${interactive || interactiveDiagram ? `<details class="mz-nahw-full-analysis" data-study-detail ${session.readingDetails?.[step.id] ? 'open' : ''}><summary>See the complete ${interactiveDiagram ? 'analysis' : 'table'}</summary>${helpers.prose({ lines }, '', null, true, state.tarkeebLabelsBlue)}</details>` : ''}</div></div>${visual}</article>`;
 }
 
-export function introNahwSummaryHtml(lesson, helpers, state) {
-  const summary = lesson.summary;
-  const recap = summary ? summary.rows.map(row => `<section><h3>${escBidi(row.label)} · ${escBidi(row.arabic)}</h3><p>${escBidi(row.meaning)}</p>${row.examples?.length ? `<ul>${row.examples.map(example => `<li>${escBidi(example)}</li>`).join('')}</ul>` : ''}</section>`).join('')
-    : lesson.concepts.map(concept => `<section><h3>${escBidi(concept.heading)}</h3>${helpers.prose(concept, '', null, true, state.tarkeebLabelsBlue)}</section>`).join('');
-  return `<article class="mz-teaching mz-nahw-teaching mz-intro-nahw-teaching"><div class="mz-teaching-copy"><p class="mz-eyebrow">Takeaway</p><h2>${escBidi(summary?.title || 'Bring it together')}</h2><div class="mz-prose mz-nahw-recap">${recap}</div></div></article>`;
-}
+export { sourceSummaryHtml as introNahwSummaryHtml } from './source.js';

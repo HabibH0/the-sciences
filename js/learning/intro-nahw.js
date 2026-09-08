@@ -1,6 +1,7 @@
 // Presentation plans reference the book's source blocks and bank entries.
 // Review identities and authored questions remain unchanged.
 import { compactTable } from './comparison.js';
+import { sourceConceptSteps } from './source.js';
 
 export function introNahwDiagram(diagram) {
   return diagram.cells.length <= 6 && diagram.cells.every(cell => cell !== '*' && cell.length <= 70);
@@ -60,28 +61,9 @@ export function introNahwPracticeItems(lesson) {
   }).slice(0, Math.max(0, 2 - introNahwAnalysisItems(lesson).length));
 }
 
-function exampleLine(line) {
-  return line.list && /^(?:<bdi[ >]|[\u0600-\u06ff])/.test(line.html.trim());
-}
-
 export function introNahwSteps(lesson) {
-  const steps = [];
-  lesson.concepts.forEach((concept, conceptIndex) => {
-    let group = null, groupIndex = 0;
-    concept.lines.forEach((line, lineIndex) => {
-      const visual = line.table || line.tarkeebDiagram;
-      const presentation = visual || exampleLine(line) ? 'example' : 'learn';
-      if (!group || visual || group.tableIndex != null || group.diagramIndex != null || group.presentation !== presentation) {
-        group = { id: `concept:${conceptIndex}:teach:${groupIndex++}`, kind: 'teach', conceptIndex, presentation, lineIndices: [] };
-        steps.push(group);
-      }
-      group.lineIndices.push(lineIndex);
-      if (line.table) group.tableIndex = lineIndex;
-      if (line.tarkeebDiagram) group.diagramIndex = lineIndex;
-    });
-    if (lesson.learningKey === 'f-nouns/l1' && conceptIndex === 0) steps[0].visual = 'word-types';
-    if (concept.exercise) steps.push({ id: `concept:${conceptIndex}:check`, kind: 'check', conceptIndex });
-  });
+  const steps = sourceConceptSteps(lesson);
+  if (lesson.learningKey === 'f-nouns/l1') steps[0].visual = 'word-types';
   introNahwAnalysisItems(lesson).forEach((item, analysisIndex) => steps.push({ id: `analysis:${item.id}`, kind: 'analysis', analysisIndex }));
   introNahwPracticeItems(lesson).forEach((item, practiceIndex) => steps.push({ id: `practice:${item.id}`, kind: 'practice', practiceIndex }));
   steps.push({ id: 'summary', kind: 'summary' });
