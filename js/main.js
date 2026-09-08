@@ -64,6 +64,7 @@ import { render, FACES, HEADING_FACES } from './render.js';
 import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessions, mergeLogicProgress } from './learning/study.js';
 import { nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
 import { guidedGrammar, nativeItem, nativeItemKey } from './learning/native.js';
+import { introNahwSentenceParts } from './learning/intro-nahw.js';
 import { fitLessonPages } from './learning/lesson-pages.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
@@ -2536,12 +2537,22 @@ const actions = {
     session.visualState[step.id] = { selected };
     session.updatedAt = new Date().toISOString();
   },
-  sarfVisual(el) {
+  tableVisual(el) {
     const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
     const lesson = getLesson(state.moduleId, state.lessonId);
     const table = lesson?.concepts[step?.conceptIndex]?.lines[step?.tableIndex]?.table;
-    if (!session || lesson?.learningModel !== 'mizan-sarf' || !table
+    if (!session || !guidedGrammar(lesson) || !table
       || !Number.isInteger(selected) || selected < 0 || selected >= table.rows.length) return false;
+    session.visualState ||= {};
+    session.visualState[step.id] = { selected };
+    session.updatedAt = new Date().toISOString();
+  },
+  introNahwPart(el) {
+    const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    const diagram = lesson?.concepts[step?.conceptIndex]?.lines[step?.diagramIndex]?.tarkeebDiagram;
+    if (!session || lesson?.learningModel !== 'mizan-intro-nahw' || !diagram
+      || !Number.isInteger(selected) || selected < 0 || selected >= introNahwSentenceParts(diagram).length) return false;
     session.visualState ||= {};
     session.visualState[step.id] = { selected };
     session.updatedAt = new Date().toISOString();
@@ -4914,12 +4925,19 @@ function refocusSelector(el) {
   if (action === 'studyNext' || action === 'studyBack') return '.mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
   if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkLessonQuiz') return '.mz-feedback';
   if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctLessonQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
-  if (action === 'sarfVisual') {
+  if (action === 'tableVisual') {
     const step = studyStep(currentStudy(state));
     const table = getLesson(state.moduleId, state.lessonId).concepts[step.conceptIndex].lines[step.tableIndex].table;
     const selected = Number(el.dataset.value);
     const label = !selected ? 'Next example' : selected === table.rows.length - 1 ? 'Previous example' : el.getAttribute('aria-label');
     return `.mz-sarf-example-nav button[aria-label="${label}"]`;
+  }
+  if (action === 'introNahwPart') {
+    const step = studyStep(currentStudy(state));
+    const diagram = getLesson(state.moduleId, state.lessonId).concepts[step.conceptIndex].lines[step.diagramIndex].tarkeebDiagram;
+    const selected = Number(el.dataset.value);
+    const label = !selected ? 'Next part' : selected === introNahwSentenceParts(diagram).length - 1 ? 'Previous part' : el.getAttribute('aria-label');
+    return `.mz-intro-part-nav button[aria-label="${label}"]`;
   }
   if (action === 'setStudyVisual' || action === 'studyChoice' || action === 'nahwVisual' || action === 'studyHint' || action === 'selectQuizOption' || action.startsWith('logic')) return triggerSelectorFor(el);
   // The Check button un-renders once the answer is graded, so its own
@@ -5312,7 +5330,7 @@ document.addEventListener('keydown', (e) => {
   }
   if (root.querySelector('[role="dialog"]')) return;
   const active = document.activeElement;
-  const onControl = !!(active && (active.tagName === 'BUTTON' || active.tagName === 'A'
+  const onControl = !!(active && (active.tagName === 'BUTTON' || active.tagName === 'A' || active.tagName === 'SUMMARY'
     || (active.closest && active.closest('[data-action]'))));
   if (e.key === 'Enter') {
     // A focused control already owns Enter natively -- never double-fire.

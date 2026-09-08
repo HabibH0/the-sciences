@@ -248,6 +248,12 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .mz-sarf-comparison :is(.ar, bdi) { font-size: 1.65em; line-height: 1.4; }
 .mz-sarf-exercise .mz-field select { font-family: var(--font-body), var(--font-ar); font-size: calc(18px * var(--ui-text-scale)); }
 .mz-sarf-exercise .mz-field > label { text-transform: none; }
+.mz-intro-sentence-words { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 18px 0; }
+.mz-intro-sentence-words > span { padding: 4px 10px; border-bottom: 3px solid transparent; font-size: calc(30px * var(--lesson-text-scale)); line-height: 1.7; }
+.mz-intro-sentence-words > span.is-selected { background: var(--color-surface); border-color: var(--color-accent); border-radius: 5px; }
+.mz-intro-part-role { display: grid; gap: 8px; background: var(--color-surface); border-radius: 6px; padding: 14px 18px; }
+.mz-intro-part-role > span { font-size: calc(12px * var(--ui-text-scale)); color: var(--mz-muted); }
+.mz-intro-part-role > strong { font-size: calc(25px * var(--lesson-text-scale)); line-height: 1.5; font-weight: 400; }
 .lesson-visual { margin: 0; padding: 20px; border-radius: 10px; border: 1px solid var(--mz-border); background: var(--mz-soft); }
 .visual-heading > span { display: flex; align-items: center; gap: 6px; font-size: calc(11px * var(--ui-text-scale, 1)); letter-spacing: 1px; color: var(--color-accent); }
 .visual-heading h3 { font: 400 calc(22px * var(--ui-text-scale, 1))/1.4 var(--mz-prose); margin: 10px 0 18px; }
@@ -311,7 +317,7 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
   .mz-study.is-paged .mz-study-foot { padding: 16px 0 0; flex-shrink: 0; }
   .mz-study.is-paged .mz-teaching { padding: 20px 28px; width: 100%; }
   .mz-study.is-paged .mz-teaching-copy > h2 { font-size: calc(27px * var(--ui-text-scale)); margin: 6px 0 16px; }
-  .mz-study.is-paged .mz-sarf-teaching:has(table) .mz-teaching-copy { max-width: 100%; }
+  .mz-study.is-paged :is(.mz-sarf-teaching, .mz-intro-nahw-teaching):has(table) .mz-teaching-copy { max-width: 100%; }
   .mz-study.is-paged .mz-prose p { margin-bottom: 12px; }
   .mz-study.is-paged .mz-prose p:last-child { margin-bottom: 0; }
   .mz-study.is-paged .concept-source-box { padding: 14px 20px; margin-block: 16px; }
@@ -331,6 +337,10 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
   .mz-study.is-paged .mz-page-visual .mz-sarf-example-nav { border-bottom: 0; padding: 0; }
   .mz-study.is-paged .mz-page-visual .mz-sarf-comparison { grid-column: 1 / -1; grid-template-columns: var(--sarf-comparison-columns); margin: 0; }
   .mz-study.is-paged .mz-page-visual .mz-sarf-comparison > div { grid-column: auto; }
+  .mz-study.is-paged .mz-page-visual:has(.mz-intro-sentence) { max-width: 100%; }
+  .mz-study.is-paged .mz-page-visual .mz-intro-sentence { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 12px 24px; align-items: start; }
+  .mz-study.is-paged .mz-page-visual .mz-intro-sentence > .mz-intro-part-nav { border: 0; padding: 0; }
+  .mz-study.is-paged .mz-page-visual .mz-intro-sentence > :is(.mz-intro-sentence-words, .mz-intro-part-role, figcaption) { grid-column: 1 / -1; margin: 0; }
 }
 @media (min-width: 960px) and (min-height: 540px) and (max-height: 680px) {
   .main-content:has(.mz-teaching) { padding-block: 14px; }

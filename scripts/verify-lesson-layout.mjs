@@ -5,7 +5,8 @@ import { createInitialState } from '../js/state.js';
 import { render, FACES } from '../js/render.js';
 import { createStudySession, studyKey } from '../js/learning/study.js';
 import { fitLessonPages } from '../js/learning/lesson-pages.js';
-import { sarfTableVisual } from '../js/learning/sarf.js';
+import { compactTable } from '../js/learning/comparison.js';
+import { introNahwVisualCount } from '../js/learning/intro-nahw.js';
 
 const root = document.querySelector('#root'), result = document.querySelector('#result');
 const params = new URLSearchParams(location.search);
@@ -47,7 +48,8 @@ document.querySelector('#run').addEventListener('click', async () => {
           session.stepIndex = si;
           const step = session.steps[si];
           const table = lesson.learningModel === 'mizan-sarf' && lesson.concepts[step.conceptIndex]?.lines[step.tableIndex]?.table;
-          const variants = params.has('variants') && table && sarfTableVisual(table) ? table.rows.length : 1;
+          const variants = !params.has('variants') ? 1 : lesson.learningModel === 'mizan-intro-nahw'
+            ? introNahwVisualCount(lesson, step) : table && compactTable(table) ? table.rows.length : 1;
           for (let selected = 0; selected < variants; selected++) {
             session.visualState = { [step.id]: { selected } };
             if (params.has('details')) session.readingDetails = { [session.steps[si].id]: true };

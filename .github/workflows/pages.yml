@@ -33,6 +33,7 @@ jobs:
         run: |
           npm run verify:mizan
           npm run verify:nahw
+          npm run verify:intro-nahw
           npm run verify:sarf
           npm run verify:review
           npm run verify:server

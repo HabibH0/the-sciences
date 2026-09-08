@@ -40,4 +40,4 @@ export const MODULES = [
   fIstifham, fTawkid, fSughraKhabarHal, fSughraAtfBadalMudaf, fSughraNat,
   fIsmMawsul, fIsmMuawwalMubtadaFail, fIsmMuawwalRemainingSlots, fIbaratFiliyya,
   fNidaQasam, fJumlaShart, fJawabTaililiyyaIstidrakiyya,
-];
+].map(mod => ({ ...mod, lessons: mod.lessons.map(lesson => ({ ...lesson, learningModel: 'mizan-intro-nahw', learningKey: `${mod.id}/${lesson.id}` })) }));

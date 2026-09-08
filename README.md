@@ -19,6 +19,7 @@ Open http://localhost:4173. This server includes the Logic grader and live reloa
 npm run validate
 npm run verify:mizan
 npm run verify:nahw
+npm run verify:intro-nahw
 npm run verify:sarf
 npm run verify:review
 npm run verify:server
@@ -30,11 +31,15 @@ The last command previews the exact static files in web/ with the local Logic gr
 
 Advanced Nahw verification renders every lesson step and checks source coverage, grammatical analysis, corrections and saved-session migration. See [the learning update](advanced-nahw-learning-update.md) for its scope and browser verification.
 
+Introductory Nahw uses guided teaching, interactive word and phrase analysis, comparisons, independent practice and the original recaps. `verify:intro-nahw` checks all 208 lessons, source preservation, phrase boundaries, answer states and saved-session migration. See [the introductory Nahw learning update](introductory-nahw-learning-update.md).
+
 Advanced Sarf uses the same guided learning sequence, with interactive word-form comparisons and morphology practice. `verify:sarf` checks all 56 lessons, original source and review content, every comparison state, answer grading and saved-session migration. See [the Sarf learning update](advanced-sarf-learning-update.md).
 
 For desktop geometry checks, open `/scripts/verify-lesson-layout.html` on the source dev server and click **Verify lesson layouts**. It checks every Advanced Nahw teaching/summary page for overflow and text preservation without saving lesson progress. Query options include `scale=1.3`, `details=1` and `course=all`.
 
 Use `course=adv-sarf&variants=1` to check every Sarf comparison state. Add `lesson=as-01/l1` and `step=concept:0:teach:1` to inspect one page. `/scripts/verify-responsive.html?width=1024&height=600&course=adv-sarf&variants=1` runs the audit inside a fixed viewport; `app=1` displays the first Sarf lesson instead.
+
+Use `course=intro-nahw&variants=1` for every introductory Nahw word, phrase and table state. To check its mobile interactions, open `/scripts/verify-responsive.html?width=390&height=844&app=1&lesson=f-nouns/l1`; the `lesson` option also accepts other module/lesson pairs.
 
 ## Hosting
 

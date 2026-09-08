@@ -308,7 +308,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The three divisions of speech — اِسْمٌ, فِعْلٌ, and حَرْفٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -316,7 +316,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مَعْرِفَةٌ and نَكِرَةٌ — أَلْ, تَنْوِيْنٌ, and how each is translated",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -324,7 +324,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مُذَكَّرٌ and مُؤَنَّثٌ — the three types of feminine noun",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -332,7 +332,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مُفْرَدٌ, مُثَنًّى, and the regular vs. irregular جَمْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -340,7 +340,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مَرْفُوْعٌ, مَنْصُوْبٌ, مَجْرُوْرٌ — declinable vs. non-declinable nouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -358,7 +358,7 @@ export const COURSE_SHELLS = [
             "subtitle": "اَلْمَاضِيْ, اَلْمُضَارِعُ, and اَلْأَمْرُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -366,7 +366,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مَبْنِيٌّ vs. مُعْرَبٌ, and the three states of اَلْمُضَارِعُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -374,7 +374,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مُثْبَتٌ, مَنْفِيٌّ, and the four negative particles",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -382,7 +382,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مُذَكَّرٌ and مُؤَنَّثٌ verb forms",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -390,7 +390,7 @@ export const COURSE_SHELLS = [
             "subtitle": "فِعْلٌ مَعْلُوْمٌ vs. فِعْلٌ مَجْهُوْلٌ, and forming the passive",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -408,7 +408,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Every particle is مَبْنِيٌّ — but not every particle is عَامِلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -416,7 +416,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The verbal noun — infinitive, gerund, and verbal-noun readings",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -424,7 +424,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The active and passive participles, and how each is built",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -432,7 +432,7 @@ export const COURSE_SHELLS = [
             "subtitle": "A more intense اسم الفاعل, and how the participles are used as nouns or adjectives",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -440,7 +440,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The comparative and superlative noun",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -448,7 +448,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -466,7 +466,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: اَلْجُمْلَةُ الْاِسْمِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -474,7 +474,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: اَلْجُمْلَةُ الْاِسْمِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -482,7 +482,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: اَلْجُمْلَةُ الْاِسْمِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -490,7 +490,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: اَلْجُمْلَةُ الْاِسْمِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -498,7 +498,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: اَلْجُمْلَةُ الْاِسْمِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -516,7 +516,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -524,7 +524,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -532,7 +532,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -540,7 +540,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -548,7 +548,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -556,7 +556,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -564,7 +564,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -572,7 +572,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -580,7 +580,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -588,7 +588,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 2: اَلْجُمْلَةُ الْفِعْلِيَّةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -596,7 +596,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -614,7 +614,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 1: Descriptive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -622,7 +622,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 1: Descriptive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -630,7 +630,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 1: Descriptive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -638,7 +638,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 2: Demonstrative Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -646,7 +646,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 3: Conjunctive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -654,7 +654,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 3: Conjunctive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -662,7 +662,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 3: Conjunctive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -680,7 +680,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 4: Appositive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -688,7 +688,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 5: Possessive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -696,7 +696,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 5: Possessive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -704,7 +704,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 5: Possessive Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -712,7 +712,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 6: Number Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -720,7 +720,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 6: Number Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -728,7 +728,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Part 6: Number Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -736,7 +736,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Phrases — Supplement: Nested Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -744,7 +744,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -762,7 +762,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: شِبْهُ الْجُمْلَةِ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -770,7 +770,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -778,7 +778,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -786,7 +786,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -794,7 +794,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -802,7 +802,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -810,7 +810,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -818,7 +818,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -826,7 +826,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: A شِبْهُ الْجُمْلَةِ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -834,7 +834,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: شِبْهُ الْجُمْلَةِ as a Phrase",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -842,7 +842,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: حَرْفُ صِلَةٍ as a حَرْفٌ جَارٌّ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -850,7 +850,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -868,7 +868,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Pronouns — Introduction & Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -876,7 +876,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Pronouns — Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -884,7 +884,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -892,7 +892,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -900,7 +900,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -908,7 +908,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -916,7 +916,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 1: ضَمِيْرٌ مَرْفُوْعٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -924,7 +924,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 2: ضَمِيْرٌ مَنْصُوْبٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -932,7 +932,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 2: ضَمِيْرٌ مَنْصُوْبٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -940,7 +940,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1, Part 3: ضَمِيْرٌ مَجْرُوْرٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -948,7 +948,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Supplement",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -956,7 +956,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Section 1: Supplement",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l13",
@@ -964,7 +964,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -982,7 +982,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -990,7 +990,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -998,7 +998,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1006,7 +1006,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1014,7 +1014,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1022,7 +1022,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1030,7 +1030,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1038,7 +1038,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1046,7 +1046,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Interrogative Pronouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1054,7 +1054,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Supplement",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1062,7 +1062,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Supplement",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1080,7 +1080,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1088,7 +1088,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1096,7 +1096,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1104,7 +1104,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1112,7 +1112,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1120,7 +1120,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1128,7 +1128,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1136,7 +1136,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1144,7 +1144,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1152,7 +1152,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1160,7 +1160,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -1168,7 +1168,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l13",
@@ -1176,7 +1176,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l14",
@@ -1184,7 +1184,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l15",
@@ -1192,7 +1192,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l16",
@@ -1200,7 +1200,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l17",
@@ -1208,7 +1208,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Emphatic Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l18",
@@ -1216,7 +1216,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1234,7 +1234,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1242,7 +1242,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: The خَبَرٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1250,7 +1250,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Supplement",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1258,7 +1258,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: The خَبَرٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1266,7 +1266,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: The مَفْعُوْلٌ بِهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1274,7 +1274,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: The مَفْعُوْلٌ بِهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1282,7 +1282,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: The حَالٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1290,7 +1290,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: The حَالٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1298,7 +1298,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: The حَالٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1316,7 +1316,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: The مَعْطُوْفٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1324,7 +1324,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Parts 5–6: The بَدَلٌ and مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1332,7 +1332,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1340,7 +1340,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1348,7 +1348,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1356,7 +1356,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1364,7 +1364,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1372,7 +1372,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1380,7 +1380,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1388,7 +1388,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1396,7 +1396,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -1404,7 +1404,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l13",
@@ -1412,7 +1412,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l14",
@@ -1420,7 +1420,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l15",
@@ -1428,7 +1428,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مُضَافٌ إِلَيْهِ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1446,7 +1446,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1454,7 +1454,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1462,7 +1462,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1470,7 +1470,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1478,7 +1478,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1486,7 +1486,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1494,7 +1494,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The نَعْتٌ as a جُمْلَةٌ صُغْرَى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1502,7 +1502,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1520,7 +1520,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: اِسْمٌ مَوْصُوْلٌ with اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1528,7 +1528,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: اِسْمٌ مَوْصُوْلٌ with اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1536,7 +1536,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: اِسْمٌ مَوْصُوْلٌ with اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1544,7 +1544,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: اِسْمٌ مَوْصُوْلٌ with اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1552,7 +1552,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: An اِسْمٌ مُؤَوَّلٌ in a Sentence",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1560,7 +1560,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: An اِسْمٌ مُؤَوَّلٌ in a Phrase",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1568,7 +1568,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: An اِسْمٌ مُؤَوَّلٌ in a Phrase",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1576,7 +1576,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: An اِسْمٌ مُؤَوَّلٌ in a Phrase",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1584,7 +1584,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: An اِسْمٌ مُؤَوَّلٌ in a Phrase",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1592,7 +1592,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: اَلنَّكِرَةُ الْمَوْصُوْفَةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1600,7 +1600,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: اَلنَّكِرَةُ الْمَوْصُوْفَةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -1608,7 +1608,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: اَلنَّكِرَةُ الْمَوْصُوْفَةُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l13",
@@ -1616,7 +1616,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and structures — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1634,7 +1634,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Introduction: حَرْفٌ مَوْصُوْلٌ with اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1642,7 +1642,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: The مُبْتَدَأٌ and مُبْتَدَأٌ مُؤَخَّرٌ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1650,7 +1650,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: The خَبَرٌ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1658,7 +1658,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: The فَاعِلٌ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1666,7 +1666,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: The مَفْعُوْلٌ بِهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1674,7 +1674,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: The مَفْعُوْلٌ بِهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1682,7 +1682,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: The مَفْعُوْلٌ بِهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1700,7 +1700,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: The مَفْعُوْلٌ فِيْهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1708,7 +1708,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: The مَفْعُوْلٌ فِيْهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1716,7 +1716,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: The مَفْعُوْلٌ فِيْهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1724,7 +1724,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مَفْعُوْلٌ لَهُ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1732,7 +1732,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مَفْعُوْلٌ لَهُ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1740,7 +1740,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: The مَفْعُوْلٌ لَهُ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1748,7 +1748,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 7: The مَفْعُوْلٌ مُطْلَقٌ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1756,7 +1756,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 8: The مُسْتَثْنَى as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1764,7 +1764,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 8: The مُسْتَثْنَى as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1772,7 +1772,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 9: The مُضَافٌ إِلَيْهِ as an اِسْمٌ مُؤَوَّلٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1780,7 +1780,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Summary of Parts 1–9",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1798,7 +1798,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1806,7 +1806,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1814,7 +1814,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1822,7 +1822,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1830,7 +1830,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -1838,7 +1838,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -1846,7 +1846,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -1854,7 +1854,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -1862,7 +1862,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -1870,7 +1870,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -1878,7 +1878,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l12",
@@ -1886,7 +1886,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l13",
@@ -1894,7 +1894,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l14",
@@ -1902,7 +1902,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l15",
@@ -1910,7 +1910,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Supplement: Verbal Phrases",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l16",
@@ -1918,7 +1918,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1936,7 +1936,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Vocative Expressions",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1944,7 +1944,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Vocative Expressions",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -1952,7 +1952,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 1: Vocative Expressions",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -1960,7 +1960,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Oaths",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -1968,7 +1968,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 2: Oaths",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -1986,7 +1986,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -1994,7 +1994,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -2002,7 +2002,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -2010,7 +2010,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -2018,7 +2018,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -2026,7 +2026,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -2034,7 +2034,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -2042,7 +2042,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -2050,7 +2050,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -2058,7 +2058,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -2066,7 +2066,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 3: Conditional Sentences",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       },
@@ -2084,7 +2084,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: Sentences after اَلْأَمْرُ and اَلنَّهْيُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l2",
@@ -2092,7 +2092,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: Sentences after اَلْأَمْرُ and اَلنَّهْيُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l3",
@@ -2100,7 +2100,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: Sentences after اَلْأَمْرُ and اَلنَّهْيُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l4",
@@ -2108,7 +2108,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 4: Sentences after اَلْأَمْرُ and اَلنَّهْيُ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l5",
@@ -2116,7 +2116,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: جُمْلَةٌ تَعْلِيْلِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l6",
@@ -2124,7 +2124,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: جُمْلَةٌ تَعْلِيْلِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l7",
@@ -2132,7 +2132,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: جُمْلَةٌ تَعْلِيْلِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l8",
@@ -2140,7 +2140,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 5: جُمْلَةٌ تَعْلِيْلِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l9",
@@ -2148,7 +2148,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: جُمْلَةٌ اسْتِدْرَاكِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l10",
@@ -2156,7 +2156,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Part 6: جُمْلَةٌ اسْتِدْرَاكِيَّةٌ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           },
           {
             "id": "l11",
@@ -2164,7 +2164,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Key terms and master vocabulary — no new material, just review",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-intro-nahw"
           }
         ]
       }

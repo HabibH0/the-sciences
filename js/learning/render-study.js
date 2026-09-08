@@ -7,6 +7,7 @@ import { guidedGrammar, nativeItem, nativeItemKey } from './native.js';
 import { nahwTeachingHtml, nahwSummaryHtml } from './render-nahw.js';
 import { nativeExerciseHtml } from './render-native.js';
 import { sarfTeachingHtml } from './render-sarf.js';
+import { introNahwTeachingHtml, introNahwSummaryHtml } from './render-intro-nahw.js';
 
 export function visualHtml(spec, state = {}) {
   const choices = logicVisuals()?.[spec.kind];
@@ -64,6 +65,9 @@ export function studyHtml(state, mod, lesson, helpers) {
       ready = !!draft.grade && !draft.busy;
       body = logicExerciseHtml(item, draft, { context: label });
     }
+  } else if (lesson.learningModel === 'mizan-intro-nahw' && ['teach', 'summary'].includes(step.kind)) {
+    label = step.kind === 'summary' ? 'Takeaway' : step.presentation === 'example' ? 'Worked example' : 'Learn';
+    body = step.kind === 'summary' ? introNahwSummaryHtml(lesson, helpers, state) : introNahwTeachingHtml(lesson, step, session, helpers, state);
   } else if (step.kind === 'teach' && lesson.learningModel === 'mizan-sarf') {
     label = { learn: 'Learn', example: 'Worked example', takeaway: 'Takeaway' }[step.presentation];
     body = sarfTeachingHtml(lesson, step, session, helpers, state);
@@ -87,7 +91,7 @@ export function studyHtml(state, mod, lesson, helpers) {
   }
   const last = index + 1 === total;
   const notes = state.studyNotesOpen ? `<div class="modal-backdrop mz-notes-backdrop" data-action="closeStudyNotes"><section class="mz-notes-modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="mz-notes-title"><header><h2 id="mz-notes-title">Lesson notes</h2><button class="btn btn-secondary" data-action="closeStudyNotes" aria-label="Close lesson notes">Close ×</button></header><div class="mz-notes-content mz-prose">${session.logic ? logicCourse().lessons[lesson.id].notesHtml : lesson.concepts.map(c => `<h3>${escBidi(c.heading)}</h3>${helpers.prose(c, '', null, true, state.tarkeebLabelsBlue === true)}${c.clarification ? helpers.prose({ body: c.clarification }, '', null, true, state.tarkeebLabelsBlue === true) : ''}`).join('')}${!session.logic ? helpers.summary(lesson, state, mod, 'mz-notes-summary') : ''}</div></section></div>` : '';
-  return `<section class="mz-study${lesson.learningModel === 'mizan-nahw' ? ' mz-nahw' : lesson.learningModel === 'mizan-sarf' ? ' mz-sarf' : ''}${Number(state.lessonTextScale) > 100 ? ' large-text' : ''}" data-step="${index}" aria-label="${escAttr(lesson.title)}">
+  return `<section class="mz-study${['mizan-nahw', 'mizan-intro-nahw'].includes(lesson.learningModel) ? ' mz-nahw' : lesson.learningModel === 'mizan-sarf' ? ' mz-sarf' : ''}${Number(state.lessonTextScale) > 100 ? ' large-text' : ''}" data-step="${index}" aria-label="${escAttr(lesson.title)}">
     <header class="mz-study-head"><button class="mz-study-exit" data-action="openModule" data-module-id="${escAttr(mod.id)}" aria-label="Save and return to ${escAttr(mod.title)}">←</button><div class="mz-study-title"><span>${escBidi(mod.title)}</span><h1>${escBidi(lesson.title)}</h1></div><button class="mz-text-button" data-action="openStudyNotes">Lesson notes</button></header>
     <div class="mz-step-track"><span>${esc(label)}</span><div class="mz-meter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${index + 1}"><span style="width:${(index + 1) / total * 100}%"></span></div><span>${index + 1} / ${total}</span></div>
     <div class="mz-study-body" data-study-step>${body}</div>

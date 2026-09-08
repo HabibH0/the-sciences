@@ -4,7 +4,8 @@ import { setActiveCourse, conceptKey, getReviewPool } from '../content/index.js'
 import { createInitialState } from '../js/state.js';
 import { render } from '../js/render.js';
 import { grammarSteps, createStudySession, normalizeStudySessions, studyKey } from '../js/learning/study.js';
-import { sarfAnalysisItems, sarfPracticeItems, sarfTableVisual } from '../js/learning/sarf.js';
+import { sarfAnalysisItems, sarfPracticeItems } from '../js/learning/sarf.js';
+import { compactTable } from '../js/learning/comparison.js';
 import { nativeItem, nativeItemKey } from '../js/learning/native.js';
 import { nahwAnalysisComplete, gradeNahwAnalysis } from '../js/learning/nahw.js';
 
@@ -43,7 +44,7 @@ for (const mod of MODULES) {
       assert(html.includes('mz-study-body'));
       if (step.tableIndex != null) {
         const table = lesson.concepts[step.conceptIndex].lines[step.tableIndex].table;
-        if (sarfTableVisual(table)) {
+        if (compactTable(table)) {
           totals.interactiveTables++;
           for (let selected = 0; selected < table.rows.length; selected++) {
             session.visualState = { [step.id]: { selected } };

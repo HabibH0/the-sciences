@@ -104,13 +104,6 @@ export function sarfPracticeItems(lesson) {
   return lesson.bank.slice(0, sarfAnalysisItems(lesson).length ? 1 : 2).map((item, bankIndex) => ({ ...item, id: `bank-${bankIndex}`, bankIndex }));
 }
 
-export function sarfTableVisual(table) {
-  // Long source quotations keep the full, paginated table. Compact rows
-  // can be explored as a single form together with its explanation.
-  return table.headers.length <= 4 && table.rows.length > 1
-    && table.rows.every(row => row[0].length <= 75 && row.join(' ').length <= 250);
-}
-
 function presentation(line) {
   if (line.table || line.box?.title === 'Example' || line.box?.lines.some(t => t.includes('﴿'))) return 'example';
   if (line.box?.title === 'Careful') return 'takeaway';
