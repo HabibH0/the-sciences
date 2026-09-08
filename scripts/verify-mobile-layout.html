@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" data-theme="mizan" data-accent="emerald" data-arabic-face="traditional">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mobile learning verification</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../mizan.css">
+  <style>
+    #checks { position: fixed; right: 0; top: 0; z-index: 10000; background: white; color: #182f24; max-width: 360px; max-height: 28vh; overflow: auto; font: 11px monospace; padding: 4px; }
+    #checks pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <aside id="checks"><button id="run" disabled>Check mobile layouts</button><pre id="result" role="status">Loading</pre></aside>
+  <script type="module" src="./verify-mobile-layout.mjs"></script>
+</body>
+</html>

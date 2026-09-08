@@ -67,6 +67,8 @@ import { guidedGrammar, nativeItem, nativeItemKey } from './learning/native.js';
 import { introNahwSentenceParts } from './learning/intro-nahw.js';
 import { introSarfTablePages, introSarfVisualCount } from './learning/intro-sarf.js';
 import { fitLessonPages } from './learning/lesson-pages.js';
+import { fitMobilePages } from './learning/mobile-pages.js';
+import { prepareExerciseFeedback, mountFeedbackSheet, dismissFeedbackSheet } from './learning/feedback-sheet.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
 import { literatureLesson, loadLiteratureLesson, loadedLiteratureLesson } from '../content-lit/learning/index.js';
@@ -942,6 +944,11 @@ function applyAppearance(state) {
 // a row without re-tabbing from the top of the page each time. See
 // refocusSelector, the only current caller.
 let lessonPageLayout = null;
+let mobilePageLayout = null;
+let mobilePagePosition = { key: '', index: 0 };
+let mobileResizeAnchor = '';
+let exerciseFeedback = { key: '', stamp: '', open: false };
+const readingStepKey = step => step?.id || step?.stepId || step?.itemId;
 let readingDetailRequested = false;
 function rerender(focusSelector) {
   refreshCourseMastery();
@@ -990,16 +997,40 @@ function rerender(focusSelector) {
   // The swap itself is instant -- entrance motion is applied to the fresh
   // DOM immediately after (and after scroll restoration, so nothing animates
   // while a scrollTop is being reapplied).
+  const feedbackWasOpen = !!root.querySelector('.exercise-feedback-sheet');
   root.innerHTML = html;
   const readingSession = currentStudy(state), readingStep = studyStep(readingSession);
-  lessonPageLayout = fitLessonPages(root, readingDetailRequested ? 'detail' : readingSession?.readingPages?.[readingStep?.id] || 0);
+  const mobileKey = `${nav}|${state.view === 'quiz' ? state.quizIndex : ''}`;
+  const feedback = prepareExerciseFeedback(root);
+  if (!feedback) exerciseFeedback = { key: '', stamp: '', open: false };
+  else {
+    const newResult = exerciseFeedback.key !== mobileKey || exerciseFeedback.stamp !== feedback.stamp;
+    exerciseFeedback = { key: mobileKey, stamp: feedback.stamp, open: newResult ? !feedback.correcting : exerciseFeedback.open };
+  }
+  const mobileIndex = mobilePagePosition.key === mobileKey ? mobilePagePosition.index
+    : state.view === 'lesson' ? readingSession?.readingPages?.[readingStepKey(readingStep)] || 0 : 0;
+  mobilePageLayout = fitMobilePages(root, { index: mobileIndex, focusSelector: focusSelector || '', anchor: mobileResizeAnchor });
+  mobileResizeAnchor = '';
+  if (mobilePageLayout?.fits) {
+    mobilePagePosition = { key: mobileKey, index: mobilePageLayout.index };
+    if (state.view === 'lesson' && readingSession && readingStep) {
+      if (!readingSession.readingPages || typeof readingSession.readingPages !== 'object' || Array.isArray(readingSession.readingPages)) readingSession.readingPages = {};
+      const key = readingStepKey(readingStep);
+      if (readingSession.readingPages[key] !== mobilePageLayout.index) {
+        readingSession.readingPages[key] = mobilePageLayout.index;
+        readingSession.updatedAt = new Date().toISOString();
+      }
+    }
+  }
+  lessonPageLayout = mobilePageLayout?.fits ? null : fitLessonPages(root, readingDetailRequested ? 'detail' : readingSession?.readingPages?.[readingStepKey(readingStep)] || 0);
   if (readingDetailRequested && lessonPageLayout?.fits) {
     if (!readingSession.readingPages || typeof readingSession.readingPages !== 'object' || Array.isArray(readingSession.readingPages)) readingSession.readingPages = {};
-    readingSession.readingPages[readingStep.id] = lessonPageLayout.index;
+    readingSession.readingPages[readingStepKey(readingStep)] = lessonPageLayout.index;
   }
   readingDetailRequested = false;
+  const feedbackSheet = mountFeedbackSheet(root, feedback, { open: exerciseFeedback.open, animate: !feedbackWasOpen });
   const newContainer = mainScrollContainer();
-  if (newContainer) newContainer.scrollTop = nextScrollTop;
+  if (newContainer) newContainer.scrollTop = mobilePageLayout?.fits || lessonPageLayout?.fits ? 0 : nextScrollTop;
   // Unconditional, same as the page-level restore just above -- root.innerHTML
   // just replaced every element wholesale, so a SAME-screen rerender (a
   // comprehension check being answered, say) needs this exactly as much as a
@@ -1013,7 +1044,9 @@ function rerender(focusSelector) {
   updateCoverBlurbToggle();
   updateContextBar(true);
   applyRenderMotion(root, motionSnap, changedScreen, nav);
-  if (conceptChanged) {
+  if (feedbackSheet) {
+    feedbackSheet.focus({ preventScroll: true });
+  } else if (conceptChanged) {
     // The concept the learner is now reading changed under a same-screen
     // rerender (Next/Back paging, or a passed exercise unlocking the next
     // concept). The scroller was just reset to the concept's top, so focus
@@ -1032,7 +1065,7 @@ function rerender(focusSelector) {
     const toFocus = root.querySelector(focusSelector);
     if (toFocus) {
       if (!toFocus.matches('button, a, input, select, textarea, summary')) toFocus.tabIndex = -1;
-      toFocus.focus({ preventScroll: !!lessonPageLayout?.fits });
+      toFocus.focus({ preventScroll: !!(lessonPageLayout?.fits || mobilePageLayout?.fits) });
     }
   } else if (changedScreen) {
     // root.innerHTML replaces every element on every render, so focus lands
@@ -1062,10 +1095,20 @@ let lessonLayoutFrame;
 function scheduleLessonLayout() {
   cancelAnimationFrame(lessonLayoutFrame);
   lessonLayoutFrame = requestAnimationFrame(() => {
-    if (root.querySelector('.mz-teaching') && !state.studyNotesOpen) rerender();
+    if (!root.querySelector('.mz-teaching, .screen-fit') || state.studyNotesOpen) return;
+    const active = document.activeElement;
+    const input = active?.matches('input, textarea, select') ? active : null;
+    const selector = input?.id ? `#${CSS.escape(input.id)}` : input?.hasAttribute('data-logic-reflection') ? '[data-logic-reflection]'
+      : input?.hasAttribute('data-logic-field') ? `[data-logic-field="${input.dataset.logicField}"]${input.dataset.listIndex != null ? `[data-list-index="${input.dataset.listIndex}"]` : ''}` : '';
+    const selection = input && { start: input.selectionStart, end: input.selectionEnd };
+    mobileResizeAnchor = mobilePageLayout?.anchor || '';
+    rerender(selector);
+    const replacement = selector && root.querySelector(selector);
+    if (replacement?.setSelectionRange && selection?.start != null) replacement.setSelectionRange(selection.start, selection.end);
   });
 }
 window.addEventListener('resize', scheduleLessonLayout);
+window.visualViewport?.addEventListener('resize', scheduleLessonLayout);
 document.fonts?.ready.then(scheduleLessonLayout);
 document.fonts?.addEventListener('loadingdone', scheduleLessonLayout);
 
@@ -1087,9 +1130,22 @@ function turnReadingPage(direction) {
   const next = lessonPageLayout.index + direction;
   if (next < 0 || next >= lessonPageLayout.count) return false;
   if (!session.readingPages || typeof session.readingPages !== 'object' || Array.isArray(session.readingPages)) session.readingPages = {};
-  session.readingPages[step.id] = next;
+  session.readingPages[readingStepKey(step)] = next;
   session.updatedAt = new Date().toISOString();
   return true;
+}
+
+function turnMobilePage(index) {
+  if (!mobilePageLayout?.fits || index < 0 || index >= mobilePageLayout.count) return false;
+  mobilePagePosition.index = index;
+  if (state.view === 'lesson') {
+    const session = currentStudy(state), step = studyStep(session);
+    if (session && step) {
+      if (!session.readingPages || typeof session.readingPages !== 'object' || Array.isArray(session.readingPages)) session.readingPages = {};
+      session.readingPages[readingStepKey(step)] = index;
+      session.updatedAt = new Date().toISOString();
+    }
+  }
 }
 
 function savePos() {
@@ -2676,6 +2732,11 @@ const actions = {
     ctx.record.firstSelected ??= ctx.record.selected;
     ctx.record.selected = null;
   },
+  openFeedbackSheet() { exerciseFeedback.open = true; },
+  async closeFeedbackSheet() {
+    exerciseFeedback.open = false;
+    await dismissFeedbackSheet(root);
+  },
   studyBack() {
     if (turnReadingPage(-1)) return;
     const session = currentStudy(state);
@@ -2684,6 +2745,9 @@ const actions = {
     session.updatedAt = new Date().toISOString();
     if (session.logic) prepareLogicDraft(session);
   },
+  mobilePreviousPage() { return turnMobilePage(mobilePageLayout.index - 1); },
+  mobileNextPage() { return turnMobilePage(mobilePageLayout.index + 1); },
+  mobileFirstPage() { return turnMobilePage(0); },
   studyNext() {
     if (turnReadingPage(1)) return;
     const session = currentStudy(state), step = studyStep(session);
@@ -5048,6 +5112,8 @@ function consumeModalTriggerSelector() {
 
 function refocusSelector(el) {
   const literatureAction = el.dataset.action;
+  if (literatureAction === 'closeFeedbackSheet') return '[data-action="openFeedbackSheet"]';
+  if (/^mobile(?:Previous|Next|First)Page$/.test(literatureAction)) return '.screen-body';
   if (literatureAction === 'literatureCheck') return '.la-feedback';
   if (literatureAction === 'literatureHelp') return '[data-action="literatureHelp"], .la-help';
   if (literatureAction === 'literatureConcept') return '[data-action="literatureConcept"]';
@@ -5083,6 +5149,9 @@ function refocusSelector(el) {
   if (action === 'nextQuizQuestion' && guidedGrammar(getLesson(state.moduleId, state.lessonId))) return '.mz-exercise-prompt > h2, .mz-completed > h1';
   if (action === 'studyNext' || action === 'studyBack') return '.mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
   if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkLessonQuiz') return '.mz-feedback';
+  if (mobilePageLayout?.fits && (action === 'studyHint' || action === 'logicHint')) return '.mz-hints';
+  if (mobilePageLayout?.fits && action === 'selectPracticeOption') return '.quiz-feedback';
+  if (mobilePageLayout?.fits && action === 'selectQuizOption' && state.quizRevealed && !guidedGrammar(getLesson(state.moduleId, state.lessonId))) return '.quiz-feedback';
   if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctLessonQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
   if (action === 'tableVisual') {
     const step = studyStep(currentStudy(state));
@@ -5296,6 +5365,11 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && root.querySelector('.exercise-feedback-sheet')) {
+    e.preventDefault();
+    actions.closeFeedbackSheet().then(() => rerender('[data-action="openFeedbackSheet"]'));
+    return;
+  }
   if (state.studyNotesOpen && e.key === 'Escape') {
     e.preventDefault();
     state.studyNotesOpen = false;
@@ -5464,6 +5538,7 @@ function shortcutTypingContext(e) {
 }
 
 const SHORTCUT_CHECK_OR_ADVANCE = [
+  '[data-action="mobileNextPage"]',
   '[data-action="revealExercise"]',
   '[data-action="checkConceptExercise"]',
   '[data-action="retryConceptExercise"]',
@@ -5512,6 +5587,10 @@ document.addEventListener('keydown', (e) => {
     return;
   }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    if (mobilePageLayout?.fits) {
+      const target = root.querySelector(e.key === 'ArrowLeft' ? '[data-action="mobilePreviousPage"]' : '[data-action="mobileNextPage"]');
+      if (target && !target.disabled) { e.preventDefault(); target.click(); return; }
+    }
     if (state.view !== 'lesson') return;
     const target = root.querySelector(e.key === 'ArrowLeft'
       ? '[data-action="studyBack"]'

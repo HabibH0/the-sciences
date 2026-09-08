@@ -2306,7 +2306,7 @@ const PATH_KIND_LABELS = {
   sectionTest: 'اِخْتِبَارُ الْقِسْمِ', groupTest: 'اِخْتِبَارُ الْمَجْمُوْعَةِ',
 };
 
-function sessionKicker(p, mod) {
+function sessionKicker(p, mod, courseId) {
   if (p.source === 'path') {
     const label = PATH_KIND_LABELS[p.kind] || p.kind;
     return `MY PATH · <bdi lang="ar" dir="rtl">${esc(label)}</bdi>${p.mastery ? ' · CHALLENGE' : ''}`;
@@ -2318,7 +2318,7 @@ function sessionKicker(p, mod) {
     const label = p.kind === 'revisionVocab' ? 'Vocab' : p.kind === 'courseRevision' ? 'Course' : mod ? mod.title : '';
     return `REVISION${label ? ` · ${esc(label)}` : ''}`;
   }
-  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : state.courseId === 'mantiq' ? 'Logic practice' : 'MCQ';
+  const label = p.kind === 'smart' ? 'Review' : p.kind === 'tarkeeb' ? 'تركيب' : p.kind === 'vocab' ? 'Vocab' : courseId === 'mantiq' ? 'Logic practice' : 'MCQ';
   return `PRACTICE · ${label}`;
 }
 
@@ -2462,8 +2462,8 @@ function practiceHtml(state, MODULES) {
     : 0;
   const reviewPct = isReview ? Math.round((p.log.length / Math.max(1, p.log.length + reviewRemaining)) * 100) : 0;
   const crumbHtml = isReview
-    ? `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span>${reviewRemaining} remaining${reviewRelearning > 0 ? ` · ${reviewRelearning} learning again` : ''}</div>`
-    : `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>`;
+    ? `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod, state.courseId)} · </span>${reviewRemaining} remaining${reviewRelearning > 0 ? ` · ${reviewRelearning} learning again` : ''}</div>`
+    : `<div class="quiz-crumb"><span class="quiz-crumb-context">${sessionKicker(p, mod, state.courseId)} · </span><span class="quiz-crumb-word">Question </span>${p.index + 1} of ${p.queue.length}</div>`;
   const ticksHtml = isReview
     ? `<div class="review-progress-track" aria-hidden="true"><span class="review-progress-fill" style="width:${reviewPct}%"></span></div>`
     : `<div class="quiz-ticks">${ticks}</div>`;

@@ -16,7 +16,7 @@
     const params = new URLSearchParams(location.search);
     const frame = document.querySelector('iframe');
     frame.width = Math.max(320, Math.min(1920, Number(params.get('width')) || 1024));
-    frame.height = Math.max(540, Math.min(1200, Number(params.get('height')) || 600));
+    frame.height = Math.max(320, Math.min(1200, Number(params.get('height')) || 600));
     if (params.has('overview')) {
       const course = params.get('overview');
       frame.src = `../#/course/${['mantiq', 'intro-nahw', 'intro-sarf', 'adv-nahw', 'adv-sarf'].includes(course) ? course : 'intro-nahw'}`;
@@ -27,7 +27,11 @@
     }
     else if (params.get('app') === '1') {
       const lesson = params.get('lesson') || 'as-01/l1';
-      frame.src = `../#/module/${/^[a-z0-9-]+\/l\d+$/.test(lesson) ? lesson : 'as-01/l1'}`;
+      frame.src = `../#/module/${/^[a-z0-9-]+\/[a-z0-9_-]+$/.test(lesson) ? lesson : 'as-01/l1'}`;
+    }
+    else if (params.has('mobile')) {
+      params.delete('width'); params.delete('height');
+      frame.src = `./verify-mobile-layout.html?${params}`;
     }
     else {
       params.delete('width'); params.delete('height');

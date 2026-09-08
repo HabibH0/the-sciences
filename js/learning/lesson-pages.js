@@ -165,11 +165,8 @@ export function fitLessonPages(root, requestedPage = 0) {
   if (back && index > 0) back.disabled = false;
   const next = study.querySelector('[data-action="studyNext"]');
   if (next && index + 1 < pages.length) next.textContent = 'Continue →';
-  const status = study.querySelector('.mz-study-foot > span');
-  if (status && pages.length > 1) {
-    status.textContent = `Page ${index + 1} of ${pages.length}`;
-    status.setAttribute('aria-live', 'polite');
-  }
+  body.setAttribute('role', 'region');
+  body.setAttribute('aria-label', `Lesson content, page ${index + 1} of ${pages.length}`);
   study.dataset.readingPage = String(index + 1);
   study.dataset.readingPages = String(pages.length);
   return { index, count: pages.length, fits: true };
