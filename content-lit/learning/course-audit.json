@@ -1,0 +1,177 @@
+{
+  "stages": 6,
+  "units": {
+    "plannedArchitecture": 36,
+    "published": 12,
+    "inAuthoring": 24
+  },
+  "guidedLessons": 48,
+  "publishedCourseSessions": 78,
+  "totalIncludingPlacementAndAdaptiveReview": 80,
+  "lessonArchetypes": 14,
+  "archetypeDistribution": {
+    "discovery": 3,
+    "narrative": 5,
+    "collocation": 3,
+    "vocabulary-immersion": 2,
+    "rapid-recognition": 1,
+    "context-inference": 6,
+    "reconstruction": 3,
+    "contrast": 5,
+    "sentence-lab": 6,
+    "arabic-only": 3,
+    "root-family": 3,
+    "paraphrase": 4,
+    "extensive": 1,
+    "poetry-decoding": 3
+  },
+  "allSessionArchetypes": 18,
+  "uniqueTargetVocabulary": 144,
+  "curatedLexicalContexts": 432,
+  "vocabularyWith2PlusSessionExposures": 144,
+  "vocabularyWith3PlusSessionExposures": 90,
+  "vocabularyWith5PlusSessionExposures": 4,
+  "wordsIntroducedButNeverReviewed": [],
+  "constructionsTracked": 43,
+  "constructionRepairExamples": 86,
+  "skillsTracked": 12,
+  "reviewSessions": 12,
+  "adaptiveReview": 1,
+  "masteryChecks": 12,
+  "unseenAssessments": 18,
+  "fullPassageChallenges": 6,
+  "averageNewVocabularyPerGuidedLesson": 3,
+  "mostlyMultipleChoiceLessonPercent": 8.3,
+  "arabicDominantLessons": 22,
+  "explicitArabicLessonFlows": 3,
+  "transferExercises": 84,
+  "sourceSentences": 165,
+  "distinctActivitySequences": 48,
+  "stageGrowth": [
+    {
+      "stage": 1,
+      "newTargets": 36,
+      "cumulativeTargets": 36
+    },
+    {
+      "stage": 2,
+      "newTargets": 36,
+      "cumulativeTargets": 72
+    },
+    {
+      "stage": 3,
+      "newTargets": 12,
+      "cumulativeTargets": 84
+    },
+    {
+      "stage": 4,
+      "newTargets": 12,
+      "cumulativeTargets": 96
+    },
+    {
+      "stage": 5,
+      "newTargets": 24,
+      "cumulativeTargets": 120
+    },
+    {
+      "stage": 6,
+      "newTargets": 24,
+      "cumulativeTargets": 144
+    }
+  ],
+  "unitGrowth": [
+    {
+      "unit": "daily-actions",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 41,
+      "underReinforced": []
+    },
+    {
+      "unit": "time-and-sequence",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 35,
+      "underReinforced": []
+    },
+    {
+      "unit": "description-and-manner",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 36,
+      "underReinforced": []
+    },
+    {
+      "unit": "people-and-reference",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 35,
+      "underReinforced": []
+    },
+    {
+      "unit": "narrative-links",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 32,
+      "underReinforced": []
+    },
+    {
+      "unit": "description-in-stories",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 32,
+      "underReinforced": []
+    },
+    {
+      "unit": "long-dependencies",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 30,
+      "underReinforced": []
+    },
+    {
+      "unit": "change-and-continuation",
+      "lessons": 4,
+      "targetVocabulary": 14,
+      "plannedTestedExposures": 39,
+      "underReinforced": []
+    },
+    {
+      "unit": "reason-and-judgement",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 37,
+      "underReinforced": []
+    },
+    {
+      "unit": "rhetoric-and-inference",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 32,
+      "underReinforced": []
+    },
+    {
+      "unit": "poetic-order",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 31,
+      "underReinforced": []
+    },
+    {
+      "unit": "imagery-and-compression",
+      "lessons": 4,
+      "targetVocabulary": 12,
+      "plannedTestedExposures": 33,
+      "underReinforced": []
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "countingNotes": [
+    "Published units contain four guided lessons, review and a reserved checkpoint. Each stage also has a cumulative reading.",
+    "Exposure counts are planned sessions containing an actual target-bearing activity; the adaptive bank is excluded from these session counts.",
+    "432 lexical examples and 86 construction repairs are authored practice, not attributed quotations.",
+    "Strong vocabulary is learner-specific and requires delayed evidence; 144 targets is not a claim of 144 acquired words.",
+    "Units in authoring have objectives but do not count as published content."
+  ]
+}

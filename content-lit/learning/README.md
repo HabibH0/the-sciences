@@ -1,137 +1,175 @@
-# Authoring Literature lessons
+# Literature acquisition course
 
-Literature teaches transferable Arabic through a small authentic excerpt.
-`lessons.js` contains the initial ten fully authored lessons. It is plain data;
-no HTML, event handlers or screen layout belongs there.
+Literature is a language curriculum using exact excerpts from the preserved
+source archive. It currently publishes **48 guided lessons in 12 units across
+six stages**, 12 unit reviews, 12 reserved checkpoints, six cumulative readings,
+a placement diagnostic and adaptive review: 80 runnable sessions. The complete
+architecture has 36 unit slots; 24 are explicitly in authoring and contain no
+playable lessons. See [the curriculum audit](COURSE-AUDIT.md) for counts and limits.
 
-The larger source collection is **not automatically converted into lessons**.
-Its 292 chapters remain intact. Select a manageable sentence, connected clauses,
-or bayt and enrich it deliberately. The original reader and its optional legacy
-drills remain available under **Source collection**, with separate history.
+## Ownership and extension points
 
-## Add a lesson
+| File | Responsibility |
+| --- | --- |
+| `curriculum.js` | Stages, unit objectives, archetypes, skill taxonomy, legacy migration plans |
+| `lexicon.js`, `lexicon-supplement.js` | 144 curated lexical targets, tiers, roots, word families, 432 authored contexts |
+| `lessons.js` and its imported modules | The 28 earlier authored excerpts; retained and adapted |
+| `extended-lessons.js` | 20 further guided lessons, each with an explicit activity sequence |
+| `activities.js` | Plain-data choice, ordering, grouping, recall and lesson helpers |
+| `assessments.js` | Reserved unit/stage passages and the 12-question placement check |
+| `construction-bank.js` | 43 constructions with 86 authored repair activities |
+| `catalog.js` | Unit order, lexical re-exposure, review sessions and full target registry |
+| `index.js` | Lazy, lossless source resolution and authoring drafts |
+| `../../js/literature/engine.js` | Answers, deterministic option order, first attempts, resume and merges |
+| `../../js/literature/model.js` | Derived learner evidence, retention, due dates and recommendations |
+| `../../js/literature/dashboard.js` | Course, knowledge, history and independence views |
 
-Add an object to `LESSONS` with a stable lowercase `id`, integer `revision`,
-linguistic `stage`, English `title`, Arabic `titleAr`, estimated `minutes`, and:
+Content remains plain data, with no HTML, event handlers or generated source
+quotations. The archive reader has its own history. Opening it records exposure,
+never a successful answer. Chapter completion never becomes course mastery.
+
+## Author a lesson
+
+Choose a unit and an archetype because they fit the language objective. Use
+`authoredLesson` with a stable `id`, integer `revision`, `stage`, `unit`,
+`archetype`, bilingual titles, objective, context, estimated minutes, and source:
 
 ```js
-{
-  source: {
-    bookId: 'qiraah-v1', chapterId: 'ch1',
-    sentenceIds: ['qr1-1-012']
-  },
-  context: 'The narrator is at school. Separate place from duration.',
-  objectives: [{ id: 'duration', text: 'Understand how long an action lasts.' }],
-  vocabulary: [{ id: 'stay', ar: 'مَكَثَ', meaning: 'بَقِيَ فِي الْمَكَانِ' }],
-  constructions: [{ id: 'duration', ar: 'أَمْكُثُ … سَاعَاتٍ', meaning: 'A duration follows the action.' }],
-  chunks: ['وَأَمْكُثُ', 'فِي الْمَدْرَسَةِ', 'سِتَّ سَاعَاتٍ،'],
-  support: {
-    vocabulary: 'أَمْكُثُ: أَبْقَى.',
-    structure: 'The place answers where; the final phrase answers how long.',
-    paraphrase: 'أَبْقَى فِي الْمَدْرَسَةِ مُدَّةَ سِتِّ سَاعَاتٍ.',
-    explanation: 'Six hours is a duration, not six o’clock.'
-  },
-  exercises: [/* see the complete worked examples in lessons.js */]
+source: {
+  bookId: 'qiraah-v1', chapterId: 'ch1',
+  sentenceIds: ['qr1-1-012']
 }
 ```
 
-`loadLiteratureLesson` resolves the exact original text, translations, work,
-author, page references, tokens and vocabulary notes from those source IDs.
-Never copy a translation into an early teaching prompt. The original source
-translation is the **fifth** decoding support level, after chunks, vocabulary,
-structure and simpler Arabic. The adapter never changes the original text.
+The loader resolves the original Arabic, translation, author, work, page
+references, tokens, lemma notes and legacy chapter. Never silently rewrite a
+source quotation. New examples are labelled `authored-practice`; they are not
+attributed to the source author. Full chapters remain accessible.
 
-## Exercise contract
+Write the exercise array in the learner's actual order. The `flow` list names
+those exercise IDs and can include `clean` at the appropriate point. Orientation
+is inserted once. A narrative, word-family lesson, rapid recognition session,
+Arabic-led lesson and extensive reading should have different work and pacing.
+Do not recreate a compulsory sequence of identical phases. `LEGACY_PLANS`
+adapts older lessons; new lessons should use the explicit flow contract.
 
-Each exercise has `id`, `phase`, `type`, `prompt`, `options`, `answer`, `targets`,
-and teaching feedback. `arabic` is its short source or new example. Decode and
-understand automatically display the authentic excerpt.
+Each exercise has a stable ID, `type`, `phase`, `prompt`, `targets` and feedback.
+Targets must exist in `LEARNING_ITEMS`. Tag only language that the response
+actually tests. Every activity also has transferable `skills` from `SKILLS`.
 
-- `phase`: prepare, notice, manipulate, decode, understand, transfer.
-  Orientation and clean read are inserted by the engine.
-- `type`: contextual_vocabulary, choose_meaning, pronoun_reference,
-  clause_relationship, arabic_paraphrase, grammatical_function,
-  contextual_fill_blank, interpretation_choice, comprehension,
-  transfer_example: one choice, with a numeric answer index.
-- `chunk_sentence`: select a meaningful group from words in original order.
-  Answer is an array of word indexes; selection order does not matter.
-- `reorder_chunks`, `sentence_reconstruction`, `poetry_reorder`: build a
-  sequence of chunk indexes. `acceptedAnswers` can list other correct orders.
-  Distractor chunks are allowed. Do not grade a valid natural order as wrong:
-  either accept it or explicitly request a particular arrangement.
-- Choice exercises need a `feedback` explanation for **every option**, aligned
-  with the options. Manipulation exercises need `explanation`.
-- Every non-decode exercise needs a concise `hint`. Decode uses the six-level
-  lesson support. Help is available before the first attempt and after mistakes.
-- `targets` names only vocabulary/constructions the answer actually provides
-  evidence about. Reuse stable keys across lessons to link encounters. Merely
-  appearing in a sentence does not prove recognition.
-- `difficulty` defaults to the lesson stage, `learningObjectives` to its objective
-  IDs, `instructions` to its prompt, and `retry` to correction before continuing.
-  These defaults are resolved by the loader; authors may specify tighter values.
-- Optional `concept`: `{moduleId, lessonId, label, note}`. Verify the real course
-  IDs. Show a short in-place reminder; the full course link opens separately.
-  Opening the reminder counts as support and is retained on reload.
+- Choices use option indexes and feedback for every option. The renderer
+  shuffles them deterministically per saved run, retaining original answer IDs.
+- `chunk_sentence` and `clause_boundary` select indexes in source order.
+- `sentence_reconstruction`, `reorder_chunks` and `poetry_reorder` use an ordered
+  array. Give an explicit required arrangement or list other valid orders in
+  `acceptedAnswers`. Ordering is manipulation, not free productive recall.
+- `match_pairs` has stems, definitions, answer indexes, `targetSlots`, per-pair
+  `contextIds` and optional focus words. Partial results count only for correctly
+  matched targets. The interface presents one stem at a time.
+- `typed_recall` asks for a constrained form or short answer. It uses an Arabic
+  text field; diacritics and ordinary punctuation are ignored. List acceptable
+  alternatives explicitly. It does not semantically grade unrestricted prose.
+- `rapid_recognition` records response time for optional fluency evidence. There
+  is no deadline, penalty for slowness or claim that speed alone is mastery.
+- Assessment activities set `assessment: true`. Their first submission is
+  recorded and followed by feedback, including when wrong. Ordinary learning
+  activities require repair before continuing.
 
-Require all phases, actual manipulation, and at least two fresh transfer
-contexts. Include one exercise using a new sentence and one requiring productive
-manipulation where possible. The introductory lesson `early-morning` demonstrates
-group selection as well as ordering; `poetry-back-to-prose` demonstrates delayed
-subjects and conversion from poetic to prose order.
+Use `contextId` consistently across formats that test the same authored sentence.
+A repeat is not a novel example just because it is rendered differently.
+Mark genuinely different review contexts with `transfer: true`; the evidence
+model decides whether each learner has seen them already. Reserve checkpoint
+source IDs so guided lessons, other assessments and diagnostics do not reuse them.
 
-For poetry set `genre: 'poetry'`. Attribute the containing source accurately;
-do not assume the compiler wrote an embedded poem. Explain any restoration of
-connecting vowels in prose. Preserve the original at decode and clean read.
-Audio is optional future source metadata; this implementation offers reading
-and reconstruction, not synthetic recitation presented as an authoritative one.
+## Lexical curriculum and support
 
-## Extract an old chapter for enrichment
+The four-tier policy is: (1) widely reusable everyday/narrative language;
+(2) reusable formal/literary language; (3) genre-specific language;
+(4) source-specific rarities, names and one-off items. Tiers are editorial utility
+judgements, not corpus-frequency statistics. Tier 4 normally stays a local gloss
+and is excluded from general review. The initial curated registry uses tiers 1–3.
 
-```
-node scripts/literature-draft.mjs qiraah-v1 ch1
-node scripts/literature-draft.mjs qiraah-v1 ch1 qr1-1-012
-```
+Each published unit introduces 12 lexical targets over four guided lessons.
+Additional references to earlier words are re-exposures, not new vocabulary.
+The immersion lessons work with a 12-word cluster; ordinary lessons add three
+planned new targets. Each target has three individually authored contexts and a
+reason for selection. Keep lemma, encountered surface form, root, expression and
+word-family information distinct. A shared root does not guarantee meaning.
 
-The command writes JSON to stdout. It includes the original source and notes,
-an explicit `needs-authoring` status and missing teaching metadata. Redirect to
-an author-owned draft file if needed. Drafts are never exposed as live lessons.
-`adaptLiteratureSource` and `enrichmentDraft` are also available to future author
-tools. Existing texts, translations, paragraphs, checks and workshops remain in
-the `legacy` source field for lossless migration.
+Unit reviews revisit all 12 targets in a different context. Later guided lessons
+revisit earlier targets; daily review chooses older contexts from saved history.
+All 144 targets can reach Strong through the actual authored initial and delayed
+review contexts, verified by the integration suite. The 144 total is content
+coverage, never a count of words the learner has acquired.
 
-## Progress and adaptive support
+Source help opens progressively: chunks → vocabulary → structure → simpler
+Arabic → source translation → fuller explanation. Diagnostic excerpts carry
+individual structure, meaning and translation help. Help is optional and its
+use is saved before each answer; source help also affects later questions about
+that source. Shared UI labels remain English in the three Arabic-led lesson
+flows; the core prompts, examples and responses are Arabic. No recorded source
+audio is supplied, so these are reading activities.
 
-The additive `literature.version = 1` save contains runs keyed by generated ID.
-Each run stores revision, times, phase position, drafts, help, acknowledgments
-and immutable answer attempts. Grades are recomputed from content, not trusted
-from saved `correct` flags. Completion requires success at every exercise and a
-clean-read acknowledgment. Advancing never erases earlier attempts.
+## Evidence, mastery and review
 
-First-try correctness with zero help is independent evidence **for that trained
-exercise**. It is not a claim of fluent reading. Clean-read confidence is
-self-report and never substitutes for tested comprehension or transfer.
+The engine saves immutable attempts with answer, timestamp, hints, a snapshot
+of opened support and response time. It also persists drafts, position, chosen
+adaptive exercise IDs, stage override and first archive views. State normalizes
+untrusted saved data and merges by stable run/attempt ID. A reload does not
+reshuffle the choices, resample a review or erase a wrong first answer.
 
-Per-target state distinguishes struggled, recognised, repeatedly encountered
-(distinct tested contexts), and likely mastered (at least three independent
-contexts, including two transfer contexts, and no more recent unresolved
-struggle). Replaying one item cannot manufacture distinct contexts. The home
-summary's “strengthened” threshold is two independent contexts, labelled in UI.
+`learnerEvidence` regrades against the current content revision. It does not trust
+saved correctness flags, completion, XP or clean-reading self-reports. Evidence
+includes context, skill, vocabulary/construction target, help dependence,
+first-answer errors, recovery, independent transfer and typed recall. A previously
+opened archive chapter is conservatively excluded from later unseen results.
+Old reader records with actual paragraph progress are treated as prior exposure.
 
-Merge unions attempt IDs, retains the latest draft, and takes the greatest help
-count. It preserves separate concurrent runs. Existing reader history never
-becomes acquisition mastery. Resetting a grammar module does not erase literature.
-Old content revisions remain saved but cannot satisfy a revised lesson.
+States are New, Learning, Developing, Strong, Mastered and Needs review.
+Strong requires at least three independent contexts on three days, an unseen
+transfer success, a recovery after seven or more days, and sufficient weighted
+evidence. Mastered additionally requires six contexts, five days, at least a
+21-day span, two delayed recoveries and two transfers. Overdue items and unresolved
+errors return to Needs review. Repeating the same context today cannot manufacture
+these thresholds. Productive recall is displayed separately from recognition.
+Some targets currently have only three authored contexts and can become Strong;
+they need further authored contexts before they can meet Mastered's higher bar.
 
-The next-lesson suggestion favours an unfinished lesson containing a struggled
-target within the current/next stage. This is modest support, not a full adaptive
-curriculum. Repeated-encounter authoring, stable targets and concept references
-allow later scheduling, support reduction and additional examples without new
-screens. Long-term retention still needs future-lesson evidence.
+Independent success schedules review at one day, then three days, then expands
+by 2.2 up to 60 days. A first-answer error shortens the interval; an unrepaired
+error is due after ten minutes, a repaired error after one day. Multiple same-day
+activities do not repeatedly advance the interval. A daily session saves up to
+eight selected IDs, prioritising due/weak items and the least-recent context.
+Constructions and skills select relevant repair activities as well as vocabulary.
 
-## Validate
+Recommendations resume current work, prioritise due review, then follow the
+published course order from placement or a user-selected stage. Placement is a
+brief starting-point check, not a proficiency certificate. Diagnostic-only mistakes do not create a backlog of unstudied review items.
+All units remain available. Its two examples per stage cannot skip a missing earlier foundation.
 
-Run `npm run verify:literature`, `npm run validate`, and `npm run build:web`.
-The standalone verification checks phase completeness, feedback coverage,
-grading, retries, transfer gating, source preservation, resumption and sync.
-Inspect desktop/mobile layout with `scripts/verify-literature-layout.html`.
-Review the Arabic and the pedagogical target of every question manually.
+The dashboard separates completed work from strong language. It exposes word
+families, receptive/productive evidence, construction/skill states, due items,
+weekly changes and session history. Reading independence compares actual first
+answers, help and translation use across recent and earlier sessions, shows the
+stage mix, and makes no CEFR or native-proficiency claim.
+
+## Migration and checks
+
+Earlier 28 lesson IDs are retained with revision 2 where flows changed. Previous
+attempts stay saved and are visible as earlier-revision records; they do not
+silently satisfy new activities. New lessons/reviews start at revision 1. Local
+storage, cloud envelopes and the source reader continue using their existing
+persistence paths. No new account or server service is required.
+
+Run `npm run audit:literature`, `npm run verify:literature`, `npm run validate`,
+`npm run verify:bidi`, and `npm run build:web` after curriculum changes. The audit
+checks source reservation, lesson variety, skill/target integrity, lexical load,
+repetition, review coverage, unit checkpoints and stage growth. Exposure counts
+refer to distinct planned sessions containing target-bearing activities; adaptive
+pool capacity does not inflate them.
+
+For browser verification, start the dev server and open
+`/scripts/verify-literature-layout.html`. The responsive wrapper
+`/scripts/verify-literature-responsive.html` supplies exact 390px and 320px frame
+viewports and an optional 1.25 text scale. It exercises the same mobile pagination
+and feedback presentation used by the app, without writing learner progress.

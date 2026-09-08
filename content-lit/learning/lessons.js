@@ -1,5 +1,8 @@
 // Authored language lessons. Arabic transfer examples are new teaching examples,
 // never attributed to the source author. See README.md for the data contract.
+import { PROSE_LESSONS } from './prose-lessons.js';
+import { NARRATIVE_LESSONS } from './narrative-lessons.js';
+import { CONNECTED_LESSONS } from './connected-lessons.js';
 export const LESSONS = [
   {
     id: 'early-morning', revision: 1, stage: 1, title: 'Reading a daily routine', titleAr: 'مُبَكِّرًا', minutes: 5,
@@ -191,4 +194,7 @@ export const LESSONS = [
       { id: 'transfer-meaning', phase: 'transfer', type: 'transfer_example', arabic: 'وَصَلَ خَالِدٌ وَقَدْ وَلَّى صَدِيقُهُ مُسْرِعًا.', prompt: 'مَنْ كَانَ مُسْرِعًا؟', options: ['صَدِيقُ خَالِدٍ', 'خَالِدٌ', 'شَخْصٌ ثَالِثٌ'], answer: 0, feedback: ['The state belongs to the friend who departed in the وَقَدْ clause.', 'Khālid arrives; the rushing describes the friend’s departure.', 'The description does not introduce a new person.'], hint: 'Keep the state attached to its own clause.', targets: ['hal-processing', 'wa-qad', 'turn-away'] },
     ],
   },
-];
+  ...PROSE_LESSONS,
+  ...NARRATIVE_LESSONS,
+  ...CONNECTED_LESSONS,
+].sort((a, b) => a.stage - b.stage);

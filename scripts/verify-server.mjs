@@ -28,7 +28,7 @@ try {
   token = (await auth.json()).token;
   const envelope = (version, xp) => ({ progress: { mizanVersion: 1, xp }, meta: { version, deviceId: 'local-test', updatedAt: `2026-09-07T12:00:0${version}.000Z` } });
   const first = envelope(1, 10);
-  first.progress.literature = { version: 1, runs: { 'lit-test': { id: 'lit-test', lessonId: 'early-morning', attempts: [{ id: 'first-attempt', exerciseId: 'word', answer: 1, hints: 1 }] } } };
+  first.progress.literature = { version: 2, sourceViews: { 'qiraah-v1/ch1': 123 }, preferences: { stage: 3, updatedAt: 124 }, runs: { 'lit-test': { id: 'lit-test', lessonId: 'daily-literature-review', revision: 1, selection: ['lex-wake-1'], attempts: [{ id: 'first-attempt', exerciseId: 'lex-wake-1', answer: 'استيقظ', hints: 1, support: { 'lex-wake-1': 1 }, responseMs: 2400 }] } } };
   first.progress.mizanCourses = Object.fromEntries(['intro-nahw', 'intro-sarf', 'adv-nahw', 'adv-sarf'].map(id => [id, {
     concepts: {}, attempts: [{ id: `${id}:attempt`, key: 'distinct-example', conceptIds: ['test/c0'], family: 'application', difficulty: 4, hintsUsed: 0, guided: false, grade: { correct: true, mistakes: [] }, occurredAt: '2026-09-08T12:00:00.000Z', sessionId: 'test-session', mode: 'review' }],
   }]));

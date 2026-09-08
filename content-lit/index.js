@@ -1,13 +1,10 @@
 // The Literature shelf: books, and every pure helper the reader needs.
 //
-// Literature is deliberately NOT a course. A course is modules -> lessons ->
-// concepts/quiz/bank, all of it authored per lesson (see content/index.js);
-// a book is chapters of tokenized prose, and almost everything the learner
-// answers is DERIVED from those tokens at read time -- which sentences get
-// built, which distractor a sentence gets, which words come back at the end.
-// So none of content/index.js's helpers apply here and this file is the
-// literature equivalent: data plus pure functions over it, with mutation
-// staying in js/main.js and rendering in js/render.js, exactly as elsewhere.
+// This archive retains complete books and the original token-based reader.
+// The authored acquisition course lives in content-lit/learning and selects
+// exact source IDs through a lossless adapter. Archive drills and course
+// evidence remain separate: reading a chapter is exposure, never mastery.
+// Mutation stays in js/main.js and rendering in the reader and course modules.
 //
 // Progress is keyed `${bookId}/${chapterId}` in one flat dict (state.
 // litProgress), the same "ids never collide, so no namespacing is needed"

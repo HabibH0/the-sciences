@@ -71,8 +71,9 @@ import { fitMobilePages } from './learning/mobile-pages.js';
 import { prepareExerciseFeedback, mountFeedbackSheet, dismissFeedbackSheet } from './learning/feedback-sheet.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
-import { literatureLesson, loadLiteratureLesson, loadedLiteratureLesson } from '../content-lit/learning/index.js';
-import { latestRun, createLiteratureRun, updateLiteratureRun, currentLiteratureStep, normalizeLiterature, reconcileLiteratureRun } from './literature/engine.js';
+import { literatureLesson, loadLiteratureLesson, loadedLiteratureLesson, ALL_SESSIONS, LEARNING_ITEMS } from '../content-lit/learning/index.js';
+import { courseProgress, selectReviewExercises } from './literature/model.js';
+import { latestRun, createLiteratureRun, updateLiteratureRun, currentLiteratureStep, normalizeLiterature, reconcileLiteratureRun, runComplete, recordLiteratureSourceView } from './literature/engine.js';
 import { getAt } from './mizan/exercises/validator.js';
 import { paintRegion, selectedWords, restoreTokens, moveEntry } from './mizan/exercises/interaction-model.js';
 import { emptyCourse } from './mizan/progress/model.js';
@@ -2090,11 +2091,18 @@ async function ensureLiteratureReady(restart = false) {
     const lesson = await loadLiteratureLesson(id);
     if (state.view !== 'litLesson' || state.literatureLessonId !== id) return;
     state.literature = normalizeLiterature(state.literature);
+    for (const [key, record] of Object.entries(state.litProgress || {})) {
+      if (record?.done === true || record?.para > 0 || record?.freePara > 0) {
+        const [bookId, chapterId] = key.split('/');
+        state.literature = recordLiteratureSourceView(state.literature, bookId, chapterId, 1);
+      }
+    }
     for (const run of Object.values(state.literature.runs)) {
       if (run.lessonId === lesson.id && run.revision === lesson.revision) state.literature.runs[run.id] = reconcileLiteratureRun(lesson, run);
     }
-    if (restart || !latestRun(state.literature, lesson)) {
-      const run = createLiteratureRun(lesson, crypto.randomUUID(), Date.now());
+    if (restart || !latestRun(state.literature, lesson) || (lesson.adaptive && runComplete(lesson,latestRun(state.literature,lesson)))) {
+      const selection=lesson.adaptive?selectReviewExercises(lesson,courseProgress(ALL_SESSIONS,LEARNING_ITEMS,state.literature)):[];
+      const run = createLiteratureRun(lesson, crypto.randomUUID(), Date.now(), selection);
       state.literature.runs[run.id] = run;
     }
   } catch (error) {
@@ -2160,6 +2168,7 @@ function toggleLitUnknown(lemma) {
 // free reading never gates on checks, never falls into the Patterns/Build
 // drills, and never marks the chapter done -- only Practice mode does that.
 function startLitSession(chapter, para, freeRead) {
+  state.literature = recordLiteratureSourceView(state.literature, state.litBookId, state.litChapterId, Date.now());
   // `${paragraphIndex}:${checkIndex}` -> shuffled display order (a
   // permutation of original option indices). Built once here rather than
   // per render -- like shuffleQuizOrder/shuffleLessonOptions, options need
@@ -4661,10 +4670,18 @@ const actions = {
   literatureAcknowledge(el) { return changeLiterature('acknowledge', el.dataset.value); },
   literatureNext() { return changeLiterature('next'); },
   literatureBack() { return changeLiterature('back'); },
+  literatureChooseStage(el) {
+    const stage=Number(el.dataset.stage);
+    if(!Number.isInteger(stage)||stage<1||stage>6)return false;
+    state.literature=normalizeLiterature(state.literature);
+    state.literature.preferences={stage,updatedAt:Date.now()};
+  },
   literatureReturnDecode() {
     const lesson = loadedLiteratureLesson(state.literatureLessonId), run = lesson && latestRun(state.literature, lesson);
     if (!run) return false;
-    run.position = currentLiteratureStep(lesson, run).steps.findIndex(step => step.phase === 'decode');
+    const index=currentLiteratureStep(lesson, run).steps.findIndex(step => step.phase === 'decode');
+    if(index<0)return false;
+    run.position = index;
     run.updatedAt = Date.now();
   },
   async readLiteratureSource() {
@@ -5656,6 +5673,16 @@ const TEXT_SCALE_SLIDER_KINDS = {
   setLitTextScale: { key: 'lit', stateProp: 'litTextScale', previewBase: 19 },
   setUiTextScale: { key: 'ui', stateProp: 'uiTextScale', previewBase: 15 },
 };
+document.addEventListener('input', (e) => {
+  const el=e.target.closest('#literature-recall');
+  if(!el || el.disabled)return;
+  changeLiterature('text',el.value);
+  const check=root.querySelector('[data-action="literatureCheck"]');
+  if(check)check.disabled=!el.value.trim();
+  // Save without rerendering: preserve the Arabic input method and caret.
+  persistSoon(state);
+});
+
 document.addEventListener('input', (e) => {
   const el = e.target.closest(
     'input[type="range"][data-action="setLessonTextScale"], '

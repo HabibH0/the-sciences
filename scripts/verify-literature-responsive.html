@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Literature responsive verification</title>
+<style>body{margin:0;background:#e6e5df;font:14px system-ui}header{padding:12px}iframe{display:block;border:1px solid #bbb;margin:0 auto;background:white}a{color:#245d48}</style>
+<header>Responsive Literature test · <a href="?width=390&height=844">390 × 844</a> · <a href="?width=320&height=720">320 × 720</a> · <a href="?width=390&height=844&mode=app">Open course at phone width</a></header>
+<iframe title="Literature phone viewport"></iframe>
+<script>
+const params=new URLSearchParams(location.search),frame=document.querySelector('iframe');
+frame.width=Math.max(320,Math.min(1600,Number(params.get('width'))||390));
+frame.height=Math.max(480,Math.min(1200,Number(params.get('height'))||844));
+frame.src=params.get('mode')==='app'?'../#/library':`verify-literature-layout.html?auto=1&scale=${params.get('scale')==='1.25'?'1.25':'1'}`;
+</script>
+</html>
