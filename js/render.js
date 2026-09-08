@@ -899,7 +899,7 @@ function highlightMatch(text, query) {
     i = idx + needle.length;
     idx = lower.indexOf(needle, i);
   }
-  return out + esc(s.slice(i));
+  return isolateArabicHtml(out + esc(s.slice(i)));
 }
 
 function lessonSearchResultsHtml(MODULES, state, query) {

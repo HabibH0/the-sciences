@@ -11,102 +11,116 @@ export function escAttr(str) {
 }
 
 // --- Bidi isolation -------------------------------------------------------
-// Almost every string in this app is English prose with Arabic terms and
-// Quranic phrases dropped into it. Left alone, the Unicode bidi algorithm
-// pulls the neutral characters between two Arabic runs -- brackets, commas,
-// the full stop at the end of a sentence -- into the RTL run, so "(1) x,
-// (2) y." comes out with the numbers reversed and the period on the wrong
-// end. Wrapping each Arabic run in an isolate pins the punctuation to the
-// surrounding English instead.
+// English prose owns its punctuation. In "with النحو: إعراب and بناء", the
+// colon separates two terms; putting both inside one RTL isolate swaps them
+// visually. Spaces within an Arabic phrase still belong to that phrase.
+// Tight compounds (مذ/منذ, مُضَافٌ–مُضَافٌ إِلَيْهِ) remain single units.
 //
-// Runs deliberately span the spaces *between* Arabic words (isolating each
-// word on its own would reverse a multi-word phrase) and include Arabic
-// punctuation such as ، and ؛, which should travel with the Arabic, as well
-// as a ":" sandwiched between two Arabic chars, e.g. "(أي: تَثْبُتُ)" --
-// without that, "أي" and "تَثْبُتُ" become two separate isolates with the
-// bare ":" stranded between them, and since both neighbours of that neutral
-// are then RTL isolates, the bidi algorithm resolves the ":" itself as RTL
-// too, reversing the two halves' order.
-//
-// A "(...)" that wraps only Arabic (plus the connectors above) is matched
-// as one whole isolate *including* both parens, rather than treating "("
-// and ")" as connectors themselves. Parens can legitimately separate two
-// unrelated Arabic runs (e.g. "فِعْلٌ وَفَاعِلٌ (هِيَ)", where "(هِيَ)" is
-// its own aside, not glued to the phrase before it), so a bare "(" has to
-// seed a fresh, self-contained run rather than bridge into the previous
-// one. A self-contained "(Arabic)" isolate mirrors and reverses as a unit,
-// which cancels out and displays with the parens the right way round --
-// unlike a lone "(" or ")" stranded between two separate isolates, which
-// has nothing to anchor its direction and gets pulled into whichever RTL
-// neighbour is adjacent (the reversed-bracket bug this is guarding
-// against).
-//
-// Same failure mode hits the hyphen/en-dash used throughout the content to
-// join a pair of terms into one compound label -- مُضَافٌ–مُضَافٌ إِلَيْهِ,
-// جَارٌّ–مَجْرُوْرٌ, مَنْعُوْتٌ–نَعْتٌ. Left out of CONNECTOR, "-"/"–" splits
-// the pair into two separate isolates with a bare dash between them; with
-// both neighbours RTL, the dash resolves RTL too and the whole thing forms
-// one bidi run that gets reversed as a unit, swapping which term reads
-// first ("مُضَافٌ إِلَيْهِ–مُضَافٌ" instead of "مُضَافٌ–مُضَافٌ إِلَيْهِ").
-// The em dash ("—", U+2014) is deliberately NOT included: that one is used
-// to separate an Arabic example from its English translation, where the
-// two sides should NOT be pulled into one isolate.
-//
-// "/" is the same story again: an "either/or" pair of Arabic alternatives
-// (مذ/منذ, أخص/أعني, لولا/لوما) is extremely common across the content, and
-// a bare "/" between two RTL isolates reverses the pair exactly like the
-// dash did. "+" shows up the same way for a "combine these" notation
-// (كسرة+ياء ← فتحة+ألف).
-//
-// Quranic quotations elided mid-ayah with "..." or "…" (e.g. ﴿وَلَوْ أَنَّمَا
-// فِي الْأَرْضِ...مَا نَفِدَتْ كَلِمَاتُ اللَّهِ﴾) hit the exact same bug: without
-// "." and "…" in CONNECTOR, the two Arabic halves become separate isolates
-// with the ellipsis stranded between them, and since ﴿/﴾ (Arabic ornate
-// parens, in the AR ranges) end up split one per isolate, the bracket pair
-// itself gets torn apart on top of the reordering risk.
+// A wholly Arabic field, a quoted Arabic passage, or an explicit RTL element
+// owns its internal punctuation instead. Authors can use <bdi dir="rtl"> for
+// an Arabic passage embedded in English, including passages with inline markup.
+// Do not try to infer that scope from punctuation alone.
+const AR_CHAR = '(?=\\p{Script_Extensions=Arabic})[\\p{L}\\p{M}\\p{N}]';
+const AR_WORD = `${AR_CHAR}(?:${AR_CHAR}|[\\u200c\\u200d\\u200f])*`;
+const AR_PHRASE = `${AR_WORD}(?:(?:\\s+|[-\\u2013/+])${AR_WORD})*`;
+const AR_RUN = new RegExp(AR_PHRASE, 'gu');
+const QUOTED = /\([^()]*\)|\[[^\[\]]*\]|«[^«»]*»|“[^“”]*”|‘[^‘’]*’|"[^"]*"|﴿[^﴿﴾]*﴾/gu;
+const HTML_PARTS = /(<!--[\s\S]*?-->|<\/?[a-zA-Z](?:"[^"]*"|'[^']*'|[^'">])*>)/g;
+const VOID_TAG = /^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/;
 
-const AR = '\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF';
-const CONNECTOR = ' \\t\\u200f:\\-\\u2013/+.\\u2026';
-const AR_WORD = `[${AR}](?:[${AR}${CONNECTOR}]*[${AR}])?`;
-const AR_RUN = new RegExp(`\\(${AR_WORD}\\)|${AR_WORD}`, 'g');
+function isArabicScope(tag, name) {
+  if (name === 'bdi') return true;
+  // Consume whole attributes so a title containing `dir="rtl"` is not mistaken
+  // for the element's actual direction, and data-dir does not count as dir.
+  for (const match of tag.matchAll(/\s+([^\s=/>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g)) {
+    const key = match[1].toLowerCase();
+    const value = match[2] ?? match[3] ?? match[4] ?? '';
+    if (key === 'dir' && value.toLowerCase() === 'rtl') return true;
+    if (key === 'class' && value.split(/\s+/).includes('ar')) return true;
+  }
+  return false;
+}
 
-// RLI/PDI (U+2067/U+2069): real Unicode bidi-isolate control characters,
-// not just the CSS approximation (unicode-bidi: isolate on .ar/bdi below).
-// Confirmed by direct testing: when the same word appears twice in one
-// string -- once as the trailing word of a multi-word Arabic run, once
-// again later as its own run (e.g. "In كَانَ رَسُوْلُ اللّٰهِ يَخْطُبُ
-// قَائِمًا, what is قَائِمًا?") -- Chromium's bidi reordering for
-// CSS-isolated spans corrupts word order WITHIN the first run, silently
-// swapping قَائِمًا to the front ("In قَائِمًا كَانَ..."). The literal
-// Unicode isolate characters don't have this bug, even wrapped in the same
-// span/dir="auto" markup, so they're added here as the real isolation
-// mechanism; the CSS property stays as a harmless second layer.
+// Keep the literal Unicode isolates as well as CSS isolation. They preserve
+// multi-word runs, including repeated terms, when a line wraps in Chromium.
 const RLI = '\u2067';
 const PDI = '\u2069';
 
-export function isolateArabic(text) {
-  return String(text ?? '').replace(AR_RUN, (run) => `<span class="ar" dir="auto">${RLI}${run}${PDI}</span>`);
+function arabicOnly(text) {
+  // Entity names are markup, not English words. Escaping still happens at the
+  // boundary; this is only a language check, never an HTML/entity decoder.
+  const letters = String(text).replace(/&(?:#x[\da-f]+|#\d+|[a-z]+);/gi, '').match(/\p{L}/gu) || [];
+  return letters.length > 0 && letters.every(letter => /\p{Script_Extensions=Arabic}/u.test(letter));
 }
 
-// esc() plus isolation -- for plain strings that mix English and Arabic.
+function arabicSpan(text) {
+  return `<span class="ar" lang="ar" dir="rtl">${RLI}${text}${PDI}</span>`;
+}
+
+function isolateRuns(text) {
+  return text.replace(AR_RUN, arabicSpan);
+}
+
+// Input is escaped text, not markup. A caller rendering one text node from a
+// larger English paragraph must pass 'ltr', even if that node is Arabic-only.
+export function isolateArabic(text, direction = arabicOnly(text) ? 'rtl' : 'ltr') {
+  const value = String(text ?? '');
+  if (direction === 'rtl' && arabicOnly(value)) {
+    return value.replace(/^(\s*)([\s\S]*?)(\s*)$/, (_match, before, body, after) => `${before}${arabicSpan(body)}${after}`);
+  }
+  let end = 0;
+  let html = '';
+  for (const match of value.matchAll(QUOTED)) {
+    html += isolateRuns(value.slice(end, match.index));
+    html += arabicOnly(match[0]) ? arabicSpan(match[0]) : isolateRuns(match[0]);
+    end = match.index + match[0].length;
+  }
+  return html + isolateRuns(value.slice(end));
+}
+
 export function escBidi(str) {
   return isolateArabic(esc(str));
 }
 
-// Same, for a string that already contains markup. Text inside <bdi> is left
-// alone: that element is an isolate already, and re-wrapping would strip the
-// styling that marks a grammatical term.
+// Trusted inline HTML only (this is not a sanitizer). Resolve language from the
+// whole fragment, not each text node: <strong>النحو</strong>: إعراب still belongs
+// to the surrounding English sentence. Respect authored and generated isolates,
+// including their descendants, and never inspect attributes as prose.
 export function isolateArabicHtml(html) {
-  let depth = 0;
-  return String(html ?? '')
-    .split(/(<[^>]+>)/)
-    .map((part) => {
-      if (part.startsWith('<')) {
-        if (/^<bdi[\s>]/i.test(part)) depth += 1;
-        else if (/^<\/bdi\s*>/i.test(part)) depth = Math.max(0, depth - 1);
-        return part;
+  const value = String(html ?? '');
+  const parts = value.split(HTML_PARTS);
+  const isTag = part => part.startsWith('<');
+  const rtl = arabicOnly(parts.filter(part => !isTag(part)).join(''));
+  if (!parts.some(isTag)) return isolateArabic(value);
+
+  const stack = [];
+  let scopedRoot = false;
+  let rootClosed = false;
+  const result = parts.map(part => {
+    if (!part) return part;
+    if (!isTag(part)) {
+      if (!stack.length && part.trim()) {
+        scopedRoot = false;
+        rootClosed = true;
       }
-      return depth > 0 ? part : isolateArabic(part);
-    })
-    .join('');
+      return stack.some(entry => entry.isolate) ? part : isolateArabic(part, 'ltr');
+    }
+    const tag = part.match(/^<\s*(\/?)\s*([a-z\d]+)/i);
+    if (!tag) return part;
+    const name = tag[2].toLowerCase();
+    if (tag[1]) {
+      const index = stack.findLastIndex(entry => entry.name === name);
+      if (index >= 0) stack.length = index;
+      if (!stack.length) rootClosed = true;
+    } else if (!VOID_TAG.test(name) && !/\/\s*>$/.test(part)) {
+      const isolate = isArabicScope(part, name);
+      if (!stack.length) scopedRoot = !rootClosed && isolate;
+      stack.push({ name, isolate });
+    }
+    return part;
+  }).join('');
+
+  // Preserve RTL order across formatting tags in an entirely Arabic fragment.
+  // No .ar class on this outer scope: the inner runs already have Arabic sizing.
+  return rtl && !scopedRoot ? `<span lang="ar" dir="rtl">${RLI}${result}${PDI}</span>` : result;
 }

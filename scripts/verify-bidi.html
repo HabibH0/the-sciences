@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="mizan" data-arabic-face="traditional">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arabic punctuation verification</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../mizan.css">
+  <style>
+    body { padding: 24px; }
+    #result { white-space: pre-wrap; }
+    .sample { max-width: 1080px; padding-block: 12px; border-bottom: 1px solid #bbb; }
+    .sample p { font-size: 21px; line-height: 2; margin: 0; }
+    .sample small { font: 13px system-ui; }
+    .narrow { width: 340px; }
+  </style>
+</head>
+<body>
+  <h1>Arabic punctuation verification</h1>
+  <button id="run" type="button">Check visual order</button>
+  <pre id="result" role="status">Loading examples</pre>
+  <div id="samples"></div>
+  <script type="module">
+    import { escBidi, isolateArabicHtml } from '../js/html.js';
+    import { bidiCases } from './bidi-cases.mjs';
+    const samples = document.querySelector('#samples');
+    const cases = bidiCases.flatMap(test => [false, true].map(narrow => ({ ...test, narrow })));
+    samples.innerHTML = cases.map((test, i) => `<section class="sample${test.narrow ? ' narrow' : ''}"><small>${test.name} (${test.narrow ? '340px' : 'desktop'})</small><p class="mz-prose" id="case-${i}">${test.html ? isolateArabicHtml(test.html) : escBidi(test.text)}</p></section>`).join('');
+
+    // Measure the displayed glyphs, not DOM/source order (which bidi preserves
+    // even when the screen is wrong). This also checks wrapping on narrow lines.
+    function bounds(element, value, after) {
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      let text = '';
+      while (walker.nextNode()) {
+        nodes.push({ node: walker.currentNode, start: text.length });
+        text += walker.currentNode.textContent;
+      }
+      const start = text.indexOf(value, after);
+      if (start < 0) throw new Error(`Missing text: ${value}`);
+      const end = start + value.length;
+      const first = nodes.find(({ node, start: offset }) => offset <= start && offset + node.length > start);
+      const last = nodes.find(({ node, start: offset }) => offset < end && offset + node.length >= end);
+      const range = document.createRange();
+      range.setStart(first.node, start - first.start);
+      range.setEnd(last.node, end - last.start);
+      const rects = [...range.getClientRects()].filter(rect => rect.width > 0);
+      return { first: rects[0], last: rects.at(-1), end };
+    }
+    document.querySelector('#run').onclick = async () => {
+      await document.fonts.ready;
+      const failures = [];
+      cases.forEach((test, i) => {
+        let offset = 0;
+        let previous;
+        try {
+          for (const value of test.order) {
+            const current = bounds(document.querySelector(`#case-${i}`), value, offset);
+            if (previous) {
+              const a = previous.last;
+              const b = current.first;
+              const nextLine = b.top > a.top + 15;
+              const sameLine = Math.abs(b.top - a.top) <= 15;
+              const forward = test.rtl ? b.right <= a.left + 1 : b.left >= a.right - 1;
+              if (!nextLine && !(sameLine && forward)) throw new Error(`Wrong visual order before ${value}`);
+            }
+            previous = current;
+            offset = current.end;
+          }
+        } catch (error) { failures.push(`${test.name} (${test.narrow ? '340px' : 'desktop'}): ${error.message}`); }
+      });
+      document.querySelector('#result').textContent = `${cases.length - failures.length}/${cases.length} passed\n${failures.join('\n')}`;
+    };
+    document.querySelector('#result').textContent = `${cases.length} visual checks ready`;
+  </script>
+</body>
+</html>
