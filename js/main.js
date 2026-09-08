@@ -62,7 +62,8 @@ import {
 } from './state.js';
 import { render, FACES, HEADING_FACES } from './render.js';
 import { currentStudy, studyStep, studyKey, createStudySession, mergeStudySessions, mergeLogicProgress } from './learning/study.js';
-import { nahwAnalysisItems, nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
+import { nahwAnalysisComplete, gradeNahwAnalysis } from './learning/nahw.js';
+import { guidedGrammar, nativeItem, nativeItemKey } from './learning/native.js';
 import { fitLessonPages } from './learning/lesson-pages.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
@@ -2306,10 +2307,10 @@ function ensureStudySession(moduleId = state.moduleId, lessonId = state.lessonId
   const now = new Date().toISOString();
   const session = createStudySession(state, mod, lesson, now, crypto.randomUUID());
   state.studySessions[key] = session;
-  if (lesson.learningModel === 'mizan-nahw') {
-    for (const item of nahwAnalysisItems(lesson)) {
-      const analysisKey = `${moduleId}_${lessonId}_analysis_${item.id}`;
-      state.optionOrder[analysisKey] ||= shuffledIndices(item.options.length);
+  if (guidedGrammar(lesson)) {
+    for (const step of session.steps.filter(s => ['analysis', 'practice'].includes(s.kind))) {
+      const item = nativeItem(lesson, step), itemKey = nativeItemKey(mod, lesson, step);
+      state.optionOrder[itemKey] ||= shuffledIndices(item.options.length);
     }
   }
   if (session.logic) {
@@ -2338,15 +2339,9 @@ function nativeStudyContext() {
   const session = currentStudy(state), step = studyStep(session);
   if (!session || session.logic || !['check', 'practice', 'analysis'].includes(step?.kind)) return null;
   const lesson = getLesson(state.moduleId, state.lessonId);
-  if (step.kind === 'analysis') {
-    const item = nahwAnalysisItems(lesson)[step.analysisIndex];
-    if (!item) return null;
-    const key = `${state.moduleId}_${state.lessonId}_analysis_${item.id}`;
-    const record = state.exStates[key] ||= {};
-    return { session, step, item, key, record };
-  }
-  const key = step.kind === 'check' ? conceptKey(state.moduleId, state.lessonId, step.conceptIndex) : lessonExerciseItemKey(state.moduleId, state.lessonId, step.exerciseIndex);
-  const item = step.kind === 'check' ? lesson.concepts[step.conceptIndex].exercise : lesson.exercise.items[step.exerciseIndex];
+  const item = nativeItem(lesson, step);
+  if (!item) return null;
+  const key = nativeItemKey({ id: state.moduleId }, lesson, step);
   const record = state.exStates[key] ||= {};
   return { session, step, item, key, record };
 }
@@ -2537,6 +2532,16 @@ const actions = {
   nahwVisual(el) {
     const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
     if (!session || !step || !Number.isInteger(selected) || selected < 0 || selected > 100) return false;
+    session.visualState ||= {};
+    session.visualState[step.id] = { selected };
+    session.updatedAt = new Date().toISOString();
+  },
+  sarfVisual(el) {
+    const session = currentStudy(state), step = studyStep(session), selected = Number(el.dataset.value);
+    const lesson = getLesson(state.moduleId, state.lessonId);
+    const table = lesson?.concepts[step?.conceptIndex]?.lines[step?.tableIndex]?.table;
+    if (!session || lesson?.learningModel !== 'mizan-sarf' || !table
+      || !Number.isInteger(selected) || selected < 0 || selected >= table.rows.length) return false;
     session.visualState ||= {};
     session.visualState[step.id] = { selected };
     session.updatedAt = new Date().toISOString();
@@ -4247,7 +4252,7 @@ const actions = {
   // (see quizHtml) rather than waiting on a separate submit step.
   selectQuizOption(el) {
     const lesson = getLesson(state.moduleId, state.lessonId);
-    if (lesson?.learningModel === 'mizan-nahw') {
+    if (guidedGrammar(lesson)) {
       const selected = Number(el.dataset.option);
       if (!Number.isInteger(selected) || selected < 0 || selected >= lesson.quiz[state.quizIndex].options.length) return false;
       if (state.quizCorrection?.active) state.quizCorrection.selected = selected;
@@ -4259,9 +4264,9 @@ const actions = {
     state.quizSelected = +el.dataset.option;
     state.quizRevealed = true;
   },
-  checkNahwQuiz() {
+  checkLessonQuiz() {
     const lesson = getLesson(state.moduleId, state.lessonId);
-    if (lesson?.learningModel !== 'mizan-nahw') return false;
+    if (!guidedGrammar(lesson)) return false;
     if (state.quizCorrection?.active) {
       if (state.quizCorrection.selected == null) return false;
       state.quizCorrection.correct = state.quizCorrection.selected === lesson.quiz[state.quizIndex].correct;
@@ -4271,8 +4276,8 @@ const actions = {
       state.quizRevealed = true;
     }
   },
-  correctNahwQuiz() {
-    if (!state.quizRevealed || getLesson(state.moduleId, state.lessonId)?.learningModel !== 'mizan-nahw') return false;
+  correctLessonQuiz() {
+    if (!state.quizRevealed || !guidedGrammar(getLesson(state.moduleId, state.lessonId))) return false;
     state.quizCorrection = { active: true, correct: false, selected: null };
   },
   // Commits the just-revealed answer and either advances to the next
@@ -4905,9 +4910,17 @@ function refocusSelector(el) {
   // focus to whatever opened it rather than falling through to <body>.
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
+  if (action === 'nextQuizQuestion' && guidedGrammar(getLesson(state.moduleId, state.lessonId))) return '.mz-exercise-prompt > h2, .mz-completed > h1';
   if (action === 'studyNext' || action === 'studyBack') return '.mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
-  if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkNahwQuiz') return '.mz-feedback';
-  if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctNahwQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
+  if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkLessonQuiz') return '.mz-feedback';
+  if (action === 'studyCorrect' || action === 'logicCorrect' || action === 'correctLessonQuiz') return '.mz-response button:not([disabled]), .mz-response input, .mz-response select';
+  if (action === 'sarfVisual') {
+    const step = studyStep(currentStudy(state));
+    const table = getLesson(state.moduleId, state.lessonId).concepts[step.conceptIndex].lines[step.tableIndex].table;
+    const selected = Number(el.dataset.value);
+    const label = !selected ? 'Next example' : selected === table.rows.length - 1 ? 'Previous example' : el.getAttribute('aria-label');
+    return `.mz-sarf-example-nav button[aria-label="${label}"]`;
+  }
   if (action === 'setStudyVisual' || action === 'studyChoice' || action === 'nahwVisual' || action === 'studyHint' || action === 'selectQuizOption' || action.startsWith('logic')) return triggerSelectorFor(el);
   // The Check button un-renders once the answer is graded, so its own
   // counterpart never exists. Focus moves to the verdict itself (the
@@ -5274,6 +5287,7 @@ const SHORTCUT_CHECK_OR_ADVANCE = [
   '[data-action="litWordPracticeCheck"]',
   '[data-action="nextPracticeQuestion"]',
   '[data-action="nextQuizQuestion"]',
+  '[data-action="checkLessonQuiz"]',
   '[data-action="studyCheck"]',
   '[data-action="submitLogicAnswer"]',
   '[data-action="studyNext"]',
@@ -5363,7 +5377,7 @@ document.addEventListener('change', (e) => {
       });
       return;
     }
-    if (result !== false) rerender(el.dataset.action === 'studyField' ? `#nahw-role-${el.dataset.field}` : undefined);
+    if (result !== false) rerender(el.dataset.action === 'studyField' ? `#native-field-${el.dataset.field}` : undefined);
     return;
   }
 });

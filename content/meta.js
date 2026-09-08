@@ -4272,7 +4272,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Defining the Science — الصرف in language and in technical use, its subject, its scope, and the مبادئ that frame it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4280,7 +4280,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Three Classes — اسم, فعل and حرف, and the signs that tell them apart in practice",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4288,7 +4288,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Morphological Scale — why ف ع ل, the four things a وزن records, and weighing the three-letter word",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4296,7 +4296,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Weighing Longer Words — extra root letters, doubled letters, حروف الزيادة, and the special cases of إبدال, حذف and قلب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4314,7 +4314,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Past Verb — its definition, the weight of the word غالبًا, and the two تاءان that identify it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4322,7 +4322,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Present Verb — its two possible times, the particles that fix it to one, its علامة, and أحرف المضارعة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4330,7 +4330,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Imperative and the Verbal Nouns — الأمر with its علامة, and the words that carry a verb’s meaning without being verbs",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4348,7 +4348,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Basic Division — حروف العلة, the two definitions, the قيد that limits them to the أصول, and حرفا المد واللين",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4356,7 +4356,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Three Kinds of Sound Verb — سالم، مضعَّف، مهموز, and why only the ثلاثي مضعَّف concerns the صرفي",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4364,7 +4364,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Weak in the فاء and Weak in the عين — the first two kinds of معتل, why each is so named, and ضمائر الرفع المتحركة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4372,7 +4372,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Weak in the لام, the two kinds of لفيف, and the same seven divisions applied to nouns",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4390,7 +4390,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Basic Division — the two definitions, their subdivisions, and how the ثلاثي مجرد comes to have exactly six أبواب",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4398,7 +4398,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Six Doors — each with its vowelling, its examples, and the meanings that gather in the fourth and fifth",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4406,7 +4406,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Bare Quadriliteral — its single وزن, the verbs carved out of phrases, its seven ملحقات, and what الإلحاق actually is",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4414,7 +4414,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Twelve Patterns — three with one letter added, five with two, four with three, and why six letters is the ceiling",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l5",
@@ -4422,7 +4422,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Augmenting the Quadriliteral — its three أوزان, its eight ملحقات, the احرنجم/اقعنسس distinction, and two closing تنبيهان",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4440,7 +4440,7 @@ export const COURSE_SHELLS = [
             "subtitle": "What the Added Letters Do — the principle, and the ten meanings that gather under أَفْعَلَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4448,7 +4448,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Mutual Action and Intensification — المشاركة and المغالبة under فَاعَلَ, and the eight meanings of فَعَّلَ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4456,7 +4456,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Submission, Effort and Intensity — the single meaning of انفعل, the six of افتعل, and the one of افعلَّ",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4464,7 +4464,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Last Group — five meanings, four meanings, six meanings, and what the remaining patterns add",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4482,7 +4482,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Frozen Verb — those locked into the ماضي, those locked into the أمر, and the disputes over some of them",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4490,7 +4490,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Inflecting Verb — complete inflection against defective, أفعال الاستمرار and أفعال المقاربة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4498,7 +4498,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Deriving One Form from Another — building المضارع out of the ماضي, and the أمر out of the مضارع",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4516,7 +4516,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Transitive Verb — its definition, the two signs that identify it, and the trap of the مفعول مطلق",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4524,7 +4524,7 @@ export const COURSE_SHELLS = [
             "subtitle": "One Object, Two, or Three — أفعال القلوب, أفعال التصيير, أعطى وأخواتها, and باب أعلم وأرى",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4532,7 +4532,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Eight Routes to Transitivity — from the همزة to نزع الخافض, and the caution that the whole matter is سماعي",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4540,7 +4540,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Five Routes Back — how a verb that takes an object comes to stop taking one",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4558,7 +4558,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Two Kinds — the definitions, the reasons the doer is dropped, and the dispute over what stands in for it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4566,7 +4566,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Rebuilding the Past — the general rule and the four cases that depart from it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4574,7 +4574,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Present Passive, and When an Intransitive Verb May Be Built at All",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4592,7 +4592,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The نون and its Alternatives — what emphasis does, and how the ماضي and the أمر stand at opposite extremes",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4600,7 +4600,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The First Three Grades — where the نون must attach, where it nearly must, and where it commonly does",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4608,7 +4608,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Last Three Grades — after لا and ما, after لَمْ and the جزاء particles, and where the نون cannot come at all",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4626,7 +4626,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The Ten Patterns — grouped by the vowel on the فاء, each with an اسم and a صفة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4634,7 +4634,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Twelve in Theory, Ten in Use — the two patterns the language declines, and the lightening of those it keeps",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4642,7 +4642,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Beyond Three Letters — five patterns for the رباعي, four for the خماسي, and the limits on a noun’s length",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4660,7 +4660,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The two halves of the division, and what it means for one word to be taken from another",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4668,7 +4668,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The three verbs and seven nouns taken from the مصدر, and the two that are only attached to them",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4676,7 +4676,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The three vowellings of the ثلاثي ماضي, and the قياسي مصدر of each when the verb is transitive",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4684,7 +4684,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The many شعب of فَعَلَ اللازم, the two مصادر of فَعُل, and what falls outside قياس altogether",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l5",
@@ -4692,7 +4692,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Every verb above three letters has a قياسي مصدر — five rules cover them all",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4710,7 +4710,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The active participle built from the مصدر, and the five صيغ مبالغة patterns that intensify it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4718,7 +4718,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The passive participle اسم المفعول, and الصفة المشبهة, the adjective built to show a settled quality",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4726,7 +4726,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أَفْعَل, the noun of comparison — its eight conditions, and the three states of its wording and of its meaning",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4734,7 +4734,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مَفْعَل and مَفْعِل, the nouns naming when and where an action happened, and اسم الآلة, the noun of the tool used to do it",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4752,7 +4752,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Dividing المؤنث Two Ways — حقيقيّ vs مجازيّ by nature, لفظيّ vs معنويّ by wording",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4760,7 +4760,7 @@ export const COURSE_SHELLS = [
             "subtitle": "العلامة الأولى: التاء — where it marks gender, where it's barred, and the five أوزان that keep it out regardless",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4768,7 +4768,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Other Jobs for التاء, and المقصورة — the eight أوزان of the shortened الألف",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4776,7 +4776,7 @@ export const COURSE_SHELLS = [
             "subtitle": "أوزان الألف الممدودة — ten patterns, from فَعْلاء to مَفْعولاء",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4794,7 +4794,7 @@ export const COURSE_SHELLS = [
             "subtitle": "المنقوص، المقصور، الممدود، الصحيح — and the work each قيد does",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4802,7 +4802,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Eight places where a معتلّ اللام noun must end in an ألف — each with its صحيح counterpart",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4810,7 +4810,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Four places where the ألف must be added before the last letter, and what falls outside them",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       },
@@ -4828,7 +4828,7 @@ export const COURSE_SHELLS = [
             "subtitle": "مفرد and مثنى — and the six شروط a noun must satisfy before it can be dualized",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l2",
@@ -4836,7 +4836,7 @@ export const COURSE_SHELLS = [
             "subtitle": "The three kinds of جمع, and the شروط that let a جامد or مشتقّ noun take واو ونون or ياء ونون",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l3",
@@ -4844,7 +4844,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Six positions where this جمع is قياسيّ, and how صحيح/منقوص/مقصور/ممدود inflect across all three sound forms",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           },
           {
             "id": "l4",
@@ -4852,7 +4852,7 @@ export const COURSE_SHELLS = [
             "subtitle": "Seven ways a singular reshapes into a broken plural, and the twenty-seven أبنية that split into قلّة and كثرة",
             "sourceRef": "",
             "language": "ar",
-            "learningModel": "grammar"
+            "learningModel": "mizan-sarf"
           }
         ]
       }

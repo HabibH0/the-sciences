@@ -3,6 +3,7 @@ import { introduced, recordAttempt } from '../mizan/mastery/engine.js';
 import { emptyCourse } from '../mizan/progress/model.js';
 import { logicCourse } from './logic-course.js';
 import { nahwSteps, nativeSessionPosition } from './nahw.js';
+import { sarfSteps } from './sarf.js';
 
 export function studyKey(courseId, moduleId, lessonId) {
   return `${courseId}/${moduleId}/${lessonId}`;
@@ -10,6 +11,7 @@ export function studyKey(courseId, moduleId, lessonId) {
 
 export function grammarSteps(lesson) {
   if (lesson.learningModel === 'mizan-nahw') return nahwSteps(lesson);
+  if (lesson.learningModel === 'mizan-sarf') return sarfSteps(lesson);
   const steps = [];
   lesson.concepts.forEach((concept, index) => {
     steps.push({ id: `concept:${index}:teach`, kind: 'teach', conceptIndex: index });

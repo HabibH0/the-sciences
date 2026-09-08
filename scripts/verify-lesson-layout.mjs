@@ -5,6 +5,7 @@ import { createInitialState } from '../js/state.js';
 import { render, FACES } from '../js/render.js';
 import { createStudySession, studyKey } from '../js/learning/study.js';
 import { fitLessonPages } from '../js/learning/lesson-pages.js';
+import { sarfTableVisual } from '../js/learning/sarf.js';
 
 const root = document.querySelector('#root'), result = document.querySelector('#result');
 const params = new URLSearchParams(location.search);
@@ -35,40 +36,48 @@ document.querySelector('#run').addEventListener('click', async () => {
       await setActiveCourse(course.id);
       state.courseId = course.id;
       for (const mod of course.modules) for (const lesson of mod.lessons) {
+        if (params.has('lesson') && params.get('lesson') !== `${mod.id}/${lesson.id}`) continue;
         Object.assign(state, { moduleId: mod.id, lessonId: lesson.id });
         const key = studyKey(course.id, mod.id, lesson.id);
         const session = createStudySession(state, mod, lesson, '2026-09-08T00:00:00Z', key);
         state.studySessions[key] = session;
         for (let si = 0; si < session.steps.length; si++) {
           if (!['teach', 'summary'].includes(session.steps[si].kind)) continue;
+          if (params.has('step') && params.get('step') !== session.steps[si].id) continue;
           session.stepIndex = si;
-          if (params.has('details')) session.readingDetails = { [session.steps[si].id]: true };
-          root.innerHTML = render(state, course.modules);
-          const original = root.querySelector('.mz-teaching');
-          if (!original) continue;
-          if (!totals.steps) await document.fonts.ready;
-          const originalText = tokens(original);
-          const layout = fitLessonPages(root);
-          const fail = reason => totals.failures.push({ key, step: session.steps[si].id, reason });
-          if (!layout?.fits) fail('No fitting layout');
-          const displayed = [];
-          for (let page = 0; page < (layout?.count || 1); page++) {
-            fitLessonPages(root, page);
-            const body = root.querySelector('.mz-study-body'), article = body.firstElementChild;
-            const scroller = root.querySelector('.main-content');
-            const footer = root.querySelector('.mz-study-foot').getBoundingClientRect();
-            if (scroller.scrollHeight > scroller.clientHeight + 1 || footer.bottom > innerHeight + 1) fail(`Page ${page + 1}: document overflow`);
-            if (article.getBoundingClientRect().height > body.clientHeight + 1) fail(`Page ${page + 1}: clipped content`);
-            if (document.documentElement.scrollWidth > innerWidth + 1) fail(`Page ${page + 1}: horizontal overflow`);
-            displayed.push(...tokens(article));
-            totals.pages++;
+          const step = session.steps[si];
+          const table = lesson.learningModel === 'mizan-sarf' && lesson.concepts[step.conceptIndex]?.lines[step.tableIndex]?.table;
+          const variants = params.has('variants') && table && sarfTableVisual(table) ? table.rows.length : 1;
+          for (let selected = 0; selected < variants; selected++) {
+            session.visualState = { [step.id]: { selected } };
+            if (params.has('details')) session.readingDetails = { [session.steps[si].id]: true };
+            root.innerHTML = render(state, course.modules);
+            const original = root.querySelector('.mz-teaching');
+            if (!original) continue;
+            if (!totals.steps) await document.fonts.ready;
+            const originalText = tokens(original);
+            const layout = fitLessonPages(root);
+            const fail = reason => totals.failures.push({ key, step: session.steps[si].id, selected, reason });
+            if (!layout?.fits) fail('No fitting layout');
+            const displayed = [];
+            for (let page = 0; page < (layout?.count || 1); page++) {
+              fitLessonPages(root, page);
+              const body = root.querySelector('.mz-study-body'), article = body.firstElementChild;
+              const scroller = root.querySelector('.main-content');
+              const footer = root.querySelector('.mz-study-foot').getBoundingClientRect();
+              if (scroller.scrollHeight > scroller.clientHeight + 1 || footer.bottom > innerHeight + 1) fail(`Page ${page + 1}: document overflow`);
+              if (article.getBoundingClientRect().height > body.clientHeight + 1) fail(`Page ${page + 1}: clipped content`);
+              if (document.documentElement.scrollWidth > innerWidth + 1) fail(`Page ${page + 1}: horizontal overflow`);
+              displayed.push(...tokens(article));
+              totals.pages++;
+            }
+            const covered = isSubsequence(originalText, displayed);
+            if (covered !== originalText.length) {
+              fail('Source text missing or reordered');
+              if (!totals.firstTextFailure) totals.firstTextFailure = { source: originalText, displayed, covered };
+            }
+            totals.steps++;
           }
-          const covered = isSubsequence(originalText, displayed);
-          if (covered !== originalText.length) {
-            fail('Source text missing or reordered');
-            if (!totals.firstTextFailure) totals.firstTextFailure = { source: originalText, displayed, covered };
-          }
-          totals.steps++;
         }
         totals.lessons++;
         result.textContent = JSON.stringify(totals);

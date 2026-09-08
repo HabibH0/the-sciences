@@ -1,3 +1,4 @@
+import { guidedGrammar } from './native.js';
 import { COURSES, isCourseUnlocked, isModuleUnlocked, isLessonUnlocked } from '../../content/index.js';
 import { esc, escAttr, escBidi } from '../html.js';
 import { EMBLEMS } from './emblems.js';
@@ -79,7 +80,7 @@ export function completedLessonHtml(state, mod, lesson) {
   const course = COURSES.find(c => c.id === state.courseId);
   const all = course.modules.flatMap(m => m.lessons.map(l => ({ m, l })));
   const next = all[all.findIndex(({ m, l }) => m.id === mod.id && l.id === lesson.id) + 1];
-  return `<section class="mz-completed"><span class="mz-completed-mark" aria-hidden="true">✓</span><p class="mz-eyebrow">LESSON COMPLETE</p><h1>${escBidi(lesson.title)}</h1><p>${logic ? 'You have worked through the lesson. Review will help you build lasting understanding.' : lesson.learningModel === 'mizan-nahw' ? 'You have finished the lesson and passed its check. Review will help you make this knowledge last.' : 'You have passed the quiz. Keep practising to make this knowledge last.'}</p>
-    ${score ? `<div class="mz-result-score"><strong>${score.correct} <small>/ ${score.total}</small></strong><span>${logic ? 'correct on the first attempt' : lesson.learningModel === 'mizan-nahw' ? 'correct on the lesson check' : 'correct quiz answers'}</span></div>` : ''}
+  return `<section class="mz-completed"><span class="mz-completed-mark" aria-hidden="true">✓</span><p class="mz-eyebrow">LESSON COMPLETE</p><h1>${escBidi(lesson.title)}</h1><p>${logic ? 'You have worked through the lesson. Review will help you build lasting understanding.' : guidedGrammar(lesson) ? 'You have finished the lesson and passed its check. Review will help you make this knowledge last.' : 'You have passed the quiz. Keep practising to make this knowledge last.'}</p>
+    ${score ? `<div class="mz-result-score"><strong>${score.correct} <small>/ ${score.total}</small></strong><span>${logic ? 'correct on the first attempt' : guidedGrammar(lesson) ? 'correct on the lesson check' : 'correct quiz answers'}</span></div>` : ''}
     <div class="mz-completed-actions">${state.pathActive ? '<button class="btn btn-primary" data-action="backToPath">Continue on My Path →</button>' : next ? `<button class="btn btn-primary" data-action="continueLesson" data-module-id="${escAttr(next.m.id)}" data-lesson-id="${escAttr(next.l.id)}">Next: ${escBidi(next.l.title)} →</button>` : '<button class="btn btn-primary" data-action="openCatalog">Explore your courses →</button>'}<button class="btn btn-secondary" data-action="openSchedule">Review this course</button><button class="mz-text-button" data-action="openModule" data-module-id="${escAttr(mod.id)}">Back to lessons</button></div></section>`;
 }

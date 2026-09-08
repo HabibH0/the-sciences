@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Responsive lesson verification</title>
+  <style>
+    body { margin: 0; background: #e8ebe9; }
+    iframe { display: block; border: 0; margin: 0 auto; background: white; }
+  </style>
+</head>
+<body>
+  <iframe title="Lesson viewport"></iframe>
+  <script>
+    // A frame gives the lesson a reproducible viewport even when a host
+    // browser keeps its own window dimensions fixed.
+    const params = new URLSearchParams(location.search);
+    const frame = document.querySelector('iframe');
+    frame.width = Math.max(320, Math.min(1920, Number(params.get('width')) || 1024));
+    frame.height = Math.max(540, Math.min(1200, Number(params.get('height')) || 600));
+    if (params.get('app') === '1') frame.src = '../#/module/as-01/l1';
+    else {
+      params.delete('width'); params.delete('height');
+      frame.src = `./verify-lesson-layout.html?${params}`;
+    }
+  </script>
+</body>
+</html>
