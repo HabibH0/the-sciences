@@ -311,6 +311,15 @@ async function validateLitBook(book) {
 }
 
 const litSummaries = [];
+const { LITERATURE_LESSONS, loadLiteratureLesson } = await import('../content-lit/learning/index.js');
+const { validateLiteratureLesson } = await import('../js/literature/engine.js');
+const literatureTargets = new Set(LITERATURE_LESSONS.flatMap(l => [...l.vocabulary, ...l.constructions].map(t => t.id)));
+for (const definition of LITERATURE_LESSONS) {
+  try {
+    const lesson = await loadLiteratureLesson(definition.id);
+    validateLiteratureLesson(lesson, literatureTargets).forEach(fail);
+  } catch (error) { fail(`Literature lesson ${definition.id}: ${error.message}`); }
+}
 for (const book of LIT_BOOKS) {
   litSummaries.push({ book, totals: await validateLitBook(book) });
 }
@@ -325,6 +334,7 @@ if (errors > 0) {
   litSummaries.forEach(({ book, totals }) => {
     console.log(`✓ [lit ${book.id}] ${totals.chapters} chapter(s), ${totals.paragraphs} paragraph(s), ${totals.sentences} sentence(s) — all valid.`);
   });
+  console.log(`✓ [literature learning] ${LITERATURE_LESSONS.length} authored lessons — sources, phases, feedback and transfer valid.`);
   if (warnings.length) {
     console.log(`\n${warnings.length} note(s) — valid, but worth a look:`);
     warnings.forEach((w) => console.log(`  ! ${w}`));

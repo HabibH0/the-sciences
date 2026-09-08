@@ -13,6 +13,9 @@ export async function createInitialState() {
     storageError: boot.storageError,
     studySessions: boot.studySessions,
     mizanCourses: boot.mizanCourses,
+    literature: boot.literature,
+    literatureLessonId: nav.literatureLessonId || null,
+    literatureError: '',
     quizSession: boot.quizSession,
     // Which course is active -- 'adv-nahw' | 'intro-nahw' | 'intro-sarf' |
     // 'adv-sarf' (see
@@ -303,7 +306,7 @@ export async function createInitialState() {
     // True whenever the learner's current top-level context is the Library --
     // same job as pathHome above, so a Settings detour can still offer the
     // way back in.
-    litHome: ['library', 'litBook', 'litRead'].includes(nav.view),
+    litHome: ['library', 'litSources', 'litLesson', 'litBook', 'litRead'].includes(nav.view),
     // Transient: the open chapter's read/workshop/build session, or null.
     // See enterLitChapter in js/main.js for its shape.
     lit: null,

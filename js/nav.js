@@ -15,6 +15,7 @@
 import { guidedGrammar } from './learning/native.js';
 import { COURSES, getModule, moduleIndex, courseIdForModule } from '../content/index.js';
 import { getLitBook } from '../content-lit/index.js';
+import { literatureLesson } from '../content-lit/learning/index.js';
 import { findPathGroup } from '../content/paths.js';
 import { migrateCourseId } from './persistence.js';
 
@@ -31,7 +32,7 @@ import { migrateCourseId } from './persistence.js';
 // refresh -- see PATH_VIEWS.
 export const SECTIONS = [
   { id: 'home', label: 'My learning', icon: 'home', action: 'openCatalog', href: '#/' },
-  { id: 'library', label: 'Library', icon: 'book', action: 'openLibrary', href: '#/library' },
+  { id: 'library', label: 'Literature', icon: 'book', action: 'openLibrary', href: '#/library' },
   { id: 'schedule', label: 'Review', icon: 'calendar', action: 'openSchedule', href: '#/schedule' },
   { id: 'account', label: 'Account', icon: 'user', action: 'openAccount', href: '#/account' },
 ];
@@ -40,7 +41,7 @@ export const SECTIONS = [
 // parent tab has to stay lit while you are inside them (req: "if the user is
 // inside a child page of a section, the parent navigation item should
 // usually remain visibly active").
-const LIT_VIEWS = new Set(['library', 'litBook', 'litRead', 'litWordPractice']);
+const LIT_VIEWS = new Set(['library', 'litSources', 'litLesson', 'litBook', 'litRead', 'litWordPractice']);
 const ACCOUNT_VIEWS = new Set(['account', 'settings', 'learningAids', 'courseProgression', 'achievements']);
 const HOME_VIEWS = new Set(['catalog', 'dashboard', 'module', 'lesson', 'quiz', 'lessonComplete']);
 export const PATH_VIEWS = new Set(['pathGroups', 'path']);
@@ -108,7 +109,8 @@ export function crumbTrail(state) {
   const courseRoot = { label: course ? course.name : 'Home', action: 'openDashboard' };
   const mod = moduleFor(state);
   const lesson = lessonFor(state, mod);
-  const library = { label: 'Library', action: 'openLibrary' };
+  const literature = { label: 'Literature', action: 'openLibrary' };
+  const library = { label: 'Source collection', action: 'openLiteratureSources' };
   const account = { label: 'Account', action: 'openAccount' };
   const modCrumb = mod
     ? { label: mod.title, lang: 'ar', action: 'openModule', extra: { 'module-id': mod.id } }
@@ -157,6 +159,10 @@ export function crumbTrail(state) {
         lesson ? { label: lesson.title, lang: 'ar', action: 'backToLesson' } : null,
         { label: guidedGrammar(lesson) ? 'Lesson check' : 'Quiz', current: true },
       ].filter(Boolean);
+    case 'litLesson':
+      return [literature, { label: literatureLesson(state.literatureLessonId)?.title || 'Lesson', current: true }];
+    case 'litSources':
+      return [literature, { label: 'Source collection', current: true }];
     case 'litBook': {
       const book = getLitBook(state.litBookId);
       return [library, { label: book ? book.title.en : 'Book', current: true }];
@@ -188,7 +194,7 @@ export function crumbTrail(state) {
     case 'pathGroups':
       return [{ label: 'My Path', current: true }];
     case 'library':
-      return [{ label: 'Library', current: true }];
+      return [{ label: 'Literature', current: true }];
     case 'schedule':
       return [{ label: 'Review & plan', current: true }];
     case 'account':
@@ -253,6 +259,10 @@ export function hashForState(state) {
         : '#/';
     case 'library':
       return '#/library';
+    case 'litSources':
+      return '#/library/books';
+    case 'litLesson':
+      return literatureLesson(state.literatureLessonId) ? `#/literature/lesson/${encodeURIComponent(state.literatureLessonId)}` : '#/library';
     case 'litBook':
     case 'litRead':
     case 'litWordPractice':
@@ -307,10 +317,15 @@ export function navFromHash(hash) {
     }
     case 'library': {
       if (!parts[1]) return { view: 'library', litHome: true };
+      if (parts[1] === 'books') return { view: 'litSources', litHome: true };
       return getLitBook(parts[1])
         ? { view: 'litBook', litBookId: parts[1], litHome: true }
         : { view: 'library', litHome: true };
     }
+    case 'literature':
+      return parts[1] === 'lesson' && literatureLesson(parts[2])
+        ? { view: 'litLesson', literatureLessonId: parts[2], litHome: true }
+        : { view: 'library', litHome: true };
     case 'schedule':
       return { view: 'schedule' };
     case 'account':

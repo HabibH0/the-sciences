@@ -5,6 +5,7 @@ import { nativeQuizHtml } from './learning/render-native.js';
 import { guidedGrammar } from './learning/native.js';
 import { logicItem } from './learning/logic-course.js';
 import { logicExerciseHtml } from './learning/exercises.js';
+import { literatureHomeHtml, literatureLessonHtml } from './literature/render.js';
 import {
   QUIZ_PASS_RATIO,
   isModuleUnlocked,
@@ -208,7 +209,7 @@ const SHELL_INNER_VIEWS = new Set(['path']);
 // The four tab destinations plus Account's two children -- the only screens
 // the phone's bottom tab bar appears on (inner screens and live sessions
 // navigate through their own heads instead).
-const SHELL_TAB_VIEWS = new Set(['catalog', 'dashboard', 'library', 'schedule', 'account', 'achievements', 'settings', 'learningAids', 'courseProgression']);
+const SHELL_TAB_VIEWS = new Set(['catalog', 'dashboard', 'library', 'litSources', 'schedule', 'account', 'achievements', 'settings', 'learningAids', 'courseProgression']);
 const SHELL_SESSION_VIEWS = new Set(['practice', 'practiceReview', 'masteryV2Complete']);
 
 // `extra` comes off a nav.js trail entry as a plain object so nav.js can stay
@@ -301,6 +302,7 @@ function shellTabs(state) {
 }
 
 function shellStatsHtml(state) {
+  if (['library', 'litLesson', 'litSources'].includes(state.view)) return '';
   const li = levelInfo(state.xp);
   const streak = state.streak || 1;
   // The aria-label names both the status and the destination -- from its
@@ -316,6 +318,8 @@ function shellStatsHtml(state) {
 }
 
 function headerHtml(state, MODULES) {
+  // The Literature player carries its own persistent exit and phase rail.
+  if (state.view === 'litLesson') return '';
   if (SHELL_INNER_VIEWS.has(state.view)) {
     const back = backTargetFor(state);
     if (back) {
@@ -4960,7 +4964,8 @@ function libraryHtml(state) {
 
   return `
     <div class="lit-library-page">
-      ${pageHeaderHtml({ title: 'Library', ar: 'المكتبة', lede: 'Graded readers, read the way a book is read — a paragraph at a time, the translation a tap away, every word one tap from its form.', tools: searchTools })}
+      <button class="la-text-button" data-action="openLibrary">← Back to Literature lessons</button>
+      ${pageHeaderHtml({ title: 'Source collection', ar: 'المكتبة', lede: 'Explore complete works after learning, or browse your preserved texts, translations and vocabulary notes. Reading history is separate from lesson progress.', tools: searchTools })}
       ${query ? '' : resumeCard}
       <div class="lit-shelves">${chapterHitsHtml}${shelvesHtml}${emptyResult}</div>
     </div>`;
@@ -5737,7 +5742,13 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       body = pathGroupsHtml(state, revealedKeys);
       break;
     case 'library':
+      body = literatureHomeHtml(state);
+      break;
+    case 'litSources':
       body = libraryHtml(state);
+      break;
+    case 'litLesson':
+      body = literatureLessonHtml(state);
       break;
     case 'litBook':
       body = litBookHtml(state);

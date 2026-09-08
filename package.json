@@ -8,6 +8,7 @@
     "dev:web": "node scripts/dev-server.mjs",
     "validate": "node scripts/validate-content.mjs",
     "verify:review": "node scripts/verify-review-scheduler.mjs",
+    "verify:literature": "node scripts/verify-literature.mjs",
     "lit:convert": "node scripts/convert-literature.mjs",
     "build:web": "node scripts/build-web.js",
     "verify:mizan": "node scripts/verify-mizan.mjs",

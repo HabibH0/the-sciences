@@ -1,6 +1,7 @@
 import { loadProgress, saveProgress, preserveMigrationBackup, blockStorageWrites } from './storage/storageManager.js';
 import { COURSE_SHELLS } from '../content/meta.js';
 import { normalizeStudySessions, normalizeLogicProgress } from './learning/study.js';
+import { normalizeLiterature } from './literature/engine.js';
 import { normalizeReviewCards, normalizeReviewDayStats, normalizeReviewSettings } from './reviewScheduler.js';
 
 export function isoDateAt(ts) {
@@ -159,6 +160,7 @@ export async function bootProgress() {
   const arabicHeadingFace = normalizeArabicHeadingFace(saved);
   const next = {
     mizanVersion: 1,
+    literature: normalizeLiterature(saved.literature),
     studySessions: normalizeStudySessions(saved.studySessions),
     mizanCourses: normalizeLogicProgress(saved.mizanCourses),
     quizSession: saved.quizSession || null,
@@ -306,6 +308,7 @@ export function snapshot(state) {
     reviewDayStats: normalizeReviewDayStats(state.reviewDayStats, Date.now(), state.dailyResetHour || 0),
     reviewSettings: normalizeReviewSettings(state.reviewSettings),
     litProgress: state.litProgress,
+    literature: normalizeLiterature(state.literature),
     litUnknown: state.litUnknown,
     litWordReps: state.litWordReps,
     litCheckLang: state.litCheckLang === 'en' ? 'en' : 'ar',
@@ -339,6 +342,7 @@ export function snapshot(state) {
       pathGroupId: state.pathGroupId,
       litBookId: state.litBookId,
       litChapterId: state.litChapterId,
+      literatureLessonId: state.literatureLessonId,
     },
   };
 }

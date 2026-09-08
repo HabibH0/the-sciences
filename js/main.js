@@ -69,6 +69,8 @@ import { introSarfTablePages, introSarfVisualCount } from './learning/intro-sarf
 import { fitLessonPages } from './learning/lesson-pages.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
+import { literatureLesson, loadLiteratureLesson, loadedLiteratureLesson } from '../content-lit/learning/index.js';
+import { latestRun, createLiteratureRun, updateLiteratureRun, currentLiteratureStep, normalizeLiterature, reconcileLiteratureRun } from './literature/engine.js';
 import { getAt } from './mizan/exercises/validator.js';
 import { paintRegion, selectedWords, restoreTokens, moveEntry } from './mizan/exercises/interaction-model.js';
 import { emptyCourse } from './mizan/progress/model.js';
@@ -248,6 +250,7 @@ function applyMergedProgressToState(envelope) {
     'reviewDayStats',
     'reviewSettings',
     'litProgress',
+    'literature',
     'litUnknown',
     'litWordReps',
     'litCheckLang',
@@ -278,6 +281,11 @@ function applyMergedProgressToState(envelope) {
     if (Object.prototype.hasOwnProperty.call(progress, key)) {
       state[key] = progress[key];
     }
+  }
+  state.literature = normalizeLiterature(state.literature);
+  for (const run of Object.values(state.literature.runs)) {
+    const lesson = loadedLiteratureLesson(run.lessonId);
+    if (lesson?.revision === run.revision) state.literature.runs[run.id] = reconcileLiteratureRun(lesson, run);
   }
 }
 
@@ -375,6 +383,7 @@ function navSignature() {
     state.pathGroupId || '',
     practiceKey,
     litKey,
+    state.view === 'litLesson' ? `${state.literatureLessonId}:${latestRun(state.literature, literatureLesson(state.literatureLessonId) || {})?.position ?? 0}` : '',
     state.view === 'lesson' ? currentStudy(state)?.stepIndex ?? '' : '',
   ].join('|');
 }
@@ -391,7 +400,7 @@ const scrollPositions = new Map();
 // at the top. (Resuming a part-done lesson still resumes the right CONCEPT
 // -- that's conceptsToRender's job -- it just shows that concept from its
 // heading rather than from a stale offset.)
-const FRESH_SCROLL_VIEWS = new Set(['lesson', 'quiz', 'lessonComplete']);
+const FRESH_SCROLL_VIEWS = new Set(['lesson', 'quiz', 'lessonComplete', 'litLesson']);
 
 // The lesson page shows one concept at a time, but paging between concepts
 // does not change navSignature() -- same view, same lesson -- so without
@@ -474,7 +483,7 @@ const HISTORY_TRACKED_VIEWS = new Set([
   'catalog',
   'dashboard', 'module', 'lesson', 'quiz', 'schedule', 'settings', 'account',
   'learningAids', 'courseProgression',
-  'achievements', 'pathGroups', 'path', 'library', 'litBook',
+  'achievements', 'pathGroups', 'path', 'library', 'litSources', 'litLesson', 'litBook',
 ]);
 
 function historySignature() {
@@ -485,6 +494,7 @@ function historySignature() {
     state.lessonId || '',
     state.pathGroupId || '',
     state.litBookId || '',
+    state.literatureLessonId || '',
   ].join('|');
 }
 
@@ -500,6 +510,7 @@ function navSnapshot() {
     litHome: state.litHome,
     litBookId: state.litBookId,
     litChapterId: state.litChapterId,
+    literatureLessonId: state.literatureLessonId,
   };
 }
 
@@ -562,6 +573,7 @@ async function applyNavSnapshot(snap, token) {
   state.litHome = !!snap.litHome;
   state.litBookId = snap.litBookId || null;
   state.litChapterId = snap.litChapterId || null;
+  state.literatureLessonId = snap.literatureLessonId || null;
   // A restored screen has no live session or open transient overlay --
   // matches how every other route into a stable screen leaves these.
   state.practice = null;
@@ -628,6 +640,10 @@ async function restoreNav(snap, { rerenderAfter = true } = {}) {
     const applied = await applyNavSnapshot(snap, token);
     if (!applied) return false; // a later restore has since superseded this one
     sanitizeRestoredNav();
+    if (state.view === 'litLesson') {
+      await ensureLiteratureReady();
+      if (token !== historyRestoreToken) return false;
+    }
     // The screen actually landed on can differ from the one the URL asked
     // for -- a link to a module this profile has not unlocked yet resolves
     // to Home. Rewriting the address bar to match means the URL never claims
@@ -2002,6 +2018,34 @@ function enterLitContext() {
   state.practiceSetupOpen = false;
   state.lessonPreviewId = null;
   state.litPractice = null;
+}
+
+async function ensureLiteratureReady(restart = false) {
+  const id = state.literatureLessonId;
+  if (!literatureLesson(id)) { state.view = 'library'; return; }
+  state.literatureError = '';
+  try {
+    const lesson = await loadLiteratureLesson(id);
+    if (state.view !== 'litLesson' || state.literatureLessonId !== id) return;
+    state.literature = normalizeLiterature(state.literature);
+    for (const run of Object.values(state.literature.runs)) {
+      if (run.lessonId === lesson.id && run.revision === lesson.revision) state.literature.runs[run.id] = reconcileLiteratureRun(lesson, run);
+    }
+    if (restart || !latestRun(state.literature, lesson)) {
+      const run = createLiteratureRun(lesson, crypto.randomUUID(), Date.now());
+      state.literature.runs[run.id] = run;
+    }
+  } catch (error) {
+    if (state.view === 'litLesson' && state.literatureLessonId === id) state.literatureError = error.message || 'The lesson could not be loaded. Please retry.';
+  }
+}
+
+function changeLiterature(action, value) {
+  if (state.view !== 'litLesson') return false;
+  const lesson = loadedLiteratureLesson(state.literatureLessonId);
+  const run = lesson && latestRun(state.literature, lesson);
+  if (!run) return false;
+  state.literature.runs[run.id] = updateLiteratureRun(lesson, run, action, value, Date.now(), action === 'check' ? crypto.randomUUID() : null);
 }
 
 function litChapter() {
@@ -4470,6 +4514,54 @@ const actions = {
     state.litBookId = null;
     state.litChapterId = null;
   },
+  openLiteratureSources() {
+    if (guardSessionExit('openLiteratureSources')) return;
+    enterLitContext();
+    state.view = 'litSources';
+    state.lit = null;
+    state.litChapterPreviewId = null;
+  },
+  async openLiteratureLesson(el) {
+    const id = el?.dataset?.literatureId || state.literatureLessonId;
+    if (!literatureLesson(id)) return false;
+    state.literatureLessonId = id;
+    if (guardSessionExit('openLiteratureLesson')) return;
+    enterLitContext();
+    state.lit = null;
+    state.litChapterPreviewId = null;
+    state.literatureLessonId = id;
+    state.literatureError = '';
+    state.view = 'litLesson';
+    rerender();
+    await ensureLiteratureReady();
+  },
+  async retryLiteratureLesson() { await ensureLiteratureReady(); },
+  async restartLiteratureLesson() { await ensureLiteratureReady(true); },
+  literatureSelect(el) { return changeLiterature('select', Number(el.dataset.value)); },
+  literatureClear() { return changeLiterature('clear'); },
+  literatureCheck() { return changeLiterature('check'); },
+  literatureRetry() { return changeLiterature('retry'); },
+  literatureHelp() { return changeLiterature('help'); },
+  literatureReveal() { return changeLiterature('reveal'); },
+  literatureConcept() { return changeLiterature('concept'); },
+  literatureAcknowledge(el) { return changeLiterature('acknowledge', el.dataset.value); },
+  literatureNext() { return changeLiterature('next'); },
+  literatureBack() { return changeLiterature('back'); },
+  literatureReturnDecode() {
+    const lesson = loadedLiteratureLesson(state.literatureLessonId), run = lesson && latestRun(state.literature, lesson);
+    if (!run) return false;
+    run.position = currentLiteratureStep(lesson, run).steps.findIndex(step => step.phase === 'decode');
+    run.updatedAt = Date.now();
+  },
+  async readLiteratureSource() {
+    const lesson = loadedLiteratureLesson(state.literatureLessonId);
+    if (!lesson) return false;
+    state.litBookId = lesson.source.bookId;
+    state.litChapterPreviewId = lesson.source.chapterId;
+    state.view = 'litBook';
+    rerender();
+    return launchLitChapter('free');
+  },
   openLitBook(el) {
     const bookId = el.dataset.bookId || state.litBookId;
     if (!getLitBook(bookId)) return false;
@@ -4905,6 +4997,12 @@ function consumeModalTriggerSelector() {
 }
 
 function refocusSelector(el) {
+  const literatureAction = el.dataset.action;
+  if (literatureAction === 'literatureCheck') return '.la-feedback';
+  if (literatureAction === 'literatureHelp') return '[data-action="literatureHelp"], .la-help';
+  if (literatureAction === 'literatureConcept') return '[data-action="literatureConcept"]';
+  if (literatureAction === 'literatureSelect') return `.la-options [data-action="literatureSelect"][data-value="${Number(el.dataset.value)}"]:not([disabled]), .la-options [data-action="literatureSelect"]:not([disabled]), [data-action="literatureCheck"]`;
+  if (/^(literature|restartLiterature|retryLiterature|openLiteratureLesson)/.test(literatureAction)) return '.la-focus';
   // Any of these mean a modal dialog is about to render -- checked by state
   // rather than el.dataset.action because a badge can pop up as a side
   // effect of several different actions (finishing a lesson, a Practice

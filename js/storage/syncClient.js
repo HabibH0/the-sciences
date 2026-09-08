@@ -1,5 +1,6 @@
 import { exportProgress, importProgress } from './storageManager.js';
 import { mergeStudySessions, mergeLogicProgress } from '../learning/study.js';
+import { mergeLiterature } from '../literature/engine.js';
 
 const DEFAULT_BACKEND_URL = 'https://the-sciences.onrender.com';
 const SESSION_TOKEN_KEY = 'the-sciences-session-token';
@@ -439,6 +440,7 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   // shape mergeProgressStatus already handles (para via its numeric-max
   // fallback, done via its boolean-OR, at/score explicitly).
   merged.litProgress = mergeRecord(local.litProgress, remote.litProgress, mergeProgressStatus);
+  merged.literature = mergeLiterature(local.literature, remote.literature);
   // bookId -> lemma -> true. Plain union, same "never goes back" rule as
   // unlockedModules above -- a word un-marked or retired on one device can
   // reappear from a stale other device's copy, same trade-off already

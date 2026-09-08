@@ -1,4 +1,12 @@
-# content-lit — the Library
+# content-lit — Literature sources and learning
+
+The primary Literature experience now teaches Arabic through short excerpts.
+See [learning/README.md](learning/README.md) for the active lesson model,
+authoring, migration adapter, exercise engine and progress evidence.
+
+The documentation below describes the preserved **source collection and legacy
+reader drills**, available as secondary exploration. They do not define the
+Literature learning path or count toward its acquisition progress.
 
 Books, not courses. A course is modules → lessons → concepts/quiz/bank, all
 of it authored (see `content/README.md`). A book is chapters of **tokenized

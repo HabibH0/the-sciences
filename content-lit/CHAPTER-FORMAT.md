@@ -1,5 +1,10 @@
 # Writing a chapter file
 
+This is the preserved source/reader schema. To teach from one of these chapters,
+enrich a small excerpt using [learning/README.md](learning/README.md). Reading
+checks and token-derived drills are not a substitute for authored objectives
+and novel transfer exercises.
+
 Everything a chapter of a Library book needs in order to work in the app.
 Written to be usable on its own: nothing here requires reading the code.
 `qiraah-v1/chapter-01.js` is the worked example of all of it.

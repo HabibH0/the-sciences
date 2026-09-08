@@ -17,7 +17,11 @@
     const frame = document.querySelector('iframe');
     frame.width = Math.max(320, Math.min(1920, Number(params.get('width')) || 1024));
     frame.height = Math.max(540, Math.min(1200, Number(params.get('height')) || 600));
-    if (params.get('app') === '1') {
+    if (params.get('literature') === '1') {
+      const lesson = params.get('lesson');
+      frame.src = params.get('app') === '1' ? `../#/literature/lesson/${/^[a-z-]+$/.test(lesson || '') ? lesson : 'early-morning'}` : `./verify-literature-layout.html?scale=${encodeURIComponent(params.get('scale') || '1')}&font=${encodeURIComponent(params.get('font') || 'traditional')}`;
+    }
+    else if (params.get('app') === '1') {
       const lesson = params.get('lesson') || 'as-01/l1';
       frame.src = `../#/module/${/^[a-z0-9-]+\/l\d+$/.test(lesson) ? lesson : 'as-01/l1'}`;
     }
