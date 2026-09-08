@@ -659,7 +659,7 @@ export function getReviewPool(completed) {
       };
       (lesson.quiz || []).forEach((q, idx) => {
         push('quiz', {
-          kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation,
+          kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation, ...(q.mastery ? { mastery: q.mastery } : {}),
         }, idx, quizKey(mod.id, lesson.id, idx), lesson.title);
       });
       (lesson.bank || []).forEach((item, idx) => {
@@ -702,7 +702,7 @@ function ungatedModulesSubPools(modules) {
       (lesson.quiz || []).forEach((q, idx) => {
         quizPool.push({
           key: quizKey(mod.id, lesson.id, idx), moduleId: mod.id, lessonId: lesson.id, lessonTitle: lesson.title, title: lesson.title,
-          item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation },
+          item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation, ...(q.mastery ? { mastery: q.mastery } : {}) },
         });
       });
       (lesson.bank || []).forEach((item, idx) => {

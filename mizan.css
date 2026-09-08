@@ -242,6 +242,11 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .mz-understanding strong { font: 28px/1.3 var(--mz-prose); }
 .mz-understanding small, .mz-understanding span, .mz-understanding p { font: 14px/1.6 var(--font-body); color: var(--mz-muted); }
 .mz-understanding p { flex: 1; min-width: 200px; margin: 0; }
+@media (max-width: 600px) {
+  .mz-understanding { display: grid; grid-template-columns: 1.3fr 1fr 1fr; align-items: start; gap: 18px 12px; padding: 20px 12px; }
+  .mz-understanding > div { align-content: start; min-width: 0; }
+  .mz-understanding p { grid-column: 1 / -1; min-width: 0; }
+}
 .mz-unit { text-align: left; display: flex; width: 100%; align-items: center; gap: 22px; padding: 23px 26px; background: var(--color-surface); border: 1px solid var(--mz-border); border-radius: 10px; color: var(--color-text); cursor: pointer; transition: border-color 180ms, background 180ms; }
 .mz-unit:hover, .mz-unit.is-current { border-color: var(--color-accent); }
 .mz-unit-number { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid var(--mz-border); border-radius: 50%; color: var(--color-accent); }

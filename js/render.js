@@ -1006,7 +1006,7 @@ function lessonPreviewHtml(state, MODULES) {
   // Mastery is reachable from both without any separate UI of its own.
   const actionButtons = complete
     ? `
-      <button class="btn btn-secondary" data-action="startMasteryV2" data-lesson-id="${escAttr(lesson.id)}">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
+      <button class="btn btn-secondary" data-action="startMasteryV2" data-lesson-id="${escAttr(lesson.id)}">${mastered ? 'Retake challenge' : 'Lesson challenge'}</button>
       <button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">Review</button>`
     : `<button class="btn btn-primary" data-action="startLesson" data-lesson-id="${escAttr(lesson.id)}">${resumingQuiz ? 'Resume the quiz' : state.studySessions?.[`${state.courseId}/${mod.id}/${lesson.id}`] ? 'Continue lesson' : 'Start lesson'}</button>`;
 
@@ -1016,7 +1016,7 @@ function lessonPreviewHtml(state, MODULES) {
         <div class="card-kicker modal-kicker">LESSON ${idx + 1} &middot; ${esc(mod.title)}</div>
         <h2>${esc(lesson.title)}</h2>
         <p class="modal-sub">${escBidi(lesson.subtitle || '')}</p>
-        ${mastered ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
+        ${mastered ? `<div class="tag tag-accent" style="margin-top:8px;">${icon('award', 11, 2.6)} Challenge passed</div>` : ''}
         <div class="modal-buttons">
           <button class="btn btn-secondary" data-action="cancelLessonPreview">Cancel</button>
           ${actionButtons}
@@ -2309,9 +2309,9 @@ const PATH_KIND_LABELS = {
 function sessionKicker(p, mod) {
   if (p.source === 'path') {
     const label = PATH_KIND_LABELS[p.kind] || p.kind;
-    return `MY PATH · <bdi lang="ar" dir="rtl">${esc(label)}</bdi>${p.mastery ? ' · MASTERY' : ''}`;
+    return `MY PATH · <bdi lang="ar" dir="rtl">${esc(label)}</bdi>${p.mastery ? ' · CHALLENGE' : ''}`;
   }
-  if (p.source === 'masteryV2') return 'MASTERY';
+  if (p.source === 'masteryV2') return 'LESSON CHALLENGE';
   if (p.source === 'unlockTest') return 'UNLOCK TEST';
   if (p.source === 'review') return 'REVIEW';
   if (p.source === 'revision') {
@@ -2643,7 +2643,7 @@ function practiceReviewHtml(state, MODULES) {
       <button class="btn ${drillMissedBtn ? 'btn-secondary' : 'btn-primary'} btn-block" data-action="${reviseAgainAction}">Revise again</button>
       <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Review</button>`
     : pathNode && !pathPassed ? `
-      <button class="btn btn-primary btn-block" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' Mastery' : ''}</button>
+      <button class="btn btn-primary btn-block" data-action="startPathCheckpoint" data-node-id="${escAttr(pathNode.id)}" ${p.mastery ? 'data-mastery="1"' : ''}>Retry${p.mastery ? ' challenge' : ''}</button>
       <button class="btn btn-ghost btn-block" data-action="closePracticeReview">Back to Path</button>`
     : p.source === 'path' ? `
       <button class="btn btn-primary btn-block" data-action="closePracticeReview">${p.mastery ? 'Back to Path' : 'Continue on My Path'}</button>`
@@ -2660,7 +2660,7 @@ function practiceReviewHtml(state, MODULES) {
   const planned = p.queue.length;
   const endedEarly = total < planned;
   const kicker = pathNode
-    ? `${p.mastery ? 'Mastery · ' : ''}${pathPassed ? 'Passed' : `Need ${Math.round(pathPassRatio * 100)}%`}`
+    ? `${p.mastery ? 'Challenge · ' : ''}${pathPassed ? 'Passed' : `Need ${Math.round(pathPassRatio * 100)}%`}`
     : isUnlockTest
       ? (unlockPassed ? 'Unlocked' : `Need ${Math.round(UNLOCK_TEST_PASS_RATIO * 100)}%`)
       : endedEarly
@@ -3489,13 +3489,13 @@ function masteryV2CompleteHtml(state, MODULES) {
 
   return `
     <div class="col complete-col">
-      <div class="kicker" style="justify-content:center;display:flex;">${passed ? 'MASTERY ACHIEVED' : 'NOT QUITE'}</div>
+      <div class="kicker" style="justify-content:center;display:flex;">${passed ? 'CHALLENGE PASSED' : 'NOT QUITE'}</div>
       <h1 style="text-align:center;">${lesson ? esc(lesson.title) : 'Lesson'}</h1>
       <p class="lede" style="text-align:center;margin:0 auto;">${passed
-        ? 'A flawless run across every تركيب, book-exercise, and lesson-quiz question in this lesson.'
-        : `Mastery needs a perfect run — ${correctCount} of ${total} correct this time.`}</p>
+        ? 'A flawless run through this lesson’s question pool. Continue independent practice across different examples and days to build concept mastery.'
+        : `This challenge needs a perfect run — ${correctCount} of ${total} correct this time.`}</p>
       <div class="complete-buttons">
-        ${!passed ? `<button class="btn btn-primary" data-action="retryMasteryV2">Retry Mastery</button>` : ''}
+        ${!passed ? `<button class="btn btn-primary" data-action="retryMasteryV2">Retry challenge</button>` : ''}
         <button class="btn ${passed ? 'btn-primary' : 'btn-ghost'}" data-action="${backAction}" ${backExtra}>${backLabel}</button>
       </div>
     </div>`;
@@ -3523,7 +3523,7 @@ function pathLessonRowHtml(state, node, index, unlocked, done, revealedKeys) {
   const tag = !unlocked
     ? `<span class="tag tag-neutral">Locked</span>`
     : mastered
-      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Challenge passed</span>`
       : done
         ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Done</span>`
         : `<span class="tag tag-accent">Start</span>`;
@@ -3561,7 +3561,7 @@ function pathCheckpointRowHtml(node, index, unlocked, done, mastered, revealedKe
   const tag = !unlocked
     ? `<span class="tag tag-neutral">Locked</span>`
     : mastered
-      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Challenge passed</span>`
       : done
         ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Done</span>`
         : `<span class="tag tag-accent">Start</span>`;
@@ -3615,16 +3615,16 @@ function pathCheckpointSetupHtml(state) {
   const actionButtons = !done
     ? `<button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}">Start</button>`
     : `
-      <button class="btn btn-secondary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}" data-mastery="1">${mastered ? 'Retake Mastery' : 'Mastery'}</button>
+      <button class="btn btn-secondary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}" data-mastery="1">${mastered ? 'Retake challenge' : 'Perfect-score challenge'}</button>
       <button class="btn btn-primary" data-action="startPathCheckpoint" data-node-id="${escAttr(node.id)}">Redo</button>`;
 
   return `
     <div class="modal-backdrop" data-action="closePathCheckpointSetup">
       <div class="modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="${escAttr(label)}">
         <div class="card-kicker modal-kicker" lang="ar" dir="rtl">${esc(label)}</div>
-        <h2>${isVocab ? 'Which way do you want to translate?' : done ? 'Redo, or go for Mastery?' : 'Ready to start?'}</h2>
+        <h2>${isVocab ? 'Which way do you want to translate?' : done ? 'Practise again, or try the challenge?' : 'Ready to start?'}</h2>
         ${directionPicker}
-        ${mastered ? `<div class="tag tag-accent" style="margin:4px 0 0;">${icon('award', 11, 2.6)} Mastered</div>` : ''}
+        ${mastered ? `<div class="tag tag-accent" style="margin:4px 0 0;">${icon('award', 11, 2.6)} Challenge passed</div>` : ''}
         <div class="modal-buttons">
           <button class="btn btn-ghost" data-action="closePathCheckpointSetup">Cancel</button>
           ${actionButtons}
@@ -3708,7 +3708,7 @@ function pathSectionTestRowHtml(node, index, unlocked, done, mastered, revealedK
   const tag = !unlocked
     ? `<span class="tag tag-neutral">${icon('lock', 11, 2.6)} Jump ahead</span>`
     : mastered
-      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Mastered</span>`
+      ? `<span class="tag tag-accent">${icon('award', 11, 2.6)} Challenge passed</span>`
       : done
         ? `<span class="tag tag-accent">${icon('check', 11, 2.6)} Passed</span>`
         : `<span class="tag tag-accent">Start</span>`;

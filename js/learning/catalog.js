@@ -2,6 +2,7 @@ import { guidedGrammar } from './native.js';
 import { COURSES, isCourseUnlocked, isModuleUnlocked, isLessonUnlocked } from '../../content/index.js';
 import { esc, escAttr, escBidi } from '../html.js';
 import { EMBLEMS } from './emblems.js';
+import { masterySummary } from './mastery.js';
 
 export const brandMark = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M3 7h18M5 7l-4 8h8L5 7Zm14 0-4 8h8l-4-8Z"/><circle cx="12" cy="5" r="2" fill="currentColor" stroke="none"/></svg>';
 const logicSummaries = { 'logic-terms': 'Definitions, meaning and the relationships between terms.', 'logic-propositions': 'The structure, truth and forms of propositions.', 'logic-inference': 'Direct inference, syllogisms, deduction, induction and analogy.', 'logic-informal_fallacies': 'Recognise flaws in arguments and evaluate their strength.' };
@@ -34,8 +35,8 @@ export function catalogHtml(state) {
 export function courseOverviewHtml(state) {
   const course = COURSES.find(c => c.id === state.courseId) || COURSES[0];
   const { done, total } = counts(course, state);
-  const concepts = Object.values(state.mizanCourses?.mantiq?.concepts || {});
-  const understanding = course.id === 'mantiq' ? `<section class="mz-understanding" aria-label="Your understanding"><div><strong>${concepts.length}<small> / 120</small></strong><span>concepts introduced</span></div><div><strong>${concepts.filter(c => c.level >= 3).length}</strong><span>competent</span></div><div><strong>${concepts.filter(c => c.level >= 4).length}</strong><span>mastered</span></div><p>Completing lessons builds coverage. Independent practice across different examples and days builds mastery.</p></section>` : '';
+  const mastery = masterySummary(state, course.id);
+  const understanding = `<section class="mz-understanding" aria-label="Your understanding"><div><strong>${mastery.introduced}<small> / ${mastery.total}</small></strong><span>concepts introduced</span></div><div><strong>${mastery.competent}</strong><span>competent</span></div><div><strong>${mastery.mastered}</strong><span>mastered</span></div><p>Completing lessons builds coverage. Independent practice across different examples and days builds mastery.</p></section>`;
   const next = course.modules.flatMap(m => m.lessons.map(l => ({ m, l }))).find(({ m, l }) => !state.completed[m.id]?.[l.id]
     && isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll));
   return `<section class="mz-course-page">

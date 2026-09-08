@@ -6,6 +6,7 @@ import { nahwSteps, nativeSessionPosition } from './nahw.js';
 import { sarfSteps } from './sarf.js';
 import { introNahwSteps } from './intro-nahw.js';
 import { introSarfSteps } from './intro-sarf.js';
+import { masteryCourse } from './mastery.js';
 
 export function studyKey(courseId, moduleId, lessonId) {
   return `${courseId}/${moduleId}/${lessonId}`;
@@ -96,14 +97,18 @@ export function normalizeLogicProgress(input) {
       .map(([id, c]) => [id, { ...introduced(id, c.introducedAt), ...c, evidence: Array.isArray(c.evidence) ? c.evidence.filter(record) : [], mistakes: record(c.mistakes) ? c.mistakes : {} }]));
     const lessons = Object.fromEntries(Object.entries(record(p.lessons) ? p.lessons : {}).filter(([id, l]) => safeKey(id) && record(l)));
     const attempts = (Array.isArray(p.attempts) ? p.attempts : []).filter(a => record(a) && typeof a.id === 'string' && validTime(a.occurredAt)
-      && Array.isArray(a.conceptIds) && record(a.grade) && [true, false, null].includes(a.grade.correct) && Array.isArray(a.grade.mistakes));
-    return [key, { ...emptyCourse(), ...p, concepts, lessons, attempts }];
+      && typeof a.key === 'string' && typeof a.family === 'string' && Number.isFinite(a.difficulty)
+      && Array.isArray(a.conceptIds) && record(a.grade) && [true, false, null].includes(a.grade.correct) && Array.isArray(a.grade.mistakes))
+      .map(a => ({ ...a, conceptIds: a.conceptIds.filter(id => typeof id === 'string' && safeKey(id)),
+        guided: a.guided !== false, hintsUsed: Number.isFinite(a.hintsUsed) && a.hintsUsed >= 0 ? a.hintsUsed : 1,
+        grade: { ...a.grade, mistakes: a.grade.mistakes.filter(tag => typeof tag === 'string' && safeKey(tag)) } }));
+    return [key, { ...emptyCourse(), ...p, concepts, lessons, attempts, masteryNeedsReplay: true }];
   }));
 }
 
 // Attempts are immutable evidence. Replaying their union prevents two
 // devices' independently earned mastery from overwriting one another.
-export function mergeLogicProgress(local = {}, remote = {}) {
+export function mergeLogicProgress(local = {}, remote = {}, moduleResetAt = {}) {
   local = normalizeLogicProgress(local);
   remote = normalizeLogicProgress(remote);
   const out = {};
@@ -112,6 +117,15 @@ export function mergeLogicProgress(local = {}, remote = {}) {
     const conceptResetAt = { ...a.conceptResetAt, ...b.conceptResetAt };
     const lessonResetAt = { ...a.lessonResetAt, ...b.lessonResetAt };
     for (const key of Object.keys(conceptResetAt)) conceptResetAt[key] = [a.conceptResetAt?.[key], b.conceptResetAt?.[key]].filter(Boolean).sort().at(-1);
+    // A module may have been reset on an older app that predates native concept
+    // records. Its existing reset timestamp must also invalidate new evidence.
+    if (id !== 'mantiq') {
+      const ids = [...Object.keys(a.concepts), ...Object.keys(b.concepts), ...a.attempts.flatMap(a => a.conceptIds), ...b.attempts.flatMap(a => a.conceptIds)];
+      for (const key of ids) {
+        const reset = moduleResetAt[key.split('/')[0]];
+        if (validTime(reset) && (!conceptResetAt[key] || reset > conceptResetAt[key])) conceptResetAt[key] = reset;
+      }
+    }
     for (const key of Object.keys(lessonResetAt)) lessonResetAt[key] = [a.lessonResetAt?.[key], b.lessonResetAt?.[key]].filter(Boolean).sort().at(-1);
     const newest = String(a.lastStudiedAt || '') >= String(b.lastStudiedAt || '') ? a : b;
     const concepts = { ...b.concepts };
@@ -130,7 +144,7 @@ export function mergeLogicProgress(local = {}, remote = {}) {
     for (const [key, l] of Object.entries(lessons)) if (lessonResetAt[key] && String(l.completedAt || l.startedAt || '') <= lessonResetAt[key]) delete lessons[key];
     const sorted = [...attempts.values()].map(a => ({ ...a, conceptIds: a.conceptIds.filter(key => !conceptResetAt[key] || a.occurredAt > conceptResetAt[key]) }))
       .filter(a => a.conceptIds.length).sort((a, b) => a.occurredAt.localeCompare(b.occurredAt) || a.id.localeCompare(b.id));
-    const course = logicCourse();
+    const course = masteryCourse(id);
     let result = { ...newest, concepts, lessons, conceptResetAt, lessonResetAt, attempts: sorted, masteryNeedsReplay: true, reviewsCompleted: Math.max(a.reviewsCompleted || 0, b.reviewsCompleted || 0) };
     if (course && id === course.id) {
       let rebuilt = { ...result, attempts: [], concepts: Object.fromEntries(Object.entries(concepts).map(([key, c]) => [key, introduced(key, c.introducedAt)])) };

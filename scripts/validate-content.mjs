@@ -105,9 +105,17 @@ function validateCourse(course) {
       seenIds.add(lessonKey);
 
       if (!lesson.concepts || lesson.concepts.length === 0) fail(`${lid}: has no concepts`);
+      for (const item of [...(lesson.quiz || []), ...(lesson.bank || []), ...(lesson.exercise?.items || []), ...(lesson.concepts || []).map(c => c.exercise).filter(Boolean)]) {
+        if (!item.mastery) continue;
+        const meta = item.mastery;
+        if (!Array.isArray(meta.conceptIndices) || !meta.conceptIndices.length || meta.conceptIndices.some(i => !Number.isInteger(i) || !lesson.concepts?.[i])) fail(`${lid}: mastery must reference valid concept indices`);
+        if (meta.difficulty != null && (!Number.isInteger(meta.difficulty) || meta.difficulty < 1 || meta.difficulty > 5)) fail(`${lid}: mastery difficulty must be 1–5`);
+        for (const key of ['family', 'evidenceKey']) if (meta[key] != null && (typeof meta[key] !== 'string' || !meta[key].trim())) fail(`${lid}: mastery ${key} must be a nonempty string`);
+      }
       (lesson.concepts || []).forEach((c, i) => {
         const where = `${lid} concept[${i}]`;
         if (!c.heading) fail(`${where}: missing heading`);
+        if (c.masteryAliases != null && (!Array.isArray(c.masteryAliases) || c.masteryAliases.some(a => typeof a !== 'string' || !a.trim()))) fail(`${where}: masteryAliases must be a list of nonempty names`);
         if (!c.body && !Array.isArray(c.lines)) fail(`${where}: needs a body (or an explicit lines[])`);
         if (conceptLines(c).length === 0) fail(`${where}: body split to no lines`);
         if (c.exercise) {

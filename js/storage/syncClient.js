@@ -398,7 +398,7 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.mizanVersion = Math.max(local.mizanVersion || 0, remote.mizanVersion || 0);
   merged.moduleResetAt = mergeRecord(local.moduleResetAt, remote.moduleResetAt, latestString);
   merged.studySessions = mergeStudySessions(local.studySessions, remote.studySessions, merged.moduleResetAt);
-  merged.mizanCourses = mergeLogicProgress(local.mizanCourses, remote.mizanCourses);
+  merged.mizanCourses = mergeLogicProgress(local.mizanCourses, remote.mizanCourses, merged.moduleResetAt);
 
   merged.courseId = local.courseId || remote.courseId || merged.courseId;
   // Latest reset per module wins, from either side -- a reset either device

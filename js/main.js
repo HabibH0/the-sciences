@@ -77,6 +77,7 @@ import { emptyCourse } from './mizan/progress/model.js';
 import { advanceTeaching } from './mizan/course/lesson-player.js';
 import { completeLesson as completeLogicLesson, practiceKey as logicPracticeKey } from './mizan/course/engine.js';
 import { recordAttempt } from './mizan/mastery/engine.js';
+import { masteryCourse, nativeConceptId, lessonConceptIds, nativeEvidence, introduceNativeConcepts, recordNativeAttempt, reconcileNativeCoverage } from './learning/mastery.js';
 import { recoverySave, dismissRecovery, originalSaveText, retryStorageWrites } from './storage/storageManager.js';
 import { hashForState, navFromHash, crumbTrail } from './nav.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
@@ -214,7 +215,7 @@ function autoUploadSuccessMessage(reason) {
   if (reason === 'quiz-complete') return 'Quiz result synced to your account.';
   if (reason === 'lesson-exercise' || reason === 'concept-exercise') return 'Lesson exercise progress synced to your account.';
   if (reason === 'practice-answer') return 'Practice progress synced to your account.';
-  if (reason === 'mastery-complete') return 'Mastery result synced to your account.';
+  if (reason === 'mastery-complete') return 'Challenge result synced to your account.';
   if (reason === 'path-session-complete') return 'Path progress synced to your account.';
   if (reason === 'unlock-test-complete') return 'Unlock test progress synced to your account.';
   if (reason === 'direct-unlock') return 'Unlock choice synced to your account.';
@@ -231,9 +232,11 @@ function envelopeProgress(envelope) {
 function applyMergedProgressToState(envelope) {
   const progress = envelopeProgress(envelope);
   state.studySessions = mergeStudySessions(state.studySessions, progress.studySessions, progress.moduleResetAt);
-  state.mizanCourses = mergeLogicProgress(state.mizanCourses, progress.mizanCourses);
+  state.mizanCourses = mergeLogicProgress(state.mizanCourses, progress.mizanCourses, progress.moduleResetAt);
   const persistedKeys = [
     'completed',
+    'completedAt',
+    'moduleResetAt',
     'quizScores',
     'exStates',
     'lessonPos',
@@ -941,11 +944,11 @@ function applyAppearance(state) {
 let lessonPageLayout = null;
 let readingDetailRequested = false;
 function rerender(focusSelector) {
-  refreshLogicMastery();
+  refreshCourseMastery();
   applyAppearance(state);
   if (state.view === 'quiz') {
     state.quizSession = { moduleId: state.moduleId, lessonId: state.lessonId };
-    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder', 'quizCorrection']) state.quizSession[field] = state[field];
+    for (const field of ['quizIndex', 'quizSelected', 'quizRevealed', 'quizAnswers', 'quizShowResult', 'quizPassed', 'quizOptionOrder', 'quizCorrection', 'quizEvidenceId']) state.quizSession[field] = state[field];
   }
   document.title = `${state.view === 'practice' ? 'Practice' : crumbTrail(state).at(-1)?.label || 'My learning'} — Mīzān`;
   const previousNav = lastNav;
@@ -1131,6 +1134,7 @@ function shuffleLessonOptions(moduleId, lessonId) {
 function startQuizAttempt(lesson) {
   if (lesson.learningModel === 'mizan') { state.view = 'lesson'; ensureStudySession(); return; }
   const prior = state.quizSession;
+  state.quizEvidenceId = typeof prior?.quizEvidenceId === 'string' ? prior.quizEvidenceId : crypto.randomUUID();
   if (prior?.moduleId === state.moduleId && prior?.lessonId === state.lessonId
     && Number.isInteger(prior.quizIndex) && prior.quizIndex >= 0 && prior.quizIndex < lesson.quiz.length
     && Array.isArray(prior.quizAnswers) && prior.quizAnswers.length <= lesson.quiz.length
@@ -1148,6 +1152,7 @@ function startQuizAttempt(lesson) {
     return;
   }
   state.quizOptionOrder = shuffleQuizOrder(lesson);
+  state.quizEvidenceId = crypto.randomUUID();
   state.quizIndex = 0;
   state.quizSelected = null;
   state.quizRevealed = false;
@@ -1465,10 +1470,11 @@ function resetModuleProgress(moduleId) {
     if (key.split('/')[1] === moduleId) delete state.studySessions[key];
   }
   const mod = getModule(moduleId);
-  const progress = state.mizanCourses.mantiq;
-  if (mod?.language === 'en' && progress) {
-    const ids = new Set(mod.lessons.map(l => l.id));
-    const concepts = new Set(mod.lessons.flatMap(l => logicCourse().lessons[l.id].metadata.concepts));
+  const owner = courseIdForModule(moduleId);
+  const progress = state.mizanCourses[owner];
+  if (mod && progress) {
+    const ids = new Set(mod.lessons.map(l => owner === 'mantiq' ? l.id : `${moduleId}/${l.id}`));
+    const concepts = new Set(mod.lessons.flatMap(l => lessonConceptIds(owner, moduleId, l.id)));
     progress.conceptResetAt ||= {};
     progress.lessonResetAt ||= {};
     for (const id of concepts) progress.conceptResetAt[id] = state.moduleResetAt[moduleId];
@@ -2339,14 +2345,34 @@ function returnToValidLockedView() {
   }
 }
 
-function refreshLogicMastery() {
-  if (logicCourse() && state.mizanCourses.mantiq?.masteryNeedsReplay) {
-    state.mizanCourses = mergeLogicProgress(state.mizanCourses);
+function refreshCourseMastery() {
+  if (Object.entries(state.mizanCourses).some(([id, p]) => p.masteryNeedsReplay && masteryCourse(id))) {
+    state.mizanCourses = mergeLogicProgress(state.mizanCourses, {}, state.moduleResetAt);
   }
+  for (const course of COURSES) reconcileNativeCoverage(state, course.id, new Date().toISOString());
+}
+
+function saveNativeEvidence(moduleId, lessonId, item, context, attempt) {
+  const evidence = nativeEvidence(moduleId, lessonId, item, context);
+  if (!evidence) return;
+  state.mizanCourses[evidence.courseId] = recordNativeAttempt(state.mizanCourses[evidence.courseId], evidence, attempt);
+}
+
+function recordNativePractice(entry, pass) {
+  const p = state.practice;
+  if (!p || !entry || entry.item.kind === 'mizan') return;
+  if (!p.evidenceSessionId || p.evidenceStartedAt !== p.startedAt) {
+    p.evidenceSessionId = crypto.randomUUID();
+    p.evidenceStartedAt = p.startedAt;
+  }
+  saveNativeEvidence(entry.moduleId, entry.lessonId, entry.item, {}, {
+    id: `${p.evidenceSessionId}:${p.index}`, sessionId: p.evidenceSessionId,
+    occurredAt: new Date().toISOString(), correct: pass, mode: 'review',
+  });
 }
 
 function ensureStudySession(moduleId = state.moduleId, lessonId = state.lessonId) {
-  refreshLogicMastery();
+  refreshCourseMastery();
   const mod = getModule(moduleId), lesson = getLesson(moduleId, lessonId);
   if (!mod || !lesson) return null;
   const key = studyKey(state.courseId, moduleId, lessonId);
@@ -2538,7 +2564,11 @@ const actions = {
     return false;
   },
   resumeStudy() { ensureStudySession(); },
-  openStudyNotes() { state.studyNotesOpen = true; },
+  openStudyNotes() {
+    state.studyNotesOpen = true;
+    const ctx = nativeStudyContext();
+    if (ctx && !ctx.record.submitted) { ctx.record.hintShown = true; ctx.session.updatedAt = new Date().toISOString(); }
+  },
   closeStudyNotes(el, event) {
     if (el.classList.contains('mz-notes-backdrop') && event?.target !== el) return false;
     state.studyNotesOpen = false;
@@ -2628,6 +2658,11 @@ const actions = {
       ctx.record.passed = true;
       ctx.record.submitted = true;
       ctx.record.submittedAt = new Date().toISOString();
+      saveNativeEvidence(state.moduleId, state.lessonId, ctx.item, {
+        conceptIndex: ctx.step.kind === 'check' ? ctx.step.conceptIndex : undefined,
+        guided: ctx.step.kind === 'check' || ctx.item.worked === true,
+      }, { id: `${ctx.session.id}:${ctx.key}`, sessionId: ctx.session.id,
+        occurredAt: ctx.record.submittedAt, correct: pass, hintsUsed: ctx.record.hintShown ? 1 : 0 });
       state.revealState[ctx.key] = 1;
     }
     ctx.session.updatedAt = new Date().toISOString();
@@ -2673,6 +2708,12 @@ const actions = {
     } else {
       const ctx = nativeStudyContext();
       if (ctx && !ctx.record.submitted) return false;
+      if (step.kind === 'teach') {
+        const id = nativeConceptId(state.moduleId, state.lessonId, step.conceptIndex);
+        if (masteryCourse(state.courseId)?.concepts[id]) {
+          state.mizanCourses[state.courseId] = introduceNativeConcepts(state.mizanCourses[state.courseId], [id], now);
+        }
+      }
       if (session.stepIndex + 1 >= session.steps.length) return actions.gotoQuiz();
       session.stepIndex++;
     }
@@ -2977,6 +3018,7 @@ const actions = {
     if (!queue.length) return false;
     p.queue = queue;
     p.index = 0;
+    p.evidenceSessionId = null;
     p.log = [];
     p.selected = undefined;
     p.submitted = false;
@@ -3203,6 +3245,7 @@ const actions = {
       applyReviewAnswer(key, entry, pass);
     }
     recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.prompt, pass, entry.moduleId, entry.lessonTitle);
+    recordNativePractice(entry, pass);
     if (p.source === 'path') {
       const node = findPathNode(p.nodeId);
       if (node) recordPathRepAnswer(key, entry.item.kind, pass, node);
@@ -4127,6 +4170,7 @@ const actions = {
     if (!queue.length) return false;
     p.queue = queue;
     p.index = 0;
+    p.evidenceSessionId = null;
     p.log = [];
     p.selected = undefined;
     p.submitted = false;
@@ -4340,6 +4384,11 @@ const actions = {
     } else {
       if (state.quizRevealed || state.quizSelected == null) return false;
       state.quizRevealed = true;
+      state.quizEvidenceId ||= crypto.randomUUID();
+      saveNativeEvidence(state.moduleId, state.lessonId, lesson.quiz[state.quizIndex], {}, {
+        id: `${state.quizEvidenceId}:${state.quizIndex}`, sessionId: state.quizEvidenceId,
+        occurredAt: new Date().toISOString(), correct: state.quizSelected === lesson.quiz[state.quizIndex].correct,
+      });
     }
   },
   correctLessonQuiz() {
@@ -4474,6 +4523,7 @@ const actions = {
         applyReviewAnswer(key, entry, allPass);
       }
       recordPracticeAnswer(p.source === 'review' ? entry.legacyKey : key, entry.item.source, allPass, entry.moduleId, entry.lessonTitle);
+      recordNativePractice(entry, allPass);
       if (p.source === 'path') {
         const node = findPathNode(p.nodeId);
         if (node) recordPathRepAnswer(key, entry.item.kind, allPass, node);

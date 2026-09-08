@@ -1,4 +1,5 @@
 // Ported from Mīzān src/mastery/engine.ts by scripts/import-mizan.mjs.
+export const MASTERY_DEFAULTS = { minimum_accuracy: 0.85, minimum_independent_items: 4 };
 const intervals = [
     1,
     3,
@@ -65,12 +66,12 @@ export function recordAttempt(progress, attempt, course) {
         const days = new Set(successful.map((e)=>e.day)).size;
         const families = new Set(successful.map((e)=>e.family)).size;
         const maxDifficulty = Math.max(0, ...successful.map((e)=>e.difficulty));
-        const minAccuracy = course.concepts[id]?.mastery?.minimum_accuracy ?? course.masteryDefaults.minimum_accuracy ?? 0.85;
+        const minAccuracy = course.concepts[id]?.mastery?.minimum_accuracy ?? course.masteryDefaults.minimum_accuracy ?? MASTERY_DEFAULTS.minimum_accuracy;
         const minApplication = course.concepts[id]?.mastery?.minimum_application_questions ?? 2;
         const application = new Set(successful.filter((e)=>e.difficulty >= 4).map((e)=>e.key)).size;
         let level = 1;
         if (unique >= 3 && accuracy >= 0.6) level = 2;
-        if (unique >= Math.max(6, course.masteryDefaults.minimum_independent_items) && accuracy >= minAccuracy && application >= minApplication && days >= 2) level = 3;
+        if (unique >= Math.max(6, course.masteryDefaults.minimum_independent_items ?? MASTERY_DEFAULTS.minimum_independent_items) && accuracy >= minAccuracy && application >= minApplication && days >= 2) level = 3;
         if (level >= 3 && unique >= 8 && maxDifficulty >= 5 && families >= 2 && days >= 2) level = 4;
         const span = successful.length ? (Date.parse(day) - Date.parse(successful[0].day)) / 86400000 : 0;
         if (level >= 4 && unique >= 10 && accuracy >= 0.88 && days >= 3 && span >= 10) level = 5;

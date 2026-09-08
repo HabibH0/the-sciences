@@ -17,6 +17,7 @@ export async function createInitialState() {
     literatureLessonId: nav.literatureLessonId || null,
     literatureError: '',
     quizSession: boot.quizSession,
+    quizEvidenceId: null,
     // Which course is active -- 'adv-nahw' | 'intro-nahw' | 'intro-sarf' |
     // 'adv-sarf' (see
     // content/index.js's COURSES/setActiveCourse). Shared xp/streak/badges/
@@ -617,7 +618,7 @@ function moduleRevisionSubPools(moduleId, completed, forceUnlockAll = false) {
     (lesson.quiz || []).forEach((q, idx) => {
       quizPool.push({
         key: quizKey(moduleId, lesson.id, idx), moduleId, lessonId: lesson.id, lessonTitle: lesson.title, title: lesson.title,
-        item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation },
+        item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation, ...(q.mastery ? { mastery: q.mastery } : {}) },
       });
     });
   });
@@ -688,7 +689,7 @@ function courseRevisionSubPools(moduleIds, completed, forceUnlockAll = false) {
       (lesson.quiz || []).forEach((q, idx) => {
         quizPool.push({
           key: quizKey(moduleId, lesson.id, idx), moduleId, lessonId: lesson.id, lessonTitle: lesson.title, title: lesson.title,
-          item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation },
+          item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation, ...(q.mastery ? { mastery: q.mastery } : {}) },
         });
       });
     });
@@ -1095,7 +1096,7 @@ function masteryV2SubPools(moduleId, lessonId) {
     }));
   const quizPool = (lesson.quiz || []).map((q, idx) => ({
     key: quizKey(moduleId, lessonId, idx), moduleId, lessonId, lessonTitle: lesson.title, title: lesson.title,
-    item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation },
+    item: { kind: 'mcq', prompt: q.q, options: q.options, correct: q.correct, explanation: q.explanation, ...(q.mastery ? { mastery: q.mastery } : {}) },
   }));
   return { quizPool, bookPool, tarkeebPool };
 }

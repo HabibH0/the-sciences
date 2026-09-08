@@ -29,9 +29,13 @@ try {
   const envelope = (version, xp) => ({ progress: { mizanVersion: 1, xp }, meta: { version, deviceId: 'local-test', updatedAt: `2026-09-07T12:00:0${version}.000Z` } });
   const first = envelope(1, 10);
   first.progress.literature = { version: 1, runs: { 'lit-test': { id: 'lit-test', lessonId: 'early-morning', attempts: [{ id: 'first-attempt', exerciseId: 'word', answer: 1, hints: 1 }] } } };
+  first.progress.mizanCourses = Object.fromEntries(['intro-nahw', 'intro-sarf', 'adv-nahw', 'adv-sarf'].map(id => [id, {
+    concepts: {}, attempts: [{ id: `${id}:attempt`, key: 'distinct-example', conceptIds: ['test/c0'], family: 'application', difficulty: 4, hintsUsed: 0, guided: false, grade: { correct: true, mistakes: [] }, occurredAt: '2026-09-08T12:00:00.000Z', sessionId: 'test-session', mode: 'review' }],
+  }]));
   assert.equal((await request('/api/progress', { expectedMeta: null, progress: first }, 'PUT')).status, 200);
   const literatureSave = await (await request('/api/progress', undefined, 'GET')).json();
   assert.deepEqual(literatureSave.progress.progress.literature, first.progress.literature, 'The cloud envelope preserves Literature evidence exactly.');
+  assert.deepEqual(literatureSave.progress.progress.mizanCourses, first.progress.mizanCourses, 'The cloud envelope preserves mastery evidence for every course.');
   const attempts = await Promise.all([20, 30].map(xp => request('/api/progress', { expectedMeta: first.meta, progress: envelope(2, xp) }, 'PUT')));
   assert.deepEqual(attempts.map(r => r.status).sort(), [200, 409]);
   const latest = await (await request('/api/progress', undefined, 'GET')).json();
