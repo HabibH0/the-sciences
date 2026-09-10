@@ -21,7 +21,8 @@ import {
   getVocabPool,
   getUnlockedVocabPool,
   totalLessonsCleared,
-  COURSES,
+  VISIBLE_COURSES as COURSES,
+  isCourseVisible,
   setActiveCourse,
   setActiveCourseShell,
   ensureCoursesLoaded,
@@ -41,7 +42,7 @@ import {
   newAllowanceLeft, normalizeReviewDayStats, REVIEW_REINSERT_GAP,
   REVIEW_SESSION_CHUNK,
 } from './reviewScheduler.js';
-import { findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
+import { findVisiblePathGroup as findPathGroup, groupSkeleton, findVisiblePathNode as findPathNode, pathFullPool, pathSkipAheadFullPool, nodesBeforePathNode, VISIBLE_PATH_TRACKS as PATH_TRACKS, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   getLitBook, isChapterUnlocked, isChapterDone, loadChapter, getLoadedChapter,
   litChapterKey, resumeParagraph, chapterSentences, isBuildEligible, unknownLemmas,
@@ -83,7 +84,7 @@ import { completeLesson as completeLogicLesson, practiceKey as logicPracticeKey 
 import { recordAttempt } from './mizan/mastery/engine.js';
 import { masteryCourse, nativeConceptId, lessonConceptIds, nativeEvidence, introduceNativeConcepts, recordNativeAttempt, reconcileNativeCoverage } from './learning/mastery.js';
 import { recoverySave, dismissRecovery, originalSaveText, retryStorageWrites } from './storage/storageManager.js';
-import { hashForState, navFromHash, crumbTrail } from './nav.js';
+import { hashForState, navFromHash, crumbTrail, visibleNavigation } from './nav.js';
 import { checkMcq, checkTarkeeb, checkTarkeebDiagram } from './checker.js';
 import {
   persistSoon, flushPersist, cancelPendingPersist, persist, snapshot, todayISO,
@@ -115,6 +116,7 @@ const THEME_CHROME = {
 };
 
 const state = await createInitialState();
+Object.assign(state, visibleNavigation(state));
 state.storageRecovery = recoverySave();
 state.account.backendUrl = getBackendUrl();
 if (state.account.backendUrl) {
@@ -568,6 +570,7 @@ function trackHistory() {
 // a superseded snapshot never touches state at all, not just never gets
 // painted.
 async function applyNavSnapshot(snap, token) {
+  snap = visibleNavigation({ ...snap, courseId: snap.courseId || state.courseId });
   if (snap.courseId && snap.courseId !== state.courseId) {
     await setActiveCourse(snap.courseId);
     if (token !== historyRestoreToken) return false;
@@ -2093,6 +2096,7 @@ function exitPracticeSession(p) {
 // list. Picking a course is a navigation choice, not a resume shortcut into
 // the learner's last lesson/module/practice position.
 async function activateCourse(id) {
+  if (!isCourseVisible(id)) return false;
   await setActiveCourse(id);
   state.courseId = id;
   state.view = 'dashboard';
@@ -3083,6 +3087,9 @@ const actions = {
   // --- Advanced-course/path/module unlock (see content/index.js's
   // isCourseUnlocked/isModuleUnlocked, content/paths.js's isTrackUnlocked) ---
   openUnlockPrompt(el) {
+    if (el.dataset.targetType === 'course' && !isCourseVisible(el.dataset.targetId)) return false;
+    if (el.dataset.targetType === 'track' && !PATH_TRACKS.some(track => track.id === el.dataset.targetId)) return false;
+    if (el.dataset.targetType === 'module' && !isCourseVisible(courseIdForModule(el.dataset.targetId))) return false;
     state.unlockPrompt = { type: el.dataset.targetType, id: el.dataset.targetId };
   },
   closeUnlockPrompt() {
@@ -3183,6 +3190,7 @@ const actions = {
   // branches on `complete` to also offer Mastery there.
   async enterPathLesson(el) {
     const courseId = el.dataset.courseId;
+    if (!isCourseVisible(courseId)) return false;
     if (courseId !== state.courseId) {
       await setActiveCourse(courseId);
       state.courseId = courseId;

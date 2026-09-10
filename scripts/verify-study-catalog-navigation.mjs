@@ -91,11 +91,12 @@ try {
   const intro = await newPage({ forceUnlockAll: true });
   for (const courseId of ['intro-nahw', 'intro-sarf']) {
     await intro.goto(`${origin}/#/course/${courseId}`);
-    await intro.locator('.mz-course-dashboard').waitFor();
+    await intro.locator('.mz-catalog').waitFor();
     assert.equal(await intro.locator('.mz-hub').count(), 0);
+    assert.equal(await intro.locator('[data-course-id="intro-nahw"], [data-course-id="intro-sarf"]').count(), 0);
   }
   await intro.close();
-  results.push('Introductory Nahw and Sarf keep their existing course design');
+  results.push('Hidden introductory course links return to the available course catalogue');
   assert.deepEqual(errors, []);
 } finally {
   await fs.writeFile(`${out}/navigation.json`, JSON.stringify({ results, errors }, null, 2));

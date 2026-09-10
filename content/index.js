@@ -28,6 +28,11 @@ export const COURSES = COURSE_SHELLS.map((course) => ({
   })),
 }));
 
+// Keep the full registry for source validation and old saves. Only this list
+// is offered in the app, including its planners, progress and navigation.
+export const VISIBLE_COURSES = COURSES.filter(course => !['intro-nahw', 'intro-sarf'].includes(course.id));
+export const isCourseVisible = id => VISIBLE_COURSES.some(course => course.id === id);
+
 const loadedCourses = new Map();
 let activeCourseId = COURSES[0].id;
 
@@ -93,11 +98,12 @@ export function isCourseComplete(course, completed) {
 // counterpart is fully complete, OR by a direct confirmed unlock
 // (unlockedCourses is state.unlockedCourses, courseId -> true).
 export function isCourseUnlocked(course, completed, unlockedCourses, forceUnlockAll = false) {
+  if (!course || !isCourseVisible(course.id)) return false;
   if (forceUnlockAll) return true;
   if (!course.requiresCourseId) return true;
   if (unlockedCourses && unlockedCourses[course.id]) return true;
   const req = COURSES.find((c) => c.id === course.requiresCourseId);
-  return !req || isCourseComplete(req, completed);
+  return !req || !isCourseVisible(req.id) || isCourseComplete(req, completed);
 }
 
 // Fraction of quiz questions that must be correct to unlock a lesson's drills.
@@ -191,19 +197,19 @@ function isModuleFullyComplete(mod, completed) {
 }
 
 export function totalModulesAllCourses() {
-  return COURSES.reduce((sum, c) => sum + c.modules.length, 0);
+  return VISIBLE_COURSES.reduce((sum, c) => sum + c.modules.length, 0);
 }
 
 export function totalLessonsAllCourses() {
-  return COURSES.reduce((sum, c) => sum + c.modules.reduce((s, m) => s + m.lessons.length, 0), 0);
+  return VISIBLE_COURSES.reduce((sum, c) => sum + c.modules.reduce((s, m) => s + m.lessons.length, 0), 0);
 }
 
 export function completedModulesAllCourses(completed) {
-  return COURSES.reduce((sum, c) => sum + c.modules.filter((m) => isModuleFullyComplete(m, completed)).length, 0);
+  return VISIBLE_COURSES.reduce((sum, c) => sum + c.modules.filter((m) => isModuleFullyComplete(m, completed)).length, 0);
 }
 
 export function completedLessonsAllCourses(completed) {
-  return COURSES.reduce((sum, c) => sum + c.modules.reduce((s, m) => {
+  return VISIBLE_COURSES.reduce((sum, c) => sum + c.modules.reduce((s, m) => {
     const done = completed[m.id] || {};
     return s + m.lessons.filter((l) => done[l.id]).length;
   }, 0), 0);
@@ -215,7 +221,7 @@ export function isCourseFullyComplete(courseId, completed) {
 }
 
 export function allCoursesComplete(completed) {
-  return COURSES.every((c) => isCourseFullyComplete(c.id, completed));
+  return VISIBLE_COURSES.every((c) => isCourseFullyComplete(c.id, completed));
 }
 
 export function conceptKey(moduleId, lessonId, conceptIndex) {

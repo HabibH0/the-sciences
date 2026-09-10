@@ -2840,7 +2840,7 @@ export const COURSE_SHELLS = [
     "id": "adv-nahw",
     "name": "Advanced Nahw",
     "arabicName": "النحو المتقدم",
-    "blurb": "The full classical course in Arabic syntax: seventeen chapters covering the word, the sentence, إعراب, and the complete grammar of Arabic. Continues on from Introductory Nahw.",
+    "blurb": "The full classical course in Arabic syntax: seventeen chapters covering the word, the sentence, إعراب, and the complete grammar of Arabic.",
     "requiresCourseId": "intro-nahw",
     "lockedMessage": "Locked until Introductory Nahw is complete.",
     "modules": [
@@ -4254,7 +4254,7 @@ export const COURSE_SHELLS = [
     "id": "adv-sarf",
     "name": "Advanced Sarf",
     "arabicName": "الصرف المتقدم",
-    "blurb": "شذا العرف في فن الصرف by أحمد الحملاوي, in full: the seven divisions of الفعل — tense, augmentation, weak letters, and more — then the four divisions of الاسم: primitive vs. derived, gender, and how a noun ends. Continues on from Introductory Sarf.",
+    "blurb": "شذا العرف في فن الصرف by أحمد الحملاوي, in full: the seven divisions of الفعل — tense, augmentation, weak letters, and more — then the four divisions of الاسم: primitive vs. derived, gender, and how a noun ends.",
     "requiresCourseId": "intro-sarf",
     "lockedMessage": "Locked until Introductory Sarf is complete.",
     "modules": [

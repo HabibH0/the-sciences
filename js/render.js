@@ -30,7 +30,7 @@ import {
   courseHasVocab,
   totalLessonsCleared,
   totalLessons,
-  COURSES,
+  VISIBLE_COURSES as COURSES,
   courseIdForModule,
   flattenTarkeebSlots,
   classifyTarkeebRoleTier,
@@ -50,7 +50,7 @@ import {
   reviewPoolStatus, effectiveReviewCard, nextDueLabel, estimateReviewMinutes,
   RATING_LABELS, reviewDayISO,
 } from './reviewScheduler.js';
-import { PATH_TRACKS, findPathGroup, groupSkeleton, findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
+import { VISIBLE_PATH_TRACKS as PATH_TRACKS, findVisiblePathGroup as findPathGroup, groupSkeleton, findVisiblePathNode as findPathNode, pathFullPool, pathSkipAheadFullPool, sectionTestCounts, nodesBeforePathNode, isTrackUnlocked, trackUnlockTestPool } from '../content/paths.js';
 import {
   LIT_BOOKS, getLitBook, getLoadedChapter, bookProgress, isChapterDone, isChapterUnlocked,
   chapterRecord, isUnknownLemma, unknownWordsInChapter, describeFeatures, posLabel,
@@ -59,7 +59,7 @@ import {
 import {
   levelInfo, xpForQuiz, BADGE_DEFS, quizCosmeticXp, quizTier, longestStreak,
   ACHIEVEMENT_CATEGORIES, LEVEL_TIERS, STREAK_TIERS, PERFECT_QUIZ_TIERS, PRACTICE_TIERS,
-  MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, COURSE_TIERS, COURSE_ALL_BADGE,
+  MODULE_TIERS, MODULES_ALL_BADGE, LESSON_TIERS, LESSONS_ALL_BADGE, VISIBLE_COURSE_TIERS as COURSE_TIERS, COURSE_ALL_BADGE, isBadgeVisible,
   perfectQuizCount,
 } from './gamification.js';
 import { moduleRevisionPool, moduleRevisionCounts, courseRevisionPool, courseRevisionCounts, REVISION_VOCAB_LEARNED_COUNT, firstUnfinishedPathNodeIndex, isPathNodeUnlocked, isPathNodeDone, isGroupUnlocked, masteryV2Pool, pathCheckpointPassRatio, stillPassable, smartPracticeBreakdown, SMART_SESSION_LENGTH, SMART_MISTAKE_SLOTS, SMART_DUE_SLOTS } from './state.js';
@@ -1033,7 +1033,7 @@ function toastHtml(state) {
 }
 
 function badgeModalHtml(state) {
-  if (!state.badgeModal) return '';
+  if (!state.badgeModal || !isBadgeVisible(state.badgeModal.id)) return '';
   const b = state.badgeModal;
   return `
     <div class="modal-backdrop" style="z-index:60;" data-action="closeBadgeModal">
@@ -1122,7 +1122,7 @@ function unlockPromptLabel(state) {
   if (!p) return null;
   if (p.type === 'course') {
     const course = COURSES.find((c) => c.id === p.id);
-    if (!course) return null;
+    if (!course || isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll)) return null;
     return {
       name: course.name, message: course.lockedMessage,
       directUnlock: true,
@@ -1131,7 +1131,7 @@ function unlockPromptLabel(state) {
   }
   if (p.type === 'track') {
     const track = PATH_TRACKS.find((t) => t.id === p.id);
-    if (!track) return null;
+    if (!track || isTrackUnlocked(track, state.completed, state.unlockedTracks, state.forceUnlockAll)) return null;
     return {
       name: track.title, message: track.lockedMessage,
       directUnlock: true,
@@ -4387,7 +4387,7 @@ function learningAidsHtml(state) {
           <button class="settings-toggle-row ${tarkeebLabelsBlueOn ? 'is-selected' : ''}" role="checkbox" aria-checked="${tarkeebLabelsBlueOn}" data-action="toggleTarkeebLabelsBlue">
             <span class="settings-toggle-copy">
               <span class="settings-toggle-title">Colour Tarkeeb labels</span>
-              <span class="settings-toggle-sub">Introductory Nahw's diagram exercises show blue for primary sentence roles (فعل، فاعل، مبتدأ، خبر...) and green for secondary ones (نعت، مضاف، معطوف...); boxes and slots pick up the colour too. Advanced Nahw's labels turn blue.</span>
+              <span class="settings-toggle-sub">Show Advanced Nahw's grammar labels in blue to distinguish them from the sentence text.</span>
             </span>
             <span class="settings-toggle-pill">${tarkeebLabelsBlueOn ? `${icon('check', 11, 2.6)} Coloured` : 'Default'}</span>
           </button>
@@ -4402,7 +4402,7 @@ function courseProgressionHtml(state) {
     <div class="settings-page">
       <div class="settings-col">
         ${navBackRowHtml(state)}
-        ${pageHeaderHtml({ title: 'Course progression', ar: 'تقدم الدورة', lede: 'How much of the material is open at once. This applies to all five courses and My Path on this device; it never marks anything complete or removes progress.' })}
+        ${pageHeaderHtml({ title: 'Course progression', ar: 'تقدم الدورة', lede: 'How much of the material is open at once. This applies to all available courses and My Path on this device; it never marks anything complete or removes progress.' })}
 
         <h2 class="settings-group-title" style="margin-top:26px">Course locks</h2>
         <p class="settings-group-sub">Whether lessons and modules have to be earned in order.</p>
@@ -4509,7 +4509,7 @@ function accountHtml(state) {
     <div class="ledger-inline">
       <div><span class="ledger-inline-value">${state.xp.toLocaleString('en-GB')}</span><span class="ledger-inline-label">Total XP</span></div>
       <div><span class="ledger-inline-value">${cleared}</span><span class="ledger-inline-label">Lessons cleared</span></div>
-      <div><span class="ledger-inline-value">${state.badges.length}</span><span class="ledger-inline-label">Badges</span></div>
+      <div><span class="ledger-inline-value">${state.badges.filter(isBadgeVisible).length}</span><span class="ledger-inline-label">Badges</span></div>
     </div>`;
 
   // Four weeks back from today, as a 7-wide grid so the columns line up
@@ -4713,7 +4713,7 @@ function accountHtml(state) {
         ${icon('award', 18, 1.8)}
         <span class="entry-row-body">
           <span class="entry-row-title">Achievements</span>
-          <span class="entry-row-meta">${state.badges.length} earned</span>
+          <span class="entry-row-meta">${state.badges.filter(isBadgeVisible).length} earned</span>
         </span>
         <span class="entry-row-chevron">${icon('chevronRight', 15, 2)}</span>
       </button>

@@ -1,5 +1,5 @@
 import { guidedGrammar } from './native.js';
-import { COURSES, isCourseUnlocked, isModuleUnlocked, isLessonUnlocked } from '../../content/index.js';
+import { VISIBLE_COURSES as COURSES, isCourseUnlocked, isModuleUnlocked, isLessonUnlocked } from '../../content/index.js';
 import { esc, escAttr, escBidi } from '../html.js';
 import { EMBLEMS } from './emblems.js';
 import { masterySummary } from './mastery.js';
@@ -23,7 +23,7 @@ export function catalogHtml(state) {
       const unlocked = isCourseUnlocked(c, state.completed, state.unlockedCourses, state.forceUnlockAll);
       const level = c.id === 'mantiq' ? 'Foundations' : c.requiresCourseId ? 'Advanced' : 'Introductory';
       return `<article class="mz-course-card${unlocked ? '' : ' is-locked'}">
-        <div class="mz-course-art">${EMBLEMS[c.id === 'mantiq' ? 2 : i % 4]}<bdi lang="ar" dir="rtl">${esc(c.arabicName)}</bdi></div>
+        <div class="mz-course-art">${EMBLEMS[{ mantiq: 2, 'adv-nahw': 3, 'adv-sarf': 0 }[c.id] ?? i % 4]}<bdi lang="ar" dir="rtl">${esc(c.arabicName)}</bdi></div>
         <div class="mz-course-content"><p class="mz-eyebrow">${level} · ${total} lessons</p><h2>${esc(c.name)}</h2><p class="mz-course-description">${escBidi(c.blurb)}</p>
           <div class="mz-course-progress"><span>${done ? `${done} of ${total} lessons completed` : 'Ready when you are'}</span><span>${Math.round(done / total * 100)}%</span></div>${meter(done, total)}
           <a class="btn ${unlocked ? 'btn-primary' : 'btn-secondary'} mz-course-open" href="#/course/${escAttr(c.id)}" data-action="${unlocked ? 'chooseCourse' : 'openUnlockPrompt'}" data-course-id="${escAttr(c.id)}" data-target-type="course" data-target-id="${escAttr(c.id)}">${unlocked ? done === total ? 'Revisit course' : done ? 'Continue learning' : 'Explore course' : 'View prerequisites'} ${arrow}</a>

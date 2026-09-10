@@ -14,7 +14,7 @@
 // `pathId` field (defaulting to the introductory track when absent, since
 // that track predates this field and its nodes were never stamped with
 // one), never guessed from id shape.
-import { COURSES, isCourseComplete, courseUnlockTestSubPools, flattenSubPools } from './index.js';
+import { COURSES, isCourseVisible, isCourseComplete, courseUnlockTestSubPools, flattenSubPools } from './index.js';
 import * as introPath from './path.js';
 import * as advancedPath from './path-advanced.js';
 
@@ -41,15 +41,26 @@ export const PATH_TRACKS = [
   },
 ];
 
+export const VISIBLE_PATH_TRACKS = PATH_TRACKS.filter(track => track.id !== 'intro');
+export function findVisiblePathGroup(id) {
+  return VISIBLE_PATH_TRACKS.flatMap(track => track.groups).find(group => group.id === id) || null;
+}
+export function findVisiblePathNode(id) {
+  const node = findPathNode(id);
+  return node && VISIBLE_PATH_TRACKS.some(track => track.id === (node.pathId || 'intro')) ? node : null;
+}
+
 // A track with no requiresCourseIds (the introductory track) is always
 // unlocked. unlockedTracks is state.unlockedTracks, trackId -> true, set by
 // the direct confirmed path unlock in js/main.js -- same override idiom as
 // content/index.js's isCourseUnlocked.
 export function isTrackUnlocked(track, completed, unlockedTracks, forceUnlockAll = false) {
+  if (!track || !VISIBLE_PATH_TRACKS.some(visible => visible.id === track.id)) return false;
   if (forceUnlockAll) return true;
   if (!track.requiresCourseIds) return true;
   if (unlockedTracks && unlockedTracks[track.id]) return true;
   return track.requiresCourseIds.every((id) => {
+    if (!isCourseVisible(id)) return true;
     const course = COURSES.find((c) => c.id === id);
     return course && isCourseComplete(course, completed);
   });

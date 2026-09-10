@@ -14,6 +14,7 @@
     "lit:convert": "node scripts/convert-literature.mjs",
     "build:web": "node scripts/build-web.js",
     "verify:mizan": "node scripts/verify-mizan.mjs",
+    "verify:visibility": "node scripts/verify-course-visibility.mjs",
     "verify:server": "node scripts/verify-server.mjs",
     "verify:nahw": "node scripts/verify-nahw.mjs",
     "verify:intro-nahw": "node scripts/verify-intro-nahw.mjs",

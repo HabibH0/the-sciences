@@ -13,11 +13,24 @@
 // import from both without a cycle.
 
 import { guidedGrammar } from './learning/native.js';
-import { COURSES, getModule, moduleIndex, courseIdForModule } from '../content/index.js';
+import { VISIBLE_COURSES as COURSES, isCourseVisible, getModule, moduleIndex, courseIdForModule } from '../content/index.js';
 import { getLitBook } from '../content-lit/index.js';
 import { literatureLesson } from '../content-lit/learning/index.js';
-import { findPathGroup } from '../content/paths.js';
+import { findVisiblePathGroup as findPathGroup } from '../content/paths.js';
 import { migrateCourseId } from './persistence.js';
+
+// Hide retired entry points without deleting any learning evidence. This is
+// applied before boot and browser-history restoration can load a course.
+export function visibleNavigation(nav) {
+  const courseId = nav.courseId && migrateCourseId(nav.courseId);
+  const moduleCourse = nav.moduleId && courseIdForModule(nav.moduleId);
+  const hiddenPath = (nav.pathHome || nav.pathActive || nav.view === 'path')
+    && nav.pathGroupId && !findPathGroup(nav.pathGroupId);
+  if ((!courseId || isCourseVisible(courseId)) && (!moduleCourse || isCourseVisible(moduleCourse)) && !hiddenPath) return nav;
+  return { ...nav, view: 'catalog', courseId: isCourseVisible(courseId) ? courseId : COURSES[0].id,
+    moduleId: null, lessonId: null, practiceModuleId: null, practice: null,
+    pathGroupId: null, pathHome: false, pathActive: false, lessonPreviewId: null };
+}
 
 // --- Primary sections -----------------------------------------------------
 // The destinations that own a tab, in the order they appear in both bars.
@@ -305,11 +318,12 @@ export function navFromHash(hash) {
       // Old bookmarks may still carry a pre-rename id (#/course/fstu ...) --
       // resolve it to the renamed course rather than bouncing to the default.
       const course = COURSES.find((c) => c.id === migrateCourseId(parts[1]));
-      return course ? { view: 'dashboard', courseId: course.id } : { view: 'dashboard' };
+      return course ? { view: 'dashboard', courseId: course.id } : { view: 'catalog' };
     }
     case 'module': {
       const moduleId = parts[1];
       const courseId = moduleId && courseIdForModule(moduleId);
+      if (courseId && !isCourseVisible(courseId)) return { view: 'catalog' };
       if (!courseId) return { view: 'dashboard' };
       if (!parts[2]) return { view: 'module', courseId, moduleId };
       if (parts[3] === 'quiz') return { view: 'quiz', courseId, moduleId, lessonId: parts[2] };

@@ -2,7 +2,7 @@
 // checker.js. Callers (main.js's action handlers) apply the state mutation
 // and decide what happens next (rerender, toast timers, etc).
 import {
-  COURSES, totalModulesAllCourses, totalLessonsAllCourses,
+  COURSES, isCourseVisible, totalModulesAllCourses, totalLessonsAllCourses,
   completedModulesAllCourses, completedLessonsAllCourses,
   isCourseFullyComplete, allCoursesComplete,
 } from '../content/index.js';
@@ -148,6 +148,8 @@ export const COURSE_TIERS = COURSES.map((c) => ({
   name: `${c.name}, Complete`,
   desc: `Finish every module in ${c.name}.`,
 }));
+export const VISIBLE_COURSE_TIERS = COURSE_TIERS.filter(tier => isCourseVisible(tier.courseId));
+export const isBadgeVisible = id => !COURSE_TIERS.some(tier => tier.id === id && !isCourseVisible(tier.courseId));
 export const COURSE_ALL_BADGE = { id: 'course-all', name: 'The Full Curriculum', desc: 'Finish every course Mīzān offers.' };
 
 function tierDefs(tiers) {
@@ -262,7 +264,7 @@ export const ACHIEVEMENT_CATEGORIES = [
   { id: 'practice', title: 'Practice Volume', badgeIds: PRACTICE_TIERS.map((t) => t.id) },
   { id: 'modules', title: 'Modules Completed', badgeIds: [...MODULE_TIERS.map((t) => t.id), MODULES_ALL_BADGE.id] },
   { id: 'lessons', title: 'Lessons Cleared', badgeIds: [...LESSON_TIERS.map((t) => t.id), LESSONS_ALL_BADGE.id] },
-  { id: 'courses', title: 'Courses', badgeIds: [...COURSE_TIERS.map((t) => t.id), COURSE_ALL_BADGE.id] },
+  { id: 'courses', title: 'Courses', badgeIds: [...VISIBLE_COURSE_TIERS.map((t) => t.id), COURSE_ALL_BADGE.id] },
 ];
 
 // Bumps XP and queues a toast -- upgraded to announce a level-up when the
@@ -286,6 +288,7 @@ export function awardXp(state, amount) {
 export function awardBadge(state, id) {
   if (state.badges.includes(id)) return false;
   state.badges.push(id);
+  if (!isBadgeVisible(id)) return true;
   const badge = { id, ...BADGE_DEFS[id] };
   if (state.badgeModal) state.badgeQueue.push(badge);
   else state.badgeModal = badge;
