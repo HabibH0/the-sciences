@@ -1,0 +1,34 @@
+import * as m03 from './module-03.js';
+import * as m04 from './module-04.js';
+import * as m05 from './module-05.js';
+import * as m06 from './module-06.js';
+import * as m07 from './module-07.js';
+import * as m08 from './module-08.js';
+import * as m09 from './module-09.js';
+import * as m10 from './module-10.js';
+import * as m11 from './module-11.js';
+import * as m12 from './module-12.js';
+import * as m13 from './module-13.js';
+import * as m14 from './module-14.js';
+import * as m15 from './module-15.js';
+import * as m16 from './module-16.js';
+import * as m17 from './module-17.js';
+import * as m18 from './module-18.js';
+import * as m19 from './module-19.js';
+import * as m20 from './module-20.js';
+import * as m21 from './module-21.js';
+import * as m22 from './module-22.js';
+import * as m23 from './module-23.js';
+import * as m24 from './module-24.js';
+import * as m25 from './module-25.js';
+import * as m26 from './module-26.js';
+import * as m27 from './module-27.js';
+import * as m28 from './module-28.js';
+import * as m29 from './module-29.js';
+import * as m30 from './module-30.js';
+
+// Register a module only when its authored source coverage is complete.
+const modules = [m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30];
+export const COURSE_PLANS = Object.assign({}, ...modules.map(m => m.plans));
+export const COURSE_CHECKS = Object.assign({}, ...modules.map(m => m.checks));
+export const COURSE_QUIZZES = Object.assign({}, ...modules.map(m => m.quizzes));

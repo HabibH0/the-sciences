@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Nahw · Mobile preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #e9edea; color: #254d40; font: 13px/1.4 system-ui, sans-serif; height: 100dvh; overflow: hidden; }
+    header { min-height: 56px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 8px; }
+    select, a { color: inherit; font: inherit; }
+    select { padding: 8px; border: 1px solid #c4d0c8; background: white; border-radius: 6px; }
+    main { display: flex; justify-content: center; }
+    iframe { box-sizing: content-box; border: 1px solid #c4d0c8; background: white; border-radius: 16px; box-shadow: 0 8px 30px #173c2815; transform-origin: top center; flex: none; }
+  </style>
+</head>
+<body>
+  <header><strong>Mobile preview</strong><select aria-label="Phone viewport"><option value="390,844">390 × 844</option><option value="320,568">320 × 568</option><option value="430,932">430 × 932</option></select><a href="../#/module/01/l1" target="_blank" rel="noopener">Open desktop</a></header>
+  <main><iframe title="Advanced Nahw lesson on mobile"></iframe></main>
+  <script>
+    const frame = document.querySelector('iframe'), sizes = document.querySelector('select');
+    const params = new URLSearchParams(location.search);
+    const requested = params.get('lesson') || '01/l1';
+    const lesson = /^(?:(?:as-(?:0[1-9]|1[0-5])|0[1-9]|[12][0-9]|30)\/l[1-6]|logic-(?:terms|propositions|inference|informal_fallacies)\/lesson_[a-z_]+)$/.test(requested) ? requested : '01/l1';
+    const course = ['adv-nahw', 'adv-sarf', 'mantiq'].includes(params.get('course')) ? params.get('course') : null;
+    const courseName = course ? { 'adv-nahw': 'Advanced Nahw', 'adv-sarf': 'Advanced Sarf', mantiq: 'Logic' }[course] : lesson.startsWith('logic-') ? 'Logic' : lesson.startsWith('as-') ? 'Advanced Sarf' : 'Advanced Nahw';
+    document.title = `${courseName} · Mobile preview`;
+    frame.title = `${courseName} ${course ? 'course' : 'lesson'} on mobile`;
+    frame.src = course ? `../#/course/${course}` : `../#/module/${lesson}`;
+    document.querySelector('a').href = frame.src;
+    function fit() {
+      const [width, height] = sizes.value.split(',').map(Number);
+      frame.width = width; frame.height = height;
+      const space = innerHeight - document.querySelector('header').offsetHeight - 12;
+      frame.style.transform = `scale(${Math.min(1, (innerWidth - 24) / width, space / height)})`;
+    }
+    sizes.addEventListener('change', fit);
+    window.addEventListener('resize', fit);
+    fit();
+  </script>
+</body>
+</html>

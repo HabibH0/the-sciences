@@ -1,14 +1,10 @@
 // The app's motion system -- every decision about WHAT animates WHEN lives
 // here (the keyframes themselves live in styles.css's Motion layer).
 //
-// The constraint everything below is built around: rerender() replaces the
-// whole DOM with root.innerHTML on every action, so no element ever survives
-// from one paint to the next and CSS transitions can never carry a state
-// change across a rerender (the "changed" element is a brand-new node born
-// already in its final state). Worse, any bare CSS animation attached to a
-// state class (.correct, .is-active, [open]...) would REPLAY on every
-// same-screen rerender that recreates the node -- typing one letter into the
-// dashboard search box would re-pop every checkmark on screen.
+// Older screens still replace their DOM during rerender. The authored lesson
+// player preserves unchanged regions through patch-study.js; spatial-motion.js
+// owns its coordinated transitions and those of the course navigation. These
+// legacy effects remain gated to avoid replaying entrances on ordinary edits.
 //
 // So all motion is entrance-driven and JS-gated: a one-shot class added to
 // the freshly-created DOM only at the moment the thing it marks first
@@ -281,8 +277,8 @@ const drawnMeters = new Set();
 
 // Called just AFTER the swap (and after scroll restoration, so entrance
 // motion never fights a scrollTop being reapplied).
-export function applyRenderMotion(root, snap, changedScreen, nav) {
-  const enterScreen = changedScreen || firstPaint;
+export function applyRenderMotion(root, snap, changedScreen, nav, spatial = null) {
+  const enterScreen = (changedScreen || firstPaint) && !spatial;
   firstPaint = false;
   if (enterScreen) {
     const main = root.querySelector('.main');
@@ -301,6 +297,7 @@ export function applyRenderMotion(root, snap, changedScreen, nav) {
     // arrived with no entrance at all while a hidden element animated
     // (audit MOT-003).
     for (const el of root.querySelectorAll(sel)) {
+      if (spatial?.kind.startsWith('notes') && el.matches('.mz-notes-backdrop')) continue;
       // A screen entrance already animates everything inside the screen once;
       // layering the overlay entrance on top would double-animate content
       // that is simply part of the arriving page (e.g. a practice question's
@@ -757,6 +754,8 @@ const BACK_AFFORDANCE = '.back-link, .back-chevron, .app-back, .module-crumb-lin
 
 export function applyActionMotion(root, el) {
   if (!el || !el.dataset) return;
+  if (root.dataset.spatialMotion === 'selection') return;
+  if (root.dataset.spatialMotion && ['studyNext', 'studyBack', 'nextQuizQuestion', 'retakeQuiz', 'studyCheck', 'submitLogicAnswer', 'checkLessonQuiz'].includes(el.dataset.action)) return;
   if (typeof el.closest === 'function' && el.closest(BACK_AFFORDANCE)) {
     const main = root.querySelector('.main.screen-enter');
     if (main) main.classList.add('screen-enter-back');

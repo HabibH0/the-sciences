@@ -1,6 +1,6 @@
 import { conceptKey, lessonExerciseItemKey } from '../../content/index.js';
 import { nahwAnalysisItems, nahwCheckItem } from './nahw.js';
-import { sarfAnalysisItems, sarfPracticeItems } from './sarf.js';
+import { sarfAnalysisItems, sarfPracticeItems, sarfCheckItem, sarfPracticeDisplay } from './sarf.js';
 import { introNahwAnalysisItems, introNahwPracticeItems } from './intro-nahw.js';
 import { introSarfAnalysisItems, introSarfPracticeItems } from './intro-sarf.js';
 
@@ -22,7 +22,9 @@ export function nativePracticeItems(lesson) {
 
 export function nativeItem(lesson, step) {
   if (step.kind === 'analysis') return nativeAnalysisItems(lesson)[step.analysisIndex];
-  if (step.kind === 'check') return lesson.learningModel === 'mizan-nahw' ? nahwCheckItem(lesson, step.conceptIndex) : lesson.concepts[step.conceptIndex].exercise;
+  if (step.kind === 'check') return lesson.learningModel === 'mizan-nahw' ? nahwCheckItem(lesson, step.conceptIndex)
+    : lesson.learningModel === 'mizan-sarf' ? sarfCheckItem(lesson, step.conceptIndex) : lesson.concepts[step.conceptIndex].exercise;
+  if (lesson.learningModel === 'mizan-sarf') return sarfPracticeDisplay(lesson, step.practiceIndex ?? step.exerciseIndex);
   return nativePracticeItems(lesson)[step.practiceIndex ?? step.exerciseIndex];
 }
 

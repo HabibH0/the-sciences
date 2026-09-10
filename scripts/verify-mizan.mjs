@@ -1,4 +1,5 @@
 import { guidedGrammar, nativePracticeItems } from '../js/learning/native.js';
+import { foundationPlan, sourceRef } from '../js/learning/nahw-foundations.js';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { COURSES, ensureCoursesLoaded, setActiveCourse, getReviewPool } from '../content/index.js';
@@ -31,10 +32,37 @@ await check('all 498 lessons retain their teaching, practice and quiz content', 
   for (const c of COURSES.filter(c => c.id !== 'mantiq')) for (const m of c.modules) for (const l of m.lessons) {
     const steps = grammarSteps(l);
     if (guidedGrammar(l)) {
-      l.concepts.forEach((concept, index) => assert.deepEqual(
-        steps.filter(s => s.kind === 'teach' && s.conceptIndex === index).flatMap(s => s.lineIndices),
-        concept.lines.map((_, i) => i), 'Every guided grammar source block is taught once, in order',
-      ));
+      l.concepts.forEach((concept, index) => {
+        const plan = foundationPlan(l);
+        if (plan) {
+          const actual = plan.concepts[index].flatMap(idea => idea.refs.flatMap(ref => {
+            const { line, rows, part } = sourceRef(ref);
+            if (line === 'clarification') {
+              assert(typeof concept.clarification === 'string' && concept.clarification.trim(), 'A clarification reference has original source content');
+              return ['clarification'];
+            }
+            if (part != null) {
+              const copy = plan.copyParts?.[`${index}:${line}`]?.[part];
+              assert((concept.lines[line].html || concept.lines[line].box) && typeof copy === 'string' && copy.trim(), 'An authored argument has source and content');
+              return [`${line}:part:${part}`];
+            }
+            return concept.lines[line].table ? (rows ?? concept.lines[line].table.rows.map((_, i) => i)).map(row => `${line}:${row}`) : [String(line)];
+          }));
+          const expected = concept.lines.flatMap((line, i) => {
+            const parts = plan.copyParts?.[`${index}:${i}`];
+            if (parts) {
+              assert((line.html || line.box) && Array.isArray(parts) && parts.length >= 2 && parts.every(text => typeof text === 'string' && text.trim()), 'A divided source block contains complete authored arguments');
+              return parts.map((_, part) => `${i}:part:${part}`);
+            }
+            return line.table ? line.table.rows.map((_, row) => `${i}:${row}`) : [String(i)];
+          });
+          if (concept.clarification) expected.push('clarification');
+          assert.deepEqual(actual.toSorted(), expected.toSorted(), 'Every authored block, argument and table row is taught exactly once');
+        } else assert.deepEqual(
+          steps.filter(s => s.kind === 'teach' && s.conceptIndex === index).flatMap(s => s.lineIndices),
+          concept.lines.map((_, i) => i), 'Every guided grammar source block is taught once, in order',
+        );
+      });
     } else assert.equal(steps.filter(s => s.kind === 'teach').length, l.concepts.length);
     assert.equal(steps.filter(s => s.kind === 'check').length, l.concepts.filter(x => x.exercise).length);
     assert.equal(steps.filter(s => s.kind === 'practice').length, nativePracticeItems(l).length);

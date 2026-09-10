@@ -1,0 +1,231 @@
+import { card as c, rows as r, part as p, visual as v, question as q, plan } from '../nahw-course/helpers.js';
+const clarification = { line: 'clarification' };
+const list = (title, refs, items) => ({ ...c(title, ...refs), lists: [items] });
+const forms = (heading, pattern, items, note) => ({ heading, pattern, items, note });
+
+export const plans = {
+  'as-04/l1': plan(12, 'Original Letters and Additions', [
+    [c('Original roots can change',0,1,2,3)],
+    [c('Three or four original letters',0,1,2)],
+    [c('The past has three middle-vowel patterns',0,1)],
+    [c('Nine possible pairs, six admitted patterns',0,1,2,clarification)],
+  ], [
+    ['مجرد', 'All stem letters are original. Loss through إعلال does not change this.'],
+    ['مزيد', 'One or more derivational additions to three or four roots.'],
+    ['Past alone', 'Three عين vowels: فتحة، كسرة، ضمة.'],
+    ['Past + imperfect', 'Nine possible pairs minus three excluded pairs gives six أبواب.'],
+  ], {copy:{
+    '0:0':'Compare original roots with added stem letters.',
+    '0:2':'مجرد: roots only. مزيد: roots plus additions.',
+    '0:3':'قال becomes قلت through إعلال. بغير علة allows this caused loss; the missing letter remains original. Subject ت is a conjugational ending.',
+    '1:0':'Each class subdivides by its root count.',
+    '1:2':'There is no five-root bare verb. A basic past stem longer than four letters is augmented; conjugational endings are counted separately.',
+    '2:0':'In the basic active past, فاء has fatḥa. عين can have fatḥa, kasra or ḍamma, giving three patterns.',
+    '3:0':'Pair three past عين vowels with three imperfect عين vowels: nine possibilities.',
+    '3:2':'Two exclusion rules remove three pairings.',
+    '3:clarification':'The first removes kasra/ḍamma. The second removes ḍamma/kasra and ḍamma/fatḥa. Thus فَعُلَ pairs only with يَفْعُلُ, the fifth باب. Nine minus three leaves six.',
+  }, boxCopy:{'0:1':['المجرد: جميع حروفه أصلية، لا يسقط منها حرف بغير علة.','المزيد: زيد على أصوله حرف أو أكثر.']},tableCopy:{'1:1':{0:['مجرد','ثلاثي: three roots. رباعي: four roots.'],1:['مزيد','مزيد الثلاثي or مزيد الرباعي, according to the underlying root.']},'2:1':{0:['فتحة','نَصَرَ؛ ضَرَبَ؛ فَتَحَ','Help; strike; open.'],1:['ضمة','كَرُمَ','Be noble or generous.'],2:['كسرة','فَرِحَ؛ حَسِبَ','Be happy; reckon.']},'3:1':{0:['One exclusion','فَعِلَ يَفْعُلُ','Kasra then ḍamma.'],1:['Two exclusions','فَعُلَ يَفْعِلُ؛ فَعُلَ يَفْعَلُ','Ḍamma then kasra or fatḥa.']}},
+  analysisPrompt:'Identify the past عين vowel.',analysisHint:'Read the vowel on the middle root.',
+  analysisLabels:{'مفتوحة (fatḥa)':'فتحة','مضمومة (ḍamma)':'ضمة','مكسورة (kasra)':'كسرة'} }),
+
+  'as-04/l2': plan(13, 'The Six Bare Triliteral Patterns', [
+    [c('First باب: fatḥa then ḍamma',0,r(1,0)),c('Second باب: fatḥa then kasra',r(1,1),2)],
+    [c('Third باب: fatḥa in both forms',0,1),c('The throat-letter condition has one direction',2,3,clarification),c('أبى يأبى is an irregular member',4,5)],
+    [c('Fourth باب: kasra then fatḥa',0,1),c('Emotions, fullness and emptiness',r(2,0,1)),c('Colour, defects and visible traits',r(2,2,3))],
+    [c('Fifth باب: ḍamma in both forms',0,1),list('Rare root types in the fifth باب',[2,3,4],[2,3,4]),c('Qualities and wonder',5,6,7,8,9)],
+    [c('Sixth باب: kasra in both forms',0,1),c('Compare all six vowel pairs',2)],
+  ], [
+    ['First three', 'فَعَلَ pairs with يَفْعُلُ، يَفْعِلُ or يَفْعَلُ.'],
+    ['Fourth and sixth', 'فَعِلَ pairs with يَفْعَلُ or يَفْعِلُ.'],
+    ['Fifth', 'فَعُلَ يَفْعُلُ: settled qualities.'],
+    ['Recognition', 'Use both forms. Throat-letter and meaning clues support attested usage.'],
+  ], {copy:{
+    '0:0':'The عين vowels in both forms identify the باب. The first two share past fatḥa.',
+    '0:2':'The imperfect now has kasra. Sound, hamzated, hollow, final-weak and doubled roots can share a باب: root type alone does not settle it.',
+    '1:1':'Both عين vowels are fatḥa. فتح: open; ذهب: go; سعى: strive; وضع: put; سأل: ask; قرأ: read.',
+    '1:3':'Regular members have a throat letter as عين or لام. A throat letter does not by itself establish membership.',
+    '1:clarification':'The test is one-way: the vowel pair identifies the باب; absence of the required throat letter marks an irregular member.',
+    '1:5':'أبى يأبى, “refuse”, has fatḥa in both forms. Its hamza is فاء, outside the permitted positions, so it is شاذ here. Other irregular and dialectal forms are recorded too.',
+    '2:1':'Past kasra, imperfect fatḥa. فرح: be joyful; علم: know; خاف: fear; رضي: be pleased. These examples span the root types already studied.',
+    '3:1':'شرف: be noble; حسن: be good or beautiful; جرؤ: be bold. Only this باب has ḍamma on the past عين.',
+    '3:2':'Yāʾ as عين: the source singles out هَيُؤَ, “take on a form”. This restriction concerns yāʾ, not wāw.',
+    '3:3':'Yāʾ as لام in a fully conjugating verb: نَهُوَ, “become intelligent”, from النُّهْيَة, intellect. The displayed wāw reflects its changed form.',
+    '3:4':'Doubling is rare: شَرُرْتَ and لَبُبْتَ. The latter also has a kasra variant; its imperfect تَلَبُّ has fatḥa.',
+    '3:5':'Enduring qualities, rather than passing states.',
+    '3:7':'Two extended uses:',
+    '3:9':'جَهِلَ becomes جَهُلَ; أَكَلَ becomes أَكُلَ: an ingrained quality. For تعجب, ضَرُبَتْ يَدُهُ means “how forceful his hand is”, expressing wonder rather than reporting a strike.',
+    '4:1':'حسب: reckon. نعم: live comfortably or be glad. This باب is rare in sound roots and common in weak roots, including initial weakness. The source’s two later lists total 24 verbs; that total is not exclusively weak roots.',
+    '4:2':'First: فَعَلَ يَفْعُلُ. Second: فَعَلَ يَفْعِلُ. Third: فَعَلَ يَفْعَلُ. Fourth: فَعِلَ يَفْعَلُ. Fifth: فَعُلَ يَفْعُلُ. Sixth: فَعِلَ يَفْعِلُ.',
+  }, boxCopy:{'1:2':['في القياس: عين الباب الثالث أو لامه حرف حلقي؛ ولا يلزم العكس.','ء، ه، ح، خ، ع، غ.'],'3:6':['الأوصاف الخلقية: التي لها مكث.'],'3:8':['يحوّل إليه كل ثلاثي لمعنى الغريزة، وقد يستعمل للتعجب.'],'4:0':['الباب السادس: فَعِلَ يَفْعِلُ؛ بالكسر فيهما.','حَسِبَ يَحْسِبُ؛ نَعِمَ يَنْعِمُ.']},
+  boxExamples:{
+    '1:0':forms('Third باب','فَعَلَ يَفْعَلُ',['فَتَحَ يَفْتَحُ','ذَهَبَ يَذْهَبُ','سَعَى يَسْعَى','وَضَعَ يَضَعُ','سَأَلَ يَسْأَلُ','قَرَأَ يَقْرَأُ']),
+    '2:0':forms('Fourth باب','فَعِلَ يَفْعَلُ',['فَرِحَ يَفْرَحُ','عَلِمَ يَعْلَمُ','وَجِلَ يَوْجَلُ','يَبِسَ يَيْبَسُ','خَافَ يَخَافُ','هَابَ يَهَابُ','رَضِيَ يَرْضَى','قَوِيَ يَقْوَى','عَضَّ يَعَضُّ','أَمِنَ يَأْمَنُ','سَئِمَ يَسْأَمُ','صَدِئَ يَصْدَأُ']),
+    '3:0':forms('Fifth باب','فَعُلَ يَفْعُلُ',['شَرُفَ يَشْرُفُ','حَسُنَ يَحْسُنُ','وَسُمَ يَوْسُمُ','يَمُنَ يَيْمُنُ','لَؤُمَ يَلْؤُمُ','جَرُؤَ يَجْرُؤُ','سَرُوَ يَسْرُو']),
+  }, tableExamples:{'0:1':{
+    0:forms('First باب','فَعَلَ يَفْعُلُ',['نَصَرَ يَنْصُرُ','قَعَدَ يَقْعُدُ','أَخَذَ يَأْخُذُ','بَرَأَ يَبْرُؤُ','قَالَ يَقُولُ','غَزَا يَغْزُو','مَرَّ يَمُرُّ']),
+    1:forms('Second باب','فَعَلَ يَفْعِلُ',['ضَرَبَ يَضْرِبُ','جَلَسَ يَجْلِسُ','وَعَدَ يَعِدُ','بَاعَ يَبِيعُ','رَمَى يَرْمِي','وَقَى يَقِي','طَوَى يَطْوِي','فَرَّ يَفِرُّ','أَتَى يَأْتِي','جَاءَ يَجِيءُ']),
+  }}, tableCopy:{'2:2':{
+    0:['Emotions','فَرِحَ؛ طَرِبَ؛ بَطِرَ؛ أَشِرَ؛ غَضِبَ؛ حَزِنَ','Joy and related emotional states.'],
+    1:['Fullness and emptiness','شَبِعَ؛ رَوِيَ؛ سَكِرَ؛ عَطِشَ؛ ظَمِئَ؛ صَدِيَ؛ هَيِمَ','Satiation, being quenched, intoxication and thirst.'],
+    2:['Colours and defects','حَمِرَ؛ سَوِدَ؛ عَوِرَ؛ عَمِشَ؛ جَهِرَ','The thirst examples belong to the preceding group.'],
+    3:['Visible traits','غَيِدَ؛ هَيِفَ؛ لَمِيَ','Physical qualities used in descriptive love poetry: تحلية, description.'],
+  }}, analysisPrompt:'Match each verb group to its باب.',analysisHint:'Compare the عين in the past and imperfect.',
+  analysisText:{'table-0-1':{
+    'نَصَرَ يَنْصُر، قَعَدَ يَقْعُد، أَخَذَ يَأْخُذ، بَرَأَ يَبْرُؤ، قَالَ يَقُول، غَزَا يَغْزُو، مَرَّ يَمُرُّ':'نَصَرَ يَنْصُرُ؛ قَالَ يَقُولُ',
+    'ضَرَبَ يَضْرِب، جَلَسَ يَجْلِس، وَعَدَ يَعِد، بَاعَ يَبِيع، رَمَى يَرْمِي، وَقَى يَقِي، طَوَى يَطْوِي، فَرَّ يَفِرُّ، أَتَى يَأْتِي، جَاءَ يَجِيء':'ضَرَبَ يَضْرِبُ؛ وَعَدَ يَعِدُ',
+  }},analysisLabels:{'الأول: فَعَلَ يَفْعُل':'الأول: فَعَلَ يَفْعُلُ','الثاني: فَعَلَ يَفْعِل':'الثاني: فَعَلَ يَفْعِلُ'} }),
+
+  'as-04/l3': plan(14, 'Quadriliterals and Attachment', [
+    [c('One bare quadriliteral pattern',0,1,2,3,4),c('Doubling remains the same pattern',5,6)],
+    [c('Verbs from phrases',0,1,2,r(3,0,1),4),c('Three phrases of well-wishing',r(3,2,3,4)),c('Phrases of praise and greeting',r(3,5,6,7,8))],
+    [c('A repeated letter gives the quadriliteral shape',0,1,2,r(3,0),4),c('Three positions for wāw or yāʾ',r(3,1,2,3)),c('Three more attachment patterns',r(3,4,5,6))],
+    [c('Attach a word to a longer conjugation',0,1,2),c('Formal purpose and semantic purpose',3,4,5),c('Compare the routes to a longer word',clarification)],
+  ], [
+    ['رباعي مجرد', 'One pattern: فَعْلَلَ يُفَعْلِلُ, including doubled roots.'],
+    ['نحت', 'Memorise the attested phrase verbs individually.'],
+    ['إلحاق', 'An addition aligns a word’s conjugation with a longer pattern.'],
+    ['Root test', 'بعثر has four roots; جلبب reaches four letters by repetition.'],
+  ], {copy:{
+    '0:0':'The bare triliteral has six past/imperfect pairings; the bare quadriliteral has one.',
+    '0:2':'Its four letters are original; the pattern adds none.',
+    '0:4':'دحرج: roll something. دربخ: lower the head submissively. بعثر: scatter or turn over. All share the same conjugation.',
+    '0:6':'زلزل: shake violently. عسعس: night approaches or darkens. حصحص: truth becomes clear. Repeating the first pair does not create another وزن.',
+    '1:0':'نحت joins fragments of a phrase.',
+    '1:2':'Memorise attested forms; the source forbids free analogy.',
+    '1:4':'بسمل and حمدل mean “he said” their phrases.',
+    '2:0':'ملحقات begin with three roots and add a letter to follow a quadriliteral conjugation.',
+    '2:2':'The source lists seven attachment patterns.',
+    '2:4':'جلبب adds ب to ج ل ب: جلبب يُجلبب جلببة, parallel to دحرج يُدحرج دحرجة.',
+    '3:0':'الإلحاق explains the purpose of such additions.',
+    '3:2':'The added letter aligns the word’s shape and conjugation with a longer model.',
+    '3:3':'Both إلحاق and ordinary augmentation add letters.',
+    '3:5':'For إلحاق, the addition serves a formal pattern rather than a regular added meaning such as transitivity. This does not require a shorter verb with exactly the same lexical meaning.',
+    '3:clarification':'أكرم adds transitivity to كرم. جلبب, “clothe in a jilbāb”, adds ب for the conjugation جلبب يُجلبب جلببة. بعثر reaches the same فعلل shape with four original roots. Shape alone cannot distinguish their origins.',
+  }, boxCopy:{'1:1':['نحتت العرب أفعالا من مركبات؛ تحفظ ولا يقاس عليها.']},tableCopy:{'1:3':{
+    0:['بَسْمَلَ','بسم الله','“In the name of Allah.”'],1:['حَوْقَلَ','لا حول ولا قوة إلا بالله','“No power or strength except with Allah.”'],2:['طَلْبَقَ','أطال الله بقاءك','“May Allah prolong your life.”'],3:['دَمْعَزَ','أدام الله عزك','“May Allah perpetuate your might.”'],4:['جَعْفَلَ','جعلني الله فداءك','“May Allah make me a ransom for you.”'],5:['سَبْحَلَ','سبحان الله','“Glory be to Allah.”'],6:['هَلَّلَ','لا إله إلا الله','“There is no god but Allah.” This phrase verb is فعّل, not فعلل.'],7:['سَمْعَلَ','السلام عليكم','“Peace be upon you.”'],8:['حَمْدَلَ','الحمد لله','“Praise belongs to Allah.”'],
+  },'2:3':{
+    0:['جَلْبَبَ','فَعْلَلَ','Clothe in a jilbāb; repeat لام.'],1:['جَوْرَبَ','فَوْعَلَ','Dress in socks.'],2:['رَهْوَكَ','فَعْوَلَ','Hurry in one’s gait.'],3:['بَيْطَرَ؛ شَيْطَنَ','فَيْعَلَ','Treat animals; act like a devil.'],4:['شَرْيَفَ الزَّرْعَ','فَعْيَلَ','Cut the crop’s tassel, شرياف.'],5:['سَلْقَى','فَعْلَى','Cast onto the back; also recorded for lying on one’s back.'],6:['قَلْنَسَهُ','فَعْنَلَ','Dress him in a cap, قلنسوة.'],
+  }}, patternTables:['2:3'],tableHeaders:{'1:3':['Verb','Phrase','Translation'],'2:3':['Example','Pattern','Meaning']},
+  analysisPrompt:'Choose the attachment pattern.',analysisHint:'Locate the added letter and compare ف، ع، ل.',analysisLabels:{'فَعْلَلَ (بتضعيف اللام)':'فَعْلَلَ'} }),
+
+  'as-04/l4': plan(15, 'The Twelve Augmented Triliteral Patterns', [
+    [c('One, two or three added letters',0,1,2,3),c('The source’s limits on stem length',4,5,6)],
+    [c('Three ways to add one letter',0,1,2,3,4)],
+    [c('Two additions: انفعل and افتعل',0,1,2,r(3,0,1)),c('افعلّ: usually colours and defects',r(3,2),4),c('Two patterns beginning with ت',r(3,3,4),p(5,0)),c('Recognise the assimilated forms',p(5,1))],
+    [c('استفعل and افعوعل',0,1,2,r(3,0,1)),c('افعالّ and افعوّل',r(3,2,3),4)],
+  ], [
+    ['One added', 'أفعل، فاعل، فعّل: three patterns.'],
+    ['Two added', 'انفعل، افتعل، افعلّ، تفعّل، تفاعل: five.'],
+    ['Three added', 'استفعل، افعوعل، افعالّ، افعوّل: four.'],
+    ['Recognition', 'Sound changes can hide additions. Count the stem, not conjugational endings.'],
+  ], {copy:{
+    '0:0':'Three root letters support twelve augmented patterns.',
+    '0:2':'The divisions count derivational additions beyond those roots.',
+    '0:4':'Compare the resulting verb and noun stems.',
+    '0:6':'استخرج has six stem letters; استخراج has seven. The source explains this by the verb’s greater “weight”: event plus tense, whereas a noun names its referent. These counts exclude attached grammatical endings.',
+    '1:0':'One extra letter, three positions.',
+    '1:2':'Compare:',
+    '1:4':'أفعل: initial hamza. فاعل: alif after فاء. فعّل: repeat عين; repetition counts as one added letter.',
+    '2:0':'Two added letters yield five patterns.',
+    '2:2':'Begin with these two:',
+    '2:4':'Mostly colours and defects: احمرّ turns red; اعورّ becomes one-eyed. Rare other meanings include ارفضّ عرقا, “stream with sweat”; اخضلّ الروض, “the garden became lush”; and ارعوى, “desist”.',
+    '3:0':'Three additions yield the final four patterns.',
+    '3:2':'Meanings accompany these less familiar examples.',
+    '3:4':'Three plus five plus four makes twelve patterns.',
+  },copyParts:{'2:5':[
+    'تعلّم and تزكّى follow تفعّل. تباعد and تشاور follow تفاعل, as do تبارك and تعالى.',
+    'تذكّر can assimilate ت into ذ, giving ذذكّر, then merged ذّكّر; initial همزة الوصل permits اذّكّر. تطهّر similarly gives اطّهّر. Under تفاعل, تثاقل and تدارك give اثّاقل and ادّارك. The underlying pattern remains identifiable.',
+  ]},boxCopy:{'0:5':['غاية الفعل بالزيادة ستة، والاسم سبعة؛ لثقل الفعل وخفة الاسم.'],'1:1':['زيادة حرف واحد: ثلاثة أوزان.']},
+  tableCopy:{'0:3':{0:['One added','3 patterns'],1:['Two added','5 patterns'],2:['Three added','4 patterns']},
+  '1:3':{0:['أَفْعَلَ','أَكْرَمَ؛ أَوْلَى؛ أَعْطَى؛ أَقَامَ؛ آتَى؛ آمَنَ؛ أَقَرَّ'],1:['فَاعَلَ','قَاتَلَ؛ آخَذَ؛ وَالَى'],2:['فَعَّلَ','فَرَّحَ؛ زَكَّى؛ وَلَّى؛ بَرَّأَ']},
+  '2:3':{0:['انْفَعَلَ','انْكَسَرَ؛ انْشَقَّ؛ انْقَادَ؛ انْمَحَى'],1:['افْتَعَلَ','اجْتَمَعَ؛ اشْتَقَّ؛ احْتَارَ؛ ادَّعَى؛ اتَّصَلَ؛ اتَّقَى؛ اصْطَبَرَ؛ اضْطَرَبَ'],2:['افْعَلَّ','احْمَرَّ؛ اصْفَرَّ؛ اعْوَرَّ'],3:['تَفَعَّلَ','تَعَلَّمَ؛ تَزَكَّى'],4:['تَفَاعَلَ','تَبَاعَدَ؛ تَشَاوَرَ']},
+  },analysisPrompt:'Match each group to its augmented pattern.',analysisHint:'Account for two added letters, including changes through assimilation.',
+  analysisText:{'table-2-3':{'اجْتَمَعَ، اشْتَقَّ، احْتارَ، ادَّعَى، اتَّصَلَ، اتَّقَى، اصْطَبَرَ، اضْطَرَبَ':'اجْتَمَعَ؛ ادَّعَى؛ اتَّصَلَ'}} }),
+
+  'as-04/l5': plan(16, 'Augmented Quadriliterals and Usage', [
+    [c('One added letter',0,1,2,r(3,0)),c('Two added letters',r(3,1,2),4)],
+    [c('Attachments with ت',0,1,2,3,r(4,0,1)),c('More attachments to تفعلل',r(4,2,3)),c('تمفعل and تفعلَى',r(4,4,5)),c('Two attachments to the longer pattern',5,6)],
+    [c('The same وزن, different roots',0,1,2,3),c('Compare with بعثر and جلبب',4,5,clarification)],
+    [c('Count letters or count patterns',0,1,2)],
+    [c('Patterns do not guarantee actual usage',0,1,2),c('A regular causative exception',3,4,5)],
+  ], [
+    ['رباعي مزيد', 'تفعلل with one addition; افعنلل and افعللّ with two.'],
+    ['إلحاق', 'Know the roots: the repeated س in اقعنسس is added.'],
+    ['Two counts', 'Four stem lengths; 37 patterns in the source’s full inventory.'],
+    ['Usage', 'السماع decides attestation. The source allows regular causative أَفْعَلَ from intransitive triliterals.'],
+  ], {copy:{
+    '0:0':'Bare فعلل gains either one or two letters, giving three patterns.',
+    '0:2':'One addition gives تفعلل.',
+    '0:4':'The source treats قشعر as an unused bare counterpart of اقشعر; تقشعر is another used augmented form. A listed وزن need not have a used bare counterpart.',
+    '1:0':'Attachment aligns conjugation with a longer pattern.',
+    '1:2':'Six patterns begin with ت.',
+    '1:3':'Five repeat earlier attachment bases. تمفعل uses the additional base مفعل.',
+    '1:6':'افعنلل: اقعنسس, “recoil or draw back”. افعنلى: اسلنقى, “lie flat on one’s back”.',
+    '2:0':'احرنجم and اقعنسس both follow افعنلل.',
+    '2:2':'حرجم means “gather”: ح ر ج م are four original roots.',
+    '2:3':'قعس has three roots. اقعنسس repeats س for إلحاق.',
+    '2:5':'بعثر, “scatter or turn over”, has four original roots. جلبب adds a repeated ب.',
+    '2:clarification':'In both pairs, the same pattern is reached either by original roots or by repetition. The وزن alone does not identify which letters are original.',
+    '3:0':'The source totals the inventory in two ways.',
+    '3:2':'مادة counts original and added stem letters: three, four, five or six. هيئة counts the patterns of vowels and sukūn: 37, including the attachments. These are different measures.',
+    '4:0':'A possible pattern is not proof of an attested word.',
+    '4:2':'A bare verb need not have an augmented form; an augmented verb need not have a used bare counterpart; one used augmentation does not license all the others. افتقر illustrates the second point in its sense “be in need”.',
+    '4:3':'The source makes one regular exception here.',
+    '4:5':'For an intransitive triliteral, initial hamza regularly gives transitivity: ذهب, “go”, gives أذهب, “make go”; خرج, “go out”, gives أخرج, “take out”. This is the stated قياس, rather than unrestricted invention of every pattern.',
+  },boxCopy:{'1:1':['للإلحاق بتفعلل ستة أوزان.'],'3:1':['باعتبار المادة: ثلاثي، رباعي، خماسي، سداسي.','وباعتبار الهيئة: سبعة وثلاثون بابا.'],'4:1':['لا يلزم استعمال كل مجرد ومزيد؛ المدار على السماع.']},
+  tableCopy:{'0:3':{0:['تَفَعْلَلَ','تَدَحْرَجَ؛ تَزَلْزَلَ','Roll or tumble; shake.'],1:['افْعَنْلَلَ','احْرَنْجَمَ','Gather, from حرجم meaning جمع.'],2:['افْعَلَلَّ','اقْشَعَرَّ؛ اطْمَأَنَّ','Shudder; be reassured. Initial همزة الوصل and repeated second لام.']},
+  '1:4':{0:['تَجَلْبَبَ','تَفَعْلَلَ','Wrap oneself in a jilbāb.'],1:['تَرَهْوَكَ','تَفَعْوَلَ','Walk with a swaying, unsteady gait.'],2:['تَشَيْطَنَ','تَفَيْعَلَ','Act like a devil.'],3:['تَجَوْرَبَ','تَفَوْعَلَ','Put on socks.'],4:['تَمَسْكَنَ','تَمَفْعَلَ','Feign poverty.'],5:['تَسَلْقَى','تَفَعْلَى','Lie on one’s back.']},
+  '2:1':{0:['احْرَنْجَمَ','رباعي مزيد','Both لام positions are original.'],1:['اقْعَنْسَسَ','ملحق','One لام is original; one is added.']},
+  }, patternTables:['1:4'],tableHeaders:{'1:4':['Example','Pattern','Meaning']},
+  analysisPrompt:'Choose the attachment pattern.',analysisHint:'Identify the position after the initial ت.',
+  analysisText:{'table-1-4':{'تَجَلْبَبَ to wrap oneself in a garment (جِلْبَاب)':'تَجَلْبَبَ','تَرَهْوَكَ to walk with a swaying, unsteady gait':'تَرَهْوَكَ','تَشَيْطَنَ to act like a devil (شَيْطَان), to misbehave wildly':'تَشَيْطَنَ'}} }),
+};
+
+export const checks = {
+  'as-04/l1':[
+    q('Does the lost middle root in قلت make قال augmented?', ['Only if subject ت is a root.','No; إعلال explains the loss.','Yes; مجرد can never lose letters.','Yes; every loss creates مزيد.'],'بغير علة permits a loss with a cause.'),
+    q('A basic past stem has five letters, excluding endings. What follows?', ['Its meaning must be known first.','It is مزيد; bare verb roots have at most four.','It is خماسي مجرد.','It is رباعي مجرد.'],'Count derivational stem letters.'),
+    q('Why are there three basic past patterns?', ['فاء has fatḥa; عين can take three vowels.','عين has fatḥa; فاء varies.','Only three forms happen to be recorded.','There are three weak letters.'],'Which root position varies?'),
+    q('Which imperfect عين vowel can pair with فَعُلَ?', ['Kasra only.','Any vowel.','Ḍamma only.','Fatḥa only.'],'Two pairings with past ḍamma are excluded.'),
+  ],
+  'as-04/l2':[
+    q('Which باب contains وعد يعد?', null, 'Past عين fatḥa; imperfect عين kasra.'),
+    q('Both عين vowels are fatḥa, but neither عين nor لام is a throat letter. Then?', ['It must be the fourth باب.','Nothing follows.','It is irregular, like أبى يأبى.','It cannot belong to the third باب.'],'An irregular member still has the vowel pair.'),
+    q('A verb means “become one-eyed”. Which باب is expected?', ['Fourth: colours and defects cluster here.','First.','Second.','Sixth.'],'Use the meaning as a clue.'),
+    q('What does recasting جَهِلَ as جَهُلَ express?', ['Repeated action.','Seeking the action.','Transitivity.','An ingrained quality.'],'Recall الأوصاف الخلقية.'),
+    q('In which root class is the sixth باب common?', ['صحيح','مهموز','مضاعف','معتل'],'The source contrasts sound and weak roots.'),
+  ],
+  'as-04/l3':[
+    q('How many patterns does bare رباعي have?', ['One: فَعْلَلَ.','Two: فَعْلَلَ and فَعْلَلِل.','Three.','Six.'],'Doubling does not add another pattern.'),
+    q('What phrase does حوقل report?', null, 'Recall the phrase about power and strength.'),
+    q('Which attachment pattern fits جورب?', null, 'The added wāw follows فاء.'),
+    q('What distinguishes the purpose of إلحاق?', ['Formal conjugation, rather than a regular added meaning.','Only it adds one letter.','Only it begins with three roots.','There is no distinction.'],'Compare جلبب with أكرم.'),
+  ],
+  'as-04/l4':[
+    q('Why does the source allow six verb stem letters but seven in nouns?', ['Verbs have fewer roots.','Nouns accept more addition letters.','A verb carries event and tense; a noun names its referent.','Nouns are more frequent.'],'This is the source’s account of ثقل and خفة.'),
+    q('What is added in فعّل?', null, 'Doubling supplies a second copy of one root.'),
+    q('How does تذكّر give اذّكّر?', ['An arbitrary replacement.','Deletion of ت.','They are unrelated.','Assimilation of ت into nearby ذ.'],'إدغام accounts for the merged sound.'),
+    q('Which pattern gives اعشوشب المكان?', null, 'Compare its repeated عين and added wāw.'),
+  ],
+  'as-04/l5':[
+    q('How many patterns does augmented رباعي have?', ['Three: one with one addition, two with two.','Two.','Four.','Seven.'],'Count patterns, not divisions.'),
+    q('What do the six singly augmented attachments share?', ['Repeated second لام.','Initial همزة الوصل.','Inserted ن after عين.','Initial ت on an attachment base.'],'Compare تجلبب and تمسكن.'),
+    q('Why do احرنجم and اقعنسس differ in classification?', ['The ن moves.','Only their meanings differ.','اقعنسس adds one لام; احرنجم has both as roots.','احرنجم adds one لام; اقعنسس has both as roots.'],'Compare حرجم with قعس.'),
+    q('How many أبواب does the source count by هيئة?', null, 'Count the full pattern inventory, including attachments.'),
+    q('What does افتقر illustrate in this discussion?', ['A bare verb with no augmentation.','Two competing augmentations.','Causative hamza on a لازم verb.','A used augmented verb without the stated bare counterpart.'],'Its existence does not prove every related form is used.'),
+  ],
+};
+export const quizzes = {
+  'as-04/l1':[q('What defines المجرد?', ['One or more added stem letters.','No weak roots.','Identical عين and لام.','All stem letters original; any loss has a cause.']),q('What defines المزيد?'),q('What are the two bare-root sizes?'),q('How many patterns from the past alone?'),q('How many past/imperfect pairings are admitted?'),q('Which عين-vowel pairing is excluded?', ['فَعَلَ يَفْعُلُ','فَعَلَ يَفْعِلُ','فَعِلَ يَفْعُلُ','فَعَلَ يَفْعَلُ'])],
+  'as-04/l2':[q('Which باب is نصر ينصر?'),q('Which باب is ضرب يضرب?'),q('How many throat letters are there?'),q('Which list contains the throat letters?'),q('What meaning characterises the fifth باب?', ['Emotions.','Colours and defects.','Fullness and emptiness.','Settled, enduring qualities.']),q('The sixth باب is rare in صحيح and common in what?')],
+  'as-04/l3':[q('What is the bare quadriliteral pattern?'),q('Classify زلزل، عسعس and حصحص.', ['Phrase verbs.','Augmented quadriliterals.','Doubled quadriliterals on the same فعلل pattern.','Attachments.']),q('How are بسمل، حوقل and حمدل learned?', ['Attested phrase verbs, memorised individually.','Triliteral augmentation for a meaning.','Quadriliteral attachments.','Doubled quadriliterals.']),q('What defines الإلحاق?', ['Adding a regular new meaning.','Removing a letter.','Carving a word from a phrase.','Adding to match a longer model’s conjugation.']),q('How do أكرم and جلبب differ?', ['أكرم adds transitivity; جلبب aligns conjugation.','Their additions have the same purpose.','أكرم is attached, جلبب the semantic augmentation.','Neither addition has a function.']),q('How is the purpose of إلحاق described?', ['Semantic only.','Both formal and a regular semantic addition.','Neither formal nor semantic.','Formal, without a regular added meaning.'])],
+  'as-04/l4':[q('How many augmented triliteral patterns are listed?'),q('Why does the source allow nouns one more stem letter?', ['Nouns begin with more roots.','Verbs express event and tense; nouns name their referent.','It gives no explanation.','Nouns are pronounced faster.']),q('How many patterns add two letters?'),q('Which pattern adds one letter?'),q('What meanings commonly use افعلّ?'),q('What is the pattern of اجلَوّذ?')],
+  'as-04/l5':[q('How many augmented quadriliteral patterns are there?', ['Two.','Three: تفعلل، افعنلل، افعللّ.','Four.','Six.']),q('What does احرنجم versus اقعنسس show?', ['اقعنسس must be rejected.','They mean the same thing.','A shared pattern does not settle which letters are roots.','افعنلل is not a pattern.']),q('How many stem-length classes does مادة give?'),q('How many patterns does هيئة give?'),q('What decides whether a form is actually attested?', ['السماع: established usage.','Unrestricted analogy.','Consensus alone.','A shared root alone.']),q('Which exception does the source state?', ['Bare quadriliterals.','All doubled verbs.','All hamzated verbs.','Regular causative hamza on intransitive triliterals.'])],
+};
+export const practice = {
+  'as-04/l1':[q('What does بغير علة allow in المجرد?', ['Root loss through إعلال.','Loss of added letters only.','Loss only in the imperfect.','It adds no meaning.'],'A regular cause can explain the missing root.')],
+  'as-04/l2':[q('Which باب includes قال يقول?', null, 'Its underlying vowel pair is fatḥa then ḍamma.')],
+  'as-04/l3':[q('What does دحرج يدحرج illustrate?', ['A phrase verb.','Doubling.','The single bare quadriliteral conjugation.','Attachment.'],'Its four letters are original.')],
+  'as-04/l4':[q('What determines the three augmented-triliteral divisions?', ['Sound or weak roots.','One, two or three added letters.','The meaning of the addition.','Transitivity.'],'Count the derivational additions.')],
+  'as-04/l5':[q('Which pattern gives تدحرج and تزلزل?', null, 'One ت precedes the quadriliteral root.')],
+};

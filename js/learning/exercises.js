@@ -72,8 +72,9 @@ function diagramOption(value) {
   return `<svg viewBox="0 0 240 155" aria-hidden="true" stroke-width="3">${body}</svg>`;
 }
 
-function structuredHtml(item, response, disabled) {
-  return `<div class="mz-fields">${item.fields.map((f, fi) => {
+export function structuredHtml(item, response, disabled, indices = item.fields.map((_, i) => i)) {
+  return `<div class="mz-fields">${indices.map(fi => {
+    const f = item.fields[fi];
     const val = getAt(response, f.path);
     const attr = `data-logic-field="${fi}" ${disabled ? 'disabled' : ''}`;
     let control;

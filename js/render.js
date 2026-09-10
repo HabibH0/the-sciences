@@ -950,7 +950,7 @@ function modulePageHtml(state, MODULES) {
 // inert rather than hidden -- "there is a next module and it is not open
 // yet" is more use than an empty space, and it reuses the same lock
 // affordance the module list itself already carries.
-function modulePagerHtml(state, MODULES, mod) {
+export function modulePagerHtml(state, MODULES, mod) {
   const i = MODULES.indexOf(mod);
   const prev = i > 0 ? MODULES[i - 1] : null;
   const next = i >= 0 && i + 1 < MODULES.length ? MODULES[i + 1] : null;
@@ -961,8 +961,8 @@ function modulePagerHtml(state, MODULES, mod) {
     const arrow = dir === 'prev' ? icon('arrowLeft', 14, 2) : icon('arrowRight', 14, 2);
     const body = `
       <span class="module-pager-body">
-        <span class="module-pager-label">${dir === 'prev' ? 'Previous module' : 'Next module'}</span>
-        <span class="module-pager-title" lang="ar" dir="rtl">${esc(m.title)}</span>
+        <span class="module-pager-label">${dir === 'prev' ? 'Previous' : 'Next'} ${mod.language === 'en' ? 'unit' : 'module'}</span>
+        <span class="module-pager-title"${m.language === 'en' ? '' : ' lang="ar" dir="rtl"'}>${esc(m.title)}</span>
       </span>`;
     const mark = unlocked ? arrow : icon('lock', 13, 2);
     const inner = dir === 'prev' ? `${mark}${body}` : `${body}${mark}`;

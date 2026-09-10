@@ -68,6 +68,7 @@ import { introNahwSentenceParts } from './learning/intro-nahw.js';
 import { introSarfTablePages, introSarfVisualCount } from './learning/intro-sarf.js';
 import { fitLessonPages } from './learning/lesson-pages.js';
 import { fitMobilePages } from './learning/mobile-pages.js';
+import { fitIdeaCard, learningPunctuation } from './learning/fit-idea-card.js';
 import { prepareExerciseFeedback, mountFeedbackSheet, dismissFeedbackSheet } from './learning/feedback-sheet.js';
 import { logicCourse, logicItem } from './learning/logic-course.js';
 import { initialResponse, responseComplete, fieldResponse, setAt } from './learning/exercises.js';
@@ -98,6 +99,8 @@ import {
   prefersReducedMotion, snapshotMotion, applyRenderMotion, applyActionMotion,
   dismissDelay, dismissOpenModal, dismissOpenPopover, markBusy, unmarkBusy, DUR,
 } from './motion.js';
+import { captureSpatialMotion, playSpatialMotion, toggleSpatialDisclosure, spatialActionBlocked } from './spatial-motion.js';
+import { mountStudyRender } from './learning/patch-study.js';
 
 // `plate` is each theme's ink-plate colour (the pre-resolved value of the
 // CSS --color-plate mix), for tinting the browser chrome when a dark plate
@@ -938,8 +941,9 @@ function applyAppearance(state) {
   document.documentElement.style.setProperty('--ui-text-scale', String(normalizeUiTextScale(state.uiTextScale) / 100));
 }
 
-// focusSelector re-focuses a specific element after the innerHTML swap below
-// destroys and recreates the whole DOM -- without it, every action (not just
+// focusSelector re-focuses a specific element after its region is replaced.
+// Authored lessons preserve unchanged regions; older screens replace the DOM.
+// Without refocusing after replacement, every action (not just
 // تركيب's) drops focus back to <body>, which is merely annoying for a mouse
 // user but breaks a keyboard user's ability to place several تركيب chips in
 // a row without re-tabbing from the top of the page each time. See
@@ -951,7 +955,24 @@ let mobileResizeAnchor = '';
 let exerciseFeedback = { key: '', stamp: '', open: false };
 const readingStepKey = step => step?.id || step?.stepId || step?.itemId;
 let readingDetailRequested = false;
-function rerender(focusSelector) {
+function spatialContext() {
+  const session = currentStudy(state), step = studyStep(session);
+  const course = COURSES.find(c => c.id === state.courseId);
+  const mod = course?.modules.find(m => m.id === state.moduleId);
+  const layout = session?.logicLayout?.[step?.itemId || step?.stepId] || {};
+  const panel = layout.view || 'lesson';
+  return {
+    route: [state.courseId, state.view, state.moduleId, state.lessonId, state.view === 'quiz' && state.quizShowResult ? 'result' : '', state.practice?.source || ''].join('|'),
+    view: state.view, notes: !!state.studyNotesOpen,
+    step: state.view === 'lesson' ? session?.stepIndex || 0 : state.view === 'quiz' ? state.quizIndex : state.practice?.index || 0,
+    panel: JSON.stringify(layout), group: layout.group || 0,
+    exercise: state.view === 'quiz' || !!step && !['teach', 'summary'].includes(step.kind),
+    visual: JSON.stringify(session?.visualState?.[step?.id || step?.stepId] || {}),
+    panelOrder: ['lesson', 'answer', 'diagram', 'meaning', 'hint', 'feedback', 'expected', 'original'].indexOf(layout.detail || panel),
+    moduleIndex: course?.modules.indexOf(mod) ?? -1, lessonIndex: mod?.lessons.findIndex(l => l.id === state.lessonId) ?? -1,
+  };
+}
+function rerender(focusSelector, motionAction = '') {
   refreshCourseMastery();
   applyAppearance(state);
   if (state.view === 'quiz') {
@@ -994,12 +1015,13 @@ function rerender(focusSelector) {
   // merely recreate it -- and where the active-tab underline sits, so the
   // fresh one can slide from there (see js/motion.js).
   const motionSnap = snapshotMotion(root);
+  const spatialSnap = captureSpatialMotion(root, spatialContext(), motionAction);
 
-  // The swap itself is instant -- entrance motion is applied to the fresh
-  // DOM immediately after (and after scroll restoration, so nothing animates
-  // while a scrollTop is being reapplied).
+  // Keep unchanged lesson regions mounted. Apply motion to the changed
+  // surface after layout and scroll restoration have settled.
   const feedbackWasOpen = !!root.querySelector('.exercise-feedback-sheet');
-  root.innerHTML = html;
+  mountStudyRender(root, html, spatialSnap.prior?.route === spatialSnap.context.route);
+  learningPunctuation(root);
   const readingSession = currentStudy(state), readingStep = studyStep(readingSession);
   const mobileKey = `${nav}|${state.view === 'quiz' ? state.quizIndex : ''}`;
   const feedback = prepareExerciseFeedback(root);
@@ -1030,12 +1052,12 @@ function rerender(focusSelector) {
   }
   readingDetailRequested = false;
   const feedbackSheet = mountFeedbackSheet(root, feedback, { open: exerciseFeedback.open, animate: !feedbackWasOpen });
+  fitIdeaCard(root);
   const newContainer = mainScrollContainer();
   if (newContainer) newContainer.scrollTop = mobilePageLayout?.fits || lessonPageLayout?.fits ? 0 : nextScrollTop;
-  // Unconditional, same as the page-level restore just above -- root.innerHTML
-  // just replaced every element wholesale, so a SAME-screen rerender (a
-  // comprehension check being answered, say) needs this exactly as much as a
-  // cross-screen one does: either way the fresh .lit-reader-body starts at 0, and
+  // Unconditional, same as the page-level restore just above. A replaced
+  // reading region needs this on same-screen and cross-screen updates: a
+  // fresh .lit-reader-body starts at 0, and
   // whatever rememberContainerScrollPositions() captured an instant ago
   // (the live value on a same-screen update, the last-known one from a
   // previous visit otherwise) is already the right thing to reapply.
@@ -1044,7 +1066,8 @@ function rerender(focusSelector) {
   positionCourseMenu();
   updateCoverBlurbToggle();
   updateContextBar(true);
-  applyRenderMotion(root, motionSnap, changedScreen, nav);
+  const spatial = playSpatialMotion(root, spatialSnap);
+  applyRenderMotion(root, motionSnap, changedScreen, nav, spatial);
   if (feedbackSheet) {
     feedbackSheet.focus({ preventScroll: true });
   } else if (conceptChanged) {
@@ -1066,12 +1089,13 @@ function rerender(focusSelector) {
     const toFocus = root.querySelector(focusSelector);
     if (toFocus) {
       if (!toFocus.matches('button, a, input, select, textarea, summary')) toFocus.tabIndex = -1;
-      toFocus.focus({ preventScroll: !!(lessonPageLayout?.fits || mobilePageLayout?.fits) });
+      // Focus the destination without scrolling toward its temporary animated
+      // position. Scroll restoration above already chose the reading position.
+      toFocus.focus({ preventScroll: !!(spatial || lessonPageLayout?.fits || mobilePageLayout?.fits) });
     }
   } else if (changedScreen) {
-    // root.innerHTML replaces every element on every render, so focus lands
-    // back on <body> each time. On a same-screen update that is invisible;
-    // on a screen CHANGE it means a keyboard user restarts their tab order
+    // Replacing a screen returns focus to <body>. A keyboard user would
+    // otherwise restart their tab order
     // from the top of the document, and a screen-reader user is told nothing
     // at all -- the page silently became a different page. Moving focus to
     // the new <main> (labelled with the screen's own name, see render()) is
@@ -1096,6 +1120,7 @@ let lessonLayoutFrame;
 function scheduleLessonLayout() {
   cancelAnimationFrame(lessonLayoutFrame);
   lessonLayoutFrame = requestAnimationFrame(() => {
+    if (root.querySelector('.mz-word-lesson')) { fitIdeaCard(root); return; }
     if (!root.querySelector('.mz-teaching, .screen-fit') || state.studyNotesOpen) return;
     const active = document.activeElement;
     const input = active?.matches('input, textarea, select') ? active : null;
@@ -1112,6 +1137,24 @@ window.addEventListener('resize', scheduleLessonLayout);
 window.visualViewport?.addEventListener('resize', scheduleLessonLayout);
 document.fonts?.ready.then(scheduleLessonLayout);
 document.fonts?.addEventListener('loadingdone', scheduleLessonLayout);
+
+// Keep an explored course outline open when returning from a lesson. This is
+// navigation state only; expanding a module never changes saved study progress.
+document.addEventListener('toggle', event => {
+  const details = event.target;
+  if (!details.isConnected || !details.matches('[data-course-disclosure]')) return;
+  state.courseDisclosures ??= {};
+  state.courseDisclosures[details.dataset.courseDisclosure] = details.dataset.spatialTargetOpen == null ? details.open : details.dataset.spatialTargetOpen === 'true';
+}, true);
+
+document.addEventListener('click', event => {
+  const summary = event.target.closest('.mz-hub-module > summary');
+  if (!summary) return;
+  event.preventDefault();
+  const details = summary.parentElement;
+  state.courseDisclosures ??= {};
+  state.courseDisclosures[details.dataset.courseDisclosure] = toggleSpatialDisclosure(details);
+});
 
 document.addEventListener('toggle', event => {
   const details = event.target;
@@ -2566,6 +2609,10 @@ async function checkLogicAnswer() {
     if (correcting) {
       draft.correctionGrade = grade;
       draft.correcting = !grade.correct;
+      if (session && !grade.correct) {
+        session.logicLayout ||= {};
+        (session.logicLayout[item.id] ||= {}).view = 'correctionFeedback';
+      }
     } else {
       draft.grade = grade;
       draft.originalResponse = response;
@@ -2794,7 +2841,28 @@ const actions = {
     queueAutoUpload('lesson-step');
   },
   submitLogicAnswer: checkLogicAnswer,
+  logicLayout(el) {
+    const session = currentStudy(state), step = studyStep(session);
+    if (!session?.logic || !step || session.draft?.busy) return false;
+    session.logicLayout ||= {};
+    const layout = session.logicLayout[step.itemId || step.stepId] ||= {};
+    if (el.dataset.view) layout.view = el.dataset.view;
+    if (el.dataset.detail) layout.detail = el.dataset.detail;
+    if (el.dataset.view === 'answer' && session.draft) session.draft.error = '';
+    if (el.dataset.group != null) layout.group = Number(el.dataset.group);
+    session.updatedAt = new Date().toISOString();
+  },
   logicChoice(el) { return !!changeLogicDraft((draft, item) => { draft.response = structuredClone(item.options[Number(el.dataset.option)]); }); },
+  logicShowHint() {
+    const ctx = logicContext();
+    if (!ctx || ctx.draft.busy || ctx.draft.grade && !ctx.draft.correcting) return false;
+    if (!ctx.draft.hintsUsed) ctx.draft.hintsUsed = Math.min(1, ctx.item.hints.length);
+    if (ctx.session) {
+      ctx.session.logicLayout ||= {};
+      (ctx.session.logicLayout[ctx.item.id] ||= {}).view = 'hint';
+      ctx.session.updatedAt = new Date().toISOString();
+    }
+  },
   logicHint() { return !!changeLogicDraft((draft, item) => { draft.hintsUsed = Math.min(item.hints.length, (draft.hintsUsed || 0) + 1); }); },
   logicCorrect() {
     const ctx = logicContext();
@@ -2802,6 +2870,7 @@ const actions = {
     ctx.draft.correcting = true;
     ctx.draft.response = initialResponse(ctx.item);
     ctx.draft.tokens = [];
+    if (ctx.session?.logicLayout?.[ctx.item.id]) ctx.session.logicLayout[ctx.item.id] = { view: 'answer', group: 0 };
   },
   logicSpan(el) { return !!changeLogicDraft((draft, item) => {
     const words = item.stimulus.split(/\s+/), index = Number(el.dataset.index);
@@ -5164,7 +5233,7 @@ function refocusSelector(el) {
   if (modalTriggerSelector) return consumeModalTriggerSelector();
   const action = el.dataset.action;
   if (action === 'nextQuizQuestion' && guidedGrammar(getLesson(state.moduleId, state.lessonId))) return '.mz-exercise-prompt > h2, .mz-completed > h1';
-  if (action === 'studyNext' || action === 'studyBack') return '.mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
+  if (action === 'studyNext' || action === 'studyBack') return '.mz-word-card-head > h2, .mz-teaching:not(.mz-page-visual-only, .mz-page-reference-only) .mz-teaching-copy > h2, .mz-page-visual-only .visual-heading h3, .mz-page-reference-only .concept-table-title, .mz-page-reference-only summary, .mz-exercise-prompt > h2';
   if (action === 'studyCheck' || action === 'submitLogicAnswer' || action === 'checkLessonQuiz') return '.mz-feedback';
   if (mobilePageLayout?.fits && (action === 'studyHint' || action === 'logicHint')) return '.mz-hints';
   if (mobilePageLayout?.fits && action === 'selectPracticeOption') return '.quiz-feedback';
@@ -5247,9 +5316,17 @@ function refocusSelector(el) {
 
 document.addEventListener('input', (event) => {
   const el = event.target;
-  if (!el.matches('[data-logic-field], [data-logic-reflection]')) return;
+  if (el.matches('[data-logic-visual-select]')) {
+    actions.setStudyVisual({ dataset: { visualGroup: el.dataset.visualGroup, visualValue: el.value } });
+    persistSoon(state);
+    rerender();
+    root.querySelector(`[data-logic-visual-select][data-visual-group="${CSS.escape(el.dataset.visualGroup)}"]`)?.focus({ preventScroll: true });
+    return;
+  }
+  if (!el.matches('[data-logic-field], [data-logic-reflection], [data-logic-choice-select]')) return;
   const ctx = changeLogicDraft((draft, item) => {
     if (el.hasAttribute('data-logic-reflection')) { draft.response = el.value; return; }
+    if (el.hasAttribute('data-logic-choice-select')) { draft.response = el.value === '' ? null : structuredClone(item.options[Number(el.value)]); return; }
     const field = item.fields[Number(el.dataset.logicField)];
     if (!field) return;
     let value = el.value;
@@ -5273,12 +5350,13 @@ document.addEventListener('input', (event) => {
 document.addEventListener('submit', (event) => {
   if (!event.target.matches('[data-logic-form]')) return;
   event.preventDefault();
-  checkLogicAnswer().then(() => rerender('.mz-feedback'));
+  checkLogicAnswer().then(() => rerender('.mz-feedback', 'submitLogicAnswer'));
 });
 
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-action]');
   if (!el || el.disabled) return;
+  if (spatialActionBlocked(el.dataset.action)) { e.preventDefault(); return; }
   if (el.closest('[data-logic-form]') && el.type === 'submit') e.preventDefault();
   // Native form controls (the lesson/reading text-size range sliders) carry
   // data-action too, but only so the 'change' listener below can find them
@@ -5309,7 +5387,7 @@ document.addEventListener('click', (e) => {
     markBusy(el);
     result.then((value) => {
       if (value !== false) {
-        rerender(refocusSelector(el));
+        rerender(refocusSelector(el), el.dataset.action);
         applyActionMotion(root, el);
       } else {
         unmarkBusy(el);
@@ -5330,12 +5408,12 @@ document.addEventListener('click', (e) => {
   const focusSel = refocusSelector(el);
   if (exitMs) {
     setTimeout(() => {
-      rerender(focusSel);
+      rerender(focusSel, el.dataset.action);
       applyActionMotion(root, el);
     }, exitMs);
     return;
   }
-  rerender(focusSel);
+  rerender(focusSel, el.dataset.action);
   applyActionMotion(root, el);
 });
 

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" data-theme="mizan" data-accent="emerald">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>First Nahw lesson layout checks</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../mizan.css">
+  <style>
+    #audit { position: fixed; z-index: 9999; right: 8px; top: 2px; max-width: 300px; max-height: 120px; overflow: auto; background: white; border: 1px solid #ccd8d1; padding: 6px; font: 11px/1.3 monospace; }
+    #audit pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <aside id="audit"><button id="run" disabled>Check every first-lesson state</button><pre id="result" role="status">Loading…</pre></aside>
+  <script type="module" src="./verify-word-layout.mjs"></script>
+</body>
+</html>

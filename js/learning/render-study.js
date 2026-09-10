@@ -2,7 +2,6 @@ import { esc, escAttr, escBidi } from '../html.js';
 import { conceptKey, lessonExerciseItemKey } from '../../content/index.js';
 import { currentStudy, studyStep } from './study.js';
 import { logicCourse, logicVisuals, logicItem } from './logic-course.js';
-import { logicExerciseHtml } from './exercises.js';
 import { guidedGrammar, nativeItem, nativeItemKey } from './native.js';
 import { nahwTeachingHtml, nahwSummaryHtml } from './render-nahw.js';
 import { nativeExerciseHtml } from './render-native.js';
@@ -10,6 +9,9 @@ import { sarfTeachingHtml } from './render-sarf.js';
 import { introNahwTeachingHtml, introNahwSummaryHtml } from './render-intro-nahw.js';
 import { introSarfTeachingHtml } from './render-intro-sarf.js';
 import { sourceSummaryHtml } from './source.js';
+import { isIdeaLesson } from './nahw.js';
+import { wordHeaderHtml, wordFooterHtml } from './render-word.js';
+import { logicTeachingHtml, logicStudyExerciseHtml, logicFooterHtml, logicLayout } from './render-logic.js';
 
 export function visualHtml(spec, state = {}) {
   const choices = logicVisuals()?.[spec.kind];
@@ -49,23 +51,21 @@ export function studyHtml(state, mod, lesson, helpers) {
   if (!session || !step) return `<section class="mz-study-empty"><h1>${escBidi(lesson.title)}</h1><p>Continue your lesson from its saved position.</p><button class="btn btn-primary" data-action="resumeStudy">Continue lesson</button></section>`;
   const index = session.stepIndex || 0;
   const total = session.steps.length;
-  let body = '', label = 'Learn', ready = true;
+  const wordLesson = isIdeaLesson(lesson) || !!session.logic;
+  let body = '', label = 'Learn', ready = true, wordExercise = null;
   if (session.logic) {
     if (step.kind === 'teach') {
       const content = logicCourse().lessons[lesson.id].learning_steps.find(s => s.id === step.stepId);
       label = content.presentation === 'example' ? 'Worked example' : content.presentation === 'takeaway' ? 'Takeaway' : 'Learn';
       // Authored Markdown often begins with its own heading. Promote that
       // heading instead of repeating it, retaining its emphasis and Arabic.
-      const heading = content.html.match(/^\s*<h[1-6]>([\s\S]*?)<\/h[1-6]>/);
-      const title = heading ? heading[1] : esc(content.title);
-      const prose = heading ? content.html.slice(heading[0].length) : content.html;
-      body = `<article class="mz-teaching${content.visual ? ' has-visual' : ''}"><div class="mz-teaching-copy"><p class="mz-eyebrow">${label.toUpperCase()}</p><h2>${title}</h2><div class="mz-prose markdown">${prose}</div></div>${content.visual ? visualHtml(content.visual, session.visualState?.[step.stepId]) : ''}</article>`;
+      body = logicTeachingHtml(content, session, visualHtml);
     } else {
       const item = logicItem(step.itemId);
       const draft = session.draft || { response: null };
       label = step.guided ? 'Guided practice' : 'Independent practice';
       ready = !!draft.grade && !draft.busy;
-      body = logicExerciseHtml(item, draft, { context: label });
+      body = logicStudyExerciseHtml(item, draft, logicLayout(session, step), label);
     }
   } else if (lesson.learningModel === 'mizan-intro-sarf' && ['teach', 'summary'].includes(step.kind)) {
     label = step.kind === 'summary' ? 'Takeaway' : step.presentation === 'example' ? 'Worked example' : 'Learn';
@@ -92,14 +92,21 @@ export function studyHtml(state, mod, lesson, helpers) {
     label = step.kind === 'check' ? 'Guided practice' : 'Independent practice';
     const exercise = nativeStepExercise(lesson, mod, step, state, helpers);
     body = exercise.html;
+    if (wordLesson) wordExercise = exercise.record;
     ready = !!exercise.record.submitted || !!exercise.record.correcting;
   }
   const last = index + 1 === total;
-  const notes = state.studyNotesOpen ? `<div class="modal-backdrop mz-notes-backdrop" data-action="closeStudyNotes"><section class="mz-notes-modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="mz-notes-title"><header><h2 id="mz-notes-title">Lesson notes</h2><button class="btn btn-secondary" data-action="closeStudyNotes" aria-label="Close lesson notes">Close ×</button></header><div class="mz-notes-content mz-prose">${session.logic ? logicCourse().lessons[lesson.id].notesHtml : lesson.concepts.map(c => `<h3>${escBidi(c.heading)}</h3>${helpers.prose(c, '', null, true, state.tarkeebLabelsBlue === true)}${c.clarification ? helpers.prose({ body: c.clarification }, '', null, true, state.tarkeebLabelsBlue === true) : ''}`).join('')}${!session.logic ? helpers.summary(lesson, state, mod, 'mz-notes-summary') : ''}</div></section></div>` : '';
-  return `<section class="mz-study${['mizan-nahw', 'mizan-intro-nahw'].includes(lesson.learningModel) ? ' mz-nahw' : ['mizan-sarf', 'mizan-intro-sarf'].includes(lesson.learningModel) ? ' mz-sarf' : ''}${Number(state.lessonTextScale) > 100 ? ' large-text' : ''}" data-step="${index}" aria-label="${escAttr(lesson.title)}">
-    <header class="mz-study-head"><button class="mz-study-exit" data-action="openModule" data-module-id="${escAttr(mod.id)}" aria-label="Save and return to ${escAttr(mod.title)}">←</button><div class="mz-study-title"><span>${escBidi(mod.title)}</span><h1>${escBidi(lesson.title)}</h1></div><button class="mz-text-button" data-action="openStudyNotes">Lesson notes</button></header>
-    <div class="mz-step-track"><span>${esc(label)}</span><div class="mz-meter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${index + 1}"><span style="width:${(index + 1) / total * 100}%"></span></div></div>
-    <div class="mz-study-body" data-study-step>${body}</div>
-    <footer class="mz-study-foot"><button class="btn btn-ghost" data-action="studyBack" ${!index ? 'disabled' : ''}>← Back</button><span>${!ready ? 'Check your answer to continue.' : state.storageError ? 'Progress is not saved. See the notice above.' : 'Your progress is saved as you learn.'}</span><button class="btn btn-primary" data-action="studyNext" ${ready ? '' : 'disabled'}>${last ? session.logic ? 'Finish lesson' : guidedGrammar(lesson) ? 'Start lesson check' : 'Continue to quiz' : 'Continue'} →</button></footer>
+  const notes = state.studyNotesOpen ? `<div class="modal-backdrop mz-notes-backdrop" data-action="closeStudyNotes"><section class="mz-notes-modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="mz-notes-title"><header><h2 id="mz-notes-title">Lesson notes</h2><button class="btn btn-secondary" data-action="closeStudyNotes" aria-label="Close lesson notes">Close ×</button></header><div class="mz-notes-content mz-prose${wordLesson ? ' mz-word-notes' : ''}">${session.logic ? logicCourse().lessons[lesson.id].notesHtml : lesson.concepts.map(c => `<h3>${escBidi(c.heading)}</h3>${helpers.prose(c, '', null, true, state.tarkeebLabelsBlue === true)}${c.clarification ? helpers.prose({ body: c.clarification }, '', null, true, state.tarkeebLabelsBlue === true) : ''}`).join('')}${!session.logic ? helpers.summary(lesson, state, mod, 'mz-notes-summary') : ''}</div></section></div>` : '';
+  return `<section class="mz-study${session.logic ? ' mz-logic-lesson' : ['mizan-nahw', 'mizan-intro-nahw'].includes(lesson.learningModel) ? ' mz-nahw' : ['mizan-sarf', 'mizan-intro-sarf'].includes(lesson.learningModel) ? ' mz-sarf' : ''}${!wordLesson && Number(state.lessonTextScale) > 100 ? ' large-text' : ''}${wordLesson ? ' mz-word-lesson' : ''}" ${wordLesson ? 'data-reading-layout="idea"' : ''} data-step="${index}" aria-label="${escAttr(lesson.title)}">
+    ${wordLesson ? wordHeaderHtml(mod, lesson, index + 1, total) : `<header class="mz-study-head"><button class="mz-study-exit" data-action="openModule" data-module-id="${escAttr(mod.id)}" aria-label="Save and return to ${escAttr(mod.title)}">←</button><div class="mz-study-title"><span>${escBidi(mod.title)}</span><h1>${escBidi(lesson.title)}</h1></div><button class="mz-text-button" data-action="openStudyNotes">Lesson notes</button></header>
+    <div class="mz-step-track"><span>${esc(label)}</span><div class="mz-meter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${index + 1}"><span style="width:${(index + 1) / total * 100}%"></span></div></div>`}
+    <div class="mz-study-body" data-study-step ${wordLesson ? 'tabindex="0" role="region" aria-label="Complete lesson card"' : ''}>${body}</div>
+    ${session.logic ? logicFooterHtml(session, step, state) : wordLesson ? wordFooterHtml({
+      backDisabled: !index, nextLabel: last ? 'Start lesson check' : 'Continue', record: wordExercise,
+      complete: step.kind === 'analysis' ? nativeItem(lesson, step).words.every((_, i) => !!wordExercise?.response?.[i]) : wordExercise?.selected != null,
+      correct: step.kind === 'analysis' ? wordExercise?.correct : wordExercise && (wordExercise.firstSelected ?? wordExercise.selected) === nativeItem(lesson, step).correct,
+      hint: !!wordExercise,
+      message: state.storageError ? 'Progress is not saved. See the notice above.' : 'Your progress is saved as you learn.',
+    }) : `<footer class="mz-study-foot"><button class="btn btn-ghost" data-action="studyBack" ${!index ? 'disabled' : ''}>← Back</button><span>${!ready ? 'Check your answer to continue.' : state.storageError ? 'Progress is not saved. See the notice above.' : 'Your progress is saved as you learn.'}</span><button class="btn btn-primary" data-action="studyNext" ${ready ? '' : 'disabled'}>${last ? session.logic ? 'Finish lesson' : guidedGrammar(lesson) ? 'Start lesson check' : 'Continue to quiz' : 'Continue'} →</button></footer>`}
   </section>${notes}`;
 }

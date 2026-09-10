@@ -1,5 +1,15 @@
 // Advanced Sarf presentation refers to the original source coordinates.
 // Each exercise pairs existing table entries; it does not infer new forms.
+import { foundationPlan, foundationGroups } from './nahw-foundations.js';
+import { SARF_CHECKS, SARF_PRACTICE } from './sarf-course/index.js';
+
+export function sarfCheckItem(lesson, index) {
+  return { ...lesson.concepts[index].exercise, ...SARF_CHECKS[lesson.learningKey]?.[index] };
+}
+
+export function sarfPracticeDisplay(lesson, index) {
+  return { ...sarfPracticeItems(lesson)[index], ...SARF_PRACTICE[lesson.learningKey]?.[index] };
+}
 const comparisons = {
   'as-01/l1': [0, 4, 1, 0], 'as-01/l2': [0, 2, 2, 0], 'as-01/l3': [2, 1, 0, 1], 'as-01/l4': [2, 1, 0, 1],
   'as-02/l1': [3, 1, 1, 0], 'as-02/l2': [3, 1, 1, 0], 'as-02/l3': [3, 1, 1, 0],
@@ -92,11 +102,11 @@ export function sarfAnalysisItems(lesson) {
   if (rows.length < 2 || new Set(rows.map(({ row }) => row[answer])).size < 2) return [];
   return [{
     id: `table-${conceptIndex}-${lineIndex}`, conceptIndex, lineIndex, cue, answer,
-    rowIndices: rows.map(r => r.rowIndex), prompt: prompts[lesson.learningKey],
+    rowIndices: rows.map(r => r.rowIndex), prompt: foundationPlan(lesson)?.analysisPrompt || prompts[lesson.learningKey],
     source: table.title || lesson.concepts[conceptIndex].heading,
     words: rows.map(({ row }) => row[cue]), labels: rows.map(({ row }) => row[answer]),
     options: [...new Set(rows.map(({ row }) => row[answer]))],
-    hint: `Compare ${table.headers[cue]} with ${table.headers[answer]}. Use the rule from ${lesson.concepts[conceptIndex].heading}.`,
+    hint: foundationPlan(lesson)?.analysisHint || `Compare ${table.headers[cue]} with ${table.headers[answer]}. Use the rule from ${lesson.concepts[conceptIndex].heading}.`,
   }];
 }
 
@@ -113,6 +123,12 @@ function presentation(line) {
 export function sarfSteps(lesson) {
   const steps = [];
   lesson.concepts.forEach((concept, conceptIndex) => {
+    const authored = foundationGroups(lesson, conceptIndex);
+    if (authored) {
+      authored.forEach((group, i) => steps.push({ id: `concept:${conceptIndex}:teach:${i}`, kind: 'teach', conceptIndex, ...group }));
+      if (concept.exercise) steps.push({ id: `concept:${conceptIndex}:check`, kind: 'check', conceptIndex });
+      return;
+    }
     let group = null, groupIndex = 0;
     concept.lines.forEach((line, lineIndex) => {
       const kind = presentation(line);

@@ -1,0 +1,21 @@
+// Register modules only after their complete source coverage is authored.
+import * as m01 from './module-01.js';
+import * as m02 from './module-02.js';
+import * as m03 from './module-03.js';
+import * as m04 from './module-04.js';
+import * as m05 from './module-05.js';
+import * as m06 from './module-06.js';
+import * as m07 from './module-07.js';
+import * as m08 from './module-08.js';
+import * as m09 from './module-09.js';
+import * as m10 from './module-10.js';
+import * as m11 from './module-11.js';
+import * as m12 from './module-12.js';
+import * as m13 from './module-13.js';
+import * as m14 from './module-14.js';
+import * as m15 from './module-15.js';
+const modules = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15];
+export const SARF_PLANS = Object.assign({}, ...modules.map(m => m.plans));
+export const SARF_CHECKS = Object.assign({}, ...modules.map(m => m.checks));
+export const SARF_QUIZZES = Object.assign({}, ...modules.map(m => m.quizzes));
+export const SARF_PRACTICE = Object.assign({}, ...modules.map(m => m.practice));

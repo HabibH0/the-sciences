@@ -8,8 +8,9 @@
 //   npm run dev:web            -> port 5173
 //   npm run dev:web -- 8080    -> port 8080
 //
-// Live reload rides on a Server-Sent Events stream that this server injects
-// into index.html on the way out (the file on disk is never touched). A CSS
+// Live reload checks a small version endpoint once a second. Persistent SSE
+// streams exhaust HTTP/1.1 connections when desktop and iframe previews are
+// open together, leaving new lessons stuck at startup. A CSS
 // edit swaps the stylesheet in place, so the page stays exactly where it was
 // -- same screen, same scroll position, same open drill. Anything else is a
 // full reload.
@@ -24,6 +25,7 @@ const projectRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'
 const built = process.argv.includes('--built');
 const root = built ? path.join(projectRoot, 'web') : projectRoot;
 const port = Number(process.argv[2]) || 5173;
+const reloadVersion = { instance: `${Date.now()}-${process.pid}`, revision: 0, lastReload: 0 };
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -49,25 +51,42 @@ const MIME = {
 const CLIENT = `
 <script>
 (() => {
-  const source = new EventSource('/__dev/reload');
-  source.addEventListener('css', () => {
-    document.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
-      const url = new URL(link.href);
-      url.searchParams.set('hot', String(Date.now()));
-      link.href = url.href;
-    });
-  });
-  source.addEventListener('reload', () => location.reload());
-  // The stream dies when the server restarts; poll until it answers again,
-  // then reload so the page picks up whatever changed while it was down.
-  source.addEventListener('error', () => {
-    if (source.readyState !== EventSource.CLOSED) return;
-    const retry = setInterval(() => {
-      fetch('/__dev/ping', { cache: 'no-store' })
-        .then(() => { clearInterval(retry); location.reload(); })
-        .catch(() => {});
-    }, 500);
-  });
+  let current = __DEV_SNAPSHOT__;
+  let timer, request, paused = false, running = false;
+  async function poll() {
+    if (paused || running) return;
+    running = true;
+    const controller = new AbortController();
+    request = controller;
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    try {
+      const response = await fetch('/__dev/version', { cache: 'no-store', signal: controller.signal });
+      if (!response.ok) return;
+      const next = await response.json();
+      if (next.instance !== current.instance || next.lastReload > current.revision) {
+        location.reload();
+        return;
+      }
+      if (next.revision !== current.revision) {
+        document.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+          const url = new URL(link.href);
+          url.searchParams.set('hot', String(next.revision));
+          link.href = url.href;
+        });
+      }
+      current = next;
+    } catch { /* Retry while the local server is restarting. */ }
+    finally {
+      clearTimeout(timeout);
+      running = false;
+      if (!paused) timer = setTimeout(poll, 1000);
+    }
+  }
+  // Free connections during navigation, including iframe and history changes.
+  addEventListener('pagehide', () => { paused = true; clearTimeout(timer); request?.abort(); });
+  addEventListener('pageshow', event => { if (event.persisted) { paused = false; poll(); } });
+  if (document.readyState === 'complete') poll();
+  else addEventListener('load', poll, { once: true });
 })();
 </script>
 `;
@@ -79,7 +98,6 @@ const HIDE_ELECTRON_CHROME = `
 <style>#window-drag-region, #window-controls { display: none !important; }</style>
 `;
 
-const clients = new Set();
 let pending = null;
 let stylesOnly = true;
 
@@ -87,9 +105,10 @@ function broadcast() {
   pending = null;
   const event = stylesOnly ? 'css' : 'reload';
   stylesOnly = true;
-  for (const res of clients) res.write(`event: ${event}\ndata: {}\n\n`);
+  reloadVersion.revision++;
+  if (event === 'reload') reloadVersion.lastReload = reloadVersion.revision;
   const label = event === 'css' ? 'styles swapped' : 'page reloaded';
-  console.log(`  ${label} -> ${clients.size} client${clients.size === 1 ? '' : 's'}`);
+  console.log(`  ${label} -> revision ${reloadVersion.revision}`);
 }
 
 function watch(target) {
@@ -127,6 +146,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname === '/__dev/ping') return send(res, 200, 'ok');
+  if (url.pathname === '/__dev/version') return send(res, 200, JSON.stringify(reloadVersion), { 'Content-Type': 'application/json' });
   if (url.pathname === '/api/grade' && req.method === 'POST') {
     try {
       return send(res, 200, JSON.stringify(gradeResponse(await readBoundedJson(req))), { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
@@ -136,15 +156,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname === '/__dev/reload') {
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-store',
-      Connection: 'keep-alive',
-    });
-    res.write('retry: 500\n\n');
-    clients.add(res);
-    req.on('close', () => clients.delete(res));
-    return;
+    // Upgrade tabs that still have the old SSE client after a server restart.
+    return send(res, 200, 'event: reload\ndata: {}\n\n', { 'Content-Type': 'text/event-stream' });
   }
 
   let relative;
@@ -162,7 +175,7 @@ const server = http.createServer(async (req, res) => {
 
   if (ext === '.html') {
     const html = fs.readFileSync(filePath, 'utf8')
-      .replace('</body>', `${built ? '' : HIDE_ELECTRON_CHROME + CLIENT}</body>`);
+      .replace('</body>', `${built ? '' : HIDE_ELECTRON_CHROME + CLIENT.replace('__DEV_SNAPSHOT__', JSON.stringify(reloadVersion))}</body>`);
     return send(res, 200, html, { 'Content-Type': type });
   }
 

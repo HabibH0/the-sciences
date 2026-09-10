@@ -1,5 +1,8 @@
 import { esc, escBidi } from '../html.js';
-import { WORD_EXAMPLES } from './nahw.js';
+import { WORD_EXAMPLES, isWordLesson } from './nahw.js';
+import { wordTeachingHtml, wordSummaryHtml } from './render-word.js';
+import { foundationPlan } from './nahw-foundations.js';
+import { foundationTeachingHtml, foundationSummaryHtml } from './render-foundations.js';
 
 export function nahwVisualHtml(lesson, step, session) {
   const choice = session.visualState?.[step.id]?.selected ?? (step.visual === 'word-boundaries' ? Math.max(1, step.conceptIndex - 2) : 0);
@@ -16,6 +19,8 @@ export function nahwVisualHtml(lesson, step, session) {
 }
 
 export function nahwTeachingHtml(lesson, step, session, helpers, state) {
+  if (isWordLesson(lesson)) return wordTeachingHtml(lesson, step, helpers, state);
+  if (foundationPlan(lesson)) return foundationTeachingHtml(lesson, step);
   const concept = lesson.concepts[step.conceptIndex];
   const lines = step.lineIndices.map(i => concept.lines[i]);
   const visual = nahwVisualHtml(lesson, step, session);
@@ -26,6 +31,8 @@ export function nahwTeachingHtml(lesson, step, session, helpers, state) {
 }
 
 export function nahwSummaryHtml(lesson, helpers, state) {
+  if (isWordLesson(lesson)) return wordSummaryHtml();
+  if (foundationPlan(lesson)) return foundationSummaryHtml(lesson);
   return `<article class="mz-teaching mz-nahw-teaching"><div class="mz-teaching-copy"><p class="mz-eyebrow">TAKEAWAY</p><h2>Bring it together</h2><div class="mz-prose mz-nahw-recap">${lesson.concepts.map(c => {
     const line = c.lines.find(l => ['Definition', 'Rule'].includes(l.box?.title)) || c.lines.find(l => l.box?.title === 'Careful') || c.lines[0];
     return `<section><h3>${escBidi(c.heading)}</h3>${helpers.prose({ lines: [line] }, '', null, true, state.tarkeebLabelsBlue)}</section>`;

@@ -5,6 +5,7 @@ import { createInitialState } from '../js/state.js';
 import { render, FACES } from '../js/render.js';
 import { createStudySession, studyKey } from '../js/learning/study.js';
 import { fitLessonPages } from '../js/learning/lesson-pages.js';
+import { fitIdeaCard, learningPunctuation } from '../js/learning/fit-idea-card.js';
 import { compactTable } from '../js/learning/comparison.js';
 import { introNahwVisualCount } from '../js/learning/intro-nahw.js';
 import { introSarfVisualCount } from '../js/learning/intro-sarf.js';
@@ -56,13 +57,16 @@ document.querySelector('#run').addEventListener('click', async () => {
             session.visualState = { [step.id]: { selected } };
             if (params.has('details')) session.readingDetails = { [session.steps[si].id]: true };
             root.innerHTML = render(state, course.modules);
+            learningPunctuation(root);
             const original = root.querySelector('.mz-teaching');
             if (!original) continue;
             if (!totals.steps) await document.fonts.ready;
             const originalText = tokens(original);
+            const ideaLayout = root.querySelector('[data-reading-layout="idea"]');
+            const ideaFit = ideaLayout ? fitIdeaCard(root) : null;
             const layout = fitLessonPages(root);
             const fail = reason => totals.failures.push({ key, step: session.steps[si].id, selected, reason });
-            if (!layout?.fits) fail('No fitting layout');
+            if (!layout?.fits && !ideaLayout) fail('No fitting layout');
             const displayed = [];
             for (let page = 0; page < (layout?.count || 1); page++) {
               fitLessonPages(root, page);
@@ -70,7 +74,8 @@ document.querySelector('#run').addEventListener('click', async () => {
               const scroller = root.querySelector('.main-content');
               const footer = root.querySelector('.mz-study-foot').getBoundingClientRect();
               if (scroller.scrollHeight > scroller.clientHeight + 1 || footer.bottom > innerHeight + 1) fail(`Page ${page + 1}: document overflow`);
-              if (article.getBoundingClientRect().height > body.clientHeight + 1) fail(`Page ${page + 1}: clipped content`);
+              if (!ideaLayout && article.getBoundingClientRect().height > body.clientHeight + 1) fail(`Page ${page + 1}: clipped content`);
+              if (ideaLayout && (!ideaFit?.fits || body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1)) fail('Idea card overflows');
               if (document.documentElement.scrollWidth > innerWidth + 1) fail(`Page ${page + 1}: horizontal overflow`);
               displayed.push(...tokens(article));
               totals.pages++;

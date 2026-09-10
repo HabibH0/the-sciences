@@ -1,0 +1,132 @@
+import { card as c, rows as r, part as p, visual as v, question as q, plan } from '../nahw-course/helpers.js';
+const clarification = { line: 'clarification' };
+
+export const plans = {
+  'as-10/l3': plan(36, 'Four- and Five-Root Noun Patterns', [
+    [c('Five agreed quadriliteral patterns',0,1,2,r(3,0)),c('Kasra and ḍamma pairs',r(3,1,2)),c('Two unequal vowel pairs',r(3,3,4)),c('Compare the first and third vowels',4)],
+    [c('Al-Akhfash adds a rare sixth pattern',0,1,2,3)],
+    [c('Five roots, three ل positions',0,1,r(2,0,1)),c('Compact notation does not double the word’s roots',r(2,2,3),3)],
+    [c('A missing root is still a root',0,1,p(2,0)),c('A lost initial و with compensation',p(2,1)),c('Why the total is twenty or twenty-one',p(3,0),clarification),c('Compare augmented stem limits',p(3,1))],
+  ], [
+    ['Four roots','Five agreed patterns; six with al-Akhfash’s addition.'],
+    ['Five roots','Four patterns. Repeated ل symbols represent distinct root positions.'],
+    ['Totals','11 triliteral + 5 or 6 quadriliteral + 4 quintiliteral = 20 or 21.'],
+    ['Limits','At least three underlying roots; augmented noun stems reach seven letters.'],
+  ], {copy:{
+    '0:0':'The second bare-noun branch has four roots.',
+    '0:2':'Compare the bare quadriliteral verb’s single فَعْلَلَ pattern.',
+    '0:4':'فَعْلَل، فِعْلِل، فُعْلُل repeat one vowel on first and third positions. فِعَلْل and فِعْلَل differ. The compact فِعَلّ abbreviates two adjacent ل symbols; قمطر itself has four distinct roots.',
+    '1:0':'“Agreed” distinguishes five patterns from a disputed sixth.',
+    '1:2':'جُخْدَب, a name for a lion, has ḍamma, sukūn, fatḥa. Some treat it as a variant of جُخْدُب rather than a new pattern. The source accepts an independent أصل, though rare.',
+    '1:3':'Five agreed patterns; six with al-Akhfash’s addition.',
+    '2:0':'Five-root nouns have no counterpart among bare verbs.',
+    '2:3':'The source compresses adjacent ل symbols with shadda in three weights. These are symbols for separate roots, not doubled letters in سفرجل، قرطعب or قذعمل. جحمرش uses the fully separated فَعْلَلِل notation.',
+    '3:0':'The minimum concerns underlying roots in a declinable noun.',
+    '3:clarification':'Ten agreed triliteral patterns plus rare فُعِل give eleven. Add five quadriliteral and four quintiliteral patterns: twenty. Accept al-Akhfash’s sixth quadriliteral فُعْلَل and the total becomes twenty-one.',
+  },copyParts:{'3:2':[
+    'يد, “hand”, and دم, “blood”, have lost their third root. يد is from ي د ي. The source gives د م و for دم; د م ي is also reported. Two visible roots do not prove an originally two-root noun.',
+    'عِدَة, “promise”, and سِنَة, “drowsiness”, come from و ع د and و س ن. Each loses initial و and has compensating ة. They have two visible root letters, but three written letters including the compensation.',
+  ],'3:3':[
+    'The complete bare-noun inventory totals twenty or twenty-one patterns, depending on the disputed quadriliteral addition.',
+    'Augmented noun stems have many patterns and reach seven letters; augmented verb stems reach six. These are derivational stem limits, not limits on a whole word with articles, endings or attached pronouns.',
+  ]},boxCopy:{'0:1':['أوزان الرباعي المتفق عليها خمسة.'],'1:1':['فُعْلَل: جُخْدَب، بجانب جُخْدُب.','الأخفش يعدّه أصلا قليلا.'],'3:1':['الاسم المتمكن: ثلاثة أصول على الأقل، إلا بالحذف.']},
+  tableHeaders:{'0:3':['Example','Expanded pattern','Meaning and notation'],'2:2':['Example','Expanded pattern','Meaning and notation']},
+  tableCopy:{'0:3':{0:['جَعْفَر','فَعْلَل','Jaʿfar, a personal name. First and third fatḥa; second sukūn.'],1:['زِبْرِج','فِعْلِل','Finery, ornamentation. First and third kasra; second sukūn.'],2:['بُرْثُن','فُعْلُل','A lion’s claw. First and third ḍamma; second sukūn.'],3:['قِمَطْر','فِعَلْل','Book case. Kasra, fatḥa, sukūn. Compact notation: فِعَلّ.'],4:['دِرْهَم','فِعْلَل','A dirham, coin and weight. Kasra, sukūn, fatḥa.']},
+  '2:2':{0:['سَفَرْجَل','فَعَلْلَل','Quince. Three fatḥas; third root sukūn. Compact: فَعَلَّل.'],1:['جَحْمَرِش','فَعْلَلِل','An old woman. First and third fatḥa; fourth kasra; second sukūn.'],2:['قِرْطَعْب','فِعْلَلْل','A small, trifling thing. Kasra, sukūn, fatḥa, sukūn. Compact: فِعْلَلّ.'],3:['قُذَعْمِل','فُعَلْلِل','A small, trifling thing. Ḍamma, fatḥa, sukūn, kasra. Compact: فُعَلِّل.']}},patternTables:['0:3','2:2'],
+  visuals:{'3:1':v('Compensated root loss',['عِدَة','و ع د: promise'],['سِنَة','و س ن: drowsiness']),'3:2':v('Count the accepted patterns',['١١ + ٥ + ٤','Twenty'],['١١ + ٦ + ٤','Twenty-one']),'3:3':v('Derivational stem length',['الاسم: ٧','Noun maximum'],['الفعل: ٦','Verb maximum'])},
+  analysisPrompt:'Choose the pattern of each quadriliteral noun.',analysisHint:'Compare first and third vowels; the second is unvowelled in these examples.',
+  analysisText:{'table-0-3':{'جَعْفَر (a personal name — Jaʿfar)':'جَعْفَر','زِبْرِج (ornamentation, finery — لِلزِّينَة)':'زِبْرِج','بُرْثُن (a claw — specifically a lion’s claw, لِمَخْلِبِ الأَسَد)':'بُرْثُن'}},
+  }),
+  'as-10/l2': plan(35, 'Theoretical Patterns and Pronunciation Variants', [
+    [c('Three opening vowels, four medial choices',0,1,2),c('Why the first root cannot take sukūn',3,4,5,clarification)],
+    [c('فُعِل is rare in nouns',0,1,2)],
+    [c('فِعُل is excluded from the basic inventory',0,1),c('An apparent counterexample in a reading',2,3,4),c('Two accounts of the unusual vowel pair',r(5,0,1),6)],
+    [c('Lightening كتف',0,1,r(2,0)),c('A throat letter permits another variant',r(2,1),3),c('Other nouns and verbs can lighten',r(2,2),4,5)],
+  ], [
+    ['12','Three first-root vowels × four second-root states.'],
+    ['فُعِل','Rare noun pattern, associated especially with passive verbs.'],
+    ['فِعُل','Not a basic pattern here; the source explains حِبُك as secondary.'],
+    ['Variants','كتف has two lighter variants; فخذ has a further throat-letter variant.'],
+  ], {copy:{
+    '0:0':'Ten agreed patterns do not exhaust the possible combinations.',
+    '0:2':'فاء has fatḥa, ḍamma or kasra. عين has those three plus sukūn. Three × four gives twelve theoretical patterns.',
+    '0:4':'Sukūn means an unvowelled consonant, not a silent one. Standard Arabic does not begin an utterance on this consonant cluster. The medial عين can be unvowelled; the initial فاء needs a vowel.',
+    '0:5':'Two theoretical patterns remain outside the ten agreed ones.',
+    '0:clarification':'The three opening choices and four medial choices account for all twelve combinations. This counts patterns, not meanings or final case endings. The next two cards explain the remaining pair.',
+    '1:1':'فُعِل: ḍamma then kasra. The source gives دُئِل, a small weasel-like creature or a tribal name associated with Abū al-Aswad al-Duʾalī, traditionally credited with early codification of Nahw.',
+    '1:2':'The source explains its rarity by the pattern’s special association with passive verbs such as ضُرِب. It is rare among nouns, not impossible.',
+    '2:1':'Kasra then ḍamma is absent from this basic inventory. The source attributes this to a difficult vowel transition, not physical impossibility. Earlier, فَعِلَ يَفْعُلُ was also excluded, but its vowels belong to separate verb forms, not adjacent syllables.',
+    '2:2':'The source considers a transmitted reading with this vowel pair.',
+    '2:4':'“By the sky with its interwoven paths.” حِبُك [51:7], kasra then ḍamma, appears to counter the inventory. Two explanations treat that vowel pair as secondary.',
+    '2:6':'On either account, the source does not add a basic فِعُل pattern.',
+    '3:1':'تخفيف changes pronunciation while retaining the underlying pattern. A surface form may coincide with a different pattern; the word’s derivation has not changed.',
+    '3:3':'فَخِذ, “thigh”, starts with fatḥa then kasra. Its خ is a throat letter, admitting فِخِذ too. Count four forms in all: the base plus three variants, not four new lightenings.',
+    '3:5':'The verb شهد, “witnessed”, can lighten to شَهْدَ, like كتف to كتْف. The phenomenon applies to nouns and verbs; it is not a change of word class.',
+  },boxCopy:{'0:1':['حركات الفاء ثلاث؛ وحالات العين أربع.','ثلاثة في أربعة: اثنا عشر.'],'1:0':['فُعِل قليل في الأسماء: دُئِل.'],'2:0':['فِعُل ليس من الأوزان الأصلية هنا.'],'2:3':['وَالسَّمَاءِ ذَاتِ الْحِبُكِ [51:7]'],'3:4':['ومثل الاسم الفعل: شَهِدَ، شَهْدَ.']},
+  tableCopy:{'2:5':{0:['تداخل اللغتين','A blend of حُبُك and حِبِك: first kasra from the latter, second ḍamma from the former.'],1:['الإتباع','حاء takes kasra in agreement with the preceding تاء in ذاتِ. The source treats it as contextual vowel assimilation.']},
+  '3:2':{0:['كَتِف','كَتْف؛ كِتْف','Shoulder. Drop عين’s vowel alone, or also change فاء to kasra.'],1:['فَخِذ','فَخْذ؛ فِخْذ؛ فِخِذ','Thigh. The second root خ is among ء، هـ، ح، خ، ع، غ; the extra variant has two kasras.'],2:['عَضُد؛ إِبِل؛ عُنُق','عَضْد؛ إِبْل؛ عُنْق','Upper arm; camels; neck. Drop the second root’s vowel.']}},patternTables:['3:2'],tableHeaders:{'3:2':['Base','Variants','Explanation']},
+  analysisPrompt:'Match each group to its pronunciation change.',analysisHint:'Distinguish two shoulder variants, four thigh forms, and medial sukūn.',
+  analysisLabels:{'بِإسْكانِ العَيْنِ فقط، أو بِهِ مع كَسْرِ الفاءِ — dropping the vowel on the عين alone, or that together with switching the فاء to a kasra':'عين sukūn, with optional فاء kasra','a further lightening is possible too, بِكَسْرَتَيْنِ (kasra on both letters), giving four dialectal forms (لُغات) in all':'Also two kasras: four forms in all','يُخَفَّفُ بِإسْكانِ العَيْنِ — lightened by dropping the vowel on the عين':'عين sukūn'},
+  analysisText:{'table-3-2':{'كَتْف ، كِتْف':'كَتْف؛ كِتْف','كفَخِذ (a thigh)':'فَخِذ','عَضْد ، إبْل ، عُنْق':'عَضْد؛ إِبْل؛ عُنْق'}},
+  }),
+  'as-10/l1': plan(34, 'Ten Agreed Triliteral Noun Patterns', [
+    [c('Bare roots or an augmented stem',0,1,2),c('Nouns can have five root letters',3,4,5,6),c('Ten agreed vowel patterns',7,8)],
+    [c('Fatḥa first: sukūn or fatḥa next',0,r(1,0,1)),c('Fatḥa first: kasra or ḍamma next',r(1,2,3),2)],
+    [c('Kasra first: sukūn or fatḥa next',0,r(1,0,1)),c('Two kasras: a rare pattern',r(1,2),2,3,4)],
+    [c('Ḍamma first: sukūn or fatḥa next',0,r(1,0,1)),c('Two ḍammas complete the ten',r(1,2),2)],
+  ], [
+    ['Roots','Bare nouns: three, four or five. Bare verbs stop at four.'],
+    ['Ten','Four begin with fatḥa, three with kasra, three with ḍamma.'],
+    ['Meaning','A noun and an adjective can share a pattern.'],
+    ['Rare','فِعِل includes إبل; the source reports Sībawayh’s narrow inventory.'],
+  ], {copy:{
+    '0:0':'After the seven verb divisions, the book turns to nouns.',
+    '0:2':'مجرد contains only roots; مزيد has additions. كتف, “shoulder”, is bare. مكتوب, “written”, adds م and و to ك ت ب.',
+    '0:4':'Bare nouns divide into ثلاثي، رباعي، خماسي: three, four or five roots.',
+    '0:6':'Bare verbs stop at four roots. Nouns reach five: سفرجل, “quince”, and قرطعب, “a small, trifling thing”. Both return in Lesson 36.',
+    '0:8':'The source lists ten agreed triliteral patterns, measured against ف ع ل. They are grouped by the first root’s vowel. The next lesson considers the remaining theoretical combinations.',
+    '1:0':'Four patterns begin with fatḥa. Each has a noun and an adjective example.',
+    '1:2':'كتف names a body part; حذر describes a quality. Both are فَعِل. The same bare pattern can serve either lexical use; an adjective is still an اسم in the broader word-class division.',
+    '2:0':'Three patterns begin with kasra.',
+    '2:2':'The source marks this pattern as rare.',
+    '2:4':'The source reports that Sībawayh knew only إبل on this pattern. بلز is a recorded adjective, not merely theoretical: dictionaries describe a full-bodied woman, with other reported senses. Its light versus doubled ز is discussed by grammarians.',
+    '3:0':'Three patterns begin with ḍamma.',
+    '3:2':'Four fatḥa + three kasra + three ḍamma openings = ten. This inventory varies the first two root vowels, keeping ف ع ل in order; final case endings are separate.',
+  },boxCopy:{'0:5':['مجرد الفعل إلى الرباعي؛ والاسم إلى الخماسي.'],'2:3':['فِعِل قليل؛ نُقل عن سيبويه الاقتصار على إبل.']},
+  tableHeaders:{'1:1':['Examples','Pattern','Vowels and meanings'],'2:1':['Examples','Pattern','Vowels and meanings'],'3:1':['Examples','Pattern','Vowels and meanings']},
+  tableCopy:{'1:1':{0:['سَهْم؛ سَهْل','فَعْل','Fatḥa, sukūn. Noun: arrow; adjective: easy.'],1:['قَمَر؛ بَطَل','فَعَل','Two fatḥas. Noun: moon; description: heroic, a hero.'],2:['كَتِف؛ حَذِر','فَعِل','Fatḥa, kasra. Noun: shoulder; adjective: cautious.'],3:['عَضُد؛ يَقُظ','فَعُل','Fatḥa, ḍamma. Noun: upper arm, also strength; adjective: vigilant.']},
+  '2:1':{0:['حِمْل؛ نِكْس','فِعْل','Kasra, sukūn. Noun: load; adjective: weakling, associated with relapse in the course gloss.'],1:['عِنَب؛ زِيَم','فِعَل','Kasra, fatḥa. Noun: grapes; adjective: scattered.'],2:['إِبِل؛ بِلِز','فِعِل','Two kasras. Camels; a rare adjective with dictionary glosses.']},
+  '3:1':{0:['قُفْل؛ حُلْو','فُعْل','Ḍamma, sukūn. Noun: lock; adjective: sweet.'],1:['صُرَد؛ حُطَم','فُعَل','Ḍamma, fatḥa. A shrike; a rough, forceful driver, correcting the course’s “breaks rank”.'],2:['عُنُق؛ سُرُح','فُعُل','Two ḍammas. Neck; swift, as in ناقة سُرُح, a swift she-camel.']}},patternTables:['1:1','2:1','3:1'],
+  analysisPrompt:'Match the examples to their vowel pattern.',analysisHint:'Compare the first and second root vowels.',
+  }),
+};
+export const checks = {
+  'as-10/l3':[
+    q('What pattern fits دِرْهَم?', ['فَعْلَل','فِعَلْل','فِعْلَل','فِعْلِل'],'Kasra, sukūn, fatḥa.'),
+    q('What verdict does the source give جُخْدَب?', ['It has five roots.','An independent, rare pattern.','Only a variant of جُخْدُب.','Not attested.'],'It accepts al-Akhfash’s addition.'),
+    q('How do synonymous قرطعب and قذعمل differ in the compact scale?', ['Different vowel positions and different compressed ل pairs.','One has four roots.','Only one can use compact notation.','They share the same pattern.'],'Expanded: فِعْلَلْل and فُعَلْلِل; shadda belongs to the scale symbols.'),
+    q('Why do يد، دم، عدة and سنة show only two root letters?', ['A root was deleted.','Their roots originally had only two.','They are all indeclinable.','Augmentation makes roots irrelevant.'],'Compensating ة is written but is not an original root.'),
+  ],
+  'as-10/l2':[
+    q('Why does عين have four states while فاء has three?', ['عين can disappear.','Only the medial root can take sukūn here.','عين takes two vowels together.','فاء is always fatḥa.'],'A word cannot start with the resulting unvowelled cluster.'),
+    q('How does the source explain the rarity of فُعِل nouns?', ['An impossible vowel transition.','No meaning is possible.','Adjectives only.','Its special association with passive verbs.'],'Rare is different from absent.'),
+    q('Why does the source exclude basic فِعُل?', ['Reserved for passive verbs.','It is an active-verb pattern.','It has no possible meaning.','The difficult kasra-to-ḍamma transition.'],'The حِبُك reading receives separate explanations.'),
+    q('Why does فخذ have a fourth form beyond كتف’s base and two variants?', ['Its second root is a throat letter.','It is an adjective.','It has four roots.','It opens with ḍamma.'],'The extra variant is فِخِذ.'),
+  ],
+  'as-10/l1':[
+    q('How do bare noun and verb root sizes differ?', ['Both have three sizes.','Nouns have two, verbs three.','Nouns: three to five roots; verbs: three or four.','Only augmented words have divisions.'],'The extra noun branch is خماسي.'),
+    q('What does كتف beside حذر show?', ['فَعُل: different patterns.','فَعِل: a noun and adjective can share the vowels.','فَعْل: both are plain nouns.','فَعَل: both have the same meaning.'],'Both begin with fatḥa then kasra.'),
+    q('What inventory claim about فِعِل does the source attribute to Sībawayh?', ['Adjectives only.','The commonest pattern.','Only إبل was attested to him.','No example exists at all.'],'Distinguish the reported claim from later dictionary additions.'),
+    q('How do the ten patterns divide by their opening vowel?', ['5 fatḥa; 3 kasra; 2 ḍamma.','4 fatḥa; 4 kasra; 3 ḍamma.','4 fatḥa; 3 kasra; 3 ḍamma.','3 each, plus an unclassified one.'],'The groups sum to ten.'),
+  ],
+};
+export const quizzes = {
+  'as-10/l3':[q('How many agreed quadriliteral noun patterns?'),q('Which pattern fits جعفر?'),q('Which rare pattern did al-Akhfash add?', ['فِعَلّ','فَعْلَل','فَعَلَّل','فُعْلَل']),q('How many quintiliteral noun patterns?'),q('Which compact weight represents سفرجل?', ['فِعْلَلّ','فُعَلِّل','فَعَلَّل','فَعْلَلِل']),q('What is the augmented noun-stem limit?')],
+  'as-10/l2':[q('How many combinations does the theoretical division give?'),q('What extra state is available to عين?'),q('Which pattern does the source’s دئل example illustrate?'),q('The source associates فُعِل especially with what?'),q('Which pattern is excluded from the basic inventory?'),q('How many lighter variants of كتف are listed, excluding its base?')],
+  'as-10/l1':[q('What are the two noun classes in this division?'),q('What are the three bare-root sizes?'),q('How many agreed triliteral noun patterns?'),q('Which pattern has سهم and سهل?'),q('Which pattern has عنب and زيم?'),q('Which pattern has عنق and سرح?')],
+};
+export const practice = {
+  'as-10/l3':[q('What are زبرج’s pattern and meaning?', ['فُعْلُل: claw.','فِعَلْل: book case.','فِعْلَل: dirham.','فِعْلِل: finery.'],'First and third kasra; second sukūn.')],
+  'as-10/l2':[q('Which calculation gives twelve theoretical patterns?', ['3 × 3 plus an unrelated 3.','2 × 6.','3 first-root vowels × 4 second-root states.','4 first-root states × 3 second-root vowels.'],'Sukūn is available only to عين here.')],
+  'as-10/l1':[q('What follows from the noun’s خماسي branch?', ['Verbs have no bare forms.','The divisions are unrelated.','Bare noun roots can reach five; verb roots four.','Every noun is longer than every verb.'],'Root size is distinct from total inflected length.')],
+};

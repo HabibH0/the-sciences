@@ -29,6 +29,10 @@
       const lesson = params.get('lesson') || 'as-01/l1';
       frame.src = `../#/module/${/^[a-z0-9-]+\/[a-z0-9_-]+$/.test(lesson) ? lesson : 'as-01/l1'}`;
     }
+    else if (params.has('word')) {
+      params.delete('width'); params.delete('height');
+      frame.src = `./verify-word-layout.html?${params}`;
+    }
     else if (params.has('mobile')) {
       params.delete('width'); params.delete('height');
       frame.src = `./verify-mobile-layout.html?${params}`;

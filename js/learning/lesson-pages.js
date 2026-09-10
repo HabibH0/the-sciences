@@ -96,6 +96,7 @@ function contentBlocks(article) {
 
 export function fitLessonPages(root, requestedPage = 0) {
   const study = root.querySelector('.mz-study');
+  if (study?.dataset.readingLayout === 'idea') return null;
   const body = study?.querySelector('.mz-study-body');
   const article = body?.querySelector(':scope > .mz-teaching');
   if (!article) return null;

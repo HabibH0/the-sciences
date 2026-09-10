@@ -1,7 +1,10 @@
 import { escBidi } from '../html.js';
 import { compactTable, comparisonTableHtml } from './comparison.js';
+import { foundationPlan } from './nahw-foundations.js';
+import { foundationTeachingHtml } from './render-foundations.js';
 
 export function sarfTeachingHtml(lesson, step, session, helpers, state) {
+  if (foundationPlan(lesson)) return foundationTeachingHtml(lesson, step);
   const concept = lesson.concepts[step.conceptIndex];
   const lines = step.lineIndices.map(i => concept.lines[i]);
   const table = step.tableIndex == null ? null : concept.lines[step.tableIndex].table;

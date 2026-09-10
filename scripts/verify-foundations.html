@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Advanced Nahw lessons 1–10 · layout audit</title>
+<style>body{margin:0;background:#e9edea;color:#254d40;font:13px/1.4 system-ui}header{padding:8px 16px}iframe{display:block;border:0;margin:0 auto;background:white}pre{white-space:pre-wrap;max-height:180px;overflow:auto}a{color:inherit}</style></head>
+<body><header><strong>Advanced Nahw responsive audit</strong><p>Render-only checks. No learner progress is saved.</p><pre id="status" role="status">Starting…</pre></header><iframe title="Audited lesson viewport"></iframe>
+<script type="module">
+import { auditLessons } from './nahw-audit-lessons.mjs';
+const params = new URLSearchParams(location.search), frame = document.querySelector('iframe'), status = document.querySelector('#status');
+const lessons = auditLessons(params).map(lesson => lesson.learningKey);
+const width = Number(params.get('width')) || 320, height = Number(params.get('height')) || 568;
+frame.width = width; frame.height = height;
+const results = []; let current = 0;
+function next() {
+  const query = new URLSearchParams(params);
+  query.delete('width'); query.delete('height'); query.set('lesson', lessons[current]); query.set('auto', '1');
+  if (!params.has('full')) { query.set('scale', params.get('scale') || '100'); query.set('font', params.get('font') || 'naskh'); }
+  frame.src = `verify-word-layout.html?${query}`;
+}
+window.addEventListener('message', async event => {
+  if (event.origin !== location.origin || event.source !== frame.contentWindow || event.data?.type !== 'nahw-layout-result') return;
+  results.push(event.data.totals);
+  status.textContent = JSON.stringify({ completed: results.length, lessons: lessons.length, states: results.reduce((n,r)=>n+r.states,0), failures: results.flatMap(r=>r.failures.map(f=>({lesson:r.lesson,...f}))) }, null, 2);
+  if (++current < lessons.length) next();
+  else document.title = results.some(r=>r.failures.length) ? 'FAILED · Nahw layout audit' : 'PASSED · Nahw layout audit';
+});
+next();
+</script></body></html>

@@ -18,6 +18,8 @@ export function prepareExerciseFeedback(root) {
   const exercise = panel.closest('.mz-exercise, .la-exercise, .quiz-page');
   const shell = panel.closest('.mz-study, .la-session, .quiz-page');
   if (!shell) return null;
+  // This authored layout has room to read feedback beside the original task.
+  if (shell.dataset.readingLayout === 'idea') return null;
   const stamp = panel.innerHTML;
   const correcting = !!exercise.querySelector('.mz-check-row > .btn-primary');
   const next = shell.querySelector('.mz-study-foot > .btn-primary, .la-exercise-footer > .btn-primary, .quiz-foot > .btn-primary');

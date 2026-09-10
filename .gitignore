@@ -1,4 +1,8 @@
 node_modules/
+/artifacts/nahw-foundations/
+/artifacts/sarf-course/
+/artifacts/logic-course/
+/artifacts/study-catalog/
 *.log
 save-data.json
 save-data.backup.json

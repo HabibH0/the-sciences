@@ -145,6 +145,7 @@ function contentWeight(node) {
 
 export function fitMobilePages(root, { index = 0, focusSelector = '', anchor = '' } = {}) {
   const shell = root.querySelector(SHELL), scroller = shell?.closest('.main-content');
+  if (shell?.dataset.readingLayout === 'idea') return null;
   if (!shell || !scroller) return null;
   if (!matchMedia(MOBILE_LESSON_QUERY).matches && !originals.has(shell)) return null;
   const original = originals.get(shell) || shell.cloneNode(true);
