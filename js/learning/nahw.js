@@ -93,7 +93,9 @@ export function nahwAnalysisItems(lesson) {
       || item.words.length !== item.labels?.length || seen.has(item.source)) return [];
     seen.add(item.source);
     return [{ ...item, id: `bank-${bankIndex}`, bankIndex, prompt: foundationPlan(lesson)?.analysisPrompt || (foundationPlan(lesson) ? 'Assign each role.' : 'Give each part its grammatical role.'),
-      options: [...new Set([...item.labels, ...(item.distractors || [])])],
+      // Distractor labels are hidden: the dropdown only offers the roles
+      // this expression actually uses.
+      options: [...new Set(item.labels)],
       hint: foundationPlan(lesson)?.analysisLabels ? 'Find the عامل and the role it governs.' : 'Identify what governs each part, then choose the role that fits its place in this expression.' }];
   }).slice(0, 2);
 }

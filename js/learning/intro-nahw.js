@@ -45,7 +45,8 @@ export function introNahwAnalysisItems(lesson) {
     return [{ id: `bank-${bankIndex}-row-${rowIndex}`, bankIndex, rowIndex, spans,
       prompt: 'Give each part its grammatical role. Keep the words in each phrase together.',
       source: item.sentence, translation: item.translation, words, labels: spans.map(span => span.role),
-      options: [...new Set([...spans.map(span => span.role), ...item.distractors])],
+      // Distractor labels are hidden: only the roles this row actually uses.
+      options: [...new Set(spans.map(span => span.role))],
       hint: 'Read the whole sentence first. A group of words can fill one role, just as a single word can.',
       worked: taught.has(item.sentence),
     }];
