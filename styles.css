@@ -10422,10 +10422,10 @@ body {
 /* A rewritten schedule: the figures the new deadline changed take one breath
    of accent. The tint is an overlay fading out, so the card keeps its own
    background throughout and the whole thing stays on the compositor. */
-.anim-flash :is(.today-card, .ledger-inline) {
+.anim-flash :is(.today-card, .ledger-inline, .plan-note) {
   position: relative;
 }
-.anim-flash :is(.today-card, .ledger-inline)::after {
+.anim-flash :is(.today-card, .ledger-inline, .plan-note)::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -10676,8 +10676,29 @@ body {
 .review-panel-foot {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 12px;
   margin-top: 12px;
+}
+.review-panel-count {
+  margin-inline-start: auto;
+  font-size: var(--text-meta);
+  color: var(--color-neutral-600);
+}
+/* Review is one panel, so the whole page is a single reading-width column
+   centred in the shell on desktop -- title and panel together -- rather
+   than the full-measure two-column grid Account still uses. */
+.schedule-single {
+  margin-top: 8px;
+}
+@media (min-width: 901px) {
+  .schedule-page {
+    max-width: 640px;
+  }
+}
+.schedule-single > .schedule-panel,
+.schedule-single > .empty-state-box {
+  margin-top: 0;
 }
 .review-focus-panel {
   border-top: 1px solid var(--color-divider);

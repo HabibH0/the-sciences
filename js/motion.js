@@ -725,18 +725,18 @@ const ACTION_FX = {
   },
 
   // "Set a target date" hands off INTO the open picker (POLISH-004): the
-  // Plan block is brought into comfortable view in the same frame the
-  // screen arrives, so the Schedule heading stays above it for context and
-  // the freshly-focused date grid is never below the fold.
+  // Plan block (on Account) is brought into comfortable view in the same
+  // frame the screen arrives, so the freshly-focused date grid is never
+  // below the fold.
   openScheduleTargetDate(root) {
     const plan = root.querySelector('.deadline-picker-wrap');
     if (plan) plan.scrollIntoView({ block: 'center', behavior: 'auto' });
   },
 
-  // The plan that was just rewritten: flash the figures it changed.
-  pickScheduleDeadline: (root) => mark(root.querySelector('.schedule-page .two-col-main'), 'anim-flash'),
-  clearScheduleDeadline: (root) => mark(root.querySelector('.schedule-page .two-col-main'), 'anim-flash'),
-  setDailyResetHour: (root) => mark(root.querySelector('.schedule-page .two-col-main'), 'anim-flash'),
+  // The plan that was just rewritten: flash the note it changed.
+  pickScheduleDeadline: (root) => mark(root.querySelector('.account-plan'), 'anim-flash'),
+  clearScheduleDeadline: (root) => mark(root.querySelector('.account-plan'), 'anim-flash'),
+  setDailyResetHour: (root) => mark(root.querySelector('.account-plan'), 'anim-flash'),
 };
 
 // Called by the event dispatchers right after rerender(). `el` is the

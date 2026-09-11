@@ -229,6 +229,7 @@ function autoUploadSuccessMessage(reason) {
   if (reason === 'direct-unlock') return 'Unlock choice synced to your account.';
   if (reason === 'path-milestone') return 'Path milestone progress synced to your account.';
   if (reason === 'settings-change') return 'Settings synced to your account.';
+  if (reason === 'schedule-deadline') return 'Target date synced to your account.';
   return 'Progress synced to your account.';
 }
 
@@ -251,6 +252,7 @@ function applyMergedProgressToState(envelope) {
     'revealState',
     'practiceHistory',
     'scheduleDeadline',
+    'scheduleDeadlineAt',
     'dailyResetHour',
     'pathNodeStatus',
     'pathReps',
@@ -1805,6 +1807,19 @@ async function runAutoUpload(reason) {
   }
 }
 
+// --- schedule helpers ---------------------------------------------------
+
+// Sets (or clears, with null) the active course's target date. Stamped
+// with the time of the change and synced straight away: the cloud merge is
+// otherwise "this device's copy wins", so without a timestamp a date picked
+// here kept being overwritten by whichever other device/browser still
+// held the previous one (see mergeProgressData in js/storage/syncClient.js).
+function setScheduleDeadline(date) {
+  state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: date };
+  state.scheduleDeadlineAt = { ...state.scheduleDeadlineAt, [state.courseId]: new Date().toISOString() };
+  queueAutoUpload('schedule-deadline');
+}
+
 // --- tarkeeb helpers ----------------------------------------------------
 
 function initTarkeeb(item, moduleId) {
@@ -1821,7 +1836,10 @@ function initTarkeeb(item, moduleId) {
     // Blank slots (role: null) have no chip of their own -- correct is
     // leaving them empty, so they contribute nothing to the tray.
     const realSlots = slots.filter((s) => s.role !== null);
-    const chipPool = realSlots.map((s) => s.role).concat(item.distractors || []);
+    // Distractor labels (item.distractors) are deliberately left out of the
+    // tray -- the learner only ever sees the roles the sentence actually
+    // uses, so the exercise is placing them, not fishing among decoys.
+    const chipPool = realSlots.map((s) => s.role);
     // chipTier is index-aligned with chipPool -- js/render.js's colour
     // coding only (see classifyTarkeebRoleTier in content/index.js).
     const chipTier = chipPool.map(classifyTarkeebRoleTier);
@@ -1836,7 +1854,8 @@ function initTarkeeb(item, moduleId) {
       passed: false,
     };
   }
-  const chipPool = item.labels.concat(item.distractors || []);
+  // Same as above: no distractor chips for the flat schema either.
+  const chipPool = item.labels.slice();
   return {
     chipPool,
     chipOrder: shuffle(chipPool.map((_, i) => i)),
@@ -3638,13 +3657,13 @@ const actions = {
     state.pathActive = false;
   },
   // "Set a target date" finishes its own handoff (POLISH-004): it lands on
-  // Schedule with the Plan section scrolled into view and the date picker
-  // already open (the scroll and the focus land via ACTION_FX in
-  // js/motion.js and refocusSelector below), instead of leaving the learner
-  // to rediscover the control below the fold.
+  // Account -- where the Plan section lives now -- scrolled into view with
+  // the date picker already open (the scroll and the focus land via
+  // ACTION_FX in js/motion.js and refocusSelector below), instead of
+  // leaving the learner to rediscover the control below the fold.
   openScheduleTargetDate() {
     if (guardSessionExit('openScheduleTargetDate')) return;
-    state.view = 'schedule';
+    state.view = 'account';
     state.practice = null;
     state.pathActive = false;
     state.deadlinePickerOpen = true;
@@ -4246,11 +4265,11 @@ const actions = {
   // this reads the picked day from the clicked cell's own dataset, not an
   // <input>'s .value.
   pickScheduleDeadline(el) {
-    state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: el.dataset.date || null };
+    setScheduleDeadline(el.dataset.date || null);
     state.deadlinePickerOpen = false;
   },
   clearScheduleDeadline() {
-    state.scheduleDeadline = { ...state.scheduleDeadline, [state.courseId]: null };
+    setScheduleDeadline(null);
     state.deadlinePickerOpen = false;
   },
   // Clears the panel's own browsing cursor on the way in, not the way out --

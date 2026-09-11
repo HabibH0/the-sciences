@@ -209,7 +209,7 @@ export function crumbTrail(state) {
     case 'library':
       return [{ label: 'Literature', current: true }];
     case 'schedule':
-      return [{ label: 'Review & plan', current: true }];
+      return [{ label: 'Review', current: true }];
     case 'account':
       return [{ label: 'Account', current: true }];
     default:

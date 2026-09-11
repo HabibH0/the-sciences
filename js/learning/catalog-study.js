@@ -41,7 +41,7 @@ function resumeHtml(state, course, next) {
   return `<section class="mz-hub-resume" aria-label="${started ? 'Continue studying' : 'Your next lesson'}"><span class="mz-hub-book">${book}</span><div class="mz-hub-resume-copy"><p>${started ? 'Pick up where you left off' : 'Your next lesson'}</p><h2>${title(next.l.title, next.m.language !== 'en')}</h2><span>${course.id === 'mantiq' ? 'Unit' : 'Module'} ${moduleIndex} <span aria-hidden="true">·</span> Lesson ${lessonIndex}</span></div><button class="btn mz-hub-continue" data-action="continueLesson" data-module-id="${escAttr(next.m.id)}" data-lesson-id="${escAttr(next.l.id)}">${started ? 'Continue' : 'Start lesson'} ${arrow}</button></section>`;
 }
 
-export function studyCourseHtml(state, course) {
+export function studyCourseHtml(state, course, practicePanel = '') {
   const total = course.modules.reduce((n, m) => n + m.lessons.length, 0);
   const done = course.modules.reduce((n, m) => n + m.lessons.filter(l => state.completed[m.id]?.[l.id]).length, 0);
   const next = nextStudyLesson(state, course);
@@ -60,6 +60,7 @@ export function studyCourseHtml(state, course) {
       if (!unlocked) return `<button class="mz-hub-module-summary is-locked" data-action="openUnlockPrompt" data-module-id="${escAttr(mod.id)}" data-target-type="module" data-target-id="${escAttr(mod.id)}">${heading}</button>`;
       return `<details class="mz-hub-module${next?.m.id === mod.id ? ' is-current' : ''}" ${disclosure(state, `module/${mod.id}`, next?.m.id === mod.id)}><summary class="mz-hub-module-summary">${heading}</summary>${lessonRows(state, course, mod, next)}<div class="mz-hub-module-tools"><button class="mz-text-button" data-action="openModule" data-module-id="${escAttr(mod.id)}">View ${unit} ${arrow}</button></div></details>`;
     }).join('')}</div>
+    ${practicePanel ? `<details class="mz-hub-module mz-hub-practice" ${disclosure(state, 'custom-practice')}><summary class="mz-hub-module-summary"><span class="mz-hub-module-title">Custom practice</span><span class="mz-hub-module-status">Exam prep and cramming · never moves your review schedule</span><span class="mz-hub-chevron" aria-hidden="true"></span></summary><div class="mz-hub-practice-body">${practicePanel}</div></details>` : ''}
   </section>`;
 }
 

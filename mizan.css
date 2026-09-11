@@ -1520,6 +1520,13 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .mz-hub-lesson:disabled .mz-hub-lesson-title { color: var(--mz-muted); }
 .mz-hub-lesson:disabled .mz-hub-lesson-action > span { visibility: hidden; }
 .mz-hub-module-tools { display: flex; justify-content: flex-end; padding: 2px 16px 10px 68px; }
+/* Custom practice: one more row at the foot of the outline, same summary
+   treatment as a module minus the number column. Its body is the schedule
+   panel that used to sit on Review. */
+.mz-hub-practice { margin-top: 28px; border-top: 1px solid var(--hub-line); }
+.mz-hub-practice > summary { grid-template-columns: minmax(0, 1fr) auto 16px; }
+.mz-hub-practice-body { padding: 0 16px 20px; }
+.mz-hub-practice-body .schedule-panel { margin-top: 0; }
 .mz-hub-kicker { text-transform: capitalize; color: var(--mz-muted); font-size: calc(13px * var(--ui-text-scale, 1)); margin: 0 0 8px; }
 .mz-hub-module-page .mz-hub-heading h1 { font-size: calc(29px * var(--ui-text-scale, 1)); }
 .mz-hub-module-page .mz-hub-heading h1 bdi { font-family: var(--font-ar); line-height: 1.5; }
@@ -1570,6 +1577,10 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
   .mz-hub-lesson-action { font-size: calc(11px * var(--ui-text-scale, 1)); gap: 6px; }
   .mz-hub-lesson-action > span { display: none; }
   .mz-hub-module-tools { padding: 2px 4px 8px; gap: 12px; }
+  .mz-hub-practice > summary { grid-template-columns: minmax(0, 1fr) 14px; }
+  .mz-hub-practice > summary :is(.mz-hub-module-title, .mz-hub-module-status) { grid-column: 1; }
+  .mz-hub-practice > summary .mz-hub-chevron { grid-column: 2; }
+  .mz-hub-practice-body { padding: 0 4px 16px; }
   .mz-hub .mz-text-button { font-size: calc(12px * var(--ui-text-scale, 1)); }
   .mz-hub-module-page .mz-hub-heading h1 { font-size: calc(27px * var(--ui-text-scale, 1)); }
   .mz-hub-module-page .mz-hub-heading { margin-bottom: 6px; }

@@ -809,17 +809,23 @@ function homeReviewCardHtml(state, extraCls = '') {
     </div>`;
 }
 
-// The Schedule tab's "Today's review" panel: the same numbers as the home
-// card, plus the quiet Choose-focus control (a module and/or format filter
-// tucked behind a toggle, never in front of the main start button).
+// The Review tab's panel: the same numbers as the home card, plus the quiet
+// Choose-focus control (a module and/or format filter tucked behind a
+// toggle, never in front of the main start button). No heading of its own --
+// the page title is "Review" and this panel is the whole page.
 function scheduleTodayReviewHtml(state, MODULES) {
   const fullPool = getReviewPool(state.completed);
   if (!fullPool.length) {
-    return `
-      <div class="section-head schedule-section"><h2 class="section-head-title">Today's review</h2></div>
-      <div class="schedule-panel review-schedule-panel">
-        <p class="practice-empty">Review builds itself from lessons you've completed. Finish your first lesson and its questions appear here, scheduled for you.</p>
-      </div>`;
+    // Nothing queued yet, so bridge into the one thing that changes that.
+    const cont = findContinueLesson(state, MODULES);
+    return emptyStateHtml({
+      icon: 'calendar',
+      title: 'Nothing to review yet',
+      note: 'Finish your first lesson and its questions start appearing here.',
+      action: cont
+        ? `<button class="btn btn-primary" data-action="continueLesson" data-module-id="${escAttr(cont.mod.id)}" data-lesson-id="${escAttr(cont.lesson.id)}">Continue · <bdi lang="ar">${esc(cont.lesson.title)}</bdi></button>`
+        : '',
+    });
   }
   const focused = state.reviewFocusModuleId || state.reviewFocusKind;
   const pool = focused ? reviewFocusedPool(state) : fullPool;
@@ -867,22 +873,23 @@ function scheduleTodayReviewHtml(state, MODULES) {
       ${st.newAvailable > 0 ? `<button class="btn btn-secondary btn-block" data-action="startReviewExtraNew">Add up to ${state.reviewSettings.extraNewBatchSize} new cards to today's review</button>` : ''}`;
 
   return `
-    <div class="section-head schedule-section">
-      <h2 class="section-head-title">Today's review</h2>
-      ${fullSt.total ? `<span class="lesson-section-note">${fullSt.total} cards in rotation</span>` : ''}
-    </div>
     <div class="schedule-panel review-schedule-panel">
       ${body}
       <div class="review-panel-foot">
         <button class="text-link-btn" data-action="toggleReviewFocus" aria-expanded="${state.reviewFocusOpen ? 'true' : 'false'}">Choose focus${focused ? ' · on' : ''}</button>
         ${fullSt.suspended > 0 ? `<button class="text-link-btn" data-action="restoreSuspendedReviewCards">Restore ${fullSt.suspended} suspended</button>` : ''}
+        ${fullSt.total ? `<span class="review-panel-count">${fullSt.total} cards in rotation</span>` : ''}
       </div>
       ${focusPanel}
     </div>`;
 }
 
-function dashboardHtml(state) {
-  return courseOverviewHtml(state);
+// The course page carries Custom practice (the module/course/vocab quiz
+// launcher) as a closed disclosure under the outline -- it practises THIS
+// course, so it lives with it rather than on Review, which is now only the
+// day's spaced review.
+function dashboardHtml(state, MODULES) {
+  return courseOverviewHtml(state, scheduleRevisionHtml(state, MODULES, new Set(), state.scheduleTabAttempt || 0));
 }
 
 function highlightMatch(text, query) {
@@ -941,7 +948,7 @@ function lessonSearchResultsHtml(MODULES, state, query) {
 
 function modulePageHtml(state, MODULES) {
   const mod = MODULES.find(m => m.id === state.moduleId);
-  if (!mod) return courseOverviewHtml(state);
+  if (!mod) return dashboardHtml(state, MODULES);
   return moduleLessonsHtml(state, mod, state.practiceSetupOpen && state.practiceModuleId === mod.id ? practiceSetupPanelHtml(state, mod) : '', modulePagerHtml(state, MODULES, mod));
 }
 
@@ -2818,97 +2825,27 @@ function reviewCompleteHtml(state, MODULES) {
     </div>`;
 }
 
-// --- Schedule tab: Deadline / Revision --------------------------------
-// Two independent planning tools sharing one landing page. Deadline picks a
-// target date and works out a daily lesson quota, recomputed live on every
-// render from remaining/days-left rather than a stored plan (see state.js's
-// scheduleDeadline comment). Revision builds a due-today deck from the
-// whole unlocked course, spaced by a learner-set frequency. Both reuse the
-// exact same practice/practiceReview screens (see practiceHtml's `source`
-// handling) -- this file only builds the setup panels that launch them.
-// Mastery no longer lives here -- see lessonPreviewHtml for the app-wide
-// per-lesson replacement.
-
-// One course's schedule numbers, computed from its SHELL (content/meta.js's
-// COURSE_SHELLS, always present on every COURSES entry) rather than from the
-// active-course helpers -- totalLessons()/deadlineSummary() resolve against
-// the one mutable MODULES binding and cannot answer "how is course X doing"
-// for a course that is not active. This is what lets Schedule show every
-// course's plan at once (audit NAV-003) without loading any of them.
-function courseScheduleOutline(course, state) {
-  const today = todayISO(state.dailyResetHour || 0);
-  let total = 0;
-  let cleared = 0;
-  let doneToday = 0;
-  course.modules.forEach((m) => {
-    const done = state.completed[m.id] || {};
-    total += m.lessons.length;
-    m.lessons.forEach((l) => {
-      const v = done[l.id];
-      if (!v) return;
-      cleared += 1;
-      if (v === today) doneToday += 1;
-    });
-  });
-  const remaining = Math.max(0, total - cleared);
-  const deadline = state.scheduleDeadline?.[course.id] || null;
-  let diffDays = null;
-  let dailyTarget = null;
-  let overdue = false;
-  if (deadline && remaining > 0) {
-    diffDays = Math.round((new Date(`${deadline}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
-    overdue = diffDays < 0;
-    dailyTarget = overdue ? null : Math.ceil(remaining / Math.max(1, diffDays));
-  }
-  return { course, total, cleared, remaining, doneToday, deadline, dailyTarget, overdue };
-}
-
-// The all-course overview on Schedule (audit NAV-003): every unlocked
-// course, its target, and what today asks of it -- so a learner planning
-// more than one course can see the combined load and can never mistake
-// "Schedule silently follows the course last opened on Home" for a target
-// having disappeared. Each row switches the page's scope in place.
-function scheduleCoursesHtml(state) {
-  const rows = COURSES.map((course) => {
-    const unlocked = isCourseUnlocked(course, state.completed, state.unlockedCourses, state.forceUnlockAll);
-    if (!unlocked) return '';
-    const o = courseScheduleOutline(course, state);
-    const isActive = course.id === state.courseId;
-    let meta;
-    if (o.remaining === 0 && o.total > 0) meta = 'Complete';
-    else if (o.overdue) meta = `Target ${formatDeadlineDate(o.deadline)} passed · ${o.remaining} left`;
-    else if (o.dailyTarget) {
-      const left = Math.max(0, o.dailyTarget - o.doneToday);
-      meta = `Target ${formatDeadlineDate(o.deadline)} · ${left === 0 ? 'done for today' : `${left} today`}`;
-    } else meta = `No target · ${o.remaining} lesson${o.remaining === 1 ? '' : 's'} left`;
-    return `
-      <button class="sched-course-row${isActive ? ' is-active' : ''}"
-        data-action="chooseScheduleCourse" data-course-id="${escAttr(course.id)}"
-        ${isActive ? 'aria-current="true"' : ''}
-        aria-label="Plan ${escAttr(course.name)} — ${escAttr(meta)}">
-        <span class="sched-course-names">
-          <span class="sched-course-ar" lang="ar" dir="rtl">${esc(course.arabicName || course.name)}</span>
-          <span class="sched-course-en">${esc(course.name)}</span>
-        </span>
-        <span class="sched-course-meta">${esc(meta)}</span>
-      </button>`;
-  }).filter(Boolean);
-  if (rows.length < 2) return '';
-  const todaysLoad = COURSES
-    .filter((c) => isCourseUnlocked(c, state.completed, state.unlockedCourses, state.forceUnlockAll))
-    .map((c) => courseScheduleOutline(c, state))
-    .filter((o) => o.dailyTarget)
-    .reduce((sum, o) => sum + Math.max(0, o.dailyTarget - o.doneToday), 0);
+// --- Review tab -----------------------------------------------------------
+// One job: today's spaced review. The plan (target date, reset hour) moved to
+// Account -- see planSectionHtml -- and custom practice to the course page,
+// so this screen is the review panel and nothing else.
+function scheduleHtml(state, MODULES) {
   return `
-    <div class="section-head schedule-section">
-      <h2 class="section-head-title">All courses</h2>
-      <span class="lesson-section-note">${todaysLoad > 0 ? `${todaysLoad} lesson${todaysLoad === 1 ? '' : 's'} today combined` : 'Pick one to plan it'}</span>
-    </div>
-    <div class="sched-course-rows">${rows.join('')}</div>`;
+    <div class="schedule-page">
+      ${pageHeaderHtml({ title: 'Review', ar: 'المراجعة' })}
+      <div class="schedule-single">
+        ${scheduleTodayReviewHtml(state, MODULES)}
+      </div>
+    </div>`;
 }
 
-function scheduleHtml(state, MODULES, revealedKeys) {
-  const attempt = state.scheduleTabAttempt || 0;
+// The course plan -- target completion date, the daily quota it implies, and
+// the reset hour that decides when a "day" ends. Lives on Account now, with
+// the other settings, so Review is nothing but the day's review; the
+// arithmetic is still deadlineSummary's, recomputed every render (see
+// state.js's scheduleDeadline comment). Scoped to the active course, and
+// says so, since the deadline is stored per course.
+function planSectionHtml(state, MODULES) {
   const resetHour = state.dailyResetHour || 0;
   const today = todayISO(resetHour);
   const total = totalLessons();
@@ -2916,150 +2853,45 @@ function scheduleHtml(state, MODULES, revealedKeys) {
   const remaining = Math.max(0, total - cleared);
   const deadline = state.scheduleDeadline[state.courseId];
   const summary = deadlineSummary(state, MODULES);
-  const upcoming = upcomingLessons(state, MODULES);
-  const nextUp = upcoming.find((u) => u.unlocked);
   const activeCourse = COURSES.find((c) => c.id === state.courseId);
-  // Mid switch (audit MOT-002, same staging as Home): the switcher already
-  // names the INCOMING course while the outgoing plan stands down dimmed.
-  const switchingCourse = state.courseSwitchingTo
-    ? COURSES.find((c) => c.id === state.courseSwitchingTo)
-    : null;
-  const shownCourse = switchingCourse || activeCourse;
 
-  const todayLabel = new Date(`${today}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-
-  let lede;
-  if (remaining === 0) lede = 'Every lesson in this course is done — nothing left to schedule.';
-  else if (!summary) lede = 'Pick a target date and this works out how many lessons a day it takes.';
-  else if (summary.overdue) lede = `Your target date has passed with ${remaining} lesson${remaining === 1 ? '' : 's'} still to go.`;
-  else lede = `${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} a day keeps you on course for ${esc(formatDeadlineDate(summary.deadline))}. Today's target adjusts itself whenever you fall behind or get ahead.`;
-
-  // Today: the day's own target, one tick per lesson in it, and the single
-  // next lesson to start if the target isn't met yet.
-  const todayCard = summary ? `
-    <div class="today-card">
-      <div class="today-card-head">
-        <span class="kicker">Today</span>
-        <span class="today-date">${esc(todayLabel)}</span>
-      </div>
-      <div class="today-figure"><strong>${summary.done}</strong> of ${summary.dailyTarget} lesson${summary.dailyTarget === 1 ? '' : 's'} done</div>
-      <div class="today-ticks" aria-hidden="true">
-        ${Array.from({ length: summary.dailyTarget }, (_, i) => `<span class="today-tick${i < summary.done ? ' today-tick-done' : ''}"></span>`).join('')}
-      </div>
-      ${summary.done < summary.dailyTarget && nextUp ? `
-        <div class="today-next">
-          <div class="today-next-body">
-            <div class="kicker">${summary.dailyTarget - summary.done === 1 ? "One more to hit today's target" : `${summary.dailyTarget - summary.done} more to hit today's target`}</div>
-            <div class="today-next-title" lang="ar" dir="rtl">${esc(nextUp.lesson.title)}</div>
-          </div>
-          <button class="btn btn-primary" data-action="openModule" data-module-id="${escAttr(nextUp.mod.id)}">Start</button>
-        </div>` : ''}
-    </div>` : '';
-
-  const ledger = summary ? `
-    <div class="ledger-inline">
-      <div><span class="ledger-inline-value">${summary.remaining}</span><span class="ledger-inline-label">Lessons left</span></div>
-      <div><span class="ledger-inline-value">${Math.abs(summary.diffDays)}</span><span class="ledger-inline-label">${summary.overdue ? 'Days overdue' : 'Days left'}</span></div>
-      <div><span class="ledger-inline-value">${cleared} / ${total}</span><span class="ledger-inline-label">Cleared</span></div>
-    </div>` : '';
-
-  const upNext = upcoming.length ? `
-    <div class="section-head schedule-section">
-      <h2 class="section-head-title">Up next</h2>
-      <span class="lesson-section-note">In course order</span>
-    </div>
-    <div class="up-next-list">
-      ${upcoming.map(({ mod, lesson, unlocked }, i) => {
-        const rowKey = `sched${attempt}_up_${mod.id}_${lesson.id}`;
-        // Exactly one row ever reads as "the" next lesson -- the first
-        // incomplete one in course order, which is always reachable
-        // regardless of locks (nothing before it is left to finish). Every
-        // OTHER row that's merely reachable (state.forceUnlockAll -- "Course
-        // locks" off, the app's own default for a fresh install) still gets
-        // a real, clickable button, just without the accent highlight that
-        // singling one out as "next" is supposed to mean -- with locks off,
-        // isLessonUnlocked is true for the whole list, and giving every row
-        // that same gold treatment made all five look equally "the" next
-        // one instead of naming just one.
-        const isNext = i === 0 && unlocked;
-        const cls = `up-next-row${isNext ? ' is-next' : ''}${unlocked ? '' : ' is-locked'}`;
-        return `
-          <button class="${revealCls(rowKey, cls, revealedKeys)}"
-            ${unlocked ? `data-action="openModule" data-module-id="${escAttr(mod.id)}"` : 'disabled'}>
-            <span class="up-next-ring">${unlocked ? icon('chevronRight', 11, 2.4) : icon('lock', 10, 2)}</span>
-            <span class="up-next-body">
-              <span class="up-next-row-title" lang="ar" dir="rtl">${esc(lesson.title)}</span>
-              <span class="up-next-meta"><bdi lang="ar">${esc(mod.title)}</bdi>${isNext ? ' · next' : ''}</span>
-            </span>
-          </button>`;
-      }).join('')}
-    </div>` : '';
-
-  // The page's scope, made explicit (audit NAV-003): Schedule used to follow
-  // whichever course Home last had open without naming it anywhere, so a
-  // learner planning two courses had to infer the active plan from Arabic
-  // lesson titles -- and could easily read "Not set" as a target having been
-  // lost. The switcher is the same control, menu and model Home uses, so
-  // the two surfaces stay one behaviour.
-  // The anchor wrapper turns the menu into the same popover/bottom-sheet
-  // Home's switcher uses (audit MOT-002/MOT-004) -- rendered in flow here,
-  // it pushed the whole plan down on open. `-end` right-aligns the panel,
-  // since this trigger sits at the end of the title row.
-  const courseSwitch = `
-    <span class="course-switch-anchor course-switch-anchor-end">
-      <button class="home-course-switch schedule-course-switch${switchingCourse ? ' is-busy' : ''}" data-action="toggleCourseMenu" title="Switch course"
-        aria-label="${switchingCourse
-          ? `Loading ${escAttr(switchingCourse.name)}`
-          : `Planning ${escAttr(activeCourse ? activeCourse.name : '')} — switch course`}"
-        aria-haspopup="true" aria-expanded="${state.courseMenuOpen ? 'true' : 'false'}"${switchingCourse ? ' aria-busy="true"' : ''}>
-        <span lang="ar" dir="rtl">${esc(shownCourse ? shownCourse.arabicName || shownCourse.name : '')}</span>
-        <span class="caret" aria-hidden="true">▾</span>
-      </button>
-      ${state.courseMenuOpen ? courseMenuHtml(state, 'chooseScheduleCourse') : ''}
-    </span>`;
+  let note;
+  if (remaining === 0) note = 'Every lesson in this course is done — nothing left to plan.';
+  else if (!summary) note = 'Set a date and this works out how many lessons a day it takes.';
+  else if (summary.overdue) note = `Your target date has passed with ${remaining} lesson${remaining === 1 ? '' : 's'} still to go.`;
+  else note = `${summary.dailyTarget} a day keeps you on course · ${summary.done} of ${summary.dailyTarget} done today · ${remaining} left.`;
 
   return `
-    <div class="schedule-page${switchingCourse ? ' is-switching' : ''}">
-      ${pageHeaderHtml({ title: 'Review & plan', ar: 'الجدول الزمني', lede, actions: courseSwitch })}
-      <div class="two-col">
-      <div class="two-col-main">
-      ${todayCard}
-      ${scheduleTodayReviewHtml(state, MODULES)}
-      ${ledger}
-      ${upNext}
+    <div class="account-plan">
+    <div class="section-head schedule-section">
+      <h2 class="section-head-title">Plan</h2>
+      ${activeCourse ? `<span class="lesson-section-note"><bdi lang="ar" dir="rtl">${esc(activeCourse.arabicName || activeCourse.name)}</bdi></span>` : ''}
+    </div>
+    <div class="plan-row">
+      <label id="schedule-deadline-label">Target completion date</label>
+      <div class="deadline-picker-wrap">
+        <button type="button" class="plan-input reset-hour-trigger${deadline ? '' : ' is-empty'}" data-action="toggleDeadlinePicker"
+          aria-haspopup="dialog" aria-expanded="${state.deadlinePickerOpen ? 'true' : 'false'}" aria-labelledby="schedule-deadline-label">
+          <span>${deadline ? esc(formatDeadlineDate(deadline)) : 'Not set'}</span>
+          <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
       </div>
-      <div class="two-col-side">
-      ${scheduleCoursesHtml(state)}
-      ${scheduleRevisionHtml(state, MODULES, revealedKeys, attempt)}
-      <div class="section-head schedule-section">
-        <h2 class="section-head-title">Plan</h2>
+    </div>
+    <p class="plan-note">${note}</p>
+    ${paceWarningHtml(summary, remaining, today)}
+    <div class="plan-row">
+      <label id="schedule-reset-hour-label">Daily reset time</label>
+      <div class="reset-hour-picker">
+        <button type="button" class="plan-input reset-hour-trigger" data-action="toggleResetHourMenu"
+          aria-haspopup="listbox" aria-expanded="${state.resetHourMenuOpen ? 'true' : 'false'}" aria-labelledby="schedule-reset-hour-label">
+          <span>${formatResetHour(resetHour)}</span>
+          <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        ${state.resetHourMenuOpen ? resetHourMenuHtml(resetHour) : ''}
       </div>
-      <div class="plan-row">
-        <label id="schedule-deadline-label">Target completion date</label>
-        <div class="deadline-picker-wrap">
-          <button type="button" class="plan-input reset-hour-trigger${deadline ? '' : ' is-empty'}" data-action="toggleDeadlinePicker"
-            aria-haspopup="dialog" aria-expanded="${state.deadlinePickerOpen ? 'true' : 'false'}" aria-labelledby="schedule-deadline-label">
-            <span>${deadline ? esc(formatDeadlineDate(deadline)) : 'Not set'}</span>
-            <span class="caret" aria-hidden="true">▾</span>
-          </button>
-          ${state.deadlinePickerOpen ? deadlinePickerHtml(state, deadline, today) : ''}
-        </div>
-      </div>
-      ${paceWarningHtml(summary, remaining, today)}
-      <div class="plan-row">
-        <label id="schedule-reset-hour-label">Daily reset time</label>
-        <div class="reset-hour-picker">
-          <button type="button" class="plan-input reset-hour-trigger" data-action="toggleResetHourMenu"
-            aria-haspopup="listbox" aria-expanded="${state.resetHourMenuOpen ? 'true' : 'false'}" aria-labelledby="schedule-reset-hour-label">
-            <span>${formatResetHour(resetHour)}</span>
-            <span class="caret" aria-hidden="true">▾</span>
-          </button>
-          ${state.resetHourMenuOpen ? resetHourMenuHtml(resetHour) : ''}
-        </div>
-      </div>
-      <p class="plan-note">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</p>
-      </div>
-      </div>
+    </div>
+    <p class="plan-note">Study past midnight without it counting as tomorrow — the reset hour also sets your streak's day boundary.</p>
     </div>`;
 }
 
@@ -3084,27 +2916,6 @@ function paceWarningHtml(summary, remaining, today) {
       <button class="btn btn-secondary btn-sm" data-action="pickScheduleDeadline" data-date="${escAttr(easedIso)}">Use ${esc(formatDeadlineDate(easedIso))}</button>
     </div>`;
 }
-
-// The next few not-yet-completed lessons in course order. Thanks to the
-// app's own sequential gating (a lesson unlocks only once the one before it
-// is done, a module only once the one before IT is fully done -- see
-// isLessonUnlocked/isModuleUnlocked in content/index.js), at most the very
-// first entry here is ever actually unlocked; everything after it is
-// necessarily locked until that one is cleared. Still computed per-entry via
-// isLessonUnlocked rather than assumed, so this stays correct even if that
-// gating logic ever changes.
-function upcomingLessons(state, MODULES, limit = 5) {
-  const out = [];
-  for (const m of MODULES) {
-    for (const l of m.lessons) {
-      if (isLessonComplete(m.id, l.id, state.completed)) continue;
-      out.push({ mod: m, lesson: l, unlocked: isLessonUnlocked(m.id, l.id, state.completed, state.unlockedModules, state.forceUnlockAll) });
-      if (out.length >= limit) return out;
-    }
-  }
-  return out;
-}
-
 
 // 12-hour labels for the reset-hour <select> below -- e.g. 4 -> "4:00 AM",
 // 16 -> "4:00 PM". state.dailyResetHour itself stays a plain 0-23 int
@@ -3236,22 +3047,12 @@ function scheduleRevisionHtml(state, MODULES, revealedKeys, attempt) {
     : kind === 'course' ? scheduleRevisionCourseHtml(state, MODULES, revealedKeys, attempt)
       : scheduleRevisionModuleHtml(state, MODULES, revealedKeys, attempt, 1);
 
-  // The "30 questions" note used to print unconditionally, so a reader with
-  // nothing yet to revise was told the size of a quiz they cannot take,
-  // directly above the panel explaining that there isn't one. Section
-  // metadata should describe what the section is actually showing --
-  // course revision has no fixed size to report, its own panel says so.
-  const anyRevisable = MODULES.some((m) => isModuleComplete(m.id, state.completed));
-  // Reframed as "Custom practice" now that the scheduled Review flow owns
-  // deciding what needs revisiting: this stays the deliberate, learner-
-  // driven cram/exam-prep tool, and it never moves Review's due dates.
+  // "Custom practice": the deliberate, learner-driven cram/exam-prep tool,
+  // which never moves Review's due dates. Rendered inside the course page's
+  // Custom practice disclosure (see studyCourseHtml), whose summary already
+  // carries the heading and the "doesn't affect review" note.
   return `
-    <div class="section-head schedule-section">
-      <h2 class="section-head-title">Custom practice</h2>
-      ${anyRevisable && kind === 'module' ? '<span class="lesson-section-note">30 questions</span>' : ''}
-    </div>
-    <div class="schedule-panel">
-      <p class="review-custom-note">Pick your own material — for exam prep or deliberate cramming. Doesn't affect your review schedule.</p>
+    <div class="schedule-panel custom-practice-panel">
       ${kindTabs}
       ${body}
     </div>`;
@@ -4467,7 +4268,7 @@ function activeDaySet(completed) {
   return days;
 }
 
-function accountHtml(state) {
+function accountHtml(state, MODULES) {
   const account = state.account || {};
   const working = account.status === 'working';
   const signedIn = !!account.user;
@@ -4707,6 +4508,7 @@ function accountHtml(state) {
         <span class="lesson-section-note">Modules complete</span>
       </div>
       <div class="course-rows">${courseRows}</div>
+      ${planSectionHtml(state, MODULES)}
       </div>
       <div class="two-col-side">
       <button class="entry-row" data-action="openAchievements">
@@ -5712,7 +5514,7 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       body = catalogHtml(state);
       break;
     case 'dashboard':
-      body = courseOverviewHtml(state);
+      body = dashboardHtml(state, MODULES);
       break;
     case 'module':
       body = modulePageHtml(state, MODULES);
@@ -5775,13 +5577,13 @@ export function render(state, MODULES, revealedKeys = new Set()) {
       body = courseProgressionHtml(state);
       break;
     case 'account':
-      body = accountHtml(state);
+      body = accountHtml(state, MODULES);
       break;
     case 'achievements':
       body = achievementsHtml(state);
       break;
     default:
-      body = dashboardHtml(state, MODULES, revealedKeys);
+      body = dashboardHtml(state, MODULES);
   }
   const isLiveQuestion = (state.view === 'quiz' && !state.quizShowResult) || state.view === 'practice';
   const mainClasses = ['main', isLiveQuestion ? 'question-mode' : ''].filter(Boolean).join(' ');

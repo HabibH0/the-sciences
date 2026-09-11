@@ -33,9 +33,9 @@ export function catalogHtml(state) {
   </section>`;
 }
 
-export function courseOverviewHtml(state) {
+export function courseOverviewHtml(state, practicePanel = '') {
   const course = COURSES.find(c => c.id === state.courseId) || COURSES[0];
-  if (usesStudyCatalog(course)) return studyCourseHtml(state, course);
+  if (usesStudyCatalog(course)) return studyCourseHtml(state, course, practicePanel);
   const { done, total } = counts(course, state);
   const mastery = masterySummary(state, course.id);
   const understanding = `<section class="mz-understanding" aria-label="Your understanding"><div><strong>${mastery.introduced}<small> / ${mastery.total}</small></strong><span>concepts introduced</span></div><div><strong>${mastery.competent}</strong><span>competent</span></div><div><strong>${mastery.mastered}</strong><span>mastered</span></div><p>Completing lessons builds coverage. Independent practice across different examples and days builds mastery.</p></section>`;
@@ -52,6 +52,7 @@ export function courseOverviewHtml(state) {
       const unlocked = isModuleUnlocked(m.id, state.completed, state.unlockedModules, state.forceUnlockAll);
       return `<button class="mz-unit${next?.m.id === m.id ? ' is-current' : ''}${complete === m.lessons.length ? ' is-complete' : ''}" data-action="${unlocked ? 'openModule' : 'openUnlockPrompt'}" data-module-id="${escAttr(m.id)}" data-target-type="module" data-target-id="${escAttr(m.id)}"><span class="mz-unit-number">${complete === m.lessons.length ? '✓' : i + 1}</span><span class="mz-unit-body"><strong${m.language === 'en' ? '' : ' lang="ar" dir="rtl"'}>${esc(m.title)}</strong><span>${m.blurb ? escBidi(logicSummaries[m.id] || m.blurb) : `${m.lessons.length} lessons`}</span></span><span class="mz-unit-status">${!unlocked ? 'Locked' : complete ? `${complete} / ${m.lessons.length}` : `${m.lessons.length} lessons`}</span>${arrow}</button>`;
     }).join('')}</div>
+    ${practicePanel ? `<div class="mz-course-practice">${practicePanel}</div>` : ''}
   </section>`;
 }
 
