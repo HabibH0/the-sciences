@@ -204,6 +204,11 @@ export async function createInitialState() {
     // remaining days automatically instead of needing a stored plan to be
     // kept in sync.
     scheduleDeadline: boot.scheduleDeadline || {},
+    // courseId -> ISO time the deadline above was last set or cleared on
+    // any device. Only the cloud merge reads it (mergeProgressData in
+    // js/storage/syncClient.js): newest change wins, so a date picked here
+    // isn't undone by another device's stale copy on the next sync.
+    scheduleDeadlineAt: boot.scheduleDeadlineAt || {},
     // Schedule tab, "Deadline" sub-tab: the hour (0-23, local time) the
     // app's notion of "today" rolls over -- read by todayISO (js/
     // persistence.js) everywhere a calendar day is derived (the streak,

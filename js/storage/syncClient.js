@@ -412,7 +412,22 @@ export function mergeProgressData(localProgress = {}, remoteProgress = {}) {
   merged.lessonPos = mergeRecord(local.lessonPos, remote.lessonPos, (localItem, remoteItem) => valueOr(localItem, remoteItem));
   merged.revealState = mergeMaxRecord(local.revealState, remote.revealState);
   merged.practiceHistory = mergeRecord(local.practiceHistory, remote.practiceHistory, mergeStatsObject);
-  merged.scheduleDeadline = mergeRecord(local.scheduleDeadline, remote.scheduleDeadline, (localItem, remoteItem) => valueOr(localItem, remoteItem));
+  // Target date: the side that changed it most recently wins (each pick or
+  // clear stamps scheduleDeadlineAt -- see setScheduleDeadline in
+  // js/main.js). Plain local-wins here meant two devices holding different
+  // dates each re-asserted their own on every sync, so a freshly picked
+  // date kept "reverting". Saves from before the stamp existed carry no
+  // scheduleDeadlineAt and fall back to the old local-wins rule.
+  merged.scheduleDeadlineAt = mergeRecord(local.scheduleDeadlineAt, remote.scheduleDeadlineAt, latestString);
+  merged.scheduleDeadline = mergeRecord(local.scheduleDeadline, remote.scheduleDeadline, (localItem, remoteItem, key) => {
+    const localAt = local.scheduleDeadlineAt?.[key];
+    const remoteAt = remote.scheduleDeadlineAt?.[key];
+    if (localAt && remoteAt && isDateLike(localAt) && isDateLike(remoteAt)) {
+      return new Date(localAt) >= new Date(remoteAt) ? cloneValue(localItem) : cloneValue(remoteItem);
+    }
+    if (remoteAt && !localAt) return cloneValue(remoteItem);
+    return valueOr(localItem, remoteItem);
+  });
   merged.pathNodeStatus = mergeRecord(local.pathNodeStatus, remote.pathNodeStatus, mergeProgressStatus);
   merged.pathReps = mergeRecord(local.pathReps, remote.pathReps, mergeStatsObject);
   merged.vocabExposure = mergeRecord(local.vocabExposure, remote.vocabExposure, mergeStatsObject);
