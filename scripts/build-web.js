@@ -12,6 +12,7 @@ const entries = [
   'index.html',
   'styles.css',
   'mizan.css',
+  'mizan-look.css',
   'content-mantiq',
   'content',
   'content-fstu',

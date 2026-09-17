@@ -195,10 +195,10 @@ server.listen(port, '0.0.0.0', () => {
   for (const address of lan) console.log(`  phone     http://${address}:${port}`);
   if (!lan.length) console.log('  phone     (no LAN address found)');
   console.log('');
-  console.log(built ? '  production files from web/ with the local Logic grader' : '  live reload on: index.html, styles.css, mizan.css, js/, content*/');
+  console.log(built ? '  production files from web/ with the local Logic grader' : '  live reload on: index.html, styles.css, mizan.css, mizan-look.css, js/, content*/');
   console.log('  Ctrl+C to stop');
   console.log('');
 
-  if (!built) ['index.html', 'styles.css', 'mizan.css', 'js', 'content', 'content-mantiq', 'content-fstu', 'content-fstu-sarf', 'content-sarf', 'content-lit']
+  if (!built) ['index.html', 'styles.css', 'mizan.css', 'mizan-look.css', 'js', 'content', 'content-mantiq', 'content-fstu', 'content-fstu-sarf', 'content-sarf', 'content-lit']
     .forEach(watch);
 });

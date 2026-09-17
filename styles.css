@@ -540,6 +540,11 @@ body {
   font-size: calc(16px * var(--ui-text-scale));
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* manipulation = pan + pinch only: it removes the ~300ms double-tap-to-zoom
+     gesture that fires when two quick taps land on a control, without taking
+     away deliberate pinch zoom (which iOS keeps regardless of the viewport
+     meta anyway). */
+  touch-action: manipulation;
 }
 
 h1, h2, h3, h4 {

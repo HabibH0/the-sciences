@@ -61,6 +61,14 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="mizan.css" />
+  <!-- Review-only design layer (the "bordered" look). Loaded last so it wins
+       by source order; delete this line to go back, or open any URL with
+       ?classic to compare the two side by side without editing anything. -->
+  <link rel="stylesheet" href="mizan-look.css" id="mizan-look" />
+  <script>
+    if (new URLSearchParams(location.search).has('classic')) document.getElementById('mizan-look').disabled = true;
+    else document.documentElement.dataset.look = 'bordered';
+  </script>
   <!-- Vanilla ES modules, no bundler (see AGENTS.md) means the browser only
        discovers this app's import graph one file at a time: fetch main.js,
        parse it for its imports, fetch those, parse THEM for their imports,

@@ -226,6 +226,12 @@ export function playSpatialMotion(root, snap) {
   if (!intent) return null;
   root.dataset.spatialMotion = intent.kind;
   if (reduced.matches) { snap.outgoing?.layer.remove(); return intent; }
+  // Bordered look only (index.html sets data-look): when the answer sheet is
+  // rising over the exercise on this same render, the response column's own
+  // slide-out/slide-in underneath it is a second movement the eye reads as
+  // the card glitching -- the sheet is the feedback. Let the column swap cut.
+  if (intent.scope === 'response' && document.documentElement.dataset.look === 'bordered'
+    && root.querySelector('.exercise-feedback-overlay.is-entering')) { snap.outgoing?.layer.remove(); return intent; }
   const record = { kind: intent.kind, direction: intent.direction, from: prior, animations: [], layers: snap.outgoing ? [snap.outgoing.layer] : [], restore: [] };
   active = record;
   let target = region(root, intent.kind, intent.scope);
@@ -284,7 +290,15 @@ export function playSpatialMotion(root, snap) {
       const departure = snap.reversal == null ? 'none' : `translateX(${-distance * sign * (1 - snap.reversal)}px)`;
       // Keep the departing surface offscreen while the last inner group
       // finishes. Otherwise the shorter parent animation would flash it back.
-      own(record, run(outgoing.copy, [{ transform: departure }, { transform: `translateX(${-distance * sign}px)` }], duration, { fill: 'forwards' }));
+      // Bordered look: the ease-out leaves the last few pixels of the departing
+      // surface creeping out slowly, and against its dark card borders that
+      // reads as a strip of the old page hanging at the edge. Fade it over the
+      // final stretch so the edge clears with the motion.
+      const arrival = `translateX(${-distance * sign}px)`;
+      const bordered = document.documentElement.dataset.look === 'bordered';
+      own(record, run(outgoing.copy, bordered
+        ? [{ transform: departure, opacity: 1 }, { opacity: 1, offset: 0.55 }, { transform: arrival, opacity: 0 }]
+        : [{ transform: departure }, { transform: arrival }], duration, { fill: 'forwards' }));
     }
     if (page) {
       const main = root.querySelector('.main');

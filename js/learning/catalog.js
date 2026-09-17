@@ -14,10 +14,40 @@ const counts = (course, state) => {
 };
 const meter = (done, total) => `<div class="mz-meter" role="progressbar" aria-label="Lessons completed" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${done}"><span style="width:${total ? done / total * 100 : 0}%"></span></div>`;
 
+// First incomplete lesson in course order. Deliberately NOT isLessonUnlocked:
+// that helper reads the ACTIVE course's module table (content/index.js
+// MODULES), and the dashboard asks about whichever course has progress,
+// which need not be the active one. Lessons gate sequentially, so the first
+// incomplete one is the reachable one anyway.
+const nextLesson = (course, state) => course.modules.flatMap(m => m.lessons.map(l => ({ m, l }))).find(({ m, l }) => !state.completed[m.id]?.[l.id]);
+
+// The screen's one primary object: the course you are in the middle of, and
+// the lesson that comes next in it. Nothing in progress -> nothing rendered.
+function continueCardHtml(state) {
+  // Markup that only the review-only look (mizan-look.css) styles; the
+  // classic look (?classic, see index.html) keeps the dashboard as it was.
+  if (typeof document === 'undefined' || document.documentElement.dataset.look !== 'bordered') return '';
+  const course = COURSES.find(c => { const { done, total } = counts(c, state); return done > 0 && done < total; });
+  if (!course) return '';
+  const next = nextLesson(course, state);
+  if (!next) return '';
+  const { done, total } = counts(course, state);
+  const emblem = EMBLEMS[{ mantiq: 2, 'adv-nahw': 3, 'adv-sarf': 0 }[course.id] ?? 0];
+  const arabic = next.m.language === 'en' ? '' : `<span lang="ar" dir="rtl">${esc(next.m.title)}</span>`;
+  return `<div class="lk-section-head"><h2>Pick up where you left off</h2><a href="#/course/${escAttr(course.id)}" data-action="chooseCourse" data-course-id="${escAttr(course.id)}">All of ${esc(course.name)} →</a></div>
+    <a class="lk-continue" href="#/course/${escAttr(course.id)}" data-action="chooseCourse" data-course-id="${escAttr(course.id)}">
+      <span class="lk-continue-tile">${emblem}</span>
+      <span class="lk-continue-body"><span class="lk-kicker">${esc(course.name)} · ${next.m.language === 'en' ? 'Unit' : 'Module'} ${course.modules.indexOf(next.m) + 1}</span><strong>${escBidi(next.l.title)}</strong>${arabic || `<span>${escBidi(next.l.subtitle || next.m.title)}</span>`}<span class="lk-continue-meta">${done} of ${total} lessons done · ${total - done} to go</span></span>
+      <span class="btn btn-primary">Continue lesson ${arrow}</span>
+    </a>`;
+}
+
 export function catalogHtml(state) {
   const totalDone = COURSES.reduce((n, c) => n + counts(c, state).done, 0);
   return `<section class="mz-catalog">
     <header class="mz-page-heading"><div><p class="mz-eyebrow">YOUR STUDY SPACE</p><h1>My learning</h1><p>Choose a course. Take the next step.</p></div><div class="mz-study-count"><strong>${totalDone}</strong><span>lessons completed</span></div></header>
+    ${continueCardHtml(state)}
+    <div class="lk-section-head"><h2>Courses</h2><span>${COURSES.length} available</span></div>
     <div class="mz-course-grid">${COURSES.map((c, i) => {
       const { total, done } = counts(c, state);
       const unlocked = isCourseUnlocked(c, state.completed, state.unlockedCourses, state.forceUnlockAll);
@@ -29,7 +59,8 @@ export function catalogHtml(state) {
           <a class="btn ${unlocked ? 'btn-primary' : 'btn-secondary'} mz-course-open" href="#/course/${escAttr(c.id)}" data-action="${unlocked ? 'chooseCourse' : 'openUnlockPrompt'}" data-course-id="${escAttr(c.id)}" data-target-type="course" data-target-id="${escAttr(c.id)}">${unlocked ? done === total ? 'Revisit course' : done ? 'Continue learning' : 'Explore course' : 'View prerequisites'} ${arrow}</a>
         </div></article>`;
     }).join('')}</div>
-    <a class="mz-library-link" href="#/library" data-action="openLibrary"><div><strong>Read in Arabic</strong><span>Explore the reading library and practise with passages.</span></div>${arrow}</a>
+    <div class="lk-section-head"><h2>Read</h2></div>
+    <a class="mz-library-link" href="#/library" data-action="openLibrary"><div><strong>Read in Arabic</strong><span>Explore the reading library and practise with passages.</span></div><span class="lk-arrow" aria-hidden="true">→</span></a>
   </section>`;
 }
 

@@ -1,0 +1,1097 @@
+/* Mīzān "bordered" look -- a review-only design layer over the whole app.
+
+   Loaded last (index.html), so everything here wins by source order; remove
+   that one <link> and the app is back to its previous look. Nothing in
+   styles.css or mizan.css is edited for it.
+
+   The schema comes from the Gift Reminder design canvas; the colours stay
+   ours. --color-text plays "ink", --color-accent stays the accent, and every
+   tint is mixed from those, so all six themes and every accent keep working.
+
+   Rules carried over:
+     1. No shadows. Depth is border weight: 3px = the screen's primary
+        object, 2.5px = a normal card, 2.5px de-emphasised = locked/quiet,
+        1px hairline = a row inside a card.
+     2. One serif line per screen -- the page title. Everything else sans.
+     3. Selected = filled ink with inverse text; unselected = outline.
+     4. Every tap target 44px+; the phone tab bar is a floating 64px pill.
+     5. Radii: 20-24px cards, 14-16px tiles/inputs, 999px on anything
+        tappable.
+     6. Section headers: 11.5px uppercase, 0.13em tracking, muted. */
+
+/* ========================================================================
+   1. Tokens
+   ======================================================================== */
+:root {
+  --lk-ink: var(--color-text);
+  --lk-ink-inverse: var(--color-bg);
+  --lk-card: var(--color-surface);
+  --lk-quiet: color-mix(in srgb, var(--color-text) 22%, var(--color-bg));
+  --lk-hair: color-mix(in srgb, var(--color-text) 12%, var(--color-bg));
+  --lk-muted: color-mix(in srgb, var(--color-text) 62%, var(--color-bg));
+  --lk-tint: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+  --lk-tint-strong: color-mix(in srgb, var(--color-accent) 26%, var(--color-surface));
+  --lk-good: color-mix(in srgb, var(--color-accent) 70%, var(--color-text));
+  --lk-radius-card: 22px;
+  --lk-radius-tile: 16px;
+  --lk-radius-input: 14px;
+  --lk-sans: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+  /* The app's own tokens, re-pointed. Every screen written against them
+     picks the new shapes up without a rule of its own. */
+  --font-body: var(--lk-sans);
+  --font-heading-weight: 500;
+  --tracking-caps: 0.13em;
+  --radius-sm: 8px;
+  --radius-md: var(--lk-radius-input);
+  --radius-lg: var(--lk-radius-card);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-card: none;
+  --shadow-whisper: none;
+  /* Hairlines inside cards read a touch stronger in a heavier system. */
+  --color-divider: var(--lk-hair);
+}
+
+/* Lesson and reader prose keep the serif: this is a reading app, and long
+   Arabic-and-English passages set in a heavy sans tire faster. The
+   "one serif line" rule holds for chrome and UI; prose is content. */
+/* (The app's prose classes -- .mz-prose, .concept-line, .lit-page -- declare
+   their own serif or Arabic face, so nothing here touches them: a blanket
+   rule on lesson <p>s forced Arabic definition lines into Lora.) */
+
+/* ========================================================================
+   2. Type
+   ======================================================================== */
+body { font-family: var(--lk-sans); }
+h1, .page-title, .mz-page-heading h1, .mz-course-heading h1, .home-hero-title, .lit-cover-title, .complete-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+h2, h3, h4,
+.section-head-title, .card-title, .modal h2, .modal h3, .unlock-modal h2, .force-unlock-modal h2,
+.home-resume-title, .module-row-title, .lesson-row-title, .quiz-question, .up-next-title,
+.today-title, .account-card h2, .ach-card-title, .theme-card-name, .lit-book-title, .lit-chapter-title,
+.path-group-title, .kind-card-title, .review-card h2, .mz-next-lesson h2, .mz-unit strong,
+.mz-path-heading h2, .mz-library-link strong, .lit-shelf-title, .settings-section h2 {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+/* Every kicker in the app takes the section-header grammar. */
+.kicker, .card-kicker, .modal-kicker, .mz-eyebrow, .section-kicker, .home-kicker, .lit-kicker,
+.page-kicker, .review-kicker, .practice-kicker, .quiz-kicker, .lesson-kicker, .up-next-kicker, .today-kicker {
+  font-family: var(--lk-sans);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.section-head { border-bottom: 0; padding-bottom: 6px; }
+.section-head-title { font-size: 11.5px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.section-head-sub .section-head-title { font-size: 11.5px; }
+.section-head-meta { font-weight: 700; color: var(--color-accent); }
+strong, b { font-weight: 700; }
+/* Tabular numerals wherever a figure sits beside a label. */
+.ledger-row, .account-stat, .mz-study-count, .app-stats, .section-head-meta, .progress-label { font-variant-numeric: tabular-nums; }
+
+/* ========================================================================
+   3. Buttons -- pills, ink outline; primary is filled ink
+   ======================================================================== */
+.btn, .ds-btn {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  font-size: 14px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 2.5px solid var(--lk-ink);
+  background: transparent;
+  color: var(--lk-ink);
+  box-shadow: none;
+  gap: 8px;
+}
+.btn-sm { min-height: 36px; padding: 0 14px; font-size: 13px; border-width: 2px; }
+.btn-primary, .ds-btn-primary, .btn-outline {
+  background: var(--lk-ink);
+  border-color: var(--lk-ink);
+  color: var(--lk-ink-inverse);
+}
+.btn-primary:hover:not(:disabled), .ds-btn-primary:hover:not(:disabled), .btn-outline:hover:not(:disabled) {
+  background: var(--lk-ink-inverse);
+  border-color: var(--lk-ink);
+  color: var(--lk-ink);
+}
+.btn-secondary, .ds-btn-secondary { border-color: var(--lk-ink); color: var(--lk-ink); }
+.btn-secondary:hover:not(:disabled), .ds-btn-secondary:hover:not(:disabled) { background: var(--lk-tint); border-color: var(--lk-ink); }
+.btn-ghost, .ds-btn-ghost { border-color: transparent; color: var(--lk-ink); font-weight: 700; }
+.btn-ghost:hover:not(:disabled), .ds-btn-ghost:hover:not(:disabled) { background: var(--lk-tint); color: var(--lk-ink); }
+.btn-danger, .ds-btn-danger { border-color: var(--color-danger-line); color: var(--color-danger-text); }
+.btn-danger:hover:not(:disabled), .ds-btn-danger:hover:not(:disabled) { background: var(--color-danger-tint); border-color: var(--color-danger); }
+.btn:disabled, .ds-btn:disabled { opacity: 1; border-color: var(--lk-quiet); color: var(--lk-muted); background: transparent; }
+/* On an ink plate the roles flip: outline in paper, primary filled paper. */
+.plate .btn, .plate .ds-btn, .home-hero .btn { border-color: var(--color-plate-text); color: var(--color-plate-text); background: transparent; }
+.plate .btn-primary, .plate .ds-btn-primary, .home-hero .btn-primary { background: var(--color-bg); border-color: var(--color-bg); color: var(--lk-ink); }
+.plate .btn:hover:not(:disabled), .plate .ds-btn:hover:not(:disabled), .home-hero .btn:hover:not(:disabled) { background: color-mix(in srgb, var(--color-bg) 16%, transparent); border-color: var(--color-plate-text); }
+.plate .btn-primary:hover:not(:disabled), .home-hero .btn-primary:hover:not(:disabled) { background: color-mix(in srgb, var(--color-bg) 86%, transparent); color: var(--lk-ink); }
+
+/* Text links used as buttons keep the accent, but heavier. */
+.mz-back, .mz-text-button, .link-button, .text-button { font-weight: 700; }
+
+/* Icon-only circular controls: back chevrons, close buttons, arrow discs. */
+.back-chevron, .app-back, .modal-close, .lit-close, .mz-study-exit, .lesson-exit, .practice-exit {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 2.5px solid var(--lk-ink);
+  color: var(--lk-ink);
+  background: var(--lk-card);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.back-chevron:hover, .app-back:hover, .modal-close:hover, .lit-close:hover, .mz-study-exit:hover { background: var(--lk-ink); color: var(--lk-ink-inverse); }
+
+/* ========================================================================
+   4. Inputs, fields, range
+   ======================================================================== */
+/* Inputs OUTSIDE lesson and literature bodies only: inside them every box
+   is authored to fit a phone card, so those keep their own metrics (see
+   section 22). */
+:is(input:not([type='range']):not([type='checkbox']):not([type='radio']), select, textarea):not(.mz-study-body *, .la-session *, .quiz-body *),
+.home-search {
+  font-family: var(--lk-sans);
+  font-weight: 500;
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-input);
+  background: var(--lk-card);
+  color: var(--lk-ink);
+  box-shadow: none;
+  min-height: 44px;
+  padding-inline: 14px;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible, .la-recall:focus {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.field-label, label.field-label, .settings-label {
+  font-family: var(--lk-sans);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--lk-muted);
+}
+input[type='range'] { accent-color: var(--lk-ink); }
+input[type='range']::-webkit-slider-runnable-track { background: var(--lk-tint); border: 0; height: 8px; }
+input[type='range']::-webkit-slider-thumb { background: var(--lk-ink); border: 3px solid var(--lk-card); box-shadow: 0 0 0 2.5px var(--lk-ink); width: 22px; height: 22px; margin-top: -7px; }
+input[type='range']::-moz-range-track { background: var(--lk-tint); border: 0; height: 8px; }
+input[type='range']::-moz-range-thumb { background: var(--lk-ink); border: 3px solid var(--lk-card); width: 22px; height: 22px; }
+input[type='checkbox'], input[type='radio'] { accent-color: var(--lk-ink); width: 20px; height: 20px; }
+
+/* ========================================================================
+   5. Cards -- 2.5px ink border, 22px radius, surface fill, no shadow
+   ======================================================================== */
+.card, .home-resume, .home-rail-card, .home-rail-invite, .module-rail-card,
+.quiz-prompt, .quiz-page, .quiz-progress-card, .quiz-question-card, .quiz-feedback,
+.practice-end-confirm, .up-next, .practice-popout, .review-card,
+.revision-module-list, .account-card, .ach-card, .ach-next-card,
+.settings-toggle-row, .theme-card, .accent-chip, .face-row, .specimen-box,
+.lit-book, .lit-word-card, .path-group-card, .path-track-locked-banner,
+.today-card, .kind-card, .lit-continue, .lit-cloze-card, .lit-slot-card,
+.module-pager-btn, .empty-state-box, .module-list, .lit-shelves, .lit-chapter-list,
+.mz-module-practice, .mz-next-lesson, .mz-course-stats, .mz-study-body,
+.mz-hub-statistics, .mz-hub-module-lesson-list,
+.exercise-card, .lesson-exercise-card,
+.sched-course-rows, .review-focus-module, .lit-word-table, .lit-aside .lit-word-dock, .streak-cell,
+.home-explore-card, .concept-table-scroll, .lit-para-full, .tarkeeb-diagram-static {
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  box-shadow: none;
+}
+/* Rows that live INSIDE one of those cards go back to hairlines: two ink
+   borders nested read as a box in a box. */
+.module-list .module-row, .revision-module-list .revision-module-row, .lit-chapter-list .lit-chapter,
+.lit-shelves .lit-book, .sched-course-rows > *, .mz-hub-module-lesson-list > * {
+  border: 0;
+  border-top: 1px solid var(--lk-hair);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.module-list .module-row:first-child, .revision-module-list .revision-module-row:first-child, .lit-chapter-list .lit-chapter:first-child,
+.lit-shelves .lit-book:first-child { border-top: 0; }
+/* Standalone rows (not inside a list card) are cards of their own. */
+.module-row, .entry-row, .lesson-row, .revision-module-row, .up-next-row, .lit-chapter, .mz-unit {
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  box-shadow: none;
+}
+.module-row:hover, .entry-row:hover, .lesson-row:hover, .up-next-row:hover, .lit-chapter:hover, .mz-unit:hover { background: var(--lk-tint); border-color: var(--lk-ink); transform: none; box-shadow: none; }
+/* Quiet / locked / done cards drop to the de-emphasised border. */
+.module-row.is-locked, .lesson-row.is-locked, .mz-unit:disabled, .mz-unit.is-locked, .lit-chapter.is-locked, .kind-card.is-locked,
+.path-group-card.is-locked, .theme-card:not(.is-selected):not(.selected), .accent-chip:not(.is-selected):not(.selected), .face-row:not(.is-selected):not(.selected),
+[aria-disabled='true'].card, .module-row[aria-disabled='true'] {
+  border-color: var(--lk-quiet);
+}
+/* Selected option cards (theme, accent, face, kind): filled-ink is too much
+   for a card with a swatch inside, so selected = full ink border + tint. */
+.theme-card.is-selected, .theme-card.selected, .theme-card[aria-pressed='true'], .theme-card[aria-checked='true'],
+.accent-chip.is-selected, .accent-chip.selected, .accent-chip[aria-pressed='true'], .accent-chip[aria-checked='true'],
+.face-row.is-selected, .face-row.selected, .face-row[aria-pressed='true'], .face-row[aria-checked='true'],
+.kind-card.is-selected, .kind-card.selected, .kind-card[aria-pressed='true'], .kind-card[aria-checked='true'],
+.mz-unit.is-current, .lesson-row.is-current, .module-row.is-current, .up-next-row.is-current {
+  border-color: var(--lk-ink);
+  border-width: 3px;
+  background: var(--lk-tint);
+}
+/* Cards that hold the screen's one primary action get the 3px weight. */
+.home-resume, .up-next, .today-card, .lit-continue, .mz-next-lesson, .quiz-question-card, .ach-next-card { border-width: 3px; }
+.card:hover, .module-rail-card:hover, .home-rail-card:hover, .kind-card:hover, .lit-book:hover, .path-group-card:hover { transform: none; box-shadow: none; }
+
+/* Ink plates keep their fill (they ARE the "selected = filled ink" idea at
+   panel scale) but take the card radius and lose any shadow. */
+.plate, .home-hero, .hero-panel, .complete-plate, .lit-cover { border-radius: var(--lk-radius-card); box-shadow: none; }
+
+/* ========================================================================
+   6. Answer options, choices, segments, chips
+   ======================================================================== */
+.mcq-option, .exercise-choice, .lit-choice, .review-choice {
+  font-family: var(--lk-sans);
+  font-weight: 600;
+  border: 2.5px solid var(--lk-quiet);
+  border-radius: var(--lk-radius-tile);
+  background: var(--lk-card);
+  min-height: 48px;
+  padding: 12px 16px;
+}
+.mcq-option:hover:not(:disabled), .exercise-choice:hover:not(:disabled) { border-color: var(--lk-ink); background: var(--lk-card); }
+.mcq-option.selected, .exercise-choice.selected { border-color: var(--lk-ink); background: var(--lk-tint); }
+.mcq-option.correct, .exercise-choice.correct { border: 2.5px solid var(--color-accent); background: var(--lk-tint); padding: 12px 16px; }
+.mcq-option.incorrect, .exercise-choice.incorrect { border-color: var(--lk-quiet); color: var(--lk-muted); background: var(--lk-card); }
+.mcq-letter, .mz-choice-letter, .quiz-body .mcq-letter, .practice-body .mcq-letter {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  border: 2px solid var(--lk-ink);
+  color: var(--lk-ink);
+  background: transparent;
+}
+.mcq-option.correct .mcq-letter, .mz-choice.is-correct .mz-choice-letter { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink, #fff); }
+
+/* Segmented controls and tab rows: selected = filled ink. */
+.practice-tab, .lit-lang-btn, .settings-toggle-pill, .lit-lang-toggle > button, .segment > button, .mz-hub-tabs button, .review-tabs button, .schedule-tabs button, .sched-tab {
+  font-family: var(--lk-sans);
+  font-weight: 700;
+  border: 2px solid var(--lk-ink);
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0 16px;
+  color: var(--lk-ink);
+  background: transparent;
+}
+.practice-tab.active, .practice-tab[aria-selected='true'], .lit-lang-btn.active, .lit-lang-btn[aria-pressed='true'],
+.settings-toggle-pill[aria-pressed='true'], .settings-toggle-pill.is-on, .segment > button[aria-pressed='true'], .segment > button.active,
+.mz-hub-tabs button[aria-selected='true'], .review-tabs button[aria-selected='true'], .schedule-tabs button[aria-selected='true'], .sched-tab.active, .sched-tab[aria-selected='true'] {
+  background: var(--lk-ink);
+  color: var(--lk-ink-inverse);
+  border-color: var(--lk-ink);
+}
+
+/* Tags and chips: pill, 2px stroke, heavy caps. */
+.tag, .lit-chip, .lit-unknown-chip, .tarkeeb-chip, .complete-tag, .path-node-course-badge, .home-hero-pill, .tarkeeb-diagram-label, .mz-hub-chip, .status-chip {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: 2px solid var(--lk-ink);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: var(--lk-ink);
+  background: transparent;
+}
+.tag-accent { border-color: var(--color-accent); color: var(--color-accent); }
+.tag-locked { border-color: var(--lk-quiet); color: var(--lk-muted); }
+.status-ring { border: 2px solid var(--lk-quiet); color: var(--lk-muted); font-weight: 700; font-family: var(--lk-sans); }
+.status-ring-done { background: var(--lk-ink); border-color: var(--lk-ink); color: var(--lk-ink-inverse); }
+.status-ring-current { border-color: var(--lk-ink); color: var(--lk-ink); }
+
+/* Progress meters: pill, ink fill on a tint track. */
+.progress-bar, .mz-meter, .account-xp-track, .lit-progress, .mz-hub-meter { height: 8px; border-radius: 999px; background: var(--lk-tint); border: 0; }
+.progress-bar-fill, .mz-meter > span, .account-xp-fill, .lit-progress-fill, .mz-hub-meter > span { background: var(--lk-ink); border-radius: 999px; }
+.plate .progress-bar, .home-hero .progress-bar, .plate .account-xp-track { background: color-mix(in srgb, var(--color-bg) 22%, transparent); }
+.plate .progress-bar-fill, .home-hero .progress-bar-fill, .plate .account-xp-fill { background: var(--color-bg); }
+
+/* ========================================================================
+   7. Shell: top bar, back bar, phone tab bar
+   ======================================================================== */
+.app-nav { border-bottom: 0; background: var(--color-bg); }
+.app-nav-inner { gap: 28px; }
+.app-wordmark-name { font-family: var(--font-heading); font-weight: 500; }
+.app-tabs { gap: 6px; align-items: center; }
+.app-tab {
+  font-family: var(--lk-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--lk-ink);
+  padding: 0 16px;
+  min-height: 40px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+.app-tab:hover { background: var(--lk-tint); color: var(--lk-ink); }
+.app-tab-active, .app-tab-active:hover { background: var(--lk-ink); color: var(--lk-ink-inverse); border-color: var(--lk-ink); font-weight: 800; }
+.app-tab-active::after { display: none; }
+.app-stats {
+  font-family: var(--lk-sans);
+  font-weight: 700;
+  font-size: 13px;
+  border: 2.5px solid var(--lk-ink);
+  color: var(--lk-ink);
+  background: var(--lk-card);
+  padding: 6px 14px;
+  min-height: 40px;
+}
+.app-stats:hover { background: var(--lk-tint); }
+.app-backbar { border-bottom: 0; padding-block: 14px; }
+.app-crumb { font-family: var(--lk-sans); font-weight: 700; color: var(--lk-ink); }
+
+@media (max-width: 900px) {
+  /* Floating 64px pill nav. The page keeps a fade above it so the list
+     scrolls under rather than into it. */
+  .app-tabbar {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    /* Above js/spatial-motion.js's .mz-motion-layer (z 80): that layer
+       retains the outgoing .main-content and slides it, sized to .main's
+       rect -- which this floating bar now overlaps. Below it, the sliding
+       page painted straight over the bar on every navigation. Modals
+       (z 50) are handled below by demoting the bar while one is open. */
+    z-index: 90;
+    height: 64px;
+    padding: 6px;
+    gap: 4px;
+    border: 2.5px solid var(--lk-ink);
+    border-radius: 999px;
+    background: var(--lk-card);
+  }
+  /* The fade lives on <body>, which is never transformed: the phone's
+     push/pop screen entrance animates .main-content with a transform, and a
+     position:fixed pseudo inside a transformed ancestor is positioned
+     against THAT ancestor, so a fade hung off .main-content rode in with the
+     page and snapped back on every navigation. */
+  body:has(.app-tabbar)::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 116px;
+    z-index: 85;
+    pointer-events: none;
+    background: linear-gradient(to top, var(--color-bg) 38%, transparent);
+  }
+  /* While a dialog is up, bar and fade drop back under its backdrop. */
+  body:has(.modal-backdrop, .unlock-modal-backdrop, .exercise-feedback-backdrop, .mz-motion-backdrop, .mz-notes-modal) .app-tabbar { z-index: 20; }
+  body:has(.modal-backdrop, .unlock-modal-backdrop, .exercise-feedback-backdrop, .mz-motion-backdrop, .mz-notes-modal)::after { z-index: 5; }
+  body:has(.app-tabbar) .main-content { padding-bottom: 132px; }
+  .app-tabbar-item {
+    flex-direction: row;
+    gap: 7px;
+    min-height: 48px;
+    height: 48px;
+    padding: 0 12px;
+    border-radius: 999px;
+    color: var(--lk-ink);
+    font: 700 12.5px/1 var(--lk-sans);
+  }
+  .app-tabbar-item > span { display: none; }
+  .app-tabbar-item > svg { width: 22px; height: 22px; stroke-width: 2.2; }
+  .app-tabbar-item { position: relative; isolation: isolate; }
+  .app-tabbar-item-active {
+    flex: 2.4;
+    white-space: nowrap;
+    background: transparent;
+    color: var(--lk-ink-inverse);
+  }
+  .app-tabbar-item-active > span { display: inline; }
+  /* The ink fill sits on a ::before so js/motion.js's indicator FLIP (which
+     measures the active item and hands it --m-dx/--m-sx) can slide it from
+     the previous tab instead of cutting. The hairline bar's 2px tick above
+     the tab (its ::after) has no place on a filled pill. */
+  .app-tabbar-item-active::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 999px;
+    background: var(--lk-ink);
+    transform-origin: 0 50%;
+  }
+  .app-tabbar-item-active.anim-indicator-slide::before {
+    animation: m-indicator-slide var(--t-ui, 200ms) var(--ease, ease);
+  }
+  .app-tabbar-item-active::after { display: none; }
+}
+
+/* ========================================================================
+   8. Modals, sheets, toasts
+   ======================================================================== */
+.modal, .unlock-modal, .force-unlock-modal, .mz-notes-modal, .practice-popout, .course-menu, .sections-menu, .reset-hour-menu, .deadline-picker {
+  border: 3px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  box-shadow: none;
+}
+.modal-backdrop, .unlock-modal-backdrop, .mz-motion-backdrop { background: color-mix(in srgb, var(--color-text) 40%, transparent); }
+.exercise-feedback-sheet { border: 3px solid var(--lk-ink); border-bottom: 0; border-radius: var(--lk-radius-card) var(--lk-radius-card) 0 0; box-shadow: none; }
+.xp-toast { font-family: var(--lk-sans); font-weight: 800; border: 2.5px solid var(--lk-ink); background: var(--lk-card); color: var(--lk-ink); box-shadow: none; }
+
+/* ========================================================================
+   9. Small shared surfaces
+   ======================================================================== */
+.mz-unit-number, .lit-chapter-num, .up-next-ring, .path-node-indicator, .unlock-modal-icon, .badge-modal-icon, .account-monogram, .deadline-day {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  border: 2px solid var(--lk-ink);
+  color: var(--lk-ink);
+  background: transparent;
+}
+.mz-unit.is-complete .mz-unit-number, .lit-chapter.is-done .lit-chapter-num, .deadline-day.is-selected, .deadline-day[aria-pressed='true'] { background: var(--lk-ink); color: var(--lk-ink-inverse); border-color: var(--lk-ink); }
+.rule-accent { height: 3px; border-radius: 999px; background: var(--lk-ink); }
+.chapter-rule-line { height: 2px; background: var(--lk-hair); }
+.mz-course-heading > bdi, .page-title-ar { color: var(--lk-ink); }
+
+/* Focus ring, everywhere: thick accent, offset, no glow. */
+:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; box-shadow: none; }
+
+/* Motion layer: no lift-and-shadow hovers in a no-shadow system. */
+@media (hover: hover) {
+  .btn:hover, .card:hover, .mz-hub-continue:hover { transform: none; box-shadow: none; }
+}
+
+
+/* ========================================================================
+   10. My learning dashboard
+   ======================================================================== */
+/* ---------- Page frame ---------- */
+.main-content:has(.mz-catalog) { padding: 36px 32px 96px; }
+.mz-catalog { width: min(100%, 1120px); margin: 0 auto; font-family: var(--lk-sans); }
+
+.mz-catalog .mz-page-heading { align-items: flex-end; margin-bottom: 28px; }
+.mz-catalog .mz-eyebrow {
+  font: 800 11.5px/1.5 var(--lk-sans);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--lk-muted);
+  margin: 0 0 8px;
+}
+.mz-catalog .mz-page-heading h1 {
+  font: 500 clamp(36px, 4.2vw, 52px)/1.05 var(--font-heading);
+  letter-spacing: -.02em;
+  margin: 0 0 10px;
+  color: var(--lk-ink);
+}
+.mz-catalog .mz-page-heading p:not(.mz-eyebrow) { font: 500 16px/1.5 var(--lk-sans); color: var(--lk-muted); }
+
+/* The count becomes a stat chip: bordered, pill, tabular numerals. */
+.mz-catalog .mz-study-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 10px 18px 10px 12px;
+  border: 2.5px solid var(--lk-ink);
+  border-radius: 999px;
+  background: var(--lk-card);
+  color: var(--lk-ink);
+  font: 700 13px/1.2 var(--lk-sans);
+  white-space: nowrap;
+}
+.mz-catalog .mz-study-count strong {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--lk-ink);
+  color: var(--lk-ink-inverse);
+  font: 800 18px/1 var(--lk-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Section headers ---------- */
+.lk-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 36px 0 14px;
+}
+.lk-section-head h2 {
+  font: 800 11.5px/1.5 var(--lk-sans);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--lk-muted);
+  margin: 0;
+}
+.lk-section-head a, .lk-section-head span { font: 700 13px/1.4 var(--lk-sans); color: var(--color-accent); text-decoration: none; }
+
+/* ---------- Primary object: continue card (3px border) ---------- */
+.lk-continue {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 22px 24px;
+  border: 3px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  color: var(--lk-ink);
+  text-decoration: none;
+}
+.lk-continue-tile {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--lk-radius-tile);
+  background: var(--lk-tint-strong);
+  color: var(--color-accent);
+}
+.lk-continue-tile > svg { width: 56px; height: 56px; }
+.lk-continue-body { display: grid; gap: 6px; min-width: 0; }
+.lk-continue-body .lk-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 800 11.5px/1.5 var(--lk-sans);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.lk-continue-body strong { font: 800 20px/1.25 var(--lk-sans); letter-spacing: -.01em; overflow-wrap: anywhere; }
+.lk-continue-body span { font: 500 14px/1.45 var(--lk-sans); color: var(--lk-muted); }
+.lk-continue-body span[lang='ar'] { font: 20px/1.4 var(--font-ar); color: var(--lk-ink); }
+.lk-continue-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font: 700 12.5px/1.3 var(--lk-sans);
+  color: var(--lk-good);
+}
+.lk-continue-meta::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: currentColor; }
+.lk-continue .btn {
+  border-radius: 999px;
+  min-height: 48px;
+  padding: 0 22px;
+  font: 800 14px/1 var(--lk-sans);
+  border: 2.5px solid var(--lk-ink);
+  background: var(--lk-ink);
+  color: var(--lk-ink-inverse);
+  white-space: nowrap;
+  gap: 10px;
+  box-shadow: none;
+}
+.lk-continue .btn:hover:not(:disabled) { background: var(--lk-ink-inverse); color: var(--lk-ink); }
+
+/* ---------- Course cards (2.5px border, tinted tile) ---------- */
+.mz-catalog .mz-course-grid { gap: 20px; }
+.mz-catalog .mz-course-card {
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  box-shadow: none;
+  transition: none;
+}
+.mz-catalog .mz-course-card:hover { border-color: var(--lk-ink); box-shadow: none; transform: none; }
+.mz-catalog .mz-course-card.is-locked { border-color: var(--lk-quiet); }
+.mz-catalog .mz-course-card.is-locked .mz-course-art { color: var(--lk-muted); }
+
+.mz-catalog .mz-course-art {
+  min-height: 0;
+  padding: 20px 22px 0;
+  background: transparent;
+  border-bottom: 0;
+  align-items: flex-start;
+}
+.mz-catalog .mz-course-art > svg {
+  width: 72px;
+  height: 72px;
+  padding: 12px;
+  box-sizing: content-box;
+  border-radius: var(--lk-radius-tile);
+  background: var(--lk-tint);
+}
+.mz-catalog .mz-course-art > bdi {
+  font: 26px/1.5 var(--font-ar);
+  color: var(--lk-ink);
+  padding-top: 8px;
+}
+.mz-catalog .mz-course-content { padding: 16px 22px 22px; }
+.mz-catalog .mz-course-content .mz-eyebrow { color: var(--color-accent); }
+.mz-catalog .mz-course-content h2 {
+  font: 800 22px/1.2 var(--lk-sans);
+  letter-spacing: -.01em;
+  margin: 0 0 10px;
+  color: var(--lk-ink);
+}
+.mz-catalog .mz-course-description { font: 500 14.5px/1.55 var(--lk-sans); color: var(--lk-muted); margin-bottom: 20px; }
+.mz-catalog .mz-course-progress { font: 700 12.5px/1.3 var(--lk-sans); color: var(--lk-ink); margin-bottom: 8px; }
+.mz-catalog .mz-course-progress span:last-child { color: var(--lk-muted); font-variant-numeric: tabular-nums; }
+.mz-catalog .mz-meter { height: 8px; border-radius: 999px; background: var(--lk-tint); border: 0; }
+.mz-catalog .mz-meter > span { background: var(--lk-ink); }
+
+.mz-catalog .mz-course-open {
+  margin-top: 18px;
+  border-radius: 999px;
+  min-height: 48px;
+  padding: 0 20px;
+  font: 800 14px/1 var(--lk-sans);
+  border: 2.5px solid var(--lk-ink);
+  align-items: center;
+  box-shadow: none;
+}
+.mz-catalog .mz-course-open.btn-primary { background: var(--lk-ink); color: var(--lk-ink-inverse); }
+.mz-catalog .mz-course-open.btn-primary:hover:not(:disabled) { background: var(--lk-ink-inverse); color: var(--lk-ink); }
+.mz-catalog .mz-course-open.btn-secondary { background: transparent; color: var(--lk-ink); border-color: var(--lk-ink); }
+.mz-catalog .mz-course-open.btn-secondary:hover:not(:disabled) { background: var(--lk-tint); }
+.mz-catalog .is-locked .mz-course-open.btn-secondary { border-color: var(--lk-quiet); color: var(--lk-muted); }
+
+/* ---------- Library row ---------- */
+.mz-catalog .mz-library-link {
+  margin-top: 0;
+  padding: 20px 22px;
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  gap: 18px;
+}
+.mz-catalog .mz-library-link > div { gap: 4px; }
+.mz-catalog .mz-library-link strong { font: 800 18px/1.25 var(--lk-sans); letter-spacing: -.01em; color: var(--lk-ink); }
+.mz-catalog .mz-library-link span:not(.lk-arrow) { font: 500 14px/1.45 var(--lk-sans); color: var(--lk-muted); }
+.mz-catalog .mz-library-link .lk-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 2.5px solid var(--lk-ink);
+  color: var(--lk-ink);
+  font: 800 18px/1 var(--lk-sans);
+}
+.mz-catalog .mz-library-link:hover .lk-arrow { background: var(--lk-ink); color: var(--lk-ink-inverse); }
+
+/* ---------- Phone ---------- */
+@media (max-width: 900px) {
+  .main-content:has(.mz-catalog) { padding: 22px 18px 132px; }
+  .mz-catalog .mz-page-heading { flex-wrap: wrap; align-items: center; margin-bottom: 22px; }
+  .mz-catalog .mz-page-heading > div:first-child { flex: 1 1 auto; }
+  .mz-catalog .mz-page-heading h1 { font-size: 40px; }
+  .mz-catalog .mz-page-heading p:not(.mz-eyebrow) { font-size: 15px; }
+  .mz-catalog .mz-study-count { padding: 6px 14px 6px 6px; font-size: 12.5px; }
+  .mz-catalog .mz-study-count > span { max-width: none; white-space: nowrap; font-size: 12.5px; }
+  .mz-catalog .mz-study-count > strong { min-width: 34px; height: 34px; font-size: 16px; }
+
+  .lk-section-head { margin: 28px 0 12px; }
+
+  .lk-continue { grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 18px; }
+  .lk-continue-tile { width: 64px; height: 64px; }
+  .lk-continue-tile > svg { width: 46px; height: 46px; }
+  .lk-continue .btn { grid-column: 1 / -1; justify-content: space-between; display: flex; }
+
+  .mz-catalog .mz-course-grid { gap: 16px; }
+  .mz-catalog .mz-course-art { padding: 18px 18px 0; }
+  .mz-catalog .mz-course-art > svg { width: 56px; height: 56px; padding: 10px; }
+  .mz-catalog .mz-course-art > bdi { font-size: 24px; }
+  .mz-catalog .mz-course-content { padding: 14px 18px 18px; }
+  .mz-catalog .mz-course-content h2 { font-size: 21px; }
+  .mz-catalog .mz-library-link { padding: 18px; }
+
+}
+
+/* Desktop: the "explore more" row sits beside the grid rhythm. */
+@media (min-width: 901px) {
+  .mz-catalog .mz-course-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+  .mz-catalog .mz-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ========================================================================
+   11. Course hub (mz-hub: course overview + module page)
+   ======================================================================== */
+.mz-hub { --hub-line: var(--lk-hair); }
+.mz-hub-back { font: 700 13px/1.4 var(--lk-sans); color: var(--color-accent); }
+.mz-hub-heading h1 { font: 500 clamp(34px, 3.6vw, 46px)/1.1 var(--font-heading); letter-spacing: -.02em; }
+.mz-hub-arabic-name { color: var(--lk-ink); }
+.mz-hub-statistics { padding: 16px 20px; }
+.mz-hub-statistics > p { font: 700 13px/1.5 var(--lk-sans); color: var(--lk-ink); }
+.mz-hub-statistics > p strong { font-weight: 800; }
+.mz-hub-statistics dt { font: 700 11px/1.4 var(--lk-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--lk-muted); }
+.mz-hub-statistics dd { font: 800 20px/1.2 var(--lk-sans); }
+.mz-hub-meter { height: 8px; margin-top: 12px; }
+.mz-hub-resume { border-radius: var(--lk-radius-card); padding: 24px 26px; }
+.mz-hub-book { border: 2px solid color-mix(in srgb, currentColor 40%, transparent); background: color-mix(in srgb, currentColor 14%, transparent); border-radius: var(--lk-radius-tile); width: 64px; height: 64px; }
+.mz-hub-resume-copy > p { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; opacity: .85; }
+.mz-hub-resume-copy h2 { font: 800 22px/1.3 var(--lk-sans); letter-spacing: -.01em; }
+.mz-hub-resume-copy > span { font: 600 13px/1.4 var(--lk-sans); opacity: .85; }
+.mz-hub-continue.btn { border: 2.5px solid var(--color-surface); font-weight: 800; }
+.mz-hub-section-heading { margin: 32px 0 12px; }
+.mz-hub-section-heading h2 { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.mz-hub .mz-text-button { font-weight: 700; }
+.mz-hub-outline { border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); overflow: hidden; }
+.mz-hub-module { border-bottom: 1px solid var(--lk-hair); }
+.mz-hub-outline > .mz-hub-module:last-child, .mz-hub-outline > .mz-hub-module-summary:last-child { border-bottom: 0; }
+.mz-hub-module-summary { padding: 18px 20px; border-radius: 0; }
+.mz-hub-module-summary.is-locked { border-bottom: 1px solid var(--lk-hair); }
+.mz-hub-module-summary:hover { background: var(--lk-tint); }
+.mz-hub-module-number { font: 800 13px/1.4 var(--lk-sans); color: var(--lk-muted); }
+.mz-hub-module-title { font: 800 18px/1.4 var(--lk-sans); letter-spacing: -.01em; }
+.mz-hub-module-status { font: 700 12px/1.4 var(--lk-sans); }
+.mz-hub-chevron { width: 9px; height: 9px; border-width: 2.5px; color: var(--lk-ink); }
+.mz-hub-module > .mz-hub-lessons { margin: 0; border: 0; border-top: 1px solid var(--lk-hair); border-radius: 0; background: color-mix(in srgb, var(--color-text) 3%, var(--lk-card)); }
+.mz-hub-lesson { padding: 14px 20px 14px 72px; }
+.mz-hub-lesson:hover { background: var(--lk-tint); }
+.mz-hub-lesson.is-current { background: var(--lk-tint); box-shadow: inset 4px 0 var(--lk-ink); }
+.mz-hub-lesson-number { font: 800 12px/1.4 var(--lk-sans); }
+.mz-hub-lesson-title { font-weight: 600; }
+.mz-hub-lesson-action { font: 700 12px/1.4 var(--lk-sans); }
+.mz-hub-module-tools { padding: 4px 20px 10px 72px; }
+.mz-hub-practice { margin-top: 20px; border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); overflow: hidden; }
+.mz-hub-practice-body { padding: 0 20px 20px; }
+.mz-hub-kicker { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; }
+
+/* ========================================================================
+   12. Study shell (lessons, word lessons, logic lessons)
+   ======================================================================== */
+.mz-study-head { padding-bottom: 18px; }
+.mz-study-title > span { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.mz-study-title h1 { font: 800 18px/1.35 var(--lk-sans); letter-spacing: -.01em; margin-top: 3px; }
+.mz-word-step-count { font: 800 12px/1 var(--lk-sans); border: 2px solid var(--lk-ink); border-radius: 999px; padding: 7px 12px; color: var(--lk-ink); }
+/* The lesson card's interior is authored to fit a phone screen to the
+   pixel (data-reading-layout="idea"), so the border keeps classic's 1px in
+   layout and the extra 1.5px is painted OUTSIDE it: same interior box. */
+.mz-study-body { border-width: 1px; box-shadow: 0 0 0 1.5px var(--lk-ink); min-height: 360px; }
+.mz-teaching-copy > h2 { font: 500 clamp(26px, 2.6vw, 34px)/1.25 var(--font-heading); letter-spacing: -.02em; }
+.mz-study-foot > span { font: 600 12px/1.4 var(--lk-sans); }
+.mz-study .mz-meter { height: 6px; }
+.mz-callout, .mz-definition, .mz-teaching-copy blockquote, .mz-key-point, .concept-callout { border-radius: var(--lk-radius-tile); }
+.mz-word-lesson .mz-study-title h1 { font: 800 18px/1.4 var(--lk-sans); letter-spacing: -.01em; }
+.mz-word-lesson .mz-study-title > span { font: 800 11.5px/1.3 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.mz-word-lesson .mz-word-head > .mz-meter { height: 5px; }
+.mz-exercise-prompt h2 { font: 500 clamp(24px, 2.4vw, 30px)/1.3 var(--font-heading); letter-spacing: -.02em; }
+.mz-stimulus { box-shadow: 0 0 0 1.5px var(--lk-ink); border-color: var(--lk-ink); border-radius: var(--lk-radius-tile); background: var(--lk-card); }
+.mz-feedback { box-shadow: 0 0 0 1px currentColor; border-radius: var(--lk-radius-tile); }
+.mz-feedback h3 { font: 800 16px/1.4 var(--lk-sans); }
+.mz-logic-feedback-tabs { border-bottom: 0; gap: 8px; padding: 0; }
+.mz-logic-feedback-tabs button { flex: 0 1 auto; min-height: 44px; padding: 0 14px; border: 2px solid var(--lk-ink); border-radius: 999px; font: 700 13px/1 var(--lk-sans); color: var(--lk-ink); background: transparent; }
+.mz-logic-feedback-tabs button[aria-pressed='true'] { background: var(--lk-ink); color: var(--lk-ink-inverse); box-shadow: none; }
+
+/* ========================================================================
+   13. Review (schedule) page
+   ======================================================================== */
+.review-schedule-panel { border: 3px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); padding: 22px 24px 24px; }
+.review-panel-figures { border: 0; padding: 0; gap: 12px; margin-bottom: 18px; }
+.review-panel-figures > div { flex: 1; padding: 12px 14px; border: 2px solid var(--lk-hair); border-radius: var(--lk-radius-tile); background: color-mix(in srgb, var(--color-text) 3%, var(--lk-card)); }
+.ledger-inline-value { font: 800 26px/1.1 var(--lk-sans); }
+.ledger-inline-label { font: 700 11px/1.4 var(--lk-sans); letter-spacing: .1em; }
+.practice-hint { font: 500 13px/1.5 var(--lk-sans); margin: 0 0 14px; }
+.text-link-btn { font-family: var(--lk-sans); font-weight: 700; color: var(--color-accent); text-decoration: none; }
+.review-panel-count { font: 600 12.5px/1.4 var(--lk-sans); }
+.page-header { border-bottom: 0; }
+.page-title-row { align-items: baseline; }
+.context-bar-title { font-family: var(--lk-sans); font-weight: 800; }
+.schedule-field label { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; color: var(--lk-muted); }
+
+/* ========================================================================
+   14. Heading sweep -- every sub-heading that still carried the serif.
+   Headings INSIDE lesson content (.mz-word-case-list h3, .visual-heading h3,
+   .mz-foundation-comparison h3) are deliberately left alone: they hold
+   Arabic, and the heavier face is taller, which breaks the authored fit.
+   ======================================================================== */
+.home-rail-invite-title, .home-explore-title, .lesson-section-title, .concept-block h2, .concept-block h3,
+.quiz-prompt h3, .ach-section-title, .settings-area-title, .settings-group-title, .settings-subgroup-title,
+.lit-contents-head, .lit-drill-sub, .path-section-heading, .practice-popout-title, .account-level,
+.empty-state-title, .la-start h2, .la-course-title h2, .mz-path-heading h2, .mz-unit-body > strong,
+.quiz-result-title, .practice-review-title, .mz-notes-modal h2,
+.unlock-modal-title, .badge-modal-title,
+.deadline-picker-month, .modal h2, .modal h3, .unlock-modal h2, .force-unlock-modal h2, .plate-title, .hero-plate-title {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.settings-area-title, .settings-group-title, .ach-section-title, .path-section-heading, .lit-contents-head {
+  font-size: 11.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--lk-muted);
+}
+.settings-subgroup-title { font-size: 15px; }
+/* Figures: heavy sans, tabular. */
+.ach-level-progress-value, .today-figure strong, .mz-result-score strong, .complete-score, .mz-module-count strong,
+.mz-understanding strong, .mz-course-stats > strong, .la-stage-number, .complete-plate-ghost-num {
+  font-family: var(--lk-sans);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+
+/* ========================================================================
+   15. Literature acquisition home (la-*)
+   ======================================================================== */
+.la-home h1, .la-session h1 { font-family: var(--font-heading); font-weight: 500; letter-spacing: -.02em; }
+.la-home-heading p, .la-course-title p, .la-muted, .la-progress-line { font-family: var(--lk-sans); }
+.la-home-heading > a, .la-session-link, .la-development > summary, .la-review-due > summary, .la-progress-details summary { font-weight: 700; font-family: var(--lk-sans); }
+.la-start { border: 3px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); padding: 20px 24px; margin-top: 20px; }
+.la-start h2 { font: 800 20px/1.3 var(--lk-sans); letter-spacing: -.01em; }
+.la-start > div > span, .la-start .mz-eyebrow { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--color-accent); }
+.la-course-title h2 { font: 800 22px/1.3 var(--lk-sans); letter-spacing: -.01em; }
+.la-stage-heading { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.la-course-stage { border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); margin-top: 12px; padding-inline: 20px; overflow: hidden; }
+.la-course-stage > summary { padding-block: 16px; }
+.la-course-stage summary strong { font: 800 17px/1.35 var(--lk-sans); }
+.la-course-stage summary small { font: 500 13px/1.45 var(--lk-sans); }
+.la-course-stage > summary::after { font-weight: 800; color: var(--lk-ink); }
+.la-stage-number { color: var(--lk-ink); width: 30px; font-size: 22px; }
+.la-unit { margin-inline-start: 46px; border-top: 1px solid var(--lk-hair); }
+.la-unit summary strong { font: 700 15px/1.4 var(--lk-sans); }
+.la-unit > summary::before { color: var(--lk-ink); font-weight: 800; }
+.la-lesson-row { border-top: 1px solid var(--lk-hair); border-radius: 0; }
+.la-lesson-row:hover { background: var(--lk-tint); }
+.la-row-copy strong { font: 700 15px/1.4 var(--lk-sans); }
+.la-planned, .la-stage-challenge { margin-inline-start: 46px; }
+.la-stage-choices [aria-pressed='true'] { font-weight: 800; text-decoration: none; color: var(--lk-ink); }
+.la-path-note, .la-progress-note { font-family: var(--lk-sans); }
+.la-trend-row meter { accent-color: var(--lk-ink); }
+
+/* The motion layer moves .practice-tab's active fill onto a ::before so it
+   can slide; repaint that pseudo in ink and let the text sit on top of it. */
+.practice-tab.active { background: transparent; border-color: transparent; color: var(--lk-ink-inverse); }
+.practice-tab.active::before { inset: -2px; background: var(--lk-ink); border: 2px solid var(--lk-ink); box-shadow: none; }
+.practice-tab:hover { border-color: var(--lk-ink); color: var(--lk-ink); }
+.practice-tab.active:hover { color: var(--lk-ink-inverse); }
+
+/* ========================================================================
+   16. Reading library (source collection, book page, reader)
+   ======================================================================== */
+@media (min-width: 901px) {
+  .lit-library-page > .page-header { margin-top: 0; }
+}
+.lit-library-page > .la-text-button { font: 700 13px/1.4 var(--lk-sans); color: var(--color-accent); }
+.lit-search-wrap .home-search { padding-left: 40px; padding-right: 44px; }
+.lit-search-icon { left: 14px; color: var(--lk-ink); }
+.lit-search-kbd { font-family: var(--lk-sans); font-weight: 700; border: 2px solid var(--lk-hair); border-radius: 8px; right: 12px; }
+.lit-shelves { padding: 18px 22px 6px; }
+.lit-shelf-heading { margin-bottom: 8px; }
+.lit-shelf-heading-ar { font-size: 22px; }
+.lit-shelf-heading-en { font: 700 11px/1.4 var(--lk-sans); letter-spacing: .08em; text-transform: uppercase; }
+.lit-shelf-heading::after { height: 2px; background: var(--lk-hair); }
+.lit-shelf { gap: 12px; }
+.lit-shelves .lit-book { border: 2px solid var(--lk-hair); border-radius: var(--lk-radius-tile); padding: 12px 14px; background: var(--lk-card); }
+.lit-shelves .lit-book:hover { border-color: var(--lk-ink); background: var(--lk-card); }
+.lit-book-kicker, .lit-book-face > small { font: 800 10.5px/1.4 var(--lk-sans); letter-spacing: .12em; text-transform: uppercase; }
+.lit-book-progress, .lit-book-count { font: 700 12px/1.3 var(--lk-sans); font-variant-numeric: tabular-nums; }
+.lit-reader-book { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.lit-reader-en { font: 600 13px/1.4 var(--lk-sans); color: var(--lk-muted); }
+.lit-pager-btn { width: 40px; height: 40px; border-radius: 999px; border: 2px solid var(--lk-ink); color: var(--lk-ink); background: transparent; display: inline-flex; align-items: center; justify-content: center; }
+.lit-pager-btn:disabled { border-color: var(--lk-quiet); color: var(--lk-quiet); }
+.lit-pager-btn:hover:not(:disabled) { background: var(--lk-ink); color: var(--lk-ink-inverse); }
+.lit-pager-count { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-ink); }
+.lit-aside .lit-unknown { border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); padding: 18px 20px; }
+.lit-unknown-head { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; }
+.lit-unknown-empty { font: 500 13.5px/1.55 var(--lk-sans); }
+.lit-para.is-active { border-radius: var(--lk-radius-tile); }
+
+/* ========================================================================
+   17. Quiz / practice / review sessions
+   ======================================================================== */
+.quiz-page { border: 0; background: transparent; box-shadow: none; overflow: visible; }
+.quiz-crumb-context, .quiz-crumb-word { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); }
+.quiz-tick { height: 8px; background: var(--lk-tint); }
+.quiz-tick-done { background: var(--lk-ink); }
+.quiz-tick-current { background: var(--lk-ink); }
+.quiz-progress-card { border: 2px solid var(--lk-hair); background: color-mix(in srgb, var(--color-text) 3%, var(--lk-card)); }
+.quiz-progress-value { font: 800 18px/1.2 var(--lk-sans); color: var(--lk-ink); }
+.quiz-progress-label { font: 700 11px/1.4 var(--lk-sans); letter-spacing: .1em; text-transform: uppercase; }
+.quiz-question-card { border-width: 3px; }
+.quiz-question { font-family: var(--font-heading); font-weight: 500; letter-spacing: -.02em; }
+.quiz-question::after { display: none; }
+.quiz-foot { border-top: 0; }
+.mz-module-practice { border: 0; background: transparent; padding: 0; }
+.practice-popout-close, .quiz-close { width: 40px; height: 40px; border-radius: 999px; border: 2px solid var(--lk-ink); background: transparent; color: var(--lk-ink); display: inline-flex; align-items: center; justify-content: center; }
+.practice-count-btn { font: 800 14px/1 var(--lk-sans); border: 2px solid var(--lk-ink); border-radius: 999px; color: var(--lk-ink); background: transparent; min-height: 44px; }
+.practice-count-btn.active, .practice-count-btn[aria-pressed='true'] { background: var(--lk-ink); color: var(--lk-ink-inverse); }
+.kind-card.is-selected, .kind-card[aria-pressed='true'], .kind-card.selected { background: var(--lk-tint); }
+.revision-radio { border: 2px solid var(--lk-ink); }
+.revision-module-row[aria-pressed='true'] .revision-radio, .revision-module-row.is-selected .revision-radio { background: var(--lk-ink); box-shadow: inset 0 0 0 3px var(--lk-card); }
+.complete-plate, .complete-card { border-radius: var(--lk-radius-card); }
+
+/* Headings the app focuses programmatically on step changes (for screen
+   readers) must not draw the pointer focus ring. */
+h1:focus, h2:focus, h3:focus, [tabindex='-1']:focus, [tabindex='-1']:focus-visible { outline: none; }
+@media (max-width: 900px) {
+  .mz-hub-lesson { padding-left: 56px; }
+  .mz-hub-module-tools { padding-left: 56px; }
+}
+
+/* Quiz/review: the card used to float vertically centred between two flex
+   spacers, so when "Check answer" swaps the choices for the verdict (a few
+   px shorter) BOTH edges of the card moved -- invisible on a hairline card
+   in the page colour, a visible pop on a bold white one. Anchor the top:
+   the top spacer is fixed and only the bottom edge can move. */
+.quiz-body::before { flex: 0 0 16px; }
+.quiz-body::after { flex: 1 0 0; }
+.quiz-head { background: transparent; border-bottom: 0; padding: 12px 0 8px; }
+.review-progress-track { height: 8px; border-radius: 999px; background: var(--lk-tint); margin: 8px 0 12px; }
+.review-progress-fill { background: var(--lk-ink); border-radius: 999px; }
+/* The review question's source tag is a sentence, not a label: no caps
+   tracking, and it may wrap between words rather than inside them. */
+.quiz-source-tag .tag { text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 700; padding: 5px 14px; white-space: normal; text-align: center; line-height: 1.4; }
+
+/* Phone lesson head: the kicker stays small and tight so it never runs into
+   the step-count pill, and the pill itself is compact. */
+@media (max-width: 959px) {
+  .mz-word-lesson .mz-study-title > span { font-size: 10px; letter-spacing: .08em; }
+  .mz-word-lesson .mz-study-title h1 { font-size: 17px; overflow: hidden; text-overflow: ellipsis; }
+  .mz-word-lesson .mz-word-step-count { font-size: 11px; padding: 5px 9px; }
+  .mz-word-lesson .mz-word-head { gap: 10px; }
+  .mz-word-lesson .mz-word-head > .mz-text-button { padding: 0 4px; font-size: 12px; }
+}
+
+/* ========================================================================
+   18. Settings toggle rows -- on = filled ink pill, row stays a card
+   ======================================================================== */
+.settings-toggle-row { border-color: var(--lk-quiet); font-family: var(--lk-sans); }
+.settings-toggle-row:hover { border-color: var(--lk-ink); background: var(--lk-card); }
+.settings-toggle-row.is-selected, .settings-toggle-row.settings-toggle-warning.is-selected { border-color: var(--lk-ink); background: var(--lk-card); }
+.settings-toggle-title { font-weight: 800; }
+.settings-toggle-sub { font-weight: 500; }
+.settings-toggle-pill { font: 800 11px/1 var(--lk-sans); letter-spacing: .08em; text-transform: uppercase; border: 2px solid var(--lk-ink); color: var(--lk-ink); min-height: 30px; padding: 0 12px; }
+.settings-toggle-row.is-selected .settings-toggle-pill, .settings-toggle-row.settings-toggle-warning.is-selected .settings-toggle-pill { background: var(--lk-ink); border-color: var(--lk-ink); color: var(--lk-ink-inverse); }
+
+/* ========================================================================
+   19. My Path group page -- path nodes had no styling at all (UA buttons)
+   ======================================================================== */
+.path-node-list { gap: 12px; }
+.path-node {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  text-align: start;
+  padding: 16px 18px;
+  border: 2.5px solid var(--lk-ink);
+  border-radius: var(--lk-radius-card);
+  background: var(--lk-card);
+  color: var(--lk-ink);
+  font-family: var(--lk-sans);
+  cursor: pointer;
+}
+.path-node:hover:not(.locked) { background: var(--lk-tint); }
+.path-node.locked { border-color: var(--lk-quiet); cursor: default; }
+.path-node.locked .path-node-body, .path-node.locked .path-node-indicator { color: var(--lk-muted); }
+.path-node-indicator { width: 34px; height: 34px; border: 2px solid var(--lk-ink); color: var(--lk-ink); font-weight: 800; }
+.path-node.locked .path-node-indicator { border-color: var(--lk-quiet); }
+.path-node-body { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.path-node-body h2 { margin: 0; font: 22px/1.4 var(--font-ar); font-weight: 400; }
+.path-node-body h2:not([lang='ar']):not(:has(bdi, .ar)) { font: 800 16px/1.35 var(--lk-sans); }
+.path-node-subtitle { font: 500 13px/1.45 var(--lk-sans); color: var(--lk-muted); margin: 0; }
+.path-node-subtitle .ar { font-family: var(--font-ar); font-size: 17px; }
+.path-node-course-badge { font: 800 10.5px/1 var(--font-ar); border: 2px solid var(--lk-ink); color: var(--lk-ink); padding: 4px 9px; letter-spacing: 0; }
+.path-node > .tag { margin-inline-start: auto; }
+.path-node-checkpoint, .path-node-sectiontest { border-style: dashed; }
+.path-node-checkpoint:not(.locked), .path-node-sectiontest:not(.locked) { border-style: solid; }
+.path-section-heading { margin: 22px 0 10px; }
+.hero-page .section-rule { display: none; }
+
+/* ========================================================================
+   20. Literature session (la-session)
+   ======================================================================== */
+.la-session-top { font: 700 13px/1.4 var(--lk-sans); }
+.la-session-top .mz-meter { height: 6px; }
+.la-phase-label { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .13em; text-transform: uppercase; color: var(--lk-muted); margin: 14px 0 12px; }
+.la-exercise { border: 3px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); padding: 22px 24px; }
+.la-transfer-note { font: 700 12.5px/1.5 var(--lk-sans); color: var(--color-accent); }
+.la-source { border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-tile); padding: 14px 20px; background: color-mix(in srgb, var(--color-text) 3%, var(--lk-card)); }
+.la-option.is-correct, .la-option[data-verdict='correct'] { border-color: var(--color-accent); box-shadow: 0 0 0 1.5px var(--color-accent); background: var(--lk-tint); }
+.la-chunk-bank .la-option { border-radius: 999px; }
+.la-built { border: 2.5px dashed var(--lk-quiet); border-radius: var(--lk-radius-tile); padding: 12px 14px; }
+.la-placed { border: 2px solid var(--lk-ink); border-radius: 999px; background: var(--lk-card); color: var(--lk-ink); padding: 4px 14px; }
+.la-feedback, .la-help { border: 2.5px solid var(--lk-ink); border-inline-start-width: 2.5px; border-radius: var(--lk-radius-tile); background: var(--lk-tint); font-family: var(--lk-sans); font-size: 14px; }
+.la-feedback.needs-retry { border-color: var(--lk-ink); background: var(--lk-card); }
+.la-help-area .la-text-button, .la-back-step, .la-session .la-text-button { font: 700 13px/1.4 var(--lk-sans); color: var(--color-accent); }
+.la-source-credit { font: 500 12px/1.6 var(--lk-sans); }
+.la-exercise-footer { margin-top: 16px; }
+.la-results { border: 2.5px solid var(--lk-ink); border-radius: var(--lk-radius-card); padding: 10px 18px; background: var(--lk-card); }
+.la-results > div + div { border-top: 1px solid var(--lk-hair); }
+.la-results dt { font: 800 11.5px/1.5 var(--lk-sans); letter-spacing: .1em; text-transform: uppercase; color: var(--lk-muted); }
+.la-results dd { font-family: var(--lk-sans); }
+@media (max-width: 900px) {
+  .la-exercise { padding: 16px; }
+  .la-source { padding: 10px 14px; }
+}
+
+/* ========================================================================
+   21. Completion screens
+   ======================================================================== */
+.mz-completed { border: 3px solid var(--lk-ink); border-radius: var(--lk-radius-card); background: var(--lk-card); padding: 32px 28px; }
+.mz-completed-mark { border: 2.5px solid var(--lk-ink); background: var(--lk-tint); color: var(--lk-ink); }
+.mz-completed h1 { font-family: var(--font-heading); font-weight: 500; letter-spacing: -.02em; }
+.mz-completed > p:not(.mz-eyebrow) { font-family: var(--lk-sans); font-weight: 500; }
+.mz-result-score { border: 2px solid var(--lk-hair); border-radius: var(--lk-radius-tile); background: color-mix(in srgb, var(--color-text) 3%, var(--lk-card)); }
+.mz-result-score strong { font-size: 44px; }
+.mz-result-score small { font: 800 22px/1.2 var(--lk-sans); }
+.mz-result-score span { font: 700 12px/1.4 var(--lk-sans); letter-spacing: .1em; text-transform: uppercase; }
+.complete-ledger-value { font-family: var(--lk-sans); font-weight: 800; }
+.complete-ledger-label { font: 700 11px/1.4 var(--lk-sans); letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 900px) { .mz-completed { padding: 24px 18px; margin: 16px auto; } }
+
+
+/* ========================================================================
+   22. Lesson-card interior: recolour only, never re-measure.
+   Everything inside .mz-study-body / .la-session is authored to fit a phone
+   card to the pixel, so no rule here (or above) may change a border width,
+   padding, min-height, font-size or font-weight there. The look is carried
+   by box-shadow rings (outside the layout box), border-color, background
+   and radius.
+   ======================================================================== */
+.mz-study-body :is(.mz-foundation-definition, .mz-foundation-comparison > section, .mz-word-recap > div, .mz-sarf-comparison > div,
+  .distribution-pair > div, .mz-logic-table-records > section, .mz-meaning-visual, .lesson-visual, .concept-source-box) {
+  border-color: var(--lk-ink);
+  box-shadow: 0 0 0 1.5px var(--lk-ink);
+  border-radius: 10px;
+}
+.mz-study-body .mz-foundation-definition { border-left-color: var(--color-accent); }
+.mz-study-body :is(.mz-foundation-select, .mz-small-button, .mz-span-picker button, .mz-word-bank button, .mz-sentence-tray button, .mz-sarf-example-nav button, .visual-switcher button, .sentence-anatomy button) {
+  border-color: var(--lk-quiet);
+  box-shadow: 0 0 0 1px var(--lk-quiet);
+  border-radius: 8px;
+}
+.mz-study-body :is(.mz-span-picker button[aria-pressed='true'], .mz-sentence-tray button, .sentence-anatomy button[aria-pressed='true']) { border-color: var(--lk-ink); box-shadow: 0 0 0 1.5px var(--lk-ink); }
+.mz-study-body .visual-switcher button[aria-pressed='true'] { background: var(--lk-ink); border-color: var(--lk-ink); color: var(--lk-ink-inverse); box-shadow: none; }
+.mz-study-body :is(.mz-field input, .mz-field select, .mz-field textarea, .mz-list-entry input, textarea[data-logic-reflection], .la-recall, .mz-logic-visual-select select, .mz-logic-lesson .visual-categorical select) {
+  border-color: var(--lk-ink);
+  box-shadow: 0 0 0 1.5px var(--lk-ink);
+  border-radius: 8px;
+}
+.mz-study-body .mz-choice { border-color: var(--lk-quiet); box-shadow: 0 0 0 1.5px var(--lk-quiet); border-radius: 12px; background: var(--lk-card); }
+.mz-study-body .mz-choice:hover:not(:disabled) { border-color: var(--lk-ink); box-shadow: 0 0 0 1.5px var(--lk-ink); background: var(--lk-card); }
+.mz-study-body .mz-choice.is-selected { border-color: var(--lk-ink); box-shadow: 0 0 0 1px var(--lk-ink); background: var(--lk-tint); }
+.mz-study-body .mz-choice.is-correct { border-color: var(--color-accent); box-shadow: 0 0 0 1.5px var(--color-accent); background: var(--lk-tint); }
+.mz-study-body .mz-choice.is-incorrect { border-color: var(--lk-quiet); box-shadow: 0 0 0 1.5px var(--lk-quiet); }
+.mz-study-body .mz-choice-letter { border: 2px solid var(--lk-ink); color: var(--lk-ink); background: transparent; font-family: var(--lk-sans); font-weight: 800; }
+.mz-study-body .mz-choice.is-correct .mz-choice-letter { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink, #fff); }
+/* Literature session options: same rule. */
+.la-session .la-option { border-color: var(--lk-quiet); box-shadow: 0 0 0 1.5px var(--lk-quiet); border-radius: 12px; background: var(--lk-card); }
+.la-session .la-option:hover:not(:disabled) { border-color: var(--lk-ink); box-shadow: 0 0 0 1.5px var(--lk-ink); background: var(--lk-card); }
+.la-session .la-option.is-selected { border-color: var(--lk-ink); box-shadow: 0 0 0 1.5px var(--lk-ink); background: var(--lk-tint); }
