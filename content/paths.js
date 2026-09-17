@@ -37,7 +37,7 @@ export const PATH_TRACKS = [
     // same pairing COURSES' own requiresCourseId uses per-course), or by a
     // direct confirmed unlock -- see isTrackUnlocked below.
     requiresCourseIds: ['intro-nahw', 'intro-sarf'],
-    lockedMessage: 'Locked until the Introductory Path (both Nahw and Sarf) is complete.',
+    lockedMessage: 'Locked until Introductory Nahw is complete.',
   },
 ];
 

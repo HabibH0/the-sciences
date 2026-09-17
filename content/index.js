@@ -30,7 +30,7 @@ export const COURSES = COURSE_SHELLS.map((course) => ({
 
 // Keep the full registry for source validation and old saves. Only this list
 // is offered in the app, including its planners, progress and navigation.
-export const VISIBLE_COURSES = COURSES.filter(course => !['intro-nahw', 'intro-sarf'].includes(course.id));
+export const VISIBLE_COURSES = COURSES.filter(course => course.id !== 'intro-sarf');
 export const isCourseVisible = id => VISIBLE_COURSES.some(course => course.id === id);
 
 const loadedCourses = new Map();
